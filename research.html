@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究・プログラム紹介 | 小児がん サポートAIコーチ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./image/11.png">
+    <style>
+        * { font-family: 'Zen Maru Gothic', 'Hiragino Kaku Gothic ProN', sans-serif; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-12px); }
+        }
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50%       { transform: translateY(-8px) rotate(1deg); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .char-float      { animation: float 3.5s ease-in-out infinite; }
+        .char-float-slow { animation: float-slow 4.5s ease-in-out infinite; }
+
+        /* ナビ */
+        #navbar {
+            background: rgba(255,255,255,0.93);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 14px rgba(34,197,94,0.10);
+        }
+        .nav-link { color: #374151; font-weight: 600; text-decoration: none; transition: color 0.2s; }
+        .nav-link:hover { color: #22c55e; }
+
+        /* ヒーロー */
+        .hero-bg { background: linear-gradient(135deg, #bbf7d0 0%, #d1fae5 40%, #f0fdf4 100%); }
+
+        /* ボタン */
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            color: white; border-radius: 999px; font-weight: 700;
+            padding: 12px 32px; display: inline-block; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(34,197,94,0.35);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(34,197,94,0.45); }
+
+        /* 吹き出し */
+        .bubble {
+            position: relative;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 20px 24px;
+        }
+        .bubble-left::after {
+            content: '';
+            position: absolute;
+            left: -13px; top: 28px;
+            border: 13px solid transparent;
+            border-right-color: #ffffff; border-left: 0;
+        }
+        .bubble-right::after {
+            content: '';
+            position: absolute;
+            right: -13px; top: 28px;
+            border: 13px solid transparent;
+            border-left-color: #ffffff; border-right: 0;
+        }
+        @media (max-width: 767px) {
+            .bubble-left::after, .bubble-right::after {
+                left: 36px; right: auto; top: -13px;
+                border: 13px solid transparent;
+                border-bottom-color: #ffffff;
+                border-top: 0; border-left: 0; border-right: 0;
+            }
+        }
+
+        /* カード */
+        .card {
+            background: #fff; border-radius: 22px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 14px 32px rgba(34,197,94,0.13); }
+
+        /* ネームプレート */
+        .nameplate {
+            display: inline-block; margin-top: 8px;
+            padding: 5px 16px; border-radius: 999px;
+            font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .nameplate-kou  { background:#fff0f5; color:#db2777; border:1.5px solid #fbcfe8; }
+        .nameplate-ken  { background:#eff6ff; color:#1d4ed8; border:1.5px solid #bfdbfe; }
+        .nameplate-hapa { background:#f0fdf4; color:#16a34a; border:1.5px solid #86efac; }
+
+        /* セクション */
+        section { scroll-margin-top: 70px; }
+        .about-bg   { background: linear-gradient(180deg, #f0fdf4, #ecfdf5); }
+        .program-bg { background: #ffffff; }
+        .research-bg { background: linear-gradient(180deg, #f0fdf4, #ffffff); }
+
+        /* プログラム番号バッジ */
+        .prog-badge {
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.2rem; color: white; flex-shrink: 0;
+        }
+
+        /* char-card */
+        .char-card {
+            background: #fff; border-radius: 20px; padding: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+
+        /* スクロールフェード */
+        .reveal {
+            opacity: 0; transform: translateY(22px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* モバイルメニュー */
+        #mobile-menu { display: none; background: rgba(255,255,255,0.98); }
+        #mobile-menu.open { display: block; }
+    </style>
+</head>
+<body class="bg-white text-gray-800 overflow-x-hidden">
+
+<!-- ナビ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 py-2 flex items-center justify-between">
+        <a href="./index.html" class="flex items-center gap-2 no-underline">
+            <img src="./image/11.png" alt="はぱぱん" class="w-10 h-10 object-contain char-float" style="mix-blend-mode:multiply;">
+            <span class="text-green-600 font-black text-lg leading-tight">
+                小児がん<br><span class="text-sm font-bold">サポートAIコーチ</span>
+            </span>
+        </a>
+        <div class="hidden md:flex items-center gap-7">
+            <a href="./index.html" class="nav-link">トップへ戻る</a>
+            <a href="#about"    class="nav-link">研究者について</a>
+            <a href="#program"  class="nav-link">プログラム紹介</a>
+            <a href="#research" class="nav-link">3つの研究</a>
+            <a href="#video"    class="nav-link">動画</a>
+            <a href="./ai-coach/index.html" class="btn-primary" style="padding:9px 26px; font-size:0.88rem;">AIコーチを始める →</a>
+        </div>
+        <button id="menu-open" class="md:hidden text-green-600 text-2xl font-bold">☰</button>
+    </div>
+    <div id="mobile-menu">
+        <div class="flex flex-col items-center py-5 gap-4 text-base">
+            <a href="./index.html"  class="nav-link" onclick="closeMobileMenu()">トップへ戻る</a>
+            <a href="#about"        class="nav-link" onclick="closeMobileMenu()">研究者について</a>
+            <a href="#program"      class="nav-link" onclick="closeMobileMenu()">プログラム紹介</a>
+            <a href="#research"     class="nav-link" onclick="closeMobileMenu()">3つの研究</a>
+            <a href="#video"        class="nav-link" onclick="closeMobileMenu()">動画</a>
+            <a href="./ai-coach/index.html" class="btn-primary" style="font-size:0.9rem; padding:11px 32px;">AIコーチを始める →</a>
+        </div>
+    </div>
+</nav>
+
+
+<!-- ヒーロー -->
+<section class="hero-bg pt-28 pb-16 px-5 text-center">
+    <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-3">Research & Program</p>
+    <h1 class="text-3xl md:text-5xl font-black text-gray-800 mb-5 leading-snug">
+        研究・プログラム紹介
+    </h1>
+    <p class="text-gray-600 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8">
+        小児がん経験者のための健康支援プログラム。<br>
+        運動・栄養・AIコーチングの3つのアプローチで、<br>
+        あなたの「これから」を科学的にサポートします。
+    </p>
+    <div class="flex justify-center">
+        <img src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png"
+             alt="3キャラクター"
+             class="w-64 md:w-80 object-contain char-float"
+             style="filter: drop-shadow(0 8px 24px rgba(34,197,94,0.2));">
+    </div>
+</section>
+
+
+<!-- ===== ABOUT & INTRODUCTION ===== -->
+<section id="about" class="about-bg py-20 px-5">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14 reveal">
+            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">About & Introduction</p>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-800">研究者について</h2>
+        </div>
+
+        <!-- プロフィールカード -->
+        <div class="bg-white rounded-3xl shadow-md p-8 mb-10 flex flex-col md:flex-row items-center md:items-start gap-8 reveal">
+            <!-- 絵文字アイコン＋名前 -->
+            <div class="flex flex-col items-center flex-shrink-0">
+                <div class="w-28 h-28 bg-green-50 rounded-full flex items-center justify-center text-6xl border-4 border-green-100">
+                    👩‍🏫
+                </div>
+                <p class="font-black text-gray-800 text-xl mt-4">福井 郁子</p>
+                <p class="text-green-600 font-bold text-sm mt-1">看護教員・研究者</p>
+                <div class="flex flex-col gap-1 mt-3 text-xs text-gray-500 text-center">
+                    <span>大学 看護学部 所属</span>
+                    <span>小児がん晩期合併症予防 研究</span>
+                </div>
+            </div>
+            <!-- 自己紹介文 -->
+            <div class="flex-1 text-gray-700 text-sm leading-relaxed">
+                <p class="mb-4">
+                    大学院生のとき、息子が小児がんを経験したことが研究を始めたきっかけです。
+                    <strong>看護師・大学院生・親</strong>という三つの立場から、治療後の子どもたちが直面する現実を深く知ることになりました。
+                </p>
+                <p class="mb-4">
+                    治療が終わったあとも、<strong>就職問題・晩期合併症・精神的サポート</strong>など、多くの課題が続くことに衝撃を受けました。
+                    「個人では解決できないこの課題に、研究者として取り組もう」と決意し、現在に至ります。
+                </p>
+                <p>
+                    現在は大学の看護教員として勤務しながら、Webを活用した健康支援プログラムの開発・研究を続けています。
+                    忙しい働く世代でも取り組める、<strong>コスパ・タイパの高いプログラム</strong>の実現を目指しています。
+                </p>
+            </div>
+        </div>
+
+        <!-- 研究を始めたきっかけ -->
+        <div class="bg-white rounded-2xl shadow p-7 mb-6 reveal">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">🌱</span>
+                <h3 class="font-black text-lg text-gray-800">研究を始めたきっかけ</h3>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                大学院時代、息子が小児がんと診断されました。看護師としての知識と、親としての不安が交錯する日々の中で、
+                「治療後も続く課題がある」という現実を身をもって経験しました。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed">
+                息子は治療から20年以上が経過した今も、就職・健康維持など多くの課題に向き合い続けています。
+                その経験が、<strong>成人した小児がん経験者（AYA世代）を支える研究</strong>への原動力となっています。
+            </p>
+        </div>
+
+        <!-- 現在の活動 -->
+        <div class="bg-white rounded-2xl shadow p-7 mb-10 reveal">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">📚</span>
+                <h3 class="font-black text-lg text-gray-800">現在の活動</h3>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                大学の看護教員として研究・教育に従事しながら、
+                <strong>晩期合併症予防の健康習慣定着を目指すWebプログラム</strong>を開発しています。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed">
+                「研究で解決できることがある」という信念のもと、現在は<strong>運動・栄養・AIコーチング</strong>の
+                3つのアプローチでプログラム研究を並行して進めています。
+                対象は18〜39歳のAYA世代の小児がん経験者です。
+            </p>
+        </div>
+
+        <!-- 統計 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 reveal">
+            <div class="bg-white rounded-2xl p-6 text-center shadow">
+                <p class="text-3xl font-black text-green-500 mb-1">20<span class="text-base">年以上</span></p>
+                <p class="text-gray-500 text-sm">息子の治療後の経過年数</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow">
+                <p class="text-3xl font-black text-green-500 mb-1">3<span class="text-base">つ</span></p>
+                <p class="text-gray-500 text-sm">並走する研究プログラム</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow">
+                <p class="text-3xl font-black text-green-500 mb-1">AYA<span class="text-base">世代</span></p>
+                <p class="text-gray-500 text-sm">18〜39歳の経験者を対象</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== WHAT THIS PROGRAM ===== -->
+<section id="program" class="program-bg py-20 px-5">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14 reveal">
+            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">What This Program</p>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-800">Webプログラムについて</h2>
+            <p class="text-gray-500 mt-3 text-sm">対象：小児がん経験者の18〜39歳（AYA世代）</p>
+        </div>
+
+        <!-- 対象の方へ -->
+        <div class="bg-green-50 border border-green-100 rounded-2xl p-7 mb-8 reveal">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">👩‍🏫</span>
+                <h3 class="font-black text-lg text-gray-800">このプログラムを届けたい方へ</h3>
+            </div>
+            <p class="text-gray-700 text-sm leading-relaxed mb-3">
+                このプログラムは、<strong>現在18〜39歳の小児がん経験者（AYA世代）</strong>の方を対象としています。
+                治療を終えて社会に出た皆さんが、仕事や子育てに忙しい中でも取り組める、
+                <strong>コスパ・タイパの高い健康支援</strong>を届けたいという想いでWebプログラムを開発しています。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed">
+                「健康のためにやらなければ」と思いながらも、なかなか一歩が踏み出せない方に。
+                このプログラムは、まずあなたが「今できること」を一緒に探すところから始めます。
+                無理のないペースで、着実に健康習慣を積み上げていきましょう。
+            </p>
+        </div>
+
+        <!-- 3本柱 詳細 -->
+
+        <!-- 運動 -->
+        <div class="bg-white rounded-2xl shadow p-7 mb-6 reveal">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="prog-badge" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); width:44px; height:44px; font-size:1rem;">🏃</div>
+                <h3 class="font-black text-xl text-gray-800">運動プログラムについて</h3>
+            </div>
+
+            <!-- ガイドライン引用 -->
+            <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-xl p-5 mb-5">
+                <p class="text-blue-700 font-bold text-xs uppercase tracking-wider mb-2">アメリカがん協会 がんサバイバーのためのガイドライン（2020年版）</p>
+                <p class="text-blue-800 text-sm leading-relaxed">
+                    「1週間に<strong>中強度運動を150〜300分間</strong>、あるいは<strong>高強度運動を75〜150分間</strong>行うこと」
+                </p>
+            </div>
+
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                運動は、<strong>最もコスパの高い健康行動</strong>だと私は考えています。道具も特別な場所もいりません。
+                隙間時間の細切れ運動でも、積み重なれば健康効果が生まれます。
+                「まとまった時間がないから運動できない」という方でも、十分に取り組める方法があります。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                ただ、小児がん経験者の方は治療の影響で体力が低下していたり、運動に苦手意識をお持ちの方も多いです。
+                だからこそ、<strong>低強度から徐々に始める「ゆるく長く続けられる運動」</strong>を提案します。
+                ガイドラインの数字は「目指す目標」であって、最初から達成しなくて大丈夫です。
+            </p>
+            <div class="flex gap-2 flex-wrap">
+                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">晩期合併症予防</span>
+                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">心肺機能・骨密度</span>
+                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">細切れ運動でもOK</span>
+                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">低強度から段階的に</span>
+            </div>
+        </div>
+
+        <!-- 栄養 -->
+        <div class="bg-white rounded-2xl shadow p-7 mb-6 reveal">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="prog-badge" style="background: linear-gradient(135deg, #ec4899, #db2777); width:44px; height:44px; font-size:1rem;">🥗</div>
+                <h3 class="font-black text-xl text-gray-800">栄養プログラムについて</h3>
+            </div>
+
+            <!-- ガイドライン引用 -->
+            <div class="bg-pink-50 border-l-4 border-pink-400 rounded-r-xl p-5 mb-5">
+                <p class="text-pink-700 font-bold text-xs uppercase tracking-wider mb-2">アメリカがん協会 がんサバイバーのためのガイドライン（2020年版）</p>
+                <p class="text-pink-800 text-sm leading-relaxed">
+                    「<strong>カラフルで食物繊維豊富な野菜と果物</strong>を食べ、<strong>赤身肉・加工肉・ジュース・加工食品や精製食品</strong>を避けること」
+                </p>
+            </div>
+
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                忙しいと、食事はどうしても後回しになりがちです。仕事が多忙な日は、手軽なもので済ませてしまうこともありますよね。
+                物価高が続く今、外食より手料理を選ぶ方も増えています。
+                そういった<strong>現実の生活</strong>に寄り添いながら、<strong>無理なくバランスの良い食事が取れるご提案</strong>をしていきます。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                「毎食完璧に」を求めるのではなく、<strong>1品増やす・1品置き換える</strong>といった小さな工夫から始めましょう。
+                継続できることが何より大切で、そのための現実的な方法を一緒に考えていきたいと思っています。
+            </p>
+            <div class="flex gap-2 flex-wrap">
+                <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">カラフル野菜・果物</span>
+                <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">加工食品を減らす</span>
+                <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">現実の生活に寄り添う</span>
+                <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">小さな一歩から</span>
+            </div>
+        </div>
+
+        <!-- AIコーチング -->
+        <div class="bg-white rounded-2xl shadow p-7 mb-6 reveal">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="prog-badge" style="background: linear-gradient(135deg, #22c55e, #10b981); width:44px; height:44px; font-size:1rem;">🤖</div>
+                <h3 class="font-black text-xl text-gray-800">AIコーチングについて</h3>
+            </div>
+
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                「運動しなきゃ」「ちゃんと食べなきゃ」——頭では分かっているのに、なかなか行動に移せない。
+                そういう経験は、誰にでもあると思います。
+                特に、忙しさや体調不安の中では「何から始めればいいか分からない」という状態になりやすいです。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                そこで私が取り入れたのが、<strong>AIを使った自動コーチング</strong>です。
+                AIがあなたの状況を聞きながら、<strong>「今の自分にできること」</strong>を一緒に探してくれます。
+                批判もなく、プレッシャーもなく、ただ寄り添いながら次の一歩を考えてくれる存在です。
+            </p>
+            <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                このサイトのAIコーチ「はぱぱん」も、この研究の一環として開発されています。
+                ぜひ一度、話しかけてみてください。
+            </p>
+            <div class="flex gap-2 flex-wrap">
+                <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">自分のペースで</span>
+                <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">批判なし・受容あり</span>
+                <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">行動変容サポート</span>
+                <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">24時間いつでも</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===== 3つの研究 ===== -->
+<section id="research" class="research-bg py-20 px-5">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14 reveal">
+            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">Research Programs</p>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-800">3つの研究プログラム</h2>
+            <p class="text-gray-500 mt-3 text-sm">現在、私が並行して進めている3つのWeb研究です</p>
+        </div>
+
+        <div class="flex flex-col gap-8">
+
+            <!-- 研究① -->
+            <div class="card p-8 reveal">
+                <div class="flex items-center gap-4 mb-5">
+                    <div class="prog-badge flex-shrink-0" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">1</div>
+                    <div>
+                        <p class="text-blue-500 font-bold text-xs tracking-widest uppercase mb-1">Exercise Program</p>
+                        <h3 class="text-xl font-black text-gray-800 leading-snug">
+                            働く世代の小児がん経験者の<br>
+                            <span class="text-blue-600">運動量を増やすWebプログラム研究</span>
+                        </h3>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    小児がん経験者の方は、治療の影響から心肺機能・骨密度・体力が低下していることが多く、
+                    また「運動は苦手」「体が不安で動かしにくい」と感じている方も少なくありません。
+                    しかし一方で、<strong>運動は晩期合併症の予防に最も効果的な健康行動のひとつ</strong>です。
+                </p>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    この研究では、アメリカがん協会のガイドライン（2020年版）を参考に、
+                    働きながら忙しく過ごす皆さんでも続けられる運動習慣の定着を目指しています。
+                    高強度・長時間の運動ではなく、<strong>日常の隙間時間に細切れで取り組める低強度の運動</strong>から始め、
+                    少しずつ積み上げていくアプローチを取っています。
+                    12週間のプログラムで、週1回10分程度、スマートフォンやパソコンからすべてWeb上で実施します。
+                </p>
+                <!-- 参加条件 -->
+                <div class="bg-blue-50 rounded-xl p-5 mb-5 text-sm">
+                    <p class="font-bold text-blue-700 mb-2">📋 参加対象者</p>
+                    <ul class="text-blue-800 text-xs leading-relaxed list-disc list-inside space-y-1">
+                        <li>現在18〜39歳の小児がん経験者（発症時0〜14歳）</li>
+                        <li>治療終了後5年以上経過した方</li>
+                        <li>白血病または悪性リンパ腫が対象疾患</li>
+                        <li>※運動制限・めまい・バランス障害のある方は参加不可</li>
+                    </ul>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 mb-5 text-xs">
+                    <div class="bg-yellow-50 border border-yellow-100 rounded-lg px-4 py-3 flex-1">
+                        <p class="font-bold text-yellow-700 mb-1">🎁 参加謝礼</p>
+                        <p class="text-yellow-800">Amazonギフトカード 5,000円分<br>＋ スマートウォッチ</p>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg px-4 py-3 flex-1">
+                        <p class="font-bold text-gray-600 mb-1">📑 研究助成</p>
+                        <p class="text-gray-600">科学研究費助成事業 基盤研究（C）<br>令和3〜6年度｜UMIN臨床試験登録済</p>
+                    </div>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">週150〜300分の中強度運動が目標</span>
+                    <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">低強度から段階的に</span>
+                    <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">晩期合併症予防</span>
+                    <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-100">12週間プログラム</span>
+                </div>
+            </div>
+
+            <!-- 研究② -->
+            <div class="card p-8 reveal">
+                <div class="flex items-center gap-4 mb-5">
+                    <div class="prog-badge flex-shrink-0" style="background: linear-gradient(135deg, #ec4899, #db2777);">2</div>
+                    <div>
+                        <p class="text-pink-500 font-bold text-xs tracking-widest uppercase mb-1">Nutrition Program</p>
+                        <h3 class="text-xl font-black text-gray-800 leading-snug">
+                            働く世代の小児がん経験者と<br>AYA世代がん経験者の<br>
+                            <span class="text-pink-600">栄養Webプログラム研究</span>
+                        </h3>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    食事は、忙しい日々の中で後回しになりやすい健康行動です。
+                    仕事終わりに疲れて帰ってきたとき、栄養バランスより手軽さを優先してしまうこと、私も親として痛感してきました。
+                    物価高が続く今、外食を減らして手料理を増やす方も多い中で、
+                    <strong>現実の生活に寄り添った食事のアドバイス</strong>が必要だと感じています。
+                </p>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    アメリカがん協会のガイドラインでは、「カラフルで食物繊維豊富な野菜・果物を増やし、
+                    加工食品・赤身肉・加糖飲料を減らすこと」が推奨されています。
+                    このプログラムでは特に、<strong>オメガ3系脂肪酸を含む魚</strong>と<strong>抗酸化物質を含むカラフルな野菜</strong>を
+                    日常に取り入れるための栄養メニューを提案します。
+                </p>
+                <!-- 参加条件 -->
+                <div class="bg-pink-50 rounded-xl p-5 mb-5 text-sm">
+                    <p class="font-bold text-pink-700 mb-2">📋 参加対象者</p>
+                    <ul class="text-pink-800 text-xs leading-relaxed list-disc list-inside space-y-1">
+                        <li>小児がん経験者およびAYA世代のがん経験者</li>
+                    </ul>
+                    <p class="text-pink-700 font-bold mt-3 mb-1">🗓 募集開始予定</p>
+                    <p class="text-pink-800 text-xs">2026年下旬開始予定</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 mb-5 text-xs">
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg px-4 py-3 flex-1">
+                        <p class="font-bold text-gray-600 mb-1">📑 研究助成</p>
+                        <p class="text-gray-600">科学研究費助成事業 基盤研究（C）<br>令和7〜9年度</p>
+                    </div>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">魚・カラフル野菜を取り入れる</span>
+                    <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">加工食品を減らす</span>
+                    <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">現実の生活に寄り添う</span>
+                    <span class="bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1 rounded-full border border-pink-100">2026年下旬開始予定</span>
+                </div>
+            </div>
+
+            <!-- 研究③ -->
+            <div class="card p-8 reveal">
+                <div class="flex items-center gap-4 mb-5">
+                    <div class="prog-badge flex-shrink-0" style="background: linear-gradient(135deg, #22c55e, #10b981);">3</div>
+                    <div>
+                        <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-1">AI Coaching Program</p>
+                        <h3 class="text-xl font-black text-gray-800 leading-snug">
+                            働く世代の小児がん経験者の<br>
+                            <span class="text-green-600">健康行動への自動コーチング研究</span>
+                        </h3>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    「運動したい」「ちゃんと食べたい」「健康になりたい」——そう思っているのに、なかなか行動に移せない。
+                    この「分かっているけど動けない」というギャップを埋めるのが、このコーチング研究の目的です。
+                </p>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    人間のコーチであれば時間・コスト・タイミングに制約がありますが、
+                    <strong>AIを使った自動コーチング</strong>なら、いつでも・何度でも・無料で寄り添えます。
+                    GROWモデルという目標設定の方法をベースに、あなたの「目標・現状・できること・意思」を一緒に整理しながら、次の一歩を探します。
+                    参加方法はFormsでの質問調査と、Zoomを使ったチャットボットインタビューです。
+                </p>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    このサイトのAIコーチ「はぱぱん」は、まさにこの研究の一環として開発しています。
+                    ぜひ試してみて、感想や気づきを教えてもらえると、研究の改善にもつながります。
+                </p>
+                <!-- 参加条件 -->
+                <div class="bg-green-50 rounded-xl p-5 mb-5 text-sm">
+                    <p class="font-bold text-green-700 mb-2">📋 参加対象者</p>
+                    <ul class="text-green-800 text-xs leading-relaxed list-disc list-inside space-y-1">
+                        <li>0〜18歳時にがんと診断され、現在18〜39歳以下の方</li>
+                        <li>治療終了後2年以上経過した方</li>
+                    </ul>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 mb-5 text-xs">
+                    <div class="bg-yellow-50 border border-yellow-100 rounded-lg px-4 py-3 flex-1">
+                        <p class="font-bold text-yellow-700 mb-1">🎁 参加謝礼</p>
+                        <p class="text-yellow-800">Amazonギフトカード 3,000円分</p>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg px-4 py-3 flex-1">
+                        <p class="font-bold text-gray-600 mb-1">📑 研究助成</p>
+                        <p class="text-gray-600">2024年度<br>がんの子どもを守る会 研究助成金</p>
+                    </div>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">GROWモデルによる対話</span>
+                    <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">批判なし・受容あり</span>
+                    <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">Forms＋Zoom参加</span>
+                    <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full border border-green-100">謝礼3,000円</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== 動画コンテンツ ===== -->
+<section id="video" class="bg-white py-20 px-5">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-5 reveal">
+            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">Video Content</p>
+            <h2 class="text-3xl md:text-4xl font-black text-gray-800">日常生活でできる<br>ワンポイント動画</h2>
+        </div>
+        <div class="text-center mb-12 reveal">
+            <p class="text-gray-600 text-sm leading-relaxed max-w-xl mx-auto">
+                忙しい日常の中でも取り組める健康習慣のヒントを、短い動画でお届けしています。<br>
+                難しく考えず、まずは気になる動画からご覧ください。
+            </p>
+        </div>
+
+        <!-- 運動のワンポイント -->
+        <div class="mb-12 reveal">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-xl flex-shrink-0">🏃</div>
+                <h3 class="text-xl font-black text-gray-800">運動のワンポイント</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 動画スロット① -->
+                <div class="bg-blue-50 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="aspect-video bg-blue-100 flex flex-col items-center justify-center gap-2 text-blue-300">
+                        <!-- YouTube iframe をここに挿入してください -->
+                        <!-- 例: <iframe src="https://www.youtube.com/embed/VIDEO_ID" ...></iframe> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8.001a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.455A2.75 2.75 0 0 0 2.2 8.001 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 3.999 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.455a2.75 2.75 0 0 0 1.935-1.946A28.86 28.86 0 0 0 22.25 12a28.86 28.86 0 0 0-.45-3.999ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+                        <p class="text-xs font-bold">動画を準備中</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="font-bold text-gray-800 text-sm mb-1">運動ワンポイント ①</p>
+                        <p class="text-gray-500 text-xs">隙間時間でできる運動のヒント</p>
+                    </div>
+                </div>
+                <!-- 動画スロット② -->
+                <div class="bg-blue-50 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="aspect-video bg-blue-100 flex flex-col items-center justify-center gap-2 text-blue-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8.001a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.455A2.75 2.75 0 0 0 2.2 8.001 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 3.999 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.455a2.75 2.75 0 0 0 1.935-1.946A28.86 28.86 0 0 0 22.25 12a28.86 28.86 0 0 0-.45-3.999ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+                        <p class="text-xs font-bold">動画を準備中</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="font-bold text-gray-800 text-sm mb-1">運動ワンポイント ②</p>
+                        <p class="text-gray-500 text-xs">低強度から始める運動のすすめ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 栄養のワンポイント -->
+        <div class="mb-12 reveal">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-xl flex-shrink-0">🥗</div>
+                <h3 class="text-xl font-black text-gray-800">栄養のワンポイント</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-pink-50 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="aspect-video bg-pink-100 flex flex-col items-center justify-center gap-2 text-pink-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8.001a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.455A2.75 2.75 0 0 0 2.2 8.001 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 3.999 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.455a2.75 2.75 0 0 0 1.935-1.946A28.86 28.86 0 0 0 22.25 12a28.86 28.86 0 0 0-.45-3.999ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+                        <p class="text-xs font-bold">動画を準備中</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="font-bold text-gray-800 text-sm mb-1">栄養ワンポイント ①</p>
+                        <p class="text-gray-500 text-xs">カラフルな野菜を取り入れる方法</p>
+                    </div>
+                </div>
+                <div class="bg-pink-50 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="aspect-video bg-pink-100 flex flex-col items-center justify-center gap-2 text-pink-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8.001a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.455A2.75 2.75 0 0 0 2.2 8.001 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 3.999 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.455a2.75 2.75 0 0 0 1.935-1.946A28.86 28.86 0 0 0 22.25 12a28.86 28.86 0 0 0-.45-3.999ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+                        <p class="text-xs font-bold">動画を準備中</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="font-bold text-gray-800 text-sm mb-1">栄養ワンポイント ②</p>
+                        <p class="text-gray-500 text-xs">魚を使った簡単レシピのすすめ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 睡眠のワンポイント -->
+        <div class="reveal">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-xl flex-shrink-0">😴</div>
+                <h3 class="text-xl font-black text-gray-800">睡眠のワンポイント</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-purple-50 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="aspect-video bg-purple-100 flex flex-col items-center justify-center gap-2 text-purple-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8.001a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.455A2.75 2.75 0 0 0 2.2 8.001 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 3.999 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.455a2.75 2.75 0 0 0 1.935-1.946A28.86 28.86 0 0 0 22.25 12a28.86 28.86 0 0 0-.45-3.999ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+                        <p class="text-xs font-bold">動画を準備中</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="font-bold text-gray-800 text-sm mb-1">睡眠ワンポイント ①</p>
+                        <p class="text-gray-500 text-xs">質の良い睡眠を取るためのヒント</p>
+                    </div>
+                </div>
+                <div class="bg-purple-50 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="aspect-video bg-purple-100 flex flex-col items-center justify-center gap-2 text-purple-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8.001a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.455A2.75 2.75 0 0 0 2.2 8.001 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 3.999 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.455a2.75 2.75 0 0 0 1.935-1.946A28.86 28.86 0 0 0 22.25 12a28.86 28.86 0 0 0-.45-3.999ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+                        <p class="text-xs font-bold">動画を準備中</p>
+                    </div>
+                    <div class="p-4">
+                        <p class="font-bold text-gray-800 text-sm mb-1">睡眠ワンポイント ②</p>
+                        <p class="text-gray-500 text-xs">睡眠と健康の関係について</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===== CTA ===== -->
+<section class="py-20 px-5" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0, #ecfdf5);">
+    <div class="max-w-3xl mx-auto text-center">
+        <img src="./image/11.png" alt="はぱぱん"
+             class="w-28 object-contain mx-auto mb-4 char-float"
+             style="mix-blend-mode:multiply; animation-name: float;">
+        <h2 class="text-2xl md:text-3xl font-black text-gray-800 mb-3">
+            AIコーチを<span class="text-green-500">試してみよう</span>
+        </h2>
+        <p class="text-gray-600 text-sm mb-7 leading-relaxed">
+            研究プログラムの一環として開発されたAIコーチング。<br>
+            無料で、今すぐ始められます。
+        </p>
+        <a href="./ai-coach/index.html" class="btn-primary">🌱 AIコーチを始める</a>
+    </div>
+</section>
+
+
+<!-- フッター -->
+<footer class="bg-gray-800 text-white py-10 px-5">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+            <p class="text-lg font-black text-green-400 mb-1">🌱 小児がん サポートAIコーチ</p>
+            <p class="text-gray-400 text-sm">小児がん経験者のための、安心できる対話の場</p>
+        </div>
+        <div class="flex flex-col items-center md:items-end gap-2 text-sm text-gray-400">
+            <a href="./index.html"           class="hover:text-green-400 transition-colors no-underline">トップページ</a>
+            <a href="./research.html"        class="hover:text-green-400 transition-colors no-underline">研究・プログラム紹介</a>
+            <a href="./ai-coach/index.html" class="hover:text-green-400 transition-colors no-underline">AIコーチを始める →</a>
+        </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-xs">
+        <p>⚠️ このサービスはAIによるコーチングです。医療診断・治療は行いません。</p>
+        <p class="mt-2">&copy; 2026 小児がん サポートAIコーチ. All rights reserved.</p>
+    </div>
+</footer>
+
+
+<script>
+    document.getElementById('menu-open').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.add('open');
+    });
+    function closeMobileMenu() {
+        document.getElementById('mobile-menu').classList.remove('open');
+    }
+    document.addEventListener('click', (e) => {
+        const menu = document.getElementById('mobile-menu');
+        const btn  = document.getElementById('menu-open');
+        if (!menu.contains(e.target) && e.target !== btn) menu.classList.remove('open');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

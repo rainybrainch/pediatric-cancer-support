@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 サポートAIコーチ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../image/11.png">
+    <style>
+        * { font-family: 'Zen Maru Gothic', 'Hiragino Kaku Gothic ProN', sans-serif; }
+
+        /* アニメーション */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+        @keyframes bounce-char {
+            0%, 100% { transform: translateY(0) scale(1); }
+            40%       { transform: translateY(-12px) scale(1.05); }
+            60%       { transform: translateY(-6px) scale(1.02); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+            70%  { box-shadow: 0 0 0 14px rgba(34,197,94,0); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+
+        .char-float  { animation: float 3.5s ease-in-out infinite; }
+        .char-bounce { animation: bounce-char 2.2s ease-in-out infinite; }
+        .fade-in     { animation: fadeIn 0.6s ease both; }
+        .pulse-btn   { animation: pulse-glow 2.2s infinite; }
+
+        /* 背景 */
+        .login-bg {
+            background: linear-gradient(135deg, #bbf7d0 0%, #d1fae5 40%, #f0fdf4 100%);
+            min-height: 100vh;
+        }
+
+        /* ログインカード */
+        .login-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(34,197,94,0.15), 0 4px 20px rgba(0,0,0,0.06);
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* フォーム入力 */
+        .form-input {
+            width: 100%;
+            border: 1.5px solid #d1fae5;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            background: #f8fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+            background: white;
+        }
+
+        /* ボタン */
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 13px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(34,197,94,0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(34,197,94,0.45);
+        }
+        .btn-outline {
+            width: 100%;
+            background: white;
+            color: #16a34a;
+            border: 1.5px solid #86efac;
+            border-radius: 999px;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-outline:hover {
+            background: #f0fdf4;
+        }
+
+        /* ===== メイン画面 ===== */
+        .main-header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #d1fae5;
+            box-shadow: 0 2px 12px rgba(34,197,94,0.08);
+        }
+        .logout-btn {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #6b7280;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 999px;
+            padding: 6px 18px;
+            background: white;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .logout-btn:hover {
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow-y: auto;
+        }
+
+        /* ステップ */
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            transition: background 0.2s;
+            cursor: default;
+        }
+        .step-num {
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .step-active {
+            background: #f0fdf4;
+        }
+        .step-active .step-num {
+            background: #22c55e;
+            color: white;
+        }
+        .step-active .step-text {
+            color: #15803d;
+            font-weight: 700;
+        }
+        .step-inactive .step-num {
+            background: #f3f4f6;
+            color: #9ca3af;
+        }
+        .step-inactive .step-text {
+            color: #9ca3af;
+        }
+
+        /* チャットパネル */
+        .chat-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        /* ナメプレート（キャラ名） */
+        .nameplate-ken  { display:inline-block; padding:3px 12px; border-radius:999px; font-size:0.75rem; font-weight:700; background:#eff6ff; color:#1d4ed8; border:1.5px solid #bfdbfe; }
+        .nameplate-kou  { display:inline-block; padding:3px 12px; border-radius:999px; font-size:0.75rem; font-weight:700; background:#fff0f5; color:#db2777; border:1.5px solid #fbcfe8; }
+        .nameplate-hapa { display:inline-block; padding:3px 12px; border-radius:999px; font-size:0.75rem; font-weight:700; background:#f0fdf4; color:#16a34a; border:1.5px solid #86efac; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- ========================================
+     ログイン画面
+     ======================================== -->
+<!-- ローディング画面 -->
+<div id="loading-screen" class="login-bg flex flex-col items-center justify-center min-h-screen gap-4">
+    <img src="../image/11.png" alt="はぱぱん" class="w-20 object-contain char-bounce" style="mix-blend-mode:multiply;">
+    <p class="text-green-600 font-bold text-sm">読み込み中...</p>
+</div>
+
+<div id="login-screen" class="hidden login-bg items-center justify-center px-4 py-10">
+    <div class="login-card fade-in">
+
+        <!-- キャラクター -->
+        <div class="flex justify-center mb-4">
+            <img src="../image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png"
+                 alt="3キャラクター"
+                 class="w-52 object-contain char-float"
+                 style="filter: drop-shadow(0 6px 16px rgba(34,197,94,0.2));">
+        </div>
+
+        <!-- タイトル -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-black text-gray-800 mb-1">サポートAIコーチ</h1>
+            <p class="text-green-600 text-xs font-bold tracking-widest uppercase">Pediatric Cancer Support</p>
+            <p class="text-gray-500 text-xs mt-2">研究参加者専用システム</p>
+        </div>
+
+        <!-- フォーム -->
+        <div class="flex flex-col gap-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">メールアドレス</label>
+                <input type="email" id="email" class="form-input" placeholder="例: user01@test.com">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">パスワード（6文字以上）</label>
+                <input type="password" id="password" class="form-input" placeholder="6文字以上の英数字">
+            </div>
+
+            <div class="flex flex-col gap-3 mt-2">
+                <button id="login-btn" class="btn-primary pulse-btn">ログインする</button>
+                <button id="register-btn" class="btn-outline">新規アカウント作成</button>
+            </div>
+        </div>
+
+        <!-- 注意 -->
+        <p class="text-center text-gray-400 text-xs mt-6 leading-relaxed">
+            このサービスはAIによるコーチングです。<br>医療診断は行いません。
+        </p>
+
+        <!-- HPへ戻る -->
+        <div class="text-center mt-4">
+            <a href="../index.html" class="text-green-500 text-xs font-bold hover:underline">← サービス紹介ページへ</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========================================
+     メイン画面
+     ======================================== -->
+<div id="main-screen" class="hidden flex-col h-screen">
+
+    <!-- ヘッダー -->
+    <header class="main-header px-4 md:px-6 py-3 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-3">
+            <img src="../image/11.png" alt="はぱぱん"
+                 class="w-9 h-9 object-contain char-bounce"
+                 style="mix-blend-mode: multiply;">
+            <div>
+                <h1 class="text-base font-black text-gray-800 leading-none">サポートAIコーチ</h1>
+                <p class="text-green-500 text-xs font-bold mt-0.5">あなたの"これから"を、一緒に考えよう。</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <span id="user-display" class="text-xs font-bold text-blue-700 hidden md:block"></span>
+            <button id="logout-btn" class="logout-btn">ログアウト</button>
+        </div>
+    </header>
+
+    <!-- コンテンツ -->
+    <div class="flex flex-col md:flex-row gap-4 flex-1 min-h-0 p-4 md:p-5">
+
+        <!-- サイドバー -->
+        <aside class="sidebar w-full md:w-72 flex-shrink-0 p-5 flex flex-col gap-5">
+
+            <!-- キャラ小 -->
+            <div class="flex items-end justify-around pt-1">
+                <div class="flex flex-col items-center">
+                    <img src="../image/6.png" alt="健康ケン" class="w-16 object-contain char-float" style="mix-blend-mode:multiply;">
+                    <span class="nameplate-ken mt-1">健康ケン</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="../image/11.png" alt="はぱぱん" class="w-12 object-contain char-bounce" style="mix-blend-mode:multiply;">
+                    <span class="nameplate-hapa mt-1">はぱぱん</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <img src="../image/1.png" alt="貢献コウ" class="w-16 object-contain char-float" style="mix-blend-mode:multiply; animation-delay:0.8s;">
+                    <span class="nameplate-kou mt-1">貢献コウ</span>
+                </div>
+            </div>
+
+            <!-- ステップ -->
+            <div>
+                <h2 class="text-xs font-black text-gray-400 tracking-widest uppercase mb-3">対話のステップ</h2>
+                <div class="flex flex-col gap-1.5">
+                    <div class="step-item step-active">
+                        <div class="step-num">1</div>
+                        <div>
+                            <p class="step-text text-sm leading-snug">現在の状況を共有する</p>
+                        </div>
+                    </div>
+                    <div class="step-item step-inactive">
+                        <div class="step-num">2</div>
+                        <div>
+                            <p class="step-text text-sm leading-snug">過去の経験・対処を振り返る</p>
+                        </div>
+                    </div>
+                    <div class="step-item step-inactive">
+                        <div class="step-num">3</div>
+                        <div>
+                            <p class="step-text text-sm leading-snug">変えたい「行動」を見つける</p>
+                        </div>
+                    </div>
+                    <div class="step-item step-inactive">
+                        <div class="step-num">4</div>
+                        <div>
+                            <p class="step-text text-sm leading-snug">未来の目標（GROW）を立てる</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- コーチからの約束 -->
+            <div class="bg-green-50 rounded-2xl p-4">
+                <h2 class="text-xs font-black text-gray-500 tracking-widest uppercase mb-3">コーチからのお約束</h2>
+                <ul class="flex flex-col gap-2 text-sm text-green-800">
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✦</span>
+                        あなたの「ありのまま」を受容します
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✦</span>
+                        批判や評価は一切しません
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✦</span>
+                        どんな小さな一歩も大切にします
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 医療注意 -->
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-4 text-xs text-red-700 leading-relaxed mt-auto">
+                <p class="font-bold mb-1">⚠️ 医療的なご相談について</p>
+                <p>AIは診断を行えません。新しい症状が2週間以上続く場合や強い痛みがある場合は、主治医にご相談ください。</p>
+            </div>
+        </aside>
+
+        <!-- チャットパネル -->
+        <main class="chat-panel flex-1 min-h-0 flex flex-col overflow-hidden">
+            <!-- チャットヘッダー -->
+            <div class="flex items-center gap-3 px-5 py-3 border-b border-gray-100 flex-shrink-0">
+                <img src="../image/11.png" alt="はぱぱん" class="w-7 h-7 object-contain" style="mix-blend-mode:multiply;">
+                <div>
+                    <p class="text-sm font-black text-gray-700">AIコーチ</p>
+                    <span class="inline-flex items-center gap-1 text-xs text-green-600 font-bold">
+                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full inline-block"></span>
+                        オンライン
+                    </span>
+                </div>
+            </div>
+            <!-- Dify iframe -->
+            <iframe
+                id="dify-iframe"
+                src=""
+                class="flex-1 w-full border-none"
+                allow="microphone">
+            </iframe>
+        </main>
+    </div>
+</div>
+
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
+        authDomain: "shounigann.firebaseapp.com",
+        projectId: "shounigann",
+        storageBucket: "shounigann.firebasestorage.app",
+        messagingSenderId: "854133989955",
+        appId: "1:854133989955:web:0924f550562f2035596af6",
+        measurementId: "G-H5CWMZRNYS"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loadingScreen = document.getElementById('loading-screen');
+    const loginScreen   = document.getElementById('login-screen');
+    const mainScreen    = document.getElementById('main-screen');
+    const difyIframe    = document.getElementById('dify-iframe');
+    const userDisplay   = document.getElementById('user-display');
+
+    document.getElementById('register-btn').addEventListener('click', () => {
+        const email    = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => alert("アカウントが作成されました！"))
+            .catch(err => alert("エラー: " + err.message + "\n（パスワードは6文字以上必要です）"));
+    });
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+        const email    = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        signInWithEmailAndPassword(auth, email, password)
+            .catch(() => alert("ログインに失敗しました。IDかパスワードが間違っています。"));
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        signOut(auth).then(() => { difyIframe.src = ""; });
+    });
+
+    onAuthStateChanged(auth, (user) => {
+        // ローディング非表示
+        loadingScreen.classList.add('hidden');
+
+        if (user) {
+            loginScreen.classList.add('hidden');
+            loginScreen.style.display = '';
+            mainScreen.classList.remove('hidden');
+            mainScreen.classList.add('flex');
+            userDisplay.innerText = user.email + " さん";
+            if (!difyIframe.src || difyIframe.src === window.location.href) {
+                difyIframe.src = "https://udify.app/chat/KXoLEteQQnrlbz1P";
+            }
+        } else {
+            mainScreen.classList.add('hidden');
+            mainScreen.classList.remove('flex');
+            loginScreen.classList.remove('hidden');
+            loginScreen.style.display = 'flex';
+            document.getElementById('email').value    = "";
+            document.getElementById('password').value = "";
+        }
+    });
+</script>
+
+</body>
+</html>
