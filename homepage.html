@@ -511,10 +511,50 @@
       opacity: 1; transform: translateY(0);
     }
 
+    /* ─── HAMBURGER ─── */
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: 2px solid var(--green-pale);
+      border-radius: 99px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--green-dark);
+    }
+    .mobile-nav {
+      display: none;
+      background: rgba(255,253,247,0.98);
+      border-top: 2px solid var(--green-pale);
+      position: sticky;
+      top: 68px;
+      z-index: 99;
+    }
+    .mobile-nav.open {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      gap: 12px;
+    }
+    .mobile-nav a {
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      padding: 10px 24px;
+      border-radius: 99px;
+      transition: all .2s;
+      width: 100%;
+      text-align: center;
+    }
+    .mobile-nav a:hover { background: var(--green-pale); color: var(--green-dark); }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       header { padding: 0 20px; }
       nav { display: none; }
+      .hamburger-btn { display: block; }
       .hero { grid-template-columns: 1fr; padding: 40px 24px; min-height: auto; }
       .hero-image img { width: min(340px, 90%); }
       .about { padding: 60px 24px; }
@@ -545,9 +585,17 @@
     <a href="#about">研究について</a>
     <a href="#programs">3つの研究</a>
     <a href="#coach">AIコーチ</a>
-    <a href="login.html" class="btn-login">ログイン / 登録</a>
+    <a href="./ai-coach/index.html" class="btn-login">ログイン / 登録</a>
   </nav>
+  <button class="hamburger-btn" id="hamburger-btn">☰</button>
 </header>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#about"    onclick="closeMobileNav()">研究について</a>
+  <a href="#programs" onclick="closeMobileNav()">3つの研究</a>
+  <a href="#coach"    onclick="closeMobileNav()">AIコーチ</a>
+  <a href="./ai-coach/index.html" class="btn-login" style="color:white; background:var(--green-mid);">ログイン / 登録</a>
+</div>
 
 <!-- ─── HERO ─── -->
 <section class="hero">
@@ -565,12 +613,12 @@
       批判も評価もなし。あなたのペースで、あなたらしく。
     </p>
     <div class="hero-buttons">
-      <a href="login.html" class="btn-primary">🌱 今すぐはじめる</a>
+      <a href="./ai-coach/index.html" class="btn-primary">🌱 今すぐはじめる</a>
       <a href="#about" class="btn-secondary">📖 研究について知る</a>
     </div>
   </div>
   <div class="hero-image">
-    <img src="imgs/hero.png" alt="サポートAIコーチのキャラクター">
+    <img src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png" alt="サポートAIコーチのキャラクター">
   </div>
 </section>
 
@@ -578,7 +626,7 @@
 <section class="about" id="about">
   <div class="about-inner">
     <div class="about-image reveal">
-      <img src="imgs/chars_poses2.png" alt="研究チームキャラクター">
+      <img src="./image/Gemini_Generated_Image_yc312wyc312wyc31-Photoroom.png" alt="研究チームキャラクター">
     </div>
     <div class="reveal">
       <div class="section-label">About Us</div>
@@ -621,7 +669,7 @@
       <!-- CARD 1 -->
       <div class="program-card reveal">
         <div class="card-img">
-          <img src="imgs/chars_mascot1.png" alt="運動プログラムキャラクター">
+          <img src="./image/6.png" alt="運動プログラムキャラクター">
         </div>
         <div class="card-body">
           <span class="card-number">01</span>
@@ -632,14 +680,14 @@
             道具不要・隙間時間の細切れ運動でもOK！低強度から徐々に始める
             「ゆるく長く」続けられる運動プランをAIが一緒に考えます。
           </p>
-          <a href="#" class="card-link">詳しく見る →</a>
+          <a href="./research.html#research" class="card-link">詳しく見る →</a>
         </div>
       </div>
 
       <!-- CARD 2 -->
       <div class="program-card reveal" style="transition-delay:.1s">
         <div class="card-img">
-          <img src="imgs/chars_science.png" alt="食事プログラムキャラクター">
+          <img src="./image/2.png" alt="食事プログラムキャラクター">
         </div>
         <div class="card-body">
           <span class="card-number">02</span>
@@ -650,14 +698,14 @@
             物価高でも無理なく手料理ができるコツをAIがナビゲート。
             忙しくても続けられる食事習慣を一緒につくりましょう。
           </p>
-          <a href="#" class="card-link">詳しく見る →</a>
+          <a href="./research.html#research" class="card-link">詳しく見る →</a>
         </div>
       </div>
 
       <!-- CARD 3 -->
       <div class="program-card reveal" style="transition-delay:.2s">
         <div class="card-img">
-          <img src="imgs/chars_coach.png" alt="コーチングプログラムキャラクター">
+          <img src="./image/11.png" alt="コーチングプログラムキャラクター">
         </div>
         <div class="card-body">
           <span class="card-number">03</span>
@@ -668,7 +716,7 @@
             「現状」→「過去の経験」→「変えたい行動」→「目標」の4ステップで
             自分の「できること」を見つけていきます。
           </p>
-          <a href="#" class="card-link">詳しく見る →</a>
+          <a href="./ai-coach/index.html" class="card-link">AIコーチを試す →</a>
         </div>
       </div>
     </div>
@@ -717,7 +765,7 @@
       </div>
     </div>
     <div class="coach-image reveal">
-      <img src="imgs/chars_mascot2.png" alt="AIコーチのキャラクター">
+      <img src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png" alt="AIコーチのキャラクター">
     </div>
   </div>
 </section>
@@ -776,7 +824,7 @@
       まずはアカウントを作成して、AIコーチに話しかけてみてください。
     </p>
     <div class="cta-buttons">
-      <a href="login.html" class="btn-primary">🌿 無料ではじめる（研究参加）</a>
+      <a href="./ai-coach/index.html" class="btn-primary">🌿 無料ではじめる（研究参加）</a>
       <a href="#programs" class="btn-secondary">📚 プログラムを確認する</a>
     </div>
   </div>
@@ -801,6 +849,21 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  document.getElementById('hamburger-btn').addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.toggle('open');
+  });
+  function closeMobileNav() {
+    document.getElementById('mobile-nav').classList.remove('open');
+  }
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobile-nav');
+    const btn  = document.getElementById('hamburger-btn');
+    if (!menu.contains(e.target) && e.target !== btn) {
+      menu.classList.remove('open');
+    }
+  });
 </script>
 
 </body>
