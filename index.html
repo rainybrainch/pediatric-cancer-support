@@ -438,15 +438,26 @@ section{position:relative;z-index:1;}
   padding-top:2px;
 }
 .face-sprite{
-  width:36px;height:36px;border-radius:50%;
-  background-repeat:no-repeat;
-  border:1px solid rgba(255,255,255,.1);
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
   overflow:hidden;flex-shrink:0;
   transition:transform .15s,border-color .2s;
-  cursor:default;
+  cursor:default;background:rgba(255,255,255,.04);
+}
+.face-sprite img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
 }
 .face-sprite:hover{transform:scale(1.15);border-color:rgba(201,168,76,.5);}
-.face-label{font-size:.55rem;color:rgba(170,188,216,.4);margin-top:1px;text-align:center;}
+.face-sprite.expr-happy img{filter:brightness(1.08) saturate(1.15);}
+.face-sprite.expr-think img{filter:brightness(0.88) saturate(0.85) hue-rotate(10deg);}
+.face-sprite.expr-excited img{filter:brightness(1.12) saturate(1.25) hue-rotate(-5deg);}
+.face-sprite.expr-determined img{filter:brightness(0.92) contrast(1.1);}
+.face-sprite.expr-sleepy img{filter:brightness(0.8) saturate(0.7);}
+.face-sprite.expr-surprise img{filter:brightness(1.15) saturate(1.3);}
+.face-label{font-size:.55rem;color:rgba(170,188,216,.4);margin-top:2px;text-align:center;}
 
 .char-quote{
   font-size:.75rem;line-height:1.7;
@@ -917,15 +928,15 @@ footer{
           </p>
           <div class="char-faces">
             <div>
-              <div class="face-sprite" style="background-image:url('./image/runa-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-sprite"><img src="./image/runa-1-Photoroom.png" alt="通常"></div>
               <div class="face-label">通常</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/runa-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-sprite expr-excited"><img src="./image/runa-1-Photoroom.png" alt="わくわく"></div>
               <div class="face-label">わくわく</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/runa-1-Photoroom.png');background-size:200% 300%;background-position:0% 50%;"></div>
+              <div class="face-sprite expr-think"><img src="./image/runa-1-Photoroom.png" alt="思案中"></div>
               <div class="face-label">思案中</div>
             </div>
           </div>
@@ -956,15 +967,15 @@ footer{
           </p>
           <div class="char-faces">
             <div>
-              <div class="face-sprite" style="background-image:url('./image/kaito-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-sprite"><img src="./image/kaito-1-Photoroom.png" alt="通常"></div>
               <div class="face-label">通常</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/kaito-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-sprite expr-happy"><img src="./image/kaito-1-Photoroom.png" alt="喜び"></div>
               <div class="face-label">喜び</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/kaito-1-Photoroom.png');background-size:200% 300%;background-position:100% 50%;"></div>
+              <div class="face-sprite expr-determined"><img src="./image/kaito-1-Photoroom.png" alt="決意"></div>
               <div class="face-label">決意</div>
             </div>
           </div>
@@ -995,15 +1006,15 @@ footer{
           </p>
           <div class="char-faces">
             <div>
-              <div class="face-sprite" style="background-image:url('./image/sera-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-sprite"><img src="./image/sera-1-Photoroom.png" alt="通常"></div>
               <div class="face-label">通常</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/sera-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-sprite expr-excited"><img src="./image/sera-1-Photoroom.png" alt="わくわく"></div>
               <div class="face-label">わくわく</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/sera-1-Photoroom.png');background-size:200% 300%;background-position:0% 50%;"></div>
+              <div class="face-sprite expr-think"><img src="./image/sera-1-Photoroom.png" alt="思案中"></div>
               <div class="face-label">思案中</div>
             </div>
           </div>
@@ -1034,15 +1045,15 @@ footer{
           </p>
           <div class="char-faces">
             <div>
-              <div class="face-sprite" style="background-image:url('./image/pikuse-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-sprite expr-happy"><img src="./image/pikuse-1-Photoroom.png" alt="喜び"></div>
               <div class="face-label">喜び</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/pikuse-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-sprite expr-surprise"><img src="./image/pikuse-1-Photoroom.png" alt="驚き"></div>
               <div class="face-label">驚き</div>
             </div>
             <div>
-              <div class="face-sprite" style="background-image:url('./image/pikuse-1-Photoroom.png');background-size:200% 300%;background-position:0% 100%;"></div>
+              <div class="face-sprite expr-sleepy"><img src="./image/pikuse-1-Photoroom.png" alt="眠い"></div>
               <div class="face-label">眠い</div>
             </div>
           </div>
