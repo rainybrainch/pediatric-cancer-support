@@ -653,6 +653,16 @@
 <!-- ======================================
      ローディング画面
      ====================================== -->
+<script>
+setTimeout(function(){
+  var ls=document.getElementById('loading-screen');
+  var lg=document.getElementById('login-screen');
+  if(ls&&!ls.classList.contains('hidden')){
+    ls.classList.add('hidden');
+    if(lg){lg.classList.remove('hidden');lg.style.display='flex';}
+  }
+},5000);
+</script>
 <div id="loading-screen">
     <div class="spinner"></div>
     <p>転送中 ― ヴィタリアへ...</p>

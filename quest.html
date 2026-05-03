@@ -386,6 +386,16 @@ body::before{
 <body>
 
 <!-- ローディング -->
+<script>
+setTimeout(function(){
+  var ls=document.getElementById('loading-screen');
+  var lg=document.getElementById('login-screen');
+  if(ls&&!ls.classList.contains('hidden')){
+    ls.classList.add('hidden');
+    if(lg){lg.classList.remove('hidden');lg.style.display='flex';}
+  }
+},5000);
+</script>
 <div id="loading-screen">
   <div class="spin"></div>
   <p>冒険の書を開いています…</p>
