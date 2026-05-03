@@ -1,4 +1,4 @@
-const CACHE = 'vitalia-v1';
+const CACHE = 'vitalia-v2';
 const PRECACHE = [
   '/',
   '/index.html',
