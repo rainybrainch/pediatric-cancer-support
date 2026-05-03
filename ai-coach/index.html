@@ -870,7 +870,15 @@
         });
     });
 
+    // 5秒でタイムアウト → ログイン画面を強制表示
+    const authTimeout = setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        loginScreen.classList.remove('hidden');
+        loginScreen.style.display = 'flex';
+    }, 5000);
+
     onAuthStateChanged(auth, (user) => {
+        clearTimeout(authTimeout);
         loadingScreen.classList.add('hidden');
 
         if (user) {
