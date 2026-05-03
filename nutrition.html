@@ -295,6 +295,38 @@ body::before{
 .hist-score{font-size:.7rem;font-weight:700;color:var(--green);flex-shrink:0;}
 .hist-empty{font-size:.72rem;color:rgba(170,188,216,.3);text-align:center;padding:8px 0;}
 
+/* ===== ストリーク ===== */
+.streak-row{display:flex;align-items:center;gap:12px;}
+.streak-fire{font-size:1.8rem;flex-shrink:0;line-height:1;}
+.streak-info{flex:1;}
+.streak-num{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;color:#7ee8aa;line-height:1;display:flex;align-items:baseline;gap:4px;}
+.streak-unit{font-size:.65rem;font-weight:400;color:rgba(78,201,138,.6);}
+.streak-sub{font-size:.6rem;color:rgba(170,188,216,.4);margin-top:3px;}
+.streak-best{font-size:.58rem;color:rgba(78,201,138,.45);text-align:right;flex-shrink:0;line-height:1.5;}
+
+/* ===== 実績バッジ ===== */
+.ach-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.ach-badge{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:999px;padding:4px 10px;font-size:.62rem;color:rgba(170,188,216,.35);
+  transition:background .2s,border-color .2s,color .2s;
+}
+.ach-badge.unlocked{background:rgba(78,201,138,.1);border-color:rgba(78,201,138,.32);color:#7ee8aa;}
+.ach-icon{font-size:.8rem;}
+
+/* ===== ボーナストースト ===== */
+@keyframes bonusPop{0%{opacity:0;transform:translateX(-50%) translateY(-14px);}12%{opacity:1;transform:translateX(-50%) translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-8px);}}
+.bonus-toast{
+  position:fixed;top:70px;left:50%;
+  background:rgba(8,11,20,.97);border:1px solid var(--green);border-radius:14px;
+  padding:14px 30px;text-align:center;
+  box-shadow:0 0 44px rgba(78,201,138,.2);z-index:202;pointer-events:none;
+  animation:bonusPop 3.6s ease forwards;
+}
+.bt-head{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:#7ee8aa;margin-bottom:3px;}
+.bt-body{font-size:.72rem;color:var(--silver);}
+
 /* +1 フロートアニメ */
 .plus-float{
   position:fixed;font-size:.8rem;font-weight:900;pointer-events:none;z-index:999;
@@ -495,6 +527,25 @@ body::before{
         </div>
       </div>
 
+      <!-- ストリーク -->
+      <div class="side-panel">
+        <div class="panel-head">🌿 連続記録</div>
+        <div class="streak-row">
+          <div class="streak-fire">🌿</div>
+          <div class="streak-info">
+            <div class="streak-num"><span id="streak-n">0</span><span class="streak-unit">週連続</span></div>
+            <div class="streak-sub" id="streak-sub">まず1週目から！</div>
+          </div>
+          <div class="streak-best" id="streak-best"></div>
+        </div>
+      </div>
+
+      <!-- 実績 -->
+      <div class="side-panel">
+        <div class="panel-head">🏆 実績</div>
+        <div class="ach-grid" id="ach-grid"></div>
+      </div>
+
       <!-- 魔力ステータス -->
       <div class="side-panel">
         <div class="panel-head">⚗️ 今週の魔力ステータス</div>
@@ -641,7 +692,11 @@ function getCounts(){
   sessions.forEach(s=>{ if(c[s.cat]!==undefined) c[s.cat]++; });
   return c;
 }
-function totalXp(){ return Math.max(0, sessions.reduce((s,x)=>s+x.xp,0)); }
+function totalXp(){
+  const sXp=sessions.reduce((s,x)=>s+x.xp,0);
+  const bXp=parseInt(localStorage.getItem(bonusKey())||'0');
+  return Math.max(0, sXp+bXp);
+}
 function getLv(xp){ let r=LEVELS[0]; for(const l of LEVELS){if(xp>=l.xp)r=l;} return r; }
 function nextXp(xp){ for(const l of LEVELS){if(l.xp>xp)return l.xp;} return null; }
 
@@ -650,6 +705,96 @@ function weekKey(){ const d=new Date(),j=new Date(d.getFullYear(),0,1),w=Math.ce
 function weekLabel(){ const d=new Date(); const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1); const e=new Date(s); e.setDate(s.getDate()+6); const f=x=>`${x.getMonth()+1}/${x.getDate()}`; const j=new Date(d.getFullYear(),0,1); const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7); return `第${w}週 (${f(s)}〜${f(e)})`; }
 function storeKey(wk){ return `vn_${uid}_${wk||weekKey()}`; }
 function histKey(){    return `vn_hist_${uid}`; }
+function bonusKey(){   return `vn_bonus_${uid}_${weekKey()}`; }
+function achKey(){     return `vn_ach_${uid}`; }
+function streakSKey(){ return `vn_streak_${uid}`; }
+
+// ===== 実績 =====
+const ACHV=[
+  {id:'first',    icon:'🌱', name:'初調合',   cond:'初めての記録'},
+  {id:'veg7',     icon:'🥦', name:'野菜使い', cond:'野菜7皿/週達成'},
+  {id:'veg_goal', icon:'💚', name:'野菜の達人',cond:'野菜21皿/週達成'},
+  {id:'fruit_g',  icon:'🍎', name:'果物魔術師',cond:'果物10皿/週達成'},
+  {id:'no_limit', icon:'✨', name:'清廉な食卓',cond:'制限食品0回'},
+  {id:'all_half', icon:'⚗️', name:'バランス錬成',cond:'全カテゴリ50%以上'},
+  {id:'streak3',  icon:'📅', name:'3週連続', cond:'3週間連続記録'},
+  {id:'lv5',      icon:'👑', name:'大魔導士', cond:'Lv5到達'},
+];
+function getAch(){ try{return JSON.parse(localStorage.getItem(achKey())||'{}');}catch(e){return{};} }
+function setAch(a){ localStorage.setItem(achKey(),JSON.stringify(a)); }
+function unlock(id){
+  const a=getAch(); if(a[id]) return;
+  a[id]=new Date().toISOString(); setAch(a); renderAch();
+  const def=ACHV.find(x=>x.id===id); if(!def) return;
+  const t=document.getElementById('lv-toast');
+  document.getElementById('lt-body').textContent=`実績解除：${def.icon} ${def.name}`;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+function renderAch(){
+  const a=getAch(), el=document.getElementById('ach-grid'); if(!el) return;
+  el.innerHTML='';
+  ACHV.forEach(d=>{
+    const b=document.createElement('div');
+    b.className='ach-badge'+(a[d.id]?' unlocked':'');
+    b.title=d.cond;
+    b.innerHTML=`<span class="ach-icon">${d.icon}</span>${d.name}`;
+    el.appendChild(b);
+  });
+}
+function checkAch(){
+  const a=getAch(), c=getCounts(), xp=totalXp();
+  if(!a.first    && sessions.length>0)                            unlock('first');
+  if(!a.veg7     && c.veg>=7)                                     unlock('veg7');
+  if(!a.veg_goal && c.veg>=21)                                    unlock('veg_goal');
+  if(!a.fruit_g  && c.fruit>=10)                                  unlock('fruit_g');
+  if(!a.no_limit && sessions.length>0 && c.limit===0)             unlock('no_limit');
+  if(!a.all_half && c.veg>=11 && c.fruit>=5 && c.protein>=7 && c.grain>=7) unlock('all_half');
+  if(!a.lv5      && getLv(xp).lv>=5)                             unlock('lv5');
+}
+
+// ===== ストリーク =====
+function getStreak(){ try{return JSON.parse(localStorage.getItem(streakSKey())||'{"count":0,"best":0,"lastWk":""}');}catch(e){return{count:0,best:0,lastWk:''};} }
+function prevWeekKey(){
+  const d=new Date(); d.setDate(d.getDate()-7);
+  const j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+function applyStreak(){
+  const s=getStreak(),wk=weekKey(),prev=prevWeekKey();
+  if(s.lastWk===wk) return s;
+  s.count = s.lastWk===prev ? s.count+1 : 1;
+  s.best  = Math.max(s.best||0, s.count);
+  s.lastWk=wk;
+  localStorage.setItem(streakSKey(),JSON.stringify(s));
+  if(s.count>=3) unlock('streak3');
+  return s;
+}
+function renderStreak(s){
+  const n=document.getElementById('streak-n');
+  const sub=document.getElementById('streak-sub');
+  const best=document.getElementById('streak-best');
+  if(!n) return;
+  n.textContent=s.count||0;
+  const msgs=['まず1週目から！','1週目スタート！','2週連続！','3週連続！すごい！','4週連続！','5週連続！'];
+  sub.textContent=msgs[Math.min(s.count,msgs.length-1)];
+  best.textContent=s.best>1?`最高 ${s.best}週`:'';
+}
+
+// ===== ログインボーナス =====
+function checkLoginBonus(){
+  const dayKey=`vn_day_${uid}`, today=new Date().toDateString();
+  if(localStorage.getItem(dayKey)===today) return;
+  localStorage.setItem(dayKey,today);
+  const cur=parseInt(localStorage.getItem(bonusKey())||'0');
+  localStorage.setItem(bonusKey(),cur+30);
+  updateUI();
+  const el=document.createElement('div');
+  el.className='bonus-toast';
+  el.innerHTML='<div class="bt-head">✦ デイリーボーナス ✦</div><div class="bt-body">今日もヴィタリアへ！ +30XP</div>';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3700);
+}
 
 // ===== UI更新 =====
 function updateUI(){
@@ -773,6 +918,8 @@ async function saveWeek(){
   const data={...c,sessions,xp,lv:lv.lv,lvName:lv.name,savedAt:new Date().toLocaleString('ja-JP'),week:weekLabel()};
   localStorage.setItem(storeKey(),JSON.stringify(data));
   appendHistory(data);
+  checkAch();
+  const s=applyStreak(); renderStreak(s);
 
   // Firestoreにも保存（研究データ収集）
   try {
@@ -860,6 +1007,9 @@ onAuthStateChanged(auth,user=>{
     buildBoard('grain-grid',  FOODS.grain,  'grain',  'fc-grain');
     buildBoard('limit-grid',  FOODS.limit,  'limit',  'fc-limit');
     loadWeek(); renderHistory();
+    renderAch();
+    renderStreak(getStreak());
+    checkLoginBonus();
   } else {
     uid=''; sessions=[]; prevLv=1;
     document.getElementById('main-screen').classList.add('hidden');

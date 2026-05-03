@@ -301,6 +301,38 @@ body::before{
 .hist-score{font-size:.7rem;font-weight:700;color:var(--gold);flex-shrink:0;}
 .hist-empty{font-size:.72rem;color:rgba(170,188,216,.3);text-align:center;padding:8px 0;}
 
+/* ===== ストリーク ===== */
+.streak-row{display:flex;align-items:center;gap:12px;}
+.streak-fire{font-size:1.8rem;flex-shrink:0;line-height:1;}
+.streak-info{flex:1;}
+.streak-num{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;color:var(--gold2);line-height:1;display:flex;align-items:baseline;gap:4px;}
+.streak-unit{font-size:.65rem;font-weight:400;color:rgba(201,168,76,.6);}
+.streak-sub{font-size:.6rem;color:rgba(170,188,216,.4);margin-top:3px;}
+.streak-best{font-size:.58rem;color:rgba(201,168,76,.45);text-align:right;flex-shrink:0;line-height:1.5;}
+
+/* ===== 実績バッジ ===== */
+.ach-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.ach-badge{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:999px;padding:4px 10px;font-size:.62rem;color:rgba(170,188,216,.35);
+  transition:background .2s,border-color .2s,color .2s;
+}
+.ach-badge.unlocked{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.32);color:var(--gold2);}
+.ach-icon{font-size:.8rem;}
+
+/* ===== ボーナストースト ===== */
+@keyframes bonusPop{0%{opacity:0;transform:translateX(-50%) translateY(-14px);}12%{opacity:1;transform:translateX(-50%) translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-8px);}}
+.bonus-toast{
+  position:fixed;top:70px;left:50%;
+  background:rgba(8,11,20,.97);border:1px solid var(--gold);border-radius:14px;
+  padding:14px 30px;text-align:center;
+  box-shadow:0 0 44px rgba(201,168,76,.25);z-index:202;pointer-events:none;
+  animation:bonusPop 3.6s ease forwards;
+}
+.bt-head{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:var(--gold2);margin-bottom:3px;}
+.bt-body{font-size:.72rem;color:var(--silver);}
+
 /* レベルアップトースト */
 #lv-toast{
   position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-14px);
@@ -459,6 +491,25 @@ body::before{
         </div>
       </div>
 
+      <!-- ストリーク -->
+      <div class="side-panel">
+        <div class="panel-head">🔥 連続記録</div>
+        <div class="streak-row">
+          <div class="streak-fire">🔥</div>
+          <div class="streak-info">
+            <div class="streak-num"><span id="streak-n">0</span><span class="streak-unit">週連続</span></div>
+            <div class="streak-sub" id="streak-sub">まず1週目から！</div>
+          </div>
+          <div class="streak-best" id="streak-best"></div>
+        </div>
+      </div>
+
+      <!-- 実績 -->
+      <div class="side-panel">
+        <div class="panel-head">🏆 実績</div>
+        <div class="ach-grid" id="ach-grid"></div>
+      </div>
+
       <!-- 研究指標入力 -->
       <div class="side-panel">
         <div class="panel-head">📊 今週の健康記録</div>
@@ -595,9 +646,104 @@ function weekLabel(){
 // ===== ストレージキー =====
 function storeKey(wk){ return `vq_${uid}_${wk||weekKey()}`; }
 function histKey(){    return `vq_hist_${uid}`; }
+function bonusKey(){   return `vq_bonus_${uid}_${weekKey()}`; }
+function achKey(){     return `vq_ach_${uid}`; }
+function streakSKey(){ return `vq_streak_${uid}`; }
+
+// ===== 実績定義 =====
+const ACHV=[
+  {id:'first',   icon:'⚔️', name:'初陣',     cond:'初めての記録'},
+  {id:'goal',    icon:'🎯', name:'目標達成', cond:'週150分クリア'},
+  {id:'high',    icon:'🔥', name:'高強度',   cond:'高強度クエスト初挑戦'},
+  {id:'streak3', icon:'📅', name:'3週連続', cond:'3週間連続記録'},
+  {id:'streak8', icon:'🌟', name:'2ヶ月',    cond:'8週間連続記録'},
+  {id:'lv3',     icon:'⭐', name:'Lv3',      cond:'修行の勇者に到達'},
+  {id:'lv5',     icon:'👑', name:'覚醒',     cond:'Lv5到達'},
+  {id:'steps',   icon:'👣', name:'鉄の足',   cond:'週7万歩達成'},
+];
+function getAch(){ try{return JSON.parse(localStorage.getItem(achKey())||'{}');}catch(e){return{};} }
+function setAch(a){ localStorage.setItem(achKey(),JSON.stringify(a)); }
+function unlock(id){
+  const a=getAch(); if(a[id]) return;
+  a[id]=new Date().toISOString(); setAch(a); renderAch();
+  const def=ACHV.find(x=>x.id===id); if(!def) return;
+  const t=document.getElementById('lv-toast');
+  document.getElementById('lt-body').textContent=`実績解除：${def.icon} ${def.name}`;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+function renderAch(){
+  const a=getAch(), el=document.getElementById('ach-grid'); if(!el) return;
+  el.innerHTML='';
+  ACHV.forEach(d=>{
+    const b=document.createElement('div');
+    b.className='ach-badge'+(a[d.id]?' unlocked':'');
+    b.title=d.cond;
+    b.innerHTML=`<span class="ach-icon">${d.icon}</span>${d.name}`;
+    el.appendChild(b);
+  });
+}
+function checkAch(){
+  const a=getAch(), xp=totalXp(), score=modMin+highMin*2;
+  const steps=parseInt(document.getElementById('steps-val').value||'0');
+  if(!a.first  && sessions.length>0)    unlock('first');
+  if(!a.goal   && score>=150)           unlock('goal');
+  if(!a.high   && highMin>0)            unlock('high');
+  if(!a.lv3    && getLv(xp).lv>=3)      unlock('lv3');
+  if(!a.lv5    && getLv(xp).lv>=5)      unlock('lv5');
+  if(!a.steps  && steps>=70000)         unlock('steps');
+}
+
+// ===== ストリーク =====
+function getStreak(){ try{return JSON.parse(localStorage.getItem(streakSKey())||'{"count":0,"best":0,"lastWk":""}');}catch(e){return{count:0,best:0,lastWk:''};} }
+function prevWeekKey(){
+  const d=new Date(); d.setDate(d.getDate()-7);
+  const j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+function applyStreak(){
+  const s=getStreak(),wk=weekKey(),prev=prevWeekKey();
+  if(s.lastWk===wk) return s;
+  s.count = s.lastWk===prev ? s.count+1 : 1;
+  s.best  = Math.max(s.best||0, s.count);
+  s.lastWk=wk;
+  localStorage.setItem(streakSKey(),JSON.stringify(s));
+  if(s.count>=3) unlock('streak3');
+  if(s.count>=8) unlock('streak8');
+  return s;
+}
+function renderStreak(s){
+  const n=document.getElementById('streak-n');
+  const sub=document.getElementById('streak-sub');
+  const best=document.getElementById('streak-best');
+  if(!n) return;
+  n.textContent=s.count||0;
+  const msgs=['まず1週目から！','1週目スタート！','2週連続！','3週連続！すごい！','4週連続！','5週連続！','6週連続！','7週連続！もう少し！','8週連続！伝説！'];
+  sub.textContent=msgs[Math.min(s.count,msgs.length-1)];
+  best.textContent=s.best>1?`最高 ${s.best}週`:'';
+}
+
+// ===== ログインボーナス =====
+function checkLoginBonus(){
+  const dayKey=`vq_day_${uid}`, today=new Date().toDateString();
+  if(localStorage.getItem(dayKey)===today) return;
+  localStorage.setItem(dayKey,today);
+  const cur=parseInt(localStorage.getItem(bonusKey())||'0');
+  localStorage.setItem(bonusKey(),cur+30);
+  updateUI();
+  const el=document.createElement('div');
+  el.className='bonus-toast';
+  el.innerHTML='<div class="bt-head">✦ デイリーボーナス ✦</div><div class="bt-body">今日もヴィタリアへ！ +30XP</div>';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3700);
+}
 
 // ===== XP / レベル =====
-function totalXp(){ return sessions.reduce((s,x)=>s+x.xp,0); }
+function totalXp(){
+  const sXp=sessions.reduce((s,x)=>s+x.xp,0);
+  const bXp=parseInt(localStorage.getItem(bonusKey())||'0');
+  return sXp+bXp;
+}
 function getLv(xp){
   let r=LEVELS[0];
   for(const l of LEVELS){ if(xp>=l.xp) r=l; }
@@ -750,6 +896,8 @@ async function saveWeek(){
   };
   localStorage.setItem(storeKey(), JSON.stringify(data));
   appendHistory(data);
+  checkAch();
+  const s=applyStreak(); renderStreak(s);
 
   // Firestoreにも保存（研究データ収集）
   try {
@@ -850,6 +998,9 @@ onAuthStateChanged(auth,user=>{
     buildBoard('high-board',EXERCISES.high,'high');
     loadWeek();
     renderHistory();
+    renderAch();
+    renderStreak(getStreak());
+    checkLoginBonus();
   } else {
     uid=''; sessions=[]; modMin=0; highMin=0; prevLv=1;
     document.getElementById('main-screen').classList.add('hidden');
