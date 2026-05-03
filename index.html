@@ -1,840 +1,1217 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌱 小児がん サポートAIコーチ</title>
-    <link rel="icon" type="image/png" href="./image/11.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Zen Maru Gothic', 'Hiragino Kaku Gothic ProN', sans-serif; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴィタリア転生録 | 小児がん経験者のための健康クエスト</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c9a84c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080b14;
+  --bg2:     #0d1020;
+  --panel:   #111528;
+  --border:  #1e2545;
+  --gold:    #c9a84c;
+  --gold2:   #f0d48a;
+  --silver:  #aabcd8;
+  --green:   #4ec98a;
+  --red:     #d45c5c;
+  --purple:  #9c72e0;
+  --text:    #d4dcf0;
+  --muted:   #6070a0;
+  --white:   #ffffff;
+}
 
-        /* ===== アニメーション ===== */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50%       { transform: translateY(-14px); }
-        }
-        @keyframes float-slow {
-            0%, 100% { transform: translateY(0px) rotate(-1deg); }
-            50%       { transform: translateY(-9px) rotate(1deg); }
-        }
-        @keyframes bounce-char {
-            0%, 100% { transform: translateY(0) scale(1); }
-            40%       { transform: translateY(-18px) scale(1.06); }
-            60%       { transform: translateY(-9px) scale(1.03); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(28px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse-glow {
-            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.45); }
-            70%  { box-shadow: 0 0 0 18px rgba(34,197,94,0); }
-            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-        }
-        @keyframes slide-in-left {
-            from { opacity: 0; transform: translateX(-30px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slide-in-right {
-            from { opacity: 0; transform: translateX(30px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  overflow-x:hidden;
+  line-height:1.8;
+}
 
-        .char-float      { animation: float 3.5s ease-in-out infinite; }
-        .char-float-slow { animation: float-slow 4.5s ease-in-out infinite; }
-        .char-bounce     { animation: bounce-char 2s ease-in-out infinite; }
-        .fade-in-up      { animation: fadeInUp 0.75s ease both; }
-        .pulse-btn       { animation: pulse-glow 2.2s infinite; }
+/* 星空 */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(1px 1px at 12% 18%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 34% 7%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 58% 22%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 78% 5%, rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 90% 35%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 22% 48%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 47% 55%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 65% 70%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 85% 62%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 10% 80%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 38% 88%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 72% 92%,rgba(255,255,255,.6) 0%,transparent 100%);
+  pointer-events:none;
+  z-index:0;
+}
 
-        /* 白背景画像を透過させる */
-        .img-multiply { mix-blend-mode: multiply; }
+/* ========== NAV ========== */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(8,11,20,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:62px;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.logo-icon{
+  width:36px;height:36px;
+  border:1.5px solid var(--gold);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;
+  color:var(--gold);
+  font-family:'Noto Serif JP',serif;
+  font-weight:900;
+}
+.logo-text{
+  font-family:'Noto Serif JP',serif;
+  font-weight:900;
+  font-size:1rem;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1.2;
+}
+.logo-sub{
+  font-size:.62rem;color:var(--muted);
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  display:block;
+  -webkit-text-fill-color:var(--muted);
+}
+.nav-links{
+  display:flex;align-items:center;gap:4px;
+}
+.nav-links a{
+  color:var(--muted);text-decoration:none;
+  font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  padding:7px 14px;border-radius:99px;border:1px solid transparent;
+  transition:all .2s;
+}
+.nav-links a:hover{color:var(--gold);border-color:rgba(201,168,76,.3);}
+.btn-nav{
+  background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.1)) !important;
+  border:1px solid var(--gold) !important;
+  color:var(--gold2) !important;
+}
+.btn-nav:hover{background:linear-gradient(135deg,rgba(201,168,76,.35),rgba(201,168,76,.2)) !important;}
 
-        /* ===== ナビ ===== */
-        #navbar {
-            background: rgba(255,255,255,0.93);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 2px 14px rgba(34,197,94,0.10);
-        }
-        .nav-link {
-            color: #374151;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .nav-link:hover { color: #22c55e; }
+/* ハンバーガー */
+#menu-btn{
+  display:none;
+  background:none;border:1px solid var(--border);
+  border-radius:8px;padding:7px 12px;
+  color:var(--gold);font-size:1.1rem;cursor:pointer;
+}
+#mobile-menu{
+  display:none;
+  position:fixed;top:62px;left:0;right:0;
+  background:rgba(8,11,20,.97);
+  border-bottom:1px solid var(--border);
+  z-index:99;
+  flex-direction:column;align-items:center;
+  padding:20px;gap:12px;
+}
+#mobile-menu.open{display:flex;}
+#mobile-menu a{
+  color:var(--text);text-decoration:none;
+  font-weight:700;font-size:.95rem;
+  padding:10px 28px;border-radius:99px;
+  border:1px solid var(--border);
+  width:100%;text-align:center;
+  transition:all .2s;
+}
+#mobile-menu a:hover{border-color:var(--gold);color:var(--gold);}
 
-        /* ===== ヒーロー ===== */
-        .hero-bg {
-            background: linear-gradient(135deg, #bbf7d0 0%, #d1fae5 35%, #ecfdf5 65%, #f0fdf4 100%);
-        }
+/* ========== HERO ========== */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:100px 80px 60px;
+  gap:40px;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';
+  position:absolute;right:-150px;top:-100px;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(140,100,220,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-text{position:relative;z-index:2;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.4);
+  color:var(--gold);
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;
+  padding:6px 18px;border-radius:99px;
+  margin-bottom:24px;
+  animation:fadeUp .6s ease both;
+}
+.hero-chapter{
+  font-family:'Noto Serif JP',serif;
+  font-size:.78rem;color:var(--muted);
+  letter-spacing:.2em;margin-bottom:12px;
+  animation:fadeUp .6s .05s ease both;
+}
+.hero-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(2rem,4vw,3.4rem);
+  font-weight:900;
+  line-height:1.3;
+  margin-bottom:20px;
+  animation:fadeUp .7s .1s ease both;
+}
+.hero-title .accent{
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-copy{
+  font-size:.95rem;
+  line-height:2;
+  color:var(--silver);
+  margin-bottom:32px;
+  max-width:480px;
+  animation:fadeUp .7s .15s ease both;
+}
+.hero-copy strong{color:var(--gold2);}
+.hero-buttons{
+  display:flex;gap:14px;flex-wrap:wrap;
+  animation:fadeUp .7s .2s ease both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#c9a84c,#a07830);
+  color:#0a0c14;
+  font-family:inherit;font-size:.95rem;font-weight:900;
+  padding:14px 32px;border-radius:99px;
+  text-decoration:none;
+  box-shadow:0 6px 24px rgba(201,168,76,.35);
+  transition:all .25s;
+  border:none;cursor:pointer;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.45);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  color:var(--silver);
+  border:1px solid var(--border);
+  font-family:inherit;font-size:.9rem;font-weight:700;
+  padding:13px 28px;border-radius:99px;
+  text-decoration:none;
+  transition:all .25s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.hero-image{
+  display:flex;justify-content:center;align-items:flex-end;
+  position:relative;z-index:2;
+  animation:fadeUp .8s .2s ease both;
+}
+.hero-image img{
+  width:min(480px,90%);
+  filter:drop-shadow(0 20px 50px rgba(140,100,220,.25));
+  animation:float 4s ease-in-out infinite;
+}
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  color:var(--muted);font-size:.72rem;letter-spacing:.12em;
+  animation:bounce 2s infinite;
+}
 
-        /* ===== ボタン ===== */
-        .btn-primary {
-            background: linear-gradient(135deg, #22c55e, #10b981);
-            color: white;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding: 14px 42px;
-            display: inline-block;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 6px 22px rgba(34,197,94,0.38);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 14px 30px rgba(34,197,94,0.45);
-        }
-        .btn-outline {
-            background: transparent;
-            color: #16a34a;
-            border: 2px solid #22c55e;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 11px 32px;
-            display: inline-block;
-            text-decoration: none;
-            transition: background 0.2s, color 0.2s;
-        }
-        .btn-outline:hover {
-            background: #22c55e;
-            color: white;
-        }
+/* ========== セクション共通 ========== */
+section{position:relative;z-index:1;}
+.section-inner{max-width:1080px;margin:0 auto;padding:0 32px;}
 
-        /* ===== 吹き出し ===== */
-        .bubble {
-            position: relative;
-            background: #ffffff;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 18px 22px;
-        }
-        /* キャラが左 → 吹き出しの左辺から三角（キャラの口に向く） */
-        .bubble-left::after {
-            content: '';
-            position: absolute;
-            left: -13px;
-            top: 28px;
-            border: 13px solid transparent;
-            border-right-color: #ffffff;
-            border-left: 0;
-        }
-        /* キャラが右 → 吹き出しの右辺から三角（キャラの口に向く） */
-        .bubble-right::after {
-            content: '';
-            position: absolute;
-            right: -13px;
-            top: 28px;
-            border: 13px solid transparent;
-            border-left-color: #ffffff;
-            border-right: 0;
-        }
-        /* モバイル: キャラが上に来るため、吹き出しの上辺から三角 */
-        @media (max-width: 767px) {
-            .bubble-left::after,
-            .bubble-right::after {
-                left: 36px;
-                right: auto;
-                top: -13px;
-                border: 13px solid transparent;
-                border-bottom-color: #ffffff;
-                border-top: 0;
-                border-left: 0;
-                border-right: 0;
-            }
-        }
+.section-head{text-align:center;margin-bottom:56px;}
+.chapter-label{
+  font-size:.7rem;font-weight:700;letter-spacing:.2em;
+  color:var(--gold);text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin-bottom:12px;
+}
+.chapter-label::before,.chapter-label::after{
+  content:'';display:block;height:1px;width:50px;
+  background:linear-gradient(90deg,transparent,var(--gold));
+}
+.chapter-label::after{background:linear-gradient(90deg,var(--gold),transparent);}
+.section-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(1.6rem,3vw,2.4rem);
+  font-weight:900;
+  color:var(--white);
+  margin-bottom:14px;
+}
+.section-title .accent{
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.section-desc{font-size:.92rem;color:var(--muted);max-width:560px;margin:0 auto;}
 
-        /* ===== カード ===== */
-        .feature-card {
-            background: #ffffff;
-            border-radius: 22px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 16px 36px rgba(34,197,94,0.14);
-        }
+/* ========== PROLOGUE ========== */
+.prologue{
+  padding:80px 0;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.prologue-inner{
+  max-width:680px;margin:0 auto;padding:0 32px;
+  text-align:center;
+}
+.prologue-quote{
+  font-family:'Noto Serif JP',serif;
+  font-size:1.05rem;
+  line-height:2.4;
+  color:var(--silver);
+}
+.prologue-quote em{color:var(--gold2);font-style:normal;}
+.prologue-divider{
+  width:120px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:32px auto;
+}
+.prologue-note{
+  font-size:.82rem;color:var(--muted);line-height:1.9;
+}
 
-        /* ===== セクション共通 ===== */
-        section { scroll-margin-top: 70px; }
-        .about-bg   { background: linear-gradient(180deg, #f0fdf4, #ecfdf5); }
-        .service-bg { background: #ffffff; }
-        .cta-bg     { background: linear-gradient(135deg, #d1fae5, #a7f3d0, #ecfdf5); }
+/* ========== 3つの試練 ========== */
+.trials{padding:100px 0;}
+.trials-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;margin-top:0;
+}
+.trial-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+  display:flex;flex-direction:column;
+}
+.trial-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
+.trial-img{
+  height:240px;overflow:hidden;
+  background:var(--bg2);
+  display:flex;align-items:flex-end;justify-content:center;
+  position:relative;
+}
+.trial-img::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,var(--panel) 100%);
+}
+.trial-img img{
+  height:105%;object-fit:cover;object-position:top;
+  width:100%;
+}
+.trial-body{padding:24px 26px 28px;flex:1;display:flex;flex-direction:column;}
+.trial-num{
+  font-family:'Noto Serif JP',serif;
+  font-size:3rem;font-weight:900;
+  color:rgba(201,168,76,.12);
+  position:absolute;right:16px;top:8px;
+  line-height:1;
+}
+.trial-body{position:relative;}
+.trial-tag{
+  display:inline-block;
+  font-size:.7rem;font-weight:700;letter-spacing:.1em;
+  padding:4px 12px;border-radius:99px;
+  margin-bottom:12px;
+}
+.tag-red   {background:rgba(212,92,92,.15);color:var(--red);border:1px solid rgba(212,92,92,.4);}
+.tag-green {background:rgba(78,201,138,.15);color:var(--green);border:1px solid rgba(78,201,138,.4);}
+.tag-purple{background:rgba(156,114,224,.15);color:var(--purple);border:1px solid rgba(156,114,224,.4);}
+.tag-gold  {background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.4);}
 
-        /* キャラ名プレート */
-        .nameplate {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 5px 16px;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .nameplate-kou {
-            background: #fff0f5;
-            color: #db2777;
-            border: 1.5px solid #fbcfe8;
-        }
-        .nameplate-ken {
-            background: #eff6ff;
-            color: #1d4ed8;
-            border: 1.5px solid #bfdbfe;
-        }
-        .nameplate-hapa {
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1.5px solid #86efac;
-        }
+.trial-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--white);line-height:1.5;
+  margin-bottom:12px;
+}
+.trial-desc{
+  font-size:.84rem;line-height:1.85;
+  color:var(--muted);flex:1;margin-bottom:20px;
+}
+.trial-link{
+  color:var(--gold);font-size:.82rem;font-weight:700;
+  text-decoration:none;
+  display:flex;align-items:center;gap:6px;
+  transition:gap .2s;
+}
+.trial-link:hover{gap:10px;}
 
-        /* キャラ名を画像カード底辺に重ねるラッパー */
-        .char-block {
-            position: relative;
-            padding-bottom: 14px;
-            display: inline-block;
-        }
-        .char-block .nameplate {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 0;
-            white-space: nowrap;
-        }
+/* ========== キャラクター ========== */
+.characters{
+  padding:100px 0;
+  background:var(--bg2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.chars-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+@media(max-width:900px){.chars-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.chars-grid{grid-template-columns:1fr;}}
 
-        /* 吹き出し内の顔アイコン */
-        .char-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center top;
-            border: 2px solid #86efac;
-            flex-shrink: 0;
-        }
-        .char-avatar-hapapan {
-            object-position: center 15%;
-        }
+.char-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;
+  text-align:center;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  display:flex;flex-direction:column;
+}
+.char-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.char-img{
+  height:260px;overflow:hidden;
+  background:var(--bg);
+  display:flex;align-items:flex-end;justify-content:center;
+  position:relative;flex-shrink:0;
+}
+.char-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,var(--panel) 100%);
+}
+.char-img img{height:110%;object-fit:cover;object-position:top;width:100%;}
 
-        /* キャラ画像を白カードで囲む */
-        .char-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+.char-body{padding:14px 16px 20px;flex:1;display:flex;flex-direction:column;gap:8px;}
 
-        /* ===== ハンバーガー ===== */
-        #mobile-menu { display: none; background: rgba(255,255,255,0.98); }
-        #mobile-menu.open { display: block; }
+.char-name{
+  font-family:'Noto Serif JP',serif;
+  font-size:1.05rem;font-weight:900;
+  color:var(--white);line-height:1.2;
+}
+.char-name-en{font-size:.65rem;font-weight:400;letter-spacing:.12em;opacity:.6;display:block;margin-top:2px;}
 
-        /* ===== スクロールで表示 ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+.char-role-badge{
+  display:inline-block;font-size:.65rem;font-weight:700;
+  padding:2px 10px;border-radius:999px;letter-spacing:.06em;
+  align-self:center;
+}
+
+.char-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+.char-tag{
+  font-size:.6rem;padding:2px 8px;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  color:rgba(170,188,216,.7);
+}
+
+.char-desc{
+  font-size:.74rem;color:var(--muted);line-height:1.75;
+  text-align:left;
+  border-top:1px solid var(--border);padding-top:8px;
+}
+
+/* 表情スプライト行 */
+.char-faces{
+  display:flex;gap:6px;justify-content:center;
+  padding-top:2px;
+}
+.face-sprite{
+  width:36px;height:36px;border-radius:50%;
+  background-repeat:no-repeat;
+  border:1px solid rgba(255,255,255,.1);
+  overflow:hidden;flex-shrink:0;
+  transition:transform .15s,border-color .2s;
+  cursor:default;
+}
+.face-sprite:hover{transform:scale(1.15);border-color:rgba(201,168,76,.5);}
+.face-label{font-size:.55rem;color:rgba(170,188,216,.4);margin-top:1px;text-align:center;}
+
+.char-quote{
+  font-size:.75rem;line-height:1.7;
+  border-top:1px solid var(--border);
+  padding-top:8px;margin-top:auto;
+  font-style:italic;
+}
+
+.char-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.7rem;font-weight:700;text-decoration:none;
+  padding:6px 14px;border-radius:999px;
+  border:1px solid;align-self:center;
+  transition:background .2s,transform .15s;
+  margin-top:auto;
+}
+.char-link:hover{transform:translateY(-1px);}
+
+/* キャラ固有カラー */
+.c-luna{border-color:rgba(156,114,224,.25);}
+.c-luna:hover{border-color:rgba(156,114,224,.5);}
+.c-luna .char-name{color:#c4a0f8;}
+.c-luna .char-role-badge{background:rgba(156,114,224,.15);color:#c4a0f8;border:1px solid rgba(156,114,224,.3);}
+.c-luna .char-quote{color:#b09be0;}
+.c-luna .char-link{color:#c4a0f8;border-color:rgba(156,114,224,.35);}
+.c-luna .char-link:hover{background:rgba(156,114,224,.1);}
+
+.c-kaito{border-color:rgba(212,92,92,.22);}
+.c-kaito:hover{border-color:rgba(212,92,92,.5);}
+.c-kaito .char-name{color:#f5a0a0;}
+.c-kaito .char-role-badge{background:rgba(212,92,92,.15);color:#f5a0a0;border:1px solid rgba(212,92,92,.3);}
+.c-kaito .char-quote{color:#c09090;}
+.c-kaito .char-link{color:#f5a0a0;border-color:rgba(212,92,92,.35);}
+.c-kaito .char-link:hover{background:rgba(212,92,92,.1);}
+
+.c-sera{border-color:rgba(78,201,138,.22);}
+.c-sera:hover{border-color:rgba(78,201,138,.5);}
+.c-sera .char-name{color:#7ee8aa;}
+.c-sera .char-role-badge{background:rgba(78,201,138,.12);color:#7ee8aa;border:1px solid rgba(78,201,138,.3);}
+.c-sera .char-quote{color:#70b890;}
+.c-sera .char-link{color:#7ee8aa;border-color:rgba(78,201,138,.35);}
+.c-sera .char-link:hover{background:rgba(78,201,138,.1);}
+
+.c-pixe{border-color:rgba(160,200,100,.22);}
+.c-pixe:hover{border-color:rgba(160,200,100,.5);}
+.c-pixe .char-name{color:#b0e880;}
+.c-pixe .char-role-badge{background:rgba(160,200,100,.12);color:#b0e880;border:1px solid rgba(160,200,100,.3);}
+.c-pixe .char-quote{color:#90b870;}
+.c-pixe .char-link{color:#b0e880;border-color:rgba(160,200,100,.35);}
+.c-pixe .char-link:hover{background:rgba(160,200,100,.1);}
+
+/* ========== GROW ステップ ========== */
+.grow{padding:100px 0;}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  margin-top:0;
+  position:relative;
+}
+.steps::before{
+  content:'';
+  position:absolute;
+  top:44px;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,var(--border),var(--gold),var(--border));
+}
+.step{
+  text-align:center;padding:0 16px 32px;
+  position:relative;z-index:1;
+}
+.step-dot{
+  width:44px;height:44px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.95rem;
+  margin:0 auto 20px;
+  position:relative;z-index:2;
+  box-shadow:0 0 0 4px var(--bg);
+}
+.step-dot-1{background:linear-gradient(135deg,#c9a84c,#a07830);color:#0a0c14;}
+.step-dot-2{background:linear-gradient(135deg,#6090d8,#4060a8);color:#fff;}
+.step-dot-3{background:linear-gradient(135deg,#4ec98a,#2a9060);color:#0a0c14;}
+.step-dot-4{background:linear-gradient(135deg,#9c72e0,#6844b0);color:#fff;}
+.step-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:.92rem;font-weight:700;
+  color:var(--white);margin-bottom:8px;
+}
+.step-desc{font-size:.8rem;color:var(--muted);line-height:1.7;}
+
+/* ========== 研究者メッセージ ========== */
+.message{
+  padding:100px 0;
+  background:var(--bg2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.message-inner{
+  max-width:800px;margin:0 auto;padding:0 32px;
+  display:grid;grid-template-columns:1fr 2fr;gap:48px;
+  align-items:center;
+}
+.message-char{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.message-char img{
+  width:100%;max-width:200px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  filter:drop-shadow(0 8px 24px rgba(156,114,224,.2));
+}
+.message-name{
+  font-family:'Noto Serif JP',serif;
+  font-size:.82rem;font-weight:700;
+  color:var(--gold);text-align:center;
+  padding:6px 16px;
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:99px;
+}
+.bubble-box{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px 32px;
+  position:relative;
+}
+.bubble-box::before{
+  content:'';
+  position:absolute;left:-13px;top:32px;
+  border:13px solid transparent;
+  border-right-color:var(--border);border-left:0;
+}
+.bubble-box::after{
+  content:'';
+  position:absolute;left:-11px;top:34px;
+  border:11px solid transparent;
+  border-right-color:var(--panel);border-left:0;
+}
+.bubble-text{
+  font-size:.88rem;line-height:2;
+  color:var(--silver);margin-bottom:18px;
+}
+.bubble-text strong{color:var(--gold2);}
+.profile-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.3);
+  color:var(--gold);
+  font-size:.78rem;font-weight:700;
+  padding:7px 18px;border-radius:99px;
+}
+
+/* ========== CTA ========== */
+.cta{
+  padding:100px 0;
+  text-align:center;
+}
+.cta-pixe{
+  display:flex;justify-content:center;margin-bottom:8px;
+}
+.cta-pixe img{
+  width:120px;
+  animation:float 3s ease-in-out infinite;
+  filter:drop-shadow(0 8px 20px rgba(78,201,138,.2));
+}
+.cta-bubble{
+  display:inline-block;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px 22px;
+  font-size:.88rem;font-weight:700;
+  color:var(--silver);
+  margin-bottom:8px;
+}
+.cta-arrow{
+  font-size:1.2rem;color:var(--border);
+  display:block;text-align:center;margin-bottom:32px;
+}
+.cta-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:900;
+  color:var(--white);
+  margin-bottom:16px;
+  line-height:1.4;
+}
+.cta-title .accent{
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.cta-desc{
+  font-size:.92rem;color:var(--muted);
+  line-height:2;margin-bottom:40px;
+}
+.cta-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+
+/* 免責 */
+.warning{
+  max-width:640px;margin:48px auto 0;padding:0 32px;
+}
+.warning-box{
+  background:rgba(255,200,100,.05);
+  border:1px solid rgba(255,200,100,.2);
+  border-radius:12px;
+  padding:18px 22px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.warning-icon{font-size:1.2rem;flex-shrink:0;color:#f0c060;}
+.warning-text{font-size:.78rem;line-height:1.8;color:#c0a060;}
+.warning-text strong{color:#f0d080;}
+
+/* ========== FOOTER ========== */
+footer{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:48px 32px 32px;
+  text-align:center;
+}
+.footer-logo{
+  font-family:'Noto Serif JP',serif;
+  font-size:1.1rem;font-weight:900;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:8px;
+}
+.footer-links{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:6px;
+  margin:16px 0;
+}
+.footer-links a{
+  color:var(--muted);text-decoration:none;
+  font-size:.78rem;padding:4px 12px;
+  border-radius:99px;transition:color .2s;
+}
+.footer-links a:hover{color:var(--gold);}
+.footer-note{font-size:.72rem;color:var(--muted);line-height:2;}
+
+/* ========== REVEAL ========== */
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to  {opacity:1;transform:translateY(0);}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%    {transform:translateY(-12px);}
+}
+@keyframes bounce{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%    {transform:translateX(-50%) translateY(6px);}
+}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:900px){
+  #navbar{padding:0 20px;}
+  .nav-links{display:none;}
+  #menu-btn{display:block;}
+  .hero{
+    grid-template-columns:1fr;
+    padding:90px 24px 48px;
+    min-height:auto;
+    text-align:center;
+  }
+  .hero-image{order:-1;}
+  .hero-image img{width:min(300px,80%);}
+  .hero-buttons{justify-content:center;}
+  .hero-copy{margin:0 auto 28px;}
+  .trials-grid{grid-template-columns:1fr;}
+  .chars-grid{grid-template-columns:1fr 1fr;}
+  .steps{grid-template-columns:1fr 1fr;gap:24px;}
+  .steps::before{display:none;}
+  .message-inner{grid-template-columns:1fr;text-align:center;}
+  .message-char img{max-width:160px;}
+  .bubble-box::before,.bubble-box::after{display:none;}
+  .section-inner{padding:0 20px;}
+}
+@media(max-width:540px){
+  .chars-grid{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr;}
+  .cta-btns{flex-direction:column;align-items:center;}
+}
+</style>
 </head>
-<body class="bg-white text-gray-800 overflow-x-hidden">
+<body>
 
-<!-- ========================================
-     ナビゲーション
-     ======================================== -->
-<nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-6xl mx-auto px-5 py-2 flex items-center justify-between">
-
-        <!-- ロゴ -->
-        <a href="#hero" class="flex items-center gap-2 no-underline">
-            <img src="./image/11.png" alt="はぱぱん" class="w-10 h-10 object-contain char-float img-multiply">
-            <span class="text-green-600 font-black text-lg leading-tight">
-                小児がん<br><span class="text-sm font-bold">サポートAIコーチ</span>
-            </span>
-        </a>
-
-        <!-- PC ナビ -->
-        <div class="hidden md:flex items-center gap-7">
-            <a href="#about"     class="nav-link">小児がんとは？</a>
-            <a href="#service"   class="nav-link">サービス紹介</a>
-            <a href="#steps"     class="nav-link">使い方</a>
-            <a href="#characters" class="nav-link">キャラクター</a>
-            <a href="./research.html" class="nav-link">研究情報</a>
-            <a href="./ai-coach/index.html" class="btn-primary" style="padding:9px 26px; font-size:0.88rem;">
-                ログイン →
-            </a>
-        </div>
-
-        <!-- ハンバーガー -->
-        <button id="menu-open" class="md:hidden text-green-600 text-2xl font-bold">☰</button>
+<!-- ========== NAV ========== -->
+<nav id="navbar">
+  <a href="#" class="logo">
+    <div class="logo-icon">✦</div>
+    <div>
+      <span class="logo-text">ヴィタリア転生録</span>
+      <span class="logo-sub">小児がん経験者のための健康クエスト</span>
     </div>
-
-    <!-- モバイルメニュー -->
-    <div id="mobile-menu">
-        <div class="flex flex-col items-center py-5 gap-4 text-base">
-            <a href="#about"      class="nav-link" onclick="closeMobileMenu()">小児がんとは？</a>
-            <a href="#service"    class="nav-link" onclick="closeMobileMenu()">サービス紹介</a>
-            <a href="#steps"      class="nav-link" onclick="closeMobileMenu()">使い方</a>
-            <a href="#characters" class="nav-link" onclick="closeMobileMenu()">キャラクター</a>
-            <a href="./research.html" class="nav-link" onclick="closeMobileMenu()">研究情報</a>
-            <a href="./ai-coach/index.html" class="btn-primary" style="font-size:0.9rem; padding:11px 32px;">
-                ログイン →
-            </a>
-        </div>
-    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#trials">3つの試練</a>
+    <a href="#characters">仲間たち</a>
+    <a href="#grow">冒険の手引き</a>
+    <a href="./research.html">研究について</a>
+    <a href="./quest.html">健康クエスト</a>
+    <a href="./ai-coach/index.html" class="btn-nav">ギルドに入る →</a>
+  </div>
+  <button id="menu-btn">☰</button>
 </nav>
 
+<div id="mobile-menu">
+  <a href="#trials"          onclick="closeMobile()">3つの試練</a>
+  <a href="#characters"      onclick="closeMobile()">仲間たち</a>
+  <a href="#grow"            onclick="closeMobile()">冒険の手引き</a>
+  <a href="./research.html"  onclick="closeMobile()">研究について</a>
+  <a href="./ai-coach/index.html" style="border-color:var(--gold);color:var(--gold);" onclick="closeMobile()">ギルドに入る →</a>
+</div>
 
-<!-- ========================================
-     ヒーロー
-     ======================================== -->
-<section id="hero" class="hero-bg min-h-screen flex flex-col justify-center pt-20 pb-16 px-5">
-    <div class="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center gap-10 md:gap-6">
 
-        <!-- テキスト -->
-        <div class="md:w-1/2 text-center md:text-left fade-in-up">
-            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-3">Pediatric Cancer Support AI Coach</p>
-            <h1 class="text-3xl md:text-5xl font-black text-gray-800 leading-snug mb-5">
-                あなたの<br>
-                <span class="text-green-500">&ldquo;これから&rdquo;</span>を、<br>
-                一緒に考えよう。
-            </h1>
-            <p class="text-gray-600 text-base md:text-lg leading-relaxed mb-8">
-                小児がん経験者のためのAIサポートコーチング。<br>
-                <strong class="text-green-700">健康ケン・貢献コウ・はぱぱん</strong>が、<br>
-                あなたの歩みに寄り添います。
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href="./ai-coach/index.html" class="btn-primary pulse-btn">
-                    🌱 無料で始める →
-                </a>
-                <a href="#about" class="btn-outline">もっと詳しく</a>
-            </div>
-            <p class="text-gray-400 text-xs mt-4">登録無料 ・ いつでも退会可能 ・ 医療診断は行いません</p>
-        </div>
-
-        <!-- キャラクターグループ -->
-        <div class="md:w-1/2 flex flex-col items-center">
-            <div class="char-float">
-                <img
-                    src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png"
-                    alt="健康ケン・貢献コウ・はぱぱん"
-                    class="w-80 md:w-[420px] object-contain"
-                    style="filter: drop-shadow(0 10px 28px rgba(34,197,94,0.22));"
-                >
-            </div>
-            <div class="flex gap-3 mt-4 flex-wrap justify-center">
-                <span class="nameplate nameplate-kou">貢献コウ</span>
-                <span class="nameplate nameplate-hapa">はぱぱん</span>
-                <span class="nameplate nameplate-ken">健康ケン</span>
-            </div>
-        </div>
+<!-- ========== HERO ========== -->
+<section class="hero" id="top">
+  <div class="hero-text">
+    <div class="hero-badge">✦ AYA世代（18〜39歳）の小児がん経験者へ</div>
+    <p class="hero-chapter">— PROLOGUE —</p>
+    <h1 class="hero-title">
+      前世の試練を越えた<br>
+      あなたへ——<br>
+      <span class="accent">新たな冒険が始まる</span>
+    </h1>
+    <p class="hero-copy">
+      がんと戦い抜いた魂には、<strong>転生のチートスキル</strong>が宿っている。<br>
+      健康クエストをこなし、仲間とともにレベルを上げよう。<br>
+      女神ルナが、あなたの「これから」に寄り添う。
+    </p>
+    <div class="hero-buttons">
+      <a href="./ai-coach/index.html" class="btn-primary">✦ ギルドに登録する（無料）</a>
+      <a href="#trials" class="btn-ghost">冒険の詳細を見る ↓</a>
     </div>
-
-    <!-- スクロール誘導 -->
-    <div class="mt-10 flex flex-col items-center gap-1 text-gray-400 text-xs animate-bounce">
-        <span>スクロールして詳しく見る</span>
-        <span style="font-size:1.2rem;">↓</span>
-    </div>
+  </div>
+  <div class="hero-image">
+    <img src="./image/runa-2-Photoroom.png" alt="女神ルナ — AIコーチ">
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <span>↓</span>
+  </div>
 </section>
 
 
-<!-- ========================================
-     小児がんとは？
-     ======================================== -->
-<section id="about" class="about-bg py-24 px-5">
-    <div class="max-w-5xl mx-auto">
-
-        <!-- タイトル -->
-        <div class="text-center mb-14 reveal">
-            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">About</p>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-800">小児がんとは？</h2>
-            <p class="text-gray-500 mt-3 text-sm">貢献コウが、大切なことを教えてくれます。</p>
-        </div>
-
-        <!-- ブロック①：コウ＋吹き出し -->
-        <div class="flex flex-col md:flex-row items-start gap-6 mb-14">
-            <!-- コウ（ウェルカムポーズ） -->
-            <div class="flex flex-col items-center md:w-1/4 reveal self-start">
-                <div class="char-block char-float-slow">
-                    <div class="char-card"><img src="./image/2.png" alt="貢献コウ" class="w-40 md:w-48 object-contain"></div>
-                    <span class="nameplate nameplate-kou">貢献コウ</span>
-                </div>
-            </div>
-            <!-- 吹き出し群 -->
-            <div class="md:w-3/4 flex flex-col gap-5 reveal">
-                <div>
-                    <div class="bubble bubble-left" style="margin-top: 24px;">
-                        <p class="font-bold text-green-700 mb-1">📊 日本での現状</p>
-                        <p class="text-gray-700 text-sm leading-relaxed">
-                            日本では毎年<strong>約2,500人</strong>の子どもが小児がんと診断されます。
-                            医療の進歩により、現在では<strong>約80%以上</strong>が長期生存できるようになりました。
-                            「小児がん経験者」として生きるひとが増えています。
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ブロック②：右にコウ（タブレット） -->
-        <div class="flex flex-col md:flex-row-reverse items-start gap-6 mb-14">
-            <!-- コウ（タブレット） -->
-            <div class="flex flex-col items-center md:w-1/4 reveal self-start">
-                <div class="char-block char-float">
-                    <div class="char-card"><img src="./image/3.png" alt="貢献コウ タブレット" class="w-40 md:w-48 object-contain"></div>
-                    <span class="nameplate nameplate-kou">貢献コウ</span>
-                </div>
-            </div>
-            <!-- 吹き出し -->
-            <div class="md:w-3/4 reveal">
-                <div>
-                    <div class="bubble bubble-right" style="margin-top: 24px;">
-                        <p class="font-bold text-green-700 mb-1">😔 経験者が抱える課題</p>
-                        <p class="text-gray-700 text-sm leading-relaxed">
-                            治療が終わっても、就職・人間関係・後遺症など多くの壁があります。
-                            「誰に話せばいい？」「将来どう生きればいい？」—そんな孤独を感じているひとが少なくありません。
-                            あなたの声に、真剣に向き合いたいと思っています。
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ブロック③：コウ（癒しポーズ） -->
-        <div class="flex flex-col md:flex-row items-start gap-6 mb-14">
-            <div class="flex flex-col items-center md:w-1/4 reveal self-start">
-                <div class="char-block char-float-slow">
-                    <div class="char-card"><img src="./image/4.png" alt="貢献コウ 休憩" class="w-40 md:w-48 object-contain"></div>
-                    <span class="nameplate nameplate-kou">貢献コウ</span>
-                </div>
-            </div>
-            <div class="md:w-3/4 reveal">
-                <div>
-                    <div class="bubble bubble-left" style="margin-top: 24px;">
-                        <p class="font-bold text-green-700 mb-1">💡 このサービスが生まれた理由</p>
-                        <p class="text-gray-700 text-sm leading-relaxed">
-                            小児がん経験者が「次の一歩」を踏み出せるよう、
-                            AIコーチングという新しい形でサポートする場を作りました。
-                            批判なし・受容ありの、安心できる対話空間です。
-                            はぱぱんと一緒に、ゆっくり休みながら話しましょう。
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 統計カード -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
-            <div class="bg-white rounded-2xl p-5 text-center shadow">
-                <p class="text-3xl font-black text-green-500">2,500<span class="text-base">人</span></p>
-                <p class="text-gray-400 text-xs mt-1">年間新規患者数</p>
-            </div>
-            <div class="bg-white rounded-2xl p-5 text-center shadow">
-                <p class="text-3xl font-black text-green-500">80<span class="text-base">%+</span></p>
-                <p class="text-gray-400 text-xs mt-1">長期生存率</p>
-            </div>
-            <div class="bg-white rounded-2xl p-5 text-center shadow">
-                <p class="text-3xl font-black text-green-500">24<span class="text-base">時間</span></p>
-                <p class="text-gray-400 text-xs mt-1">いつでもサポート</p>
-            </div>
-            <div class="bg-white rounded-2xl p-5 text-center shadow">
-                <p class="text-3xl font-black text-green-500">0<span class="text-base">円</span></p>
-                <p class="text-gray-400 text-xs mt-1">無料で利用開始</p>
-            </div>
-        </div>
-    </div>
+<!-- ========== PROLOGUE ========== -->
+<section class="prologue">
+  <div class="prologue-inner">
+    <p class="prologue-quote">
+      「あなたは長く続いた試練——<em>前世での死闘</em>——の果てに、<br>
+      ヴィタリアの地へと転生した。<br><br>
+      しかし胸の奥に、微かな痛みが残っている。<br>
+      <em>これが、前世の呪いか……</em><br><br>
+      そのとき、銀髪の女神が現れた。<br>
+      『あなたの強さは本物。<br>
+      でもその呪いは、自らの手で解かなければならない。<br>
+      ——一緒に始めましょう』」
+    </p>
+    <div class="prologue-divider"></div>
+    <p class="prologue-note">
+      小児がんを経験した皆さんの「晩期合併症リスク」を、<br>
+      健康習慣クエストをとおして一緒に乗り越えるプログラムです。<br>
+      運動・栄養・AIコーチング——3つのクエストがあなたを待っています。
+    </p>
+  </div>
 </section>
 
 
-<!-- ========================================
-     サービス・特徴
-     ======================================== -->
-<section id="service" class="service-bg py-24 px-5">
-    <div class="max-w-5xl mx-auto">
-
-        <!-- タイトル -->
-        <div class="text-center mb-14 reveal">
-            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">Service</p>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-800">サービスの特徴</h2>
-            <p class="text-gray-500 mt-3 text-sm">健康ケンが、4つのポイントを紹介します。</p>
-        </div>
-
-        <!-- ケン（案内） + 吹き出し -->
-        <div class="flex flex-col-reverse md:flex-row items-start gap-6 mb-14">
-            <div class="md:w-3/4 reveal">
-                <div>
-                    <div class="bubble bubble-right" style="margin-top: 24px;">
-                        <p class="text-gray-700 text-sm leading-relaxed">
-                            どうも、健康ケンです！このサービスの特徴を説明しますね。
-                            GROWモデルという方法で、あなたの目標を一緒に整理しましょう。
-                            難しく考えなくて大丈夫です、気軽に始めてみてください！
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col items-center md:w-1/4 reveal self-start">
-                <div class="char-block char-float">
-                    <img src="./image/6.png" alt="健康ケン" class="w-44 md:w-52 object-contain">
-                    <span class="nameplate nameplate-ken">健康ケン</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 特徴カード 2×2 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
-            <div class="feature-card p-7 reveal">
-                <div class="text-4xl mb-4">🤖</div>
-                <h3 class="text-lg font-black text-gray-800 mb-2">AIコーチとの対話</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    GROWモデル（目標・現状・選択肢・意思）に基づいた構造化された対話で、
-                    あなたの「次の一歩」を明確にします。
-                    いつでも、何度でも気軽に話せます。
-                </p>
-            </div>
-            <div class="feature-card p-7 reveal">
-                <div class="text-4xl mb-4">🔒</div>
-                <h3 class="text-lg font-black text-gray-800 mb-2">プライバシー保護</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    Googleのセキュリティ技術（Firebase）によるメール認証で、
-                    あなたのデータを安全に守ります。
-                    ログイン後のみアクセス可能な設計です。
-                </p>
-            </div>
-            <div class="feature-card p-7 reveal">
-                <div class="text-4xl mb-4">💚</div>
-                <h3 class="text-lg font-black text-gray-800 mb-2">批判なし・ありのまま受容</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    AIコーチはあなたの言葉をジャッジしません。
-                    どんな気持ちも、どんな悩みも、
-                    そのまま受け止めて一緒に考えます。
-                </p>
-            </div>
-            <div class="feature-card p-7 reveal">
-                <div class="text-4xl mb-4">📱</div>
-                <h3 class="text-lg font-black text-gray-800 mb-2">スマホからいつでも</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    アプリのインストール不要。
-                    スマホのブラウザから24時間いつでもアクセスできます。
-                    通院中でも、自宅でも、気が向いたときに。
-                </p>
-            </div>
-        </div>
-
-        <!-- ケン（はぱぱんと指差し） -->
-        <div class="bg-white border border-gray-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 reveal" style="box-shadow: 0 4px 18px rgba(0,0,0,0.05);">
-            <div class="md:w-1/3 flex flex-col items-center">
-                <div class="char-block char-float-slow">
-                    <img src="./image/7.png" alt="健康ケン 指差し" class="w-44 md:w-52 object-contain">
-                    <span class="nameplate nameplate-ken">健康ケン</span>
-                </div>
-            </div>
-            <div class="md:w-2/3">
-                <div class="bubble bubble-left" style="margin-top: 24px; box-shadow: none; background: white;">
-                    <p class="font-bold text-green-700 mb-2">👆 ここが大事なポイント！</p>
-                    <p class="text-gray-700 text-sm leading-relaxed">
-                        このサービスはAIと話しながら、自分の気持ちや状況を整理する場所です。
-                        答えを出すのはあなた自身。でも、ひとりじゃない—そんな安心感を大切にしています。
-                        はぱぱんも、いつでも応援しているよ！
-                    </p>
-                </div>
-            </div>
-        </div>
+<!-- ========== 3つの試練 ========== -->
+<section class="trials" id="trials">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="chapter-label">Chapter 01 — THE THREE TRIALS</div>
+      <h2 class="section-title">3つの<span class="accent">健康クエスト</span></h2>
+      <p class="section-desc">カイト・セラ・ルナが、それぞれのクエストであなたをサポートする。</p>
     </div>
+    <div class="trials-grid">
+
+      <div class="trial-card reveal">
+        <div class="trial-img">
+          <img src="./image/kaito-2-Photoroom.png" alt="カイト — 運動クエスト">
+        </div>
+        <div class="trial-body">
+          <span class="trial-num">01</span>
+          <span class="trial-tag tag-red">⚔️ 運動クエスト</span>
+          <h3 class="trial-title">身体強化の試練<br>——週150分、動き続けろ</h3>
+          <p class="trial-desc">
+            「道具なし・細切れ10分でもOK！」カイトが一緒に鍛えてくれる。<br>
+            アメリカがん協会推奨の週150〜300分を、無理なく達成するためのプランをAIが提案。
+          </p>
+          <a href="./research.html#exercise" class="trial-link">クエスト詳細 →</a>
+        </div>
+      </div>
+
+      <div class="trial-card reveal" style="transition-delay:.1s">
+        <div class="trial-img">
+          <img src="./image/sera-2-Photoroom.png" alt="セラ — 栄養クエスト">
+        </div>
+        <div class="trial-body">
+          <span class="trial-num">02</span>
+          <span class="trial-tag tag-green">🌿 栄養クエスト</span>
+          <h3 class="trial-title">魔力回復の試練<br>——野菜と魚で呪いを解け</h3>
+          <p class="trial-desc">
+            セラが「食べることは魔力を補充すること」と教えてくれる。<br>
+            カラフルな野菜・魚を日々の食卓に。物価高でも続けられるコツをAIがナビゲート。
+          </p>
+          <a href="./research.html#nutrition" class="trial-link">クエスト詳細 →</a>
+        </div>
+      </div>
+
+      <div class="trial-card reveal" style="transition-delay:.2s">
+        <div class="trial-img">
+          <img src="./image/runa-2-Photoroom.png" alt="ルナ — AIコーチング">
+        </div>
+        <div class="trial-body">
+          <span class="trial-num">03</span>
+          <span class="trial-tag tag-purple">✨ 神託コーチング</span>
+          <h3 class="trial-title">心の試練<br>——ルナと「次の一歩」を見つけろ</h3>
+          <p class="trial-desc">
+            GROWモデルによる構造化対話。批判なし・評価なし。<br>
+            「現状→過去→変えたい行動→目標」の4ステップで、あなただけの答えを見つける。
+          </p>
+          <a href="./ai-coach/index.html" class="trial-link">コーチングを始める →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
 
-<!-- ========================================
-     使い方・ステップ
-     ======================================== -->
-<section id="steps" class="about-bg py-24 px-5">
-    <div class="max-w-5xl mx-auto">
-
-        <!-- タイトル -->
-        <div class="text-center mb-14 reveal">
-            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">How to Use</p>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-800">対話の4ステップ</h2>
-            <p class="text-gray-500 mt-3 text-sm">はぱぱんと一緒に、GROWモデルで進みましょう。</p>
-        </div>
-
-        <div class="flex flex-col md:flex-row items-start gap-10">
-            <!-- ケン（ステップ図） -->
-            <div class="md:w-1/3 flex flex-col items-center reveal self-start">
-                <div class="char-block char-bounce">
-                    <div class="char-card"><img src="./image/8.png" alt="はぱぱん ステップ" class="w-48 md:w-56 object-contain"></div>
-                    <span class="nameplate nameplate-ken">健康ケン</span>
-                </div>
-            </div>
-
-            <!-- ステップリスト -->
-            <div class="md:w-2/3 flex flex-col gap-5">
-                <div class="flex items-start gap-4 reveal">
-                    <div class="min-w-12 h-12 rounded-full bg-green-500 text-white font-black text-lg flex items-center justify-center shadow">1</div>
-                    <div class="feature-card p-4 flex-1">
-                        <p class="font-black text-gray-800 mb-1">現在の状況を共有する</p>
-                        <p class="text-gray-600 text-sm leading-relaxed">今、どんな気持ちですか？どんなことで困っていますか？ありのままを話してください。</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4 reveal">
-                    <div class="min-w-12 h-12 rounded-full bg-green-400 text-white font-black text-lg flex items-center justify-center shadow">2</div>
-                    <div class="feature-card p-4 flex-1">
-                        <p class="font-black text-gray-800 mb-1">過去の経験・対処を振り返る</p>
-                        <p class="text-gray-600 text-sm leading-relaxed">過去に乗り越えてきたことを一緒に振り返ります。あなたには必ず強みがあります。</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4 reveal">
-                    <div class="min-w-12 h-12 rounded-full bg-emerald-400 text-white font-black text-lg flex items-center justify-center shadow">3</div>
-                    <div class="feature-card p-4 flex-1">
-                        <p class="font-black text-gray-800 mb-1">変えたい「行動」を見つける</p>
-                        <p class="text-gray-600 text-sm leading-relaxed">小さな一歩でいい。変えたいこと、やってみたいことを一緒に探します。</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4 reveal">
-                    <div class="min-w-12 h-12 rounded-full bg-teal-400 text-white font-black text-lg flex items-center justify-center shadow">4</div>
-                    <div class="feature-card p-4 flex-1">
-                        <p class="font-black text-gray-800 mb-1">未来の目標（GROW）を立てる</p>
-                        <p class="text-gray-600 text-sm leading-relaxed">具体的な目標と行動計画を一緒に立てます。あなたのペースで、着実に前へ。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ケン（成長の木） -->
-        <div class="mt-14 flex flex-col md:flex-row items-center gap-8 bg-white rounded-3xl p-8 shadow reveal">
-            <div class="md:w-1/4 flex flex-col items-center">
-                <div class="char-block char-float">
-                    <img src="./image/10.png" alt="健康ケン 成長の木" class="w-44 md:w-52 object-contain">
-                    <span class="nameplate nameplate-ken">健康ケン</span>
-                </div>
-            </div>
-            <div class="md:w-3/4 text-center md:text-left">
-                <h3 class="text-xl font-black text-gray-800 mb-3">🌳 あなたの「成長の木」を育てよう</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    一つひとつの対話が、あなたの成長につながります。
-                    健康ケンとはぱぱんが、あなたの木が大きく育つのをずっと見守っています。
-                    焦らなくていい。一歩ずつ、確実に。
-                </p>
-            </div>
-        </div>
+<!-- ========== キャラクター ========== -->
+<section class="characters" id="characters">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="chapter-label">Chapter 02 — THE COMPANIONS</div>
+      <h2 class="section-title">あなたの<span class="accent">仲間たち</span></h2>
+      <p class="section-desc">4人の仲間が、それぞれの役割でそばにいる。</p>
     </div>
+    <div class="chars-grid">
+
+      <!-- ルナ -->
+      <div class="char-card c-luna reveal">
+        <div class="char-img">
+          <img src="./image/runa-2-Photoroom.png" alt="ルナ">
+        </div>
+        <div class="char-body">
+          <div class="char-name">
+            ルナ
+            <span class="char-name-en">LUNA — The Moon Sage</span>
+          </div>
+          <div class="char-role-badge">転生案内の女神 ／ AIコーチ</div>
+          <div class="char-tags">
+            <span class="char-tag">知的</span>
+            <span class="char-tag">温かい</span>
+            <span class="char-tag">神秘的</span>
+            <span class="char-tag">傾聴上手</span>
+          </div>
+          <p class="char-desc">
+            ヴィタリアの月光を統べる賢者。転生した者を最初に迎える案内役として、AIコーチとして対話相手を務める。批判せず、ありのままを受け止め、あなた自身が答えを見つけるまで寄り添う。
+          </p>
+          <div class="char-faces">
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/runa-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-label">通常</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/runa-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-label">わくわく</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/runa-1-Photoroom.png');background-size:200% 300%;background-position:0% 50%;"></div>
+              <div class="face-label">思案中</div>
+            </div>
+          </div>
+          <div class="char-quote">「あなたの前世の勇気は、ここでも確かに輝いています」</div>
+          <a href="./ai-coach/index.html" class="char-link">✦ コーチングを受ける →</a>
+        </div>
+      </div>
+
+      <!-- カイト -->
+      <div class="char-card c-kaito reveal" style="transition-delay:.1s">
+        <div class="char-img">
+          <img src="./image/kaito-2-Photoroom.png" alt="カイト">
+        </div>
+        <div class="char-body">
+          <div class="char-name">
+            カイト
+            <span class="char-name-en">KAITO — The Young Knight</span>
+          </div>
+          <div class="char-role-badge">剣士 ／ 運動クエスト担当</div>
+          <div class="char-tags">
+            <span class="char-tag">熱血</span>
+            <span class="char-tag">正直</span>
+            <span class="char-tag">頑張り屋</span>
+            <span class="char-tag">ポジティブ</span>
+          </div>
+          <p class="char-desc">
+            ヴィタリアの若き剣士。「身体強化の試練」を担当し、週の運動習慣づくりへと導く。「細切れでいい、まず動こう」という信念を持ち、無理のないペースで一緒に鍛えてくれる。
+          </p>
+          <div class="char-faces">
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/kaito-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-label">通常</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/kaito-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-label">喜び</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/kaito-1-Photoroom.png');background-size:200% 300%;background-position:100% 50%;"></div>
+              <div class="face-label">決意</div>
+            </div>
+          </div>
+          <div class="char-quote">「細切れでもOK！一緒に動けば、絶対強くなれる！」</div>
+          <a href="./quest.html" class="char-link">⚔ 運動クエストへ →</a>
+        </div>
+      </div>
+
+      <!-- セラ -->
+      <div class="char-card c-sera reveal" style="transition-delay:.2s">
+        <div class="char-img">
+          <img src="./image/sera-2-Photoroom.png" alt="セラ">
+        </div>
+        <div class="char-body">
+          <div class="char-name">
+            セラ
+            <span class="char-name-en">SERA — The Herbalist Mage</span>
+          </div>
+          <div class="char-role-badge">魔法使い ／ 栄養クエスト担当</div>
+          <div class="char-tags">
+            <span class="char-tag">知識豊富</span>
+            <span class="char-tag">穏やか</span>
+            <span class="char-tag">研究熱心</span>
+            <span class="char-tag">几帳面</span>
+          </div>
+          <p class="char-desc">
+            植物魔法を研究する賢者の弟子。「魔力回復の試練」として食・栄養習慣のクエストを担当。「食べることは魔法の補充」という独自理論で、楽しみながら食習慣を整えるヒントをくれる。
+          </p>
+          <div class="char-faces">
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/sera-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-label">通常</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/sera-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-label">わくわく</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/sera-1-Photoroom.png');background-size:200% 300%;background-position:0% 50%;"></div>
+              <div class="face-label">思案中</div>
+            </div>
+          </div>
+          <div class="char-quote">「食べることは魔力の補充。一緒に錬金術を学ぼう」</div>
+          <a href="./research.html#nutrition" class="char-link">🌿 栄養の試練へ →</a>
+        </div>
+      </div>
+
+      <!-- ピクセ -->
+      <div class="char-card c-pixe reveal" style="transition-delay:.3s">
+        <div class="char-img" style="background:linear-gradient(180deg,#0a1a08,var(--panel));">
+          <img src="./image/pikuse-Photoroom.png" alt="ピクセ" style="object-fit:contain;height:95%;width:auto;margin:0 auto;padding-bottom:8px;">
+        </div>
+        <div class="char-body">
+          <div class="char-name">
+            ピクセ
+            <span class="char-name-en">PIXE — The Forest Fairy</span>
+          </div>
+          <div class="char-role-badge">妖精 ／ 記録係・メンタルケア</div>
+          <div class="char-tags">
+            <span class="char-tag">元気</span>
+            <span class="char-tag">自由奔放</span>
+            <span class="char-tag">癒し系</span>
+            <span class="char-tag">記憶力抜群</span>
+          </div>
+          <p class="char-desc">
+            古代の森に住む小さな妖精。冒険の記録係として旅人に寄り添い、メンタルケアを担当する。失敗を責めない性格で、「またやってみよう」と笑顔で背中を押してくれる存在。
+          </p>
+          <div class="char-faces">
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/pikuse-1-Photoroom.png');background-size:200% 300%;background-position:0% 0%;"></div>
+              <div class="face-label">喜び</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/pikuse-1-Photoroom.png');background-size:200% 300%;background-position:100% 0%;"></div>
+              <div class="face-label">驚き</div>
+            </div>
+            <div>
+              <div class="face-sprite" style="background-image:url('./image/pikuse-1-Photoroom.png');background-size:200% 300%;background-position:0% 100%;"></div>
+              <div class="face-label">眠い</div>
+            </div>
+          </div>
+          <div class="char-quote">「ぴくっ！サボっても怒らないよ。また一緒に始めよ？」</div>
+          <a href="./quest.html" class="char-link">🌟 クエストへ →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
 
-<!-- ========================================
-     CTA（コーチを始める）
-     ======================================== -->
-<section id="coach" class="cta-bg py-24 px-5">
-    <div class="max-w-3xl mx-auto text-center">
-
-        <!-- はぱぱんジャンプ -->
-        <div class="flex flex-col items-center mb-2">
-            <div class="char-block char-bounce">
-                <div class="char-card">
-                    <img src="./image/11.png" alt="はぱぱん" class="w-32 md:w-40 object-contain">
-                </div>
-                <span class="nameplate nameplate-hapa">はぱぱん</span>
-            </div>
-        </div>
-
-        <!-- はぱぱんの吹き出し -->
-        <div class="flex justify-center mb-3">
-            <div class="bubble" style="max-width: 320px; border-radius: 20px;">
-                <p class="text-gray-700 font-bold text-sm">
-                    🌿「一歩踏み出してみよう！<br>ぼくたちがそばにいるよ！」
-                </p>
-            </div>
-        </div>
-        <!-- 三角 -->
-        <div class="flex justify-center mb-8">
-            <div style="width:0; height:0; border-left:14px solid transparent; border-right:14px solid transparent; border-top:14px solid white;"></div>
-        </div>
-
-        <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">
-            AIコーチを<span class="text-green-500">始めよう</span>
-        </h2>
-        <p class="text-gray-600 text-base mb-8 leading-relaxed">
-            登録無料・いつでも退会OK。<br>
-            まずは気軽に話しかけてみてください。
-        </p>
-
-        <a href="./ai-coach/index.html" class="btn-primary pulse-btn" style="font-size:1.15rem; padding:16px 52px;">
-            🌱 AIコーチを始める
-        </a>
-
-        <!-- 注意書き -->
-        <div class="mt-8 p-4 bg-white bg-opacity-70 rounded-2xl max-w-md mx-auto text-xs text-gray-500 leading-relaxed">
-            ⚠️ <strong>医療的なご相談について</strong><br>
-            このAIは医療診断を行いません。新しい症状が2週間以上続く場合や
-            強い痛みがある場合は、主治医にご相談ください。
-        </div>
+<!-- ========== GROW ステップ ========== -->
+<section class="grow" id="grow">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="chapter-label">Chapter 03 — THE FOUR TRIALS</div>
+      <h2 class="section-title">勇者の試練<span class="accent">4つの問い</span></h2>
+      <p class="section-desc">GROWモデルをもとにした、AIコーチとの対話の流れ。</p>
     </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-dot step-dot-1">1</div>
+        <div class="step-title">現在の状況を語れ</div>
+        <p class="step-desc">今、どんな気持ちですか？どんなことで困っていますか？ありのままを話してください。</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.1s">
+        <div class="step-dot step-dot-2">2</div>
+        <div class="step-title">前世の記憶を辿れ</div>
+        <p class="step-desc">過去に乗り越えてきたことを振り返る。あなたには必ず強みがある。</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.2s">
+        <div class="step-dot step-dot-3">3</div>
+        <div class="step-title">変えたい行動を選べ</div>
+        <p class="step-desc">小さな一歩でいい。「本当はこうしたい」という気持ちを大切に、具体的な行動を探す。</p>
+      </div>
+      <div class="step reveal" style="transition-delay:.3s">
+        <div class="step-dot step-dot-4">4</div>
+        <div class="step-title">目標（GROW）を立てろ</div>
+        <p class="step-desc">現実的で、あなたらしい小さな目標を設定。完璧でなくていい。一歩ずつ、確実に。</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 
-<!-- ========================================
-     キャラクター紹介
-     ======================================== -->
-<section id="characters" class="bg-white py-24 px-5">
-    <div class="max-w-5xl mx-auto">
-
-        <div class="text-center mb-14 reveal">
-            <p class="text-green-500 font-bold text-xs tracking-widest uppercase mb-2">Characters</p>
-            <h2 class="text-3xl md:text-4xl font-black text-gray-800">3人のサポーター</h2>
-            <p class="text-gray-500 mt-3 text-sm">あなたを支える、頼れる仲間たちです。</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-
-            <!-- 健康ケン -->
-            <div class="text-center reveal">
-                <div class="flex justify-center mb-4">
-                    <img src="./image/6.png" alt="健康ケン" class="w-40 object-contain char-float img-multiply">
-                </div>
-                <h3 class="text-xl font-black text-gray-800 mb-1">健康ケン</h3>
-                <p class="text-green-600 font-bold text-sm mb-3">👨‍🍳 あなたの「次の一歩」を応援</p>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    「焦らなくていい、一緒に考えよう」が口ぐせ。
-                    難しいことをわかりやすく伝えるのが得意で、
-                    あなたのペースに合わせてそっとサポートしてくれます。
-                </p>
-            </div>
-
-            <!-- 貢献コウ -->
-            <div class="text-center reveal">
-                <div class="flex justify-center mb-4">
-                    <img src="./image/1.png" alt="貢献コウ" class="w-40 object-contain char-float-slow img-multiply">
-                </div>
-                <h3 class="text-xl font-black text-gray-800 mb-1">貢献コウ</h3>
-                <p class="text-pink-500 font-bold text-sm mb-3">👩‍🍳 あなたの気持ちに寄り添う</p>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    「話してくれてありがとう」と、いつも受け止めてくれる存在。
-                    どんな不安も、悩みも、評価せず聞いてくれます。
-                    ひとりじゃないと感じさせてくれる、心強い仲間です。
-                </p>
-            </div>
-
-            <!-- はぱぱん -->
-            <div class="text-center reveal">
-                <div class="flex justify-center mb-4">
-                    <img src="./image/11.png" alt="はぱぱん" class="w-40 object-contain char-bounce img-multiply">
-                </div>
-                <h3 class="text-xl font-black text-gray-800 mb-1">はぱぱん</h3>
-                <p class="text-emerald-600 font-bold text-sm mb-3">🌿 いつもそばにいる相棒</p>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    「大丈夫、一緒にいるよ！」が口ぐせの元気いっぱいな相棒。
-                    つらい日も、うまくいかない日も、
-                    ずっとそばで明るく照らし続けてくれます。
-                </p>
-            </div>
-        </div>
-
-        <!-- 3キャラ締めカット -->
-        <div class="mt-16 bg-white border border-gray-100 rounded-3xl p-8 flex flex-col items-center gap-6 reveal" style="box-shadow: 0 4px 18px rgba(0,0,0,0.05);">
-            <img src="./image/Gemini_Generated_Image_yc312wyc312wyc31-Photoroom.png"
-                 alt="健康ケン・貢献コウ・はぱぱん"
-                 class="w-72 md:w-96 object-contain char-float"
-                 style="filter: drop-shadow(0 6px 18px rgba(34,197,94,0.18));">
-            <div class="text-center max-w-xl">
-                <h3 class="text-xl font-black text-gray-800 mb-3">🥦 あなたが「自分らしく」生きるために</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">
-                    治療を頑張ってきたあなたには、これからの人生を自分らしく歩む権利があります。
-                    健康ケン・貢献コウ・はぱぱんは、そのために作られた仲間たちです。
-                    <strong>「何をすればいいかわからない」「誰かに話を聞いてほしい」</strong>—
-                    そんな気持ちで来てくれるだけで、十分です。
-                </p>
-            </div>
-        </div>
+<!-- ========== 研究者メッセージ ========== -->
+<section class="message" id="research">
+  <div class="message-inner">
+    <div class="message-char reveal">
+      <img src="./image/runa-2-Photoroom.png" alt="ルナ">
+      <div class="message-name">🎓 研究者からのメッセージ</div>
     </div>
+    <div class="bubble-box reveal" style="transition-delay:.1s">
+      <p class="bubble-text">
+        私が小児がんの研究を始めたきっかけは、大学院時代に<strong>息子が小児がんになった</strong>ことです。
+        看護師・大学院生・親として、治療後も就職問題や晩期合併症に悩む当事者を見てきました。
+      </p>
+      <p class="bubble-text">
+        そして私には、もうひとつの顔があります。<br>
+        じつは、<strong>異世界転生漫画が大好き</strong>（笑）。
+        小児がんを経験した皆さんに、まるで<strong>漫画の主人公のように</strong>、
+        自分らしい物語を歩んでほしい。
+        ゲームを楽しむように、無理なく健康習慣を手に入れてほしい。
+        その願いを込めて、このサイトをつくりました。
+      </p>
+      <p class="bubble-text">
+        ルナ・カイト・セラ・ピクセたちと一緒に、
+        あなただけの冒険を始めてください。
+      </p>
+      <div class="profile-badge">
+        🎓 福井 郁子 ／ 大学看護教員 ／ 研究代表者
+      </div>
+    </div>
+  </div>
 </section>
 
 
-<!-- ========================================
-     フッター
-     ======================================== -->
-<footer class="bg-gray-800 text-white py-12 px-5">
-    <div class="max-w-5xl mx-auto">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-
-            <!-- ロゴ -->
-            <div class="text-center md:text-left">
-                <div class="flex items-center gap-2 justify-center md:justify-start mb-2">
-                    <img src="./image/11.png" alt="はぱぱん" class="w-8 h-8 object-contain img-multiply" style="filter: brightness(1.2);">
-                    <p class="text-xl font-black text-green-400">小児がん サポートAIコーチ</p>
-                </div>
-                <p class="text-gray-400 text-sm">小児がん経験者のための、安心できる対話の場</p>
-            </div>
-
-            <!-- 3キャラ -->
-            <div class="flex items-end gap-1">
-                <img src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png"
-                     alt="3キャラクター"
-                     class="h-20 object-contain"
-                     style="opacity: 0.85;">
-            </div>
-
-            <!-- リンク -->
-            <div class="flex flex-col items-center md:items-end gap-2 text-sm text-gray-400">
-                <a href="#about"      class="hover:text-green-400 transition-colors no-underline">小児がんとは？</a>
-                <a href="#service"    class="hover:text-green-400 transition-colors no-underline">サービス紹介</a>
-                <a href="#steps"      class="hover:text-green-400 transition-colors no-underline">使い方</a>
-                <a href="#characters" class="hover:text-green-400 transition-colors no-underline">キャラクター</a>
-                <a href="./ai-coach/index.html" class="hover:text-green-400 transition-colors no-underline">AIコーチを始める →</a>
-            </div>
-        </div>
-
-        <div class="border-t border-gray-700 pt-6 text-center text-gray-500 text-xs">
-            <p>⚠️ このサービスはAIによるコーチングです。医療診断・治療は行いません。</p>
-            <p class="mt-2">&copy; 2025 小児がん サポートAIコーチ. All rights reserved.</p>
-        </div>
+<!-- ========== CTA ========== -->
+<section class="cta" id="cta">
+  <div class="section-inner">
+    <div class="cta-pixe">
+      <img src="./image/pikuse-Photoroom.png" alt="ピクセ">
     </div>
+    <div class="cta-bubble">「ぴくっ！待ってたよ！一緒に冒険しよ！」</div>
+    <span class="cta-arrow">▼</span>
+    <h2 class="cta-title reveal">
+      あなたの<span class="accent">冒険</span>を、<br>今日から始めよう。
+    </h2>
+    <p class="cta-desc reveal">
+      登録無料・いつでも退会OK。<br>
+      ルナ・カイト・セラ・ピクセがあなたを待っている。
+    </p>
+    <div class="cta-btns reveal">
+      <a href="./ai-coach/index.html" class="btn-primary">✦ ギルドに登録する（無料）</a>
+      <a href="./research.html" class="btn-ghost">📖 研究の詳細を見る</a>
+    </div>
+  </div>
+  <div class="warning">
+    <div class="warning-box">
+      <span class="warning-icon">⚠️</span>
+      <p class="warning-text">
+        <strong>医療的なご相談について：</strong>
+        このAIは診断・治療を行うことはできません。新しい症状が2週間以上続く場合や強い痛みがある場合は、必ず主治医にご相談ください。緊急時は救急（119番）または救急安心センター（#7119）にご連絡ください。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-logo">✦ ヴィタリア転生録</div>
+  <p style="color:var(--muted);font-size:.8rem;margin-bottom:4px;">小児がん経験者のための健康習慣Webプログラム</p>
+  <div class="footer-links">
+    <a href="#top">トップ</a>
+    <a href="#trials">3つの試練</a>
+    <a href="#characters">仲間たち</a>
+    <a href="#grow">冒険の手引き</a>
+    <a href="./research.html">研究について</a>
+    <a href="./ai-coach/index.html">ギルドに入る</a>
+  </div>
+  <p class="footer-note">
+    研究代表者：福井 郁子（看護学・大学教員）<br>
+    ⚠️ このサービスはAIによるコーチングです。医療診断・治療は行いません。<br>
+    キャラクターはAI技術（Midjourney）により生成されています。<br>
+    © 2025 小児がん経験者サポートAIコーチ研究プロジェクト. All Rights Reserved.
+  </p>
 </footer>
 
 
-<!-- ========================================
-     JavaScript
-     ======================================== -->
 <script>
-    // ハンバーガーメニュー
-    document.getElementById('menu-open').addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.add('open');
-    });
-    function closeMobileMenu() {
-        document.getElementById('mobile-menu').classList.remove('open');
-    }
-    document.addEventListener('click', (e) => {
-        const menu = document.getElementById('mobile-menu');
-        const btn  = document.getElementById('menu-open');
-        if (!menu.contains(e.target) && e.target !== btn) {
-            menu.classList.remove('open');
-        }
-    });
+  // ハンバーガー
+  document.getElementById('menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+  function closeMobile() {
+    document.getElementById('mobile-menu').classList.remove('open');
+  }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('mobile-menu');
+    const b = document.getElementById('menu-btn');
+    if (!m.contains(e.target) && e.target !== b) m.classList.remove('open');
+  });
 
-    // スクロールでフェードイン（.reveal）
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, i * 80);
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12 });
+  // スクロールリビール
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  // ナビアクティブ
+  const sections = document.querySelectorAll('section[id]');
+  const navAs = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+    navAs.forEach(a => {
+      const active = a.getAttribute('href') === '#' + cur;
+      a.style.color = active ? 'var(--gold)' : '';
+    });
+  });
 </script>
-
+<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </body>
 </html>

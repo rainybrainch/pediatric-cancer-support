@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>栄養クエスト ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c9a84c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b14;--bg2:#0e1220;--bg3:#141929;
+  --gold:#c9a84c;--gold2:#f0d48a;
+  --silver:#aabcd8;--text:#d4dcf0;--muted:#6070a0;
+  --green:#4ec98a;--purple:#9c72e0;--red:#e05c5c;--orange:#e08a3c;
+  --blue:#5c8cd4;
+  /* 栄養ステータスカラー */
+  --hp:#e05c5c;    /* 生命力（野菜） */
+  --mp:#9c72e0;    /* 魔力（果物） */
+  --atk:#e08a3c;   /* 攻撃力（たんぱく質） */
+  --def:#4ec98a;   /* 持久力（全粒穀物） */
+  --debuff:#6070a0;/* 毒素（制限食品） */
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1px 1px at 8%  10%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25%  5%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 50% 20%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 72%  8%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 35%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 18% 50%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 65%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 93% 70%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 85%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 5%  78%,rgba(255,255,255,.6) 0%,transparent 100%);
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes logIn{from{opacity:0;transform:translateX(8px);}to{opacity:1;transform:translateX(0);}}
+@keyframes barPulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+@keyframes plusFloat{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-30px);}}
+@keyframes levelup{0%{transform:scale(1);}40%{transform:scale(1.2);}70%{transform:scale(.97);}100%{transform:scale(1);}}
+
+.gold-text{
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));
+  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;animation:shimmer 4s linear infinite;
+}
+
+/* ===== ローディング ===== */
+#loading-screen{
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:100;
+}
+#loading-screen .spin{width:44px;height:44px;border:3px solid rgba(78,201,138,.2);border-top-color:var(--green);border-radius:50%;animation:spin .9s linear infinite;}
+#loading-screen p{color:var(--green);font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.15em;}
+
+/* ===== ログイン ===== */
+#login-screen{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;}
+.login-card{
+  background:rgba(14,18,32,.96);border:1px solid rgba(78,201,138,.3);
+  border-radius:20px;box-shadow:0 0 60px rgba(78,201,138,.05),0 20px 50px rgba(0,0,0,.6);
+  padding:40px 36px;width:100%;max-width:420px;animation:fadeIn .6s ease;
+}
+.login-char{display:flex;justify-content:center;margin-bottom:20px;}
+.login-char img{width:130px;filter:drop-shadow(0 0 14px rgba(78,201,138,.25));animation:float 3.5s ease-in-out infinite;}
+.login-title{text-align:center;margin-bottom:18px;}
+.login-title h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;margin-bottom:5px;}
+.login-title .sub{color:var(--green);font-size:.7rem;letter-spacing:.2em;font-weight:700;}
+.login-title .note{color:rgba(170,188,216,.55);font-size:.72rem;margin-top:5px;}
+.sera-bubble{
+  background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.25);border-radius:10px;
+  padding:10px 14px;font-size:.8rem;color:#90e8b0;line-height:1.65;margin-bottom:20px;position:relative;
+}
+.sera-bubble::before{content:'セラ';position:absolute;top:-9px;left:12px;background:var(--bg2);padding:0 6px;font-size:.66rem;color:var(--green);font-weight:700;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:.73rem;font-weight:700;color:var(--silver);margin-bottom:5px;}
+.form-input{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(78,201,138,.22);
+  border-radius:9px;padding:11px 14px;font-size:.9rem;color:#e8e8e8;
+  font-family:'Zen Kaku Gothic New',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.form-input::placeholder{color:rgba(170,188,216,.32);}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(78,201,138,.12);}
+.btn-green{
+  width:100%;background:linear-gradient(135deg,#4ec98a,#7ee8aa,#4ec98a);background-size:200% auto;
+  color:#0a2010;border:none;border-radius:999px;padding:13px;
+  font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;letter-spacing:.1em;cursor:pointer;
+  transition:background-position .4s,transform .2s,box-shadow .2s;
+  box-shadow:0 4px 18px rgba(78,201,138,.25);
+}
+.btn-green:hover{background-position:right center;transform:translateY(-2px);box-shadow:0 8px 24px rgba(78,201,138,.35);}
+.btn-outline{
+  width:100%;background:transparent;color:var(--green);border:1px solid rgba(78,201,138,.38);
+  border-radius:999px;padding:11px;font-weight:700;font-size:.86rem;
+  font-family:'Zen Kaku Gothic New',sans-serif;cursor:pointer;transition:background .2s;
+}
+.btn-outline:hover{background:rgba(78,201,138,.07);}
+.btn-row{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
+.login-footer{text-align:center;margin-top:18px;}
+.login-footer p{font-size:.7rem;color:rgba(170,188,216,.45);line-height:1.6;}
+.login-footer a{color:var(--green);font-size:.75rem;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;}
+.login-footer a:hover{text-decoration:underline;}
+
+/* ===== メイン ===== */
+#main-screen{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
+
+.main-header{
+  background:rgba(8,11,20,.96);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(78,201,138,.15);
+  padding:9px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:40;flex-shrink:0;
+}
+.h-left{display:flex;align-items:center;gap:10px;}
+.h-left a{font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.h-pipe{color:rgba(78,201,138,.3);margin:0 4px;}
+.h-title{font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;color:#7ee8aa;}
+.h-right{display:flex;align-items:center;gap:10px;}
+#user-display{font-size:.72rem;color:rgba(170,188,216,.6);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#logout-btn{
+  font-size:.75rem;font-weight:700;color:rgba(170,188,216,.6);
+  border:1px solid rgba(170,188,216,.22);border-radius:999px;
+  padding:5px 14px;background:transparent;cursor:pointer;
+  font-family:'Zen Kaku Gothic New',sans-serif;transition:color .2s,border-color .2s;
+}
+#logout-btn:hover{color:var(--red);border-color:var(--red);}
+
+.main-content{
+  display:grid;grid-template-columns:1fr 320px;
+  gap:18px;padding:18px 20px 40px;max-width:1200px;margin:0 auto;width:100%;
+}
+
+/* ===== 左：食材ボード ===== */
+.food-board{display:flex;flex-direction:column;gap:0;}
+.board-section{margin-bottom:28px;}
+.section-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid rgba(78,201,138,.12);
+}
+.section-icon{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.section-label{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);}
+.section-note{font-size:.7rem;color:rgba(170,188,216,.5);margin-top:2px;}
+
+/* 食材カード */
+.card-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
+.food-card{
+  background:rgba(14,18,32,.85);border:1px solid;
+  border-radius:12px;padding:10px 12px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:4px;min-width:76px;
+  transition:transform .13s,background .13s,box-shadow .13s;
+  user-select:none;position:relative;
+}
+.food-card:active{transform:scale(.93);}
+.food-card .f-icon{font-size:1.8rem;line-height:1;}
+.food-card .f-name{font-size:.68rem;font-weight:700;color:var(--silver);text-align:center;line-height:1.25;}
+.food-card .f-unit{font-size:.6rem;text-align:center;}
+.food-card .f-count{
+  position:absolute;top:-7px;right:-7px;
+  min-width:20px;height:20px;border-radius:999px;
+  font-size:.68rem;font-weight:900;display:none;
+  align-items:center;justify-content:center;padding:0 4px;
+  color:#fff;
+}
+.food-card.counted .f-count{display:flex;}
+
+/* カテゴリ別スタイル */
+.fc-veg{border-color:rgba(224,92,92,.22);}
+.fc-veg:hover{border-color:rgba(224,92,92,.55);background:rgba(224,92,92,.07);box-shadow:0 4px 14px rgba(224,92,92,.1);}
+.fc-veg .f-unit{color:rgba(224,92,92,.7);}
+.fc-veg .f-count{background:var(--hp);}
+
+.fc-fruit{border-color:rgba(156,114,224,.22);}
+.fc-fruit:hover{border-color:rgba(156,114,224,.55);background:rgba(156,114,224,.07);box-shadow:0 4px 14px rgba(156,114,224,.1);}
+.fc-fruit .f-unit{color:rgba(156,114,224,.7);}
+.fc-fruit .f-count{background:var(--mp);}
+
+.fc-protein{border-color:rgba(224,138,60,.22);}
+.fc-protein:hover{border-color:rgba(224,138,60,.55);background:rgba(224,138,60,.07);box-shadow:0 4px 14px rgba(224,138,60,.1);}
+.fc-protein .f-unit{color:rgba(224,138,60,.7);}
+.fc-protein .f-count{background:var(--atk);}
+
+.fc-grain{border-color:rgba(78,201,138,.22);}
+.fc-grain:hover{border-color:rgba(78,201,138,.55);background:rgba(78,201,138,.07);box-shadow:0 4px 14px rgba(78,201,138,.1);}
+.fc-grain .f-unit{color:rgba(78,201,138,.7);}
+.fc-grain .f-count{background:var(--def);}
+
+.fc-limit{border-color:rgba(96,112,160,.22);}
+.fc-limit:hover{border-color:rgba(96,112,160,.5);background:rgba(96,112,160,.06);}
+.fc-limit .f-unit{color:rgba(96,112,160,.7);}
+.fc-limit .f-count{background:var(--debuff);}
+.fc-limit .f-icon{filter:grayscale(.4);}
+
+/* ガイドラインメモ */
+.guide-note{
+  font-size:.72rem;color:rgba(170,188,216,.45);
+  background:rgba(255,255,255,.03);border-left:2px solid rgba(78,201,138,.3);
+  padding:6px 10px;border-radius:0 6px 6px 0;margin-top:4px;line-height:1.6;
+}
+
+/* ===== 右：ステータス ===== */
+.quest-side{display:flex;flex-direction:column;gap:14px;}
+.side-panel{background:rgba(14,18,32,.9);border:1px solid rgba(78,201,138,.18);border-radius:14px;padding:16px;}
+.panel-head{font-family:'Noto Serif JP',serif;font-size:.82rem;font-weight:900;color:#7ee8aa;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+
+.week-label{font-size:.68rem;color:rgba(78,201,138,.65);letter-spacing:.1em;font-weight:700;margin-bottom:10px;}
+
+/* レベルバッジ */
+.lv-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(78,201,138,.1);border:1px solid rgba(78,201,138,.3);
+  border-radius:999px;padding:3px 12px;
+  font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;color:#7ee8aa;
+  margin-bottom:8px;
+}
+.lv-badge.anim{animation:levelup .5s ease;}
+.lv-badge .lv-n{font-size:1rem;}
+.xp-wrap{background:rgba(255,255,255,.05);border-radius:999px;height:10px;overflow:hidden;margin-bottom:4px;}
+.xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),#a0f0c0);transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 6px rgba(78,201,138,.35);}
+.xp-note{font-size:.65rem;color:rgba(170,188,216,.5);display:flex;justify-content:space-between;}
+.xp-note strong{color:var(--green);}
+
+/* 魔力ステータス */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.stat-bar-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:9px 10px;}
+.stat-bar-card .sbc-label{font-size:.62rem;font-weight:700;letter-spacing:.05em;margin-bottom:3px;display:flex;justify-content:space-between;}
+.stat-bar-card .sbc-name{opacity:.8;}
+.stat-bar-card .sbc-val{}
+.stat-bar-wrap{height:7px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin-bottom:3px;}
+.stat-bar-fill{height:100%;border-radius:999px;transition:width .5s ease;}
+.stat-bar-card .sbc-target{font-size:.58rem;color:rgba(170,188,216,.35);}
+
+.sbc-hp .sbc-label{color:var(--hp);}
+.sbc-hp .stat-bar-fill{background:linear-gradient(90deg,#a03030,var(--hp));}
+.sbc-mp .sbc-label{color:var(--mp);}
+.sbc-mp .stat-bar-fill{background:linear-gradient(90deg,#6040a0,var(--mp));}
+.sbc-atk .sbc-label{color:var(--atk);}
+.sbc-atk .stat-bar-fill{background:linear-gradient(90deg,#a05020,var(--atk));}
+.sbc-def .sbc-label{color:var(--def);}
+.sbc-def .stat-bar-fill{background:linear-gradient(90deg,#206040,var(--def));}
+
+/* 制限食品カウント */
+.debuff-block{
+  background:rgba(96,112,160,.07);border:1px solid rgba(96,112,160,.2);
+  border-radius:9px;padding:9px 12px;margin-top:8px;
+}
+.debuff-row{display:flex;justify-content:space-between;align-items:center;}
+.debuff-label{font-size:.72rem;color:rgba(96,112,160,.8);}
+.debuff-count{font-size:.9rem;font-weight:700;color:rgba(96,112,160,.9);}
+.debuff-note{font-size:.62rem;color:rgba(96,112,160,.5);margin-top:3px;}
+
+/* ログリスト */
+#log-list{list-style:none;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;}
+#log-list:empty::after{content:'食材カードをタップして記録しよう';display:block;font-size:.72rem;color:rgba(170,188,216,.3);text-align:center;padding:14px 0;}
+.log-item{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);
+  border-radius:7px;padding:6px 9px;animation:logIn .2s ease;
+}
+.li-icon{font-size:.9rem;flex-shrink:0;}
+.li-name{flex:1;font-size:.72rem;color:var(--silver);line-height:1.3;}
+.li-sub{font-size:.6rem;color:rgba(170,188,216,.45);}
+.li-xp{font-size:.68rem;font-weight:700;flex-shrink:0;}
+.li-del{background:none;border:none;cursor:pointer;color:rgba(170,188,216,.28);font-size:.75rem;padding:2px 4px;transition:color .15s;flex-shrink:0;}
+.li-del:hover{color:var(--red);}
+
+/* 保存 */
+.btn-save{
+  width:100%;background:linear-gradient(135deg,#4ec98a,#7ee8aa,#4ec98a);background-size:200% auto;
+  color:#0a2010;border:none;border-radius:10px;padding:12px;
+  font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;letter-spacing:.07em;cursor:pointer;
+  transition:background-position .3s,transform .2s,box-shadow .2s;
+  box-shadow:0 4px 18px rgba(78,201,138,.2);
+}
+.btn-save:hover{background-position:right center;transform:translateY(-2px);box-shadow:0 7px 24px rgba(78,201,138,.3);}
+.save-msg{font-size:.68rem;color:rgba(170,188,216,.5);text-align:center;margin-top:5px;}
+
+/* 過去記録 */
+.history-list{display:flex;flex-direction:column;gap:7px;}
+.hist-item{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;
+}
+.hist-week{font-size:.68rem;color:rgba(170,188,216,.5);flex-shrink:0;min-width:60px;}
+.hist-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;}
+.hist-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),#a0f0c0);}
+.hist-score{font-size:.7rem;font-weight:700;color:var(--green);flex-shrink:0;}
+.hist-empty{font-size:.72rem;color:rgba(170,188,216,.3);text-align:center;padding:8px 0;}
+
+/* +1 フロートアニメ */
+.plus-float{
+  position:fixed;font-size:.8rem;font-weight:900;pointer-events:none;z-index:999;
+  animation:plusFloat .8s ease forwards;
+}
+
+/* レベルアップトースト */
+#lv-toast{
+  position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-14px);
+  background:rgba(14,18,32,.97);border:1px solid var(--green);border-radius:14px;
+  padding:14px 28px;text-align:center;box-shadow:0 0 36px rgba(78,201,138,.2);
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:200;
+}
+#lv-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#lv-toast .lt-head{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:#7ee8aa;margin-bottom:3px;}
+#lv-toast .lt-body{font-size:.75rem;color:var(--silver);}
+
+@media(max-width:768px){
+  .main-content{grid-template-columns:1fr;padding:12px;}
+  .quest-side{order:-1;}
+  #log-list{max-height:140px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ローディング -->
+<div id="loading-screen">
+  <div class="spin"></div>
+  <p>魔法書を開いています…</p>
+</div>
+
+<!-- ログイン -->
+<div id="login-screen" class="hidden">
+  <div class="login-card">
+    <div class="login-char">
+      <img src="./image/sera-2-Photoroom.png" alt="セラ">
+    </div>
+    <div class="login-title">
+      <h1 class="gold-text">栄養クエスト</h1>
+      <p class="sub" style="color:var(--green);">NUTRITION QUEST — VITALIA</p>
+      <p class="note">研究参加者専用 ｜ ログインが必要です</p>
+    </div>
+    <div class="sera-bubble">
+      「食べることは魔力の補充。<br>
+      毎日の食事を記録して、あなたの魔法ステータスを上げましょう！」
+    </div>
+    <div class="form-group">
+      <label>メールアドレス</label>
+      <input type="email" id="email" class="form-input" placeholder="例: hero@vitalia.jp">
+    </div>
+    <div class="form-group">
+      <label>パスワード（6文字以上）</label>
+      <input type="password" id="password" class="form-input" placeholder="パスワードを入力">
+    </div>
+    <div class="btn-row">
+      <button id="login-btn" class="btn-green">魔法書を開く（ログイン）</button>
+      <button id="register-btn" class="btn-outline">はじめての登録</button>
+    </div>
+    <div class="login-footer">
+      <p>このサービスは研究目的です。<br>医療診断は行いません。</p>
+      <a href="./index.html">← ヴィタリア転生録トップへ</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- メイン -->
+<div id="main-screen" class="hidden">
+
+  <header class="main-header">
+    <div class="h-left">
+      <a href="./index.html">⚔ ヴィタリア転生録</a>
+      <span class="h-pipe">|</span>
+      <span class="h-title">栄養クエスト</span>
+    </div>
+    <div class="h-right">
+      <span id="user-display"></span>
+      <button id="logout-btn">退場</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+
+    <!-- ===== 左：食材ボード ===== -->
+    <div class="food-board">
+
+      <!-- 野菜 -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(224,92,92,.15);border:1px solid rgba(224,92,92,.35);">🥦</div>
+          <div>
+            <div class="section-label">野菜の魔法素材</div>
+            <div class="section-note">1タップ＝1皿（80g）｜ 生命力UP ｜ 目標: 1日3皿・週21皿</div>
+          </div>
+        </div>
+        <div class="card-grid" id="veg-grid"></div>
+        <div class="guide-note">💡 ACS推奨：がん予防に野菜・果物を毎日2.5〜3カップ（約600〜720g）摂取</div>
+      </div>
+
+      <!-- 果物 -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(156,114,224,.15);border:1px solid rgba(156,114,224,.35);">🍎</div>
+          <div>
+            <div class="section-label">果物の魔法素材</div>
+            <div class="section-note">1タップ＝1皿（150g）｜ 魔力UP ｜ 目標: 1日1.5皿・週10皿</div>
+          </div>
+        </div>
+        <div class="card-grid" id="fruit-grid"></div>
+      </div>
+
+      <!-- たんぱく質 -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(224,138,60,.15);border:1px solid rgba(224,138,60,.35);">🐟</div>
+          <div>
+            <div class="section-label">推奨たんぱく質素材</div>
+            <div class="section-note">1タップ＝1食分 ｜ 攻撃力UP ｜ 目標: 1日2食・週14食</div>
+          </div>
+        </div>
+        <div class="card-grid" id="protein-grid"></div>
+        <div class="guide-note">💡 ACS推奨：赤肉より魚・鶏肉・大豆たんぱくを選ぼう</div>
+      </div>
+
+      <!-- 全粒穀物 -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.35);">🌾</div>
+          <div>
+            <div class="section-label">全粒穀物の素材</div>
+            <div class="section-note">1タップ＝1食分 ｜ 持久力UP ｜ 目標: 1日2食・週14食</div>
+          </div>
+        </div>
+        <div class="card-grid" id="grain-grid"></div>
+      </div>
+
+      <!-- 制限食品 -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(96,112,160,.1);border:1px solid rgba(96,112,160,.3);">⚠️</div>
+          <div>
+            <div class="section-label">制限食品（毒素）</div>
+            <div class="section-note">食べた場合も記録 ｜ 週に少ないほど良い</div>
+          </div>
+        </div>
+        <div class="card-grid" id="limit-grid"></div>
+        <div class="guide-note">⚠️ ACS推奨：赤肉・加工肉・アルコール・砂糖飲料は制限を</div>
+      </div>
+
+    </div>
+
+    <!-- ===== 右：ステータス ===== -->
+    <div class="quest-side">
+
+      <!-- 週・レベル -->
+      <div class="side-panel">
+        <div class="week-label" id="week-lbl"></div>
+        <div class="lv-badge" id="lv-badge">
+          <span>Lv</span><span class="lv-n" id="lv-n">1</span>
+          <span id="lv-name">見習い錬金術師</span>
+        </div>
+        <div class="xp-wrap"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+        <div class="xp-note">
+          <span>XP: <strong id="xp-now">0</strong></span>
+          <span>次Lv: <strong id="xp-next">200</strong></span>
+        </div>
+      </div>
+
+      <!-- 魔力ステータス -->
+      <div class="side-panel">
+        <div class="panel-head">⚗️ 今週の魔力ステータス</div>
+        <div class="stats-grid">
+          <div class="stat-bar-card sbc-hp">
+            <div class="sbc-label">
+              <span class="sbc-name">❤️ 生命力</span>
+              <span class="sbc-val" id="veg-count">0</span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" id="veg-bar" style="width:0%"></div></div>
+            <div class="sbc-target">野菜 目標21皿/週</div>
+          </div>
+          <div class="stat-bar-card sbc-mp">
+            <div class="sbc-label">
+              <span class="sbc-name">💜 魔力</span>
+              <span class="sbc-val" id="fruit-count">0</span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" id="fruit-bar" style="width:0%"></div></div>
+            <div class="sbc-target">果物 目標10皿/週</div>
+          </div>
+          <div class="stat-bar-card sbc-atk">
+            <div class="sbc-label">
+              <span class="sbc-name">🔥 攻撃力</span>
+              <span class="sbc-val" id="protein-count">0</span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" id="protein-bar" style="width:0%"></div></div>
+            <div class="sbc-target">たんぱく質 目標14食/週</div>
+          </div>
+          <div class="stat-bar-card sbc-def">
+            <div class="sbc-label">
+              <span class="sbc-name">🛡️ 持久力</span>
+              <span class="sbc-val" id="grain-count">0</span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar-fill" id="grain-bar" style="width:0%"></div></div>
+            <div class="sbc-target">全粒穀物 目標14食/週</div>
+          </div>
+        </div>
+        <div class="debuff-block">
+          <div class="debuff-row">
+            <span class="debuff-label">☠️ 毒素（制限食品）</span>
+            <span class="debuff-count" id="limit-count">0 食</span>
+          </div>
+          <div class="debuff-note">週7食以下が推奨目標</div>
+        </div>
+      </div>
+
+      <!-- 今週の記録 -->
+      <div class="side-panel">
+        <div class="panel-head">📜 今週の食事記録</div>
+        <ul id="log-list"></ul>
+      </div>
+
+      <!-- 保存 -->
+      <div>
+        <button class="btn-save" id="save-btn">✦ 今週の記録を保存する ✦</button>
+        <div class="save-msg" id="save-msg"></div>
+      </div>
+
+      <!-- 過去記録 -->
+      <div class="side-panel">
+        <div class="panel-head">📅 過去の記録</div>
+        <div class="history-list" id="hist-list"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- レベルアップトースト -->
+<div id="lv-toast">
+  <div class="lt-head">✦ LEVEL UP ✦</div>
+  <div class="lt-body" id="lt-body"></div>
+</div>
+
+
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, doc, setDoc }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
+  authDomain:"shounigann.firebaseapp.com",
+  projectId:"shounigann",
+  storageBucket:"shounigann.firebasestorage.app",
+  messagingSenderId:"854133989955",
+  appId:"1:854133989955:web:0924f550562f2035596af6"
+};
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// ===== 食材データ =====
+const FOODS = {
+  veg:[
+    {name:'ほうれん草',icon:'🥬',xp:15},{name:'ブロッコリー',icon:'🥦',xp:18},
+    {name:'にんじん',icon:'🥕',xp:12},{name:'トマト',icon:'🍅',xp:12},
+    {name:'キャベツ',icon:'🥗',xp:10},{name:'たまねぎ',icon:'🧅',xp:10},
+    {name:'なす',icon:'🍆',xp:10},{name:'ピーマン',icon:'🫑',xp:12},
+    {name:'きのこ類',icon:'🍄',xp:14},{name:'かぼちゃ',icon:'🎃',xp:15},
+    {name:'だいこん',icon:'🫚',xp:8},{name:'小松菜',icon:'🥬',xp:15},
+    {name:'もやし',icon:'🌱',xp:7},{name:'れんこん',icon:'🔗',xp:12},
+  ],
+  fruit:[
+    {name:'りんご',icon:'🍎',xp:12},{name:'みかん',icon:'🍊',xp:12},
+    {name:'バナナ',icon:'🍌',xp:10},{name:'いちご',icon:'🍓',xp:14},
+    {name:'ブルーベリー',icon:'🫐',xp:16},{name:'ぶどう',icon:'🍇',xp:12},
+    {name:'キウイ',icon:'🥝',xp:14},{name:'スイカ',icon:'🍉',xp:10},
+  ],
+  protein:[
+    {name:'豆腐・大豆',icon:'🫘',xp:18},{name:'納豆',icon:'🫘',xp:18},
+    {name:'さけ',icon:'🐟',xp:20},{name:'さば',icon:'🐟',xp:20},
+    {name:'まぐろ',icon:'🐠',xp:18},{name:'えび',icon:'🦐',xp:15},
+    {name:'鶏むね肉',icon:'🍗',xp:18},{name:'ゆで卵',icon:'🥚',xp:12},
+    {name:'ヨーグルト',icon:'🥛',xp:10},{name:'チーズ',icon:'🧀',xp:10},
+  ],
+  grain:[
+    {name:'玄米ご飯',icon:'🍚',xp:15},{name:'全粒粉パン',icon:'🍞',xp:14},
+    {name:'オートミール',icon:'🌾',xp:16},{name:'そば',icon:'🍜',xp:12},
+    {name:'全粒粉パスタ',icon:'🍝',xp:13},
+  ],
+  limit:[
+    {name:'牛・豚肉',icon:'🥩',xp:-5},{name:'ウインナー',icon:'🌭',xp:-8},
+    {name:'ベーコン',icon:'🥓',xp:-8},{name:'揚げ物',icon:'🍟',xp:-5},
+    {name:'甘い飲み物',icon:'🥤',xp:-5},{name:'アルコール',icon:'🍺',xp:-10},
+    {name:'ファストフード',icon:'🍔',xp:-6},{name:'インスタント麺',icon:'🍜',xp:-5},
+  ]
+};
+
+const LEVELS=[
+  {lv:1,name:'見習い錬金術師',xp:0},
+  {lv:2,name:'草の魔法使い',  xp:200},
+  {lv:3,name:'薬草師',        xp:500},
+  {lv:4,name:'大賢者の弟子',  xp:900},
+  {lv:5,name:'食の大魔導士',  xp:1400},
+];
+
+// ===== 状態 =====
+let uid='', sessions=[], prevLv=1;
+function getCounts(){
+  const c={veg:0,fruit:0,protein:0,grain:0,limit:0};
+  sessions.forEach(s=>{ if(c[s.cat]!==undefined) c[s.cat]++; });
+  return c;
+}
+function totalXp(){ return Math.max(0, sessions.reduce((s,x)=>s+x.xp,0)); }
+function getLv(xp){ let r=LEVELS[0]; for(const l of LEVELS){if(xp>=l.xp)r=l;} return r; }
+function nextXp(xp){ for(const l of LEVELS){if(l.xp>xp)return l.xp;} return null; }
+
+// ===== 週キー =====
+function weekKey(){ const d=new Date(),j=new Date(d.getFullYear(),0,1),w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7); return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`; }
+function weekLabel(){ const d=new Date(); const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1); const e=new Date(s); e.setDate(s.getDate()+6); const f=x=>`${x.getMonth()+1}/${x.getDate()}`; const j=new Date(d.getFullYear(),0,1); const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7); return `第${w}週 (${f(s)}〜${f(e)})`; }
+function storeKey(wk){ return `vn_${uid}_${wk||weekKey()}`; }
+function histKey(){    return `vn_hist_${uid}`; }
+
+// ===== UI更新 =====
+function updateUI(){
+  const c=getCounts();
+  const xp=totalXp();
+  const lv=getLv(xp);
+  const nxt=nextXp(xp);
+  const prev=LEVELS.find(l=>l.lv===lv.lv-1)||lv;
+  const barPct=nxt ? Math.round((xp-prev.xp)/(nxt-prev.xp)*100) : 100;
+
+  // XPバー
+  document.getElementById('xp-fill').style.width=barPct+'%';
+  document.getElementById('xp-now').textContent=xp;
+  document.getElementById('xp-next').textContent=nxt?nxt-xp:'最大';
+  document.getElementById('lv-n').textContent=lv.lv;
+  document.getElementById('lv-name').textContent=lv.name;
+
+  // ステータスバー
+  const pVeg  =Math.min(100,Math.round(c.veg/21*100));
+  const pFruit=Math.min(100,Math.round(c.fruit/10*100));
+  const pProt =Math.min(100,Math.round(c.protein/14*100));
+  const pGrain=Math.min(100,Math.round(c.grain/14*100));
+  document.getElementById('veg-count').textContent    =c.veg+'皿';
+  document.getElementById('fruit-count').textContent  =c.fruit+'皿';
+  document.getElementById('protein-count').textContent=c.protein+'食';
+  document.getElementById('grain-count').textContent  =c.grain+'食';
+  document.getElementById('limit-count').textContent  =c.limit+'食';
+  document.getElementById('veg-bar').style.width    =pVeg+'%';
+  document.getElementById('fruit-bar').style.width  =pFruit+'%';
+  document.getElementById('protein-bar').style.width=pProt+'%';
+  document.getElementById('grain-bar').style.width  =pGrain+'%';
+
+  // レベルアップ
+  if(lv.lv>prevLv){
+    showLvUp(lv.name);
+    const b=document.getElementById('lv-badge');
+    b.classList.add('anim'); setTimeout(()=>b.classList.remove('anim'),600);
+    prevLv=lv.lv;
+  }
+  updateCardCounts();
+}
+
+function showLvUp(name){
+  const t=document.getElementById('lv-toast');
+  document.getElementById('lt-body').textContent=`称号が「${name}」に変わった！`;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ===== ログ =====
+const catLabel={veg:'野菜',fruit:'果物',protein:'たんぱく質',grain:'全粒穀物',limit:'制限食品'};
+const catColor ={veg:'var(--hp)',fruit:'var(--mp)',protein:'var(--atk)',grain:'var(--def)',limit:'var(--debuff)'};
+function renderLog(){
+  const ul=document.getElementById('log-list');
+  ul.innerHTML='';
+  sessions.forEach((s,i)=>{
+    const li=document.createElement('li'); li.className='log-item';
+    const xpStr=s.xp>0 ? `+${s.xp}XP` : `${s.xp}XP`;
+    li.innerHTML=`
+      <span class="li-icon">${s.icon}</span>
+      <span class="li-name">${s.name}<br>
+        <span class="li-sub">${catLabel[s.cat]}</span>
+      </span>
+      <span class="li-xp" style="color:${catColor[s.cat]}">${xpStr}</span>
+      <button class="li-del" data-i="${i}">✕</button>`;
+    ul.appendChild(li);
+  });
+  ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>{ sessions.splice(+b.dataset.i,1); renderLog(); updateUI(); }));
+}
+
+function updateCardCounts(){
+  const cnt={};
+  sessions.forEach(s=>{ cnt[s.name]=(cnt[s.name]||0)+1; });
+  document.querySelectorAll('.food-card').forEach(c=>{
+    const n=c.dataset.name,v=cnt[n]||0;
+    c.querySelector('.f-count').textContent=v;
+    c.classList.toggle('counted',v>0);
+  });
+}
+
+// ===== +1フロートアニメ =====
+function spawnPlus(e, text, color){
+  const el=document.createElement('div');
+  el.className='plus-float';
+  el.textContent=text;
+  el.style.color=color;
+  el.style.left=e.clientX+'px';
+  el.style.top =e.clientY+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),900);
+}
+
+// ===== ボード構築 =====
+function buildBoard(id, items, cat, cls){
+  const grid=document.getElementById(id);
+  grid.innerHTML='';
+  items.forEach(f=>{
+    const c=document.createElement('div');
+    c.className=`food-card ${cls}`;
+    c.dataset.name=f.name;
+    c.innerHTML=`
+      <span class="f-icon">${f.icon}</span>
+      <span class="f-name">${f.name}</span>
+      <span class="f-unit">1${cat==='veg'||cat==='fruit'?'皿':'食'}</span>
+      <span class="f-count">0</span>`;
+    c.addEventListener('click',(e)=>{
+      sessions.push({name:f.name,icon:f.icon,cat,xp:f.xp});
+      const color=catColor[cat];
+      const label=f.xp>=0 ? `+${f.xp}XP` : `${f.xp}XP`;
+      spawnPlus(e, label, color);
+      renderLog(); updateUI();
+    });
+    grid.appendChild(c);
+  });
+}
+
+// ===== 保存・読込 =====
+async function saveWeek(){
+  const c=getCounts();
+  const xp=totalXp(), lv=getLv(xp);
+  const score=Math.round((c.veg/21+c.fruit/10+c.protein/14+c.grain/14)*25);
+  const data={...c,sessions,xp,lv:lv.lv,lvName:lv.name,savedAt:new Date().toLocaleString('ja-JP'),week:weekLabel()};
+  localStorage.setItem(storeKey(),JSON.stringify(data));
+  appendHistory(data);
+
+  // Firestoreにも保存（研究データ収集）
+  try {
+    await setDoc(doc(db,'nutrition_records',`${uid}_${weekKey()}`), {
+      uid,
+      email: auth.currentUser?.email||'',
+      weekKey: weekKey(),
+      weekLabel: weekLabel(),
+      veg:c.veg, fruit:c.fruit, protein:c.protein, grain:c.grain, limit:c.limit,
+      nutritionScore: score,
+      foods: sessions.map(s=>({name:s.name,cat:s.cat,xp:s.xp})),
+      xp, lv:lv.lv, lvName:lv.name,
+      savedAt: new Date().toISOString(),
+      dataType:'nutrition'
+    });
+  } catch(e){ console.warn('Firestore:', e.message); }
+
+  document.getElementById('save-msg').textContent='保存しました: '+data.savedAt;
+  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },3000);
+}
+function loadWeek(){
+  const raw=localStorage.getItem(storeKey());
+  if(!raw) return;
+  try{
+    const d=JSON.parse(raw);
+    sessions=d.sessions||[]; prevLv=d.lv||1;
+    renderLog(); updateUI();
+  }catch(e){}
+}
+function appendHistory(data){
+  let hist=[];
+  try{ hist=JSON.parse(localStorage.getItem(histKey())||'[]'); }catch(e){}
+  const wk=weekKey();
+  const idx=hist.findIndex(h=>h.wkKey===wk);
+  const score=Math.round((data.veg/21+data.fruit/10+data.protein/14+data.grain/14)*25);
+  const entry={wkKey:wk,week:data.week,score,savedAt:data.savedAt};
+  if(idx>=0) hist[idx]=entry; else hist.unshift(entry);
+  hist=hist.slice(0,12);
+  localStorage.setItem(histKey(),JSON.stringify(hist));
+  renderHistory();
+}
+function renderHistory(){
+  let hist=[];
+  try{ hist=JSON.parse(localStorage.getItem(histKey())||'[]'); }catch(e){}
+  const el=document.getElementById('hist-list');
+  el.innerHTML='';
+  if(!hist.length){ el.innerHTML='<div class="hist-empty">まだ記録がありません</div>'; return; }
+  hist.forEach(h=>{
+    const pct=Math.min(100,h.score||0);
+    const div=document.createElement('div'); div.className='hist-item';
+    div.innerHTML=`
+      <span class="hist-week">${h.week||h.wkKey}</span>
+      <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
+      <span class="hist-score">${h.score||0}pt</span>`;
+    el.appendChild(div);
+  });
+}
+
+// ===== Auth =====
+document.getElementById('login-btn').addEventListener('click',()=>{
+  const e=document.getElementById('email').value, p=document.getElementById('password').value;
+  signInWithEmailAndPassword(auth,e,p).catch(()=>alert('ログインに失敗しました。'));
+});
+document.getElementById('register-btn').addEventListener('click',()=>{
+  const e=document.getElementById('email').value, p=document.getElementById('password').value;
+  createUserWithEmailAndPassword(auth,e,p).then(()=>alert('アカウントを作成しました！')).catch(err=>alert('エラー: '+err.message));
+});
+document.getElementById('logout-btn').addEventListener('click',()=>signOut(auth));
+document.getElementById('save-btn').addEventListener('click',saveWeek);
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+
+onAuthStateChanged(auth,user=>{
+  document.getElementById('loading-screen').classList.add('hidden');
+  if(user){
+    uid=user.uid;
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('login-screen').style.display='';
+    document.getElementById('main-screen').classList.remove('hidden');
+    document.getElementById('main-screen').style.display='flex';
+    document.getElementById('user-display').textContent=user.email;
+    document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
+    buildBoard('veg-grid',    FOODS.veg,    'veg',    'fc-veg');
+    buildBoard('fruit-grid',  FOODS.fruit,  'fruit',  'fc-fruit');
+    buildBoard('protein-grid',FOODS.protein,'protein','fc-protein');
+    buildBoard('grain-grid',  FOODS.grain,  'grain',  'fc-grain');
+    buildBoard('limit-grid',  FOODS.limit,  'limit',  'fc-limit');
+    loadWeek(); renderHistory();
+  } else {
+    uid=''; sessions=[]; prevLv=1;
+    document.getElementById('main-screen').classList.add('hidden');
+    document.getElementById('main-screen').style.display='';
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
+  }
+});
+</script>
+</body>
+</html>
