@@ -312,10 +312,41 @@ body::before{
 #lv-toast .lt-head{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:#7ee8aa;margin-bottom:3px;}
 #lv-toast .lt-body{font-size:.75rem;color:var(--silver);}
 
+/* ===== レスポンシブ ===== */
+@media(max-width:900px){
+  .main-content{grid-template-columns:1fr 280px;}
+}
 @media(max-width:768px){
-  .main-content{grid-template-columns:1fr;padding:12px;}
+  .main-content{grid-template-columns:1fr;padding:10px 12px 50px;gap:14px;}
   .quest-side{order:-1;}
-  #log-list{max-height:140px;}
+  #log-list{max-height:160px;}
+
+  .main-header{padding:8px 14px;}
+  .h-left a{font-size:.8rem;}
+  .h-title{font-size:.82rem;}
+  #user-display{max-width:110px;font-size:.65rem;}
+  #logout-btn{padding:4px 10px;font-size:.68rem;}
+
+  .food-card{min-width:72px;padding:8px 10px;}
+  .food-card .f-icon{font-size:1.5rem;}
+  .food-card .f-name{font-size:.63rem;}
+  .card-grid{gap:7px;}
+
+  .side-panel{padding:12px 14px;}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:6px;}
+  .stat-bar-card{padding:8px 10px;}
+
+  .btn-save{padding:14px;font-size:.9rem;border-radius:12px;}
+  .hist-week{min-width:52px;}
+  .section-label{font-size:.9rem;}
+  .section-note{font-size:.65rem;}
+  .guide-note{font-size:.68rem;padding:5px 8px;}
+}
+@media(max-width:400px){
+  .food-card{min-width:64px;padding:7px 8px;}
+  .card-grid{gap:5px;}
+  .h-title{display:none;}
+  .main-header{padding:7px 12px;}
 }
 </style>
 </head>

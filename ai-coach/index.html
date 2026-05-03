@@ -602,19 +602,49 @@
         }
 
         /* ===== レスポンシブ ===== */
+        @media (max-width: 900px) {
+            .sidebar { width: 240px; }
+        }
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
-                padding: 12px;
+                padding: 10px 12px 50px;
+                gap: 12px;
             }
             .sidebar {
                 width: 100%;
                 min-height: auto;
-                max-height: 320px;
+                max-height: none;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 14px;
             }
-            .login-card {
-                padding: 32px 24px;
+            .sidebar-runa {
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+                flex-shrink: 0;
             }
+            #luna-face {
+                width: 64px !important;
+                height: 64px !important;
+            }
+            .expr-btns { grid-template-columns: repeat(6, 1fr); gap: 4px; flex: 1; }
+            .expr-btn { padding: 6px 4px; font-size: .6rem; }
+            .grow-steps { display: none; }
+            .chat-area {
+                height: 55vh;
+                min-height: 300px;
+            }
+            #dify-iframe { height: 100%; }
+            .login-card { padding: 28px 20px; }
+        }
+        @media (max-width: 480px) {
+            .sidebar { flex-direction: column; }
+            .sidebar-runa { width: 100%; justify-content: center; }
+            .expr-btns { grid-template-columns: repeat(3, 1fr); }
+            .chat-area { height: 50vh; }
         }
     </style>
 </head>
