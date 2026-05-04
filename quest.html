@@ -314,8 +314,15 @@ body::before{
   width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
   font-size:1rem;flex-shrink:0;
 }
+.icon-daily{background:linear-gradient(135deg,rgba(92,200,220,.3),rgba(92,200,220,.12));border:1px solid rgba(92,200,220,.4);}
 .icon-mod{background:linear-gradient(135deg,rgba(78,201,138,.3),rgba(78,201,138,.15));border:1px solid rgba(78,201,138,.4);}
 .icon-high{background:linear-gradient(135deg,rgba(224,138,60,.3),rgba(224,138,60,.15));border:1px solid rgba(224,138,60,.4);}
+#daily-board .mets-tag{background:rgba(92,200,220,.08);color:rgba(92,200,220,.75);border-color:rgba(92,200,220,.2);}
+#daily-board .ex-card{border-color:rgba(92,200,220,.18);}
+#daily-board .ex-card:hover{border-color:rgba(92,200,220,.5);background:rgba(92,200,220,.07);box-shadow:0 4px 14px rgba(92,200,220,.1);}
+#daily-board .ex-card .e-min{color:rgba(92,200,220,.7);}
+#daily-board .ex-count{color:rgba(92,200,220,.8);}
+.daily-note{font-size:.65rem;color:rgba(92,200,220,.55);margin-top:10px;line-height:1.6;padding:8px 10px;background:rgba(92,200,220,.05);border-radius:8px;border:1px solid rgba(92,200,220,.12);}
 .section-label{
   font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);
 }
@@ -831,6 +838,19 @@ setTimeout(function(){
     <!-- ===== 左：クエストボード ===== -->
     <div class="quest-board">
 
+      <!-- 日常の動き -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon icon-daily">🚶</div>
+          <div>
+            <div class="section-label" style="color:#7dd8e8">日常の動き</div>
+            <div class="section-note">1タップ＝10分 ｜ スポーツじゃなくてもOK！ まずはここから</div>
+          </div>
+        </div>
+        <div id="daily-board"></div>
+        <div class="daily-note">💡 歩く・階段を使う・家事をする、それだけでも立派なクエスト。積み重ねが力になるよ！</div>
+      </div>
+
       <!-- 中強度 -->
       <div class="board-section">
         <div class="section-head">
@@ -1108,6 +1128,17 @@ const db   = getFirestore(app);
 
 // ===== データ =====
 const EXERCISES = {
+  daily:[
+    {mets:2.0, label:'のんびり動く', list:[
+      {name:'ゆっくり散歩',icon:'🚶'},{name:'立ち仕事',icon:'🧍'},{name:'ストレッチ',icon:'🧘'},{name:'料理・家事',icon:'🍳'},
+    ]},
+    {mets:2.5, label:'日常の動き', list:[
+      {name:'買い物・外出',icon:'🛒'},{name:'掃除・片付け',icon:'🧹'},{name:'子どもと遊ぶ',icon:'🧒'},{name:'通学・通勤歩き',icon:'🎒'},
+    ]},
+    {mets:3.0, label:'歩く・階段', list:[
+      {name:'普通の速さで歩く',icon:'🚶'},{name:'階段の上り下り',icon:'🪜'},{name:'自転車で移動',icon:'🚲'},{name:'軽いジョギング',icon:'🏃'},
+    ]},
+  ],
   moderate:[
     {mets:3.0, list:[{name:'歩行・ウォーキング',icon:'🚶'},{name:'筋トレ（軽〜中等度）',icon:'💪'},{name:'ボーリング',icon:'🎳'},{name:'バレーボール',icon:'🏐'}]},
     {mets:3.5, list:[{name:'体操',icon:'🤸'}]},
@@ -1594,7 +1625,7 @@ function buildBoard(id,groups,type){
   groups.forEach(g=>{
     const sec=document.createElement('div');
     sec.className='mets-group';
-    sec.innerHTML=`<div class="mets-tag">${g.mets} METs</div>`;
+    sec.innerHTML=`<div class="mets-tag">${g.label||g.mets+' METs'}</div>`;
     const grid=document.createElement('div');
     grid.className='card-grid';
     g.list.forEach(ex=>{
@@ -1911,6 +1942,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
+    buildBoard('daily-board',EXERCISES.daily,'moderate');
     buildBoard('mod-board',EXERCISES.moderate,'moderate');
     buildBoard('high-board',EXERCISES.high,'high');
     loadWeek();

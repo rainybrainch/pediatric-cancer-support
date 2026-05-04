@@ -203,6 +203,10 @@ body::before{
 /* ===== 左：食材ボード ===== */
 .food-board{display:flex;flex-direction:column;gap:0;}
 .board-section{margin-bottom:28px;}
+.quick-note{font-size:.65rem;color:rgba(201,168,76,.55);margin-top:10px;line-height:1.6;padding:8px 10px;background:rgba(201,168,76,.04);border-radius:8px;border:1px solid rgba(201,168,76,.1);}
+.icon-quick{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.4);}
+#quick-grid .food-card{border-color:rgba(201,168,76,.18);}
+#quick-grid .food-card:hover{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
 .section-head{
   display:flex;align-items:center;gap:10px;margin-bottom:14px;
   padding-bottom:10px;border-bottom:1px solid rgba(78,201,138,.12);
@@ -832,6 +836,19 @@ setTimeout(function(){
           </div>
           <div class="menu-cards" id="menu-cards"></div>
         </div>
+      </div>
+
+      <!-- よく食べるもの -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon icon-quick">⭐</div>
+          <div>
+            <div class="section-label" style="color:var(--gold2)">よく食べるもの</div>
+            <div class="section-note">毎日の定番食材 ｜ まずここから記録しよう</div>
+          </div>
+        </div>
+        <div class="card-grid" id="quick-grid"></div>
+        <div class="quick-note">💡 ごはん・卵・野菜など、いつもの食事をそのまま記録できるよ。特別な食事じゃなくてOK！</div>
       </div>
 
       <!-- 野菜 -->
@@ -1568,6 +1585,54 @@ function spawnPlus(e, text, color){
   setTimeout(()=>el.remove(),900);
 }
 
+// ===== よく食べるもの =====
+const QUICK_FOODS=[
+  {name:'ごはん',    icon:'🍚',cat:'grain',  xp:15},
+  {name:'食パン',    icon:'🍞',cat:'grain',  xp:12},
+  {name:'うどん',    icon:'🍜',cat:'grain',  xp:10},
+  {name:'卵',        icon:'🥚',cat:'protein',xp:12},
+  {name:'豆腐',      icon:'🫘',cat:'protein',xp:18},
+  {name:'納豆',      icon:'🫘',cat:'protein',xp:18},
+  {name:'さけ',      icon:'🐟',cat:'protein',xp:20},
+  {name:'鶏むね肉',  icon:'🍗',cat:'protein',xp:18},
+  {name:'トマト',    icon:'🍅',cat:'veg',    xp:12},
+  {name:'キャベツ',  icon:'🥗',cat:'veg',    xp:10},
+  {name:'にんじん',  icon:'🥕',cat:'veg',    xp:12},
+  {name:'ほうれん草',icon:'🥬',cat:'veg',    xp:15},
+  {name:'バナナ',    icon:'🍌',cat:'fruit',  xp:10},
+  {name:'みかん',    icon:'🍊',cat:'fruit',  xp:12},
+  {name:'ヨーグルト',icon:'🥛',cat:'protein',xp:10},
+  {name:'チーズ',    icon:'🧀',cat:'protein',xp:10},
+];
+function buildQuickBoard(){
+  const grid=document.getElementById('quick-grid');
+  grid.innerHTML='';
+  QUICK_FOODS.forEach(f=>{
+    const c=document.createElement('div');
+    c.className=`food-card fc-${f.cat}`;
+    c.dataset.name=f.name;
+    const unit=f.cat==='veg'||f.cat==='fruit'?'皿':'食';
+    const label=f.xp>=0?`+${f.xp}XP`:`${f.xp}XP`;
+    c.innerHTML=`
+      <span class="f-icon">${f.icon}</span>
+      <span class="f-name">${f.name}</span>
+      <span class="f-unit">1${unit}</span>
+      <span class="f-count">0</span>
+      <button class="f-dec">−</button>`;
+    c.addEventListener('click',(e)=>{
+      sessions.push({name:f.name,icon:f.icon,cat:f.cat,xp:f.xp});
+      spawnPlus(e,label,catColor[f.cat]);
+      renderLog(); updateUI(); updateCardCounts();
+    });
+    c.querySelector('.f-dec').addEventListener('click',e=>{
+      e.stopPropagation();
+      const i=sessions.map(s=>s.name).lastIndexOf(f.name);
+      if(i>=0){ sessions.splice(i,1); renderLog(); updateUI(); updateCardCounts(); }
+    });
+    grid.appendChild(c);
+  });
+}
+
 // ===== ボード構築 =====
 function buildBoard(id, items, cat, cls){
   const grid=document.getElementById(id);
@@ -2154,6 +2219,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
+    buildQuickBoard();
     buildBoard('veg-grid',    FOODS.veg,    'veg',    'fc-veg');
     buildBoard('fruit-grid',  FOODS.fruit,  'fruit',  'fc-fruit');
     buildBoard('protein-grid',FOODS.protein,'protein','fc-protein');
