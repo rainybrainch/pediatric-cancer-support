@@ -89,49 +89,143 @@ body::before{
 .ls-dot:nth-child(3){animation-delay:.4s;}
 @keyframes ls-fade{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
 
-/* ========== ログイン ========== */
+/* ========== ランディング（ログイン） ========== */
 #login-screen{
   position:fixed;inset:0;background:var(--bg);z-index:400;
-  display:none;align-items:center;justify-content:center;padding:20px;
+  display:none;flex-direction:column;overflow-y:auto;
+}
+
+/* オーロラ背景 */
+#login-screen::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 30%,rgba(156,114,224,.13) 0%,transparent 65%),
+    radial-gradient(ellipse 60% 45% at 85% 25%,rgba(201,168,76,.1) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 80%,rgba(78,201,138,.07) 0%,transparent 55%);
+}
+
+/* ヒーロー上部 */
+.lp-hero{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  padding:52px 24px 0;
+  text-align:center;
+}
+.lp-rune{
+  font-size:.6rem;font-weight:700;letter-spacing:.22em;
+  color:rgba(201,168,76,.5);text-transform:uppercase;
+  margin-bottom:22px;
+}
+.lp-char{
+  width:130px;height:130px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(201,168,76,.5);
+  box-shadow:0 0 60px rgba(201,168,76,.2),0 0 120px rgba(156,114,224,.12);
+  animation:float 3.5s ease-in-out infinite;
+  margin-bottom:22px;
+}
+.lp-char img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
+.lp-title{
+  font-family:'Noto Serif JP',serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;
+  background:linear-gradient(135deg,#f0d48a,#c9a84c,#e8c870,#f0d48a);
+  background-size:250% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 5s linear infinite;
+  line-height:1.25;margin-bottom:6px;
+  letter-spacing:.04em;
+}
+.lp-subtitle{
+  font-size:.72rem;color:rgba(170,188,216,.55);letter-spacing:.14em;
+  margin-bottom:20px;text-transform:uppercase;
+}
+.lp-tagline{
+  font-size:.88rem;line-height:1.9;color:rgba(200,215,235,.75);
+  max-width:340px;margin-bottom:28px;
+}
+.lp-tagline strong{color:rgba(201,168,76,.9);}
+
+/* 3キャラ紹介 */
+.lp-chars{
+  display:flex;align-items:center;gap:14px;margin-bottom:32px;
+}
+.lp-ch{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.lp-ch-face{
+  width:54px;height:54px;border-radius:50%;overflow:hidden;
+  border:1.5px solid;
+  box-shadow:0 0 16px var(--glow,transparent);
+}
+.lp-ch-face img{width:100%;height:100%;object-fit:cover;}
+.lp-ch-name{font-size:.55rem;font-weight:700;letter-spacing:.06em;}
+.lp-ch-role{font-size:.5rem;color:var(--muted);}
+.lp-ch.ch-luna .lp-ch-face{border-color:rgba(201,168,76,.55);--glow:rgba(201,168,76,.2);}
+.lp-ch.ch-luna .lp-ch-name{color:var(--gold2);}
+.lp-ch.ch-kaito .lp-ch-face{border-color:rgba(224,92,92,.5);--glow:rgba(224,92,92,.15);}
+.lp-ch.ch-kaito .lp-ch-name{color:#f0a0a0;}
+.lp-ch.ch-sera .lp-ch-face{border-color:rgba(78,201,138,.5);--glow:rgba(78,201,138,.15);}
+.lp-ch.ch-sera .lp-ch-name{color:#a0f0c0;}
+.lp-ch-sep{font-size:.9rem;color:rgba(201,168,76,.25);align-self:center;}
+
+/* バッジ帯 */
+.lp-badges{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;
+}
+.lp-badge{
+  font-size:.58rem;font-weight:700;letter-spacing:.06em;
+  padding:3px 10px;border-radius:99px;
+  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);
+  color:rgba(201,168,76,.7);
+}
+
+/* ログインフォーム */
+.lp-form{
+  position:relative;z-index:1;
+  width:100%;max-width:380px;margin:0 auto;
+  padding:0 24px 48px;
 }
 .login-box{
-  background:linear-gradient(145deg,#0d1225,#111829);
-  border:1px solid rgba(201,168,76,.25);border-radius:20px;
-  padding:36px 32px;max-width:380px;width:100%;
-  box-shadow:0 0 60px rgba(201,168,76,.08),0 24px 60px rgba(0,0,0,.7);
-  animation:fadeIn .5s ease both;
+  background:rgba(13,18,37,.95);
+  border:1px solid rgba(201,168,76,.2);border-radius:20px;
+  padding:28px 24px 24px;
+  box-shadow:0 0 60px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.05);
 }
-.login-logo{
-  text-align:center;margin-bottom:28px;
-  font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;
+.login-box-title{
+  font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;
+  color:rgba(201,168,76,.8);text-align:center;margin-bottom:18px;letter-spacing:.08em;
 }
-.login-logo-sub{font-size:.68rem;color:var(--muted);margin-top:4px;letter-spacing:.08em;}
-.login-field{margin-bottom:14px;}
-.login-field label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;letter-spacing:.06em;}
+.login-logo{display:none;}
+.login-logo-sub{display:none;}
+.login-field{margin-bottom:12px;}
+.login-field label{display:block;font-size:.68rem;color:var(--muted);margin-bottom:5px;letter-spacing:.06em;}
 .login-field input{
-  width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);
-  border-radius:10px;padding:11px 14px;color:var(--text);font-family:inherit;font-size:.88rem;
+  width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);
+  border-radius:10px;padding:10px 13px;color:var(--text);font-family:inherit;font-size:.88rem;
 }
-.login-field input:focus{outline:none;border-color:rgba(201,168,76,.5);}
+.login-field input:focus{outline:none;border-color:rgba(201,168,76,.45);}
 .btn-login{
-  width:100%;background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.12));
-  border:1px solid rgba(201,168,76,.4);border-radius:10px;
+  width:100%;
+  background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.15));
+  border:1px solid rgba(201,168,76,.45);border-radius:10px;
   color:var(--gold2);font-family:inherit;font-size:.9rem;font-weight:700;
   padding:12px;cursor:pointer;margin-top:6px;transition:background .2s;
 }
-.btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.38),rgba(201,168,76,.2));}
+.btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.42),rgba(201,168,76,.22));}
 .btn-register{
-  width:100%;background:none;border:1px solid rgba(100,120,200,.3);border-radius:10px;
-  color:rgba(160,180,240,.7);font-family:inherit;font-size:.85rem;font-weight:700;
+  width:100%;background:none;border:1px solid rgba(100,120,200,.28);border-radius:10px;
+  color:rgba(160,180,240,.65);font-family:inherit;font-size:.85rem;font-weight:700;
   padding:10px;cursor:pointer;margin-top:6px;transition:border-color .2s;
 }
-.btn-register:hover{border-color:rgba(100,120,200,.6);}
+.btn-register:hover{border-color:rgba(100,120,200,.55);}
 .login-err{font-size:.76rem;color:var(--red);margin-top:10px;display:none;line-height:1.6;}
 .login-guest{
   text-align:center;margin-top:14px;
   font-size:.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;
 }
 .login-guest:hover{color:var(--silver);}
+.lp-research-link{
+  text-align:center;margin-top:16px;
+  font-size:.64rem;color:rgba(170,188,216,.3);
+}
+.lp-research-link a{color:rgba(201,168,76,.4);text-decoration:none;}
+.lp-research-link a:hover{color:rgba(201,168,76,.7);}
 
 /* ========== ヘッダー ========== */
 #main-screen{display:none;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
@@ -403,27 +497,76 @@ body::before{
   <div class="ls-msg">転生の記憶を呼び覚ます中<span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
 </div>
 
-<!-- ログイン -->
+<!-- ランディング＆ログイン -->
 <div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">
-      <div class="gold-text">✦ ヴィタリア転生録</div>
-      <div class="login-logo-sub">健康行動継続支援 研究プロジェクト</div>
+
+  <!-- ヒーロー上部 -->
+  <div class="lp-hero">
+    <div class="lp-rune">— Vitalia Tensei-roku —</div>
+    <div class="lp-char">
+      <img src="./image/runa-sabun%20(1).png" alt="ルナ">
     </div>
-    <div class="login-field">
-      <label>メールアドレス</label>
-      <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+    <h1 class="lp-title">ヴィタリア転生録</h1>
+    <p class="lp-subtitle">Health Quest · RPG × AI Coaching</p>
+    <p class="lp-tagline">
+      あなたは今日、健康の異世界<strong>ヴィタリア</strong>に転生した。<br>
+      運動と栄養でXPを積み、<strong>ルナ</strong>のコーチングとともに<br>
+      12週間の冒険を完遂しよう。
+    </p>
+
+    <!-- 3キャラ -->
+    <div class="lp-chars">
+      <div class="lp-ch ch-luna">
+        <div class="lp-ch-face"><img src="./image/runa-sabun%20(1).png" alt="ルナ" style="object-position:center 14%;"></div>
+        <div class="lp-ch-name">ルナ</div>
+        <div class="lp-ch-role">AIコーチ</div>
+      </div>
+      <div class="lp-ch-sep">✦</div>
+      <div class="lp-ch ch-kaito">
+        <div class="lp-ch-face"><img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;"></div>
+        <div class="lp-ch-name">カイト</div>
+        <div class="lp-ch-role">運動の師</div>
+      </div>
+      <div class="lp-ch-sep">✦</div>
+      <div class="lp-ch ch-sera">
+        <div class="lp-ch-face"><img src="./image/sera-sabun%20(1).png" alt="セラ" style="object-position:center 16%;"></div>
+        <div class="lp-ch-name">セラ</div>
+        <div class="lp-ch-role">栄養の巫女</div>
+      </div>
     </div>
-    <div class="login-field">
-      <label>パスワード</label>
-      <input type="password" id="password" placeholder="パスワード" autocomplete="current-password">
+
+    <!-- バッジ -->
+    <div class="lp-badges">
+      <span class="lp-badge">🎮 XP・レベルアップ</span>
+      <span class="lp-badge">🤖 AI 24hコーチング</span>
+      <span class="lp-badge">🔬 研究参加</span>
+      <span class="lp-badge">✓ 完全無料</span>
     </div>
-    <div id="auth-error" class="login-err"></div>
-    <button class="btn-login" id="login-btn">ログインして冒険を続ける</button>
-    <button class="btn-register" id="register-btn">新規登録（無料）</button>
-    <button class="btn-register" id="reset-pw-btn" style="font-size:.72rem;opacity:.6;border-color:transparent;">パスワードを忘れた方</button>
-    <div class="login-guest" id="guest-btn">ゲスト（デモ）として試す →</div>
   </div>
+
+  <!-- ログインフォーム -->
+  <div class="lp-form">
+    <div class="login-box">
+      <div class="login-box-title">✦ 冒険者ログイン</div>
+      <div class="login-field">
+        <label>メールアドレス</label>
+        <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label>パスワード</label>
+        <input type="password" id="password" placeholder="パスワード" autocomplete="current-password">
+      </div>
+      <div id="auth-error" class="login-err"></div>
+      <button class="btn-login" id="login-btn">⚔ ログインして冒険を続ける</button>
+      <button class="btn-register" id="register-btn">✨ 新規登録（研究参加・無料）</button>
+      <button class="btn-register" id="reset-pw-btn" style="font-size:.7rem;opacity:.5;border-color:transparent;">パスワードを忘れた方</button>
+      <div class="login-guest" id="guest-btn">ゲスト（デモ）として試す →</div>
+    </div>
+    <div class="lp-research-link">
+      研究の詳細・倫理情報は <a href="./index.html">研究HP →</a>
+    </div>
+  </div>
+
 </div>
 
 <!-- メイン -->
