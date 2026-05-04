@@ -517,6 +517,44 @@ body::before{
   background:rgba(156,114,224,.18);border:1px solid rgba(156,114,224,.4);
   border-radius:5px;padding:2px 7px;color:#c0a0f0;
 }
+.coach-hdr-reset{
+  background:none;border:1px solid rgba(156,114,224,.25);
+  color:rgba(200,180,255,.5);font-size:.95rem;
+  width:26px;height:26px;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;line-height:1;padding:0;
+}
+.coach-hdr-reset:hover{color:#c0a0f0;border-color:rgba(156,114,224,.5);transform:rotate(-90deg);}
+
+/* プリセット候補 */
+.coach-presets{
+  flex-shrink:0;padding:10px 14px 4px;
+  border-top:1px solid rgba(156,114,224,.1);
+  background:rgba(12,14,28,.6);
+  position:relative;z-index:1;
+  display:none;
+}
+.coach-presets.show{display:block;animation:fadeIn .3s ease both;}
+.coach-preset-lbl{
+  font-size:.55rem;font-weight:700;letter-spacing:.08em;
+  color:rgba(200,180,255,.45);margin-bottom:7px;
+  text-transform:uppercase;
+}
+.coach-preset-row{display:flex;flex-wrap:wrap;gap:5px;}
+.coach-preset{
+  background:rgba(156,114,224,.08);
+  border:1px solid rgba(156,114,224,.2);
+  border-radius:99px;padding:5px 12px;
+  font-family:inherit;font-size:.66rem;
+  color:rgba(200,180,255,.75);font-weight:700;
+  cursor:pointer;transition:all .2s;
+  white-space:nowrap;
+}
+.coach-preset:hover{
+  background:rgba(156,114,224,.18);
+  border-color:rgba(156,114,224,.4);
+  color:#d8c8ff;
+}
 
 /* キャラバナー */
 .coach-char{
@@ -685,20 +723,72 @@ body::before{
   margin-top:7px;text-align:center;line-height:1.55;
 }
 
+/* 実績解放トースト */
+.coach-toast{
+  position:absolute;top:90px;left:50%;transform:translateX(-50%) translateY(-12px);
+  background:linear-gradient(135deg,rgba(201,168,76,.95),rgba(240,212,138,.95));
+  color:#1a1200;font-weight:700;font-size:.74rem;
+  padding:8px 16px;border-radius:99px;
+  box-shadow:0 8px 24px rgba(201,168,76,.4);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;
+  z-index:5;white-space:nowrap;
+}
+.coach-toast.show{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+
 /* ========== チュートリアル ========== */
-#tutorial-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-#tutorial-box{background:var(--bg2);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:28px 24px;max-width:380px;width:92%;text-align:center;box-shadow:0 0 60px rgba(201,168,76,.1);}
-.tut-step-num{font-size:.6rem;color:var(--muted);letter-spacing:.1em;margin-bottom:8px;}
-.tut-icon{font-size:2.4rem;margin-bottom:10px;}
-.tut-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);margin-bottom:8px;}
-.tut-desc{font-size:.8rem;line-height:1.75;color:rgba(200,215,235,.8);margin-bottom:20px;}
-.tut-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px;}
-.tut-dot{width:7px;height:7px;border-radius:50%;background:rgba(201,168,76,.25);transition:background .2s;}
-.tut-dot.active{background:var(--gold);}
-.tut-btns{display:flex;gap:10px;justify-content:center;}
-.tut-btn{padding:9px 20px;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border:none;}
-.tut-btn-next{background:linear-gradient(135deg,rgba(201,168,76,.35),rgba(201,168,76,.18));color:var(--gold2);border:1px solid rgba(201,168,76,.4);}
-.tut-btn-skip{background:none;color:rgba(170,188,216,.4);font-size:.72rem;border:1px solid rgba(255,255,255,.06);}
+#tutorial-overlay{position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
+#tutorial-box{
+  background:linear-gradient(160deg,#0d1225 0%,#111a30 60%,#0a0d1c 100%);
+  border:1px solid rgba(201,168,76,.35);border-radius:22px;
+  padding:0 0 24px;max-width:400px;width:100%;
+  text-align:center;
+  box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(201,168,76,.06);
+  position:relative;overflow:hidden;
+  animation:modalIn .4s cubic-bezier(.22,1,.36,1);
+}
+#tutorial-box::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(201,168,76,.1) 0%,transparent 60%);
+}
+.tut-char-wrap{
+  padding:24px 24px 16px;position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(201,168,76,.1);
+}
+.tut-char{
+  width:88px;height:88px;border-radius:50%;overflow:hidden;
+  border:2px solid;
+  animation:float 3s ease-in-out infinite;
+}
+.tut-char img{width:100%;height:100%;object-fit:cover;}
+.tut-char-luna{border-color:rgba(201,168,76,.55);box-shadow:0 0 28px rgba(201,168,76,.25);}
+.tut-char-kaito{border-color:rgba(224,92,92,.5);box-shadow:0 0 28px rgba(224,92,92,.25);}
+.tut-char-sera{border-color:rgba(78,201,138,.5);box-shadow:0 0 28px rgba(78,201,138,.25);}
+.tut-char-trophy{border-color:rgba(240,210,120,.55);box-shadow:0 0 28px rgba(240,210,120,.25);}
+.tut-step-num{font-size:.58rem;color:rgba(201,168,76,.5);letter-spacing:.18em;font-weight:700;}
+.tut-content{padding:20px 26px 8px;position:relative;z-index:1;}
+.tut-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);margin-bottom:10px;letter-spacing:.04em;}
+.tut-desc{font-size:.82rem;line-height:1.85;color:rgba(200,215,235,.78);margin-bottom:6px;text-align:left;}
+.tut-desc-cite{
+  font-size:.62rem;color:rgba(201,168,76,.45);
+  font-style:italic;margin-top:8px;border-left:2px solid rgba(201,168,76,.25);padding-left:10px;
+}
+.tut-dots{display:flex;justify-content:center;gap:6px;margin:16px 0 18px;position:relative;z-index:1;}
+.tut-dot{width:7px;height:7px;border-radius:50%;background:rgba(201,168,76,.18);transition:all .25s;}
+.tut-dot.active{background:var(--gold);width:22px;border-radius:99px;}
+.tut-btns{display:flex;gap:10px;justify-content:center;padding:0 24px;position:relative;z-index:1;}
+.tut-btn{padding:10px 22px;border-radius:12px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.tut-btn-next{
+  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));
+  color:var(--gold2);border:1px solid rgba(201,168,76,.5);
+  flex:1;
+}
+.tut-btn-next:hover{background:linear-gradient(135deg,rgba(201,168,76,.55),rgba(201,168,76,.3));}
+.tut-btn-skip{background:none;color:rgba(170,188,216,.4);font-size:.74rem;border:1px solid rgba(255,255,255,.08);}
+.tut-btn-skip:hover{color:rgba(200,215,235,.7);border-color:rgba(255,255,255,.15);}
 
 /* ========== レスポンシブ ========== */
 @media(max-width:700px){
@@ -1019,6 +1109,7 @@ body::before{
     <div class="coach-hdr">
       <button class="coach-hdr-back" id="coach-close" aria-label="閉じる">← ホーム</button>
       <span class="coach-hdr-title">✦ ルナのコーチング</span>
+      <button class="coach-hdr-reset" id="coach-reset" aria-label="会話をリセット" title="会話をリセット">↻</button>
       <span class="coach-hdr-ai">AI</span>
     </div>
 
@@ -1042,6 +1133,19 @@ body::before{
     <!-- チャット本体 -->
     <div class="coach-body" id="coach-body">
       <!-- JSで生成 -->
+    </div>
+
+    <!-- プリセット候補（会話開始時のみ表示） -->
+    <div class="coach-presets" id="coach-presets">
+      <div class="coach-preset-lbl">話したいことを選ぶ：</div>
+      <div class="coach-preset-row">
+        <button class="coach-preset" data-preset="今週の運動目標を一緒に考えたいです。">⚔ 今週の運動目標を相談</button>
+        <button class="coach-preset" data-preset="食事のバランスが気になっています。">🌿 食事バランスを相談</button>
+        <button class="coach-preset" data-preset="続けるのが少し辛くなってきました。">😢 続けるのが辛い</button>
+        <button class="coach-preset" data-preset="今週うまくいったことを共有させてください！">✨ 達成を報告</button>
+        <button class="coach-preset" data-preset="疲れがとれず、運動の意欲が出ません。">💤 疲れている</button>
+        <button class="coach-preset" data-preset="生活リズムが不規則になっています。">🌙 生活リズムを整えたい</button>
+      </div>
     </div>
 
     <!-- 入力欄 -->
@@ -1134,11 +1238,12 @@ function loadData(){
   let streak=0;
   try{ const s=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); streak=s.count||0; }catch(e){}
 
-  // 実績（両方合算）
-  let achQ={}, achN={};
+  // 実績（運動 + 栄養 + コーチ合算）
+  let achQ={}, achN={}, achC={};
   try{ achQ=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); }catch(e){}
   try{ achN=JSON.parse(localStorage.getItem(`vn_ach_${uid}`)||'{}'); }catch(e){}
-  const allAch=Object.assign({},achQ,achN);
+  try{ achC=JSON.parse(localStorage.getItem(`vc_ach_${uid}`)||'{}'); }catch(e){}
+  const allAch=Object.assign({},achQ,achN,achC);
   const achCount=Object.keys(allAch).filter(k=>allAch[k]).length;
 
   // 記録週数
@@ -1247,12 +1352,12 @@ const ALL_ACHV=[
   {id:'streak3', icon:'📅', name:'3週連続'},
   {id:'lv3',     icon:'⭐', name:'Lv3'},
   {id:'lv5',     icon:'👑', name:'覚醒'},
-  {id:'first',   icon:'🌱', name:'初調合'},
   {id:'veg7',    icon:'🥦', name:'野菜使い'},
   {id:'veg_goal',icon:'💚', name:'野菜の達人'},
   {id:'fruit_g', icon:'🍎', name:'果物魔術師'},
-  {id:'no_limit',icon:'✨', name:'清廉な食卓'},
-  {id:'all_half',icon:'⚗️', name:'バランス錬成'},
+  {id:'coach_first', icon:'💬', name:'初対話'},
+  {id:'coach_3',     icon:'🗣️', name:'相談3回'},
+  {id:'coach_grow',  icon:'🧭', name:'GROW完走'},
 ];
 function renderAchv(ach){
   const el=document.getElementById('achv-grid');
@@ -1335,6 +1440,62 @@ function renderAllHistory(){
   _coachState.history.forEach(m=>appendBubble(m.role==='user'?'user':'luna', m.text));
 }
 
+// AIコーチ関連の実績解放（ローカル保存→次回 updateUI で反映）
+const COACH_ACH_KEY=()=>`vc_ach_${uid||'guest'}`;
+const COACH_GROW_KEY=()=>`vc_grow_${uid||'guest'}`; // 訪れたGROWステップを記録 'GROW' 全部揃えば完走
+
+function awardCoachAchievements(){
+  if(!uid||uid==='guest') return;
+  let ach={};
+  try{ ach=JSON.parse(localStorage.getItem(COACH_ACH_KEY())||'{}'); }catch(e){}
+  let grow='';
+  try{ grow=localStorage.getItem(COACH_GROW_KEY())||''; }catch(e){}
+
+  // 初対話：ユーザー発話が1回以上
+  const userTurns=_coachState.history.filter(m=>m.role==='user').length;
+  let changed=false;
+  let newlyUnlocked=[];
+
+  if(userTurns>=1 && !ach.coach_first){
+    ach.coach_first=true; changed=true; newlyUnlocked.push('💬 初対話');
+  }
+  if(userTurns>=3 && !ach.coach_3){
+    ach.coach_3=true; changed=true; newlyUnlocked.push('🗣️ 相談3回');
+  }
+  // GROW全段階を訪れたか
+  if(_coachState.step && 'GROW'.includes(_coachState.step) && !grow.includes(_coachState.step)){
+    grow+=_coachState.step;
+    localStorage.setItem(COACH_GROW_KEY(),grow);
+  }
+  if(grow.includes('G')&&grow.includes('R')&&grow.includes('O')&&grow.includes('W') && !ach.coach_grow){
+    ach.coach_grow=true; changed=true; newlyUnlocked.push('🧭 GROW完走');
+  }
+
+  if(changed){
+    try{ localStorage.setItem(COACH_ACH_KEY(),JSON.stringify(ach)); }catch(e){}
+    // 軽い通知（コーチパネル内に小さいトースト）
+    if(newlyUnlocked.length){
+      showCoachToast('🏆 実績解放：'+newlyUnlocked.join(' / '));
+    }
+    // ホーム画面の実績バッジも更新（UI再描画）
+    if(typeof updateUI==='function') updateUI();
+  }
+}
+
+function showCoachToast(text){
+  let t=document.getElementById('coach-toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='coach-toast';
+    t.className='coach-toast';
+    document.querySelector('.coach-panel')?.appendChild(t);
+  }
+  t.textContent=text;
+  t.classList.add('show');
+  clearTimeout(showCoachToast._tid);
+  showCoachToast._tid=setTimeout(()=>t.classList.remove('show'),3500);
+}
+
 // 1ターン分（user発話 + ルナ返答）を Firestore に保存
 async function syncCoachToFirestore(userMsg, lunaMsg){
   // ゲストや未ログインは保存しない（個人特定なしのため）
@@ -1381,6 +1542,23 @@ function parseStepTag(text){
   return text.trim();
 }
 
+// ルナの表情を会話文脈から推定して画像を切り替え
+function pickLunaFace(text, step){
+  const t=String(text||'');
+  // 1: 通常 / 2: 嬉しい・励まし / 3: 穏やか・聞き入る / 4: 思考・真剣 / 5: 優しさ・心配 / 6: 可愛い・照れ
+  if(/(素晴ら|すばらし|やった|やりまし|達成|頑張|がんば|嬉し|うれし|✨|！！)/.test(t)) return 2;
+  if(/(辛|つら|大丈夫|心配|無理|しんどい|疲れ|休|お大事)/.test(t)) return 5;
+  if(/(♪|☺|😊|ふふ|なるほど|そうなのですね)/.test(t)) return 6;
+  if(step==='O'||/(どんな工夫|選択肢|案を|考えられ|2〜3案|2か3案)/.test(t)) return 4;
+  if(step==='R'||/(現状|今|どんな状況|どうですか|聞かせ)/.test(t)) return 3;
+  if(step==='W'||/(やってみま|始めま|決め|意志|どれを)/.test(t)) return 2;
+  return 1;
+}
+function applyLunaFace(faceNum){
+  const img=document.getElementById('coach-luna-img');
+  if(img) img.src=`./image/runa-sabun%20(${faceNum}).png`;
+}
+
 async function sendCoachMessage(){
   if(_coachState.busy) return;
   const input=document.getElementById('coach-input');
@@ -1394,6 +1572,7 @@ async function sendCoachMessage(){
   appendBubble('user',text);
   _coachState.history.push({role:'user',text});
   saveCoachHistory();
+  updatePresetVisibility();
 
   appendTyping();
   try{
@@ -1405,6 +1584,8 @@ async function sendCoachMessage(){
     saveCoachHistory();
     syncCoachToFirestore({role:'user',text}, {role:'model',text:clean,step:_coachState.step});
     renderCoachStep();
+    applyLunaFace(pickLunaFace(clean, _coachState.step));
+    awardCoachAchievements();
   }catch(err){
     removeTyping();
     appendBubble('luna',`（呼び出しに失敗しました：${err.message}）\n\n少し時間をおいて、もう一度お試しください。継続する場合は研究事務局までご連絡を。`);
@@ -1414,16 +1595,41 @@ async function sendCoachMessage(){
   }
 }
 
+function updatePresetVisibility(){
+  // 履歴が0または1件（初回ルナ挨拶のみ）のときだけプリセット表示
+  const presets=document.getElementById('coach-presets');
+  if(_coachState.history.length===0){
+    presets.classList.add('show');
+  }else{
+    presets.classList.remove('show');
+  }
+}
+
+function resetCoachConversation(){
+  if(!confirm('ルナとの会話を最初からやり直しますか？\n（過去の会話履歴はこの端末から削除されます）')) return;
+  _coachState.history=[];
+  _coachState.step='G';
+  try{
+    localStorage.removeItem(COACH_HIST_KEY());
+    localStorage.removeItem(COACH_STEP_KEY());
+  }catch(e){}
+  renderAllHistory();
+  renderCoachStep();
+  updatePresetVisibility();
+}
+
 function openCoach(){
   document.getElementById('coach-modal').classList.add('open');
   loadCoachHistory();
   renderAllHistory();
   renderCoachStep();
+  updatePresetVisibility();
   setTimeout(()=>document.getElementById('coach-input').focus(),250);
 }
 
 document.getElementById('coach-tile').addEventListener('click',openCoach);
 document.getElementById('coach-close').addEventListener('click',()=>document.getElementById('coach-modal').classList.remove('open'));
+document.getElementById('coach-reset').addEventListener('click',resetCoachConversation);
 document.getElementById('coach-modal').addEventListener('click',e=>{
   if(e.target===document.getElementById('coach-modal')) document.getElementById('coach-modal').classList.remove('open');
 });
@@ -1437,6 +1643,16 @@ document.getElementById('coach-input').addEventListener('keydown',e=>{
 document.getElementById('coach-input').addEventListener('input',e=>{
   e.target.style.height='auto';
   e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';
+});
+
+// プリセット候補のクリック → 自動送信
+document.querySelectorAll('.coach-preset').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(_coachState.busy) return;
+    const txt=btn.dataset.preset;
+    document.getElementById('coach-input').value=txt;
+    sendCoachMessage();
+  });
 });
 
 // ===== Auth =====
@@ -1514,25 +1730,47 @@ if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
 
 // ===== チュートリアル =====
 const TUT_STEPS=[
-  {icon:'✨',title:'ヴィタリアへようこそ！',desc:'あなたは今、転生した勇者です。健康の力を取り戻す旅が始まります。'},
-  {icon:'⚔',title:'運動クエスト',desc:'毎週の運動を記録して経験値を獲得。目標は週150分。カイトが一緒に鍛えてくれます！'},
-  {icon:'🌿',title:'栄養クエスト',desc:'食事の記録でポイントを貯めよう。セラの魔法レシピで魔力が回復します。'},
-  {icon:'👤',title:'マイページ',desc:'体組成データや記録の履歴をここで確認できます。成長グラフも見られます。'},
-  {icon:'🏆',title:'実績・レベルアップ',desc:'記録を続けるとバッジが解放されレベルが上がります。12週完走を目指そう！'},
+  {char:'luna',img:'./image/runa-sabun%20(1).png',title:'ヴィタリアへようこそ',
+    desc:'私はルナ — 転生の女神です。\nあなたは今、健康の異世界ヴィタリアに転生しました。',
+    cite:'12週間、運動と栄養の力を取り戻す冒険が始まります。'},
+  {char:'luna',img:'./image/runa-sabun%20(3).png',title:'プレイヤーカード',
+    desc:'画面上部のカードがあなたの分身です。\n運動・栄養を記録するごとにXPが貯まり、レベルが上がります。',
+    cite:'Lv.1 転生者 → Lv.5 伝説の転生者 を目指しましょう。'},
+  {char:'kaito',img:'./image/kaito-sabun%20(1).png',title:'カイトの運動クエスト',
+    desc:'「俺は鍛錬の剣士・カイト。」\n散歩・買い物などの日常活動も含めて記録していこう。',
+    cite:'目標は週150分。1タップで簡単に記録できます。'},
+  {char:'sera',img:'./image/sera-sabun%20(1).png',title:'セラの栄養クエスト',
+    desc:'「魔力の巫女・セラと申します。」\n野菜・果物・たんぱく質を記録して、栄養バランスを整えましょう。',
+    cite:'食事写真の自動認識（任意）も使えます。'},
+  {char:'luna',img:'./image/runa-sabun%20(2).png',title:'ルナのAIコーチング',
+    desc:'いつでも私に話しかけてください。\nGROWモデル（目標→現状→選択肢→意志）であなたの考えを整理します。',
+    cite:'批判はしません。続けるための作戦を一緒に練りましょう。'},
+  {char:'trophy',img:'./image/kaito-sabun%20(2).png',title:'実績バッジで継続を見える化',
+    desc:'記録を続けると、12種類の実績バッジが順次解放されます。\n3週連続・完全栄養週・高強度達成…',
+    cite:'12週完走バッジを目指しましょう！'},
 ];
 let _tutIdx=0;
 function tutKey(){ return `vt_tut_${uid}`; }
 function showTutorial(){
   if(localStorage.getItem(tutKey())) return;
-  _tutIdx=0; renderTutStep(); document.getElementById('tutorial-overlay').style.display='flex';
+  _tutIdx=0;
+  // ドット数をステップ数に合わせる
+  const dotsEl=document.getElementById('tut-dots');
+  if(dotsEl && dotsEl.children.length!==TUT_STEPS.length){
+    dotsEl.innerHTML=TUT_STEPS.map((_,i)=>`<div class="tut-dot${i===0?' active':''}"></div>`).join('');
+  }
+  renderTutStep();
+  document.getElementById('tutorial-overlay').style.display='flex';
 }
 function renderTutStep(){
   const s=TUT_STEPS[_tutIdx];
   document.getElementById('tut-step-num').textContent=`STEP ${_tutIdx+1} / ${TUT_STEPS.length}`;
-  document.getElementById('tut-icon').textContent=s.icon;
+  document.getElementById('tut-char-img').src=s.img;
+  document.getElementById('tut-char').className='tut-char tut-char-'+s.char;
   document.getElementById('tut-title').textContent=s.title;
   document.getElementById('tut-desc').textContent=s.desc;
-  document.getElementById('tut-next').textContent=_tutIdx===TUT_STEPS.length-1?'はじめる！':'次へ →';
+  document.getElementById('tut-cite').textContent=s.cite||'';
+  document.getElementById('tut-next').textContent=_tutIdx===TUT_STEPS.length-1?'冒険を始める ✦':'次へ →';
   document.querySelectorAll('.tut-dot').forEach((d,i)=>d.classList.toggle('active',i===_tutIdx));
 }
 document.getElementById('tut-next').addEventListener('click',()=>{
@@ -1556,12 +1794,20 @@ function closeTutorial(){
 <!-- チュートリアルオーバーレイ -->
 <div id="tutorial-overlay" style="display:none;">
   <div id="tutorial-box">
-    <div class="tut-step-num" id="tut-step-num">STEP 1 / 5</div>
-    <div class="tut-icon" id="tut-icon">✨</div>
-    <div class="tut-title" id="tut-title"></div>
-    <p class="tut-desc" id="tut-desc"></p>
-    <div class="tut-dots">
+    <div class="tut-char-wrap">
+      <div class="tut-char" id="tut-char">
+        <img id="tut-char-img" src="./image/runa-sabun%20(1).png" alt="">
+      </div>
+      <div class="tut-step-num" id="tut-step-num">STEP 1 / 6</div>
+    </div>
+    <div class="tut-content">
+      <div class="tut-title" id="tut-title"></div>
+      <p class="tut-desc" id="tut-desc"></p>
+      <p class="tut-desc-cite" id="tut-cite"></p>
+    </div>
+    <div class="tut-dots" id="tut-dots">
       <div class="tut-dot active"></div>
+      <div class="tut-dot"></div>
       <div class="tut-dot"></div>
       <div class="tut-dot"></div>
       <div class="tut-dot"></div>
