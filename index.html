@@ -411,6 +411,170 @@ body::before{
 /* hero-image クラスは削除（今後アプリ紹介で使用） */
 .hero-image{display:none;}
 
+/* ========== アプリUI紹介（App Store スタイル） ========== */
+.appshow{
+  padding:80px 0 72px;
+  background:#07091a;
+  position:relative;overflow:hidden;
+}
+.appshow::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 50% 60% at 0% 50%,rgba(201,168,76,.06) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 60% at 100% 50%,rgba(78,100,220,.06) 0%,transparent 65%);
+}
+.appshow .section-inner{position:relative;z-index:1;}
+.appshow .chapter-label{color:rgba(201,168,76,.75);}
+.appshow .chapter-label::before,.appshow .chapter-label::after{background:linear-gradient(90deg,transparent,rgba(201,168,76,.4));}
+.appshow .chapter-label::after{background:linear-gradient(90deg,rgba(201,168,76,.4),transparent);}
+.appshow .section-title{color:#f0f4ff;}
+.appshow .section-desc{color:rgba(170,190,240,.5);}
+
+/* スクロールレール */
+.appshow-rail{
+  display:flex;gap:20px;
+  overflow-x:auto;
+  padding:32px 40px 20px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.appshow-rail::-webkit-scrollbar{display:none;}
+
+/* 各スクリーンカード */
+.appshow-card{
+  flex-shrink:0;
+  scroll-snap-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  width:200px;
+}
+.appshow-frame{
+  width:200px;
+  background:#0d1430;
+  border-radius:28px;
+  border:2.5px solid rgba(60,80,180,.5);
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 5px rgba(30,50,160,.08);
+  overflow:hidden;
+  position:relative;
+}
+.appshow-notch{
+  width:60px;height:16px;
+  background:#0d1430;
+  border-radius:0 0 10px 10px;
+  margin:0 auto;position:relative;z-index:2;
+}
+.appshow-screen{
+  background:linear-gradient(180deg,#080b14 0%,#0c1020 100%);
+  min-height:360px;
+  display:flex;flex-direction:column;
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  overflow:hidden;
+}
+
+/* 各スクリーンのヘッダー */
+.as-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 10px 6px;
+  background:rgba(8,11,20,.95);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  flex-shrink:0;
+}
+.as-hdr-title{font-family:'Noto Serif JP',serif;font-size:.55rem;font-weight:700;letter-spacing:.04em;}
+.as-hdr-nav{font-size:.44rem;color:rgba(170,188,216,.4);}
+
+/* スクリーン共通コンテンツ */
+.as-body{padding:9px 10px;display:flex;flex-direction:column;gap:6px;flex:1;}
+.as-char{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;
+  border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;
+}
+.as-char img{
+  width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid;
+}
+.as-char-info{flex:1;min-width:0;}
+.as-char-name{font-size:.56rem;font-weight:700;color:rgba(212,220,240,.8);}
+.as-char-sub{font-size:.46rem;color:rgba(170,188,216,.4);margin-top:1px;}
+.as-xb{height:4px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;margin-top:4px;}
+.as-xb-fill{height:100%;border-radius:99px;}
+
+.as-sec-lbl{font-size:.44rem;font-weight:700;letter-spacing:.12em;color:rgba(170,188,216,.28);text-transform:uppercase;margin-bottom:3px;}
+.as-bar-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
+.as-bar-icon{font-size:.65rem;width:14px;text-align:center;flex-shrink:0;}
+.as-bar-lbl{font-size:.44rem;color:rgba(212,220,240,.45);width:32px;flex-shrink:0;white-space:nowrap;}
+.as-bar-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.as-bar-fill{height:100%;border-radius:99px;}
+.as-bar-val{font-size:.42rem;color:rgba(170,188,216,.35);width:18px;text-align:right;flex-shrink:0;}
+.as-bar-xp{font-size:.4rem;font-weight:700;color:rgba(201,168,76,.55);padding:0 3px;background:rgba(201,168,76,.08);border-radius:2px;flex-shrink:0;}
+
+.as-grid2{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.as-grid-item{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:7px;padding:5px 6px;
+  display:flex;align-items:center;gap:4px;
+}
+.as-gi-icon{font-size:.75rem;flex-shrink:0;}
+.as-gi-name{font-size:.44rem;color:rgba(212,220,240,.65);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.as-gi-xp{font-size:.38rem;color:rgba(201,168,76,.45);}
+.as-grid-item.done{border-color:rgba(224,92,92,.22);background:rgba(224,92,92,.05);}
+.as-grid-item.done .as-gi-name{color:#f0a0a0;}
+
+.as-luna{
+  display:flex;align-items:flex-start;gap:6px;
+  background:rgba(156,114,224,.07);border:1px solid rgba(156,114,224,.14);
+  border-radius:8px;padding:6px 8px;
+}
+.as-luna img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid rgba(156,114,224,.3);}
+.as-luna-msg{font-size:.44rem;color:rgba(200,188,240,.65);line-height:1.6;}
+
+.as-xp-reward{
+  background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.06));
+  border:1px solid rgba(201,168,76,.25);border-radius:7px;
+  padding:6px 9px;text-align:center;
+}
+.as-xp-num{font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;color:#f0d48a;}
+.as-xp-lbl{font-size:.42rem;color:rgba(201,168,76,.45);letter-spacing:.08em;margin-top:1px;}
+
+.as-tile-row{display:flex;gap:5px;}
+.as-tile{
+  flex:1;border-radius:9px;padding:7px 6px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;border:1px solid;
+}
+.as-tile img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(255,255,255,.12);}
+.as-tile-badge{font-size:.4rem;font-weight:700;padding:1px 4px;border-radius:3px;}
+.as-tile-name{font-size:.48rem;font-weight:700;color:rgba(212,220,240,.7);}
+.as-tile-sub{font-size:.38rem;color:rgba(170,188,216,.3);text-align:center;line-height:1.3;}
+
+.as-ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.as-ach-item{
+  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.18);
+  border-radius:6px;padding:5px 6px;text-align:center;
+}
+.as-ach-item.locked{background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.06);opacity:.4;}
+.as-ach-icon{font-size:.9rem;line-height:1;}
+.as-ach-name{font-size:.44rem;color:rgba(201,168,76,.8);margin-top:2px;}
+.as-ach-item.locked .as-ach-name{color:rgba(170,188,216,.3);}
+
+/* カードラベル */
+.appshow-label{
+  font-family:'Noto Serif JP',serif;
+  font-size:.72rem;font-weight:700;
+  color:rgba(201,168,76,.75);text-align:center;
+  line-height:1.4;
+}
+.appshow-sublabel{
+  font-size:.6rem;color:rgba(170,188,216,.35);text-align:center;margin-top:2px;
+}
+
+/* インジケーター（ページドット） */
+.appshow-indicators{
+  display:flex;gap:6px;justify-content:center;padding:8px 0 4px;
+}
+.appshow-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(201,168,76,.2);transition:all .25s;
+}
+.appshow-dot.on{background:rgba(201,168,76,.75);width:18px;border-radius:4px;}
+
 /* ========== セクション共通 ========== */
 section{position:relative;z-index:1;}
 .section-inner{max-width:1080px;margin:0 auto;padding:0 32px;}
@@ -1747,6 +1911,305 @@ footer{
       </div>
 
     </div>
+  </div>
+</section>
+
+
+<!-- ========== アプリUI紹介（App Store スタイル） ========== -->
+<section class="appshow" id="appshow">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="chapter-label">— App Screenshots —</div>
+      <h2 class="section-title">アプリの<span class="accent" style="-webkit-text-fill-color:initial;background:none;color:#c9a84c;">画面紹介</span></h2>
+      <p class="section-desc">実際のゲームUIを先取りチェック。参加登録後すぐに遊べます。</p>
+    </div>
+  </div>
+
+  <!-- 横スクロール レール -->
+  <div class="appshow-rail" id="appshow-rail">
+
+    <!-- Screen 1: ゲームホーム -->
+    <div class="appshow-card">
+      <div class="appshow-frame">
+        <div class="appshow-notch"></div>
+        <div class="appshow-screen">
+          <div class="as-hdr" style="border-bottom-color:rgba(201,168,76,.15);">
+            <span class="as-hdr-nav">退場</span>
+            <span class="as-hdr-title" style="color:rgba(201,168,76,.9);">✦ ヴィタリア転生録</span>
+            <span style="font-size:.44rem;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:3px;padding:1px 5px;color:#f0d48a;font-weight:700;">Lv.3</span>
+          </div>
+          <div class="as-char" style="background:linear-gradient(135deg,rgba(201,168,76,.06),transparent);">
+            <img src="./image/runa-sabun%20(1).png" alt="ルナ" style="border-color:rgba(201,168,76,.45);object-position:center 14%;box-shadow:0 0 12px rgba(201,168,76,.15);">
+            <div class="as-char-info">
+              <div class="as-char-name">試練の修行者</div>
+              <div class="as-char-sub">3週目・連続記録中</div>
+              <div class="as-xb"><div class="as-xb-fill" style="width:62%;background:linear-gradient(90deg,#c9a84c,#f0d48a);"></div></div>
+              <div style="font-size:.4rem;color:rgba(201,168,76,.35);margin-top:2px;text-align:right;">1,240 / 2,000 XP</div>
+            </div>
+          </div>
+          <div class="as-body">
+            <div class="as-sec-lbl">今週の冒険記録</div>
+            <div class="as-bar-row">
+              <span class="as-bar-icon">⚔</span>
+              <span class="as-bar-lbl" style="color:rgba(240,160,160,.6);">運動</span>
+              <div class="as-bar-track"><div class="as-bar-fill" style="width:58%;background:linear-gradient(90deg,#e05c5c,#e08a3c);"></div></div>
+              <span class="as-bar-val">87分</span>
+            </div>
+            <div class="as-bar-row">
+              <span class="as-bar-icon">🌿</span>
+              <span class="as-bar-lbl" style="color:rgba(160,240,190,.6);">栄養</span>
+              <div class="as-bar-track"><div class="as-bar-fill" style="width:44%;background:linear-gradient(90deg,#4ec98a,#a8e060);"></div></div>
+              <span class="as-bar-val">11pt</span>
+            </div>
+            <div class="as-tile-row">
+              <div class="as-tile" style="border-color:rgba(224,92,92,.25);background:rgba(224,92,92,.05);">
+                <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;">
+                <span class="as-tile-badge" style="background:rgba(224,92,92,.18);color:#f0a0a0;">⚔ 運動</span>
+                <span class="as-tile-name">カイト</span>
+                <span class="as-tile-sub">週150分<br>達成へ</span>
+              </div>
+              <div class="as-tile" style="border-color:rgba(78,201,138,.25);background:rgba(78,201,138,.05);">
+                <img src="./image/sera-sabun%20(1).png" alt="セラ" style="object-position:center 16%;">
+                <span class="as-tile-badge" style="background:rgba(78,201,138,.18);color:#a0f0c0;">🌿 栄養</span>
+                <span class="as-tile-name">セラ</span>
+                <span class="as-tile-sub">野菜・魚<br>記録中</span>
+              </div>
+            </div>
+            <div class="as-luna">
+              <img src="./image/runa-sabun%20(2).png" alt="ルナ" style="object-position:center 14%;">
+              <div class="as-luna-msg">「今週も着実に前進中。<br>この調子で続けよう！」</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appshow-label">ゲームホーム</div>
+      <div class="appshow-sublabel">XP・レベル・週間進捗を一目確認</div>
+    </div>
+
+    <!-- Screen 2: 運動クエスト -->
+    <div class="appshow-card">
+      <div class="appshow-frame">
+        <div class="appshow-notch"></div>
+        <div class="appshow-screen">
+          <div class="as-hdr" style="border-bottom-color:rgba(224,92,92,.18);">
+            <span class="as-hdr-nav">← ホーム</span>
+            <span class="as-hdr-title" style="color:rgba(240,160,160,.85);">⚔ 健康クエスト</span>
+            <span style="font-size:.42rem;color:rgba(240,160,160,.4);">87分</span>
+          </div>
+          <div class="as-char" style="background:linear-gradient(135deg,rgba(224,92,92,.06),transparent);">
+            <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="border-color:rgba(224,92,92,.45);object-position:center 12%;box-shadow:0 0 12px rgba(224,92,92,.12);">
+            <div class="as-char-info">
+              <div class="as-char-name">カイト — 鍛錬の剣士</div>
+              <div class="as-char-sub">今週目標: 150分</div>
+              <div class="as-xb"><div class="as-xb-fill" style="width:58%;background:linear-gradient(90deg,#e05c5c,#e08a3c);"></div></div>
+              <div style="font-size:.4rem;color:rgba(240,160,160,.35);margin-top:2px;text-align:right;">87 / 150 分</div>
+            </div>
+          </div>
+          <div class="as-body">
+            <div class="as-sec-lbl">日常の動き</div>
+            <div class="as-grid2">
+              <div class="as-grid-item done">
+                <span class="as-gi-icon">🚶</span>
+                <div><div class="as-gi-name">ゆっくり散歩</div><div class="as-gi-xp">+8XP ✓</div></div>
+              </div>
+              <div class="as-grid-item done">
+                <span class="as-gi-icon">🛒</span>
+                <div><div class="as-gi-name">買い物・外出</div><div class="as-gi-xp">+10XP ✓</div></div>
+              </div>
+              <div class="as-grid-item">
+                <span class="as-gi-icon">🧹</span>
+                <div><div class="as-gi-name">掃除・片付け</div><div class="as-gi-xp">+8XP</div></div>
+              </div>
+              <div class="as-grid-item">
+                <span class="as-gi-icon">🪜</span>
+                <div><div class="as-gi-name">階段の上り下り</div><div class="as-gi-xp">+12XP</div></div>
+              </div>
+            </div>
+            <div class="as-xp-reward">
+              <div class="as-xp-num">＋ 18 XP</div>
+              <div class="as-xp-lbl">今日の獲得 — 残り63分！</div>
+            </div>
+            <div class="as-luna" style="border-color:rgba(224,92,92,.15);background:rgba(224,92,92,.04);">
+              <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;border-color:rgba(224,92,92,.3);">
+              <div class="as-luna-msg" style="color:rgba(255,200,180,.65);">「階段を使えば今日中に達成できるぞ！」</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appshow-label">運動クエスト</div>
+      <div class="appshow-sublabel">1タップで記録・日常活動もカウント</div>
+    </div>
+
+    <!-- Screen 3: 栄養クエスト -->
+    <div class="appshow-card">
+      <div class="appshow-frame">
+        <div class="appshow-notch"></div>
+        <div class="appshow-screen">
+          <div class="as-hdr" style="border-bottom-color:rgba(78,201,138,.15);">
+            <span class="as-hdr-nav">← ホーム</span>
+            <span class="as-hdr-title" style="color:rgba(160,240,190,.85);">🌿 栄養クエスト</span>
+            <span style="font-size:.42rem;color:rgba(160,240,190,.4);">11pt</span>
+          </div>
+          <div class="as-char" style="background:linear-gradient(135deg,rgba(78,201,138,.06),transparent);">
+            <img src="./image/sera-sabun%20(1).png" alt="セラ" style="border-color:rgba(78,201,138,.45);object-position:center 16%;box-shadow:0 0 12px rgba(78,201,138,.12);">
+            <div class="as-char-info">
+              <div class="as-char-name">セラ — 魔力の巫女</div>
+              <div class="as-char-sub">今週の食事記録</div>
+              <div class="as-xb"><div class="as-xb-fill" style="width:44%;background:linear-gradient(90deg,#4ec98a,#a8e060);"></div></div>
+              <div style="font-size:.4rem;color:rgba(160,240,190,.35);margin-top:2px;text-align:right;">11 / 25 pt</div>
+            </div>
+          </div>
+          <div class="as-body">
+            <div class="as-sec-lbl">今週の栄養バランス</div>
+            <div class="as-bar-row">
+              <span class="as-bar-icon">🥦</span>
+              <span class="as-bar-lbl" style="color:rgba(160,240,190,.55);">野菜</span>
+              <div class="as-bar-track"><div class="as-bar-fill" style="width:65%;background:linear-gradient(90deg,#4ec98a,#7ee8b0);"></div></div>
+              <span class="as-bar-val">9皿</span>
+              <span class="as-bar-xp">+18XP</span>
+            </div>
+            <div class="as-bar-row">
+              <span class="as-bar-icon">🍎</span>
+              <span class="as-bar-lbl" style="color:rgba(160,240,190,.55);">果物</span>
+              <div class="as-bar-track"><div class="as-bar-fill" style="width:40%;background:linear-gradient(90deg,#4ec98a,#7ee8b0);"></div></div>
+              <span class="as-bar-val">4皿</span>
+              <span class="as-bar-xp">+8XP</span>
+            </div>
+            <div class="as-bar-row">
+              <span class="as-bar-icon">🐟</span>
+              <span class="as-bar-lbl" style="color:rgba(160,240,190,.55);">たんぱく</span>
+              <div class="as-bar-track"><div class="as-bar-fill" style="width:80%;background:linear-gradient(90deg,#4ec98a,#7ee8b0);"></div></div>
+              <span class="as-bar-val">12食</span>
+              <span class="as-bar-xp">+24XP</span>
+            </div>
+            <div class="as-xp-reward" style="background:linear-gradient(135deg,rgba(78,201,138,.1),rgba(78,201,138,.04));border-color:rgba(78,201,138,.22);">
+              <div class="as-xp-num" style="color:#a0f0c0;">＋ 50 XP</div>
+              <div class="as-xp-lbl" style="color:rgba(78,201,138,.4);">野菜目標達成！</div>
+            </div>
+            <div class="as-luna" style="border-color:rgba(78,201,138,.14);background:rgba(78,201,138,.04);">
+              <img src="./image/sera-sabun%20(2).png" alt="セラ" style="object-position:center 16%;border-color:rgba(78,201,138,.3);">
+              <div class="as-luna-msg" style="color:rgba(180,240,200,.6);">「野菜9皿！魔力全開ですよ✨」</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appshow-label">栄養クエスト</div>
+      <div class="appshow-sublabel">野菜・魚・果物をカテゴリで記録</div>
+    </div>
+
+    <!-- Screen 4: AIコーチング -->
+    <div class="appshow-card">
+      <div class="appshow-frame">
+        <div class="appshow-notch"></div>
+        <div class="appshow-screen">
+          <div class="as-hdr" style="border-bottom-color:rgba(156,114,224,.2);">
+            <span class="as-hdr-nav">← ホーム</span>
+            <span class="as-hdr-title" style="color:rgba(200,180,255,.85);">✦ ルナのコーチング</span>
+            <span style="font-size:.42rem;color:rgba(156,114,224,.4);">AI</span>
+          </div>
+          <div class="as-char" style="background:linear-gradient(135deg,rgba(156,114,224,.07),transparent);">
+            <img src="./image/runa-sabun%20(1).png" alt="ルナ" style="border-color:rgba(156,114,224,.45);object-position:center 14%;box-shadow:0 0 12px rgba(156,114,224,.15);">
+            <div class="as-char-info">
+              <div class="as-char-name">ルナ — 転生の女神</div>
+              <div class="as-char-sub">GROWモデル AIコーチ</div>
+            </div>
+          </div>
+          <div class="as-body" style="gap:5px;">
+            <div style="background:rgba(156,114,224,.07);border:1px solid rgba(156,114,224,.15);border-radius:8px;padding:7px 9px;">
+              <div style="font-size:.42rem;color:rgba(200,180,255,.4);margin-bottom:3px;">ルナ</div>
+              <div style="font-size:.46rem;color:rgba(200,188,240,.7);line-height:1.65;">「今週の目標について聞かせてください。<br>どんな状況から始めたいですか？」</div>
+            </div>
+            <div style="background:rgba(100,120,200,.08);border:1px solid rgba(100,120,200,.15);border-radius:8px;padding:7px 9px;align-self:flex-end;max-width:85%;">
+              <div style="font-size:.46rem;color:rgba(200,215,240,.65);line-height:1.65;">「最近、疲れていて運動が続かなくて…」</div>
+            </div>
+            <div style="background:rgba(156,114,224,.07);border:1px solid rgba(156,114,224,.15);border-radius:8px;padding:7px 9px;">
+              <div style="font-size:.42rem;color:rgba(200,180,255,.4);margin-bottom:3px;">ルナ</div>
+              <div style="font-size:.46rem;color:rgba(200,188,240,.7);line-height:1.65;">「そうなのですね。疲れを感じながらも続けようとしているあなたは素晴らしい。<br>その疲れ、いつ頃から始まりましたか？」</div>
+            </div>
+            <div style="display:flex;gap:4px;margin-top:4px;">
+              <div style="flex:1;background:rgba(156,114,224,.12);border:1px solid rgba(156,114,224,.25);border-radius:6px;padding:5px 7px;font-size:.42rem;color:rgba(200,180,255,.65);font-weight:700;text-align:center;">G<br><span style="font-size:.36rem;opacity:.6;">目標</span></div>
+              <div style="flex:1;background:rgba(100,120,200,.08);border:1px solid rgba(100,120,200,.18);border-radius:6px;padding:5px 7px;font-size:.42rem;color:rgba(170,190,240,.5);text-align:center;">R<br><span style="font-size:.36rem;opacity:.6;">現状</span></div>
+              <div style="flex:1;background:rgba(100,120,200,.08);border:1px solid rgba(100,120,200,.18);border-radius:6px;padding:5px 7px;font-size:.42rem;color:rgba(170,190,240,.5);text-align:center;">O<br><span style="font-size:.36rem;opacity:.6;">選択肢</span></div>
+              <div style="flex:1;background:rgba(100,120,200,.08);border:1px solid rgba(100,120,200,.18);border-radius:6px;padding:5px 7px;font-size:.42rem;color:rgba(170,190,240,.5);text-align:center;">W<br><span style="font-size:.36rem;opacity:.6;">意志</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appshow-label">AIコーチング</div>
+      <div class="appshow-sublabel">GROWモデル対話 · 24時間・批判なし</div>
+    </div>
+
+    <!-- Screen 5: 実績バッジ -->
+    <div class="appshow-card">
+      <div class="appshow-frame">
+        <div class="appshow-notch"></div>
+        <div class="appshow-screen">
+          <div class="as-hdr" style="border-bottom-color:rgba(201,168,76,.15);">
+            <span class="as-hdr-nav">← ホーム</span>
+            <span class="as-hdr-title" style="color:rgba(240,210,120,.85);">🏆 冒険の実績</span>
+            <span style="font-size:.42rem;color:rgba(201,168,76,.4);">3 / 12</span>
+          </div>
+          <div class="as-char" style="background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);">
+            <img src="./image/kaito-sabun%20(2).png" alt="カイト" style="border-color:rgba(201,168,76,.4);object-position:center 12%;box-shadow:0 0 12px rgba(201,168,76,.12);">
+            <div class="as-char-info">
+              <div class="as-char-name" style="color:rgba(240,210,120,.9);">実績バッジ解放！</div>
+              <div class="as-char-sub">Lv.5 — 覚醒の剣士</div>
+            </div>
+          </div>
+          <div class="as-body">
+            <div class="as-sec-lbl">解放済み実績</div>
+            <div class="as-ach-grid">
+              <div class="as-ach-item">
+                <div class="as-ach-icon">⚔️</div>
+                <div class="as-ach-name">初陣</div>
+              </div>
+              <div class="as-ach-item">
+                <div class="as-ach-icon">🎯</div>
+                <div class="as-ach-name">目標達成</div>
+              </div>
+              <div class="as-ach-item">
+                <div class="as-ach-icon">📅</div>
+                <div class="as-ach-name">3週連続</div>
+              </div>
+              <div class="as-ach-item locked">
+                <div class="as-ach-icon">🏆</div>
+                <div class="as-ach-name">12週完走</div>
+              </div>
+              <div class="as-ach-item locked">
+                <div class="as-ach-icon">🌟</div>
+                <div class="as-ach-name">完全栄養週</div>
+              </div>
+              <div class="as-ach-item locked">
+                <div class="as-ach-icon">🔥</div>
+                <div class="as-ach-name">高強度達成</div>
+              </div>
+            </div>
+            <div class="as-luna">
+              <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;border-color:rgba(201,168,76,.3);">
+              <div class="as-luna-msg" style="color:rgba(240,210,160,.6);">「バッジ3枚獲得！次は8週連続を目指せ！」</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appshow-label">実績バッジ</div>
+      <div class="appshow-sublabel">12種の達成バッジで継続を可視化</div>
+    </div>
+
+  </div>
+
+  <!-- インジケーター -->
+  <div class="appshow-indicators" id="appshow-dots">
+    <div class="appshow-dot on"></div>
+    <div class="appshow-dot"></div>
+    <div class="appshow-dot"></div>
+    <div class="appshow-dot"></div>
+    <div class="appshow-dot"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;position:relative;z-index:1;">
+    <a href="./game.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:12px 28px;color:#f0d48a;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .2s;">
+      ⚔ 実際にプレイしてみる →
+    </a>
   </div>
 </section>
 
