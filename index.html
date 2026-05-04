@@ -301,69 +301,107 @@ body::before{
   width:100%;border-radius:8px;
   border:1px solid rgba(255,255,255,.06);
 }
-/* ========== フォンモックアップUI ========== */
-.pmock{width:100%;display:flex;flex-direction:column;gap:8px;font-family:'Zen Kaku Gothic New',sans-serif;}
-.pmock-player{
-  background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));
-  border:1px solid rgba(201,168,76,.25);border-radius:12px;
-  padding:10px;display:flex;align-items:center;gap:8px;
-}
-.pmock-avatar{
-  width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  border:2px solid rgba(201,168,76,.4);
-}
-.pmock-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
-.pmock-info{flex:1;min-width:0;}
-.pmock-name{font-size:.6rem;font-weight:700;color:rgba(201,168,76,.9);letter-spacing:.06em;}
-.pmock-lv{display:flex;align-items:center;gap:5px;margin-top:2px;}
-.pmock-lv-badge{font-size:.5rem;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.35);border-radius:4px;padding:1px 5px;color:#f0d48a;font-weight:700;}
-.pmock-lv-title{font-size:.5rem;color:rgba(212,220,240,.5);}
-.pmock-xp{margin-top:5px;}
-.pmock-xp-bar{height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;}
-.pmock-xp-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a);border-radius:99px;width:62%;}
-.pmock-xp-lbl{font-size:.46rem;color:rgba(201,168,76,.5);margin-top:2px;text-align:right;}
+/* ========== フォンモックアップUI（App Store スクリーンショット風） ========== */
+@keyframes pmock-slide-in{from{opacity:0;transform:translateX(18px);}to{opacity:1;transform:translateX(0);}}
+.pmock{width:100%;display:flex;flex-direction:column;gap:0;font-family:'Zen Kaku Gothic New',sans-serif;}
+.pmock.fade-in{animation:pmock-slide-in .38s cubic-bezier(.22,1,.36,1) both;}
 
-.pmock-week{
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:5px;
+/* アプリヘッダー */
+.pmock-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 10px 6px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(8,11,20,.96);
+  position:sticky;top:0;z-index:2;
 }
-.pmock-week-title{font-size:.5rem;color:rgba(170,188,216,.4);letter-spacing:.1em;font-weight:700;}
+.pmock-hdr-title{font-family:'Noto Serif JP',serif;font-size:.58rem;font-weight:700;letter-spacing:.04em;}
+.pmock-hdr-gold .pmock-hdr-title{color:rgba(201,168,76,.95);}
+.pmock-hdr-red  .pmock-hdr-title{color:rgba(240,160,160,.9);}
+.pmock-hdr-green.pmock-hdr-title{color:rgba(160,240,190,.9);}
+.pmock-hdr-green .pmock-hdr-title{color:rgba(160,240,190,.9);}
+.pmock-hdr-nav{font-size:.46rem;color:rgba(170,188,216,.4);cursor:pointer;}
+.pmock-hdr-lv{font-size:.46rem;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:1px 5px;color:#f0d48a;font-weight:700;}
+
+/* キャラクターバナー */
+.pmock-char-banner{
+  display:flex;align-items:center;gap:9px;padding:9px 10px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.pmock-char-banner img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid;}
+.pmock-char-banner.ch-gold img{border-color:rgba(201,168,76,.5);box-shadow:0 0 12px rgba(201,168,76,.15);}
+.pmock-char-banner.ch-red  img{border-color:rgba(224,92,92,.5); box-shadow:0 0 12px rgba(224,92,92,.12);}
+.pmock-char-banner.ch-green img{border-color:rgba(78,201,138,.5);box-shadow:0 0 12px rgba(78,201,138,.12);}
+.pmock-char-banner img{object-position:center 14%;}
+.pmock-ch-info{flex:1;min-width:0;}
+.pmock-ch-name{font-size:.6rem;font-weight:700;color:rgba(212,220,240,.8);letter-spacing:.04em;}
+.pmock-ch-sub{font-size:.5rem;color:rgba(170,188,216,.4);margin-top:1px;}
+.pmock-xp-mini{margin-top:5px;}
+.pmock-xp-mini-bar{height:4px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.pmock-xp-mini-fill{height:100%;border-radius:99px;}
+.pmock-xp-mini-lbl{font-size:.44rem;color:rgba(201,168,76,.4);margin-top:2px;text-align:right;}
+
+/* コンテンツエリア */
+.pmock-body{padding:8px 10px;display:flex;flex-direction:column;gap:7px;}
+.pmock-sec-label{
+  font-size:.48rem;font-weight:700;letter-spacing:.12em;
+  color:rgba(170,188,216,.3);text-transform:uppercase;
+  padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+/* 進捗バー行 */
 .pmock-bar-row{display:flex;align-items:center;gap:6px;}
-.pmock-bar-label{font-size:.5rem;color:rgba(212,220,240,.6);width:26px;flex-shrink:0;}
-.pmock-bar-track{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;}
-.pmock-bar-fill-q{height:100%;border-radius:99px;background:linear-gradient(90deg,#e05c5c,#e08a3c);width:58%;}
-.pmock-bar-fill-n{height:100%;border-radius:99px;background:linear-gradient(90deg,#4ec98a,#a8e060);width:44%;}
-.pmock-bar-val{font-size:.48rem;color:rgba(170,188,216,.45);width:20px;text-align:right;flex-shrink:0;}
+.pmock-bar-icon{font-size:.7rem;width:16px;text-align:center;flex-shrink:0;}
+.pmock-bar-lbl{font-size:.5rem;color:rgba(212,220,240,.55);width:38px;flex-shrink:0;white-space:nowrap;}
+.pmock-bar-track{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.pmock-bar-fill{height:100%;border-radius:99px;transition:width .6s ease;}
+.pmock-bar-val{font-size:.46rem;color:rgba(170,188,216,.4);width:22px;text-align:right;flex-shrink:0;}
+.pmock-bar-xp{font-size:.44rem;font-weight:700;color:rgba(201,168,76,.6);flex-shrink:0;padding:1px 4px;background:rgba(201,168,76,.08);border-radius:3px;}
 
-.pmock-tiles{display:flex;gap:6px;}
-.pmock-tile{
-  flex:1;border-radius:10px;padding:8px 7px;
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.03);
+/* アクティビティグリッド */
+.pmock-act-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.pmock-act-item{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;padding:6px 7px;
+  display:flex;align-items:center;gap:5px;
 }
-.pmock-tile-q{border-color:rgba(224,92,92,.3);background:rgba(224,92,92,.05);}
-.pmock-tile-n{border-color:rgba(78,201,138,.3);background:rgba(78,201,138,.05);}
-.pmock-tile img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.12);}
-.pmock-tile-q img{object-position:center 12%;}
-.pmock-tile-n img{object-position:center 16%;}
-.pmock-tile-badge{font-size:.46rem;font-weight:700;padding:1px 5px;border-radius:4px;}
-.pmock-tile-badge-q{background:rgba(224,92,92,.2);color:#f0a0a0;}
-.pmock-tile-badge-n{background:rgba(78,201,138,.2);color:#a0f0c0;}
-.pmock-tile-name{font-size:.52rem;color:rgba(212,220,240,.7);font-weight:700;}
-.pmock-tile-sub{font-size:.44rem;color:rgba(170,188,216,.35);text-align:center;line-height:1.4;}
+.pmock-act-icon{font-size:.9rem;line-height:1;flex-shrink:0;}
+.pmock-act-body{flex:1;min-width:0;}
+.pmock-act-name{font-size:.5rem;color:rgba(212,220,240,.7);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pmock-act-xp{font-size:.42rem;color:rgba(201,168,76,.5);}
+.pmock-act-item.done{border-color:rgba(224,92,92,.25);background:rgba(224,92,92,.05);}
+.pmock-act-item.done .pmock-act-name{color:#f0a0a0;}
 
+/* XP獲得フラッシュ */
+.pmock-xp-reward{
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.08));
+  border:1px solid rgba(201,168,76,.3);border-radius:8px;
+  padding:7px 10px;text-align:center;
+}
+.pmock-xp-reward-num{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;color:#f0d48a;}
+.pmock-xp-reward-lbl{font-size:.46rem;color:rgba(201,168,76,.5);letter-spacing:.1em;margin-top:2px;}
+
+/* ルナのメッセージ */
 .pmock-luna{
-  background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.2);
-  border-radius:10px;padding:7px 9px;display:flex;align-items:flex-start;gap:7px;
+  display:flex;align-items:flex-start;gap:7px;
+  background:rgba(156,114,224,.07);border:1px solid rgba(156,114,224,.15);
+  border-radius:9px;padding:7px 9px;
 }
-.pmock-luna img{width:24px;height:24px;border-radius:50%;object-fit:cover;object-position:center 14%;flex-shrink:0;border:1px solid rgba(156,114,224,.35);}
-.pmock-luna-msg{font-size:.48rem;color:rgba(200,188,240,.75);line-height:1.6;}
-@keyframes pmock-fade{0%{opacity:0;transform:translateY(6px);}100%{opacity:1;transform:translateY(0);}}
-.pmock.fade-in{animation:pmock-fade .4s ease both;}
-.pmock-slide-dot{width:5px;height:5px;border-radius:50%;background:rgba(201,168,76,.25);transition:background .2s;display:inline-block;}
-.pmock-slide-dot.on{background:rgba(201,168,76,.8);}
-.pmock-dots{display:flex;gap:5px;justify-content:center;margin-top:6px;}
+.pmock-luna img{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid rgba(156,114,224,.3);}
+.pmock-luna img.luna-img{object-position:center 14%;}
+.pmock-luna-msg{font-size:.48rem;color:rgba(200,188,240,.7);line-height:1.65;}
+
+/* スライド下部 */
+.pmock-dots{display:flex;gap:6px;justify-content:center;align-items:center;padding:8px 0 4px;}
+.pmock-slide-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(201,168,76,.2);
+  transition:all .25s;cursor:pointer;
+}
+.pmock-slide-dot.on{background:rgba(201,168,76,.85);width:16px;border-radius:4px;}
+.pmock-caption{
+  font-size:.52rem;color:rgba(170,188,216,.35);text-align:center;
+  letter-spacing:.06em;padding-bottom:2px;
+}
 .hero-scroll{
   position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:6px;
@@ -1375,71 +1413,23 @@ footer{
       </div>
     </div>
   </div>
-  <!-- スマホモックアップ（ゲームUI のプレビュー） -->
+  <!-- スマホモックアップ（App Store スクリーンショット風） -->
   <div class="hero-mockup">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="phone-screen-label">✦ ゲームUI プレビュー</div>
-        <div class="pmock">
-          <!-- プレイヤーカード -->
-          <div class="pmock-player">
-            <div class="pmock-avatar">
-              <img src="./image/runa-sabun%20(1).png" alt="ルナ">
-            </div>
-            <div class="pmock-info">
-              <div class="pmock-name">▸ 転生者のステータス</div>
-              <div class="pmock-lv">
-                <span class="pmock-lv-badge">Lv.3</span>
-                <span class="pmock-lv-title">試練の修行者</span>
-              </div>
-              <div class="pmock-xp">
-                <div class="pmock-xp-bar"><div class="pmock-xp-fill"></div></div>
-                <div class="pmock-xp-lbl">1,240 / 2,000 XP</div>
-              </div>
-            </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen" style="padding:0;overflow:hidden;">
+          <div class="pmock" id="pmock-content">
+            <!-- JS で初期スライド挿入 -->
           </div>
-          <!-- 週次進捗 -->
-          <div class="pmock-week">
-            <div class="pmock-week-title">— 今週の冒険 —</div>
-            <div class="pmock-bar-row">
-              <div class="pmock-bar-label" style="color:rgba(224,92,92,.7);">運動</div>
-              <div class="pmock-bar-track"><div class="pmock-bar-fill-q"></div></div>
-              <div class="pmock-bar-val">87分</div>
-            </div>
-            <div class="pmock-bar-row">
-              <div class="pmock-bar-label" style="color:rgba(78,201,138,.7);">栄養</div>
-              <div class="pmock-bar-track"><div class="pmock-bar-fill-n"></div></div>
-              <div class="pmock-bar-val">11pt</div>
-            </div>
-          </div>
-          <!-- クエストタイル -->
-          <div class="pmock-tiles">
-            <div class="pmock-tile pmock-tile-q">
-              <img src="./image/kaito-sabun%20(1).png" alt="カイト">
-              <span class="pmock-tile-badge pmock-tile-badge-q">⚔ 運動</span>
-              <span class="pmock-tile-name">カイト</span>
-              <span class="pmock-tile-sub">週150分<br>達成へ</span>
-            </div>
-            <div class="pmock-tile pmock-tile-n">
-              <img src="./image/sera-sabun%20(1).png" alt="セラ">
-              <span class="pmock-tile-badge pmock-tile-badge-n">🌿 栄養</span>
-              <span class="pmock-tile-name">セラ</span>
-              <span class="pmock-tile-sub">野菜・魚<br>記録中</span>
-            </div>
-          </div>
-          <!-- ルナのメッセージ -->
-          <div class="pmock-luna">
-            <img src="./image/runa-sabun%20(2).png" alt="ルナ">
-            <div class="pmock-luna-msg">「今週も着実に前進していますね。<br>この調子で続けましょう！」</div>
-          </div>
-        </div>
-        <div class="pmock-dots" id="pmock-dots">
-          <span class="pmock-slide-dot on"></span>
-          <span class="pmock-slide-dot"></span>
-          <span class="pmock-slide-dot"></span>
         </div>
       </div>
+      <div class="pmock-dots" id="pmock-dots">
+        <span class="pmock-slide-dot on" data-idx="0"></span>
+        <span class="pmock-slide-dot" data-idx="1"></span>
+        <span class="pmock-slide-dot" data-idx="2"></span>
+      </div>
+      <div class="pmock-caption" id="pmock-caption">ゲームホーム</div>
     </div>
   </div>
   <div class="hero-scroll">
@@ -2123,27 +2113,193 @@ footer{
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // フォンモックアップ スライドショー
-  const _slides=[
-    // スライド1: ゲームホーム
-    `<div class="pmock-player"><div class="pmock-avatar"><img src="./image/runa-sabun%20(1).png" alt="ルナ"></div><div class="pmock-info"><div class="pmock-name">▸ 転生者のステータス</div><div class="pmock-lv"><span class="pmock-lv-badge">Lv.3</span><span class="pmock-lv-title">試練の修行者</span></div><div class="pmock-xp"><div class="pmock-xp-bar"><div class="pmock-xp-fill"></div></div><div class="pmock-xp-lbl">1,240 / 2,000 XP</div></div></div></div><div class="pmock-week"><div class="pmock-week-title">— 今週の冒険 —</div><div class="pmock-bar-row"><div class="pmock-bar-label" style="color:rgba(224,92,92,.7);">運動</div><div class="pmock-bar-track"><div class="pmock-bar-fill-q"></div></div><div class="pmock-bar-val">87分</div></div><div class="pmock-bar-row"><div class="pmock-bar-label" style="color:rgba(78,201,138,.7);">栄養</div><div class="pmock-bar-track"><div class="pmock-bar-fill-n"></div></div><div class="pmock-bar-val">11pt</div></div></div><div class="pmock-tiles"><div class="pmock-tile pmock-tile-q"><img src="./image/kaito-sabun%20(1).png" alt="カイト"><span class="pmock-tile-badge pmock-tile-badge-q">⚔ 運動</span><span class="pmock-tile-name">カイト</span><span class="pmock-tile-sub">週150分<br>達成へ</span></div><div class="pmock-tile pmock-tile-n"><img src="./image/sera-sabun%20(1).png" alt="セラ"><span class="pmock-tile-badge pmock-tile-badge-n">🌿 栄養</span><span class="pmock-tile-name">セラ</span><span class="pmock-tile-sub">野菜・魚<br>記録中</span></div></div><div class="pmock-luna"><img src="./image/runa-sabun%20(2).png" alt="ルナ"><div class="pmock-luna-msg">「今週も着実に前進していますね。<br>この調子で続けましょう！」</div></div>`,
-    // スライド2: 実績バッジ
-    `<div class="pmock-player" style="margin-bottom:0;"><div class="pmock-avatar"><img src="./image/kaito-sabun%20(2).png" alt="カイト"></div><div class="pmock-info"><div class="pmock-name">▸ 実績バッジ解放！</div><div class="pmock-lv"><span class="pmock-lv-badge" style="background:rgba(224,92,92,.18);color:#e05c5c;border-color:rgba(224,92,92,.3);">Lv.5</span><span class="pmock-lv-title">覚醒の剣士</span></div></div></div><div style="padding:6px 0;font-size:.5rem;color:rgba(201,168,76,.5);letter-spacing:.1em;">— ACHIEVEMENTS —</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;"><div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:5px 6px;text-align:center;font-size:.5rem;"><div style="font-size:.9rem;">⚔️</div><div style="color:var(--gold2);">初陣</div></div><div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:5px 6px;text-align:center;font-size:.5rem;"><div style="font-size:.9rem;">🎯</div><div style="color:var(--gold2);">目標達成</div></div><div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:5px 6px;text-align:center;font-size:.5rem;"><div style="font-size:.9rem;">📅</div><div style="color:var(--gold2);">3週連続</div></div><div style="background:rgba(100,120,200,.06);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:5px 6px;text-align:center;font-size:.5rem;opacity:.4;"><div style="font-size:.9rem;">🏆</div><div style="color:rgba(170,188,216,.4);">12週完走</div></div></div><div class="pmock-luna" style="margin-top:8px;"><img src="./image/kaito-sabun%20(1).png" alt="カイト"><div class="pmock-luna-msg" style="color:rgba(255,200,160,.8);">「バッジ3枚ゲット！次は8週連続だ！」</div></div>`,
-    // スライド3: 栄養記録
-    `<div class="pmock-player" style="border-color:rgba(78,201,138,.2);"><div class="pmock-avatar" style="border-color:rgba(78,201,138,.3);"><img src="./image/sera-sabun%20(1).png" alt="セラ"></div><div class="pmock-info"><div class="pmock-name">▸ 栄養クエスト</div><div class="pmock-lv"><span class="pmock-lv-badge" style="background:rgba(78,201,138,.15);color:#4ec98a;border-color:rgba(78,201,138,.3);">Lv.2</span><span class="pmock-lv-title">見習い錬金術師</span></div></div></div><div class="pmock-week" style="border-color:rgba(78,201,138,.12);"><div class="pmock-week-title">— 今週の食事記録 —</div><div class="pmock-bar-row"><div class="pmock-bar-label" style="color:rgba(78,201,138,.7);">野菜</div><div class="pmock-bar-track"><div style="height:100%;border-radius:99px;background:linear-gradient(90deg,#4ec98a,#7ee8b0);width:65%;transition:width .6s ease;"></div></div><div class="pmock-bar-val">9皿</div></div><div class="pmock-bar-row"><div class="pmock-bar-label" style="color:rgba(78,201,138,.7);">果物</div><div class="pmock-bar-track"><div style="height:100%;border-radius:99px;background:linear-gradient(90deg,#4ec98a,#7ee8b0);width:40%;transition:width .6s ease;"></div></div><div class="pmock-bar-val">4皿</div></div><div class="pmock-bar-row"><div class="pmock-bar-label" style="color:rgba(78,201,138,.7);">たんぱく</div><div class="pmock-bar-track"><div style="height:100%;border-radius:99px;background:linear-gradient(90deg,#4ec98a,#7ee8b0);width:80%;transition:width .6s ease;"></div></div><div class="pmock-bar-val">12食</div></div></div><div class="pmock-luna" style="background:rgba(78,201,138,.06);border-color:rgba(78,201,138,.12);"><img src="./image/sera-sabun%20(2).png" alt="セラ"><div class="pmock-luna-msg" style="color:rgba(180,240,200,.75);">「野菜9皿！魔力がみなぎっています✨」</div></div>`
+  // フォンモックアップ スライドショー（App Store スクリーンショット風）
+  const _slideData=[
+    {
+      caption:'ゲームホーム',
+      html:`
+        <div class="pmock-hdr pmock-hdr-gold">
+          <span class="pmock-hdr-nav">退場</span>
+          <span class="pmock-hdr-title">✦ ヴィタリア転生録</span>
+          <span class="pmock-hdr-lv">Lv.3</span>
+        </div>
+        <div class="pmock-char-banner ch-gold">
+          <img src="./image/runa-sabun%20(1).png" alt="ルナ" style="object-position:center 14%;">
+          <div class="pmock-ch-info">
+            <div class="pmock-ch-name">試練の修行者</div>
+            <div class="pmock-ch-sub">転生3週目・連続記録中</div>
+            <div class="pmock-xp-mini">
+              <div class="pmock-xp-mini-bar"><div class="pmock-xp-mini-fill" style="width:62%;background:linear-gradient(90deg,#c9a84c,#f0d48a);"></div></div>
+              <div class="pmock-xp-mini-lbl">1,240 / 2,000 XP</div>
+            </div>
+          </div>
+        </div>
+        <div class="pmock-body">
+          <div class="pmock-sec-label">今週の冒険記録</div>
+          <div class="pmock-bar-row">
+            <span class="pmock-bar-icon">⚔</span>
+            <span class="pmock-bar-lbl" style="color:rgba(240,160,160,.7);">運動</span>
+            <div class="pmock-bar-track"><div class="pmock-bar-fill" style="width:58%;background:linear-gradient(90deg,#e05c5c,#e08a3c);"></div></div>
+            <span class="pmock-bar-val">87分</span>
+          </div>
+          <div class="pmock-bar-row">
+            <span class="pmock-bar-icon">🌿</span>
+            <span class="pmock-bar-lbl" style="color:rgba(160,240,190,.7);">栄養</span>
+            <div class="pmock-bar-track"><div class="pmock-bar-fill" style="width:44%;background:linear-gradient(90deg,#4ec98a,#a8e060);"></div></div>
+            <span class="pmock-bar-val">11pt</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px;">
+            <div style="background:rgba(224,92,92,.06);border:1px solid rgba(224,92,92,.25);border-radius:9px;padding:8px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:center 12%;border:1.5px solid rgba(224,92,92,.4);">
+              <span style="font-size:.46rem;background:rgba(224,92,92,.18);color:#f0a0a0;border-radius:3px;padding:1px 5px;font-weight:700;">⚔ 運動</span>
+              <span style="font-size:.52rem;color:rgba(212,220,240,.7);font-weight:700;">カイト</span>
+              <span style="font-size:.42rem;color:rgba(170,188,216,.35);text-align:center;line-height:1.4;">週150分<br>達成へ</span>
+            </div>
+            <div style="background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.25);border-radius:9px;padding:8px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <img src="./image/sera-sabun%20(1).png" alt="セラ" style="width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:center 16%;border:1.5px solid rgba(78,201,138,.4);">
+              <span style="font-size:.46rem;background:rgba(78,201,138,.18);color:#a0f0c0;border-radius:3px;padding:1px 5px;font-weight:700;">🌿 栄養</span>
+              <span style="font-size:.52rem;color:rgba(212,220,240,.7);font-weight:700;">セラ</span>
+              <span style="font-size:.42rem;color:rgba(170,188,216,.35);text-align:center;line-height:1.4;">野菜・魚<br>記録中</span>
+            </div>
+          </div>
+          <div class="pmock-luna">
+            <img src="./image/runa-sabun%20(2).png" alt="ルナ" class="luna-img">
+            <div class="pmock-luna-msg">「今週も着実に前進していますね。この調子で続けましょう！」</div>
+          </div>
+        </div>`
+    },
+    {
+      caption:'運動クエスト',
+      html:`
+        <div class="pmock-hdr pmock-hdr-red">
+          <span class="pmock-hdr-nav">← back</span>
+          <span class="pmock-hdr-title">⚔ 健康クエスト</span>
+          <span style="font-size:.44rem;color:rgba(240,160,160,.4);">87分</span>
+        </div>
+        <div class="pmock-char-banner ch-red">
+          <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;">
+          <div class="pmock-ch-info">
+            <div class="pmock-ch-name">カイト — 鍛錬の剣士</div>
+            <div class="pmock-ch-sub">今週目標: 150分</div>
+            <div class="pmock-xp-mini">
+              <div class="pmock-xp-mini-bar"><div class="pmock-xp-mini-fill" style="width:58%;background:linear-gradient(90deg,#e05c5c,#e08a3c);"></div></div>
+              <div class="pmock-xp-mini-lbl">87 / 150 分</div>
+            </div>
+          </div>
+        </div>
+        <div class="pmock-body">
+          <div class="pmock-sec-label">日常の動き</div>
+          <div class="pmock-act-grid">
+            <div class="pmock-act-item done">
+              <span class="pmock-act-icon">🚶</span>
+              <div class="pmock-act-body"><div class="pmock-act-name">ゆっくり散歩</div><div class="pmock-act-xp">+8 XP ✓</div></div>
+            </div>
+            <div class="pmock-act-item done">
+              <span class="pmock-act-icon">🛒</span>
+              <div class="pmock-act-body"><div class="pmock-act-name">買い物・外出</div><div class="pmock-act-xp">+10 XP ✓</div></div>
+            </div>
+            <div class="pmock-act-item">
+              <span class="pmock-act-icon">🧹</span>
+              <div class="pmock-act-body"><div class="pmock-act-name">掃除・片付け</div><div class="pmock-act-xp">+8 XP</div></div>
+            </div>
+            <div class="pmock-act-item">
+              <span class="pmock-act-icon">🪜</span>
+              <div class="pmock-act-body"><div class="pmock-act-name">階段の上り下り</div><div class="pmock-act-xp">+12 XP</div></div>
+            </div>
+          </div>
+          <div class="pmock-xp-reward">
+            <div class="pmock-xp-reward-num">＋ 18 XP</div>
+            <div class="pmock-xp-reward-lbl">今日の獲得 — 残り63分で目標達成！</div>
+          </div>
+          <div class="pmock-luna" style="border-color:rgba(224,92,92,.18);background:rgba(224,92,92,.05);">
+            <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;border-color:rgba(224,92,92,.3);">
+            <div class="pmock-luna-msg" style="color:rgba(255,200,180,.7);">「散歩と買い物でXP獲得！階段も使えば今日中に完了できるぞ」</div>
+          </div>
+        </div>`
+    },
+    {
+      caption:'栄養クエスト',
+      html:`
+        <div class="pmock-hdr pmock-hdr-green">
+          <span class="pmock-hdr-nav">← back</span>
+          <span class="pmock-hdr-title">🌿 栄養クエスト</span>
+          <span style="font-size:.44rem;color:rgba(160,240,190,.4);">11pt</span>
+        </div>
+        <div class="pmock-char-banner ch-green">
+          <img src="./image/sera-sabun%20(1).png" alt="セラ" style="object-position:center 16%;">
+          <div class="pmock-ch-info">
+            <div class="pmock-ch-name">セラ — 魔力の巫女</div>
+            <div class="pmock-ch-sub">今週の食事記録</div>
+            <div class="pmock-xp-mini">
+              <div class="pmock-xp-mini-bar"><div class="pmock-xp-mini-fill" style="width:44%;background:linear-gradient(90deg,#4ec98a,#a8e060);"></div></div>
+              <div class="pmock-xp-mini-lbl">11 / 25 pt</div>
+            </div>
+          </div>
+        </div>
+        <div class="pmock-body">
+          <div class="pmock-sec-label">今週の栄養バランス</div>
+          <div class="pmock-bar-row">
+            <span class="pmock-bar-icon">🥦</span>
+            <span class="pmock-bar-lbl" style="color:rgba(160,240,190,.65);">野菜</span>
+            <div class="pmock-bar-track"><div class="pmock-bar-fill" style="width:65%;background:linear-gradient(90deg,#4ec98a,#7ee8b0);"></div></div>
+            <span class="pmock-bar-val">9皿</span>
+            <span class="pmock-bar-xp">+18XP</span>
+          </div>
+          <div class="pmock-bar-row">
+            <span class="pmock-bar-icon">🍎</span>
+            <span class="pmock-bar-lbl" style="color:rgba(160,240,190,.65);">果物</span>
+            <div class="pmock-bar-track"><div class="pmock-bar-fill" style="width:40%;background:linear-gradient(90deg,#4ec98a,#7ee8b0);"></div></div>
+            <span class="pmock-bar-val">4皿</span>
+            <span class="pmock-bar-xp">+8XP</span>
+          </div>
+          <div class="pmock-bar-row">
+            <span class="pmock-bar-icon">🐟</span>
+            <span class="pmock-bar-lbl" style="color:rgba(160,240,190,.65);">たんぱく</span>
+            <div class="pmock-bar-track"><div class="pmock-bar-fill" style="width:80%;background:linear-gradient(90deg,#4ec98a,#7ee8b0);"></div></div>
+            <span class="pmock-bar-val">12食</span>
+            <span class="pmock-bar-xp">+24XP</span>
+          </div>
+          <div class="pmock-xp-reward" style="background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(78,201,138,.05));border-color:rgba(78,201,138,.25);">
+            <div class="pmock-xp-reward-num" style="color:#a0f0c0;">＋ 50 XP</div>
+            <div class="pmock-xp-reward-lbl" style="color:rgba(78,201,138,.45);">今日の食事記録 — 野菜目標達成！</div>
+          </div>
+          <div class="pmock-luna" style="border-color:rgba(78,201,138,.15);background:rgba(78,201,138,.05);">
+            <img src="./image/sera-sabun%20(2).png" alt="セラ" style="object-position:center 16%;border-color:rgba(78,201,138,.3);">
+            <div class="pmock-luna-msg" style="color:rgba(180,240,200,.7);">「野菜9皿達成！今日のあなたはヴィタリア最高の錬金術師です✨」</div>
+          </div>
+        </div>`
+    }
   ];
+
   let _slideIdx=0;
-  function nextSlide(){
-    const pmock=document.querySelector('.pmock');
+  let _slideTimer=null;
+
+  function showSlide(idx,animate=true){
+    _slideIdx=(idx+_slideData.length)%_slideData.length;
+    const pmock=document.getElementById('pmock-content');
+    const cap=document.getElementById('pmock-caption');
     if(!pmock) return;
-    _slideIdx=(_slideIdx+1)%_slides.length;
-    pmock.classList.remove('fade-in');
-    void pmock.offsetWidth;
-    pmock.innerHTML=_slides[_slideIdx];
-    pmock.classList.add('fade-in');
+    if(animate){pmock.classList.remove('fade-in');void pmock.offsetWidth;}
+    pmock.innerHTML=_slideData[_slideIdx].html;
+    if(animate) pmock.classList.add('fade-in');
+    if(cap) cap.textContent=_slideData[_slideIdx].caption;
     document.querySelectorAll('.pmock-slide-dot').forEach((d,i)=>d.classList.toggle('on',i===_slideIdx));
   }
-  setInterval(nextSlide, 4000);
+
+  // 初期表示
+  showSlide(0, false);
+
+  // ドットクリックで切り替え
+  document.querySelectorAll('.pmock-slide-dot').forEach(d=>{
+    d.addEventListener('click',()=>{
+      clearInterval(_slideTimer);
+      showSlide(parseInt(d.dataset.idx));
+      _slideTimer=setInterval(()=>showSlide(_slideIdx+1),4000);
+    });
+  });
+
+  // 自動スライド
+  _slideTimer=setInterval(()=>showSlide(_slideIdx+1), 4000);
 
   // FAQ アコーディオン
   document.querySelectorAll('.faq-q').forEach(btn=>{
