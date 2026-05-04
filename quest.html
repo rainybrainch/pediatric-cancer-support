@@ -303,12 +303,69 @@ body::before{
 .bn-icon{font-size:1.15rem;line-height:1;}
 .bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
 
+/* ===== クエストヒーローバナー ===== */
+.quest-hero{
+  background:linear-gradient(145deg,rgba(20,8,8,.98),rgba(28,14,14,.92));
+  border:1px solid rgba(224,92,92,.25);
+  border-radius:18px;padding:18px 20px;
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.quest-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 55% 90% at 95% 50%,rgba(224,92,92,.08) 0%,transparent 65%),
+    radial-gradient(ellipse 30% 40% at 10% 80%,rgba(201,168,76,.05) 0%,transparent 60%);
+}
+.qh-char{
+  width:72px;height:72px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:2px solid rgba(224,92,92,.45);
+  box-shadow:0 0 22px rgba(224,92,92,.18),0 0 50px rgba(224,92,92,.06);
+}
+.qh-char img{width:100%;height:100%;object-fit:cover;object-position:center 12%;}
+.qh-info{flex:1;min-width:0;position:relative;z-index:1;}
+.qh-role{font-size:.55rem;color:rgba(240,160,160,.5);letter-spacing:.16em;font-weight:700;margin-bottom:3px;text-transform:uppercase;}
+.qh-name{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:rgba(240,160,160,.9);margin-bottom:8px;line-height:1.2;}
+.qh-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+.qh-bar-lbl{font-size:.56rem;color:rgba(240,160,160,.45);width:28px;flex-shrink:0;}
+.qh-bar{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.qh-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#e05c5c,#e08a3c);transition:width .8s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(224,92,92,.35);}
+.qh-bar-val{font-size:.58rem;color:rgba(240,160,160,.65);font-weight:700;flex-shrink:0;min-width:28px;text-align:right;}
+.qh-week-lbl{font-size:.52rem;color:rgba(170,188,216,.3);margin-top:4px;}
+.qh-stats{
+  display:flex;flex-direction:column;gap:6px;
+  flex-shrink:0;text-align:center;padding-left:4px;
+  border-left:1px solid rgba(224,92,92,.12);position:relative;z-index:1;
+}
+.qh-stat{display:flex;flex-direction:column;align-items:center;}
+.qh-stat-num{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#f0a0a0;line-height:1;}
+.qh-stat-lbl{font-size:.48rem;color:rgba(170,188,216,.3);margin-top:2px;letter-spacing:.04em;}
+.qh-stat-div{height:1px;width:28px;background:rgba(224,92,92,.12);}
+
 /* ===== 左：クエストボード ===== */
 .quest-board{display:flex;flex-direction:column;gap:0;}
-.board-section{margin-bottom:28px;}
+.board-section{
+  background:rgba(12,16,28,.7);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:16px 16px 18px;
+  margin-bottom:14px;
+}
+.board-section.is-daily{
+  border-color:rgba(92,200,220,.2);
+  background:linear-gradient(160deg,rgba(92,200,220,.04),rgba(12,16,28,.8));
+}
+.board-section.is-mod{
+  border-color:rgba(78,201,138,.15);
+  background:linear-gradient(160deg,rgba(78,201,138,.04),rgba(12,16,28,.8));
+}
+.board-section.is-high{
+  border-color:rgba(224,138,60,.15);
+  background:linear-gradient(160deg,rgba(224,138,60,.04),rgba(12,16,28,.8));
+}
 .section-head{
   display:flex;align-items:center;gap:10px;margin-bottom:14px;
-  padding-bottom:10px;border-bottom:1px solid rgba(201,168,76,.15);
+  padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06);
 }
 .section-icon{
   width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
@@ -838,8 +895,36 @@ setTimeout(function(){
     <!-- ===== 左：クエストボード ===== -->
     <div class="quest-board">
 
+      <!-- キャラクターヒーローバナー -->
+      <div class="quest-hero">
+        <div class="qh-char">
+          <img src="./image/kaito-sabun%20(1).png" alt="カイト">
+        </div>
+        <div class="qh-info">
+          <div class="qh-role">Exercise Quest — 運動クエスト</div>
+          <div class="qh-name">カイト — 鍛錬の剣士</div>
+          <div class="qh-bar-row">
+            <span class="qh-bar-lbl">今週</span>
+            <div class="qh-bar"><div class="qh-bar-fill" id="qh-bar-fill" style="width:0%"></div></div>
+            <span class="qh-bar-val"><span id="qh-min-now">0</span>分</span>
+          </div>
+          <div class="qh-week-lbl" id="qh-week-lbl">目標まで読み込み中...</div>
+        </div>
+        <div class="qh-stats">
+          <div class="qh-stat">
+            <div class="qh-stat-num" id="qh-streak">0</div>
+            <div class="qh-stat-lbl">連続週</div>
+          </div>
+          <div class="qh-stat-div"></div>
+          <div class="qh-stat">
+            <div class="qh-stat-num" id="qh-xp-today">0</div>
+            <div class="qh-stat-lbl">今日XP</div>
+          </div>
+        </div>
+      </div>
+
       <!-- 日常の動き -->
-      <div class="board-section">
+      <div class="board-section is-daily">
         <div class="section-head">
           <div class="section-icon icon-daily">🚶</div>
           <div>
@@ -852,7 +937,7 @@ setTimeout(function(){
       </div>
 
       <!-- 中強度 -->
-      <div class="board-section">
+      <div class="board-section is-mod">
         <div class="section-head">
           <div class="section-icon icon-mod">🌿</div>
           <div>
@@ -864,7 +949,7 @@ setTimeout(function(){
       </div>
 
       <!-- 高強度 -->
-      <div class="board-section">
+      <div class="board-section is-high">
         <div class="section-head">
           <div class="section-icon icon-high">🔥</div>
           <div>
@@ -1350,6 +1435,27 @@ function updateUI(){
   if(goalLbl) goalLbl.textContent=`週${goal}分目標`;
   const goalNote=document.getElementById('goal-section-note');
   if(goalNote) goalNote.textContent=`1タップ＝10分 ｜ あなたの週間目標：${goal}分`;
+
+  // ヒーローバナー更新
+  const qhFill=document.getElementById('qh-bar-fill');
+  if(qhFill) qhFill.style.width=pct+'%';
+  const qhMin=document.getElementById('qh-min-now');
+  if(qhMin) qhMin.textContent=score;
+  const qhWeek=document.getElementById('qh-week-lbl');
+  if(qhWeek){
+    const remain=Math.max(0,goal-score);
+    qhWeek.textContent=remain>0 ? `目標まで残り ${remain}分 (${goal}分/週)` : `🎉 週間目標達成！(${goal}分/週)`;
+  }
+  const qhXp=document.getElementById('qh-xp-today');
+  if(qhXp){
+    const todayXp=sessions.reduce((s,x)=>s+(x.xp||0),0);
+    qhXp.textContent=todayXp;
+  }
+  // ストリーク
+  const qhStreak=document.getElementById('qh-streak');
+  if(qhStreak){
+    try{ const st=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); qhStreak.textContent=st.count||0; }catch(e){}
+  }
 
   document.getElementById('xp-fill').style.width  = barPct+'%';
   document.getElementById('xp-now').textContent   = xp;
