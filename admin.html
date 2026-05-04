@@ -137,6 +137,16 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
         <div class="value" id="stat-goal">—</div>
         <div class="sub">週間目標達成（個人設定値）</div>
       </div>
+      <div class="summary-card" style="border-color:rgba(156,114,224,.35);">
+        <div class="label">AI コーチ対話数</div>
+        <div class="value" id="stat-coach" style="color:#c0a0f0;">—</div>
+        <div class="sub">ターン数（user→luna）</div>
+      </div>
+      <div class="summary-card" style="border-color:rgba(156,114,224,.25);">
+        <div class="label">GROW 完走者</div>
+        <div class="value" id="stat-grow" style="color:#c0a0f0;">—</div>
+        <div class="sub">G/R/O/W すべて到達</div>
+      </div>
     </div>
 
     <!-- 脱落アラート -->
@@ -151,6 +161,7 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       <button class="tab" data-tab="nutrition">栄養記録</button>
       <button class="tab" data-tab="qol">QOL記録</button>
       <button class="tab" data-tab="body">体組成記録</button>
+      <button class="tab" data-tab="coach" style="border-color:rgba(156,114,224,.3);color:#c0a0f0;">AIコーチ会話</button>
       <button class="tab" data-tab="profiles">参加者プロフィール</button>
     </div>
 
@@ -224,6 +235,31 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       </div>
     </div>
 
+    <!-- AIコーチ会話 -->
+    <div id="tab-coach" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+        <div style="font-size:.75rem;color:rgba(170,188,216,.55);">
+          ルナとの会話履歴。会話本文は研究データとして保管されます。
+        </div>
+        <button class="btn-sm" id="export-coach-btn" style="border-color:rgba(156,114,224,.4);color:#c0a0f0;">⬇ AIコーチ CSVエクスポート</button>
+      </div>
+
+      <!-- GROW 進行ヒートマップ -->
+      <div style="background:rgba(14,18,32,.85);border:1px solid rgba(156,114,224,.18);border-radius:12px;padding:14px 18px;margin-bottom:14px;">
+        <div style="font-size:.7rem;color:rgba(200,180,255,.65);font-weight:700;letter-spacing:.08em;margin-bottom:10px;">🧭 GROW モデル進行（参加者ごと）</div>
+        <div id="grow-heatmap" style="display:flex;flex-direction:column;gap:6px;font-size:.66rem;"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>UID(短縮)</th><th>週</th><th>STEP</th><th>ユーザー発話</th><th>ルナ応答</th><th>保存日時</th>
+          </tr></thead>
+          <tbody id="coach-tbody"><tr><td colspan="6" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- プロフィール -->
     <div id="tab-profiles" class="hidden">
       <div class="profile-grid" id="profile-grid">
@@ -258,7 +294,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['quest','nutrition','qol','body','profiles'].forEach(id=>{
+    ['quest','nutrition','qol','body','coach','profiles'].forEach(id=>{
       document.getElementById('tab-'+id).classList.toggle('hidden', id!==t.dataset.tab);
     });
   });
@@ -300,27 +336,40 @@ onAuthStateChanged(auth, user=>{
 
 async function loadData(){
   try{
-    const [questSnap, nutrSnap, bodySnap, profSnap] = await Promise.all([
+    const [questSnap, nutrSnap, bodySnap, profSnap, coachSnap] = await Promise.all([
       getDocs(query(collection(db,'quest_records'),   orderBy('savedAt','desc'))),
       getDocs(query(collection(db,'nutrition_records'),orderBy('savedAt','desc'))),
       getDocs(query(collection(db,'body_records'),    orderBy('savedAt','desc'))),
-      getDocs(collection(db,'profiles'))
+      getDocs(collection(db,'profiles')),
+      getDocs(query(collection(db,'coach_sessions'),  orderBy('ts','desc'))).catch(()=>({docs:[]})),
     ]);
 
     const questDocs = questSnap.docs.map(d=>d.data());
     const nutrDocs  = nutrSnap.docs.map(d=>d.data());
     const bodyDocs  = bodySnap.docs.map(d=>d.data());
     const profDocs  = profSnap.docs.map(d=>d.data());
-    _questData=questDocs; _nutrData=nutrDocs; _bodyData=bodyDocs;
+    const coachDocs = coachSnap.docs.map(d=>d.data());
+    _questData=questDocs; _nutrData=nutrDocs; _bodyData=bodyDocs; _coachData=coachDocs;
 
     // サマリ
-    const uids=new Set([...questDocs.map(d=>d.uid),...nutrDocs.map(d=>d.uid)]);
+    const uids=new Set([...questDocs.map(d=>d.uid),...nutrDocs.map(d=>d.uid),...coachDocs.map(d=>d.uid)]);
     const goalCount=questDocs.filter(d=>d.goalAchieved).length;
     document.getElementById('stat-users').textContent=uids.size;
     document.getElementById('stat-quest').textContent=questDocs.length;
     document.getElementById('stat-nutr').textContent=nutrDocs.length;
     document.getElementById('stat-goal').textContent=
       questDocs.length ? Math.round(goalCount/questDocs.length*100)+'%' : '—';
+    document.getElementById('stat-coach').textContent=coachDocs.length;
+
+    // GROW進行状況：UID毎に到達ステップを集計
+    const growByUid=new Map(); // uid -> Set<'G'|'R'|'O'|'W'>
+    coachDocs.forEach(d=>{
+      if(!d.uid||!d.step) return;
+      if(!growByUid.has(d.uid)) growByUid.set(d.uid, new Set());
+      growByUid.get(d.uid).add(d.step);
+    });
+    const growCompleted=[...growByUid.values()].filter(s=>s.has('G')&&s.has('R')&&s.has('O')&&s.has('W')).length;
+    document.getElementById('stat-grow').textContent=growCompleted;
 
     // 脱落アラート（3週間=21日以上未記録）
     const threshold=Date.now()-21*24*60*60*1000;
@@ -425,6 +474,52 @@ async function loadData(){
           <td>${d.savedAt ? new Date(d.savedAt).toLocaleString('ja-JP') : '—'}</td>
         </tr>`).join('');
 
+    // AIコーチ会話テーブル
+    const cBody=document.getElementById('coach-tbody');
+    const stepBadge=s=>{
+      const colors={G:'#c0a0f0',R:'#90b8ff',O:'#f0c890',W:'#a0f0c0'};
+      const labels={G:'目標',R:'現状',O:'選択肢',W:'意志'};
+      return s?`<span class="badge" style="background:rgba(156,114,224,.15);color:${colors[s]||'#c0a0f0'};border:1px solid ${colors[s]||'#c0a0f0'}33;">${s} ${labels[s]||''}</span>`:'—';
+    };
+    const fmtTs=t=>{
+      if(!t) return '—';
+      try{
+        const ms = t.seconds ? t.seconds*1000 : (typeof t==='number'?t:new Date(t).getTime());
+        return new Date(ms).toLocaleString('ja-JP');
+      }catch(e){ return '—'; }
+    };
+    cBody.innerHTML=coachDocs.length===0
+      ? '<tr><td colspan="6" class="loading-msg">会話データなし</td></tr>'
+      : coachDocs.slice(0,200).map(d=>`<tr>
+          <td style="font-family:monospace;font-size:.66rem;">${(d.uid||'').slice(0,10)}…</td>
+          <td>${d.week||'—'}</td>
+          <td>${stepBadge(d.step)}</td>
+          <td style="white-space:normal;max-width:280px;color:rgba(200,215,235,.85);">${(d.user_text||'').slice(0,160).replace(/</g,'&lt;')}</td>
+          <td style="white-space:normal;max-width:340px;color:rgba(200,180,255,.8);">${(d.luna_text||'').slice(0,200).replace(/</g,'&lt;')}</td>
+          <td>${fmtTs(d.ts)}</td>
+        </tr>`).join('') + (coachDocs.length>200?`<tr><td colspan="6" style="text-align:center;color:rgba(170,188,216,.4);font-size:.7rem;padding:8px;">…他 ${coachDocs.length-200} 件（CSVに含まれます）</td></tr>`:'');
+
+    // GROW ヒートマップ
+    const hmap=document.getElementById('grow-heatmap');
+    const uidEmail=new Map();
+    [...questDocs,...nutrDocs].forEach(d=>{ if(d.uid&&d.email) uidEmail.set(d.uid,d.email); });
+    const hmapEntries=[...growByUid.entries()].sort((a,b)=>b[1].size-a[1].size);
+    if(hmapEntries.length===0){
+      hmap.innerHTML='<div style="color:rgba(170,188,216,.4);font-size:.7rem;text-align:center;padding:8px;">まだAIコーチの会話データがありません</div>';
+    } else {
+      hmap.innerHTML=hmapEntries.slice(0,30).map(([u,steps])=>{
+        const cell=(s)=>steps.has(s)
+          ? `<span style="display:inline-block;width:32px;text-align:center;background:rgba(156,114,224,.25);color:#d8c8ff;border:1px solid rgba(156,114,224,.45);border-radius:5px;padding:2px 0;font-weight:700;">${s}</span>`
+          : `<span style="display:inline-block;width:32px;text-align:center;background:rgba(255,255,255,.03);color:rgba(170,188,216,.25);border:1px solid rgba(255,255,255,.06);border-radius:5px;padding:2px 0;">${s}</span>`;
+        const label=uidEmail.get(u)||(u.slice(0,10)+'…');
+        return `<div style="display:flex;align-items:center;gap:6px;">
+          <span style="flex:1;color:rgba(200,215,235,.7);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">${label}</span>
+          ${cell('G')}${cell('R')}${cell('O')}${cell('W')}
+          <span style="color:rgba(201,168,76,.5);font-size:.6rem;margin-left:6px;">${steps.size}/4</span>
+        </div>`;
+      }).join('');
+    }
+
     // プロフィール
     const pGrid=document.getElementById('profile-grid');
     const yearsLabel={lt1:'1年未満','1to3':'1〜3年','3to5':'3〜5年','5to10':'5〜10年',gt10:'10年以上'};
@@ -459,7 +554,7 @@ function downloadCSV(filename, csv){
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download=filename; a.click(); URL.revokeObjectURL(a.href);
 }
-let _questData=[], _nutrData=[], _bodyData=[];
+let _questData=[], _nutrData=[], _bodyData=[], _coachData=[];
 document.getElementById('export-quest-btn').addEventListener('click',()=>{
   if(!_questData.length){ alert('データがありません'); return; }
   const headers=['メール','週','中強度(分)','高強度(分)','合計スコア','目標達成','XP','Lv','歩数','BMI','QOL①体調','QOL②気分','QOL③活力','QOL合計','保存日時'];
@@ -484,6 +579,19 @@ document.getElementById('export-qol-btn').addEventListener('click',()=>{
   const headers=['メール','週','QOL①体調(1-5)','QOL②気分(1-5)','QOL③活力(1-5)','QOL合計(3-15)','運動達成','運動スコア(分)','保存日時'];
   const rows=qolDocs.map(d=>[d.email,d.weekLabel||d.weekKey,d.qol1??'',d.qol2??'',d.qol3??'',d.qolTotal??'',d.goalAchieved?'達成':'未達成',d.totalScore??'',d.savedAt]);
   downloadCSV(`qol_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
+});
+document.getElementById('export-coach-btn').addEventListener('click',()=>{
+  if(!_coachData.length){ alert('AIコーチ会話データがありません'); return; }
+  const fmtTs=t=>{
+    if(!t) return '';
+    try{
+      const ms=t.seconds?t.seconds*1000:(typeof t==='number'?t:new Date(t).getTime());
+      return new Date(ms).toISOString();
+    }catch(e){ return ''; }
+  };
+  const headers=['UID','週','GROW STEP','ユーザー発話','ルナ応答','保存日時(ISO)','UA'];
+  const rows=_coachData.map(d=>[d.uid||'', d.week||'', d.step||'', d.user_text||'', d.luna_text||'', fmtTs(d.ts), d.ua||'']);
+  downloadCSV(`coach_sessions_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 </script>
 </body>

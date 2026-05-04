@@ -1715,6 +1715,8 @@ onAuthStateChanged(auth, user=>{
     document.getElementById('bottom-nav').style.display='flex';
     updateUI();
     setTimeout(showTutorial, 800);
+    // 週次サマリーはチュートリアル後（または完了済みなら直接）表示
+    setTimeout(maybeShowWeeklySummary, 1200);
   } else {
     uid='';
     localStorage.removeItem('vitalia_uid_hint');
@@ -1727,6 +1729,96 @@ onAuthStateChanged(auth, user=>{
 });
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+
+// ===== 週次サマリーモーダル =====
+function prevWeekKey(){
+  const d=new Date(); d.setDate(d.getDate()-7);
+  const j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+function prevWeekLabel(){
+  const d=new Date(); d.setDate(d.getDate()-7);
+  const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1);
+  const e=new Date(s); e.setDate(s.getDate()+6);
+  const f=x=>`${x.getMonth()+1}/${x.getDate()}`;
+  const j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `第${w}週 (${f(s)}〜${f(e)})`;
+}
+
+function maybeShowWeeklySummary(){
+  if(!uid || uid==='guest') return;
+  const seenKey=`vt_weekly_seen_${uid}`;
+  const thisWeek=weekKey();
+  // 今週内に既に表示済みならスキップ
+  if(localStorage.getItem(seenKey)===thisWeek) return;
+
+  // 先週のデータを取得
+  const prevWk=prevWeekKey();
+  let qScore=0,qXp=0,qGoal=150,nScore=0,nXp=0;
+  try{
+    const r=localStorage.getItem(`vq_${uid}_${prevWk}`);
+    if(r){ const d=JSON.parse(r); qScore=d.score||0; qXp=d.xp||0; qGoal=d.goal||150; }
+  }catch(e){}
+  try{
+    const r=localStorage.getItem(`vn_${uid}_${prevWk}`);
+    if(r){ const d=JSON.parse(r); nScore=d.score||0; nXp=d.xp||0; }
+  }catch(e){}
+  const totalXp=qXp+nXp;
+  // どちらも記録ゼロなら表示しない（参加初週など）
+  if(qScore===0 && nScore===0) return;
+
+  // ストリーク
+  let streak=0;
+  try{ const s=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); streak=s.count||0; }catch(e){}
+
+  // ルナのコメントと提案
+  const qDone=qScore>=qGoal;
+  const nDone=nScore>=20;
+  let lunaMsg='', suggestion='', face=2;
+  if(qDone && nDone){
+    lunaMsg='先週は両方のクエストを制覇しました！素晴らしい一週間です。あなたの努力が、確実に未来を変えています。';
+    suggestion='今週も同じペースで継続しましょう。慣れてきたら、運動の強度を少し上げてみるのも◎';
+    face=6;
+  } else if(qScore>0 && nScore>0){
+    lunaMsg='どちらのクエストも記録できました。完璧でなくても、続けていることが何より大切ですよ。';
+    suggestion=`今週は ${qDone?'栄養':'運動'} クエストを少し意識してみませんか？`;
+    face=2;
+  } else if(qScore>0){
+    lunaMsg='運動クエストの記録、お疲れ様でした！身体を動かすあなたは強い人です。';
+    suggestion='今週は栄養クエストにも挑戦してみましょう。野菜を1皿足すだけでも魔力が回復します。';
+    face=3;
+  } else if(nScore>0){
+    lunaMsg='食事の記録、ありがとうございます。意識して食事を選ぶこと自体が立派な一歩です。';
+    suggestion='今週は5分の散歩から運動クエストを始めてみませんか？';
+    face=3;
+  } else {
+    lunaMsg='先週はゆっくり休む週だったのですね。それも冒険には大切な時間です。';
+    suggestion='今週は運動か栄養、どちらか1つだけでも記録してみましょう。';
+    face=5;
+  }
+
+  // 表示
+  document.getElementById('weekly-luna-img').src=`./image/runa-sabun%20(${face}).png`;
+  document.getElementById('weekly-week-lbl').textContent=prevWeekLabel();
+  document.getElementById('weekly-luna-msg').textContent=lunaMsg;
+  document.getElementById('weekly-ex-num').textContent=qScore>0?`${qScore}分`:'—';
+  document.getElementById('weekly-ex-sub').textContent=qScore>0?`目標 ${qGoal}分の ${Math.min(100,Math.round(qScore/qGoal*100))}%`:'記録なし';
+  document.getElementById('weekly-nu-num').textContent=nScore>0?`${nScore}pt`:'—';
+  document.getElementById('weekly-nu-sub').textContent=nScore>0?`目標 25pt の ${Math.min(100,Math.round(nScore/25*100))}%`:'記録なし';
+  document.getElementById('weekly-xp-num').textContent=totalXp>0?`+${totalXp}`:'0';
+  document.getElementById('weekly-streak-num').textContent=streak;
+  document.getElementById('weekly-suggestion').textContent=suggestion;
+  document.getElementById('weekly-modal').style.display='flex';
+
+  // 次回まで再表示しない
+  localStorage.setItem(seenKey, thisWeek);
+}
+
+document.getElementById('weekly-close').addEventListener('click',()=>{
+  document.getElementById('weekly-modal').style.display='none';
+});
 
 // ===== チュートリアル =====
 const TUT_STEPS=[
@@ -1790,6 +1882,60 @@ function closeTutorial(){
   <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
   <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイページ</span></a>
 </nav>
+
+<!-- 週次サマリーモーダル -->
+<div id="weekly-modal" style="display:none;position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:280;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px);">
+  <div style="background:linear-gradient(160deg,#0d1225 0%,#101830 60%,#0a0d1c 100%);border:1px solid rgba(201,168,76,.35);border-radius:22px;padding:0;max-width:420px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(201,168,76,.06);position:relative;animation:modalIn .4s cubic-bezier(.22,1,.36,1);">
+    <div style="padding:24px 24px 16px;text-align:center;border-bottom:1px solid rgba(201,168,76,.12);position:relative;">
+      <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid rgba(201,168,76,.55);box-shadow:0 0 28px rgba(201,168,76,.25);margin:0 auto 12px;animation:float 3s ease-in-out infinite;">
+        <img id="weekly-luna-img" src="./image/runa-sabun%20(2).png" alt="ルナ" style="width:100%;height:100%;object-fit:cover;object-position:center 14%;">
+      </div>
+      <div style="font-size:.6rem;color:rgba(201,168,76,.55);letter-spacing:.18em;font-weight:700;margin-bottom:4px;">— LAST WEEK SUMMARY —</div>
+      <h2 style="font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;color:var(--gold2);margin:0;">先週の冒険記録</h2>
+      <div id="weekly-week-lbl" style="font-size:.66rem;color:rgba(170,188,216,.5);margin-top:4px;"></div>
+    </div>
+
+    <div style="padding:20px 22px;">
+      <!-- ルナのコメント -->
+      <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.2);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+        <div style="font-size:.55rem;color:rgba(200,180,255,.5);font-weight:700;letter-spacing:.06em;margin-bottom:4px;">ルナ</div>
+        <div id="weekly-luna-msg" style="font-size:.78rem;color:rgba(220,210,250,.85);line-height:1.75;">…</div>
+      </div>
+
+      <!-- 統計 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:rgba(224,92,92,.08);border:1px solid rgba(224,92,92,.22);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.55rem;color:rgba(240,160,160,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">⚔ 運動</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#f0a0a0;line-height:1;" id="weekly-ex-num">—</div>
+          <div style="font-size:.6rem;color:rgba(240,160,160,.4);margin-top:2px;" id="weekly-ex-sub">—</div>
+        </div>
+        <div style="background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.22);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.55rem;color:rgba(160,240,190,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">🌿 栄養</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#a0f0c0;line-height:1;" id="weekly-nu-num">—</div>
+          <div style="font-size:.6rem;color:rgba(160,240,190,.4);margin-top:2px;" id="weekly-nu-sub">—</div>
+        </div>
+        <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.22);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.55rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">⭐ 獲得XP</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:var(--gold2);line-height:1;" id="weekly-xp-num">—</div>
+          <div style="font-size:.6rem;color:rgba(201,168,76,.4);margin-top:2px;">先週合計</div>
+        </div>
+        <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.22);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.55rem;color:rgba(200,180,255,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">🔥 連続週</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#c0a0f0;line-height:1;" id="weekly-streak-num">—</div>
+          <div style="font-size:.6rem;color:rgba(200,180,255,.4);margin-top:2px;">記録ストリーク</div>
+        </div>
+      </div>
+
+      <!-- 今週への提案 -->
+      <div style="background:rgba(201,168,76,.05);border-left:3px solid rgba(201,168,76,.4);border-radius:6px;padding:10px 14px;margin-bottom:18px;">
+        <div style="font-size:.6rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.06em;margin-bottom:4px;">📅 今週の冒険指針</div>
+        <div id="weekly-suggestion" style="font-size:.74rem;color:rgba(220,210,180,.8);line-height:1.7;">…</div>
+      </div>
+
+      <button id="weekly-close" style="width:100%;background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));border:1px solid rgba(201,168,76,.5);border-radius:12px;padding:11px;color:var(--gold2);font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;cursor:pointer;">今週も冒険を続ける ✦</button>
+    </div>
+  </div>
+</div>
 
 <!-- チュートリアルオーバーレイ -->
 <div id="tutorial-overlay" style="display:none;">

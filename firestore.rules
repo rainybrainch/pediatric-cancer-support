@@ -1,0 +1,75 @@
+// Firestore Security Rules — ヴィタリア転生録 研究プロジェクト
+// 適用方法：Firebaseコンソール → Firestore Database → ルール → 以下を貼付け → 公開
+//
+// 設計方針：
+// - 参加者は自分のデータのみ書き込み可（uid 一致が必須）
+// - 研究者（admins/{email} に登録されたメール）は全データ読み取り可
+// - 削除・更新は基本不可（履歴を改ざんさせない）
+// - 管理者の追加は Firebase コンソール上で手動で /admins/{email} ドキュメントを作成
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 研究者かどうか判定（auth.token.email が admins コレクションに登録されていればtrue）
+    function isResearcher() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // 管理者リスト（メールアドレスを ID にして手動登録）
+    match /admins/{email} {
+      allow read: if request.auth != null;     // 自分が研究者か確認するため認証ユーザーは読める
+      allow write: if false;                    // コンソール経由のみ
+    }
+
+    // 参加者プロフィール
+    match /profiles/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update: if isOwner(resource.data.uid);
+      allow delete: if false;
+    }
+
+    // 運動クエスト記録
+    match /quest_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 栄養クエスト記録
+    match /nutrition_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 体組成記録
+    match /body_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // AIコーチ会話ログ（ルナとの対話）
+    match /coach_sessions/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.user_text is string
+        && request.resource.data.luna_text is string
+        && request.resource.data.user_text.size() < 2000
+        && request.resource.data.luna_text.size() < 2000;
+      allow read:   if isResearcher();   // 本人にも見せない（プライバシー保護のため履歴はlocalStorageから）
+      allow update, delete: if false;
+    }
+
+    // それ以外は拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
