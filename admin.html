@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理者ダッシュボード ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--bg3:#141929;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;}
+.hidden{display:none!important;}
+
+/* ログイン */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-card{background:rgba(14,18,32,.96);border:1px solid rgba(201,168,76,.3);border-radius:16px;padding:36px;width:100%;max-width:380px;}
+.login-card h1{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:6px;text-align:center;}
+.login-card p{font-size:.72rem;color:rgba(170,188,216,.5);text-align:center;margin-bottom:24px;}
+.form-group{margin-bottom:14px;}
+.form-group label{font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;}
+.form-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;}
+.btn-gold{width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:12px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;margin-top:8px;}
+
+/* メイン */
+#main-screen{display:none;flex-direction:column;min-height:100vh;}
+header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header h1{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);}
+.h-right{display:flex;align-items:center;gap:12px;}
+#user-display{font-size:.72rem;color:rgba(170,188,216,.6);}
+.btn-sm{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.7rem;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;}
+
+.dashboard{padding:24px;max-width:1200px;margin:0 auto;width:100%;}
+
+/* サマリカード */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px;}
+.summary-card{background:rgba(14,18,32,.9);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:18px;}
+.summary-card .label{font-size:.65rem;color:rgba(170,188,216,.5);letter-spacing:.1em;margin-bottom:6px;}
+.summary-card .value{font-size:1.8rem;font-weight:900;font-family:'Noto Serif JP',serif;color:var(--gold2);}
+.summary-card .sub{font-size:.65rem;color:rgba(170,188,216,.4);margin-top:4px;}
+
+/* タブ */
+.tabs{display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:12px;}
+.tab{background:none;border:1px solid rgba(255,255,255,.08);color:rgba(170,188,216,.5);font-size:.75rem;padding:6px 16px;border-radius:8px;cursor:pointer;font-family:inherit;}
+.tab.active{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.35);color:var(--gold2);font-weight:700;}
+
+/* テーブル */
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid rgba(255,255,255,.07);}
+table{width:100%;border-collapse:collapse;font-size:.72rem;}
+thead tr{background:rgba(201,168,76,.08);}
+th{padding:10px 14px;text-align:left;font-weight:700;color:var(--gold);letter-spacing:.05em;white-space:nowrap;}
+tbody tr{border-top:1px solid rgba(255,255,255,.05);transition:background .15s;}
+tbody tr:hover{background:rgba(255,255,255,.03);}
+td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.6rem;font-weight:700;}
+.badge-green{background:rgba(78,201,138,.15);color:var(--green);border:1px solid rgba(78,201,138,.25);}
+.badge-red{background:rgba(224,92,92,.15);color:var(--red);border:1px solid rgba(224,92,92,.25);}
+
+/* プロフィール */
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+.profile-card{background:rgba(14,18,32,.9);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;font-size:.74rem;}
+.profile-card .uid{font-size:.6rem;color:rgba(170,188,216,.3);margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;}
+.profile-card .row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.profile-card .row:last-child{border:none;}
+.profile-card .key{color:rgba(170,188,216,.5);}
+
+.loading-msg{text-align:center;padding:40px;color:rgba(170,188,216,.3);font-size:.8rem;}
+.error-msg{background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.2);border-radius:8px;padding:12px 16px;font-size:.75rem;color:var(--red);margin-bottom:16px;}
+
+/* 脱落アラート */
+#dropout-alert{background:rgba(224,92,92,.08);border:1px solid rgba(224,92,92,.28);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:none;}
+#dropout-alert .da-head{font-size:.7rem;font-weight:700;color:var(--red);letter-spacing:.08em;margin-bottom:8px;}
+#dropout-alert .da-list{display:flex;flex-wrap:wrap;gap:8px;}
+.da-chip{background:rgba(224,92,92,.14);border:1px solid rgba(224,92,92,.22);border-radius:8px;padding:4px 10px;font-size:.68rem;color:rgba(240,180,180,.9);}
+.da-chip strong{color:#f08080;}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <h1>管理者ダッシュボード</h1>
+    <p>研究責任者専用。登録済みアカウントでログインしてください。</p>
+    <div class="form-group">
+      <label>メールアドレス</label>
+      <input type="email" id="email" class="form-input" placeholder="管理者メールアドレス">
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="password" class="form-input" placeholder="パスワード">
+    </div>
+    <div id="login-error" style="font-size:.72rem;color:var(--red);margin-top:8px;display:none;"></div>
+    <button class="btn-gold" id="login-btn">ログイン</button>
+  </div>
+</div>
+
+<div id="main-screen">
+  <header>
+    <h1>⚙ 研究管理ダッシュボード ｜ ヴィタリア転生録</h1>
+    <div class="h-right">
+      <span id="user-display"></span>
+      <button class="btn-sm" id="refresh-btn">↻ 更新</button>
+      <button class="btn-sm" id="logout-btn">ログアウト</button>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <div id="error-area"></div>
+
+    <!-- 研究情報バー -->
+    <div style="background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:10px 16px;margin-bottom:18px;display:flex;gap:20px;flex-wrap:wrap;font-size:.68rem;color:rgba(170,188,216,.6);">
+      <span>📋 <strong style="color:var(--gold2);">IRB番号：</strong>未取得（取得後入力）</span>
+      <span>👥 <strong style="color:var(--gold2);">参加条件：</strong>小児がん経験者・治療終了後・スマホ保有</span>
+      <span>📅 <strong style="color:var(--gold2);">研究期間：</strong>2025年〜2026年（予定）</span>
+      <span>🔒 <strong style="color:var(--gold2);">倫理：</strong>個人情報は匿名化・暗号化保管</span>
+    </div>
+
+    <!-- サマリ -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="label">参加者数</div>
+        <div class="value" id="stat-users">—</div>
+        <div class="sub">ユニークUID</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">クエスト記録数</div>
+        <div class="value" id="stat-quest">—</div>
+        <div class="sub">週次レコード</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">栄養記録数</div>
+        <div class="value" id="stat-nutr">—</div>
+        <div class="sub">週次レコード</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">目標達成率</div>
+        <div class="value" id="stat-goal">—</div>
+        <div class="sub">週間目標達成（個人設定値）</div>
+      </div>
+    </div>
+
+    <!-- 脱落アラート -->
+    <div id="dropout-alert">
+      <div class="da-head">⚠ 3週間以上未記録の参加者</div>
+      <div class="da-list" id="dropout-list"></div>
+    </div>
+
+    <!-- タブ -->
+    <div class="tabs">
+      <button class="tab active" data-tab="quest">クエスト記録</button>
+      <button class="tab" data-tab="nutrition">栄養記録</button>
+      <button class="tab" data-tab="qol">QOL記録</button>
+      <button class="tab" data-tab="body">体組成記録</button>
+      <button class="tab" data-tab="profiles">参加者プロフィール</button>
+    </div>
+
+    <!-- クエストテーブル -->
+    <div id="tab-quest">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+        <button class="btn-sm" id="export-quest-btn">⬇ CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>メール</th><th>週</th><th>中強度(分)</th><th>高強度(分)</th>
+            <th>合計スコア</th><th>目標</th><th>XP</th><th>Lv</th><th>歩数</th><th>BMI</th>
+            <th>QOL①体調</th><th>QOL②気分</th><th>QOL③活力</th><th>QOL合計</th><th>保存日時</th>
+          </tr></thead>
+          <tbody id="quest-tbody"><tr><td colspan="15" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- QOLテーブル -->
+    <div id="tab-qol" class="hidden">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+        <button class="btn-sm" id="export-qol-btn">⬇ QOL CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>メール</th><th>週</th>
+            <th>①体調<br><span style="font-weight:400;font-size:.6rem;">1〜5</span></th>
+            <th>②気分<br><span style="font-weight:400;font-size:.6rem;">1〜5</span></th>
+            <th>③活力<br><span style="font-weight:400;font-size:.6rem;">1〜5</span></th>
+            <th>QOL合計<br><span style="font-weight:400;font-size:.6rem;">3〜15</span></th>
+            <th>運動達成</th><th>運動スコア</th><th>保存日時</th>
+          </tr></thead>
+          <tbody id="qol-tbody"><tr><td colspan="9" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 栄養テーブル -->
+    <div id="tab-nutrition" class="hidden">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+        <button class="btn-sm" id="export-nutr-btn">⬇ CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>メール</th><th>週</th><th>野菜(皿)</th><th>果物(皿)</th>
+            <th>たんぱく質(食)</th><th>穀物(食)</th><th>制限食品</th><th>XP</th><th>Lv</th><th>保存日時</th>
+          </tr></thead>
+          <tbody id="nutr-tbody"><tr><td colspan="10" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 体組成テーブル -->
+    <div id="tab-body" class="hidden">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+        <button class="btn-sm" id="export-body-btn">⬇ CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>メール</th><th>週</th>
+            <th>身長(cm)</th><th>体重(kg)</th><th>体脂肪率(%)</th>
+            <th>BMI</th><th>除脂肪体重(kg)</th><th>脂肪量(kg)</th><th>保存日時</th>
+          </tr></thead>
+          <tbody id="body-tbody"><tr><td colspan="9" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- プロフィール -->
+    <div id="tab-profiles" class="hidden">
+      <div class="profile-grid" id="profile-grid">
+        <div class="loading-msg">読み込み中...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp }    from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
+  from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+import { getFirestore, collection, getDocs, orderBy, query }
+  from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+const firebaseConfig={
+  apiKey:"AIzaSyBRDHZbWo_A6rGZNkI1LL8GN1Nx8FTXY4E",
+  authDomain:"shounigann.firebaseapp.com",
+  projectId:"shounigann",
+  storageBucket:"shounigann.appspot.com",
+  messagingSenderId:"854133989955",
+  appId:"1:854133989955:web:0924f550562f2035596af6"
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// タブ切り替え
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    ['quest','nutrition','qol','body','profiles'].forEach(id=>{
+      document.getElementById('tab-'+id).classList.toggle('hidden', id!==t.dataset.tab);
+    });
+  });
+});
+
+// ログイン
+document.getElementById('login-btn').addEventListener('click',()=>{
+  const email=document.getElementById('email').value;
+  const pass=document.getElementById('password').value;
+  const errEl=document.getElementById('login-error');
+  const errMap={'auth/user-not-found':'メールアドレスが登録されていません。','auth/wrong-password':'パスワードが正しくありません。','auth/invalid-credential':'メールアドレスまたはパスワードが正しくありません。','auth/too-many-requests':'試行回数が多すぎます。しばらく後に。'};
+  signInWithEmailAndPassword(auth,email,pass)
+    .catch(e=>{ errEl.textContent=errMap[e.code]||'ログインに失敗しました。'; errEl.style.display='block'; });
+});
+
+// ログアウト
+document.getElementById('logout-btn').addEventListener('click',()=>signOut(auth));
+document.getElementById('refresh-btn').addEventListener('click',()=>loadData());
+
+// 認証状態
+const _to=setTimeout(()=>{
+  document.getElementById('login-screen').style.display='flex';
+},2000);
+
+onAuthStateChanged(auth, user=>{
+  clearTimeout(_to);
+  if(user){
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('main-screen').style.display='flex';
+    document.getElementById('main-screen').style.flexDirection='column';
+    document.getElementById('user-display').textContent=user.email;
+    loadData();
+  } else {
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('main-screen').style.display='none';
+  }
+});
+
+async function loadData(){
+  try{
+    const [questSnap, nutrSnap, bodySnap, profSnap] = await Promise.all([
+      getDocs(query(collection(db,'quest_records'),   orderBy('savedAt','desc'))),
+      getDocs(query(collection(db,'nutrition_records'),orderBy('savedAt','desc'))),
+      getDocs(query(collection(db,'body_records'),    orderBy('savedAt','desc'))),
+      getDocs(collection(db,'profiles'))
+    ]);
+
+    const questDocs = questSnap.docs.map(d=>d.data());
+    const nutrDocs  = nutrSnap.docs.map(d=>d.data());
+    const bodyDocs  = bodySnap.docs.map(d=>d.data());
+    const profDocs  = profSnap.docs.map(d=>d.data());
+    _questData=questDocs; _nutrData=nutrDocs; _bodyData=bodyDocs;
+
+    // サマリ
+    const uids=new Set([...questDocs.map(d=>d.uid),...nutrDocs.map(d=>d.uid)]);
+    const goalCount=questDocs.filter(d=>d.goalAchieved).length;
+    document.getElementById('stat-users').textContent=uids.size;
+    document.getElementById('stat-quest').textContent=questDocs.length;
+    document.getElementById('stat-nutr').textContent=nutrDocs.length;
+    document.getElementById('stat-goal').textContent=
+      questDocs.length ? Math.round(goalCount/questDocs.length*100)+'%' : '—';
+
+    // 脱落アラート（3週間=21日以上未記録）
+    const threshold=Date.now()-21*24*60*60*1000;
+    const lastRecordByUid=new Map();
+    [...questDocs,...nutrDocs].forEach(d=>{
+      if(!d.uid||!d.savedAt) return;
+      const t=typeof d.savedAt==='number' ? d.savedAt : new Date(d.savedAt).getTime();
+      if(!lastRecordByUid.has(d.uid)||lastRecordByUid.get(d.uid)<t) lastRecordByUid.set(d.uid,t);
+    });
+    const dropouts=[];
+    lastRecordByUid.forEach((lastT,uid)=>{ if(lastT<threshold) dropouts.push({uid,lastT}); });
+    // profDocs内でrecordが全くないUIDも検出
+    profDocs.forEach(p=>{ if(p.uid&&!lastRecordByUid.has(p.uid)) dropouts.push({uid:p.uid,lastT:null}); });
+    const dropoutEl=document.getElementById('dropout-alert');
+    const dropoutList=document.getElementById('dropout-list');
+    const emailByUid=new Map();
+    [...questDocs,...nutrDocs].forEach(d=>{ if(d.uid&&d.email) emailByUid.set(d.uid,d.email); });
+    if(dropouts.length>0){
+      dropoutEl.style.display='block';
+      dropoutList.innerHTML=dropouts.map(d=>{
+        const days=d.lastT ? Math.floor((Date.now()-d.lastT)/86400000) : null;
+        const label=emailByUid.get(d.uid) || d.uid.slice(0,10)+'…';
+        const dayStr=days!=null ? `<strong>${days}日前</strong>` : '<strong>未記録</strong>';
+        return `<span class="da-chip">${label} ${dayStr}</span>`;
+      }).join('');
+    } else {
+      dropoutEl.style.display='none';
+    }
+
+    // クエストテーブル
+    const qBody=document.getElementById('quest-tbody');
+    const qolBadge=v=>v==null?'<span style="color:rgba(170,188,216,.3)">—</span>':`<span style="font-weight:700;color:var(--gold2)">${v}</span>`;
+    qBody.innerHTML=questDocs.length===0
+      ? '<tr><td colspan="15" class="loading-msg">データなし</td></tr>'
+      : questDocs.map(d=>`<tr>
+          <td>${d.email||'—'}</td>
+          <td>${d.weekLabel||d.weekKey||'—'}</td>
+          <td>${d.modMin??'—'}</td>
+          <td>${d.highMin??'—'}</td>
+          <td>${d.totalScore??'—'}</td>
+          <td>${d.goalAchieved
+            ? '<span class="badge badge-green">達成</span>'
+            : '<span class="badge badge-red">未達成</span>'}</td>
+          <td>${d.xp??'—'}</td>
+          <td>${d.lv??'—'}</td>
+          <td>${d.steps??'—'}</td>
+          <td>${d.bmi??'—'}</td>
+          <td>${qolBadge(d.qol1)}</td>
+          <td>${qolBadge(d.qol2)}</td>
+          <td>${qolBadge(d.qol3)}</td>
+          <td>${qolBadge(d.qolTotal)}</td>
+          <td>${d.savedAt ? new Date(d.savedAt).toLocaleString('ja-JP') : '—'}</td>
+        </tr>`).join('');
+
+    // QOLテーブル（QOL回答があるレコードのみ）
+    const qolDocs=questDocs.filter(d=>d.qol1!=null||d.qol2!=null||d.qol3!=null);
+    const qolBody=document.getElementById('qol-tbody');
+    qolBody.innerHTML=qolDocs.length===0
+      ? '<tr><td colspan="9" class="loading-msg">QOL回答データなし</td></tr>'
+      : qolDocs.map(d=>`<tr>
+          <td>${d.email||'—'}</td>
+          <td>${d.weekLabel||d.weekKey||'—'}</td>
+          <td style="text-align:center">${qolBadge(d.qol1)}</td>
+          <td style="text-align:center">${qolBadge(d.qol2)}</td>
+          <td style="text-align:center">${qolBadge(d.qol3)}</td>
+          <td style="text-align:center">${qolBadge(d.qolTotal)}</td>
+          <td>${d.goalAchieved?'<span class="badge badge-green">達成</span>':'<span class="badge badge-red">未達成</span>'}</td>
+          <td>${d.totalScore??'—'}</td>
+          <td>${d.savedAt ? new Date(d.savedAt).toLocaleString('ja-JP') : '—'}</td>
+        </tr>`).join('');
+
+    // 栄養テーブル
+    const nBody=document.getElementById('nutr-tbody');
+    nBody.innerHTML=nutrDocs.length===0
+      ? '<tr><td colspan="10" class="loading-msg">データなし</td></tr>'
+      : nutrDocs.map(d=>`<tr>
+          <td>${d.email||'—'}</td>
+          <td>${d.weekLabel||d.weekKey||'—'}</td>
+          <td>${d.veg??'—'}</td>
+          <td>${d.fruit??'—'}</td>
+          <td>${d.protein??'—'}</td>
+          <td>${d.grain??'—'}</td>
+          <td>${d.limit??'—'}</td>
+          <td>${d.xp??'—'}</td>
+          <td>${d.lv??'—'}</td>
+          <td>${d.savedAt ? new Date(d.savedAt).toLocaleString('ja-JP') : '—'}</td>
+        </tr>`).join('');
+
+    // 体組成テーブル
+    const bBody=document.getElementById('body-tbody');
+    bBody.innerHTML=bodyDocs.length===0
+      ? '<tr><td colspan="9" class="loading-msg">データなし</td></tr>'
+      : bodyDocs.map(d=>`<tr>
+          <td>${d.email||'—'}</td>
+          <td>${d.weekLabel||d.weekKey||'—'}</td>
+          <td>${d.height??'—'}</td>
+          <td>${d.weight??'—'}</td>
+          <td>${d.bodyFat!=null ? d.bodyFat+'%' : '—'}</td>
+          <td>${d.bmi??'—'}</td>
+          <td>${d.leanMass??'—'}</td>
+          <td>${d.fatMass??'—'}</td>
+          <td>${d.savedAt ? new Date(d.savedAt).toLocaleString('ja-JP') : '—'}</td>
+        </tr>`).join('');
+
+    // プロフィール
+    const pGrid=document.getElementById('profile-grid');
+    const yearsLabel={lt1:'1年未満','1to3':'1〜3年','3to5':'3〜5年','5to10':'5〜10年',gt10:'10年以上'};
+    const sexLabel={male:'男性',female:'女性',other:'その他'};
+    pGrid.innerHTML=profDocs.length===0
+      ? '<div class="loading-msg">プロフィールデータなし</div>'
+      : profDocs.map(d=>`
+        <div class="profile-card">
+          <div class="uid">${d.uid}</div>
+          <div class="row"><span class="key">生年</span><span>${d.birth||'—'}</span></div>
+          <div class="row"><span class="key">性別</span><span>${sexLabel[d.sex]||d.sex||'—'}</span></div>
+          <div class="row"><span class="key">診断</span><span>${d.diagnosis||'未記入'}</span></div>
+          <div class="row"><span class="key">治療後</span><span>${yearsLabel[d.years]||d.years||'—'}</span></div>
+        </div>`).join('');
+
+  } catch(e){
+    const msg = e.code==='permission-denied'
+      ? 'アクセス権がありません。管理者アカウントでログインしてください。'
+      : `データ読み込みエラー: ${e.message}`;
+    document.getElementById('error-area').innerHTML=`<div class="error-msg">${msg}</div>`;
+  }
+}
+
+// ===== CSV エクスポート =====
+function toCSV(headers, rows){
+  const escape=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  return [headers.map(escape).join(','), ...rows.map(r=>r.map(escape).join(','))].join('\n');
+}
+function downloadCSV(filename, csv){
+  const bom='﻿'; // Excel用BOM
+  const blob=new Blob([bom+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=filename; a.click(); URL.revokeObjectURL(a.href);
+}
+let _questData=[], _nutrData=[], _bodyData=[];
+document.getElementById('export-quest-btn').addEventListener('click',()=>{
+  if(!_questData.length){ alert('データがありません'); return; }
+  const headers=['メール','週','中強度(分)','高強度(分)','合計スコア','目標達成','XP','Lv','歩数','BMI','QOL①体調','QOL②気分','QOL③活力','QOL合計','保存日時'];
+  const rows=_questData.map(d=>[d.email,d.weekLabel||d.weekKey,d.modMin,d.highMin,d.totalScore,d.goalAchieved?'達成':'未達成',d.xp,d.lv,d.steps,d.bmi,d.qol1??'',d.qol2??'',d.qol3??'',d.qolTotal??'',d.savedAt]);
+  downloadCSV(`quest_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
+});
+document.getElementById('export-nutr-btn').addEventListener('click',()=>{
+  if(!_nutrData.length){ alert('データがありません'); return; }
+  const headers=['メール','週','野菜(皿)','果物(皿)','たんぱく質(食)','穀物(食)','制限食品','XP','Lv','保存日時'];
+  const rows=_nutrData.map(d=>[d.email,d.weekLabel||d.weekKey,d.veg,d.fruit,d.protein,d.grain,d.limit,d.xp,d.lv,d.savedAt]);
+  downloadCSV(`nutrition_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
+});
+document.getElementById('export-body-btn').addEventListener('click',()=>{
+  if(!_bodyData.length){ alert('データがありません'); return; }
+  const headers=['メール','週','身長(cm)','体重(kg)','体脂肪率(%)','BMI','除脂肪体重(kg)','脂肪量(kg)','保存日時'];
+  const rows=_bodyData.map(d=>[d.email,d.weekLabel||d.weekKey,d.height,d.weight,d.bodyFat??'',d.bmi??'',d.leanMass??'',d.fatMass??'',d.savedAt]);
+  downloadCSV(`body_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
+});
+document.getElementById('export-qol-btn').addEventListener('click',()=>{
+  const qolDocs=_questData.filter(d=>d.qol1!=null||d.qol2!=null||d.qol3!=null);
+  if(!qolDocs.length){ alert('QOL回答データがありません'); return; }
+  const headers=['メール','週','QOL①体調(1-5)','QOL②気分(1-5)','QOL③活力(1-5)','QOL合計(3-15)','運動達成','運動スコア(分)','保存日時'];
+  const rows=qolDocs.map(d=>[d.email,d.weekLabel||d.weekKey,d.qol1??'',d.qol2??'',d.qol3??'',d.qolTotal??'',d.goalAchieved?'達成':'未達成',d.totalScore??'',d.savedAt]);
+  downloadCSV(`qol_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
+});
+</script>
+</body>
+</html>

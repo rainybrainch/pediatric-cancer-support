@@ -38,6 +38,122 @@ body::before{
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
 @keyframes levelup{0%{transform:scale(1);}40%{transform:scale(1.2);}70%{transform:scale(.97);}100%{transform:scale(1);}}
+@keyframes modalIn{from{opacity:0;transform:translateY(30px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+/* ===== 知識カードモーダル ===== */
+#knowledge-modal{
+  position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(4px);
+}
+#knowledge-modal.open{display:flex;animation:modal-flash-bg .6s ease;}
+@keyframes modal-flash-bg{0%{background:rgba(30,18,0,.95);}40%{background:rgba(4,6,12,.9);}100%{background:rgba(4,6,12,.85);}}
+.km-card{
+  background:linear-gradient(145deg,#0d1225,#111829);
+  border:1px solid rgba(201,168,76,.5);border-radius:20px;
+  padding:32px 28px;max-width:420px;width:100%;
+  box-shadow:0 0 80px rgba(201,168,76,.25),0 24px 60px rgba(0,0,0,.7);
+  animation:modalIn .45s cubic-bezier(.22,1,.36,1);
+  position:relative;
+}
+.km-char-face{
+  width:76px;height:76px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(201,168,76,.5);
+  box-shadow:0 0 24px rgba(201,168,76,.3);
+  margin:0 auto 14px;
+}
+.km-char-face img{width:100%;height:100%;object-fit:cover;object-position:center 12%;}
+/* パーティクル */
+.lv-particle{
+  position:fixed;top:50%;left:50%;
+  width:7px;height:7px;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  animation:particle-fly 1s ease-out forwards;
+}
+@keyframes particle-fly{
+  from{transform:translate(-50%,-50%) scale(1);opacity:1;}
+  to{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(0);opacity:0;}
+}
+/* 実績スライドイン */
+#ach-notify{
+  position:fixed;top:72px;right:-320px;z-index:300;
+  background:linear-gradient(135deg,#0e1428,#131c38);
+  border:1px solid rgba(201,168,76,.35);border-radius:14px;
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 24px rgba(201,168,76,.1);
+  transition:right .4s cubic-bezier(.22,1,.36,1);
+  max-width:300px;
+}
+#ach-notify.show{right:16px;}
+.an-icon{font-size:1.8rem;flex-shrink:0;line-height:1;}
+.an-body{}
+.an-label{font-size:.58rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
+.an-name{font-size:.85rem;font-weight:700;color:var(--gold2);font-family:'Noto Serif JP',serif;margin-top:2px;}
+.an-cond{font-size:.62rem;color:rgba(170,188,216,.45);margin-top:2px;}
+/* 保存トースト */
+#save-toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(14,18,32,.97);border:1px solid rgba(78,201,138,.4);border-radius:12px;
+  padding:10px 24px;text-align:center;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;z-index:250;white-space:nowrap;
+}
+#save-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#save-toast .st-icon{font-size:1rem;margin-right:6px;}
+#save-toast .st-text{font-size:.8rem;color:var(--green);font-weight:700;}
+/* 目標達成バナー */
+#goal-banner{
+  position:fixed;top:0;left:0;right:0;z-index:350;
+  background:linear-gradient(90deg,rgba(201,168,76,.9),rgba(240,212,138,.95),rgba(201,168,76,.9));
+  color:#1a1200;text-align:center;
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.88rem;letter-spacing:.1em;
+  padding:10px;
+  transform:translateY(-100%);transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+#goal-banner.show{transform:translateY(0);}
+.confetti-piece{
+  position:fixed;top:-10px;pointer-events:none;z-index:9998;
+  width:8px;height:8px;border-radius:2px;
+  animation:confetti-fall var(--dur) ease-in forwards;
+}
+@keyframes confetti-fall{
+  0%{transform:translate(var(--x),0) rotate(0deg);opacity:1;}
+  100%{transform:translate(calc(var(--x) + var(--dx)),100vh) rotate(720deg);opacity:0;}
+}
+.km-lvup{
+  text-align:center;font-size:.72rem;letter-spacing:.2em;
+  color:rgba(201,168,76,.6);text-transform:uppercase;margin-bottom:8px;
+}
+.km-title{
+  text-align:center;font-family:'Noto Serif JP',serif;font-size:1.4rem;
+  font-weight:900;margin-bottom:4px;
+}
+.km-subtitle{
+  text-align:center;font-size:.75rem;color:rgba(170,188,216,.5);
+  margin-bottom:22px;letter-spacing:.05em;
+}
+.km-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);margin-bottom:20px;}
+.km-theme{
+  display:inline-block;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);
+  color:var(--gold);font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  padding:3px 10px;border-radius:999px;margin-bottom:12px;
+}
+.km-body{
+  font-size:.82rem;line-height:1.85;color:rgba(200,215,235,.85);margin-bottom:16px;
+}
+.km-body strong{color:var(--gold2);}
+.km-source{
+  font-size:.63rem;color:rgba(170,188,216,.35);border-top:1px solid rgba(255,255,255,.06);
+  padding-top:10px;margin-top:4px;
+}
+.km-close{
+  display:block;width:100%;margin-top:20px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border:none;border-radius:10px;padding:12px;
+  font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;
+  color:#1a1200;cursor:pointer;
+  transition:opacity .15s;
+}
+.km-close:hover{opacity:.85;}
 @keyframes logIn{from{opacity:0;transform:translateX(10px);}to{opacity:1;transform:translateX(0);}}
 
 .gold-text{
@@ -47,12 +163,45 @@ body::before{
 }
 
 /* ===== ローディング ===== */
+.hidden{display:none!important;}
 #loading-screen{
-  position:fixed;inset:0;background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:100;
+  position:fixed;inset:0;background:var(--bg);z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
-#loading-screen .spin{width:44px;height:44px;border:3px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;}
-#loading-screen p{color:var(--gold);font-family:'Noto Serif JP',serif;font-size:.82rem;letter-spacing:.15em;}
+#loading-screen::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(1px 1px at 12% 18%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 78% 10%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 32%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 68% 55%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 20% 70%,rgba(255,255,255,.35) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 78%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 88%,rgba(255,255,255,.3) 0%,transparent 100%);
+}
+.ls-char{
+  width:110px;height:110px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(224,92,92,.4);
+  box-shadow:0 0 40px rgba(224,92,92,.2),0 0 80px rgba(201,168,76,.08);
+  animation:float 3s ease-in-out infinite;
+  margin-bottom:20px;position:relative;z-index:1;
+}
+.ls-char img{width:100%;height:100%;object-fit:cover;object-position:center 12%;}
+.ls-title{
+  font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;
+  background:linear-gradient(135deg,#f0d48a,#c9a84c,#f0d48a);
+  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 3s linear infinite;
+  margin-bottom:5px;position:relative;z-index:1;
+}
+.ls-sub{font-size:.58rem;color:rgba(170,188,216,.3);letter-spacing:.18em;margin-bottom:22px;position:relative;z-index:1;text-transform:uppercase;}
+.ls-bar{width:160px;height:3px;background:rgba(201,168,76,.1);border-radius:99px;overflow:hidden;position:relative;z-index:1;}
+.ls-bar-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;border-radius:99px;animation:shimmer 1.5s linear infinite;}
+.ls-msg{font-size:.6rem;color:rgba(201,168,76,.35);font-family:'Noto Serif JP',serif;letter-spacing:.1em;margin-top:12px;position:relative;z-index:1;}
+.ls-dot{display:inline-block;animation:ls-fade 1.4s ease-in-out infinite;}
+.ls-dot:nth-child(2){animation-delay:.2s;}
+.ls-dot:nth-child(3){animation-delay:.4s;}
+@keyframes ls-fade{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
 
 /* ===== ログイン画面 ===== */
 #login-screen{
@@ -64,8 +213,8 @@ body::before{
   border-radius:20px;box-shadow:0 0 60px rgba(201,168,76,.07),0 20px 50px rgba(0,0,0,.6);
   padding:40px 36px;width:100%;max-width:420px;animation:fadeIn .6s ease;
 }
-.login-char{display:flex;justify-content:center;margin-bottom:20px;}
-.login-char img{width:130px;filter:drop-shadow(0 0 14px rgba(201,168,76,.25));animation:float 3.5s ease-in-out infinite;}
+.login-char{display:flex;justify-content:center;margin-bottom:20px;height:150px;overflow:hidden;}
+.login-char img{width:130px;height:100%;object-fit:cover;object-position:top 5%;filter:drop-shadow(0 0 14px rgba(201,168,76,.25));animation:float 3.5s ease-in-out infinite;}
 .login-title{text-align:center;margin-bottom:20px;}
 .login-title h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;margin-bottom:5px;}
 .login-title .sub{color:var(--gold);font-size:.7rem;letter-spacing:.2em;font-weight:700;}
@@ -137,8 +286,22 @@ body::before{
 /* コンテンツ */
 .main-content{
   display:grid;grid-template-columns:1fr 320px;
-  gap:18px;padding:18px 20px 40px;max-width:1200px;margin:0 auto;width:100%;
+  gap:18px;padding:18px 20px 80px;max-width:1200px;margin:0 auto;width:100%;
 }
+/* ========== ボトムナビ ========== */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;height:60px;
+  background:rgba(8,11,20,.97);border-top:1px solid rgba(201,168,76,.12);
+  display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);
+}
+.bn-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;
+}
+.bn-tab:hover,.bn-tab.active{color:var(--gold);}
+.bn-tab.active .bn-icon{filter:drop-shadow(0 0 6px rgba(201,168,76,.6));}
+.bn-icon{font-size:1.15rem;line-height:1;}
+.bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
 
 /* ===== 左：クエストボード ===== */
 .quest-board{display:flex;flex-direction:column;gap:0;}
@@ -189,6 +352,15 @@ body::before{
   align-items:center;justify-content:center;padding:0 4px;
 }
 .ex-card.counted .ex-count{display:flex;}
+.ex-card .ex-dec{
+  position:absolute;bottom:-6px;right:-6px;
+  width:18px;height:18px;border-radius:50%;
+  background:rgba(224,92,92,.8);color:#fff;
+  font-size:.8rem;font-weight:900;display:none;
+  align-items:center;justify-content:center;
+  border:none;cursor:pointer;line-height:1;padding:0;
+}
+.ex-card.counted .ex-dec{display:flex;}
 
 /* ===== 右：ステータス ===== */
 .quest-side{display:flex;flex-direction:column;gap:14px;}
@@ -313,13 +485,16 @@ body::before{
 /* ===== 実績バッジ ===== */
 .ach-grid{display:flex;flex-wrap:wrap;gap:5px;}
 .ach-badge{
-  display:flex;align-items:center;gap:4px;
+  display:flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-  border-radius:999px;padding:4px 10px;font-size:.62rem;color:rgba(170,188,216,.35);
+  border-radius:10px;padding:6px 10px;font-size:.62rem;color:rgba(170,188,216,.35);
   transition:background .2s,border-color .2s,color .2s;
 }
 .ach-badge.unlocked{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.32);color:var(--gold2);}
-.ach-icon{font-size:.8rem;}
+.ach-icon{font-size:.9rem;flex-shrink:0;}
+.ach-info{display:flex;flex-direction:column;gap:1px;}
+.ach-name{font-weight:700;font-size:.64rem;}
+.ach-cond{font-size:.58rem;opacity:.7;}
 
 /* ===== ボーナストースト ===== */
 @keyframes bonusPop{0%{opacity:0;transform:translateX(-50%) translateY(-14px);}12%{opacity:1;transform:translateX(-50%) translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-8px);}}
@@ -381,6 +556,84 @@ body::before{
   .h-title{display:none;}
   .main-header{padding:7px 12px;}
 }
+
+/* ===== QOL入力 ===== */
+.qol-section{margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,.12);}
+.qol-head{font-size:.62rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.qol-item{margin-bottom:10px;}
+.qol-label{font-size:.7rem;color:var(--silver);margin-bottom:6px;display:block;}
+.qol-scale{display:flex;gap:5px;}
+.qol-scale input[type=radio]{display:none;}
+.qol-scale label{
+  width:36px;height:36px;border-radius:8px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:700;color:rgba(170,188,216,.4);
+  cursor:pointer;transition:all .15s;user-select:none;
+}
+.qol-scale input[type=radio]:checked+label{
+  background:rgba(201,168,76,.18);border-color:rgba(201,168,76,.55);
+  color:var(--gold2);font-weight:900;
+}
+.qol-scale label:hover{border-color:rgba(201,168,76,.3);color:var(--silver);}
+.qol-note{font-size:.58rem;color:rgba(170,188,216,.3);display:flex;justify-content:space-between;margin-top:3px;}
+
+/* ===== 連動ステータス ===== */
+.linked-panel{background:rgba(20,25,41,.9);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:12px 14px;}
+.linked-head{font-size:.58rem;letter-spacing:.14em;color:rgba(201,168,76,.5);text-transform:uppercase;margin-bottom:10px;}
+.ls-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.ls-label{font-size:.62rem;color:rgba(170,188,216,.55);width:40px;flex-shrink:0;}
+.ls-bar{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
+.ls-fill{height:100%;border-radius:99px;transition:width .5s ease;}
+.ls-fill-q{background:linear-gradient(90deg,#e05c5c,#e08c3c);}
+.ls-fill-n{background:linear-gradient(90deg,#4ec98a,#2a9060);}
+.ls-val{font-size:.6rem;color:rgba(170,188,216,.55);width:40px;text-align:right;flex-shrink:0;}
+.ls-link{font-size:.6rem;color:rgba(156,114,224,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
+.ls-link:hover{color:rgba(156,114,224,.9);}
+
+/* ===== AI Coach FAB ===== */
+#coach-fab{
+  position:fixed;bottom:24px;right:24px;z-index:150;
+  background:linear-gradient(135deg,#3e2080,#5c30b0);
+  border:1.5px solid rgba(156,114,224,.5);border-radius:50px;
+  padding:10px 18px 10px 12px;
+  display:none;align-items:center;gap:8px;
+  cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:.82rem;font-weight:700;color:rgba(225,215,255,.92);
+  box-shadow:0 8px 24px rgba(60,20,120,.5);
+  transition:transform .2s,box-shadow .2s;
+}
+#coach-fab.visible{display:flex;}
+#coach-fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(60,20,120,.65);}
+#coach-fab img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:center 14%;flex-shrink:0;}
+
+/* ===== AI Coach モーダル ===== */
+#coach-modal{
+  position:fixed;inset:0;background:rgba(4,6,12,.7);z-index:200;
+  display:none;align-items:flex-end;justify-content:flex-end;
+  padding:16px;backdrop-filter:blur(6px);
+}
+#coach-modal.open{display:flex;}
+.coach-panel{
+  width:400px;max-width:calc(100vw - 32px);
+  height:600px;max-height:calc(100vh - 32px);
+  background:#080b14;
+  border:1px solid rgba(156,114,224,.4);border-radius:20px;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 24px 64px rgba(0,0,0,.8);
+  animation:modalIn .35s cubic-bezier(.22,1,.36,1);
+}
+.coach-ph{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  background:rgba(12,14,28,.98);
+  border-bottom:1px solid rgba(156,114,224,.2);flex-shrink:0;
+}
+.coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(201,168,76,.4);}
+.coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(201,168,76,.95);}
+.coach-ph-sub{font-size:.6rem;color:rgba(156,114,224,.7);letter-spacing:.06em;}
+#coach-close{background:none;border:none;color:rgba(170,188,216,.4);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
+#coach-close:hover{color:rgba(170,188,216,.8);}
+.coach-iframe{flex:1;border:none;width:100%;background:#080b14;}
 </style>
 </head>
 <body>
@@ -394,23 +647,33 @@ setTimeout(function(){
     ls.classList.add('hidden');
     if(lg){lg.classList.remove('hidden');lg.style.display='flex';}
   }
-},5000);
+},2500);
 </script>
 <div id="loading-screen">
-  <div class="spin"></div>
-  <p>冒険の書を開いています…</p>
+  <div class="ls-char">
+    <img src="./image/kaito-sabun%20(1).png" alt="カイト">
+  </div>
+  <div class="ls-title">健康クエスト</div>
+  <div class="ls-sub">Health Quest — Vitalia</div>
+  <div class="ls-bar"><div class="ls-bar-fill"></div></div>
+  <div class="ls-msg">冒険の書を開いています<span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
 </div>
 
 <!-- ログイン -->
 <div id="login-screen" class="hidden">
   <div class="login-card">
     <div class="login-char">
-      <img src="./image/kaito-2-Photoroom.png" alt="カイト">
+      <img src="./image/kaito-2-Photoroom.png" alt="カイト" style="object-fit:cover;object-position:top center;">
     </div>
     <div class="login-title">
       <h1 class="gold-text">健康クエスト</h1>
       <p class="sub">HEALTH QUEST — VITALIA</p>
       <p class="note">研究参加者専用 ｜ ログインが必要です</p>
+    </div>
+    <div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.75rem;line-height:1.7;color:rgba(200,215,235,.75);">
+      このアプリは、小児がん経験者の<strong style="color:var(--gold2);">健康行動の継続</strong>を支援する研究プロジェクトです。<br>
+      毎週の運動記録を積み重ねることで、体力・習慣・健康知識が育ちます。<br>
+      記録データは研究目的で使用されます。
     </div>
     <div class="kaito-bubble">
       「よし、一緒にクエストをこなそう！<br>
@@ -428,6 +691,11 @@ setTimeout(function(){
       <button id="login-btn" class="btn-gold">クエストを始める</button>
       <button id="register-btn" class="btn-outline">はじめての登録</button>
     </div>
+    <div id="auth-error" style="display:none;margin-top:10px;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.25);border-radius:8px;padding:8px 12px;font-size:.73rem;color:#f08080;text-align:center;"></div>
+    <div style="text-align:center;margin-top:8px;display:flex;gap:10px;justify-content:center;">
+      <button id="guest-btn" style="background:none;border:1px dashed rgba(201,168,76,0.35);color:rgba(170,188,216,0.55);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">デモ入場（ログイン不要）</button>
+      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(170,188,216,0.38);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">パスワードを忘れた方</button>
+    </div>
     <div class="login-footer">
       <p>このサービスは研究目的です。<br>医療診断は行いません。</p>
       <a href="./index.html">← ヴィタリア転生録トップへ</a>
@@ -436,17 +704,124 @@ setTimeout(function(){
 </div>
 
 
+<!-- インフォームドコンセント -->
+<div id="consent-modal" style="position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
+  <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:32px 28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(201,168,76,.1),0 24px 60px rgba(0,0,0,.8);">
+    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:10px;">研究参加への同意</div>
+    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">ヴィタリア転生録<br><span style="font-size:.8rem;font-weight:400;color:rgba(170,188,216,.6);">研究参加同意書</span></h2>
+    <div style="font-size:.78rem;line-height:1.85;color:rgba(200,215,235,.8);margin-bottom:20px;">
+      <p style="margin-bottom:12px;">本アプリは、<strong style="color:var(--gold2);">小児がん経験者の健康行動継続</strong>を支援することを目的とした研究プロジェクトです。</p>
+      <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
+        <p style="font-weight:700;color:var(--gold);margin-bottom:8px;">収集するデータ</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
+          <li>・ 毎週の運動記録（種目・時間・強度）</li>
+          <li>・ 身体情報（BMI・歩数）</li>
+          <li>・ ゲーム内行動データ（XP・レベル・実績）</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
+        <p style="font-weight:700;color:var(--gold);margin-bottom:8px;">データの取り扱い</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
+          <li>・ データは研究目的のみに使用します</li>
+          <li>・ 個人を特定できる形では公表しません</li>
+          <li>・ 参加はいつでも中止できます</li>
+          <li>・ 中止の場合はデータ削除を申請できます</li>
+        </ul>
+      </div>
+      <p style="font-size:.72rem;color:rgba(170,188,216,.5);">研究責任者：福井郁子（連絡先は担当者にお問い合わせください）</p>
+    </div>
+    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px;font-size:.8rem;color:rgba(200,215,235,.8);">
+      <input type="checkbox" id="consent-check" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;">
+      上記の内容を理解し、研究への参加に同意します
+    </label>
+    <button id="consent-btn" disabled style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;opacity:.4;transition:opacity .2s;">同意して参加する</button>
+  </div>
+</div>
+
+<!-- プロフィール入力 -->
+<div id="profile-modal" style="position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:290;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
+  <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:32px 28px;max-width:460px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(201,168,76,.1),0 24px 60px rgba(0,0,0,.8);">
+    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:8px;">はじめに</div>
+    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;margin-bottom:6px;">冒険者プロフィール</h2>
+    <p style="text-align:center;font-size:.72rem;color:rgba(170,188,216,.5);margin-bottom:24px;">研究データとして使用します。後から変更できます。</p>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
+      <div>
+        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">生年（西暦）</label>
+        <input type="number" id="pf-birth" placeholder="例: 2005" min="1970" max="2020" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
+      </div>
+      <div>
+        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">性別</label>
+        <select id="pf-sex" style="width:100%;background:rgba(14,18,32,.95);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
+          <option value="">選択してください</option>
+          <option value="male">男性</option>
+          <option value="female">女性</option>
+          <option value="other">その他・回答しない</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">がんの診断（任意）</label>
+        <input type="text" id="pf-diagnosis" placeholder="例: 急性リンパ性白血病" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
+      </div>
+      <div>
+        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">治療終了からの年数（任意）</label>
+        <select id="pf-years" style="width:100%;background:rgba(14,18,32,.95);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
+          <option value="">選択してください</option>
+          <option value="lt1">1年未満</option>
+          <option value="1to3">1〜3年</option>
+          <option value="3to5">3〜5年</option>
+          <option value="5to10">5〜10年</option>
+          <option value="gt10">10年以上</option>
+        </select>
+      </div>
+    </div>
+    <button id="profile-btn" style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;">冒険を始める ✦</button>
+    <button id="profile-skip" style="display:block;width:100%;margin-top:10px;background:none;border:none;font-size:.7rem;color:rgba(170,188,216,.35);cursor:pointer;font-family:inherit;">スキップ（後で入力する）</button>
+  </div>
+</div>
+
+<!-- 知識カードモーダル -->
+<div id="knowledge-modal">
+  <div class="km-card">
+    <div class="km-char-face"><img id="km-char-img" src="./image/kaito-sabun%20(2).png" alt="カイト"></div>
+    <div class="km-lvup">✦ Level Up ✦</div>
+    <div class="km-title" id="km-lvname"></div>
+    <div class="km-subtitle" id="km-lvnum"></div>
+    <div class="km-divider"></div>
+    <div class="km-theme" id="km-theme"></div>
+    <div class="km-body" id="km-body"></div>
+    <button class="km-close" id="km-close">理解した ― 冒険を続ける</button>
+  </div>
+</div>
+
+<!-- 実績スライドイン通知 -->
+<div id="ach-notify">
+  <div class="an-icon" id="an-icon">🏅</div>
+  <div class="an-body">
+    <div class="an-label">✦ 実績解除</div>
+    <div class="an-name" id="an-name"></div>
+    <div class="an-cond" id="an-cond"></div>
+  </div>
+</div>
+<!-- 保存トースト -->
+<div id="save-toast">
+  <span class="st-icon">✅</span><span class="st-text" id="st-text">記録を保存しました</span>
+</div>
+<!-- 目標達成バナー -->
+<div id="goal-banner">⚔ 今週の目標 150分達成！クエストクリア ✦ おめでとう！</div>
+
 <!-- メイン -->
 <div id="main-screen" class="hidden">
 
   <header class="main-header">
     <div class="h-left">
-      <a href="./index.html">⚔ ヴィタリア転生録</a>
+      <a href="./game.html">⚔ ヴィタリア転生録</a>
       <span class="pipe">|</span>
       <span class="h-title">健康クエスト</span>
     </div>
     <div class="h-right">
       <span id="user-display"></span>
+      <a href="./account.html" style="font-size:.72rem;font-weight:700;color:rgba(170,188,216,.6);border:1px solid rgba(170,188,216,.22);border-radius:999px;padding:5px 12px;text-decoration:none;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)';" onmouseout="this.style.color='rgba(170,188,216,.6)';this.style.borderColor='rgba(170,188,216,.22)';">👤 マイページ</a>
+      <a href="./settings.html" style="font-size:.72rem;font-weight:700;color:rgba(170,188,216,.6);border:1px solid rgba(170,188,216,.22);border-radius:999px;padding:5px 12px;text-decoration:none;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)';" onmouseout="this.style.color='rgba(170,188,216,.6)';this.style.borderColor='rgba(170,188,216,.22)';">⚙ 設定</a>
       <button id="logout-btn">退場</button>
     </div>
   </header>
@@ -462,7 +837,7 @@ setTimeout(function(){
           <div class="section-icon icon-mod">🌿</div>
           <div>
             <div class="section-label">中強度クエスト</div>
-            <div class="section-note">1タップ＝10分 ｜ 週150〜300分が推奨目標</div>
+            <div class="section-note" id="goal-section-note">1タップ＝10分 ｜ 週150〜300分が推奨目標</div>
           </div>
         </div>
         <div id="mod-board"></div>
@@ -485,6 +860,17 @@ setTimeout(function(){
     <!-- ===== 右：ステータス ===== -->
     <div class="quest-side">
 
+      <!-- カイトのセリフ -->
+      <div style="background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;">
+        <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid rgba(201,168,76,.25);background:rgba(201,168,76,.06);">
+          <img id="kaito-face" src="./image/kaito-sabun%20(1).png" alt="カイト" style="width:100%;height:100%;object-fit:cover;object-position:center 12%;">
+        </div>
+        <div>
+          <div style="font-size:.6rem;color:rgba(201,168,76,.6);font-weight:700;margin-bottom:3px;">カイト</div>
+          <div id="kaito-comment" style="font-size:.72rem;line-height:1.65;color:rgba(200,215,235,.8);">今週の記録を入力して、クエストを進めよう！</div>
+        </div>
+      </div>
+
       <!-- 週・レベル -->
       <div class="side-panel">
         <div class="week-label" id="week-lbl"></div>
@@ -498,6 +884,51 @@ setTimeout(function(){
         <div class="xp-note">
           <span>XP: <strong id="xp-now">0</strong></span>
           <span>次Lv: <strong id="xp-next">300</strong></span>
+        </div>
+      </div>
+
+      <!-- 連動ステータス -->
+      <div class="linked-panel">
+        <div class="linked-head">✦ 冒険全体ステータス</div>
+        <div class="ls-row">
+          <span class="ls-label">⚔ 運動</span>
+          <div class="ls-bar"><div class="ls-fill ls-fill-q" id="ls-q-fill" style="width:0%"></div></div>
+          <span class="ls-val" id="ls-q-val">0%</span>
+        </div>
+        <div class="ls-row">
+          <span class="ls-label">🌿 栄養</span>
+          <div class="ls-bar"><div class="ls-fill ls-fill-n" id="ls-n-fill" style="width:0%"></div></div>
+          <span class="ls-val" id="ls-n-val">未記録</span>
+        </div>
+        <a href="./nutrition.html" class="ls-link">栄養クエストへ →</a>
+      </div>
+
+      <!-- ボス戦 -->
+      <div class="side-panel" id="boss-panel">
+        <div class="panel-head">⚔ 今週の討伐対象</div>
+        <div id="boss-area">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div id="boss-icon" style="font-size:2rem;line-height:1;">👾</div>
+            <div>
+              <div id="boss-name" style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);"></div>
+              <div id="boss-type" style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:6px;">
+            <div style="display:flex;justify-content:space-between;font-size:.62rem;color:rgba(170,188,216,.5);margin-bottom:4px;">
+              <span>👾 敵HP</span>
+              <span><span id="boss-hp-now">150</span> / <span id="boss-hp-max">150</span></span>
+            </div>
+            <div style="height:10px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;">
+              <div id="boss-hp-bar" style="height:100%;width:100%;background:linear-gradient(90deg,#e05c5c,#e08c3c);border-radius:99px;transition:width .6s ease;"></div>
+            </div>
+          </div>
+          <div id="boss-damage-msg" style="font-size:.7rem;color:rgba(224,92,92,.7);text-align:center;min-height:16px;"></div>
+          <div id="boss-defeated" class="hidden" style="text-align:center;padding:12px 0;">
+            <div style="font-size:1.4rem;margin-bottom:4px;">🎉</div>
+            <div style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);">討伐完了！</div>
+            <div style="font-size:.68rem;color:rgba(78,201,138,.7);margin-top:4px;">今週の目標を達成しました</div>
+          </div>
         </div>
       </div>
 
@@ -536,6 +967,47 @@ setTimeout(function(){
           </div>
         </div>
 
+        <!-- QOL 3問 -->
+        <div class="qol-section">
+          <div class="qol-head">🔬 今週の主観的健康感（研究用）</div>
+
+          <div class="qol-item">
+            <span class="qol-label">① 今週の体調はどうでしたか？</span>
+            <div class="qol-scale">
+              <input type="radio" name="qol1" id="q1-1" value="1"><label for="q1-1">1</label>
+              <input type="radio" name="qol1" id="q1-2" value="2"><label for="q1-2">2</label>
+              <input type="radio" name="qol1" id="q1-3" value="3"><label for="q1-3">3</label>
+              <input type="radio" name="qol1" id="q1-4" value="4"><label for="q1-4">4</label>
+              <input type="radio" name="qol1" id="q1-5" value="5"><label for="q1-5">5</label>
+            </div>
+            <div class="qol-note"><span>とても悪い</span><span>とても良い</span></div>
+          </div>
+
+          <div class="qol-item">
+            <span class="qol-label">② 今週の気分・精神状態はどうでしたか？</span>
+            <div class="qol-scale">
+              <input type="radio" name="qol2" id="q2-1" value="1"><label for="q2-1">1</label>
+              <input type="radio" name="qol2" id="q2-2" value="2"><label for="q2-2">2</label>
+              <input type="radio" name="qol2" id="q2-3" value="3"><label for="q2-3">3</label>
+              <input type="radio" name="qol2" id="q2-4" value="4"><label for="q2-4">4</label>
+              <input type="radio" name="qol2" id="q2-5" value="5"><label for="q2-5">5</label>
+            </div>
+            <div class="qol-note"><span>とても悪い</span><span>とても良い</span></div>
+          </div>
+
+          <div class="qol-item">
+            <span class="qol-label">③ 今週の活力・エネルギーはどうでしたか？</span>
+            <div class="qol-scale">
+              <input type="radio" name="qol3" id="q3-1" value="1"><label for="q3-1">1</label>
+              <input type="radio" name="qol3" id="q3-2" value="2"><label for="q3-2">2</label>
+              <input type="radio" name="qol3" id="q3-3" value="3"><label for="q3-3">3</label>
+              <input type="radio" name="qol3" id="q3-4" value="4"><label for="q3-4">4</label>
+              <input type="radio" name="qol3" id="q3-5" value="5"><label for="q3-5">5</label>
+            </div>
+            <div class="qol-note"><span>とても低い</span><span>とても高い</span></div>
+          </div>
+        </div>
+
         <!-- 運動量集計 -->
         <div class="score-block">
           <div class="score-row">
@@ -554,7 +1026,7 @@ setTimeout(function(){
             <div class="goal-bar-fill" id="goal-fill" style="width:0%"></div>
           </div>
           <div class="goal-note">
-            <span class="gn-label">週150分目標</span>
+            <span class="gn-label" id="goal-label">週150分目標</span>
             <span class="gn-val"><span id="goal-pct">0</span>%</span>
           </div>
           <div class="goal-achieved" id="goal-msg">✦ 今週の目標達成！クエストクリア ✦</div>
@@ -567,9 +1039,28 @@ setTimeout(function(){
         <ul id="log-list"></ul>
       </div>
 
+      <!-- 運動時間帯 + 自由記述 -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:12px;padding:14px 16px;margin-top:10px;display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:.68rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.08em;">📝 週の記録メモ</div>
+        <div>
+          <div style="font-size:.64rem;color:rgba(170,188,216,.5);margin-bottom:6px;">主な運動時間帯</div>
+          <div style="display:flex;gap:8px;">
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="morning" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">🌅 朝</span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="afternoon" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">☀️ 昼</span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="evening" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">🌙 夜</span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="varied" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">📊 様々</span></label>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.64rem;color:rgba(170,188,216,.5);margin-bottom:6px;">今週の一言（任意・研究データとして活用）</div>
+          <textarea id="week-memo" rows="3" placeholder="例：仕事が忙しかったけど朝10分ずつ継続できた" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
+        </div>
+      </div>
+
       <!-- 保存 -->
       <div class="save-area">
         <button class="btn-save" id="save-btn">✦ 今週の記録を保存する ✦</button>
+        <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">↺ 今週の入力をリセット</button>
         <div class="save-msg" id="save-msg"></div>
       </div>
 
@@ -577,6 +1068,12 @@ setTimeout(function(){
       <div class="side-panel">
         <div class="panel-head">📅 過去の記録</div>
         <div class="history-list" id="hist-list"></div>
+      </div>
+
+      <!-- 月次サマリー -->
+      <div class="side-panel" id="monthly-panel" style="display:none;">
+        <div class="panel-head">📊 月次サマリー</div>
+        <div id="monthly-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
 
     </div>
@@ -592,7 +1089,7 @@ setTimeout(function(){
 
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut }
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc }
   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -643,6 +1140,15 @@ function weekKey(){
   const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
   return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
 }
+function checkStreakWarning(){
+  const s=getStreak(); if(!s.count) return;
+  const hasSavedThisWeek=!!localStorage.getItem(storeKey());
+  if(hasSavedThisWeek) return;
+  const dow=new Date().getDay(); // 0=日, 4=木, 6=土
+  if(dow<4) return; // 木曜以降だけ警告
+  const daysLeft=7-dow;
+  showSaveToast('🔥',`ストリーク${s.count}週連続中！あと${daysLeft}日で記録してね`);
+}
 function weekLabel(){
   const d=new Date();
   const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1);
@@ -652,6 +1158,20 @@ function weekLabel(){
   const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
   return `第${w}週 (${f(s)}〜${f(e)})`;
 }
+
+// ===== 設定読込 =====
+function getSettings(){ try{return JSON.parse(localStorage.getItem('vitalia_settings')||'{}');}catch(e){return{};} }
+function getWeeklyGoal(){ return parseInt(getSettings().weeklyGoal)||150; }
+
+// ===== 栄養ボーナス =====
+function getNutritionScore(){
+  try{
+    const raw=localStorage.getItem(`vn_${uid}_${weekKey()}`);
+    if(raw) return JSON.parse(raw).score||0;
+  }catch(e){}
+  return 0;
+}
+function getNutritionMult(score){ return score>=20?1.15:score>=10?1.08:1.0; }
 
 // ===== ストレージキー =====
 function storeKey(wk){ return `vq_${uid}_${wk||weekKey()}`; }
@@ -670,16 +1190,22 @@ const ACHV=[
   {id:'lv3',     icon:'⭐', name:'Lv3',      cond:'修行の勇者に到達'},
   {id:'lv5',     icon:'👑', name:'覚醒',     cond:'Lv5到達'},
   {id:'steps',   icon:'👣', name:'鉄の足',   cond:'週7万歩達成'},
+  {id:'season12',icon:'🏆', name:'シーズン完走', cond:'12週間の記録を達成'},
 ];
 function getAch(){ try{return JSON.parse(localStorage.getItem(achKey())||'{}');}catch(e){return{};} }
 function setAch(a){ localStorage.setItem(achKey(),JSON.stringify(a)); }
+let _achTO=null;
 function unlock(id){
   const a=getAch(); if(a[id]) return;
   a[id]=new Date().toISOString(); setAch(a); renderAch();
   const def=ACHV.find(x=>x.id===id); if(!def) return;
-  const t=document.getElementById('lv-toast');
-  document.getElementById('lt-body').textContent=`実績解除：${def.icon} ${def.name}`;
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+  const n=document.getElementById('ach-notify');
+  document.getElementById('an-icon').textContent=def.icon;
+  document.getElementById('an-name').textContent=def.name;
+  document.getElementById('an-cond').textContent=def.cond;
+  n.classList.add('show');
+  clearTimeout(_achTO);
+  _achTO=setTimeout(()=>n.classList.remove('show'),4000);
 }
 function renderAch(){
   const a=getAch(), el=document.getElementById('ach-grid'); if(!el) return;
@@ -688,19 +1214,24 @@ function renderAch(){
     const b=document.createElement('div');
     b.className='ach-badge'+(a[d.id]?' unlocked':'');
     b.title=d.cond;
-    b.innerHTML=`<span class="ach-icon">${d.icon}</span>${d.name}`;
+    const dateStr=a[d.id] ? new Date(a[d.id]).toLocaleDateString('ja-JP') : '';
+    b.innerHTML=`<span class="ach-icon">${d.icon}</span><span class="ach-info"><span class="ach-name">${d.name}</span><span class="ach-cond">${a[d.id] ? '✓ '+dateStr : d.cond}</span></span>`;
     el.appendChild(b);
   });
 }
 function checkAch(){
   const a=getAch(), xp=totalXp(), score=modMin+highMin*2;
+  const goal=getWeeklyGoal();
   const steps=parseInt(document.getElementById('steps-val').value||'0');
   if(!a.first  && sessions.length>0)    unlock('first');
-  if(!a.goal   && score>=150)           unlock('goal');
+  if(!a.goal   && score>=goal)          unlock('goal');
   if(!a.high   && highMin>0)            unlock('high');
   if(!a.lv3    && getLv(xp).lv>=3)      unlock('lv3');
   if(!a.lv5    && getLv(xp).lv>=5)      unlock('lv5');
   if(!a.steps  && steps>=70000)         unlock('steps');
+  // 12週完走バッジ
+  let qHist=[]; try{qHist=JSON.parse(localStorage.getItem(histKey())||'[]');}catch(e){}
+  if(!a.season12 && qHist.length>=12)  unlock('season12');
 }
 
 // ===== ストリーク =====
@@ -769,8 +1300,9 @@ function xpForActivity(mets,type){
 
 // ===== UI更新 =====
 function updateUI(){
+  const goal=getWeeklyGoal();
   const score=modMin+highMin*2;
-  const pct=Math.min(100,Math.round(score/150*100));
+  const pct=Math.min(100,Math.round(score/goal*100));
   const xp=totalXp();
   const lv=getLv(xp);
   const nxt=nextLvXp(xp);
@@ -782,7 +1314,11 @@ function updateUI(){
   document.getElementById('score-val').textContent= score;
   document.getElementById('goal-fill').style.width= pct+'%';
   document.getElementById('goal-pct').textContent = pct;
-  document.getElementById('goal-msg').style.display= score>=150 ? 'block' : 'none';
+  document.getElementById('goal-msg').style.display= score>=goal ? 'block' : 'none';
+  const goalLbl=document.getElementById('goal-label');
+  if(goalLbl) goalLbl.textContent=`週${goal}分目標`;
+  const goalNote=document.getElementById('goal-section-note');
+  if(goalNote) goalNote.textContent=`1タップ＝10分 ｜ あなたの週間目標：${goal}分`;
 
   document.getElementById('xp-fill').style.width  = barPct+'%';
   document.getElementById('xp-now').textContent   = xp;
@@ -802,22 +1338,192 @@ function updateUI(){
     hint.textContent=''; hint.className='hint';
   }
 
+  // ボス更新
+  renderBoss(score);
+
+  // カイトのセリフ＋表情差分更新
+  const kc=document.getElementById('kaito-comment');
+  const kf=document.getElementById('kaito-face');
+  if(kc){
+    const nutScore=getNutritionScore();
+    let msg,face;
+    if(score===0){
+      msg='今週の記録を入力して、クエストを進めよう！';       face=4; // 思案
+    } else if(score<50){
+      msg='よし、動き出したな！この調子で続けていこうぜ。';   face=1; // 笑顔
+    } else if(score<100){
+      msg='いい感じだ！あと少しで目標の半分だぞ。';           face=1; // 笑顔
+    } else if(score<goal){
+      msg=`もう少しで${goal}分！最後まで諦めるな！`;          face=2; // 真剣
+    } else if(score>=goal && nutScore===0){
+      msg='運動目標達成！あとは栄養クエストも記録するとXPボーナスが増えるぞ。'; face=5; // 驚き
+    } else if(score<goal*1.7){
+      msg='目標達成！食事もバッチリならXPボーナス中だ！';     face=6; // 照れ
+    } else {
+      msg='すごい週だ…！この記録、ちゃんと残しておこう。';   face=1; // 笑顔
+    }
+    kc.textContent=msg;
+    if(kf) kf.src=`./image/kaito-sabun%20(${face}).png`;
+  }
+
   // レベルアップチェック
   if(lv.lv > prevLv){
-    showLvUp(lv.name);
+    showLvUp(lv.lv, lv.name);
     const badge=document.getElementById('lv-badge');
     badge.classList.add('anim');
     setTimeout(()=>badge.classList.remove('anim'),600);
     prevLv=lv.lv;
   }
+  updateLinked();
 }
 
-function showLvUp(name){
-  const t=document.getElementById('lv-toast');
-  document.getElementById('lt-body').textContent=`称号が「${name}」に変わった！`;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+// ===== ボス戦システム =====
+const BOSSES=[
+  {icon:'👾',name:'ナマケ・グリム',    type:'怠惰の魔獣 ／ 弱点：有酸素運動'},
+  {icon:'🐌',name:'スロース・ワーム', type:'停滞の虫 ／ 弱点：継続的な中強度運動'},
+  {icon:'💤',name:'ドロウジー卿',     type:'睡眠過多の騎士 ／ 弱点：ウォーキング'},
+  {icon:'🦥',name:'ズボラ大公',       type:'運動回避の貴族 ／ 弱点：筋力トレーニング'},
+  {icon:'🌫',name:'モヤ・フォグ',     type:'霧の精霊 ／ 弱点：高強度運動'},
+  {icon:'🕸',name:'クモノス・クイーン',type:'習慣を絡め取る女王 ／ 弱点：週3回以上の運動'},
+  {icon:'🪨',name:'ロック・ゴーレム', type:'惰性の巨人 ／ 弱点：歩数増加'},
+  {icon:'🌊',name:'デプレシア・タイド',type:'倦怠の波 ／ 弱点：軽運動の継続'},
+];
+function getBoss(){
+  const wk=weekKey(); // "2026-W19" 形式
+  const n=parseInt(wk.replace(/\D/g,''))%BOSSES.length;
+  return BOSSES[n];
 }
+function renderBoss(score){
+  const goal=getWeeklyGoal();
+  const boss=getBoss();
+  const hp=Math.max(0,goal-score);
+  const pct=Math.round(hp/goal*100);
+  document.getElementById('boss-icon').textContent=boss.icon;
+  document.getElementById('boss-name').textContent=boss.name;
+  document.getElementById('boss-type').textContent=boss.type;
+  document.getElementById('boss-hp-now').textContent=hp;
+  document.getElementById('boss-hp-max').textContent=goal;
+  document.getElementById('boss-hp-bar').style.width=pct+'%';
+  const hpColor=hp<=50?'linear-gradient(90deg,#4ec98a,#7ee8b0)':
+                hp<=100?'linear-gradient(90deg,#e0a03c,#e0c03c)':
+                        'linear-gradient(90deg,#e05c5c,#e08c3c)';
+  document.getElementById('boss-hp-bar').style.background=hpColor;
+  const defeated=document.getElementById('boss-defeated');
+  if(hp===0){
+    defeated.classList.remove('hidden');
+    document.getElementById('boss-area').querySelector('div').style.opacity='.4';
+  } else {
+    defeated.classList.add('hidden');
+  }
+  // ダメージメッセージ
+  const dmgEl=document.getElementById('boss-damage-msg');
+  if(score===0)       dmgEl.textContent='運動してダメージを与えよう！';
+  else if(hp<=75)     dmgEl.textContent=`残りHP ${hp} — もう少しで討伐！`;
+  else                dmgEl.textContent=`${score}ポイントのダメージを与えた！`;
+}
+
+// ===== 健康知識カードデータ =====
+const KNOWLEDGE={
+  1:{
+    theme:'このアプリでできること',
+    body:`ようこそ、<strong>ヴィタリア転生録</strong>へ。<br><br>
+    このアプリでは、毎週の<strong>運動記録を積み重ねる</strong>ことで、あなたの体と習慣の変化を追跡します。<br><br>
+    記録するたびにXPが貯まり、レベルが上がるごとに<strong>健康に関する知識</strong>が解放されます。数週間後、自分の変化を振り返ったとき――それが、この冒険の本当の報酬です。`
+  },
+  2:{
+    theme:'METs（運動強度）とは',
+    body:`運動の強さを表す単位が <strong>METs（メッツ）</strong> です。安静時を1とすると、早歩きは約3METs、ジョギングは約7METs。<br><br>
+    このアプリが記録しているのは、あなたの<strong>週あたりの運動量合計</strong>です。週150分以上の中強度運動を続けることで、体力・疲労感・生活の質（QOL）の改善が期待できます。`
+  },
+  3:{
+    theme:'習慣化の科学',
+    body:`ある行動が「習慣」になるまでには、ある程度の時間がかかります。最初の数週間が最も重要で、続けるうちに「やらないと落ち着かない」感覚に変わっていきます。<br><br>
+    あなたが今積み重ねている毎週の記録は、その<strong>習慣の土台</strong>を作っています。`
+  },
+  4:{
+    theme:'がん経験者と身体活動',
+    body:`がん治療後において、定期的な身体活動は<strong>治療後の疲労感（がん関連疲労）の改善</strong>、心理的健康の向上と関連しています。<br><br>
+    特に小児・AYA世代のがん経験者では、<strong>運動が長期的な晩期障害の予防</strong>にも寄与することが指摘されています。`
+  },
+  5:{
+    theme:'運動と免疫機能',
+    body:`中強度の運動は、NK細胞やT細胞などの<strong>免疫細胞の活性</strong>を高める効果があるとされています。一方、過度な高強度運動は一時的に免疫を低下させることも。<br><br>
+    「適度な運動」が免疫にとって最も効果的。このアプリが<strong>中強度を中心に設計されている</strong>のはこのためです。`
+  }
+};
+
+function spawnParticles(){
+  const colors=['#f0d48a','#c9a84c','#ffffff','#e0c070','#ffeaa0'];
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');
+    p.className='lv-particle';
+    const angle=(i/28)*360+(Math.random()-0.5)*20;
+    const dist=90+Math.random()*130;
+    const tx=Math.cos(angle*Math.PI/180)*dist;
+    const ty=Math.sin(angle*Math.PI/180)*dist;
+    p.style.cssText=`--tx:${tx}px;--ty:${ty}px;background:${colors[i%colors.length]};animation-delay:${Math.random()*.25}s;`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1400);
+  }
+}
+function showLvUp(lvNum, name){
+  spawnParticles();
+  const k=KNOWLEDGE[lvNum];
+  if(k){
+    document.getElementById('km-lvname').textContent=name;
+    document.getElementById('km-lvnum').textContent=`Lv ${lvNum} に到達`;
+    document.getElementById('km-theme').textContent=k.theme;
+    document.getElementById('km-body').innerHTML=k.body;
+    document.getElementById('knowledge-modal').classList.add('open');
+  } else {
+    const t=document.getElementById('lv-toast');
+    document.getElementById('lt-body').textContent=`称号が「${name}」に変わった！`;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),3000);
+  }
+}
+document.getElementById('km-close').addEventListener('click',()=>{
+  document.getElementById('knowledge-modal').classList.remove('open');
+});
+
+// ===== プロフィール =====
+const PROFILE_KEY='vq_profile_done';
+function saveProfile(){
+  const p={
+    birth: document.getElementById('pf-birth').value,
+    sex:   document.getElementById('pf-sex').value,
+    diagnosis: document.getElementById('pf-diagnosis').value,
+    years: document.getElementById('pf-years').value,
+    savedAt: new Date().toISOString()
+  };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
+  // Firestoreにも保存
+  if(uid && uid!=='guest'){
+    try{ setDoc(doc(db,'profiles',uid), {...p, uid}); }catch(e){}
+  }
+  document.getElementById('profile-modal').style.display='none';
+}
+document.getElementById('profile-btn').addEventListener('click', saveProfile);
+document.getElementById('profile-skip').addEventListener('click',()=>{
+  document.getElementById('profile-modal').style.display='none';
+});
+
+// ===== インフォームドコンセント =====
+const CONSENT_KEY='vq_consent_done';
+if(!localStorage.getItem(CONSENT_KEY)){
+  document.getElementById('consent-modal').style.display='flex';
+}
+document.getElementById('consent-check').addEventListener('change',e=>{
+  document.getElementById('consent-btn').disabled=!e.target.checked;
+  document.getElementById('consent-btn').style.opacity=e.target.checked?'1':'.4';
+});
+document.getElementById('consent-btn').addEventListener('click',()=>{
+  localStorage.setItem(CONSENT_KEY,'1');
+  document.getElementById('consent-modal').style.display='none';
+  if(!localStorage.getItem(PROFILE_KEY)){
+    document.getElementById('profile-modal').style.display='flex';
+  }
+});
 
 // ===== ログ描画 =====
 function renderLog(){
@@ -852,10 +1558,26 @@ function updateCardCounts(){
 
 // ===== セッション操作 =====
 function addSession(name,icon,mets,type){
-  const xp=xpForActivity(mets,type);
+  const baseXp=xpForActivity(mets,type);
+  const nutScore=getNutritionScore();
+  const mult=getNutritionMult(nutScore);
+  const xp=Math.round(baseXp*mult);
   sessions.push({name,icon,mets,type,xp});
   if(type==='high') highMin+=10; else modMin+=10;
   renderLog(); updateUI();
+  if(mult>1 && !window._nutBonusShown){
+    window._nutBonusShown=true;
+    const pct=mult===1.15?'+15%':'+8%';
+    const el=document.createElement('div');
+    el.className='bonus-toast';
+    el.innerHTML=`<div class="bt-head">🥗 栄養ボーナス ${pct}</div><div class="bt-body">今週の食事記録がXPを底上げしている！</div>`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3700);
+  }
+}
+function decrementSession(name){
+  const i=sessions.map(s=>s.name).lastIndexOf(name);
+  if(i>=0) removeSession(i);
 }
 function removeSession(i){
   const s=sessions[i];
@@ -883,8 +1605,13 @@ function buildBoard(id,groups,type){
         <span class="e-icon">${ex.icon}</span>
         <span class="e-name">${ex.name}</span>
         <span class="e-min">10分</span>
-        <span class="ex-count">0</span>`;
+        <span class="ex-count">0</span>
+        <button class="ex-dec">−</button>`;
       c.addEventListener('click',()=>addSession(ex.name,ex.icon,g.mets,type));
+      c.querySelector('.ex-dec').addEventListener('click',e=>{
+        e.stopPropagation();
+        decrementSession(ex.name);
+      });
       grid.appendChild(c);
     });
     sec.appendChild(grid);
@@ -893,14 +1620,21 @@ function buildBoard(id,groups,type){
 }
 
 // ===== 保存 / 読込 =====
+function getQol(){
+  const v=n=>{ const el=document.querySelector(`input[name="qol${n}"]:checked`); return el ? parseInt(el.value) : null; };
+  return { qol1:v(1), qol2:v(2), qol3:v(3) };
+}
 async function saveWeek(){
+  const isFirst=!localStorage.getItem(`vq_firstsave_${uid}`);
   const xp=totalXp(), lv=getLv(xp);
+  const qol=getQol();
   const data={
     bmi:    document.getElementById('bmi-val').value,
     steps:  document.getElementById('steps-val').value,
     sessions, modMin, highMin,
     score:  modMin+highMin*2,
     xp, lv:lv.lv, lvName:lv.name,
+    qol1:qol.qol1, qol2:qol.qol2, qol3:qol.qol3,
     savedAt:new Date().toLocaleString('ja-JP'),
     week:   weekLabel()
   };
@@ -922,14 +1656,52 @@ async function saveWeek(){
       totalScore: data.score,
       exercises: sessions.map(s=>({name:s.name,mets:s.mets,type:s.type,xp:s.xp})),
       xp, lv:lv.lv, lvName:lv.name,
-      goalAchieved: data.score>=150,
+      goalAchieved: data.score>=getWeeklyGoal(),
+      qol1:qol.qol1, qol2:qol.qol2, qol3:qol.qol3,
+      qolTotal: (qol.qol1||0)+(qol.qol2||0)+(qol.qol3||0)||null,
+      exerciseTime: (document.querySelector('input[name="exercise-time"]:checked')||{}).value||null,
+      memo: document.getElementById('week-memo').value.trim()||null,
       savedAt: new Date().toISOString(),
       dataType:'quest'
     });
   } catch(e){ console.warn('Firestore:', e.message); }
 
-  document.getElementById('save-msg').textContent='保存しました: '+data.savedAt;
-  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; }, 3000);
+  document.getElementById('save-msg').textContent='';
+  showSaveToast('✅', '記録を保存しました');
+  const achieved = data.score >= getWeeklyGoal();
+  if(achieved) setTimeout(showGoalCelebration, 400);
+  if(isFirst){
+    localStorage.setItem(`vq_firstsave_${uid}`,'1');
+    setTimeout(()=>showLvUp(1,'転生者'), 800);
+  }
+}
+function showSaveToast(icon, msg){
+  const t=document.getElementById('save-toast');
+  document.querySelector('#save-toast .st-icon').textContent=icon;
+  document.getElementById('st-text').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+function spawnConfetti(){
+  const colors=['#c9a84c','#f0d48a','#4ec98a','#9c72e0','#e05c5c','#ffffff'];
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');
+    c.className='confetti-piece';
+    const x=Math.random()*100;
+    const dx=(Math.random()-0.5)*200;
+    const dur=1.5+Math.random()*1.5;
+    c.style.cssText=`left:${x}vw;--x:0px;--dx:${dx}px;--dur:${dur}s;background:${colors[i%colors.length]};animation-delay:${Math.random()*.8}s;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),(dur+1)*1000);
+  }
+}
+let _goalBannerTO=null;
+function showGoalCelebration(){
+  spawnConfetti();
+  const b=document.getElementById('goal-banner');
+  b.classList.add('show');
+  clearTimeout(_goalBannerTO);
+  _goalBannerTO=setTimeout(()=>b.classList.remove('show'),5000);
 }
 function loadWeek(){
   const raw=localStorage.getItem(storeKey());
@@ -940,6 +1712,7 @@ function loadWeek(){
     document.getElementById('steps-val').value=d.steps||'';
     sessions=d.sessions||[]; modMin=d.modMin||0; highMin=d.highMin||0;
     prevLv=d.lv||1;
+    [1,2,3].forEach(n=>{ if(d[`qol${n}`]){ const el=document.querySelector(`input[name="qol${n}"][value="${d[`qol${n}`]}"]`); if(el) el.checked=true; } });
     renderLog(); updateUI();
   }catch(e){}
 }
@@ -954,6 +1727,17 @@ function appendHistory(data){
   localStorage.setItem(histKey(),JSON.stringify(hist));
   renderHistory();
 }
+function wkToMonthLabel(wk){
+  // "2026-W19" → 週の木曜日 → 月ラベル
+  try{
+    const [y,w]=wk.split('-W').map(Number);
+    const jan4=new Date(y,0,4);
+    const d=jan4.getDay()||7;
+    const mon=new Date(jan4); mon.setDate(jan4.getDate()-d+1+(w-1)*7);
+    const thu=new Date(mon); thu.setDate(mon.getDate()+3);
+    return `${thu.getFullYear()}年${thu.getMonth()+1}月`;
+  }catch(e){ return wk; }
+}
 function renderHistory(){
   let hist=[];
   try{ hist=JSON.parse(localStorage.getItem(histKey())||'[]'); }catch(e){}
@@ -961,10 +1745,12 @@ function renderHistory(){
   el.innerHTML='';
   if(!hist.length){
     el.innerHTML='<div class="hist-empty">まだ記録がありません</div>';
+    document.getElementById('monthly-panel').style.display='none';
     return;
   }
+  const goal=getWeeklyGoal();
   hist.forEach(h=>{
-    const pct=Math.min(100,Math.round((h.score||0)/150*100));
+    const pct=Math.min(100,Math.round((h.score||0)/goal*100));
     const div=document.createElement('div');
     div.className='hist-item';
     div.innerHTML=`
@@ -973,37 +1759,152 @@ function renderHistory(){
       <span class="hist-score">${h.score||0}分</span>`;
     el.appendChild(div);
   });
+  // 月次サマリー
+  const monthly=new Map();
+  hist.forEach(h=>{
+    const lbl=wkToMonthLabel(h.wkKey||h.week||'');
+    if(!monthly.has(lbl)) monthly.set(lbl,{total:0,weeks:0,achieved:0});
+    const m=monthly.get(lbl);
+    m.total+=(h.score||0); m.weeks++; if((h.score||0)>=goal) m.achieved++;
+  });
+  const mList=document.getElementById('monthly-list');
+  mList.innerHTML='';
+  monthly.forEach((m,lbl)=>{
+    const div=document.createElement('div');
+    div.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:8px 10px;font-size:.72rem;';
+    div.innerHTML=`<div style="font-weight:700;color:var(--gold2);margin-bottom:4px;">${lbl}</div>`+
+      `<div style="display:flex;gap:12px;color:rgba(200,215,235,.7);">`+
+      `<span>合計 <strong style="color:#fff;">${m.total}分</strong></span>`+
+      `<span>記録 <strong style="color:#fff;">${m.weeks}週</strong></span>`+
+      `<span>達成 <strong style="color:var(--green);">${m.achieved}回</strong></span></div>`;
+    mList.appendChild(div);
+  });
+  document.getElementById('monthly-panel').style.display='block';
 }
 
 // ===== Auth =====
+function authErrMsg(code){
+  const map={
+    'auth/user-not-found':'このメールアドレスは登録されていません。',
+    'auth/wrong-password':'パスワードが正しくありません。',
+    'auth/invalid-credential':'メールアドレスまたはパスワードが正しくありません。',
+    'auth/invalid-email':'メールアドレスの形式が正しくありません。',
+    'auth/too-many-requests':'試行回数が多すぎます。しばらく後にお試しください。',
+    'auth/email-already-in-use':'このメールアドレスはすでに登録されています。',
+    'auth/weak-password':'パスワードは6文字以上にしてください。',
+    'auth/network-request-failed':'通信エラーが発生しました。接続を確認してください。',
+  };
+  return map[code]||'エラーが発生しました。もう一度お試しください。';
+}
+function showAuthError(msg){ const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
+function clearAuthError(){ const el=document.getElementById('auth-error'); el.style.display='none'; }
+
 document.getElementById('login-btn').addEventListener('click',()=>{
-  const e=document.getElementById('email').value;
+  const e=document.getElementById('email').value.trim();
   const p=document.getElementById('password').value;
-  signInWithEmailAndPassword(auth,e,p)
-    .catch(()=>alert('ログインに失敗しました。メールアドレスかパスワードを確認してください。'));
+  clearAuthError();
+  if(!e||!p){ showAuthError('メールアドレスとパスワードを入力してください。'); return; }
+  signInWithEmailAndPassword(auth,e,p).catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('register-btn').addEventListener('click',()=>{
-  const e=document.getElementById('email').value;
+  const e=document.getElementById('email').value.trim();
   const p=document.getElementById('password').value;
+  clearAuthError();
+  if(!e||!p){ showAuthError('メールアドレスとパスワードを入力してください。'); return; }
   createUserWithEmailAndPassword(auth,e,p)
-    .then(()=>alert('アカウントを作成しました！'))
-    .catch(err=>alert('エラー: '+err.message));
+    .then(()=>showAuthError('✓ アカウントを作成しました！ログインします…'))
+    .catch(err=>showAuthError(authErrMsg(err.code)));
 });
-document.getElementById('logout-btn').addEventListener('click',()=>signOut(auth));
+document.getElementById('reset-pw-btn').addEventListener('click',()=>{
+  const e=document.getElementById('email').value.trim();
+  clearAuthError();
+  if(!e){ showAuthError('メールアドレスを入力してから「パスワードを忘れた方」を押してください。'); return; }
+  sendPasswordResetEmail(auth,e)
+    .then(()=>showAuthError('✓ パスワードリセットメールを送信しました。'))
+    .catch(err=>showAuthError(authErrMsg(err.code)));
+});
+document.getElementById('logout-btn').addEventListener('click',()=>{
+  if(uid==='guest'){ location.reload(); return; }
+  signOut(auth);
+});
 document.getElementById('save-btn').addEventListener('click',saveWeek);
+document.getElementById('reset-btn').addEventListener('click',()=>{
+  if(!confirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）')) return;
+  sessions=[]; modMin=0; highMin=0;
+  localStorage.removeItem(storeKey());
+  buildBoard('mod-board',EXERCISES.moderate,'moderate');
+  buildBoard('high-board',EXERCISES.high,'high');
+  document.getElementById('bmi-val').value='';
+  document.getElementById('steps-val').value='';
+  updateUI();
+  document.getElementById('save-msg').textContent='リセットしました';
+  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
+});
+document.getElementById('guest-btn').addEventListener('click',()=>{
+  uid='guest';
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('login-screen').style.display='';
+  document.getElementById('main-screen').classList.remove('hidden');
+  document.getElementById('main-screen').style.display='flex';
+  document.getElementById('user-display').textContent='ゲスト（デモ）';
+  document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
+  buildBoard('mod-board',EXERCISES.moderate,'moderate');
+  buildBoard('high-board',EXERCISES.high,'high');
+  loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
+  renderBoss(0);
+  document.getElementById('coach-fab').classList.add('visible');
+  document.getElementById('bottom-nav').style.display='flex';
+});
 document.getElementById('bmi-val').addEventListener('input',updateUI);
 if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
 
+// ===== 連動ステータス更新 =====
+function updateLinked(){
+  const goal=getWeeklyGoal();
+  const score=modMin+highMin*2;
+  const qPct=Math.min(100,Math.round(score/goal*100));
+  document.getElementById('ls-q-fill').style.width=qPct+'%';
+  document.getElementById('ls-q-val').textContent=qPct+'%';
+  try{
+    const raw=localStorage.getItem(`vn_${uid}_${weekKey()}`);
+    if(raw){
+      const d=JSON.parse(raw);
+      const cnt=d.counts||{};
+      const ns=Math.round(((cnt.veg||0)/21+(cnt.fruit||0)/10+(cnt.protein||0)/14+(cnt.grain||0)/14)*25);
+      const nPct=Math.min(100,ns*4);
+      document.getElementById('ls-n-fill').style.width=nPct+'%';
+      document.getElementById('ls-n-val').textContent=ns+'/25';
+    }
+  }catch(e){}
+}
+
+// ===== AI Coach モーダル =====
+document.getElementById('coach-fab').addEventListener('click',()=>{
+  const m=document.getElementById('coach-modal');
+  const iframe=document.getElementById('coach-iframe');
+  m.classList.add('open');
+  if(!iframe.src) iframe.src='https://udify.app/chat/KXoLEteQQnrlbz1P';
+});
+document.getElementById('coach-close').addEventListener('click',()=>{
+  document.getElementById('coach-modal').classList.remove('open');
+});
+document.getElementById('coach-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('coach-modal'))
+    document.getElementById('coach-modal').classList.remove('open');
+});
+
+const _authDelay=localStorage.getItem('vitalia_uid_hint') ? 8000 : 2000;
 const _authTO=setTimeout(()=>{
   document.getElementById('loading-screen').classList.add('hidden');
   document.getElementById('login-screen').classList.remove('hidden');
   document.getElementById('login-screen').style.display='flex';
-},5000);
+},_authDelay);
 onAuthStateChanged(auth,user=>{
   clearTimeout(_authTO);
   document.getElementById('loading-screen').classList.add('hidden');
   if(user){
     uid=user.uid;
+    localStorage.setItem('vitalia_uid_hint',uid);
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('login-screen').style.display='';
     document.getElementById('main-screen').classList.remove('hidden');
@@ -1017,16 +1918,51 @@ onAuthStateChanged(auth,user=>{
     renderAch();
     renderStreak(getStreak());
     checkLoginBonus();
+    document.getElementById('coach-fab').classList.add('visible');
+    document.getElementById('bottom-nav').style.display='flex';
+    checkStreakWarning();
   } else {
     uid=''; sessions=[]; modMin=0; highMin=0; prevLv=1;
+    localStorage.removeItem('vitalia_uid_hint');
     document.getElementById('main-screen').classList.add('hidden');
     document.getElementById('main-screen').style.display='';
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('login-screen').style.display='flex';
     document.getElementById('email').value='';
     document.getElementById('password').value='';
+    document.getElementById('coach-fab').classList.remove('visible');
+    document.getElementById('bottom-nav').style.display='none';
   }
 });
 </script>
+
+<!-- ボトムナビ -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none;">
+  <a href="./game.html"      class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab active"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイページ</span></a>
+</nav>
+
+<!-- AI Coach FAB -->
+<button id="coach-fab" aria-label="ルナのコーチングを開く">
+  <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+  ✦ ルナに話す
+</button>
+
+<!-- AI Coach モーダル -->
+<div id="coach-modal" role="dialog" aria-modal="true" aria-label="ルナのコーチング">
+  <div class="coach-panel">
+    <div class="coach-ph">
+      <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+      <div>
+        <div class="coach-ph-name">ルナ</div>
+        <div class="coach-ph-sub">AIコーチ ／ GROWモデル</div>
+      </div>
+      <button id="coach-close" aria-label="閉じる">✕</button>
+    </div>
+    <iframe class="coach-iframe" id="coach-iframe" title="ルナのコーチング" allow="microphone"></iframe>
+  </div>
+</div>
 </body>
 </html>

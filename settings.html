@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冒険者ステータス設定 ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;}
+.hidden{display:none!important;}
+
+header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:32px 20px 80px;}
+.page-title{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;margin-bottom:6px;}
+.page-sub{font-size:.75rem;color:rgba(170,188,216,.5);margin-bottom:32px;}
+
+.section{background:rgba(14,18,32,.9);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:22px;margin-bottom:20px;}
+.section-title{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:var(--gold2);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group label{font-size:.7rem;color:rgba(170,188,216,.6);}
+.form-input{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.88rem;outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:rgba(201,168,76,.5);}
+.form-hint{font-size:.62rem;color:rgba(170,188,216,.4);margin-top:2px;}
+
+/* BMIカード */
+.bmi-card{background:rgba(255,255,255,.04);border-radius:12px;padding:18px;margin-top:16px;text-align:center;}
+.bmi-value{font-family:'Noto Serif JP',serif;font-size:2.8rem;font-weight:900;line-height:1;}
+.bmi-label{font-size:.8rem;margin-top:6px;font-weight:700;}
+.bmi-bar-wrap{margin:14px 0 10px;}
+.bmi-bar-bg{height:8px;border-radius:99px;background:linear-gradient(90deg,#5a9fd4 0%,#4ec98a 27%,#e0c03c 54%,#e05c5c 100%);position:relative;overflow:visible;}
+.bmi-marker{position:absolute;top:-4px;width:16px;height:16px;background:white;border-radius:50%;border:2px solid var(--bg);transform:translateX(-50%);transition:left .4s ease;box-shadow:0 0 8px rgba(255,255,255,.4);}
+.bmi-scale{display:flex;justify-content:space-between;font-size:.58rem;color:rgba(170,188,216,.4);margin-top:4px;}
+.bmi-guidance{font-size:.74rem;line-height:1.7;color:rgba(200,215,235,.8);text-align:left;margin-top:12px;padding:12px;background:rgba(255,255,255,.04);border-radius:8px;}
+.bmi-guidance strong{color:var(--gold2);}
+
+/* 目標設定 */
+.goal-card{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;margin-top:16px;}
+.goal-title{font-size:.72rem;color:rgba(201,168,76,.7);font-weight:700;margin-bottom:10px;letter-spacing:.08em;}
+.goal-range{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.goal-num{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:900;color:var(--gold2);}
+.goal-unit{font-size:.72rem;color:rgba(170,188,216,.5);}
+.goal-desc{font-size:.72rem;line-height:1.7;color:rgba(200,215,235,.7);}
+.goal-desc strong{color:var(--green);}
+.goal-slider{width:100%;accent-color:var(--gold);margin:10px 0;}
+
+/* 栄養連動 */
+.nutrition-link{background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.2);border-radius:12px;padding:16px;margin-top:16px;}
+.nutrition-status{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.nutr-icon{font-size:1.4rem;}
+.nutr-label{font-size:.78rem;font-weight:700;color:#7ee8b0;}
+.nutr-detail{font-size:.68rem;color:rgba(170,188,216,.5);margin-top:2px;}
+.nutr-bonus{display:inline-block;background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.3);color:var(--green);font-size:.65rem;font-weight:700;padding:2px 10px;border-radius:999px;}
+
+/* 保存ボタン */
+.btn-save-main{display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:12px;padding:14px;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:700;color:#1a1200;cursor:pointer;margin-top:24px;transition:opacity .15s;}
+.btn-save-main:hover{opacity:.88;}
+.save-msg{text-align:center;font-size:.72rem;color:var(--green);margin-top:10px;min-height:18px;}
+
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="./index.html">⚔ ヴィタリア転生録</a>
+  <div style="display:flex;gap:8px;">
+    <a href="./quest.html" class="back-btn">⚔ 健康クエスト</a>
+    <a href="./nutrition.html" class="back-btn" style="border-color:rgba(78,201,138,.3);color:rgba(78,201,138,.7);">🥗 栄養クエスト</a>
+  </div>
+</header>
+
+<div class="page">
+  <h1 class="page-title">冒険者ステータス設定</h1>
+  <p class="page-sub">あなたの体の情報を登録すると、個人に合った運動目標が設定されます。</p>
+
+  <!-- 身体情報 -->
+  <div class="section">
+    <div class="section-title">⚔ 身体情報</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>身長 (cm)</label>
+        <input type="number" id="height" class="form-input" placeholder="例: 165" min="100" max="220" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>体重 (kg)</label>
+        <input type="number" id="weight" class="form-input" placeholder="例: 58.0" min="20" max="200" step="0.1">
+      </div>
+    </div>
+    <div class="form-hint">※ 体重は毎週更新することをおすすめします。クエストの記録にも反映されます。</div>
+
+    <!-- BMIカード -->
+    <div class="bmi-card" id="bmi-card" style="display:none;">
+      <div style="font-size:.65rem;color:rgba(170,188,216,.4);margin-bottom:6px;letter-spacing:.1em;">あなたのBMI</div>
+      <div class="bmi-value" id="bmi-display">—</div>
+      <div class="bmi-label" id="bmi-category">—</div>
+      <div class="bmi-bar-wrap">
+        <div class="bmi-bar-bg">
+          <div class="bmi-marker" id="bmi-marker" style="left:50%;"></div>
+        </div>
+        <div class="bmi-scale">
+          <span>痩せ<br>&lt;18.5</span>
+          <span>標準<br>18.5-25</span>
+          <span>肥満①<br>25-30</span>
+          <span>肥満②<br>&gt;30</span>
+        </div>
+      </div>
+      <div class="bmi-guidance" id="bmi-guidance"></div>
+    </div>
+  </div>
+
+  <!-- 運動目標 -->
+  <div class="section">
+    <div class="section-title">🎯 個人運動目標</div>
+    <div class="goal-card">
+      <div class="goal-title">週間目標（中強度換算）</div>
+      <div class="goal-range">
+        <span class="goal-num" id="goal-display">150</span>
+        <span class="goal-unit">分 / 週</span>
+      </div>
+      <input type="range" id="goal-slider" class="goal-slider" min="60" max="300" step="10" value="150">
+      <div style="display:flex;justify-content:space-between;font-size:.6rem;color:rgba(170,188,216,.3);margin-bottom:10px;">
+        <span>60分</span><span>150分（推奨最低）</span><span>300分</span>
+      </div>
+      <div class="goal-desc" id="goal-desc">
+        中強度運動を週<strong id="goal-mod">150</strong>分以上を目標にしましょう。<br>
+        高強度運動は中強度の<strong>2倍換算</strong>です（10分 = 中強度20分相当）。
+      </div>
+    </div>
+
+    <div style="margin-top:14px;background:rgba(255,255,255,.04);border-radius:10px;padding:14px;font-size:.74rem;line-height:1.75;color:rgba(200,215,235,.75);">
+      <strong style="color:var(--gold2);">運動量の換算式</strong><br>
+      合計スコア ＝ 中強度の分数 ＋ 高強度の分数 × 2<br>
+      <span style="color:rgba(170,188,216,.45);font-size:.68rem;">例）中強度100分 ＋ 高強度25分 → 100 + 50 = 150点（目標達成）</span>
+    </div>
+  </div>
+
+  <!-- 栄養連動 -->
+  <div class="section">
+    <div class="section-title">🍃 今週の栄養ステータス</div>
+    <div id="nutr-link-area">
+      <div class="nutrition-link" id="nutr-status-card">
+        <div class="nutrition-status">
+          <div class="nutr-icon" id="nutr-icon">🍽</div>
+          <div>
+            <div class="nutr-label" id="nutr-label">今週の食事記録</div>
+            <div class="nutr-detail" id="nutr-detail">栄養クエストで記録を入力してください</div>
+          </div>
+        </div>
+        <div id="nutr-bonus-display"></div>
+      </div>
+      <div style="margin-top:12px;font-size:.72rem;line-height:1.75;color:rgba(170,188,216,.5);">
+        <strong style="color:rgba(201,168,76,.7);">栄養と運動の関係</strong><br>
+        良好な食事バランスは、運動の効果を高めます。両方のクエストを継続することで、XPボーナスが発生します。<br>
+        <span style="color:rgba(170,188,216,.35);">※ 同じ週に栄養クエストも保存すると +15% XPボーナス</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今週の進捗サマリー -->
+  <div class="section">
+    <div class="section-title">📊 今週の進捗サマリー</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+      <!-- 運動スコア -->
+      <div style="background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.2);border-radius:12px;padding:14px;">
+        <div style="font-size:.6rem;color:rgba(78,201,138,.6);font-weight:700;letter-spacing:.1em;margin-bottom:6px;">🏃 健康クエスト</div>
+        <div id="qs-score" style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#7ee8b0;line-height:1;">—</div>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;" id="qs-goal-label">分 / 週</div>
+        <div style="height:4px;background:rgba(255,255,255,.07);border-radius:99px;margin:8px 0 6px;overflow:hidden;">
+          <div id="qs-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#4ec98a,#f0d48a);border-radius:99px;transition:width .4s;"></div>
+        </div>
+        <a href="./quest.html" style="font-size:.62rem;color:rgba(78,201,138,.6);text-decoration:none;">クエストへ →</a>
+      </div>
+
+      <!-- 栄養スコア -->
+      <div style="background:rgba(156,114,224,.06);border:1px solid rgba(156,114,224,.2);border-radius:12px;padding:14px;">
+        <div style="font-size:.6rem;color:rgba(156,114,224,.6);font-weight:700;letter-spacing:.1em;margin-bottom:6px;">🥗 栄養クエスト</div>
+        <div id="ns-score" style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#c5a5f0;line-height:1;">—</div>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;">/ 25点</div>
+        <div style="height:4px;background:rgba(255,255,255,.07);border-radius:99px;margin:8px 0 6px;overflow:hidden;">
+          <div id="ns-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#9c72e0,#c5a5f0);border-radius:99px;transition:width .4s;"></div>
+        </div>
+        <a href="./nutrition.html" style="font-size:.62rem;color:rgba(156,114,224,.6);text-decoration:none;">クエストへ →</a>
+      </div>
+    </div>
+    <div id="progress-msg" style="margin-top:12px;font-size:.7rem;color:rgba(200,215,235,.5);text-align:center;min-height:16px;"></div>
+  </div>
+
+  <button class="btn-save-main" id="save-btn">設定を保存する ✦</button>
+  <div class="save-msg" id="save-msg"></div>
+</div>
+
+<script>
+const SETTINGS_KEY = 'vitalia_settings';
+
+function weekKey(){
+  const d=new Date();
+  const jan1=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+
+function calcBMI(h, w){
+  if(!h || !w || h<=0 || w<=0) return 0;
+  return w / ((h/100) ** 2);
+}
+
+function getBMIInfo(bmi){
+  if(bmi <= 0) return null;
+  if(bmi < 18.5) return {
+    label:'痩せ（低体重）', color:'#5a9fd4', markerPct:10,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「痩せ」の範囲です。<br>
+    無理な減量は避け、<strong>適切な栄養摂取</strong>を心がけましょう。
+    がん治療後は体重が低下しやすいため、<strong>週150分程度の運動</strong>で筋肉量の維持を目指しましょう。`,
+    goalSuggestion: 150
+  };
+  if(bmi < 25) return {
+    label:'標準体重', color:'#4ec98a', markerPct:35,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「標準」の範囲です。<br>
+    <strong>週150〜300分の中強度運動</strong>を目標に、この体重を維持しましょう。
+    がん経験者の研究では、標準体重での継続的な運動がQOL改善に最も効果的とされています。`,
+    goalSuggestion: 150
+  };
+  if(bmi < 30) return {
+    label:'肥満（1度）', color:'#e0c03c', markerPct:65,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「肥満1度」の範囲です。<br>
+    メタボリックシンドロームのリスクが上昇します。<strong>週200分以上の運動</strong>を目標に取り組みましょう。
+    急激な体重減少は避け、<strong>食事と運動のバランス</strong>を意識してください。`,
+    goalSuggestion: 200
+  };
+  return {
+    label:'肥満（2度以上）', color:'#e05c5c', markerPct:88,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「肥満2度以上」の範囲です。<br>
+    がんの再発リスクが上昇するとされています。<strong>週250〜300分の運動</strong>を目標に、
+    <strong>医師・管理栄養士に相談しながら</strong>無理のない範囲で取り組みましょう。`,
+    goalSuggestion: 250
+  };
+}
+
+function updateBMIDisplay(){
+  const h = parseFloat(document.getElementById('height').value);
+  const w = parseFloat(document.getElementById('weight').value);
+  const bmi = calcBMI(h, w);
+  const card = document.getElementById('bmi-card');
+  if(!bmi){ card.style.display='none'; return; }
+  card.style.display='block';
+  const info = getBMIInfo(bmi);
+  document.getElementById('bmi-display').textContent = bmi.toFixed(1);
+  document.getElementById('bmi-display').style.color = info.color;
+  document.getElementById('bmi-category').textContent = info.label;
+  document.getElementById('bmi-category').style.color = info.color;
+  document.getElementById('bmi-marker').style.left = info.markerPct + '%';
+  document.getElementById('bmi-guidance').innerHTML = info.guidance;
+  // 目標値を自動提案
+  const slider = document.getElementById('goal-slider');
+  slider.value = info.goalSuggestion;
+  updateGoalDisplay(info.goalSuggestion);
+}
+
+function updateGoalDisplay(val){
+  document.getElementById('goal-display').textContent = val;
+  document.getElementById('goal-mod').textContent = val;
+  const desc = document.getElementById('goal-desc');
+  if(val <= 150){
+    desc.innerHTML = `中強度運動を週<strong id="goal-mod">${val}</strong>分以上を目標にしましょう。<br>高強度運動は中強度の<strong>2倍換算</strong>です。`;
+  } else if(val <= 200){
+    desc.innerHTML = `中強度運動を週<strong id="goal-mod">${val}</strong>分を目標に。<br>継続することが最も重要です。<strong>無理のない範囲</strong>で始めましょう。`;
+  } else {
+    desc.innerHTML = `週<strong id="goal-mod">${val}</strong>分は高めの目標です。<br><strong>段階的に増やす</strong>ことをおすすめします。まずは150分から始めて少しずつ伸ばしましょう。`;
+  }
+}
+
+function loadNutritionStatus(){
+  const wk = weekKey();
+  // 全UID分を検索（ゲスト含む）
+  let found = null;
+  for(let i=0; i<localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith('vn_') && k.includes(wk) && !k.includes('hist') && !k.includes('bonus') && !k.includes('ach') && !k.includes('streak') && !k.includes('firstsave') && !k.includes('consent')){
+      try{ found = JSON.parse(localStorage.getItem(k)); }catch(e){}
+      break;
+    }
+  }
+  const icon = document.getElementById('nutr-icon');
+  const label = document.getElementById('nutr-label');
+  const detail = document.getElementById('nutr-detail');
+  const bonus = document.getElementById('nutr-bonus-display');
+  if(!found){
+    icon.textContent = '🍽';
+    label.textContent = '今週の食事記録なし';
+    detail.textContent = '栄養クエストで記録すると運動XPボーナスが発生します';
+    bonus.innerHTML = '';
+  } else {
+    const veg = found.veg||0, fruit = found.fruit||0, protein = found.protein||0, grain = found.grain||0, limit = found.limit||0;
+    const score = Math.round((veg/21+fruit/10+protein/14+grain/14)*25);
+    const bonusPct = score >= 20 ? 15 : score >= 10 ? 8 : 0;
+    icon.textContent = score >= 20 ? '✨' : score >= 10 ? '🍃' : '🥗';
+    label.textContent = `今週の栄養スコア: ${score}/25`;
+    detail.textContent = `野菜${veg}皿 / 果物${fruit}皿 / たんぱく質${protein}食 / 穀物${grain}食`;
+    if(bonusPct > 0){
+      bonus.innerHTML = `<span class="nutr-bonus">✦ 運動XP +${bonusPct}% ボーナス中</span>`;
+    } else {
+      bonus.innerHTML = `<span style="font-size:.65rem;color:rgba(170,188,216,.4);">スコア20以上で+15%ボーナス</span>`;
+    }
+  }
+}
+
+// イベント
+document.getElementById('height').addEventListener('input', updateBMIDisplay);
+document.getElementById('weight').addEventListener('input', updateBMIDisplay);
+document.getElementById('goal-slider').addEventListener('input', e=>{
+  updateGoalDisplay(parseInt(e.target.value));
+});
+
+// 保存
+document.getElementById('save-btn').addEventListener('click',()=>{
+  const h = parseFloat(document.getElementById('height').value)||0;
+  const w = parseFloat(document.getElementById('weight').value)||0;
+  const goal = parseInt(document.getElementById('goal-slider').value)||150;
+  const bmi = calcBMI(h, w);
+  const settings = { height:h, weight:w, bmi:parseFloat(bmi.toFixed(1))||0, weeklyGoal:goal, updatedAt:new Date().toISOString() };
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  document.getElementById('save-msg').textContent = '✓ 設定を保存しました';
+  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; }, 3000);
+});
+
+function loadQuestStatus(){
+  const wk = weekKey();
+  const goal = parseInt((JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}')).weeklyGoal)||150;
+  let found = null;
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && k.startsWith('vq_') && k.includes(wk) && !k.includes('hist') && !k.includes('bonus') && !k.includes('ach') && !k.includes('streak') && !k.includes('firstsave') && !k.includes('consent') && !k.includes('day')){
+      try{ found=JSON.parse(localStorage.getItem(k)); }catch(e){}
+      break;
+    }
+  }
+  const scoreEl=document.getElementById('qs-score');
+  const barEl=document.getElementById('qs-bar');
+  const goalLbl=document.getElementById('qs-goal-label');
+  const msgEl=document.getElementById('progress-msg');
+  if(found && found.score!=null){
+    const sc=found.score;
+    scoreEl.textContent=sc;
+    goalLbl.textContent=`分 / 目標${goal}分`;
+    barEl.style.width=Math.min(100,Math.round(sc/goal*100))+'%';
+  } else {
+    scoreEl.textContent='未記録';
+    goalLbl.textContent=`目標 ${goal}分`;
+    barEl.style.width='0%';
+  }
+  // 栄養スコアもここで更新
+  let nf=null;
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && k.startsWith('vn_') && k.includes(wk) && !k.includes('hist') && !k.includes('bonus') && !k.includes('ach') && !k.includes('streak') && !k.includes('firstsave') && !k.includes('consent')){
+      try{ nf=JSON.parse(localStorage.getItem(k)); }catch(e){}
+      break;
+    }
+  }
+  const nsEl=document.getElementById('ns-score');
+  const nsBar=document.getElementById('ns-bar');
+  if(nf && nf.score!=null){
+    nsEl.textContent=nf.score;
+    nsBar.style.width=Math.min(100,Math.round(nf.score/25*100))+'%';
+  } else {
+    nsEl.textContent='未記録';
+    nsBar.style.width='0%';
+  }
+  // メッセージ
+  const qDone = found && found.score>=goal;
+  const nDone = nf && nf.score>=20;
+  if(qDone && nDone)      msgEl.textContent='✦ 今週は運動も栄養も完璧！+15% XPボーナス獲得中';
+  else if(qDone)          msgEl.textContent='運動目標達成！栄養クエストも記録するとボーナスアップ。';
+  else if(nDone)          msgEl.textContent='栄養記録が充実しています。運動クエストも頑張ろう！';
+  else if(found || nf)    msgEl.textContent='記録を積み重ねると両方のボーナスが合わさります。';
+  else                    msgEl.textContent='今週はまだ記録がありません。クエストを始めよう！';
+}
+
+// 読み込み
+const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');
+if(saved.height) document.getElementById('height').value = saved.height;
+if(saved.weight) document.getElementById('weight').value = saved.weight;
+if(saved.weeklyGoal){
+  document.getElementById('goal-slider').value = saved.weeklyGoal;
+  updateGoalDisplay(saved.weeklyGoal);
+}
+updateBMIDisplay();
+loadNutritionStatus();
+loadQuestStatus();
+</script>
+</body>
+</html>

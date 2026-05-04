@@ -1,0 +1,236 @@
+[
+  {"name":"ラーメン（しょうゆ）",  "icon":"🍜","group":"麺類",    "kcal":500,"protein":18,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":8},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":1,"xp":-4}],
+   "caution":"塩分約5g","tip":"野菜増量・替え玉なしでバランスアップ"},
+
+  {"name":"ラーメン（みそ）",      "icon":"🍜","group":"麺類",    "kcal":560,"protein":19,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":8},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":1,"xp":-4}],
+   "caution":"塩分約6g","tip":"コーン・もやしトッピングで野菜+1皿"},
+
+  {"name":"ラーメン（とんこつ）",  "icon":"🍜","group":"麺類",    "kcal":620,"protein":22,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":8},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":2,"xp":-8}],
+   "caution":"脂質・塩分多め","tip":"チャーシュー少なめ・野菜トッピング推奨"},
+
+  {"name":"つけ麺",                "icon":"🍜","group":"麺類",    "kcal":680,"protein":26,"fiber":3.0,
+   "components":[{"cat":"grain","count":2,"xp":16},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":1,"xp":-4}],
+   "caution":"塩分多め","tip":"麺少なめで調整可"},
+
+  {"name":"きつねうどん",          "icon":"🍜","group":"麺類",    "kcal":380,"protein":14,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10}],
+   "tip":"野菜かき揚げ追加でバランスアップ"},
+
+  {"name":"天ぷらうどん",          "icon":"🍜","group":"麺類",    "kcal":500,"protein":16,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-4}],
+   "caution":"揚げ物含む"},
+
+  {"name":"ざるそば",              "icon":"🍜","group":"麺類",    "kcal":290,"protein":13,"fiber":3.0,
+   "components":[{"cat":"grain","count":1,"xp":12}],
+   "tip":"そばは食物繊維・ルチン豊富。優秀な選択！"},
+
+  {"name":"天ざるそば",            "icon":"🍜","group":"麺類",    "kcal":450,"protein":18,"fiber":3.5,
+   "components":[{"cat":"grain","count":1,"xp":12},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":1,"xp":-3}],
+   "tip":"えび天は良質なたんぱく質源"},
+
+  {"name":"焼きそば",              "icon":"🍜","group":"麺類",    "kcal":500,"protein":14,"fiber":3.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"veg","count":1,"xp":10},{"cat":"limit","count":1,"xp":-4}],
+   "caution":"ソースの塩分多め"},
+
+  {"name":"ナポリタン",            "icon":"🍝","group":"麺類",    "kcal":520,"protein":15,"fiber":3.0,
+   "components":[{"cat":"grain","count":1,"xp":10},{"cat":"veg","count":1,"xp":12},{"cat":"limit","count":1,"xp":-3}]},
+
+  {"name":"カルボナーラ",          "icon":"🍝","group":"麺類",    "kcal":680,"protein":22,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":10},{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-5}],
+   "caution":"脂質多め"},
+
+  {"name":"ミートソースパスタ",    "icon":"🍝","group":"麺類",    "kcal":600,"protein":24,"fiber":3.5,
+   "components":[{"cat":"grain","count":1,"xp":10},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":1,"xp":-4}]},
+
+  {"name":"牛丼（並）",            "icon":"🍚","group":"丼・定食","kcal":650,"protein":22,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-5}],
+   "caution":"塩分多め","tip":"玉ねぎが入り野菜少し摂れる。サラダセット推奨"},
+
+  {"name":"親子丼",                "icon":"🍚","group":"丼・定食","kcal":590,"protein":26,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":2,"xp":24}],
+   "tip":"鶏肉＋卵で良質たんぱく質ダブル"},
+
+  {"name":"カツ丼",                "icon":"🍚","group":"丼・定食","kcal":780,"protein":28,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":2,"xp":-10}],
+   "caution":"揚げ物・脂質多め"},
+
+  {"name":"天丼",                  "icon":"🍚","group":"丼・定食","kcal":720,"protein":20,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":2,"xp":-8}],
+   "caution":"揚げ物含む","tip":"えび天・野菜天で食材多様化"},
+
+  {"name":"海鮮丼",                "icon":"🍚","group":"丼・定食","kcal":520,"protein":28,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":2,"xp":28}],
+   "tip":"魚介たっぷりで優秀！EPA・DHAも摂れる"},
+
+  {"name":"唐揚げ定食",            "icon":"🍗","group":"丼・定食","kcal":720,"protein":32,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":2,"xp":-10},{"cat":"veg","count":1,"xp":8}],
+   "caution":"揚げ物","tip":"キャベツの千切りを食べ切ろう"},
+
+  {"name":"焼き魚定食",            "icon":"🐟","group":"丼・定食","kcal":480,"protein":30,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":10},{"cat":"protein","count":2,"xp":30},{"cat":"veg","count":1,"xp":10}],
+   "tip":"最もバランスの良い定食のひとつ！"},
+
+  {"name":"豚の生姜焼き定食",      "icon":"🥩","group":"丼・定食","kcal":620,"protein":28,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":12},{"cat":"veg","count":1,"xp":10},{"cat":"limit","count":1,"xp":-4}]},
+
+  {"name":"鶏むね肉定食",          "icon":"🍗","group":"丼・定食","kcal":450,"protein":38,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":10},{"cat":"protein","count":2,"xp":30},{"cat":"veg","count":1,"xp":10}],
+   "tip":"高たんぱく低脂質！がん経験者に最適な定食"},
+
+  {"name":"麻婆豆腐定食",          "icon":"🫘","group":"丼・定食","kcal":560,"protein":24,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":2,"xp":24},{"cat":"limit","count":1,"xp":-3}],
+   "caution":"塩分やや多め","tip":"豆腐で大豆たんぱく質が摂れる"},
+
+  {"name":"野菜炒め定食",          "icon":"🥗","group":"丼・定食","kcal":480,"protein":22,"fiber":4.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":12},{"cat":"veg","count":2,"xp":20}],
+   "tip":"野菜2皿分！おすすめの選択"},
+
+  {"name":"カレーライス",          "icon":"🍛","group":"カレー",  "kcal":620,"protein":16,"fiber":4.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"veg","count":1,"xp":10},{"cat":"limit","count":1,"xp":-3}],
+   "tip":"野菜ルーを多めに。チキンカレーにするとたんぱく質UP"},
+
+  {"name":"チキンカレー",          "icon":"🍛","group":"カレー",  "kcal":580,"protein":26,"fiber":4.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":14},{"cat":"veg","count":1,"xp":10}],
+   "tip":"牛・豚カレーより推奨度が高い"},
+
+  {"name":"野菜カレー",            "icon":"🍛","group":"カレー",  "kcal":500,"protein":10,"fiber":6.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"veg","count":2,"xp":20}],
+   "tip":"野菜2皿分。食物繊維豊富"},
+
+  {"name":"にぎり寿司（10貫）",    "icon":"🍣","group":"寿司",    "kcal":500,"protein":26,"fiber":1.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":2,"xp":30}],
+   "tip":"赤身・白身・貝類で栄養バランスよく"},
+
+  {"name":"サーモン寿司",          "icon":"🍣","group":"寿司",    "kcal":180,"protein":10,"fiber":0.0,
+   "components":[{"cat":"protein","count":1,"xp":15}],
+   "tip":"EPA・DHAが豊富"},
+
+  {"name":"刺身盛り合わせ",        "icon":"🐠","group":"寿司",    "kcal":220,"protein":30,"fiber":0.0,
+   "components":[{"cat":"protein","count":2,"xp":30}],
+   "tip":"最高のたんぱく質補給！低脂質・高栄養"},
+
+  {"name":"手巻き寿司",            "icon":"🍣","group":"寿司",    "kcal":350,"protein":18,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":15},{"cat":"veg","count":1,"xp":8}]},
+
+  {"name":"焼肉（カルビ）",        "icon":"🥩","group":"焼肉",    "kcal":480,"protein":22,"fiber":0.0,
+   "components":[{"cat":"protein","count":1,"xp":8},{"cat":"limit","count":2,"xp":-10}],
+   "caution":"脂質多め・赤肉","tip":"タン・ロース少なめ、ホルモン控えめに"},
+
+  {"name":"焼肉（ロース）",        "icon":"🥩","group":"焼肉",    "kcal":380,"protein":20,"fiber":0.0,
+   "components":[{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-5}],
+   "tip":"赤身ロースは比較的ヘルシー"},
+
+  {"name":"焼肉（タン）",          "icon":"🥩","group":"焼肉",    "kcal":360,"protein":18,"fiber":0.0,
+   "components":[{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-4}]},
+
+  {"name":"焼肉定食（ライス付き）","icon":"🥩","group":"焼肉",    "kcal":750,"protein":28,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10},{"cat":"veg","count":1,"xp":8},{"cat":"limit","count":2,"xp":-10}],
+   "tip":"サンチュに包んで野菜+1皿"},
+
+  {"name":"サムギョプサル",        "icon":"🥩","group":"焼肉",    "kcal":550,"protein":24,"fiber":2.0,
+   "components":[{"cat":"protein","count":1,"xp":8},{"cat":"veg","count":1,"xp":10},{"cat":"limit","count":2,"xp":-10}],
+   "tip":"野菜たっぷり巻いて食べると◎"},
+
+  {"name":"松屋 牛めし（並）",     "icon":"🏪","group":"外食チェーン","kcal":648,"protein":21,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":8},{"cat":"limit","count":1,"xp":-5}],
+   "caution":"塩分約3.5g","tip":"サラダセットにすると野菜+1皿"},
+
+  {"name":"松屋 チキン定食",       "icon":"🏪","group":"外食チェーン","kcal":560,"protein":32,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":2,"xp":24},{"cat":"veg","count":1,"xp":8}],
+   "tip":"松屋メニューの中で栄養バランス良好"},
+
+  {"name":"吉野家 牛丼（並）",     "icon":"🏪","group":"外食チェーン","kcal":652,"protein":22,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":8},{"cat":"limit","count":1,"xp":-5}],
+   "caution":"塩分約3.5g"},
+
+  {"name":"すき家 牛丼（並）",     "icon":"🏪","group":"外食チェーン","kcal":633,"protein":21,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":8},{"cat":"limit","count":1,"xp":-5}],
+   "caution":"塩分約3.2g"},
+
+  {"name":"マクドナルド ビッグマック","icon":"🍔","group":"外食チェーン","kcal":525,"protein":26,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":2,"xp":-12}],
+   "caution":"塩分・脂質・加工肉多め"},
+
+  {"name":"マクドナルド マックナゲット(5個)","icon":"🍗","group":"外食チェーン","kcal":270,"protein":16,"fiber":0.5,
+   "components":[{"cat":"protein","count":1,"xp":8},{"cat":"limit","count":1,"xp":-5}],
+   "caution":"揚げ物・添加物多め"},
+
+  {"name":"ケンタッキー チキン(2本)","icon":"🍗","group":"外食チェーン","kcal":430,"protein":28,"fiber":0.5,
+   "components":[{"cat":"protein","count":2,"xp":18},{"cat":"limit","count":2,"xp":-10}],
+   "caution":"揚げ物・脂質多め"},
+
+  {"name":"モスバーガー テリヤキバーガー","icon":"🍔","group":"外食チェーン","kcal":395,"protein":15,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-5}],
+   "tip":"マクドよりやや食材の質が高め"},
+
+  {"name":"サイゼリヤ ミラノ風ドリア","icon":"🍝","group":"外食チェーン","kcal":490,"protein":18,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10},{"cat":"limit","count":1,"xp":-4}],
+   "tip":"ランチにサラダを追加しよう"},
+
+  {"name":"サイゼリヤ アラビアータ","icon":"🍝","group":"外食チェーン","kcal":480,"protein":14,"fiber":3.0,
+   "components":[{"cat":"grain","count":1,"xp":8},{"cat":"veg","count":1,"xp":10}],
+   "tip":"トマトソース系は抗酸化成分が豊富"},
+
+  {"name":"丸亀製麺 ぶっかけうどん","icon":"🍜","group":"外食チェーン","kcal":380,"protein":13,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":7}],
+   "tip":"野菜天・ちくわ天追加でバランスアップ"},
+
+  {"name":"天丼てんや 天丼",       "icon":"🍚","group":"外食チェーン","kcal":750,"protein":22,"fiber":2.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":12},{"cat":"limit","count":2,"xp":-8}],
+   "caution":"揚げ物多め","tip":"野菜天多めにすると◎"},
+
+  {"name":"餃子の王将 餃子(6個)",  "icon":"🥟","group":"外食チェーン","kcal":300,"protein":14,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10},{"cat":"veg","count":1,"xp":8}],
+   "tip":"意外と野菜・たんぱく質が摂れる"},
+
+  {"name":"おにぎり（鮭）",        "icon":"🍙","group":"コンビニ","kcal":178,"protein":6,"fiber":0.5,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":12}]},
+
+  {"name":"おにぎり（梅）",        "icon":"🍙","group":"コンビニ","kcal":165,"protein":3,"fiber":0.5,
+   "components":[{"cat":"grain","count":1,"xp":5}]},
+
+  {"name":"コンビニ幕の内弁当",    "icon":"🍱","group":"コンビニ","kcal":560,"protein":18,"fiber":3.0,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":10},{"cat":"veg","count":1,"xp":8},{"cat":"limit","count":1,"xp":-4}],
+   "tip":"野菜が少なめ。サラダを追加しよう"},
+
+  {"name":"コンビニ サラダチキン","icon":"🍗","group":"コンビニ","kcal":113,"protein":21,"fiber":0.0,
+   "components":[{"cat":"protein","count":1,"xp":16}],
+   "tip":"高たんぱく低脂質の優秀なコンビニ食材！"},
+
+  {"name":"コンビニ チキンサラダ", "icon":"🥗","group":"コンビニ","kcal":130,"protein":10,"fiber":2.5,
+   "components":[{"cat":"protein","count":1,"xp":12},{"cat":"veg","count":1,"xp":10}],
+   "tip":"コンビニでもバランスよく食べられる"},
+
+  {"name":"ピザ（マルゲリータ）",  "icon":"🍕","group":"その他",  "kcal":800,"protein":28,"fiber":4.0,
+   "components":[{"cat":"grain","count":2,"xp":10},{"cat":"protein","count":1,"xp":8},{"cat":"veg","count":1,"xp":8},{"cat":"limit","count":1,"xp":-4}],
+   "tip":"野菜トッピング追加で◎"},
+
+  {"name":"たこ焼き（6個）",       "icon":"🐙","group":"その他",  "kcal":340,"protein":12,"fiber":1.5,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10}]},
+
+  {"name":"お好み焼き",            "icon":"🥞","group":"その他",  "kcal":450,"protein":18,"fiber":3.0,
+   "components":[{"cat":"grain","count":1,"xp":6},{"cat":"protein","count":1,"xp":10},{"cat":"veg","count":1,"xp":10}],
+   "tip":"キャベツたっぷりで野菜も摂れる"},
+
+  {"name":"鍋（豆腐・野菜中心）",  "icon":"🍲","group":"その他",  "kcal":320,"protein":20,"fiber":5.0,
+   "components":[{"cat":"protein","count":2,"xp":28},{"cat":"veg","count":3,"xp":30}],
+   "tip":"がん経験者に最も推奨できる食事のひとつ！"},
+
+  {"name":"鍋（肉中心）",          "icon":"🍲","group":"その他",  "kcal":480,"protein":24,"fiber":4.0,
+   "components":[{"cat":"protein","count":1,"xp":12},{"cat":"veg","count":2,"xp":20},{"cat":"limit","count":1,"xp":-4}]},
+
+  {"name":"チャーハン",            "icon":"🍚","group":"その他",  "kcal":580,"protein":16,"fiber":2.0,
+   "components":[{"cat":"grain","count":1,"xp":5},{"cat":"protein","count":1,"xp":8},{"cat":"veg","count":1,"xp":8},{"cat":"limit","count":1,"xp":-4}],
+   "caution":"塩分・油多め"},
+
+  {"name":"シーザーサラダ",        "icon":"🥗","group":"その他",  "kcal":280,"protein":12,"fiber":3.5,
+   "components":[{"cat":"veg","count":2,"xp":20},{"cat":"protein","count":1,"xp":10}],
+   "tip":"食事の最初に食べると血糖値の急上昇を抑えられる"},
+
+  {"name":"味噌汁",                "icon":"🍵","group":"その他",  "kcal":40, "protein":3, "fiber":1.5,
+   "components":[{"cat":"protein","count":1,"xp":8}],
+   "tip":"豆腐・わかめ入りで大豆・食物繊維が摂れる"}
+]

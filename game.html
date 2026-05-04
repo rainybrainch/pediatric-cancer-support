@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴィタリア転生録 ― ゲームホーム</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#c9a84c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b14; --bg2:#0e1220; --bg3:#141929;
+  --gold:#c9a84c; --gold2:#f0d48a;
+  --silver:#aabcd8; --text:#d4dcf0; --muted:#6070a0;
+  --green:#4ec98a; --purple:#9c72e0; --red:#e05c5c; --orange:#e08a3c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* 星空 */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1px 1px at 8%  15%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 5%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 47% 28%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 10%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 85% 40%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 18% 55%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 70%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 90% 75%,rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 90%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 5%  82%,rgba(255,255,255,.6) 0%,transparent 100%);
+}
+
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+
+.gold-text{
+  background:linear-gradient(135deg,var(--gold2),var(--gold),var(--gold2));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmer 4s linear infinite;
+}
+
+/* ========== ローディング ========== */
+#loading-screen{
+  position:fixed;inset:0;background:var(--bg);z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+#loading-screen::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(1px 1px at 12% 18%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 78% 10%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 32%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 68% 55%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 20% 70%,rgba(255,255,255,.35) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 78%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 88%,rgba(255,255,255,.3) 0%,transparent 100%);
+}
+.ls-char{
+  width:120px;height:120px;border-radius:50%;overflow:hidden;
+  border:2px solid rgba(201,168,76,.4);
+  box-shadow:0 0 50px rgba(201,168,76,.2),0 0 100px rgba(156,114,224,.1);
+  animation:float 3s ease-in-out infinite;
+  margin-bottom:20px;position:relative;z-index:1;
+}
+.ls-char img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
+.ls-title{
+  font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;
+  background:linear-gradient(135deg,#f0d48a,#c9a84c,#f0d48a);
+  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 3s linear infinite;
+  margin-bottom:5px;position:relative;z-index:1;
+}
+.ls-sub{font-size:.58rem;color:rgba(170,188,216,.3);letter-spacing:.18em;margin-bottom:24px;position:relative;z-index:1;text-transform:uppercase;}
+.ls-bar{width:180px;height:3px;background:rgba(201,168,76,.1);border-radius:99px;overflow:hidden;position:relative;z-index:1;}
+.ls-bar-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;border-radius:99px;animation:shimmer 1.5s linear infinite;}
+.ls-msg{font-size:.6rem;color:rgba(201,168,76,.35);font-family:'Noto Serif JP',serif;letter-spacing:.1em;margin-top:12px;position:relative;z-index:1;}
+.ls-dot{display:inline-block;animation:ls-fade 1.4s ease-in-out infinite;}
+.ls-dot:nth-child(2){animation-delay:.2s;}
+.ls-dot:nth-child(3){animation-delay:.4s;}
+@keyframes ls-fade{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
+
+/* ========== ログイン ========== */
+#login-screen{
+  position:fixed;inset:0;background:var(--bg);z-index:400;
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.login-box{
+  background:linear-gradient(145deg,#0d1225,#111829);
+  border:1px solid rgba(201,168,76,.25);border-radius:20px;
+  padding:36px 32px;max-width:380px;width:100%;
+  box-shadow:0 0 60px rgba(201,168,76,.08),0 24px 60px rgba(0,0,0,.7);
+  animation:fadeIn .5s ease both;
+}
+.login-logo{
+  text-align:center;margin-bottom:28px;
+  font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;
+}
+.login-logo-sub{font-size:.68rem;color:var(--muted);margin-top:4px;letter-spacing:.08em;}
+.login-field{margin-bottom:14px;}
+.login-field label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:6px;letter-spacing:.06em;}
+.login-field input{
+  width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);
+  border-radius:10px;padding:11px 14px;color:var(--text);font-family:inherit;font-size:.88rem;
+}
+.login-field input:focus{outline:none;border-color:rgba(201,168,76,.5);}
+.btn-login{
+  width:100%;background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.12));
+  border:1px solid rgba(201,168,76,.4);border-radius:10px;
+  color:var(--gold2);font-family:inherit;font-size:.9rem;font-weight:700;
+  padding:12px;cursor:pointer;margin-top:6px;transition:background .2s;
+}
+.btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.38),rgba(201,168,76,.2));}
+.btn-register{
+  width:100%;background:none;border:1px solid rgba(100,120,200,.3);border-radius:10px;
+  color:rgba(160,180,240,.7);font-family:inherit;font-size:.85rem;font-weight:700;
+  padding:10px;cursor:pointer;margin-top:6px;transition:border-color .2s;
+}
+.btn-register:hover{border-color:rgba(100,120,200,.6);}
+.login-err{font-size:.76rem;color:var(--red);margin-top:10px;display:none;line-height:1.6;}
+.login-guest{
+  text-align:center;margin-top:14px;
+  font-size:.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;
+}
+.login-guest:hover{color:var(--silver);}
+
+/* ========== ヘッダー ========== */
+#main-screen{display:none;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
+.g-header{
+  background:rgba(8,11,20,.92);
+  border-bottom:1px solid rgba(201,168,76,.12);
+  padding:0 24px;height:56px;
+  display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+}
+.g-logo{
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.92rem;
+  display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;
+}
+.g-logo-icon{
+  width:28px;height:28px;border:1px solid var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;color:var(--gold);font-family:'Noto Serif JP',serif;font-weight:900;
+}
+.g-spacer{flex:1;}
+.g-user{font-size:.72rem;color:var(--muted);}
+.g-btn{
+  background:none;border:1px solid rgba(201,168,76,.25);border-radius:8px;
+  color:rgba(201,168,76,.6);font-family:inherit;font-size:.72rem;
+  padding:5px 12px;cursor:pointer;transition:border-color .2s;
+}
+.g-btn:hover{border-color:rgba(201,168,76,.5);color:var(--gold);}
+
+/* ========== メインコンテンツ ========== */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(8,11,20,.97);border-top:1px solid rgba(201,168,76,.12);display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);}
+.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;}
+.bn-tab:hover,.bn-tab.active{color:var(--gold);}
+.bn-tab.active .bn-icon{filter:drop-shadow(0 0 6px rgba(201,168,76,.6));}
+.bn-icon{font-size:1.15rem;line-height:1;}
+.bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
+.g-main{
+  max-width:1000px;margin:0 auto;padding:28px 20px 80px;
+  width:100%;
+  display:flex;flex-direction:column;gap:20px;
+  animation:fadeIn .5s ease both;
+}
+
+/* ========== プレイヤーステータス ========== */
+.player-card{
+  background:linear-gradient(145deg,rgba(14,18,40,.95),rgba(18,22,50,.9));
+  border:1px solid rgba(201,168,76,.2);border-radius:20px;
+  padding:22px 24px;
+  display:flex;align-items:center;gap:20px;
+  position:relative;overflow:hidden;
+}
+.player-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 50%,rgba(201,168,76,.04) 0%,transparent 65%);
+  pointer-events:none;
+}
+.player-avatar{
+  width:72px;height:72px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:2px solid var(--gold);
+  box-shadow:0 0 20px rgba(201,168,76,.2);
+  animation:float 3.5s ease-in-out infinite;
+}
+.player-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
+.player-info{flex:1;min-width:0;}
+.player-name{font-size:.72rem;color:var(--muted);margin-bottom:4px;letter-spacing:.06em;}
+.player-lv{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.lv-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.08));
+  border:1px solid rgba(201,168,76,.35);
+  border-radius:99px;padding:4px 12px;
+  font-family:'Noto Serif JP',serif;font-size:.8rem;font-weight:700;
+  color:var(--gold2);
+}
+.lv-badge .lv-n{font-size:1rem;font-weight:900;margin:0 2px;}
+.lv-title{font-size:.78rem;color:var(--silver);}
+.xp-bar{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.xp-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .7s cubic-bezier(.4,0,.2,1);box-shadow:0 0 6px rgba(201,168,76,.4);}
+.xp-note{display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-top:5px;}
+.xp-note strong{color:var(--gold);}
+.player-stats{display:flex;gap:16px;flex-shrink:0;}
+.pstat{text-align:center;}
+.pstat-num{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:var(--gold2);line-height:1;}
+.pstat-label{font-size:.58rem;color:var(--muted);margin-top:3px;letter-spacing:.04em;}
+.pstat-div{width:1px;background:rgba(201,168,76,.12);align-self:stretch;}
+
+/* ========== 今週のクエスト進捗 ========== */
+.week-card{
+  background:rgba(14,18,32,.85);
+  border:1px solid rgba(100,120,200,.15);border-radius:16px;padding:18px 20px;
+}
+.week-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.week-title{font-size:.72rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
+.week-label-txt{font-size:.68rem;color:rgba(201,168,76,.6);}
+.progress-rows{display:flex;flex-direction:column;gap:10px;}
+.prog-row{display:flex;align-items:center;gap:10px;}
+.prog-icon{font-size:.9rem;width:22px;text-align:center;flex-shrink:0;}
+.prog-label{font-size:.72rem;color:var(--silver);width:60px;flex-shrink:0;}
+.prog-bar{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;transition:width .6s ease;}
+.prog-fill-q{background:linear-gradient(90deg,#e05c5c,#e08c3c);}
+.prog-fill-n{background:linear-gradient(90deg,#4ec98a,#2a9060);}
+.prog-val{font-size:.68rem;color:var(--muted);width:48px;text-align:right;flex-shrink:0;}
+
+/* ========== クエストタイル ========== */
+.quest-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:14px;
+}
+.quest-tile{
+  background:rgba(14,18,32,.9);
+  border:1px solid rgba(100,120,200,.15);
+  border-radius:18px;padding:22px 18px;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  text-align:center;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+  cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.quest-tile:hover{transform:translateY(-4px);}
+.qt-icon{font-size:2.4rem;line-height:1;}
+.qt-char{
+  width:64px;height:64px;border-radius:50%;overflow:hidden;
+  border:2px solid;
+  flex-shrink:0;
+}
+.qt-char img{width:100%;height:100%;object-fit:cover;}
+.qt-title{
+  font-family:'Noto Serif JP',serif;
+  font-size:.92rem;font-weight:700;line-height:1.3;
+}
+.qt-sub{font-size:.65rem;color:var(--muted);line-height:1.5;}
+.qt-badge{
+  font-size:.6rem;font-weight:700;letter-spacing:.08em;
+  padding:3px 10px;border-radius:99px;
+}
+.qt-arrow{font-size:.75rem;color:var(--muted);margin-top:auto;}
+
+/* 運動クエスト */
+.qt-exercise{border-color:rgba(224,92,92,.2);}
+.qt-exercise:hover{border-color:rgba(224,92,92,.5);box-shadow:0 12px 40px rgba(224,92,92,.12);}
+.qt-exercise .qt-char{border-color:rgba(224,92,92,.4);}
+.qt-exercise .qt-title{color:#f0a0a0;}
+.qt-exercise .qt-badge{background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.3);color:#e05c5c;}
+
+/* 食事クエスト */
+.qt-nutrition{border-color:rgba(78,201,138,.2);}
+.qt-nutrition:hover{border-color:rgba(78,201,138,.5);box-shadow:0 12px 40px rgba(78,201,138,.12);}
+.qt-nutrition .qt-char{border-color:rgba(78,201,138,.4);}
+.qt-nutrition .qt-title{color:#a0f0c0;}
+.qt-nutrition .qt-badge{background:rgba(78,201,138,.1);border:1px solid rgba(78,201,138,.3);color:#4ec98a;}
+
+/* AIコーチ */
+.qt-coach{border-color:rgba(156,114,224,.2);}
+.qt-coach:hover{border-color:rgba(156,114,224,.5);box-shadow:0 12px 40px rgba(156,114,224,.12);}
+.qt-coach .qt-char{border-color:rgba(156,114,224,.4);}
+.qt-coach .qt-title{color:#c0a0f0;}
+.qt-coach .qt-badge{background:rgba(156,114,224,.1);border:1px solid rgba(156,114,224,.3);color:#9c72e0;}
+
+/* ========== メッセージバナー ========== */
+.message-banner{
+  background:rgba(14,18,32,.85);
+  border:1px solid rgba(201,168,76,.15);border-radius:16px;
+  padding:16px 18px;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.mb-avatar{
+  width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:1.5px solid var(--gold);
+  animation:float 3.5s ease-in-out infinite;
+}
+.mb-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
+.mb-body{flex:1;}
+.mb-name{font-size:.6rem;color:rgba(201,168,76,.7);font-weight:700;margin-bottom:4px;letter-spacing:.06em;}
+.mb-text{font-size:.8rem;line-height:1.75;color:rgba(200,215,235,.85);}
+
+/* ========== 実績エリア ========== */
+.achv-section{
+  background:rgba(14,18,32,.85);
+  border:1px solid rgba(100,120,200,.12);border-radius:16px;padding:18px 20px;
+}
+.achv-head{font-size:.68rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.achv-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.achv-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);
+  border-radius:99px;padding:5px 12px;
+  font-size:.68rem;color:var(--gold2);font-weight:700;
+  opacity:.4;transition:opacity .2s;
+}
+.achv-badge.unlocked{opacity:1;}
+.achv-badge .ab-icon{font-size:.9rem;}
+.achv-empty{font-size:.78rem;color:var(--muted);font-style:italic;}
+
+/* ========== AIコーチモーダル ========== */
+#coach-modal{
+  position:fixed;inset:0;background:rgba(4,6,12,.7);z-index:300;
+  display:none;align-items:flex-end;justify-content:flex-end;
+  padding:16px;backdrop-filter:blur(6px);
+}
+#coach-modal.open{display:flex;}
+.coach-panel{
+  width:400px;max-width:calc(100vw - 32px);
+  height:600px;max-height:calc(100vh - 80px);
+  background:#080b14;
+  border:1px solid rgba(156,114,224,.4);border-radius:20px;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 24px 64px rgba(0,0,0,.8);
+  animation:modalIn .35s cubic-bezier(.22,1,.36,1);
+}
+.coach-ph{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  background:rgba(12,14,28,.98);
+  border-bottom:1px solid rgba(156,114,224,.2);flex-shrink:0;
+}
+.coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(201,168,76,.4);}
+.coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(201,168,76,.95);}
+.coach-ph-sub{font-size:.6rem;color:rgba(156,114,224,.7);letter-spacing:.06em;}
+#coach-close{background:none;border:none;color:rgba(170,188,216,.4);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
+#coach-close:hover{color:rgba(170,188,216,.8);}
+.coach-iframe{flex:1;border:none;width:100%;background:#080b14;}
+
+/* ========== チュートリアル ========== */
+#tutorial-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+#tutorial-box{background:var(--bg2);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:28px 24px;max-width:380px;width:92%;text-align:center;box-shadow:0 0 60px rgba(201,168,76,.1);}
+.tut-step-num{font-size:.6rem;color:var(--muted);letter-spacing:.1em;margin-bottom:8px;}
+.tut-icon{font-size:2.4rem;margin-bottom:10px;}
+.tut-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);margin-bottom:8px;}
+.tut-desc{font-size:.8rem;line-height:1.75;color:rgba(200,215,235,.8);margin-bottom:20px;}
+.tut-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px;}
+.tut-dot{width:7px;height:7px;border-radius:50%;background:rgba(201,168,76,.25);transition:background .2s;}
+.tut-dot.active{background:var(--gold);}
+.tut-btns{display:flex;gap:10px;justify-content:center;}
+.tut-btn{padding:9px 20px;border-radius:10px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border:none;}
+.tut-btn-next{background:linear-gradient(135deg,rgba(201,168,76,.35),rgba(201,168,76,.18));color:var(--gold2);border:1px solid rgba(201,168,76,.4);}
+.tut-btn-skip{background:none;color:rgba(170,188,216,.4);font-size:.72rem;border:1px solid rgba(255,255,255,.06);}
+
+/* ========== レスポンシブ ========== */
+@media(max-width:700px){
+  .quest-grid{grid-template-columns:1fr 1fr;}
+  .quest-grid .qt-coach{grid-column:1/-1;}
+  .player-stats{display:none;}
+}
+@media(max-width:480px){
+  .quest-grid{grid-template-columns:1fr;}
+  .g-main{padding:16px 14px 60px;}
+  .player-card{flex-direction:column;text-align:center;}
+  .player-avatar{width:60px;height:60px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ローディング -->
+<div id="loading-screen">
+  <div class="ls-char">
+    <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+  </div>
+  <div class="ls-title">✦ ヴィタリア転生録</div>
+  <div class="ls-sub">Health Quest — Vitalia</div>
+  <div class="ls-bar"><div class="ls-bar-fill"></div></div>
+  <div class="ls-msg">転生の記憶を呼び覚ます中<span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
+</div>
+
+<!-- ログイン -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="gold-text">✦ ヴィタリア転生録</div>
+      <div class="login-logo-sub">健康行動継続支援 研究プロジェクト</div>
+    </div>
+    <div class="login-field">
+      <label>メールアドレス</label>
+      <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="login-field">
+      <label>パスワード</label>
+      <input type="password" id="password" placeholder="パスワード" autocomplete="current-password">
+    </div>
+    <div id="auth-error" class="login-err"></div>
+    <button class="btn-login" id="login-btn">ログインして冒険を続ける</button>
+    <button class="btn-register" id="register-btn">新規登録（無料）</button>
+    <button class="btn-register" id="reset-pw-btn" style="font-size:.72rem;opacity:.6;border-color:transparent;">パスワードを忘れた方</button>
+    <div class="login-guest" id="guest-btn">ゲスト（デモ）として試す →</div>
+  </div>
+</div>
+
+<!-- メイン -->
+<div id="main-screen">
+  <header class="g-header">
+    <a href="./game.html" class="g-logo">
+      <div class="g-logo-icon">✦</div>
+      <span class="gold-text">ヴィタリア転生録</span>
+    </a>
+    <div class="g-spacer"></div>
+    <span class="g-user" id="user-display"></span>
+    <a href="./account.html" class="g-btn">👤 マイページ</a>
+    <a href="./settings.html" class="g-btn">⚙ 設定</a>
+    <button class="g-btn" id="logout-btn">退場</button>
+  </header>
+
+  <main class="g-main">
+
+    <!-- プレイヤーステータス -->
+    <div class="player-card" id="player-card">
+      <div class="player-avatar">
+        <img id="avatar-img" src="./image/runa-sabun%20(1).png" alt="アバター">
+      </div>
+      <div class="player-info">
+        <div class="player-name" id="week-label-txt">読み込み中...</div>
+        <div class="player-lv">
+          <div class="lv-badge"><span>Lv</span><span class="lv-n" id="lv-n">1</span><span id="lv-name">転生者</span></div>
+          <span class="lv-title" id="lv-title"></span>
+        </div>
+        <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+        <div class="xp-note">
+          <span>総合XP: <strong id="xp-now">0</strong></span>
+          <span>次Lv: <strong id="xp-next">500</strong></span>
+        </div>
+      </div>
+      <div class="player-stats">
+        <div class="pstat">
+          <div class="pstat-num" id="stat-streak">0</div>
+          <div class="pstat-label">連続週</div>
+        </div>
+        <div class="pstat-div"></div>
+        <div class="pstat">
+          <div class="pstat-num" id="stat-achv">0</div>
+          <div class="pstat-label">実績</div>
+        </div>
+        <div class="pstat-div"></div>
+        <div class="pstat">
+          <div class="pstat-num" id="stat-weeks">0</div>
+          <div class="pstat-label">記録週</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 今週の進捗 -->
+    <div class="week-card">
+      <div class="week-head">
+        <span class="week-title">📅 今週の冒険記録</span>
+        <span class="week-label-txt" id="week-label"></span>
+      </div>
+      <div class="progress-rows">
+        <div class="prog-row">
+          <span class="prog-icon">⚔</span>
+          <span class="prog-label">運動クエスト</span>
+          <div class="prog-bar"><div class="prog-fill prog-fill-q" id="prog-q" style="width:0%"></div></div>
+          <span class="prog-val" id="prog-q-val">0 分</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-icon">🌿</span>
+          <span class="prog-label">栄養クエスト</span>
+          <div class="prog-bar"><div class="prog-fill prog-fill-n" id="prog-n" style="width:0%"></div></div>
+          <span class="prog-val" id="prog-n-val">未記録</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3つのクエストタイル -->
+    <div class="quest-grid">
+
+      <a href="./quest.html" class="quest-tile qt-exercise">
+        <div class="qt-char" style="border-color:rgba(224,92,92,.4);">
+          <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;">
+        </div>
+        <div class="qt-badge">⚔ 運動クエスト</div>
+        <div class="qt-title">身体強化の試練</div>
+        <p class="qt-sub">週150分の運動を<br>カイトと一緒に達成しよう</p>
+        <span class="qt-arrow">始める →</span>
+      </a>
+
+      <a href="./nutrition.html" class="quest-tile qt-nutrition">
+        <div class="qt-char" style="border-color:rgba(78,201,138,.4);">
+          <img src="./image/sera-sabun%20(1).png" alt="セラ" style="object-position:center 16%;">
+        </div>
+        <div class="qt-badge">🌿 栄養クエスト</div>
+        <div class="qt-title">魔力回復の試練</div>
+        <p class="qt-sub">野菜・魚・果物で<br>セラと魔力を補充しよう</p>
+        <span class="qt-arrow">始める →</span>
+      </a>
+
+      <div class="quest-tile qt-coach" id="coach-tile" style="cursor:pointer;">
+        <div class="qt-char" style="border-color:rgba(156,114,224,.4);">
+          <img src="./image/runa-sabun%20(1).png" alt="ルナ" style="object-position:center 14%;">
+        </div>
+        <div class="qt-badge">✦ AIコーチング</div>
+        <div class="qt-title">ルナに相談する</div>
+        <p class="qt-sub">GROWモデルで目標を整理<br>批判なしで話を聞いてくれる</p>
+        <span class="qt-arrow">話しかける →</span>
+      </div>
+
+    </div>
+
+    <!-- ルナのメッセージ -->
+    <div class="message-banner">
+      <div class="mb-avatar">
+        <img id="luna-face" src="./image/runa-sabun%20(1).png" alt="ルナ">
+      </div>
+      <div class="mb-body">
+        <div class="mb-name">ルナ ― 転生案内の女神</div>
+        <div class="mb-text" id="luna-msg">今週もヴィタリアへようこそ。まずは運動か栄養、どちらかのクエストから記録を始めましょう。</div>
+      </div>
+    </div>
+
+    <!-- 実績 -->
+    <div class="achv-section">
+      <div class="achv-head">🏆 冒険の実績</div>
+      <div class="achv-grid" id="achv-grid">
+        <span class="achv-empty">読み込み中...</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- AIコーチモーダル -->
+<div id="coach-modal" role="dialog" aria-modal="true" aria-label="ルナのコーチング">
+  <div class="coach-panel">
+    <div class="coach-ph">
+      <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+      <div>
+        <div class="coach-ph-name">ルナ</div>
+        <div class="coach-ph-sub">AIコーチ ／ GROWモデル</div>
+      </div>
+      <button id="coach-close" aria-label="閉じる">✕</button>
+    </div>
+    <iframe class="coach-iframe" id="coach-iframe" title="ルナのコーチング" allow="microphone"></iframe>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
+  authDomain:"shounigann.firebaseapp.com",
+  projectId:"shounigann",
+  storageBucket:"shounigann.firebasestorage.app",
+  messagingSenderId:"317593091989",
+  appId:"1:317593091989:web:a20fe90c2b31fc09085d9f"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+let uid = '';
+
+// ===== ユーティリティ =====
+function weekKey(){
+  const d=new Date(), j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+function weekLabel(){
+  const d=new Date();
+  const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1);
+  const e=new Date(s); e.setDate(s.getDate()+6);
+  const f=x=>`${x.getMonth()+1}/${x.getDate()}`;
+  const j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `第${w}週 (${f(s)}〜${f(e)})`;
+}
+
+const LEVELS=[
+  {lv:1, name:'転生者',      xp:0},
+  {lv:2, name:'見習い冒険者', xp:500},
+  {lv:3, name:'試練の修行者', xp:1100},
+  {lv:4, name:'ヴィタリアの戦士', xp:2000},
+  {lv:5, name:'伝説の転生者', xp:3500},
+];
+function getLv(xp){ let r=LEVELS[0]; for(const l of LEVELS){if(xp>=l.xp)r=l;} return r; }
+function nextLvXp(xp){ for(const l of LEVELS){if(l.xp>xp)return l.xp;} return null; }
+
+// ===== データ読み込み =====
+function loadData(){
+  // 今週の運動
+  let qScore=0, qGoal=150, qXp=0;
+  try{
+    const raw=localStorage.getItem(`vq_${uid}_${weekKey()}`);
+    if(raw){ const d=JSON.parse(raw); qScore=d.score||0; qGoal=d.goal||150; qXp=d.xp||0; }
+  }catch(e){}
+
+  // 今週の栄養
+  let nScore=0, nXp=0, nCounts={veg:0,fruit:0,protein:0,grain:0};
+  try{
+    const raw=localStorage.getItem(`vn_${uid}_${weekKey()}`);
+    if(raw){ const d=JSON.parse(raw); nScore=d.score||0; nXp=d.xp||0; nCounts=d.counts||nCounts; }
+  }catch(e){}
+
+  // 総合XP（両方の週間XP合算）
+  let totalQXp=0, totalNXp=0;
+  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  const totalXp=totalQXp+totalNXp+qXp+nXp;
+
+  // ストリーク（運動優先）
+  let streak=0;
+  try{ const s=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); streak=s.count||0; }catch(e){}
+
+  // 実績（両方合算）
+  let achQ={}, achN={};
+  try{ achQ=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); }catch(e){}
+  try{ achN=JSON.parse(localStorage.getItem(`vn_ach_${uid}`)||'{}'); }catch(e){}
+  const allAch=Object.assign({},achQ,achN);
+  const achCount=Object.keys(allAch).filter(k=>allAch[k]).length;
+
+  // 記録週数
+  let histWeeks=0;
+  try{
+    const hq=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]').length;
+    const hn=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]').length;
+    histWeeks=Math.max(hq,hn);
+  }catch(e){}
+
+  return { qScore, qGoal, qXp, nScore, nXp, nCounts, totalXp, streak, allAch, achCount, histWeeks };
+}
+
+// ===== UI更新 =====
+function updateUI(){
+  const d=loadData();
+  const wk=weekKey();
+
+  // 週ラベル
+  document.getElementById('week-label').textContent=weekLabel();
+  document.getElementById('week-label-txt').textContent=weekLabel()+'の記録';
+
+  // レベル・XP
+  const lv=getLv(d.totalXp);
+  const nxt=nextLvXp(d.totalXp);
+  const prev=LEVELS.find(l=>l.lv===lv.lv-1)||lv;
+  const pct=nxt ? Math.round((d.totalXp-prev.xp)/(nxt-prev.xp)*100) : 100;
+  document.getElementById('lv-n').textContent=lv.lv;
+  document.getElementById('lv-name').textContent=lv.name;
+  document.getElementById('xp-fill').style.width=pct+'%';
+  document.getElementById('xp-now').textContent=d.totalXp;
+  document.getElementById('xp-next').textContent=nxt ? nxt-d.totalXp : '最大';
+
+  // サイドスタッツ
+  document.getElementById('stat-streak').textContent=d.streak;
+  document.getElementById('stat-achv').textContent=d.achCount;
+  document.getElementById('stat-weeks').textContent=d.histWeeks;
+
+  // 今週の進捗バー
+  const qPct=Math.min(100,Math.round(d.qScore/d.qGoal*100));
+  document.getElementById('prog-q').style.width=qPct+'%';
+  document.getElementById('prog-q-val').textContent=d.qScore ? `${d.qScore}分` : '未記録';
+  const nPct=Math.min(100,Math.round(d.nScore/25*100));
+  document.getElementById('prog-n').style.width=nPct+'%';
+  document.getElementById('prog-n-val').textContent=d.nScore ? `${d.nScore}/25` : '未記録';
+
+  // ルナのメッセージ
+  let msg, face=1;
+  if(d.qScore===0&&d.nScore===0){
+    msg='今週もヴィタリアへようこそ。まずは運動か栄養、どちらかのクエストから記録を始めましょう。';
+    face=1;
+  } else if(d.qScore>0&&d.nScore===0){
+    msg=`運動${d.qScore}分、順調ですね。次は栄養クエストも記録して、魔力を補充しましょう。`;
+    face=2;
+  } else if(d.qScore===0&&d.nScore>0){
+    msg=`食事の記録ができています！運動クエストも合わせると、XPボーナスが発動しますよ。`;
+    face=2;
+  } else if(d.qScore>=d.qGoal&&d.nScore>=20){
+    msg=`両方のクエスト制覇！すばらしい一週間です。この調子で続けてくださいね。`;
+    face=6; // 照れ
+  } else {
+    msg=`着実に記録が積み上がっています。あなたの努力が、未来の自分への贈り物になります。`;
+    face=3; // 目閉じ（穏やか）
+  }
+  document.getElementById('luna-msg').textContent=msg;
+  document.getElementById('luna-face').src=`./image/runa-sabun%20(${face}).png`;
+  document.getElementById('avatar-img').src=`./image/runa-sabun%20(${face}).png`;
+
+  // 実績バッジ
+  renderAchv(d.allAch);
+}
+
+// ===== 実績レンダリング =====
+const ALL_ACHV=[
+  {id:'first',   icon:'⚔', name:'初陣'},
+  {id:'goal',    icon:'🎯', name:'目標達成'},
+  {id:'high',    icon:'🔥', name:'高強度'},
+  {id:'streak3', icon:'📅', name:'3週連続'},
+  {id:'lv3',     icon:'⭐', name:'Lv3'},
+  {id:'lv5',     icon:'👑', name:'覚醒'},
+  {id:'first',   icon:'🌱', name:'初調合'},
+  {id:'veg7',    icon:'🥦', name:'野菜使い'},
+  {id:'veg_goal',icon:'💚', name:'野菜の達人'},
+  {id:'fruit_g', icon:'🍎', name:'果物魔術師'},
+  {id:'no_limit',icon:'✨', name:'清廉な食卓'},
+  {id:'all_half',icon:'⚗️', name:'バランス錬成'},
+];
+function renderAchv(ach){
+  const el=document.getElementById('achv-grid');
+  if(!Object.keys(ach).length){ el.innerHTML='<span class="achv-empty">実績はまだありません。クエストを進めると解除されます。</span>'; return; }
+  el.innerHTML=ALL_ACHV.map(a=>{
+    const unlocked=!!ach[a.id];
+    return `<div class="achv-badge${unlocked?' unlocked':''}"><span class="ab-icon">${a.icon}</span>${a.name}</div>`;
+  }).join('');
+}
+
+// ===== AI Coach =====
+document.getElementById('coach-tile').addEventListener('click',openCoach);
+document.getElementById('coach-close').addEventListener('click',()=>document.getElementById('coach-modal').classList.remove('open'));
+document.getElementById('coach-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('coach-modal')) document.getElementById('coach-modal').classList.remove('open');
+});
+function openCoach(){
+  const m=document.getElementById('coach-modal');
+  const iframe=document.getElementById('coach-iframe');
+  m.classList.add('open');
+  if(!iframe.src) iframe.src='https://udify.app/chat/KXoLEteQQnrlbz1P';
+}
+
+// ===== Auth =====
+function authErr(code){
+  const m={'auth/user-not-found':'このメールは登録されていません。','auth/wrong-password':'パスワードが正しくありません。','auth/invalid-credential':'メールまたはパスワードが正しくありません。','auth/invalid-email':'メールの形式が正しくありません。','auth/too-many-requests':'試行回数が多すぎます。','auth/email-already-in-use':'このメールはすでに登録されています。','auth/weak-password':'パスワードは6文字以上で。'};
+  return m[code]||'エラーが発生しました。';
+}
+function showErr(msg){ const e=document.getElementById('auth-error'); e.textContent=msg; e.style.display='block'; }
+function clearErr(){ document.getElementById('auth-error').style.display='none'; }
+
+document.getElementById('login-btn').addEventListener('click',()=>{
+  const e=document.getElementById('email').value.trim();
+  const p=document.getElementById('password').value;
+  clearErr();
+  if(!e||!p){ showErr('メールとパスワードを入力してください。'); return; }
+  signInWithEmailAndPassword(auth,e,p).catch(err=>showErr(authErr(err.code)));
+});
+document.getElementById('register-btn').addEventListener('click',()=>{
+  const e=document.getElementById('email').value.trim();
+  const p=document.getElementById('password').value;
+  clearErr();
+  if(!e||!p){ showErr('メールとパスワードを入力してください。'); return; }
+  createUserWithEmailAndPassword(auth,e,p)
+    .then(()=>showErr('✓ アカウントを作成しました！'))
+    .catch(err=>showErr(authErr(err.code)));
+});
+document.getElementById('reset-pw-btn').addEventListener('click',()=>{
+  const e=document.getElementById('email').value.trim();
+  clearErr();
+  if(!e){ showErr('メールアドレスを先に入力してください。'); return; }
+  sendPasswordResetEmail(auth,e).then(()=>showErr('✓ リセットメールを送信しました。')).catch(err=>showErr(authErr(err.code)));
+});
+document.getElementById('logout-btn').addEventListener('click',()=>{
+  if(uid==='guest'){ location.reload(); return; }
+  signOut(auth);
+});
+document.getElementById('guest-btn').addEventListener('click',()=>{
+  uid='guest';
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('main-screen').style.display='flex';
+  document.getElementById('user-display').textContent='ゲスト（デモ）';
+  updateUI();
+});
+
+const _authDelay=localStorage.getItem('vitalia_uid_hint') ? 8000 : 2500;
+const _to=setTimeout(()=>{
+  document.getElementById('loading-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+},_authDelay);
+
+onAuthStateChanged(auth, user=>{
+  clearTimeout(_to);
+  document.getElementById('loading-screen').style.display='none';
+  if(user){
+    uid=user.uid;
+    localStorage.setItem('vitalia_uid_hint',uid);
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('main-screen').style.display='flex';
+    document.getElementById('user-display').textContent=user.email;
+    document.getElementById('bottom-nav').style.display='flex';
+    updateUI();
+    setTimeout(showTutorial, 800);
+  } else {
+    uid='';
+    localStorage.removeItem('vitalia_uid_hint');
+    document.getElementById('main-screen').style.display='none';
+    document.getElementById('bottom-nav').style.display='none';
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
+  }
+});
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+
+// ===== チュートリアル =====
+const TUT_STEPS=[
+  {icon:'✨',title:'ヴィタリアへようこそ！',desc:'あなたは今、転生した勇者です。健康の力を取り戻す旅が始まります。'},
+  {icon:'⚔',title:'運動クエスト',desc:'毎週の運動を記録して経験値を獲得。目標は週150分。カイトが一緒に鍛えてくれます！'},
+  {icon:'🌿',title:'栄養クエスト',desc:'食事の記録でポイントを貯めよう。セラの魔法レシピで魔力が回復します。'},
+  {icon:'👤',title:'マイページ',desc:'体組成データや記録の履歴をここで確認できます。成長グラフも見られます。'},
+  {icon:'🏆',title:'実績・レベルアップ',desc:'記録を続けるとバッジが解放されレベルが上がります。12週完走を目指そう！'},
+];
+let _tutIdx=0;
+function tutKey(){ return `vt_tut_${uid}`; }
+function showTutorial(){
+  if(localStorage.getItem(tutKey())) return;
+  _tutIdx=0; renderTutStep(); document.getElementById('tutorial-overlay').style.display='flex';
+}
+function renderTutStep(){
+  const s=TUT_STEPS[_tutIdx];
+  document.getElementById('tut-step-num').textContent=`STEP ${_tutIdx+1} / ${TUT_STEPS.length}`;
+  document.getElementById('tut-icon').textContent=s.icon;
+  document.getElementById('tut-title').textContent=s.title;
+  document.getElementById('tut-desc').textContent=s.desc;
+  document.getElementById('tut-next').textContent=_tutIdx===TUT_STEPS.length-1?'はじめる！':'次へ →';
+  document.querySelectorAll('.tut-dot').forEach((d,i)=>d.classList.toggle('active',i===_tutIdx));
+}
+document.getElementById('tut-next').addEventListener('click',()=>{
+  _tutIdx++;
+  if(_tutIdx>=TUT_STEPS.length){ closeTutorial(); return; }
+  renderTutStep();
+});
+document.getElementById('tut-skip').addEventListener('click',closeTutorial);
+function closeTutorial(){
+  localStorage.setItem(tutKey(),'1');
+  document.getElementById('tutorial-overlay').style.display='none';
+}
+</script>
+<nav class="bottom-nav" id="bottom-nav" style="display:none;">
+  <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイページ</span></a>
+</nav>
+
+<!-- チュートリアルオーバーレイ -->
+<div id="tutorial-overlay" style="display:none;">
+  <div id="tutorial-box">
+    <div class="tut-step-num" id="tut-step-num">STEP 1 / 5</div>
+    <div class="tut-icon" id="tut-icon">✨</div>
+    <div class="tut-title" id="tut-title"></div>
+    <p class="tut-desc" id="tut-desc"></p>
+    <div class="tut-dots">
+      <div class="tut-dot active"></div>
+      <div class="tut-dot"></div>
+      <div class="tut-dot"></div>
+      <div class="tut-dot"></div>
+      <div class="tut-dot"></div>
+    </div>
+    <div class="tut-btns">
+      <button class="tut-btn tut-btn-skip" id="tut-skip">スキップ</button>
+      <button class="tut-btn tut-btn-next" id="tut-next">次へ →</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
