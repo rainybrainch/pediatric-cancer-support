@@ -670,6 +670,21 @@ body::before{
 .coach-keyform-link{font-size:.65rem;color:rgba(156,114,224,.5);margin-top:6px;}
 .coach-keyform-link a{color:rgba(200,180,255,.7);}
 
+/* 緊急時連絡 & 免責 */
+.coach-emergency{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(224,138,60,.08);border:1px solid rgba(224,138,60,.22);
+  border-radius:8px;padding:6px 10px;margin-bottom:8px;
+  font-size:.58rem;color:rgba(240,200,160,.75);line-height:1.55;
+}
+.coach-emergency-icon{font-size:.85rem;flex-shrink:0;}
+.coach-emergency a{color:#f0c890;text-decoration:none;font-weight:700;border-bottom:1px solid rgba(240,200,144,.4);}
+.coach-emergency a:hover{color:#f8dcb0;}
+.coach-disclaimer{
+  font-size:.5rem;color:rgba(170,188,216,.35);
+  margin-top:7px;text-align:center;line-height:1.55;
+}
+
 /* ========== チュートリアル ========== */
 #tutorial-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 #tutorial-box{background:var(--bg2);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:28px 24px;max-width:380px;width:92%;text-align:center;box-shadow:0 0 60px rgba(201,168,76,.1);}
@@ -1031,9 +1046,16 @@ body::before{
 
     <!-- 入力欄 -->
     <div class="coach-input-wrap" id="coach-input-wrap">
+      <div class="coach-emergency">
+        <span class="coach-emergency-icon">⚠️</span>
+        <span>体調・心の不調は <a href="tel:7119">#7119</a> ／ 緊急時は <a href="tel:119">119</a> ／ 心の相談 <a href="tel:0570-783-556">0570-783-556</a></span>
+      </div>
       <div class="coach-input-row">
         <textarea id="coach-input" placeholder="ルナに話しかける…" rows="1"></textarea>
         <button id="coach-send" aria-label="送信">▶</button>
+      </div>
+      <div class="coach-disclaimer">
+        ※ 会話は研究用にFirebaseに保存され、応答生成にGemini APIを使用します。診断・治療助言はできません。
       </div>
     </div>
   </div>
@@ -1043,6 +1065,8 @@ body::before{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey:"AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
@@ -1054,6 +1078,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 let uid = '';
 
@@ -1243,31 +1268,10 @@ function renderAchv(ach){
   }).join('');
 }
 
-// ===== AI Coach (Gemini API 直結 RPG チャット) =====
-const GEMINI_KEY_STORE='vitalia_gemini_key';
+// ===== AI Coach (Netlify Functions プロキシ経由 RPG チャット) =====
+const COACH_PROXY_URL='/.netlify/functions/gemini-coach';
 const COACH_HIST_KEY=()=>`vc_hist_${uid||'guest'}`;
 const COACH_STEP_KEY=()=>`vc_step_${uid||'guest'}`;
-const LUNA_SYSTEM_PROMPT=`あなたは異世界RPG「ヴィタリア転生録」の女神「ルナ」です。プレイヤー（小児がん経験者・AYA世代）の健康習慣（運動・栄養）の継続をGROWモデル（Goal/Reality/Options/Will）で対話的にサポートします。
-
-【ルナの人格】
-・ 優しく穏やかで、批判しない包容力のある女神
-・ 一人称は「私」、相手を「あなた」と呼ぶ
-・ 「ですます調」で丁寧に話す
-・ 励まし・共感を欠かさない
-・ 治療経験を「前世の試練」として肯定的に意味づけし、希望を与える
-
-【会話の進め方（GROW）】
-1. Goal（目標）：「今週どんな健康習慣を続けたいですか？」
-2. Reality（現状）：「今、どんな状況ですか？できていること・難しいことは？」
-3. Options（選択肢）：「どんな工夫が考えられそうですか？2〜3案出してみましょう」
-4. Will（意志）：「どれを実際にやってみますか？いつ・どのくらい？」
-
-【厳守ルール】
-・ 1回の返答は3〜5文以内に収める。質問は1つずつ。
-・ 必ず「？」で終わる質問を含めて対話を進める
-・ 医療診断・治療助言はしない。症状の話が出たら「主治医にご相談を」と促す
-・ ファンタジー要素（XP、試練、魔力など）は会話に自然に織り交ぜてOK
-・ 各返答の最後に [STEP:G] [STEP:R] [STEP:O] [STEP:W] のいずれかをタグとして追加し、現在のGROW段階を示す（プレイヤーには見せない）`;
 
 const _coachState={
   history:[],     // {role:'user'|'model', text:string}
@@ -1331,59 +1335,41 @@ function renderAllHistory(){
   _coachState.history.forEach(m=>appendBubble(m.role==='user'?'user':'luna', m.text));
 }
 
-function showCoachKeyForm(){
-  const wrap=document.getElementById('coach-input-wrap');
-  const body=document.getElementById('coach-body');
-  body.innerHTML=`
-    <div class="coach-keyform">
-      <div class="coach-keyform-title">✦ ルナを呼び出す準備</div>
-      <div class="coach-keyform-desc">
-        AIコーチング機能はGoogle Gemini APIを使用します。<br>
-        APIキーを入力してください（無料枠あり）。
-      </div>
-      <input type="password" id="coach-key-input" placeholder="AIzaSy...">
-      <button id="coach-key-save">ルナと話を始める</button>
-      <div class="coach-keyform-link">
-        APIキーは <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a> で無料発行できます
-      </div>
-    </div>`;
-  wrap.style.display='none';
-  document.getElementById('coach-key-save').addEventListener('click',()=>{
-    const k=document.getElementById('coach-key-input').value.trim();
-    if(!k){ return; }
-    localStorage.setItem(GEMINI_KEY_STORE,k);
-    wrap.style.display='';
-    renderAllHistory();
-  });
+// 1ターン分（user発話 + ルナ返答）を Firestore に保存
+async function syncCoachToFirestore(userMsg, lunaMsg){
+  // ゲストや未ログインは保存しない（個人特定なしのため）
+  if(!uid || uid==='guest') return;
+  try{
+    await addDoc(collection(db, 'coach_sessions'), {
+      uid,
+      week: weekKey(),
+      step: lunaMsg.step || _coachState.step,
+      user_text: String(userMsg.text||'').slice(0,2000),
+      luna_text: String(lunaMsg.text||'').slice(0,2000),
+      ts: serverTimestamp(),
+      ua: navigator.userAgent.slice(0,200),
+    });
+  }catch(e){
+    // 同期失敗はサイレント（ローカル履歴は保持される）
+    console.warn('Coach sync failed:', e?.message||e);
+  }
 }
 
-async function callGemini(userText){
-  const key=localStorage.getItem(GEMINI_KEY_STORE);
-  if(!key){ showCoachKeyForm(); return null; }
-
-  const contents=_coachState.history.map(m=>({
-    role:m.role==='user'?'user':'model',
-    parts:[{text:m.text}]
-  }));
-  contents.push({role:'user',parts:[{text:userText}]});
-
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
-  const res=await fetch(url,{
+async function callCoachProxy(userText){
+  const res=await fetch(COACH_PROXY_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
-      systemInstruction:{parts:[{text:LUNA_SYSTEM_PROMPT}]},
-      contents,
-      generationConfig:{temperature:0.85,maxOutputTokens:512,topP:0.95}
+      history:_coachState.history,
+      userText
     })
   });
   if(!res.ok){
     const err=await res.json().catch(()=>({}));
-    throw new Error(err.error?.message||`HTTP ${res.status}`);
+    throw new Error(err.error||`HTTP ${res.status}`);
   }
   const data=await res.json();
-  const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
-  return raw;
+  return data.text||'';
 }
 
 function parseStepTag(text){
@@ -1411,21 +1397,17 @@ async function sendCoachMessage(){
 
   appendTyping();
   try{
-    const raw=await callGemini(text);
+    const raw=await callCoachProxy(text);
     removeTyping();
-    if(raw==null) return; // key form shown
     const clean=parseStepTag(raw);
     appendBubble('luna',clean);
     _coachState.history.push({role:'model',text:clean});
     saveCoachHistory();
+    syncCoachToFirestore({role:'user',text}, {role:'model',text:clean,step:_coachState.step});
     renderCoachStep();
   }catch(err){
     removeTyping();
-    const errBubble=appendBubble('luna',`（一時的に呼び出しに失敗しました：${err.message}）\n\nAPIキーをご確認の上、もう一度お試しください。`);
-    if(/API key|key not valid|API_KEY/i.test(err.message)){
-      localStorage.removeItem(GEMINI_KEY_STORE);
-      setTimeout(showCoachKeyForm,800);
-    }
+    appendBubble('luna',`（呼び出しに失敗しました：${err.message}）\n\n少し時間をおいて、もう一度お試しください。継続する場合は研究事務局までご連絡を。`);
   }finally{
     _coachState.busy=false;
     document.getElementById('coach-send').disabled=false;
@@ -1435,11 +1417,7 @@ async function sendCoachMessage(){
 function openCoach(){
   document.getElementById('coach-modal').classList.add('open');
   loadCoachHistory();
-  if(!localStorage.getItem(GEMINI_KEY_STORE)){
-    showCoachKeyForm();
-  }else{
-    renderAllHistory();
-  }
+  renderAllHistory();
   renderCoachStep();
   setTimeout(()=>document.getElementById('coach-input').focus(),250);
 }

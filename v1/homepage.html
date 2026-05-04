@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌱 サポートAIコーチ | 小児がん経験者のためのWebプログラム</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark:   #2d6a4f;
+      --green-mid:    #40916c;
+      --green-light:  #74c69d;
+      --green-pale:   #d8f3dc;
+      --green-mist:   #f0faf3;
+      --peach:        #ffb347;
+      --peach-light:  #fff3e0;
+      --cream:        #fffdf7;
+      --text-dark:    #1b3a2d;
+      --text-mid:     #3d6b55;
+      --text-light:   #6b9e85;
+      --shadow-soft:  0 8px 32px rgba(45,106,79,.12);
+      --shadow-card:  0 4px 20px rgba(45,106,79,.10);
+      --radius:       20px;
+      --radius-sm:    12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── PIXEL DOTS BG ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(116,198,157,.15) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,253,247,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--green-pale);
+      padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: var(--green-mid);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 3px 10px rgba(64,145,108,.35);
+    }
+    .logo-text {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--green-dark);
+      line-height: 1.2;
+    }
+    .logo-sub {
+      font-size: .68rem; font-weight: 500;
+      color: var(--text-light); display: block;
+    }
+
+    nav { display: flex; gap: 8px; }
+    nav a {
+      text-decoration: none;
+      font-size: .82rem; font-weight: 700;
+      color: var(--text-mid);
+      padding: 8px 16px;
+      border-radius: 99px;
+      transition: all .2s;
+    }
+    nav a:hover { background: var(--green-pale); color: var(--green-dark); }
+
+    .btn-login {
+      background: var(--green-mid) !important;
+      color: white !important;
+      box-shadow: 0 3px 10px rgba(64,145,108,.3);
+    }
+    .btn-login:hover { background: var(--green-dark) !important; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 0;
+      padding: 60px 80px 40px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -200px; top: -200px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--green-pale) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 2; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green-pale);
+      border: 2px solid var(--green-light);
+      color: var(--green-dark);
+      font-size: .78rem; font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 24px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--green-dark);
+      margin-bottom: 20px;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-title span {
+      color: var(--green-mid);
+      position: relative;
+    }
+    .hero-title span::after {
+      content: '';
+      position: absolute; bottom: 2px; left: 0; right: 0; height: 6px;
+      background: var(--peach);
+      border-radius: 3px;
+      z-index: -1;
+      opacity: .7;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--text-mid);
+      max-width: 460px;
+      margin-bottom: 36px;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-buttons {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green-mid);
+      color: white;
+      font-family: inherit; font-size: .95rem; font-weight: 800;
+      padding: 14px 28px;
+      border-radius: 99px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(64,145,108,.35);
+      transition: all .25s;
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: white;
+      color: var(--green-dark);
+      border: 2px solid var(--green-light);
+      font-family: inherit; font-size: .95rem; font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 99px;
+      text-decoration: none;
+      transition: all .25s;
+    }
+    .btn-secondary:hover { background: var(--green-pale); transform: translateY(-2px); }
+
+    .hero-image {
+      display: flex; justify-content: center; align-items: flex-end;
+      position: relative; z-index: 2;
+      animation: fadeUp .8s .2s ease both;
+    }
+    .hero-image img {
+      width: min(520px, 90%);
+      filter: drop-shadow(0 20px 40px rgba(45,106,79,.25));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-size: .75rem; font-weight: 800; letter-spacing: .12em;
+      color: var(--green-mid);
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 12px;
+    }
+    .section-label::before, .section-label::after {
+      content: ''; flex: 1; height: 2px; background: var(--green-pale);
+    }
+    .section-label::before { max-width: 40px; }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 900;
+      color: var(--green-dark);
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: .97rem;
+      line-height: 1.9;
+      color: var(--text-mid);
+      max-width: 600px;
+    }
+
+    /* ─── ABOUT ─── */
+    .about {
+      padding: 80px 80px;
+      background: var(--green-mist);
+      border-top: 3px solid var(--green-pale);
+      border-bottom: 3px solid var(--green-pale);
+    }
+
+    .about-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+
+    .about-image img {
+      width: 100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      image-rendering: pixelated;
+    }
+
+    .speech-bubble {
+      position: relative;
+      background: white;
+      border: 2px solid var(--green-light);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-card);
+    }
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      left: 40px; bottom: -16px;
+      width: 0; height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 16px solid white;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      left: 38px; bottom: -20px;
+      width: 0; height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 18px solid var(--green-light);
+      z-index: -1;
+    }
+    .speech-bubble p {
+      font-size: .95rem; line-height: 1.9; color: var(--text-mid);
+    }
+
+    .profile-chip {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green-dark);
+      color: white;
+      border-radius: 99px;
+      padding: 10px 20px;
+      font-size: .85rem; font-weight: 700;
+    }
+
+    /* ─── PROGRAMS ─── */
+    .programs {
+      padding: 90px 80px;
+    }
+    .programs-inner { max-width: 1100px; margin: 0 auto; }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 50px;
+    }
+
+    .program-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 2px solid var(--green-pale);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: transform .3s, box-shadow .3s;
+      display: flex; flex-direction: column;
+    }
+    .program-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(45,106,79,.18);
+    }
+
+    .card-img {
+      height: 220px;
+      overflow: hidden;
+      background: var(--green-mist);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-img img {
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .card-tag {
+      font-size: .72rem; font-weight: 800; letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      display: inline-block;
+      padding: 4px 12px; border-radius: 99px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--green-dark); line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      font-size: .88rem; line-height: 1.8;
+      color: var(--text-mid);
+      flex: 1;
+      margin-bottom: 20px;
+    }
+
+    .card-link {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--green-mid); font-weight: 800; font-size: .88rem;
+      text-decoration: none;
+      transition: gap .2s;
+    }
+    .card-link:hover { gap: 10px; }
+    .card-number {
+      font-size: 3rem; font-weight: 900;
+      color: var(--green-pale);
+      position: absolute; right: 20px; top: 12px;
+      line-height: 1;
+      font-family: 'Zen Maru Gothic', sans-serif;
+    }
+    .card-body { position: relative; }
+
+    /* ─── AI COACH SECTION ─── */
+    .ai-coach {
+      padding: 90px 80px;
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      overflow: hidden;
+    }
+    .ai-coach-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 60px; align-items: center;
+    }
+
+    .ai-coach .section-label { color: var(--green-light); }
+    .ai-coach .section-label::before, .ai-coach .section-label::after {
+      background: rgba(255,255,255,.2);
+    }
+    .ai-coach .section-title { color: white; }
+    .ai-coach .section-desc { color: rgba(255,255,255,.85); }
+
+    .steps {
+      display: flex; flex-direction: column; gap: 16px;
+      margin-top: 36px;
+    }
+    .step {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      backdrop-filter: blur(4px);
+    }
+    .step-num {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: var(--peach);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: .9rem;
+      color: var(--green-dark);
+    }
+    .step-content {}
+    .step-title { font-weight: 800; color: white; font-size: .95rem; margin-bottom: 4px; }
+    .step-desc { font-size: .82rem; color: rgba(255,255,255,.75); line-height: 1.6; }
+
+    .coach-image {
+      display: flex; justify-content: center;
+      position: relative;
+    }
+    .coach-image img {
+      width: 100%;
+      border-radius: var(--radius);
+      image-rendering: pixelated;
+    }
+
+    /* ─── PROMISE SECTION ─── */
+    .promise {
+      padding: 80px 80px;
+      background: var(--peach-light);
+      border-top: 3px solid #ffe0b2;
+    }
+    .promise-inner { max-width: 1100px; margin: 0 auto; }
+
+    .promise-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 50px;
+    }
+
+    .promise-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      border-top: 4px solid var(--green-light);
+      transition: transform .3s;
+    }
+    .promise-card:hover { transform: translateY(-4px); }
+    .promise-icon { font-size: 2.4rem; margin-bottom: 14px; }
+    .promise-title { font-size: .95rem; font-weight: 800; color: var(--green-dark); margin-bottom: 8px; }
+    .promise-desc { font-size: .82rem; line-height: 1.75; color: var(--text-mid); }
+
+    /* ─── CTA ─── */
+    .cta {
+      padding: 100px 80px;
+      text-align: center;
+    }
+    .cta-inner { max-width: 680px; margin: 0 auto; }
+    .cta-mascot { font-size: 5rem; margin-bottom: 20px; animation: float 3s ease-in-out infinite; display: block; }
+    .cta-title { font-size: 2.2rem; font-weight: 900; color: var(--green-dark); margin-bottom: 16px; }
+    .cta-desc { font-size: 1rem; line-height: 1.9; color: var(--text-mid); margin-bottom: 40px; }
+    .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* ─── WARNING BOX ─── */
+    .warning-box {
+      margin: 0 80px 60px;
+      padding: 20px 28px;
+      background: #fff8f3;
+      border: 2px solid #ffccbc;
+      border-radius: var(--radius-sm);
+      display: flex; gap: 16px; align-items: flex-start;
+      max-width: 1100px; margin-left: auto; margin-right: auto;
+    }
+    .warning-box p { font-size: .85rem; line-height: 1.75; color: #bf360c; }
+    .warning-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--green-dark);
+      color: rgba(255,255,255,.7);
+      text-align: center;
+      padding: 40px;
+      font-size: .82rem;
+    }
+    footer strong { color: white; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: 2px solid var(--green-pale);
+      border-radius: 99px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--green-dark);
+    }
+    .mobile-nav {
+      display: none;
+      background: rgba(255,253,247,0.98);
+      border-top: 2px solid var(--green-pale);
+      position: sticky;
+      top: 68px;
+      z-index: 99;
+    }
+    .mobile-nav.open {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      gap: 12px;
+    }
+    .mobile-nav a {
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      padding: 10px 24px;
+      border-radius: 99px;
+      transition: all .2s;
+      width: 100%;
+      text-align: center;
+    }
+    .mobile-nav a:hover { background: var(--green-pale); color: var(--green-dark); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .hamburger-btn { display: block; }
+      .hero { grid-template-columns: 1fr; padding: 40px 24px; min-height: auto; }
+      .hero-image img { width: min(340px, 90%); }
+      .about { padding: 60px 24px; }
+      .about-inner { grid-template-columns: 1fr; }
+      .programs { padding: 60px 24px; }
+      .programs-grid { grid-template-columns: 1fr; }
+      .ai-coach { padding: 60px 24px; }
+      .ai-coach-inner { grid-template-columns: 1fr; }
+      .promise { padding: 60px 24px; }
+      .promise-grid { grid-template-columns: 1fr 1fr; }
+      .cta { padding: 60px 24px; }
+      .warning-box { margin: 0 24px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">🌱</div>
+    <div>
+      <span class="logo-text">サポートAIコーチ</span>
+      <span class="logo-sub">小児がん経験者のためのWebプログラム</span>
+    </div>
+  </a>
+  <nav>
+    <a href="#about">研究について</a>
+    <a href="#programs">3つの研究</a>
+    <a href="#coach">AIコーチ</a>
+    <a href="./ai-coach/index.html" class="btn-login">ログイン / 登録</a>
+  </nav>
+  <button class="hamburger-btn" id="hamburger-btn">☰</button>
+</header>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#about"    onclick="closeMobileNav()">研究について</a>
+  <a href="#programs" onclick="closeMobileNav()">3つの研究</a>
+  <a href="#coach"    onclick="closeMobileNav()">AIコーチ</a>
+  <a href="./ai-coach/index.html" class="btn-login" style="color:white; background:var(--green-mid);">ログイン / 登録</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">
+      🌿 AYA世代（18〜39歳）の方へ
+    </div>
+    <h1 class="hero-title">
+      あなたの<span>「これから」</span>を<br>
+      一緒に考えよう
+    </h1>
+    <p class="hero-desc">
+      小児がんを経験した皆さんの健康習慣をやさしくサポートするAIコーチです。
+      運動・食事・生活習慣――忙しい毎日の中でも、小さな一歩から始めましょう。
+      批判も評価もなし。あなたのペースで、あなたらしく。
+    </p>
+    <div class="hero-buttons">
+      <a href="./ai-coach/index.html" class="btn-primary">🌱 今すぐはじめる</a>
+      <a href="#about" class="btn-secondary">📖 研究について知る</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png" alt="サポートAIコーチのキャラクター">
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-image reveal">
+      <img src="./image/Gemini_Generated_Image_yc312wyc312wyc31-Photoroom.png" alt="研究チームキャラクター">
+    </div>
+    <div class="reveal">
+      <div class="section-label">About Us</div>
+      <h2 class="section-title">研究者からのメッセージ</h2>
+      <div class="speech-bubble">
+        <p>
+          私が小児がんの研究をはじめたきっかけは、大学院時代に息子が小児がんになったことです。
+          看護師・大学院生・親として、治療後も就職問題や晩期合併症に悩む当事者を見てきました。
+          大変な治療を乗り越えたにも関わらず、成人してからも大きな影響が続くことに衝撃を受けました。
+        </p>
+      </div>
+      <div class="speech-bubble" style="margin-top: 32px;">
+        <p>
+          現在は大学の看護教員として、<strong>晩期合併症予防の健康習慣</strong>を目指すプログラムを開発しています。
+          皆さん一人ひとりの声を参考にして、よりよいプログラムを提供することを目指しています。
+          AIを使って、自分の「できること」を一緒に探しませんか？
+        </p>
+      </div>
+      <div class="profile-chip">
+        🎓 福井 郁子 ／ 大学看護教員 ／ 研究者
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROGRAMS ─── -->
+<section class="programs" id="programs">
+  <div class="programs-inner">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label">Research Programs</div>
+      <h2 class="section-title">3つの研究プログラム</h2>
+      <p class="section-desc" style="margin: 0 auto;">
+        現在、Webを用いた研究を3つ行っています。<br>
+        対象は小児がん経験者で、現在 <strong>18〜39歳のAYA世代</strong> の方です。
+        コスパ・タイパが高く、効果のあるプログラムを目指しています。
+      </p>
+    </div>
+
+    <div class="programs-grid">
+      <!-- CARD 1 -->
+      <div class="program-card reveal">
+        <div class="card-img">
+          <img src="./image/6.png" alt="運動プログラムキャラクター">
+        </div>
+        <div class="card-body">
+          <span class="card-number">01</span>
+          <span class="card-tag">🏃 運動</span>
+          <h3 class="card-title">働く世代の小児がん経験者の<br>運動量を増やすWebプログラム</h3>
+          <p class="card-desc">
+            アメリカがん協会ガイドラインでは週150〜300分の中強度運動を推奨。
+            道具不要・隙間時間の細切れ運動でもOK！低強度から徐々に始める
+            「ゆるく長く」続けられる運動プランをAIが一緒に考えます。
+          </p>
+          <a href="./research.html#research" class="card-link">詳しく見る →</a>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="program-card reveal" style="transition-delay:.1s">
+        <div class="card-img">
+          <img src="./image/2.png" alt="食事プログラムキャラクター">
+        </div>
+        <div class="card-body">
+          <span class="card-number">02</span>
+          <span class="card-tag">🥦 栄養</span>
+          <h3 class="card-title">小児がん経験者とAYA世代がん経験者の<br>栄養Webプログラム</h3>
+          <p class="card-desc">
+            カラフルな野菜・果物を積極的に、加工食品・赤身肉を控えるバランス食。
+            物価高でも無理なく手料理ができるコツをAIがナビゲート。
+            忙しくても続けられる食事習慣を一緒につくりましょう。
+          </p>
+          <a href="./research.html#research" class="card-link">詳しく見る →</a>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="program-card reveal" style="transition-delay:.2s">
+        <div class="card-img">
+          <img src="./image/11.png" alt="コーチングプログラムキャラクター">
+        </div>
+        <div class="card-body">
+          <span class="card-number">03</span>
+          <span class="card-tag">🤖 AIコーチ</span>
+          <h3 class="card-title">働く世代の小児がん経験者の<br>健康行動への自動コーチング研究</h3>
+          <p class="card-desc">
+            GROWモデルを用いたAIコーチングで、あなただけの目標を設定。
+            「現状」→「過去の経験」→「変えたい行動」→「目標」の4ステップで
+            自分の「できること」を見つけていきます。
+          </p>
+          <a href="./ai-coach/index.html" class="card-link">AIコーチを試す →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AI COACH ─── -->
+<section class="ai-coach" id="coach">
+  <div class="ai-coach-inner">
+    <div>
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">AIコーチとの<br>対話のステップ</h2>
+      <p class="section-desc">
+        批判なし、評価なし。あなたのありのままを受け入れながら、
+        「小さな一歩」を見つけるコーチング対話です。
+      </p>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">現在の状況を共有する</div>
+            <div class="step-desc">今の生活や気になっていることを自由に話してください。どんな内容でも大丈夫です。</div>
+          </div>
+        </div>
+        <div class="step reveal" style="transition-delay:.1s">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">過去の経験・対処を振り返る</div>
+            <div class="step-desc">以前うまくいったこと、挑戦したことを一緒に振り返ります。</div>
+          </div>
+        </div>
+        <div class="step reveal" style="transition-delay:.2s">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">変えたい「行動」を見つける</div>
+            <div class="step-desc">「本当は〇〇したい」というあなたの気持ちを大切に、具体的な行動を探します。</div>
+          </div>
+        </div>
+        <div class="step reveal" style="transition-delay:.3s">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">未来の目標（GROW）を立てる</div>
+            <div class="step-desc">現実的で、あなたらしい小さな目標を設定します。完璧でなくていい！</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="coach-image reveal">
+      <img src="./image/Gemini_Generated_Image_nowv0fnowv0fnowv-Photoroom.png" alt="AIコーチのキャラクター">
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROMISE ─── -->
+<section class="promise">
+  <div class="promise-inner">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label">Our Promise</div>
+      <h2 class="section-title">コーチからの4つのお約束</h2>
+    </div>
+    <div class="promise-grid">
+      <div class="promise-card reveal">
+        <div class="promise-icon">🌸</div>
+        <div class="promise-title">ありのままを受容</div>
+        <p class="promise-desc">あなたの感情・状況・ペースをそのまま受け入れます。無理に変える必要はありません。</p>
+      </div>
+      <div class="promise-card reveal" style="transition-delay:.1s">
+        <div class="promise-icon">🚫</div>
+        <div class="promise-title">批判・評価なし</div>
+        <p class="promise-desc">どんな行動も、どんな考えも、批判も評価も一切しません。安心して話してください。</p>
+      </div>
+      <div class="promise-card reveal" style="transition-delay:.2s">
+        <div class="promise-icon">👣</div>
+        <div class="promise-title">小さな一歩を大切に</div>
+        <p class="promise-desc">大きな変化でなくていい。今日1つ、小さなことができれば、それで十分です。</p>
+      </div>
+      <div class="promise-card reveal" style="transition-delay:.3s">
+        <div class="promise-icon">🔒</div>
+        <div class="promise-title">プライバシー保護</div>
+        <p class="promise-desc">研究倫理に基づいたシステムで、個人情報は厳重に管理・保護されます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WARNING ─── -->
+<div class="warning-box reveal" style="margin: 60px auto; max-width: 1100px; padding: 0 80px;">
+  <div style="max-width: 1100px; width: 100%; background: #fff8f3; border: 2px solid #ffccbc; border-radius: 12px; padding: 20px 28px; display: flex; gap: 16px; align-items: flex-start;">
+    <span style="font-size: 1.4rem;">⚠️</span>
+    <p style="font-size: .85rem; line-height: 1.75; color: #bf360c;">
+      <strong>医療的なご相談について：</strong>
+      このAIは診断・治療を行うことはできません。新しい症状が2週間以上続く場合や、強い痛みがある場合は、必ず主治医・担当医にご相談ください。緊急時は救急（119番）または救急安心センター（#7119）にご連絡ください。
+    </p>
+  </div>
+</div>
+
+<!-- ─── CTA ─── -->
+<section class="cta">
+  <div class="cta-inner reveal">
+    <span class="cta-mascot">🌱</span>
+    <h2 class="cta-title">さあ、一緒に始めましょう</h2>
+    <p class="cta-desc">
+      仕事で忙しい、子育てに忙しい、時間がない……そんなあなたのための<br>
+      コスパとタイパが高い健康習慣プログラムです。<br>
+      まずはアカウントを作成して、AIコーチに話しかけてみてください。
+    </p>
+    <div class="cta-buttons">
+      <a href="./ai-coach/index.html" class="btn-primary">🌿 無料ではじめる（研究参加）</a>
+      <a href="#programs" class="btn-secondary">📚 プログラムを確認する</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p style="margin-bottom: 8px;">🌱 <strong>サポートAIコーチ</strong> ― 小児がん経験者のための健康習慣Webプログラム</p>
+  <p>研究代表者：福井 郁子（看護学・大学教員） ／ 本システムはFirebase認証で安全に管理されています</p>
+  <p style="margin-top: 12px; font-size: .75rem; opacity: .6;">© 2025 小児がん経験者サポートAIコーチ研究プロジェクト. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  document.getElementById('hamburger-btn').addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.toggle('open');
+  });
+  function closeMobileNav() {
+    document.getElementById('mobile-nav').classList.remove('open');
+  }
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobile-nav');
+    const btn  = document.getElementById('hamburger-btn');
+    if (!menu.contains(e.target) && e.target !== btn) {
+      menu.classList.remove('open');
+    }
+  });
+</script>
+
+</body>
+</html>
