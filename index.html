@@ -50,6 +50,8 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 /* #9 アンカーリンクがナビ下に隠れない修正 */
 html{scroll-behavior:smooth;scroll-padding-top:99px;}
+@media(max-width:900px){html{scroll-padding-top:76px;}}
+@media(max-width:600px){html{scroll-padding-top:60px;}}
 body{
   background:var(--bg);
   color:var(--text);
@@ -1199,39 +1201,68 @@ footer{
 }
 
 /* ========== RESPONSIVE ========== */
+/* --- タブレット・中型画面 --- */
 @media(max-width:900px){
-  #navbar{padding:0 20px;}
+  /* バナー：モバイルでは長い説明テキストを非表示・高さ抑制 */
+  #research-banner .banner-long-text{display:none;}
+  #research-banner{flex-wrap:nowrap;padding:5px 16px;}
+  /* バナーが短くなるので navbar の top も下げる */
+  #navbar{padding:0 16px;top:32px;}
+  /* HERO の padding-top = navbar-top(32) + navbar-height(62) + 余白(26) */
+  .hero{padding-top:130px;}
   .nav-links{display:none;}
   #menu-btn{display:block;}
+
+  /* HERO: 1カラム、テキスト先頭・モックアップ後ろ */
   .hero{
     grid-template-columns:1fr;
-    padding:90px 24px 48px;
+    padding:120px 24px 48px;
     min-height:auto;
     text-align:center;
+    gap:36px;
   }
-  .hero-mockup{order:-1;}
-  .phone-frame{width:200px;}
+  /* モックアップはテキストの下（order リセット） */
+  .hero-mockup{order:2;}
+  .hero-text{order:1;}
+  .phone-frame{width:220px;}
   .phone-screen{min-height:360px;}
   .phone-screen-placeholder{min-height:290px;}
   .hero-buttons{justify-content:center;}
-  .hero-copy{margin:0 auto 28px;}
+  .hero-copy{margin:0 auto 24px;}
+  .hero-stats{justify-content:center;}
+
+  /* その他レイアウト */
   .trials-grid{grid-template-columns:1fr;}
   .stat-grid,.study-grid{grid-template-columns:1fr;}
   .flow-steps{grid-template-columns:1fr;gap:20px;}
   .flow-steps::before{display:none;}
-  .hero-stats{justify-content:center;}
-.message-inner{grid-template-columns:1fr;}
-  .chars-grid{grid-template-columns:1fr 1fr;}
-  .steps{grid-template-columns:1fr 1fr;gap:24px;}
-  .steps::before{display:none;}
   .message-inner{grid-template-columns:1fr!important;text-align:center;}
   .message-char img{max-width:160px;}
   .bubble-box::before,.bubble-box::after{display:none;}
   .section-inner{padding:0 20px;}
+  .chars-grid{grid-template-columns:1fr 1fr;}
   .char-img{height:220px;}
   .char-desc{font-size:.7rem;}
+  .steps{grid-template-columns:1fr 1fr;gap:24px;}
+  .steps::before{display:none;}
 }
-@media(max-width:640px){
+
+/* --- スマートフォン（縦）--- */
+@media(max-width:600px){
+  /* バナー非表示 → navbar を最上部に */
+  #research-banner{display:none;}
+  #navbar{top:0;height:56px;padding:0 16px;}
+  .hero{padding-top:80px;}
+
+  /* HERO */
+  .hero{padding:110px 20px 40px;gap:28px;}
+  .hero-title{font-size:clamp(1.5rem,6vw,2.2rem);}
+  .hero-copy{font-size:.88rem;}
+
+  /* モックアップは小画面では非表示 */
+  .hero-mockup{display:none;}
+
+  /* キャラ */
   .chars-grid{grid-template-columns:1fr 1fr;}
   .char-img{height:190px;}
   .char-body{padding:12px 12px 16px;}
@@ -1240,16 +1271,20 @@ footer{
   .face-sprite{width:30px;height:30px;}
   .face-label{font-size:.5rem;}
 }
-@media(max-width:480px){
+
+/* --- 極小スマートフォン --- */
+@media(max-width:400px){
+  .hero{padding:76px 14px 32px;}
+  .hero-title{font-size:clamp(1.4rem,7.5vw,2rem);}
+  .hero-buttons{flex-direction:column;align-items:stretch;}
+  .hero-buttons a{text-align:center;}
   .chars-grid{grid-template-columns:1fr;}
   .char-img{height:240px;}
   .steps{grid-template-columns:1fr;}
   .cta-btns{flex-direction:column;align-items:center;}
-  .section-inner{padding:0 16px;}
-  .section-title{font-size:1.4rem;}
-  .hero-title{font-size:clamp(1.6rem,7vw,2.8rem);}
-  .hero-sub{font-size:.85rem;}
-  .trial-card{padding:20px 18px;}
+  .section-inner{padding:0 14px;}
+  .section-title{font-size:1.3rem;}
+  .trial-card{padding:20px 16px;}
 }
 </style>
 </head>
@@ -1264,9 +1299,9 @@ footer{
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
     <span style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:.6rem;font-weight:700;letter-spacing:.12em;padding:2px 10px;border-radius:4px;white-space:nowrap;">研究プロジェクト</span>
     <span style="background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.35);color:#7ee8aa;font-size:.6rem;font-weight:700;padding:2px 10px;border-radius:4px;white-space:nowrap;"><span class="pulse-dot"></span>参加受付中</span>
-    <span style="font-size:.7rem;color:rgba(170,188,216,.7);letter-spacing:.04em;">小児がん経験者の健康行動継続支援に関する研究 ／ 研究責任者：<strong style="color:rgba(201,168,76,.9);">福井 郁子</strong>（大学看護教員）</span>
+    <span class="banner-long-text" style="font-size:.7rem;color:rgba(170,188,216,.7);letter-spacing:.04em;">小児がん経験者の健康行動継続支援に関する研究 ／ 研究責任者：<strong style="color:rgba(201,168,76,.9);">福井 郁子</strong>（大学看護教員）</span>
   </div>
-  <span style="font-size:.62rem;color:rgba(170,188,216,.35);white-space:nowrap;">※ 本サイトは研究目的のツールです</span>
+  <span class="banner-long-text" style="font-size:.62rem;color:rgba(170,188,216,.35);white-space:nowrap;">※ 本サイトは研究目的のツールです</span>
 </div>
 
 <nav id="navbar">
