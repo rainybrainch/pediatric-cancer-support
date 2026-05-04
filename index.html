@@ -1051,6 +1051,76 @@ footer{
 }
 .reveal.visible{opacity:1;transform:translateY(0);}
 
+/* ========== ギャップ＆研究の強み ========== */
+.gap-section{
+  padding:80px 0;
+  background:linear-gradient(160deg,#090e22 0%,#0f1638 60%,#0a1220 100%);
+  position:relative;overflow:hidden;
+}
+.gap-section::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(100,130,255,.05) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+.gap-section .section-head{margin-bottom:48px;}
+.gap-section .chapter-label{color:rgba(201,168,76,.8);}
+.gap-section .chapter-label::before,.gap-section .chapter-label::after{background:linear-gradient(90deg,transparent,rgba(201,168,76,.6));}
+.gap-section .chapter-label::after{background:linear-gradient(90deg,rgba(201,168,76,.6),transparent);}
+.gap-section .section-title{color:#f0f4ff;}
+.gap-section .section-desc{color:rgba(170,190,240,.6);}
+.gap-grid{display:grid;grid-template-columns:1fr 48px 1fr;gap:0;align-items:stretch;max-width:900px;margin:0 auto;}
+.gap-col{border-radius:18px;padding:30px 28px;display:flex;flex-direction:column;gap:16px;}
+.gap-col-problem{background:rgba(200,60,60,.07);border:1px solid rgba(200,60,60,.22);}
+.gap-col-solution{background:rgba(40,80,220,.08);border:1px solid rgba(60,100,220,.25);}
+.gap-col-head{font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:700;letter-spacing:.12em;margin-bottom:4px;}
+.gap-col-problem .gap-col-head{color:rgba(255,140,120,.75);}
+.gap-col-solution .gap-col-head{color:rgba(130,170,255,.8);}
+.gap-item{display:flex;align-items:flex-start;gap:10px;}
+.gap-item-icon{font-size:1rem;flex-shrink:0;line-height:1.5;}
+.gap-item-text{font-size:.82rem;line-height:1.7;color:rgba(210,225,255,.75);}
+.gap-item-num{font-size:1.3rem;font-weight:900;font-family:'Noto Serif JP',serif;color:rgba(255,120,100,.9);display:block;line-height:1;}
+.gap-item-lbl{font-size:.65rem;color:rgba(210,220,255,.45);margin-top:2px;}
+.gap-arrow-col{display:flex;align-items:center;justify-content:center;}
+.gap-arrow-inner{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.gap-arrow-line{width:2px;height:30px;background:linear-gradient(180deg,rgba(201,168,76,.15),rgba(201,168,76,.5),rgba(201,168,76,.15));}
+.gap-arrow-symbol{font-size:1.1rem;color:rgba(201,168,76,.8);}
+.gap-label-fill{font-size:.58rem;font-weight:700;letter-spacing:.1em;color:rgba(201,168,76,.7);writing-mode:vertical-rl;text-orientation:mixed;}
+
+/* 研究の強み */
+.strengths{padding:80px 0;background:#f0f5ff;border-top:1px solid #d4ddf4;}
+.str-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:0;}
+@media(max-width:700px){.str-grid{grid-template-columns:1fr;}}
+.str-card{
+  background:#ffffff;border:1px solid #d4ddf4;border-radius:18px;
+  padding:28px 26px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.str-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0;
+}
+.str-1::before{background:linear-gradient(90deg,#c9a84c,#f0d48a);}
+.str-2::before{background:linear-gradient(90deg,#2845c8,#5070e0);}
+.str-3::before{background:linear-gradient(90deg,#1a7c48,#4ec98a);}
+.str-4::before{background:linear-gradient(90deg,#9c72e0,#c090f0);}
+.str-card:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(30,50,160,.12);}
+.str-icon{font-size:2rem;line-height:1;}
+.str-tag{font-size:.65rem;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:99px;display:inline-block;align-self:flex-start;}
+.str-1 .str-tag{background:rgba(201,168,76,.12);color:#8a6510;border:1px solid rgba(201,168,76,.3);}
+.str-2 .str-tag{background:rgba(40,70,200,.08);color:#2845c8;border:1px solid rgba(40,70,200,.2);}
+.str-3 .str-tag{background:rgba(26,124,72,.08);color:#1a7c48;border:1px solid rgba(26,124,72,.2);}
+.str-4 .str-tag{background:rgba(156,114,224,.08);color:#5838a8;border:1px solid rgba(156,114,224,.2);}
+.str-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;color:#0d1430;line-height:1.4;}
+.str-desc{font-size:.82rem;line-height:1.85;color:#5868a0;}
+.str-desc strong{color:#2040a0;}
+.str-evidence{
+  font-size:.72rem;color:#3a5888;
+  background:rgba(40,70,200,.05);border:1px solid rgba(40,70,200,.12);
+  border-radius:8px;padding:8px 12px;line-height:1.7;margin-top:4px;
+}
+.str-evidence cite{font-style:normal;font-weight:700;color:#2845c8;}
+
 /* ========== ANIMATIONS ========== */
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(24px);}
@@ -1087,6 +1157,8 @@ footer{
   .flow-steps{grid-template-columns:1fr;gap:20px;}
   .flow-steps::before{display:none;}
   .hero-stats{justify-content:center;}
+  .gap-grid{grid-template-columns:1fr;gap:16px;}
+  .gap-arrow-col{display:none;}
   .message-inner{grid-template-columns:1fr;}
   .chars-grid{grid-template-columns:1fr 1fr;}
   .steps{grid-template-columns:1fr 1fr;gap:24px;}
@@ -1146,9 +1218,10 @@ footer{
     </div>
   </a>
   <div class="nav-links">
-    <a href="#trials">3つの試練</a>
+    <a href="#strengths">研究の強み</a>
+    <a href="#trials">アプリ機能</a>
     <a href="#characters">仲間たち</a>
-    <a href="#grow">冒険の手引き</a>
+    <a href="#grow">コーチング</a>
     <a href="#faq">FAQ</a>
     <a href="#study">研究概要</a>
     <a href="./research.html">研究について</a>
@@ -1427,6 +1500,134 @@ footer{
   </div>
 </section>
 
+
+<!-- ========== なぜ今この研究か（ギャップ） ========== -->
+<section class="gap-section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="chapter-label">— Research Gap —</div>
+      <h2 class="section-title">なぜ、今この研究が必要か</h2>
+      <p class="section-desc" style="color:rgba(170,190,240,.6);">生存率が上がった一方で、問題は「その後をどう生きるか」に移行している。既存の支援に、決定的な空白がある。</p>
+    </div>
+    <div class="gap-grid reveal">
+      <!-- 問題列 -->
+      <div class="gap-col gap-col-problem">
+        <div class="gap-col-head">⚠ 現状の課題</div>
+        <div class="gap-item">
+          <span class="gap-item-icon">📈</span>
+          <div class="gap-item-text">
+            <span class="gap-item-num">2〜5倍</span>
+            <span class="gap-item-lbl">晩期合併症（心疾患・代謝障害・骨密度低下など）のリスクが一般集団より高い</span>
+          </div>
+        </div>
+        <div class="gap-item">
+          <span class="gap-item-icon">🏃</span>
+          <div class="gap-item-text">
+            <span class="gap-item-num">約30%</span>
+            <span class="gap-item-lbl">WHO推奨「週150分の運動」を達成できている小児がん経験者の割合（Keats et al.）</span>
+          </div>
+        </div>
+        <div class="gap-item">
+          <span class="gap-item-icon">📚</span>
+          <div class="gap-item-text">
+            <span class="gap-item-num">ほぼ皆無</span>
+            <span class="gap-item-lbl">日本における小児がん経験者を対象にしたゲーミフィケーション×行動変容の介入研究</span>
+          </div>
+        </div>
+        <div class="gap-item">
+          <span class="gap-item-icon">🔄</span>
+          <div class="gap-item-text">
+            <span style="font-size:.82rem;color:rgba(255,160,140,.8);font-weight:700;">「わかっていても、続かない」</span>
+            <span class="gap-item-lbl" style="display:block;margin-top:2px;">知識提供だけでは行動変容が起きないことが先行研究で繰り返し示されている</span>
+          </div>
+        </div>
+      </div>
+      <!-- 矢印 -->
+      <div class="gap-arrow-col">
+        <div class="gap-arrow-inner">
+          <div class="gap-arrow-line"></div>
+          <div class="gap-arrow-symbol">→</div>
+          <div class="gap-label-fill">この研究が埋める</div>
+          <div class="gap-arrow-symbol">→</div>
+          <div class="gap-arrow-line"></div>
+        </div>
+      </div>
+      <!-- 解列 -->
+      <div class="gap-col gap-col-solution">
+        <div class="gap-col-head">✦ 本研究のアプローチ</div>
+        <div class="gap-item">
+          <span class="gap-item-icon">🎮</span>
+          <div class="gap-item-text">
+            <span style="font-size:.82rem;color:rgba(130,180,255,.9);font-weight:700;display:block;">ゲーミフィケーション介入</span>
+            <span class="gap-item-lbl" style="display:block;margin-top:2px;">XP・レベル・実績バッジで行動を即時強化。内発的動機付けを持続させる</span>
+          </div>
+        </div>
+        <div class="gap-item">
+          <span class="gap-item-icon">🤖</span>
+          <div class="gap-item-text">
+            <span style="font-size:.82rem;color:rgba(130,180,255,.9);font-weight:700;display:block;">AIコーチング（GROWモデル）</span>
+            <span class="gap-item-lbl" style="display:block;margin-top:2px;">Gemini AIがGROWフレームで個別対話。24時間いつでも批判なしで相談できる</span>
+          </div>
+        </div>
+        <div class="gap-item">
+          <span class="gap-item-icon">📊</span>
+          <div class="gap-item-text">
+            <span style="font-size:.82rem;color:rgba(130,180,255,.9);font-weight:700;display:block;">リアルタイム行動追跡</span>
+            <span class="gap-item-lbl" style="display:block;margin-top:2px;">運動・栄養データをリアルタイム可視化。行動と強化のループが即座に閉じる</span>
+          </div>
+        </div>
+        <div class="gap-item">
+          <span class="gap-item-icon">🌱</span>
+          <div class="gap-item-text">
+            <span style="font-size:.82rem;color:rgba(130,180,255,.9);font-weight:700;display:block;">12週間・行動変容理論準拠</span>
+            <span class="gap-item-lbl" style="display:block;margin-top:2px;">社会的認知理論（SCT）・セルフエフィカシー理論に基づく段階的プログラム設計</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 研究の強み ========== -->
+<section class="strengths" id="strengths">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="chapter-label">— Research Strengths —</div>
+      <h2 class="section-title">本研究の<span class="accent">革新性・独自性</span></h2>
+      <p class="section-desc">既存研究にはない4つの強みが、継続的な行動変容を科学する。</p>
+    </div>
+    <div class="str-grid reveal">
+      <div class="str-card str-1">
+        <span class="str-icon">🌍</span>
+        <span class="str-tag">国内初の試み</span>
+        <div class="str-title">小児がん経験者 ×<br>ゲーミフィケーション × AI</div>
+        <div class="str-desc">この3つを組み合わせた介入研究は、日本国内では<strong>先行例がない</strong>。生存率向上後の「その後」を支援する研究として、新規性・社会的意義ともに高い。</div>
+        <div class="str-evidence">📖 国内外の文献レビューでも、AYA世代のがん経験者を対象にしたゲーミフィケーション介入は極めて限られている（Baranowski et al., 2016）</div>
+      </div>
+      <div class="str-card str-2">
+        <span class="str-icon">🧪</span>
+        <span class="str-tag">エビデンスベース</span>
+        <div class="str-title">行動変容理論に基づく<br>科学的プログラム設計</div>
+        <div class="str-desc">社会的認知理論（SCT）・セルフエフィカシー理論・GROWコーチングモデルを統合。<strong>「楽しい」だけでなく、行動変容の機序が理論的に担保</strong>されている。</div>
+        <div class="str-evidence">📖 Bandura（1986）の自己効力感理論に基づくフィードバック設計。ACS推奨ガイドラインに沿った運動・栄養指標を採用</div>
+      </div>
+      <div class="str-card str-3">
+        <span class="str-icon">📱</span>
+        <span class="str-tag">リアルタイム支援</span>
+        <div class="str-title">行動と強化が<br>即座に結びつく設計</div>
+        <div class="str-desc">運動記録→即XP獲得→レベルアップ、というリアルタイムフィードバックループで<strong>行動の直後強化</strong>を実現。従来の週次・月次記録と根本的に異なる。</div>
+        <div class="str-evidence">📖 即時強化は遅延強化より行動定着率が高い（Skinner, 1938 / Luthans & Stajkovic, 1999）</div>
+      </div>
+      <div class="str-card str-4">
+        <span class="str-icon">🎯</span>
+        <span class="str-tag">継続の仕組み</span>
+        <div class="str-title">内発的動機付けを<br>持続させるゲームデザイン</div>
+        <div class="str-desc">XP・レベル・実績バッジ・キャラクター成長という<strong>進捗の可視化</strong>が、外的インセンティブがなくなった後も継続動機を保持。12週完走を設計レベルで支援。</div>
+        <div class="str-evidence">📖 自己決定理論（Deci & Ryan, 1985）に基づく内発的動機の支援。ゲーミフィケーションの有効性はPapastergiou（2009）等で検証済み</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ========== 3つの試練 ========== -->
 <section class="trials" id="trials">
