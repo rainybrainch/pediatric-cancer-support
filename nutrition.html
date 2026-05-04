@@ -207,6 +207,23 @@ body::before{
 .icon-quick{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.4);}
 #quick-grid .food-card{border-color:rgba(201,168,76,.18);}
 #quick-grid .food-card:hover{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
+/* ===== 外食パネル ===== */
+.icon-resto{background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.1));border:1px solid rgba(92,140,212,.4);}
+.resto-tabs{display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.resto-tabs::-webkit-scrollbar{display:none;}
+.resto-tab{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:5px 10px;font-family:inherit;font-size:.64rem;font-weight:700;color:rgba(170,188,216,.45);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+.resto-tab.active{background:rgba(92,140,212,.15);border-color:rgba(92,140,212,.35);color:#8ab4e8;}
+.resto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:7px;}
+.rc{background:rgba(10,14,26,.75);border:1px solid rgba(92,140,212,.15);border-radius:10px;padding:8px 6px;cursor:pointer;transition:all .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.rc:hover{border-color:rgba(92,140,212,.45);background:rgba(92,140,212,.08);transform:translateY(-1px);}
+.rc:active{transform:scale(.95);}
+.rc-icon{font-size:1.2rem;line-height:1;}
+.rc-name{font-size:.6rem;font-weight:700;color:var(--text);line-height:1.3;}
+.rc-kcal{font-size:.52rem;color:rgba(170,188,216,.4);}
+.rc-xp{font-size:.57rem;font-weight:700;padding:1px 5px;border-radius:4px;margin-top:1px;}
+.rc-xp.pos{background:rgba(78,201,138,.1);color:#7ee8b0;}
+.rc-xp.neg{background:rgba(224,92,92,.1);color:rgba(240,140,140,.8);}
+.rc-xp.mix{background:rgba(201,168,76,.1);color:rgba(230,200,120,.8);}
 .section-head{
   display:flex;align-items:center;gap:10px;margin-bottom:14px;
   padding-bottom:10px;border-bottom:1px solid rgba(78,201,138,.12);
@@ -849,6 +866,26 @@ setTimeout(function(){
         </div>
         <div class="card-grid" id="quick-grid"></div>
         <div class="quick-note">💡 ごはん・卵・野菜など、いつもの食事をそのまま記録できるよ。特別な食事じゃなくてOK！</div>
+      </div>
+
+      <!-- 外食・よく食べるもの -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon icon-resto">🍴</div>
+          <div>
+            <div class="section-label" style="color:#8ab4e8">外食・よく食べるもの</div>
+            <div class="section-note">ラーメン・牛丼・定食… 外で食べたものをそのまま記録（50品）</div>
+          </div>
+        </div>
+        <div class="resto-tabs" id="resto-tabs">
+          <button class="resto-tab active" data-grp="すべて">すべて</button>
+          <button class="resto-tab" data-grp="麺類">🍜 麺類</button>
+          <button class="resto-tab" data-grp="丼・カレー">🍛 丼・カレー</button>
+          <button class="resto-tab" data-grp="定食">🍱 定食</button>
+          <button class="resto-tab" data-grp="寿司・海鮮">🍣 海鮮</button>
+          <button class="resto-tab" data-grp="ファスト">🍔 ファスト</button>
+        </div>
+        <div class="resto-grid" id="resto-grid"></div>
       </div>
 
       <!-- 野菜 -->
@@ -1633,6 +1670,97 @@ function buildQuickBoard(){
   });
 }
 
+// ===== 外食50品 =====
+const POPULAR_DISHES=[
+  // 麺類(10)
+  {name:'ラーメン（しょうゆ）',icon:'🍜',grp:'麺類',kcal:500,protein:18,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}],caution:'塩分約5g'},
+  {name:'ラーメン（みそ）',    icon:'🍜',grp:'麺類',kcal:560,protein:19,fiber:2.5,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}],caution:'塩分約6g'},
+  {name:'ラーメン（とんこつ）',icon:'🍜',grp:'麺類',kcal:620,protein:22,fiber:1.5,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}],caution:'脂質・塩分多め'},
+  {name:'担々麺',             icon:'🍜',grp:'麺類',kcal:580,protein:20,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}],caution:'脂質・塩分多め'},
+  {name:'つけ麺',             icon:'🍜',grp:'麺類',kcal:680,protein:26,fiber:3.0,components:[{cat:'grain',count:2,xp:16},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'きつねうどん',        icon:'🍜',grp:'麺類',kcal:380,protein:14,fiber:2.0,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10}]},
+  {name:'天ぷらうどん',        icon:'🍜',grp:'麺類',kcal:500,protein:16,fiber:2.5,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'カレーうどん',        icon:'🍜',grp:'麺類',kcal:520,protein:16,fiber:3.0,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'ざるそば',            icon:'🍜',grp:'麺類',kcal:290,protein:13,fiber:3.0,components:[{cat:'grain',count:1,xp:12}]},
+  {name:'焼きそば',            icon:'🍜',grp:'麺類',kcal:500,protein:14,fiber:3.0,components:[{cat:'grain',count:1,xp:6},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  // 丼・カレー(10)
+  {name:'牛丼（並）',     icon:'🍚',grp:'丼・カレー',kcal:650,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:16},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'親子丼',         icon:'🍚',grp:'丼・カレー',kcal:600,protein:28,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24}]},
+  {name:'カツ丼',         icon:'🍚',grp:'丼・カレー',kcal:800,protein:30,fiber:1.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24},{cat:'limit',count:1,xp:-4}]},
+  {name:'天丼',           icon:'🍚',grp:'丼・カレー',kcal:720,protein:20,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-5}]},
+  {name:'海鮮丼',         icon:'🐟',grp:'丼・カレー',kcal:550,protein:32,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:28}]},
+  {name:'カレーライス',    icon:'🍛',grp:'丼・カレー',kcal:700,protein:18,fiber:4.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10}]},
+  {name:'チキンカレー',    icon:'🍛',grp:'丼・カレー',kcal:680,protein:25,fiber:4.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10}]},
+  {name:'カツカレー',      icon:'🍛',grp:'丼・カレー',kcal:900,protein:28,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}]},
+  {name:'ビーフカレー',    icon:'🍛',grp:'丼・カレー',kcal:750,protein:22,fiber:3.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'三色丼',         icon:'🍚',grp:'丼・カレー',kcal:580,protein:24,fiber:1.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22}]},
+  // 定食(12)
+  {name:'とんかつ定食',    icon:'🍱',grp:'定食',kcal:800,protein:30,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:2,xp:-8}]},
+  {name:'唐揚げ定食',      icon:'🍱',grp:'定食',kcal:750,protein:32,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'焼き魚定食',      icon:'🍱',grp:'定食',kcal:550,protein:28,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24},{cat:'veg',count:1,xp:10}]},
+  {name:'鮭定食',          icon:'🍱',grp:'定食',kcal:600,protein:30,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:26},{cat:'veg',count:1,xp:10}]},
+  {name:'ハンバーグ定食',  icon:'🍱',grp:'定食',kcal:750,protein:28,fiber:2.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'生姜焼き定食',    icon:'🍱',grp:'定食',kcal:700,protein:26,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'刺身定食',        icon:'🍱',grp:'定食',kcal:500,protein:30,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:26},{cat:'veg',count:1,xp:10}]},
+  {name:'チキン南蛮定食',  icon:'🍱',grp:'定食',kcal:780,protein:30,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-5}]},
+  {name:'エビフライ定食',  icon:'🍱',grp:'定食',kcal:700,protein:24,fiber:2.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'麻婆豆腐定食',    icon:'🍱',grp:'定食',kcal:600,protein:24,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'餃子定食',        icon:'🍱',grp:'定食',kcal:650,protein:22,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:18},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'チャーハン',      icon:'🍳',grp:'定食',kcal:550,protein:16,fiber:1.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  // 寿司・海鮮(6)
+  {name:'回転寿司（10皿）',icon:'🍣',grp:'寿司・海鮮',kcal:500,protein:30,fiber:0.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:2,xp:24}]},
+  {name:'にぎり寿司（並）',icon:'🍣',grp:'寿司・海鮮',kcal:450,protein:26,fiber:0.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:2,xp:22}]},
+  {name:'天ぷら盛り合わせ',icon:'🍤',grp:'寿司・海鮮',kcal:550,protein:18,fiber:2.0,components:[{cat:'protein',count:1,xp:14},{cat:'veg',count:1,xp:10},{cat:'limit',count:2,xp:-8}]},
+  {name:'お好み焼き',      icon:'🥞',grp:'寿司・海鮮',kcal:480,protein:16,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'たこ焼き（8個）', icon:'🐙',grp:'寿司・海鮮',kcal:290,protein:10,fiber:1.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-3}]},
+  {name:'焼肉（牛カルビ）',icon:'🥩',grp:'寿司・海鮮',kcal:600,protein:28,fiber:0.0,components:[{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}],caution:'脂質多め'},
+  // ファスト・チェーン(12)
+  {name:'ビッグマック',    icon:'🍔',grp:'ファスト',kcal:530,protein:26,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-10}]},
+  {name:'テリヤキバーガー',icon:'🍔',grp:'ファスト',kcal:490,protein:22,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:16},{cat:'limit',count:2,xp:-10}]},
+  {name:'フライドポテト(M)',icon:'🍟',grp:'ファスト',kcal:330,protein:4, fiber:3.0,components:[{cat:'veg',count:1,xp:6},{cat:'limit',count:2,xp:-10}]},
+  {name:'バーガーセット',  icon:'🍔',grp:'ファスト',kcal:880,protein:30,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:6},{cat:'limit',count:3,xp:-14}]},
+  {name:'松屋 牛めし（並）',icon:'🍚',grp:'ファスト',kcal:620,protein:20,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'吉野家 牛丼（並）',icon:'🍚',grp:'ファスト',kcal:625,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'すき家 牛丼（並）',icon:'🍚',grp:'ファスト',kcal:640,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'ケンタッキー（2本）',icon:'🍗',grp:'ファスト',kcal:450,protein:28,fiber:0.0,components:[{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}],caution:'衣の塩分・脂質'},
+  {name:'コンビニおにぎり',icon:'🍙',grp:'ファスト',kcal:200,protein:6, fiber:1.0,components:[{cat:'grain',count:1,xp:8}]},
+  {name:'コンビニ弁当',    icon:'🍱',grp:'ファスト',kcal:700,protein:20,fiber:2.0,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}]},
+  {name:'コンビニサンド',  icon:'🥪',grp:'ファスト',kcal:350,protein:14,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'カップ麺',        icon:'🍜',grp:'ファスト',kcal:360,protein:10,fiber:1.0,components:[{cat:'grain',count:1,xp:6},{cat:'limit',count:3,xp:-12}],caution:'塩分・添加物多め'},
+];
+
+let _restoGrp='すべて';
+function buildRestaurantBoard(){
+  const grid=document.getElementById('resto-grid');
+  const list=_restoGrp==='すべて' ? POPULAR_DISHES : POPULAR_DISHES.filter(d=>d.grp===_restoGrp);
+  grid.innerHTML='';
+  list.forEach(d=>{
+    const totalXp=d.components.reduce((a,c)=>a+c.xp*c.count,0);
+    const xpSign=totalXp>=0?'+':'';
+    const xpCls=totalXp>0?'pos':totalXp<0?'neg':'mix';
+    const card=document.createElement('div');
+    card.className='rc';
+    card.innerHTML=`
+      <span class="rc-icon">${d.icon}</span>
+      <span class="rc-name">${d.name}</span>
+      <span class="rc-kcal">${d.kcal}kcal</span>
+      <span class="rc-xp ${xpCls}">${xpSign}${totalXp}XP</span>`;
+    card.addEventListener('click',e=>{
+      sessions.push({name:d.name,icon:d.icon,group:d.grp,kcal:d.kcal,components:d.components,caution:d.caution});
+      spawnPlus(e,`${xpSign}${totalXp}XP`,totalXp>=0?'var(--green)':'var(--debuff)');
+      renderLog(); updateUI(); updateCardCounts();
+    });
+    grid.appendChild(card);
+  });
+}
+document.getElementById('resto-tabs').addEventListener('click',e=>{
+  const tab=e.target.closest('.resto-tab'); if(!tab) return;
+  document.querySelectorAll('.resto-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  _restoGrp=tab.dataset.grp;
+  buildRestaurantBoard();
+});
+
 // ===== ボード構築 =====
 function buildBoard(id, items, cat, cls){
   const grid=document.getElementById(id);
@@ -2220,6 +2348,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
     buildQuickBoard();
+    buildRestaurantBoard();
     buildBoard('veg-grid',    FOODS.veg,    'veg',    'fc-veg');
     buildBoard('fruit-grid',  FOODS.fruit,  'fruit',  'fc-fruit');
     buildBoard('protein-grid',FOODS.protein,'protein','fc-protein');
