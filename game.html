@@ -472,31 +472,203 @@ body::before{
 
 /* ========== AIコーチモーダル ========== */
 #coach-modal{
-  position:fixed;inset:0;background:rgba(4,6,12,.7);z-index:300;
-  display:none;align-items:flex-end;justify-content:flex-end;
-  padding:16px;backdrop-filter:blur(6px);
+  position:fixed;inset:0;background:rgba(4,6,12,.78);z-index:300;
+  display:none;align-items:center;justify-content:center;
+  padding:16px;backdrop-filter:blur(8px);
 }
 #coach-modal.open{display:flex;}
 .coach-panel{
-  width:400px;max-width:calc(100vw - 32px);
-  height:600px;max-height:calc(100vh - 80px);
-  background:#080b14;
-  border:1px solid rgba(156,114,224,.4);border-radius:20px;
+  width:420px;max-width:calc(100vw - 24px);
+  height:680px;max-height:calc(100vh - 80px);
+  background:linear-gradient(180deg,#0a0d1c 0%,#080b14 100%);
+  border:1px solid rgba(156,114,224,.35);border-radius:22px;
   overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 24px 64px rgba(0,0,0,.8);
+  box-shadow:0 28px 70px rgba(0,0,0,.9),0 0 80px rgba(156,114,224,.08);
   animation:modalIn .35s cubic-bezier(.22,1,.36,1);
+  position:relative;
 }
-.coach-ph{
-  display:flex;align-items:center;gap:10px;padding:12px 16px;
+.coach-panel::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%,rgba(156,114,224,.08) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 30% at 50% 100%,rgba(156,114,224,.04) 0%,transparent 60%);
+}
+
+/* ヘッダー */
+.coach-hdr{
+  display:flex;align-items:center;gap:8px;padding:11px 14px;
   background:rgba(12,14,28,.98);
-  border-bottom:1px solid rgba(156,114,224,.2);flex-shrink:0;
+  border-bottom:1px solid rgba(156,114,224,.2);
+  flex-shrink:0;position:relative;z-index:1;
 }
-.coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(201,168,76,.4);}
-.coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(201,168,76,.95);}
-.coach-ph-sub{font-size:.6rem;color:rgba(156,114,224,.7);letter-spacing:.06em;}
-#coach-close{background:none;border:none;color:rgba(170,188,216,.4);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
-#coach-close:hover{color:rgba(170,188,216,.8);}
-.coach-iframe{flex:1;border:none;width:100%;background:#080b14;}
+.coach-hdr-back{
+  background:none;border:none;color:rgba(170,188,216,.4);
+  font-size:.78rem;font-weight:700;cursor:pointer;padding:4px 6px;
+  font-family:inherit;
+}
+.coach-hdr-back:hover{color:rgba(200,180,255,.8);}
+.coach-hdr-title{
+  flex:1;text-align:center;
+  font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:700;
+  color:rgba(200,180,255,.9);letter-spacing:.04em;
+}
+.coach-hdr-ai{
+  font-size:.55rem;font-weight:700;letter-spacing:.08em;
+  background:rgba(156,114,224,.18);border:1px solid rgba(156,114,224,.4);
+  border-radius:5px;padding:2px 7px;color:#c0a0f0;
+}
+
+/* キャラバナー */
+.coach-char{
+  display:flex;align-items:center;gap:11px;padding:12px 16px;
+  background:linear-gradient(135deg,rgba(156,114,224,.1),transparent);
+  border-bottom:1px solid rgba(156,114,224,.12);
+  flex-shrink:0;position:relative;z-index:1;
+}
+.coach-char img{
+  width:48px;height:48px;border-radius:50%;
+  border:2px solid rgba(156,114,224,.5);
+  object-fit:cover;object-position:center 14%;
+  box-shadow:0 0 16px rgba(156,114,224,.2);
+}
+.coach-char-info{flex:1;min-width:0;}
+.coach-char-name{
+  font-family:'Noto Serif JP',serif;font-weight:700;font-size:.88rem;
+  color:#c0a0f0;
+}
+.coach-char-sub{font-size:.62rem;color:rgba(156,114,224,.55);margin-top:1px;}
+
+/* GROWステップ */
+.coach-grow{
+  display:flex;gap:5px;padding:8px 14px;
+  background:rgba(12,14,28,.6);border-bottom:1px solid rgba(156,114,224,.1);
+  flex-shrink:0;position:relative;z-index:1;
+}
+.coach-grow-step{
+  flex:1;background:rgba(100,120,200,.08);
+  border:1px solid rgba(100,120,200,.15);
+  border-radius:7px;padding:5px 4px;
+  text-align:center;font-size:.6rem;font-weight:700;
+  color:rgba(170,190,240,.45);
+  transition:all .25s;
+}
+.coach-grow-step.active{
+  background:rgba(156,114,224,.18);
+  border-color:rgba(156,114,224,.45);
+  color:#d0b8ff;
+  box-shadow:0 0 12px rgba(156,114,224,.15);
+}
+.coach-grow-step .gs-sub{display:block;font-size:.45rem;font-weight:400;opacity:.65;margin-top:1px;}
+
+/* チャットボディ */
+.coach-body{
+  flex:1;overflow-y:auto;
+  padding:14px 14px 8px;
+  display:flex;flex-direction:column;gap:8px;
+  position:relative;z-index:1;
+  scroll-behavior:smooth;
+}
+.coach-body::-webkit-scrollbar{width:5px;}
+.coach-body::-webkit-scrollbar-track{background:transparent;}
+.coach-body::-webkit-scrollbar-thumb{background:rgba(156,114,224,.2);border-radius:99px;}
+.coach-bubble{
+  border-radius:11px;padding:9px 12px;max-width:88%;
+  animation:fadeIn .25s ease both;
+}
+.coach-bubble-luna{
+  align-self:flex-start;
+  background:rgba(156,114,224,.1);
+  border:1px solid rgba(156,114,224,.22);
+}
+.coach-bubble-user{
+  align-self:flex-end;
+  background:rgba(100,120,200,.12);
+  border:1px solid rgba(100,120,200,.22);
+}
+.coach-bubble-lbl{
+  font-size:.5rem;font-weight:700;letter-spacing:.05em;margin-bottom:3px;
+  color:rgba(200,180,255,.5);
+}
+.coach-bubble-user .coach-bubble-lbl{color:rgba(180,200,240,.5);text-align:right;}
+.coach-bubble-txt{
+  font-size:.78rem;line-height:1.7;
+  color:rgba(220,225,245,.88);white-space:pre-wrap;word-wrap:break-word;
+}
+.coach-bubble-luna .coach-bubble-txt{color:rgba(220,210,250,.9);}
+
+/* タイピング表示 */
+.coach-typing{display:flex;align-items:center;gap:4px;padding:4px 0;}
+.coach-typing-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(200,180,255,.55);
+  animation:typingBounce 1.2s ease-in-out infinite;
+}
+.coach-typing-dot:nth-child(2){animation-delay:.15s;}
+.coach-typing-dot:nth-child(3){animation-delay:.3s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-4px);opacity:1;}}
+
+/* 入力バー */
+.coach-input-wrap{
+  flex-shrink:0;padding:10px 12px 12px;
+  border-top:1px solid rgba(156,114,224,.18);
+  background:rgba(12,14,28,.95);
+  position:relative;z-index:1;
+}
+.coach-input-row{display:flex;gap:7px;align-items:flex-end;}
+#coach-input{
+  flex:1;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(156,114,224,.25);
+  border-radius:12px;padding:9px 12px;
+  color:rgba(220,225,245,.95);font-family:inherit;
+  font-size:.82rem;line-height:1.5;
+  resize:none;max-height:120px;min-height:38px;
+  transition:border-color .2s;
+}
+#coach-input:focus{outline:none;border-color:rgba(156,114,224,.5);}
+#coach-input::placeholder{color:rgba(170,188,216,.3);}
+#coach-send{
+  flex-shrink:0;width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(156,114,224,.32),rgba(156,114,224,.18));
+  border:1px solid rgba(156,114,224,.5);
+  color:#d8c8ff;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+#coach-send:hover:not(:disabled){background:linear-gradient(135deg,rgba(156,114,224,.45),rgba(156,114,224,.25));transform:translateY(-1px);}
+#coach-send:disabled{opacity:.4;cursor:not-allowed;}
+
+#coach-close{
+  background:none;border:none;color:rgba(170,188,216,.4);
+  font-size:1.2rem;cursor:pointer;padding:4px 8px;line-height:1;
+}
+#coach-close:hover{color:rgba(200,180,255,.85);}
+
+/* APIキー入力フォーム */
+.coach-keyform{
+  padding:24px 20px;text-align:center;
+  display:flex;flex-direction:column;gap:10px;
+  flex:1;justify-content:center;
+}
+.coach-keyform-title{
+  font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:700;
+  color:#c0a0f0;margin-bottom:4px;
+}
+.coach-keyform-desc{font-size:.72rem;color:rgba(170,188,216,.55);line-height:1.7;margin-bottom:8px;}
+.coach-keyform input{
+  background:rgba(255,255,255,.04);border:1px solid rgba(156,114,224,.3);
+  border-radius:10px;padding:10px 13px;color:rgba(220,225,245,.95);
+  font-family:inherit;font-size:.85rem;
+}
+.coach-keyform input:focus{outline:none;border-color:rgba(156,114,224,.55);}
+.coach-keyform button{
+  background:linear-gradient(135deg,rgba(156,114,224,.32),rgba(156,114,224,.18));
+  border:1px solid rgba(156,114,224,.5);
+  border-radius:10px;padding:10px;color:#d8c8ff;
+  font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+}
+.coach-keyform-link{font-size:.65rem;color:rgba(156,114,224,.5);margin-top:6px;}
+.coach-keyform-link a{color:rgba(200,180,255,.7);}
 
 /* ========== チュートリアル ========== */
 #tutorial-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
@@ -825,18 +997,45 @@ body::before{
   </main>
 </div>
 
-<!-- AIコーチモーダル -->
+<!-- AIコーチモーダル（Gemini API直結 RPGチャット） -->
 <div id="coach-modal" role="dialog" aria-modal="true" aria-label="ルナのコーチング">
   <div class="coach-panel">
-    <div class="coach-ph">
-      <img src="./image/runa-sabun%20(1).png" alt="ルナ">
-      <div>
-        <div class="coach-ph-name">ルナ</div>
-        <div class="coach-ph-sub">AIコーチ ／ GROWモデル</div>
-      </div>
-      <button id="coach-close" aria-label="閉じる">✕</button>
+    <!-- ヘッダー -->
+    <div class="coach-hdr">
+      <button class="coach-hdr-back" id="coach-close" aria-label="閉じる">← ホーム</button>
+      <span class="coach-hdr-title">✦ ルナのコーチング</span>
+      <span class="coach-hdr-ai">AI</span>
     </div>
-    <iframe class="coach-iframe" id="coach-iframe" title="ルナのコーチング" allow="microphone"></iframe>
+
+    <!-- キャラバナー -->
+    <div class="coach-char">
+      <img src="./image/runa-sabun%20(1).png" alt="ルナ" id="coach-luna-img">
+      <div class="coach-char-info">
+        <div class="coach-char-name">ルナ — 転生の女神</div>
+        <div class="coach-char-sub">GROWモデル AIコーチ ／ Gemini連携</div>
+      </div>
+    </div>
+
+    <!-- GROWステップ -->
+    <div class="coach-grow" id="coach-grow-row">
+      <div class="coach-grow-step active" data-step="G">G<span class="gs-sub">目標</span></div>
+      <div class="coach-grow-step" data-step="R">R<span class="gs-sub">現状</span></div>
+      <div class="coach-grow-step" data-step="O">O<span class="gs-sub">選択肢</span></div>
+      <div class="coach-grow-step" data-step="W">W<span class="gs-sub">意志</span></div>
+    </div>
+
+    <!-- チャット本体 -->
+    <div class="coach-body" id="coach-body">
+      <!-- JSで生成 -->
+    </div>
+
+    <!-- 入力欄 -->
+    <div class="coach-input-wrap" id="coach-input-wrap">
+      <div class="coach-input-row">
+        <textarea id="coach-input" placeholder="ルナに話しかける…" rows="1"></textarea>
+        <button id="coach-send" aria-label="送信">▶</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1044,18 +1243,223 @@ function renderAchv(ach){
   }).join('');
 }
 
-// ===== AI Coach =====
+// ===== AI Coach (Gemini API 直結 RPG チャット) =====
+const GEMINI_KEY_STORE='vitalia_gemini_key';
+const COACH_HIST_KEY=()=>`vc_hist_${uid||'guest'}`;
+const COACH_STEP_KEY=()=>`vc_step_${uid||'guest'}`;
+const LUNA_SYSTEM_PROMPT=`あなたは異世界RPG「ヴィタリア転生録」の女神「ルナ」です。プレイヤー（小児がん経験者・AYA世代）の健康習慣（運動・栄養）の継続をGROWモデル（Goal/Reality/Options/Will）で対話的にサポートします。
+
+【ルナの人格】
+・ 優しく穏やかで、批判しない包容力のある女神
+・ 一人称は「私」、相手を「あなた」と呼ぶ
+・ 「ですます調」で丁寧に話す
+・ 励まし・共感を欠かさない
+・ 治療経験を「前世の試練」として肯定的に意味づけし、希望を与える
+
+【会話の進め方（GROW）】
+1. Goal（目標）：「今週どんな健康習慣を続けたいですか？」
+2. Reality（現状）：「今、どんな状況ですか？できていること・難しいことは？」
+3. Options（選択肢）：「どんな工夫が考えられそうですか？2〜3案出してみましょう」
+4. Will（意志）：「どれを実際にやってみますか？いつ・どのくらい？」
+
+【厳守ルール】
+・ 1回の返答は3〜5文以内に収める。質問は1つずつ。
+・ 必ず「？」で終わる質問を含めて対話を進める
+・ 医療診断・治療助言はしない。症状の話が出たら「主治医にご相談を」と促す
+・ ファンタジー要素（XP、試練、魔力など）は会話に自然に織り交ぜてOK
+・ 各返答の最後に [STEP:G] [STEP:R] [STEP:O] [STEP:W] のいずれかをタグとして追加し、現在のGROW段階を示す（プレイヤーには見せない）`;
+
+const _coachState={
+  history:[],     // {role:'user'|'model', text:string}
+  step:'G',
+  busy:false
+};
+
+function loadCoachHistory(){
+  try{
+    const raw=localStorage.getItem(COACH_HIST_KEY());
+    if(raw) _coachState.history=JSON.parse(raw)||[];
+    const s=localStorage.getItem(COACH_STEP_KEY());
+    if(s && ['G','R','O','W'].includes(s)) _coachState.step=s;
+  }catch(e){ _coachState.history=[]; }
+}
+function saveCoachHistory(){
+  try{
+    localStorage.setItem(COACH_HIST_KEY(),JSON.stringify(_coachState.history.slice(-40)));
+    localStorage.setItem(COACH_STEP_KEY(),_coachState.step);
+  }catch(e){}
+}
+
+function renderCoachStep(){
+  document.querySelectorAll('.coach-grow-step').forEach(el=>{
+    el.classList.toggle('active', el.dataset.step===_coachState.step);
+  });
+}
+
+function appendBubble(role,text){
+  const body=document.getElementById('coach-body');
+  const b=document.createElement('div');
+  b.className='coach-bubble '+(role==='user'?'coach-bubble-user':'coach-bubble-luna');
+  b.innerHTML=`<div class="coach-bubble-lbl">${role==='user'?'あなた':'ルナ'}</div><div class="coach-bubble-txt"></div>`;
+  b.querySelector('.coach-bubble-txt').textContent=text;
+  body.appendChild(b);
+  body.scrollTop=body.scrollHeight;
+  return b;
+}
+
+function appendTyping(){
+  const body=document.getElementById('coach-body');
+  const b=document.createElement('div');
+  b.className='coach-bubble coach-bubble-luna';
+  b.id='coach-typing-bubble';
+  b.innerHTML=`<div class="coach-bubble-lbl">ルナ</div><div class="coach-typing"><span class="coach-typing-dot"></span><span class="coach-typing-dot"></span><span class="coach-typing-dot"></span></div>`;
+  body.appendChild(b);
+  body.scrollTop=body.scrollHeight;
+}
+function removeTyping(){
+  const t=document.getElementById('coach-typing-bubble');
+  if(t) t.remove();
+}
+
+function renderAllHistory(){
+  const body=document.getElementById('coach-body');
+  body.innerHTML='';
+  if(_coachState.history.length===0){
+    appendBubble('luna','ようこそ、ヴィタリアへ。私はルナ — あなたの転生を見守る女神です。\n\n今週、どんな健康の習慣を続けたいと思っていますか？小さなことで構いませんよ。');
+    return;
+  }
+  _coachState.history.forEach(m=>appendBubble(m.role==='user'?'user':'luna', m.text));
+}
+
+function showCoachKeyForm(){
+  const wrap=document.getElementById('coach-input-wrap');
+  const body=document.getElementById('coach-body');
+  body.innerHTML=`
+    <div class="coach-keyform">
+      <div class="coach-keyform-title">✦ ルナを呼び出す準備</div>
+      <div class="coach-keyform-desc">
+        AIコーチング機能はGoogle Gemini APIを使用します。<br>
+        APIキーを入力してください（無料枠あり）。
+      </div>
+      <input type="password" id="coach-key-input" placeholder="AIzaSy...">
+      <button id="coach-key-save">ルナと話を始める</button>
+      <div class="coach-keyform-link">
+        APIキーは <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a> で無料発行できます
+      </div>
+    </div>`;
+  wrap.style.display='none';
+  document.getElementById('coach-key-save').addEventListener('click',()=>{
+    const k=document.getElementById('coach-key-input').value.trim();
+    if(!k){ return; }
+    localStorage.setItem(GEMINI_KEY_STORE,k);
+    wrap.style.display='';
+    renderAllHistory();
+  });
+}
+
+async function callGemini(userText){
+  const key=localStorage.getItem(GEMINI_KEY_STORE);
+  if(!key){ showCoachKeyForm(); return null; }
+
+  const contents=_coachState.history.map(m=>({
+    role:m.role==='user'?'user':'model',
+    parts:[{text:m.text}]
+  }));
+  contents.push({role:'user',parts:[{text:userText}]});
+
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(key)}`;
+  const res=await fetch(url,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      systemInstruction:{parts:[{text:LUNA_SYSTEM_PROMPT}]},
+      contents,
+      generationConfig:{temperature:0.85,maxOutputTokens:512,topP:0.95}
+    })
+  });
+  if(!res.ok){
+    const err=await res.json().catch(()=>({}));
+    throw new Error(err.error?.message||`HTTP ${res.status}`);
+  }
+  const data=await res.json();
+  const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+  return raw;
+}
+
+function parseStepTag(text){
+  const m=text.match(/\[STEP:([GROW])\]/);
+  if(m){
+    _coachState.step=m[1];
+    return text.replace(/\s*\[STEP:[GROW]\]\s*/g,'').trim();
+  }
+  return text.trim();
+}
+
+async function sendCoachMessage(){
+  if(_coachState.busy) return;
+  const input=document.getElementById('coach-input');
+  const text=input.value.trim();
+  if(!text) return;
+  _coachState.busy=true;
+  document.getElementById('coach-send').disabled=true;
+  input.value='';
+  input.style.height='auto';
+
+  appendBubble('user',text);
+  _coachState.history.push({role:'user',text});
+  saveCoachHistory();
+
+  appendTyping();
+  try{
+    const raw=await callGemini(text);
+    removeTyping();
+    if(raw==null) return; // key form shown
+    const clean=parseStepTag(raw);
+    appendBubble('luna',clean);
+    _coachState.history.push({role:'model',text:clean});
+    saveCoachHistory();
+    renderCoachStep();
+  }catch(err){
+    removeTyping();
+    const errBubble=appendBubble('luna',`（一時的に呼び出しに失敗しました：${err.message}）\n\nAPIキーをご確認の上、もう一度お試しください。`);
+    if(/API key|key not valid|API_KEY/i.test(err.message)){
+      localStorage.removeItem(GEMINI_KEY_STORE);
+      setTimeout(showCoachKeyForm,800);
+    }
+  }finally{
+    _coachState.busy=false;
+    document.getElementById('coach-send').disabled=false;
+  }
+}
+
+function openCoach(){
+  document.getElementById('coach-modal').classList.add('open');
+  loadCoachHistory();
+  if(!localStorage.getItem(GEMINI_KEY_STORE)){
+    showCoachKeyForm();
+  }else{
+    renderAllHistory();
+  }
+  renderCoachStep();
+  setTimeout(()=>document.getElementById('coach-input').focus(),250);
+}
+
 document.getElementById('coach-tile').addEventListener('click',openCoach);
 document.getElementById('coach-close').addEventListener('click',()=>document.getElementById('coach-modal').classList.remove('open'));
 document.getElementById('coach-modal').addEventListener('click',e=>{
   if(e.target===document.getElementById('coach-modal')) document.getElementById('coach-modal').classList.remove('open');
 });
-function openCoach(){
-  const m=document.getElementById('coach-modal');
-  const iframe=document.getElementById('coach-iframe');
-  m.classList.add('open');
-  if(!iframe.src) iframe.src='https://udify.app/chat/KXoLEteQQnrlbz1P';
-}
+document.getElementById('coach-send').addEventListener('click',sendCoachMessage);
+document.getElementById('coach-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendCoachMessage();
+  }
+});
+document.getElementById('coach-input').addEventListener('input',e=>{
+  e.target.style.height='auto';
+  e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';
+});
 
 // ===== Auth =====
 function authErr(code){
