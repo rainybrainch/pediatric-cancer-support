@@ -513,6 +513,37 @@ body::before{
   font-size:.82rem;font-weight:700;cursor:pointer;margin-top:8px;
 }
 
+/* ========== 今日のクイズバナー ========== */
+.quiz-banner{
+  background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(201,168,76,.08));
+  border:1px solid rgba(78,201,138,.3);border-radius:14px;
+  padding:14px 16px;position:relative;overflow:hidden;
+}
+.quiz-banner.done{opacity:.55;}
+.quiz-banner::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 100% 0%,rgba(78,201,138,.1) 0%,transparent 60%);
+}
+.qb-head{display:flex;align-items:center;gap:8px;font-size:.65rem;letter-spacing:.12em;color:rgba(168,232,192,.7);font-weight:700;margin-bottom:8px;text-transform:uppercase;position:relative;z-index:1;}
+.qb-q{font-family:'Noto Serif JP',serif;font-size:.92rem;color:#e8f4ec;line-height:1.55;margin-bottom:12px;position:relative;z-index:1;font-weight:700;}
+.qb-options{display:flex;flex-direction:column;gap:6px;position:relative;z-index:1;}
+.qb-opt{
+  background:rgba(0,0,0,.25);border:1px solid rgba(78,201,138,.18);
+  border-radius:10px;padding:9px 12px;
+  color:rgba(220,235,225,.85);font-family:inherit;font-size:.78rem;
+  cursor:pointer;text-align:left;transition:all .2s;
+}
+.qb-opt:hover{background:rgba(78,201,138,.1);border-color:rgba(78,201,138,.4);}
+.qb-opt.correct{background:rgba(78,201,138,.2);border-color:rgba(78,201,138,.6);color:#a8e8c0;font-weight:700;}
+.qb-opt.wrong{background:rgba(224,92,92,.1);border-color:rgba(224,92,92,.4);color:#f0a0a0;}
+.qb-explain{
+  margin-top:10px;padding:10px 12px;
+  background:rgba(255,255,255,.04);border-left:3px solid rgba(78,201,138,.5);
+  border-radius:6px;font-size:.72rem;color:rgba(200,220,210,.8);line-height:1.7;
+  position:relative;z-index:1;display:none;
+}
+.qb-explain.show{display:block;animation:fadeIn .3s ease both;}
+
 /* ========== 冒険ステータス バナー ========== */
 .adv-banner{
   display:flex;align-items:center;gap:12px;
@@ -1220,6 +1251,14 @@ body::before{
       </div>
     </div>
 
+    <!-- 今日のクイズ -->
+    <div class="quiz-banner" id="quiz-banner">
+      <div class="qb-head"><span>🌱</span><span>今日のヘルスクイズ — 正解で +10XP</span></div>
+      <div class="qb-q" id="qb-q">…</div>
+      <div class="qb-options" id="qb-options"></div>
+      <div class="qb-explain" id="qb-explain"></div>
+    </div>
+
     <!-- 冒険ステータス -->
     <a href="./adventure.html" class="adv-banner" id="adv-banner" style="display:none;">
       <div class="adv-banner-icon">
@@ -1663,6 +1702,12 @@ function updateUI(){
 
   // 実績バッジ
   renderAchv(d.allAch);
+
+  // ヘルシーストリーク評価（魚・大豆・体重・トリプル達成）
+  evaluateHealthyStreaks();
+
+  // 今日のヘルスクイズ
+  renderDailyQuiz();
 
   // 冒険ステータス バナー
   try{
@@ -2372,6 +2417,166 @@ document.getElementById('sm-close').addEventListener('click',()=>{
 document.getElementById('story-modal').addEventListener('click',e=>{
   if(e.target.id==='story-modal') e.target.classList.remove('open');
 });
+
+// ===== 今日のヘルスクイズ =====
+const QUIZZES=[
+  {q:'がん経験者の運動推奨量は週何分？', opts:['週60分','週150分','週300分'], ans:1,
+   ex:'WHO/ACS推奨は週150分の中強度運動。散歩・買い物などの日常活動も含まれます。'},
+  {q:'がん経験後の食事で重要なのは？', opts:['プロテインだけ多く','野菜・果物・全粒穀物・魚','糖質を完全カット'], ans:1,
+   ex:'ACSは「野菜・果物・全粒穀物・魚」中心の食事を推奨。バランスが鍵です。'},
+  {q:'青魚（さば・いわし等）に多い栄養素は？', opts:['カルシウム','DHA・EPA','ビタミンC'], ans:1,
+   ex:'青魚のDHA・EPAは脳機能と心血管の健康に良いとされ、週2回が目安です。'},
+  {q:'治療後の筋肉量低下を防ぐには？', opts:['完全休養','たんぱく質を毎食','糖質を増やす'], ans:1,
+   ex:'良質なたんぱく質（魚・大豆・肉・卵）を毎食摂ると筋肉維持に役立ちます。'},
+  {q:'ストレス軽減に効果的なのは？', opts:['完璧主義','他人と比較する','深呼吸と話を聞いてもらう'], ans:2,
+   ex:'感情を言葉にして共有することで、扁桃体の活動が低下しストレスが減ります。'},
+  {q:'1日に必要な野菜量の目安は？', opts:['100g','350g','1kg'], ans:1,
+   ex:'厚労省「健康日本21」では1日350gの野菜を推奨しています。'},
+  {q:'睡眠不足が健康に与える影響は？', opts:['影響なし','免疫低下・気分変動','体重減少'], ans:1,
+   ex:'睡眠不足は免疫機能を低下させ、気分や集中力にも悪影響します。7-8時間が目安。'},
+  {q:'運動を習慣化するコツは？', opts:['一気に大量に','5分でも毎日','週1日だけ激しく'], ans:1,
+   ex:'継続が最大の効果。5分でも毎日続けることで脳が「習慣」と認識します。'},
+  {q:'大豆製品（豆腐・納豆）の特徴は？', opts:['動物性たんぱく質','植物性たんぱく+イソフラボン','糖質が多い'], ans:1,
+   ex:'大豆は植物性たんぱく質と機能性成分（イソフラボン等）の宝庫。安価で続けやすい。'},
+  {q:'AIコーチング（GROWモデル）の利点は？', opts:['答えを教えてもらえる','自分で気づき行動を選べる','責任を肩代わりしてくれる'], ans:1,
+   ex:'GROWモデルは「自分で気づき自分で決める」プロセス。自己決定が継続を生みます。'},
+  {q:'体重測定の頻度として適切なのは？', opts:['毎時間','週1〜2回','年1回'], ans:1,
+   ex:'毎日測ると振れ幅にストレスが。週1〜2回・同じ時間帯・条件で測るのが最適。'},
+  {q:'晩期合併症リスクを下げるには？', opts:['寝てるだけ','運動・栄養・体重管理の継続','サプリ大量摂取'], ans:1,
+   ex:'運動・栄養・体重管理を組み合わせた継続がリスク低減に最も効果的です。'},
+];
+function renderDailyQuiz(){
+  const banner=document.getElementById('quiz-banner');
+  if(!banner) return;
+  const today=new Date().toISOString().slice(0,10);
+  const seenKey=`vh_quiz_${uid}_${today}`;
+  const dailyHash=parseInt(today.replace(/-/g,''),10);
+  const idx=dailyHash%QUIZZES.length;
+  const q=QUIZZES[idx];
+  document.getElementById('qb-q').textContent=q.q;
+  const opts=document.getElementById('qb-options');
+  opts.innerHTML='';
+  const explain=document.getElementById('qb-explain');
+  explain.classList.remove('show');
+  const alreadyDone=localStorage.getItem(seenKey);
+  if(alreadyDone){
+    banner.classList.add('done');
+  } else {
+    banner.classList.remove('done');
+  }
+  q.opts.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.className='qb-opt';
+    b.textContent=op;
+    if(alreadyDone){
+      b.disabled=true;
+      if(i===q.ans) b.classList.add('correct');
+    } else {
+      b.addEventListener('click',()=>{
+        opts.querySelectorAll('.qb-opt').forEach(x=>x.disabled=true);
+        if(i===q.ans){
+          b.classList.add('correct');
+          // +10XP（コーチXPに加算）
+          try{
+            const wk=weekKey();
+            const xpKey=`vc_xp_${uid}_${wk}`;
+            const cur=parseInt(localStorage.getItem(xpKey)||'0',10);
+            localStorage.setItem(xpKey, String(cur+10));
+          }catch(e){}
+        } else {
+          b.classList.add('wrong');
+          opts.querySelectorAll('.qb-opt')[q.ans].classList.add('correct');
+        }
+        try{ localStorage.setItem(seenKey, i===q.ans?'correct':'wrong'); }catch(e){}
+        explain.textContent='💡 '+q.ex;
+        explain.classList.add('show');
+        banner.classList.add('done');
+        if(typeof updateUI==='function') setTimeout(updateUI, 800);
+      });
+    }
+    opts.appendChild(b);
+  });
+  if(alreadyDone){
+    explain.textContent='💡 '+q.ex;
+    explain.classList.add('show');
+  }
+}
+
+// ===== ヘルシーストリーク（魚2回・大豆・体重・コンボ） =====
+function evaluateHealthyStreaks(){
+  if(!uid||uid==='guest') return;
+  const wk=weekKey();
+  const seenKey=`vh_streak_seen_${uid}_${wk}`;
+  let seen={};
+  try{ seen=JSON.parse(localStorage.getItem(seenKey)||'{}'); }catch(e){}
+
+  let bonusXp=0;
+  let unlocked=[];
+
+  // 🐟 魚 週2回以上 → +50XP
+  let fishCnt=0;
+  try{ fishCnt=parseInt(localStorage.getItem(`vn_fish_${uid}_${wk}`)||'0',10); }catch(e){}
+  if(fishCnt>=2 && !seen.fish_week){
+    bonusXp+=50; seen.fish_week=true;
+    unlocked.push('🐟 魚の達人 +50XP');
+  }
+
+  // 🌱 大豆 週2回以上 → +30XP
+  let soyCnt=0;
+  try{ soyCnt=parseInt(localStorage.getItem(`vn_soy_${uid}_${wk}`)||'0',10); }catch(e){}
+  if(soyCnt>=2 && !seen.soy_week){
+    bonusXp+=30; seen.soy_week=true;
+    unlocked.push('🌱 大豆の使い手 +30XP');
+  }
+
+  // ⚖ 体重測定 週1回以上 → +20XP
+  let weightThisWeek=false;
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith(`vw_${uid}_`) && k.includes(wk)){ weightThisWeek=true; break; }
+    }
+  }catch(e){}
+  if(weightThisWeek && !seen.weight_week){
+    bonusXp+=20; seen.weight_week=true;
+    unlocked.push('⚖ 体重チェッカー +20XP');
+  }
+
+  // ✨ 1週間で運動・栄養・対話の3カテゴリ全てに記録あり → +30XP/週
+  let qActive=false, nActive=false, cActive=false;
+  try{
+    const q=JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}');
+    if((q.score||0)>0) qActive=true;
+  }catch(e){}
+  try{
+    const n=JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
+    if((n.score||0)>0) nActive=true;
+  }catch(e){}
+  try{
+    const ch=JSON.parse(localStorage.getItem(`vc_hist_${uid}`)||'[]');
+    if(ch.length>0) cActive=true;
+  }catch(e){}
+  if(qActive&&nActive&&cActive && !seen.combo_week){
+    bonusXp+=30; seen.combo_week=true;
+    unlocked.push('✨ トリプル達成 +30XP');
+  }
+
+  if(bonusXp>0){
+    // 週次のコーチXPに加算（既存のXP系統に統合）
+    try{
+      const xpKey=`vc_xp_${uid}_${wk}`;
+      const cur=parseInt(localStorage.getItem(xpKey)||'0',10);
+      localStorage.setItem(xpKey, String(cur+bonusXp));
+    }catch(e){}
+    try{ localStorage.setItem(seenKey, JSON.stringify(seen)); }catch(e){}
+    // トースト通知（コーチモーダルが開いてれば表示）
+    if(typeof showCoachToast==='function' && unlocked.length){
+      setTimeout(()=>showCoachToast('🏆 ヘルシーストリーク：' + unlocked.join(' / ')), 600);
+    }
+    // ホーム画面に通知（次回の週次サマリーで反映される）
+  }
+  return {bonusXp, unlocked, fishCnt, soyCnt, weightThisWeek};
+}
 
 // ===== 週次サマリーモーダル =====
 function prevWeekKey(){

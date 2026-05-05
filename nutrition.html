@@ -286,6 +286,30 @@ body::before{
 .fc-protein .f-unit{color:rgba(224,138,60,.7);}
 .fc-protein .f-count{background:var(--atk);}
 
+/* 推奨たんぱく質（魚・大豆）の特別バッジ */
+.f-card{position:relative;}
+.f-recommend{
+  position:absolute;top:-6px;right:-6px;
+  background:linear-gradient(135deg,#f0d48a,#c9a84c);
+  color:#1a1200;font-size:.5rem;font-weight:900;
+  padding:2px 6px;border-radius:99px;letter-spacing:.04em;
+  box-shadow:0 2px 6px rgba(201,168,76,.4);
+  z-index:2;
+  pointer-events:none;
+}
+.fc-protein.is-fish{
+  border-color:rgba(92,180,240,.4)!important;
+  background:linear-gradient(135deg,rgba(92,180,240,.06),rgba(224,138,60,.04));
+}
+.fc-protein.is-fish:hover{border-color:rgba(92,180,240,.7)!important;background:linear-gradient(135deg,rgba(92,180,240,.12),rgba(224,138,60,.06));}
+.fc-protein.is-fish .f-recommend{background:linear-gradient(135deg,#a8d8ff,#5ca0d8);color:#0a2840;}
+.fc-protein.is-soy{
+  border-color:rgba(78,201,138,.4)!important;
+  background:linear-gradient(135deg,rgba(78,201,138,.06),rgba(224,138,60,.04));
+}
+.fc-protein.is-soy:hover{border-color:rgba(78,201,138,.7)!important;background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(224,138,60,.06));}
+.fc-protein.is-soy .f-recommend{background:linear-gradient(135deg,#a8e8c0,#4ec98a);color:#0a3018;}
+
 .fc-grain{border-color:rgba(78,201,138,.22);}
 .fc-grain:hover{border-color:rgba(78,201,138,.55);background:rgba(78,201,138,.07);box-shadow:0 4px 14px rgba(78,201,138,.1);}
 .fc-grain .f-unit{color:rgba(78,201,138,.7);}
@@ -640,6 +664,53 @@ body::before{
 }
 .food-cam-btn:hover{background:rgba(92,140,212,.3);}
 
+/* ===== セラのおすすめレシピバナー ===== */
+.sera-recipe-banner{
+  background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(92,180,240,.08));
+  border:1px solid rgba(78,201,138,.3);
+  border-radius:14px;padding:14px 16px;margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.sera-recipe-banner::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 100% 0%,rgba(78,201,138,.1) 0%,transparent 60%);
+}
+.srb-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1;}
+.srb-face{
+  width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(78,201,138,.5);
+  object-fit:cover;object-position:center 16%;
+  box-shadow:0 0 12px rgba(78,201,138,.2);
+}
+.srb-title-wrap{flex:1;min-width:0;}
+.srb-title-lbl{font-size:.55rem;letter-spacing:.14em;color:rgba(168,232,192,.55);font-weight:700;text-transform:uppercase;}
+.srb-title{font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;color:#a8e8c0;}
+.srb-card{
+  display:flex;align-items:center;gap:11px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(78,201,138,.18);
+  border-radius:11px;padding:11px 13px;
+  position:relative;z-index:1;
+}
+.srb-icon{font-size:2rem;line-height:1;flex-shrink:0;}
+.srb-info{flex:1;min-width:0;}
+.srb-name{font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:700;color:#e8f4ec;margin-bottom:2px;}
+.srb-xp{font-size:.66rem;color:#f0d48a;font-weight:900;letter-spacing:.04em;}
+.srb-note{font-size:.6rem;color:rgba(200,220,210,.6);margin-top:2px;}
+.srb-add{
+  background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.2));
+  border:1px solid rgba(78,201,138,.5);
+  border-radius:10px;padding:8px 14px;
+  color:#a8e8c0;font-family:inherit;font-size:.72rem;font-weight:700;
+  cursor:pointer;flex-shrink:0;transition:all .2s;white-space:nowrap;
+}
+.srb-add:hover{background:linear-gradient(135deg,rgba(78,201,138,.55),rgba(78,201,138,.3));transform:translateY(-1px);}
+.srb-quote{
+  font-size:.66rem;color:rgba(168,232,192,.55);font-style:italic;
+  margin-top:9px;padding-top:9px;border-top:1px solid rgba(78,201,138,.12);
+  position:relative;z-index:1;
+}
+
 /* ===== 写真CTAバナー ===== */
 .photo-cta{
   display:flex;align-items:center;gap:14px;width:100%;
@@ -893,6 +964,27 @@ setTimeout(function(){
         <span class="photo-cta-arrow">→</span>
       </button>
 
+      <!-- 🌿 セラの今日のおすすめ -->
+      <div class="sera-recipe-banner" id="sera-recipe-banner">
+        <div class="srb-header">
+          <img src="./image/sera-sabun%20(1).png" alt="セラ" class="srb-face">
+          <div class="srb-title-wrap">
+            <div class="srb-title-lbl">— Sera's Recipe of the Day —</div>
+            <div class="srb-title">セラのおすすめ料理</div>
+          </div>
+        </div>
+        <div class="srb-card" id="srb-card">
+          <span class="srb-icon" id="srb-icon">🐟</span>
+          <div class="srb-info">
+            <div class="srb-name" id="srb-name">読み込み中…</div>
+            <div class="srb-xp" id="srb-xp">+0XP</div>
+            <div class="srb-note" id="srb-note">魚と野菜のバランス◎</div>
+          </div>
+          <button class="srb-add" id="srb-add">+ 記録</button>
+        </div>
+        <div class="srb-quote" id="srb-quote">「魚は週2回が目標です。今日いかがですか？」</div>
+      </div>
+
       <!-- 食材検索 -->
       <div class="food-search-wrap">
         <span class="food-search-icon">🔍</span>
@@ -1065,6 +1157,23 @@ setTimeout(function(){
           <div class="ls-bar"><div class="ls-fill ls-fill-q" id="ls-q-fill" style="width:0%"></div></div>
           <span class="ls-val" id="ls-q-val">未記録</span>
         </div>
+        <!-- 魚・大豆 推奨カウンタ -->
+        <div style="display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);">
+          <div style="flex:1;background:rgba(92,180,240,.08);border:1px solid rgba(92,180,240,.25);border-radius:8px;padding:7px 10px;display:flex;align-items:center;gap:7px;">
+            <span style="font-size:1rem;">🐟</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:.55rem;color:rgba(168,216,255,.6);font-weight:700;letter-spacing:.04em;">魚 (週2回推奨)</div>
+              <div style="font-size:.85rem;font-weight:900;color:#a8d8ff;line-height:1;"><span id="cnt-fish">0</span><span style="font-size:.6rem;font-weight:400;color:rgba(168,216,255,.5);">食</span></div>
+            </div>
+          </div>
+          <div style="flex:1;background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.25);border-radius:8px;padding:7px 10px;display:flex;align-items:center;gap:7px;">
+            <span style="font-size:1rem;">🌱</span>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:.55rem;color:rgba(168,232,192,.6);font-weight:700;letter-spacing:.04em;">大豆製品</div>
+              <div style="font-size:.85rem;font-weight:900;color:#a8e8c0;line-height:1;"><span id="cnt-soy">0</span><span style="font-size:.6rem;font-weight:400;color:rgba(168,232,192,.5);">食</span></div>
+            </div>
+          </div>
+        </div>
         <a href="./quest.html" class="ls-link">運動クエストへ →</a>
       </div>
 
@@ -1228,11 +1337,20 @@ const FOODS = {
     {name:'キウイ',icon:'🥝',xp:14},{name:'スイカ',icon:'🍉',xp:10},
   ],
   protein:[
-    {name:'豆腐・大豆',icon:'🫘',xp:18},{name:'納豆',icon:'🫘',xp:18},
-    {name:'さけ',icon:'🐟',xp:20},{name:'さば',icon:'🐟',xp:20},
-    {name:'まぐろ',icon:'🐠',xp:18},{name:'えび',icon:'🦐',xp:15},
-    {name:'鶏むね肉',icon:'🍗',xp:18},{name:'ゆで卵',icon:'🥚',xp:12},
-    {name:'ヨーグルト',icon:'🥛',xp:10},{name:'チーズ',icon:'🧀',xp:10},
+    // 🌱 大豆製品（高XP・推奨）
+    {name:'豆腐・大豆',icon:'🫘',xp:22,subtype:'soy'},
+    {name:'納豆',icon:'🫘',xp:22,subtype:'soy'},
+    // 🐟 魚介類（最高XP・最優先）
+    {name:'さけ',icon:'🐟',xp:25,subtype:'fish'},
+    {name:'さば',icon:'🐟',xp:25,subtype:'fish'},
+    {name:'まぐろ',icon:'🐠',xp:24,subtype:'fish'},
+    {name:'いわし',icon:'🐟',xp:25,subtype:'fish'},
+    {name:'えび',icon:'🦐',xp:18,subtype:'fish'},
+    // その他たんぱく質
+    {name:'鶏むね肉',icon:'🍗',xp:15},
+    {name:'ゆで卵',icon:'🥚',xp:12},
+    {name:'ヨーグルト',icon:'🥛',xp:10},
+    {name:'チーズ',icon:'🧀',xp:10},
   ],
   grain:[
     {name:'玄米ご飯',icon:'🍚',xp:15},{name:'全粒粉パン',icon:'🍞',xp:14},
@@ -1839,15 +1957,21 @@ function buildBoard(id, items, cat, cls){
   items.forEach(f=>{
     const c=document.createElement('div');
     c.className=`food-card ${cls}`;
+    if(f.subtype==='fish') c.classList.add('is-fish');
+    if(f.subtype==='soy')  c.classList.add('is-soy');
     c.dataset.name=f.name;
+    const recommend = f.subtype==='fish' ? `<span class="f-recommend">🐟 推奨</span>`
+                    : f.subtype==='soy'  ? `<span class="f-recommend">🌱 推奨</span>`
+                    : '';
     c.innerHTML=`
+      ${recommend}
       <span class="f-icon">${f.icon}</span>
       <span class="f-name">${f.name}</span>
       <span class="f-unit">1${cat==='veg'||cat==='fruit'?'皿':'食'}</span>
       <span class="f-count">0</span>
       <button class="f-dec">−</button>`;
     c.addEventListener('click',(e)=>{
-      sessions.push({name:f.name,icon:f.icon,cat,xp:f.xp});
+      sessions.push({name:f.name,icon:f.icon,cat,xp:f.xp,subtype:f.subtype||null});
       const color=catColor[cat];
       const label=f.xp>=0 ? `+${f.xp}XP` : `${f.xp}XP`;
       spawnPlus(e, label, color);
@@ -2402,6 +2526,7 @@ onAuthStateChanged(auth,user=>{
     buildBoard('limit-grid',  FOODS.limit,  'limit',  'fc-limit');
     buildMenuBoard();
     loadFoodsDB();
+    renderSeraRecipe();
     loadWeek(); renderHistory();
     renderAch();
     renderStreak(getStreak());
@@ -2426,11 +2551,29 @@ onAuthStateChanged(auth,user=>{
 // ===== 連動ステータス更新 =====
 function updateLinked(){
   const cnt={veg:0,fruit:0,protein:0,grain:0};
-  sessions.forEach(s=>{ if(cnt[s.cat]!==undefined) cnt[s.cat]++; });
-  const ns=Math.round(((cnt.veg)/21+(cnt.fruit)/10+(cnt.protein)/14+(cnt.grain)/14)*25);
+  let fishCnt=0, soyCnt=0;
+  sessions.forEach(s=>{
+    if(cnt[s.cat]!==undefined) cnt[s.cat]++;
+    if(s.subtype==='fish') fishCnt++;
+    if(s.subtype==='soy')  soyCnt++;
+  });
+  // 推奨たんぱく質ボーナス：魚は2倍カウント、大豆は1.5倍カウントで栄養スコアに寄与
+  const proteinScore = (cnt.protein - fishCnt - soyCnt) + fishCnt*2 + soyCnt*1.5;
+  const ns=Math.round(((cnt.veg)/21+(cnt.fruit)/10+(proteinScore)/14+(cnt.grain)/14)*25);
   const nPct=Math.min(100,ns*4);
   document.getElementById('ls-n-fill').style.width=nPct+'%';
   document.getElementById('ls-n-val').textContent=ns+'/25';
+  // 魚・大豆カウンタを localStorage にも記録（ストリーク判定用）
+  try{
+    const wk=weekKey();
+    localStorage.setItem(`vn_fish_${uid}_${wk}`, String(fishCnt));
+    localStorage.setItem(`vn_soy_${uid}_${wk}`, String(soyCnt));
+  }catch(e){}
+  // 画面に魚・大豆カウンタ表示（要素があれば）
+  const fishEl=document.getElementById('cnt-fish');
+  if(fishEl) fishEl.textContent=fishCnt;
+  const soyEl=document.getElementById('cnt-soy');
+  if(soyEl) soyEl.textContent=soyCnt;
   try{
     const raw=localStorage.getItem(`vq_${uid}_${weekKey()}`);
     if(raw){
@@ -2442,6 +2585,80 @@ function updateLinked(){
       document.getElementById('ls-q-val').textContent=qPct+'%';
     }
   }catch(e){}
+}
+
+// ===== セラのおすすめレシピ（毎日ローテーション） =====
+const SERA_RECIPES=[
+  {icon:'🐟', name:'鮭のホイル焼き', items:[
+    {name:'さけ',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'きのこ類',icon:'🍄',cat:'veg',xp:14},
+    {name:'たまねぎ',icon:'🧅',cat:'veg',xp:10},
+  ], note:'魚×野菜の黄金コンビ。バターでコクUP', quote:'「鮭はビタミンDも豊富。骨を強くしますよ」'},
+
+  {icon:'🍱', name:'豆腐ステーキ定食', items:[
+    {name:'豆腐・大豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'ほうれん草',icon:'🥬',cat:'veg',xp:15},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+  ], note:'良質な植物性たんぱくと鉄分', quote:'「大豆は安価で続けやすい強い味方です」'},
+
+  {icon:'🐟', name:'さばの味噌煮', items:[
+    {name:'さば',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'だいこん',icon:'🫚',cat:'veg',xp:8},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+  ], note:'青魚のDHAで脳と心を健やかに', quote:'「青魚は週2回、心の安定にも効きます」'},
+
+  {icon:'🥗', name:'納豆オクラサラダ', items:[
+    {name:'納豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'ブロッコリー',icon:'🥦',cat:'veg',xp:18},
+    {name:'トマト',icon:'🍅',cat:'veg',xp:12},
+  ], note:'ネバネバ食材で腸内環境を整える', quote:'「腸が整えば、免疫も整います」'},
+
+  {icon:'🐟', name:'まぐろの漬け丼', items:[
+    {name:'まぐろ',icon:'🐠',cat:'protein',xp:24,subtype:'fish'},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+    {name:'小松菜',icon:'🥬',cat:'veg',xp:15},
+  ], note:'良質なたんぱく質と鉄分のセット', quote:'「忙しい日は、丼1杯でも立派な栄養補給です」'},
+
+  {icon:'🥘', name:'いわしのつみれ汁', items:[
+    {name:'いわし',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+    {name:'だいこん',icon:'🫚',cat:'veg',xp:8},
+  ], note:'スープで栄養を逃さず吸収', quote:'「いわしは小骨ごとカルシウム源に」'},
+
+  {icon:'🍳', name:'鶏むね肉と野菜の蒸し物', items:[
+    {name:'鶏むね肉',icon:'🍗',cat:'protein',xp:15},
+    {name:'ブロッコリー',icon:'🥦',cat:'veg',xp:18},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+  ], note:'高たんぱく低脂質の優等生', quote:'「魚が苦手な日はこれで」'},
+];
+
+function renderSeraRecipe(){
+  const banner=document.getElementById('sera-recipe-banner');
+  if(!banner) return;
+  // 日替わりで選ぶ（日付ベース）
+  const day=Math.floor(Date.now()/86400000);
+  const idx=day%SERA_RECIPES.length;
+  const r=SERA_RECIPES[idx];
+  const totalXp=r.items.reduce((s,i)=>s+i.xp,0);
+
+  document.getElementById('srb-icon').textContent=r.icon;
+  document.getElementById('srb-name').textContent=r.name;
+  document.getElementById('srb-xp').textContent=`+${totalXp}XP（${r.items.length}品）`;
+  document.getElementById('srb-note').textContent=r.note;
+  document.getElementById('srb-quote').textContent=r.quote;
+
+  document.getElementById('srb-add').onclick=()=>{
+    r.items.forEach(it=>{
+      sessions.push({name:it.name,icon:it.icon,cat:it.cat,xp:it.xp,subtype:it.subtype||null});
+    });
+    if(typeof renderLog==='function') renderLog();
+    if(typeof updateUI==='function') updateUI();
+    // 記録した感を出すアニメーション
+    const card=document.getElementById('srb-card');
+    card.style.transition='transform .25s';
+    card.style.transform='scale(1.04)';
+    setTimeout(()=>{card.style.transform='';}, 250);
+  };
 }
 
 // ===== AI Coach: ホーム画面のルナチャットへ遷移 =====
