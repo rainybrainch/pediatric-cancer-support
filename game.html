@@ -1714,16 +1714,18 @@ function updateUI(){
     const advBanner=document.getElementById('adv-banner');
     if(advBanner){
       const ADV_CHAPTERS=[
-        {id:'prologue',title:'転生の章',img:'./image/runa-sabun%20(1).png',hp:0},
-        {id:'meeting',title:'仲間との出会い',img:'./image/kaito-sabun%20(1).png',hp:0},
-        {id:'sloth',title:'vs 泥の巨像・スロウス',img:'./image/A1-Photoroom.png',hp:200},
-        {id:'gluttony',title:'vs お菓子な魔女・グラト',img:'./image/A2-Photoroom.png',hp:250},
-        {id:'wrath',title:'vs 爆ぜる黒炎・イラ',img:'./image/A3-Photoroom.png',hp:250},
-        {id:'greed',title:'vs 黄金のガラクタ鬼',img:'./image/A4-Photoroom.png',hp:300},
-        {id:'pride',title:'vs 鏡の騎士・スペルビア',img:'./image/A5-Photoroom.png',hp:300},
-        {id:'envy',title:'vs 姿なき影・インヴィ',img:'./image/A6-Photoroom.png',hp:300},
-        {id:'lust',title:'vs 夜の誘惑・ルクス',img:'./image/A7-Photoroom.png',hp:250},
-        {id:'final',title:'vs 真の試練',img:'./image/A8-Photoroom.png',hp:500},
+        {id:'tutorial',title:'迷いの霧（チュートリアル）',img:'./image/pikuse-sabun%20(1).png'},
+        {id:'growth_kaito',title:'疲労の影（カイトと）',img:'./image/kaito-sabun%20(1).png'},
+        {id:'growth_sera',title:'枯渇の魔物（セラと）',img:'./image/sera-sabun%20(1).png'},
+        {id:'growth_luna',title:'孤独の幽霊（ルナと）',img:'./image/runa-sabun%20(1).png'},
+        {id:'sloth',title:'vs 怠惰・スロウス',img:'./image/A1-Photoroom.png'},
+        {id:'gluttony',title:'vs 暴食・グラト',img:'./image/A2-Photoroom.png'},
+        {id:'wrath',title:'vs 憤怒・イラ',img:'./image/A3-Photoroom.png'},
+        {id:'greed',title:'vs 強欲・ガラクタ鬼',img:'./image/A4-Photoroom.png'},
+        {id:'pride',title:'vs 傲慢・スペルビア',img:'./image/A5-Photoroom.png'},
+        {id:'envy',title:'vs 嫉妬・インヴィ',img:'./image/A6-Photoroom.png'},
+        {id:'lust',title:'vs 色欲・ルクス',img:'./image/A7-Photoroom.png'},
+        {id:'final',title:'vs 真の試練（最終）',img:'./image/A8-Photoroom.png'},
       ];
       const advState=JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
       const advCh=ADV_CHAPTERS[advState.chapterIdx]||ADV_CHAPTERS[0];
@@ -1732,8 +1734,8 @@ function updateUI(){
         document.getElementById('adv-banner-img').src=advCh.img;
         document.getElementById('adv-banner-ch').textContent=`Ch.${advState.chapterIdx+1}`;
         document.getElementById('adv-banner-name').textContent=advCh.title;
-        // 進捗バー：倒した数 / 8
-        const pct=Math.round((advState.defeated||[]).length/8*100);
+        // 進捗バー：倒した数 / 12
+        const pct=Math.round((advState.defeated||[]).length/12*100);
         document.getElementById('adv-banner-progress').style.width=pct+'%';
       }
     }

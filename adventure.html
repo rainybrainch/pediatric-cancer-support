@@ -96,30 +96,51 @@ body::before{
   color:#f0e8ff;margin-bottom:8px;letter-spacing:.04em;position:relative;z-index:1;
 }
 .chapter-narration{
-  font-size:.78rem;line-height:1.85;color:rgba(220,210,240,.78);
-  margin-bottom:14px;position:relative;z-index:1;
-  font-family:'Noto Serif JP',serif;
+  font-size:.7rem;line-height:1.7;color:rgba(180,170,210,.55);
+  margin-bottom:12px;position:relative;z-index:1;
+  font-family:'Noto Serif JP',serif;font-style:italic;
+  padding-left:10px;border-left:2px solid rgba(156,114,224,.2);
 }
-.chapter-narration em{color:#d8c0ff;font-style:normal;font-weight:700;}
+.chapter-narration em{color:rgba(216,192,255,.8);font-style:normal;font-weight:700;}
 
-/* ピクセのセリフ */
+/* ピクセのセリフ（メイン解説） */
 .pixe-bubble{
-  display:flex;align-items:flex-start;gap:11px;
-  background:rgba(78,201,138,.08);
-  border:1px solid rgba(78,201,138,.25);
-  border-radius:14px;padding:11px 14px;margin-top:12px;
+  display:flex;align-items:flex-start;gap:12px;
+  background:linear-gradient(135deg,rgba(78,201,138,.13),rgba(78,201,138,.05));
+  border:1.5px solid rgba(78,201,138,.35);
+  border-radius:16px;padding:14px 16px;margin-top:14px;
   position:relative;z-index:1;
+  box-shadow:0 4px 16px rgba(78,201,138,.08);
+}
+.pixe-bubble::before{
+  content:'';position:absolute;left:38px;top:-7px;
+  width:14px;height:14px;
+  background:rgba(78,201,138,.2);
+  border-left:1.5px solid rgba(78,201,138,.35);
+  border-top:1.5px solid rgba(78,201,138,.35);
+  transform:rotate(45deg);
 }
 .pixe-face{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;overflow:hidden;
-  border:1.5px solid rgba(78,201,138,.45);
-  box-shadow:0 0 12px rgba(78,201,138,.2);
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;overflow:hidden;
+  border:2px solid rgba(78,201,138,.55);
+  box-shadow:0 0 18px rgba(78,201,138,.25),0 0 32px rgba(78,201,138,.1);
   animation:float 3s ease-in-out infinite;
 }
 .pixe-face img{width:100%;height:100%;object-fit:cover;}
 .pixe-text{flex:1;min-width:0;}
-.pixe-name{font-size:.55rem;color:rgba(160,240,190,.7);font-weight:700;letter-spacing:.06em;margin-bottom:3px;}
-.pixe-msg{font-size:.78rem;color:rgba(220,235,225,.85);line-height:1.7;}
+.pixe-name{
+  font-size:.6rem;color:rgba(160,240,190,.85);font-weight:700;letter-spacing:.08em;
+  margin-bottom:4px;display:flex;align-items:center;gap:5px;
+}
+.pixe-name::after{
+  content:'記録係';font-size:.5rem;background:rgba(78,201,138,.18);color:#a8e8c0;
+  padding:1px 7px;border-radius:99px;font-weight:700;letter-spacing:.04em;
+}
+.pixe-msg{
+  font-size:.85rem;color:rgba(230,245,235,.92);line-height:1.85;
+  white-space:pre-line;
+}
+.pixe-msg em{color:#a8e8c0;font-style:normal;font-weight:700;}
 
 /* 敵バトルカード */
 .battle-card{
@@ -439,7 +460,7 @@ body::before{
       <div class="pixe-bubble">
         <div class="pixe-face"><img src="./image/pikuse-sabun%20(1).png" alt="ピクセ"></div>
         <div class="pixe-text">
-          <div class="pixe-name">ピクセ — 記録係の妖精</div>
+          <div class="pixe-name">🧚 ピクセ</div>
           <div class="pixe-msg" id="pixe-msg">…</div>
         </div>
       </div>
@@ -543,198 +564,106 @@ function weekKey(){
   return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
 }
 
-// ===== ステージ定義（雑魚2 + ボス1） =====
-// 各ステージの戦闘リストはJSで自動展開してCHAPTERSに変換
-const STAGES=[
-  // Stage 1: 怠惰の系譜
-  { id:'sloth', label:'怠惰の系譜', boss:{
-      id:'sloth', title:'第一の試練 — 怠惰の沼', hp:180, weakness:'運動',
-      img:'./image/A1-Photoroom.png',
-      stayVideo:'./image/A1stay.mp4', attackVideo:'./image/A1attack.mp4',
-      enemyName:'泥の巨像・スロウス',
-      enemyTag:'BOSS — SLOTH',
-      narration:`森の入口に、紫の泥でできた巨人が立ちはだかる。\n足元から重い波動が広がり、<em>「動きたくない…」</em>という声があなたの心に響く。`,
-      pixe:`「動くたびにスロウスにダメージが入るよ！運動が一番効くから！」`,
-      victory:`スロウスの泥が崩れ、奥の道が開けた。\n身体は確かに、少し軽くなっている気がする。` },
-    zako:[
-      {id:'z1_yawn',  emoji:'😴', name:'あくび妖精', hp:25, color:'#9c8aaa',
-       narration:'草むらの中、小さな霧の妖精があくびを撒いている。',
-       pixe:'「ちょっとした記録で吹き飛ばせるよ！何かやってみよう」'},
-      {id:'z1_lazy', emoji:'💤', name:'ぐず鬼', hp:35, color:'#7a6890',
-       narration:'「明日からやろう」と囁く小鬼が現れた。',
-       pixe:'「明日じゃなくて今日！1分でも記録すればOK」'},
-    ]},
-  // Stage 2: 暴食の系譜
-  { id:'gluttony', label:'暴食の系譜', boss:{
-      id:'gluttony', title:'第二の試練 — 甘い罠', hp:220, weakness:'魚・野菜・大豆',
-      img:'./image/A2-Photoroom.png',
-      stayVideo:'./image/A2stay.mp4', attackVideo:'./image/A2attack.mp4',
-      enemyName:'お菓子な魔女・グラト',
-      enemyTag:'BOSS — GLUTTONY',
-      narration:`深い森の中、お菓子と毒キノコでできた魔女が舞っていた。\n甘い香りが鼻をくすぐる。<em>「もっと食べて、楽になりなさい」</em>`,
-      pixe:`「魚と野菜が大の苦手！🐟と🌱で記録を増やそう」`,
-      victory:`グラトが甘い泡となって消える。\n食事の力 — 体を作る基本が、確かに自分の中にある。` },
-    zako:[
-      {id:'z2_candy',  emoji:'🍬', name:'飴玉スライム', hp:25, color:'#e090c0',
-       narration:'甘いものへの誘惑が形を持って現れた。',
-       pixe:'「野菜1皿でも撃退できるよ」'},
-      {id:'z2_fried', emoji:'🍟', name:'揚げ物トロル', hp:35, color:'#d8a060',
-       narration:'油の塊のような巨大なトロル。',
-       pixe:'「魚を1切れ食べたら倒せちゃう！」'},
-    ]},
-  // Stage 3: 憤怒の系譜
-  { id:'wrath', label:'憤怒の系譜', boss:{
-      id:'wrath', title:'第三の試練 — 黒い炎', hp:220, weakness:'ルナ対話',
-      img:'./image/A3-Photoroom.png',
-      stayVideo:'./image/A3stay.mp4', attackVideo:'./image/A3attack.mp4',
-      enemyName:'爆ぜる黒炎・イラ',
-      enemyTag:'BOSS — WRATH',
-      narration:`次の道で待っていたのは、燃え上がる獣。怒りで自らを焼き、周囲を焦土に変えていく。\n<em>「全てが憎い、全てが許せない」</em>`,
-      pixe:`「ルナと対話するのが一番効くよ。話すだけでイラが鎮まる」`,
-      victory:`黒い炎が静まり、清らかな水のせせらぎだけが残った。\n言葉にすれば、感情は形を変える。` },
-    zako:[
-      {id:'z3_spark', emoji:'⚡', name:'苛立ちの火花', hp:25, color:'#f08060',
-       narration:'些細な怒りを撒く火花が空を漂う。',
-       pixe:'「何でもいいから1記録すれば消えるよ」'},
-      {id:'z3_imp', emoji:'💢', name:'短気鬼', hp:35, color:'#e06850',
-       narration:'カッとなる感情が小鬼の姿で現れた。',
-       pixe:'「ルナと話すのがおすすめ！心が落ち着くよ」'},
-    ]},
-  // Stage 4: 強欲の系譜
-  { id:'greed', label:'強欲の系譜', boss:{
-      id:'greed', title:'第四の試練 — 黄金の山', hp:270, weakness:'継続記録（毎日コツコツ）',
-      img:'./image/A4-Photoroom.png',
-      stayVideo:'./image/A4stay.mp4', attackVideo:'./image/A4attack.mp4',
-      enemyName:'黄金のガラクタ鬼',
-      enemyTag:'BOSS — GREED',
-      narration:`坂の上に、黄金とガラクタを積み上げた巨大な鬼が君臨していた。\n<em>「もっとサプリを、もっと情報を、もっと金を…」</em>`,
-      pixe:`「派手な情報じゃなく、地道な記録が一番効く！」`,
-      victory:`黄金が砂となって流れ落ちる。\n本当に大切なものは、すでに自分の中にあった。` },
-    zako:[
-      {id:'z4_supp', emoji:'💊', name:'サプリ精', hp:25, color:'#c8b870',
-       narration:'怪しいサプリを勧める小さな精霊。',
-       pixe:'「シンプルな食事1回で十分！」'},
-      {id:'z4_cmp', emoji:'🪞', name:'比較ゴブリン', hp:35, color:'#a89860',
-       narration:'「あの人は◯◯してるよ」と比較を煽るゴブリン。',
-       pixe:'「先週の自分と比べたら？って考えると倒せるよ」'},
-    ]},
-  // Stage 5: 傲慢の系譜
-  { id:'pride', label:'傲慢の系譜', boss:{
-      id:'pride', title:'第五の試練 — 鏡の騎士', hp:270, weakness:'継続記録（休まず続ける）',
-      img:'./image/A5-Photoroom.png',
-      stayVideo:'./image/A5stay.mp4', attackVideo:'./image/A5attack.mp4',
-      enemyName:'鏡の騎士・スペルビア',
-      enemyTag:'BOSS — PRIDE',
-      narration:`湖のほとりに、鏡のような甲冑の騎士が立っていた。\n剣を交えるたびに、相手が自分の姿を映し出す。<em>「俺は完璧だ」</em>`,
-      pixe:`「無理しないで、コツコツ続けることが鍵だよ」`,
-      victory:`鏡が砕け、自分の本当の姿が水面に映る。\n慢心ではなく、淡々と続けることが力。` },
-    zako:[
-      {id:'z5_brag', emoji:'🦚', name:'自慢の小鬼', hp:25, color:'#a0a8d0',
-       narration:'自慢ばかりする孔雀のような小鬼。',
-       pixe:'「黙々と1記録するだけで黙るよ」'},
-      {id:'z5_over', emoji:'💪', name:'過信の影', hp:35, color:'#8090c0',
-       narration:'「自分は大丈夫」と過信を煽る影。',
-       pixe:'「無理しすぎず、ほどよく続けよう」'},
-    ]},
-  // Stage 6: 嫉妬の系譜
-  { id:'envy', label:'嫉妬の系譜', boss:{
-      id:'envy', title:'第六の試練 — 影と砂時計', hp:270, weakness:'ルナ対話',
-      img:'./image/A6-Photoroom.png',
-      stayVideo:'./image/A6stay.mp4', attackVideo:'./image/A6attack.mp4',
-      enemyName:'姿なき影・インヴィ',
-      enemyTag:'BOSS — ENVY',
-      narration:`霧の谷に、ボロ布をまとった影が砂時計を片手に佇む。\n<em>「お前は他の人より劣っている。もう遅い」</em>`,
-      pixe:`「比べる相手は、昨日の自分だけ。ルナとの対話が効くよ」`,
-      victory:`影が霧散し、砂時計だけが残された。\n時間の流れは、誰にとっても一定ではない。` },
-    zako:[
-      {id:'z6_vine', emoji:'🌿', name:'比較の蔓', hp:25, color:'#9080a0',
-       narration:'他人と比べる思考が植物の蔓のように絡みつく。',
-       pixe:'「自分のペースで1記録すれば断ち切れるよ」'},
-      {id:'z6_eye', emoji:'👁', name:'劣等感の幻', hp:35, color:'#705890',
-       narration:'まるで他人の目のような幻影が浮かぶ。',
-       pixe:'「ルナに話すと幻は消えていくよ」'},
-    ]},
-  // Stage 7: 色欲の系譜
-  { id:'lust', label:'色欲の系譜', boss:{
-      id:'lust', title:'第七の試練 — 夜の誘惑', hp:220, weakness:'バランスの取れた毎日',
-      img:'./image/A7-Photoroom.png',
-      stayVideo:'./image/A7stay.mp4', attackVideo:'./image/A7attack.mp4',
-      enemyName:'夜の誘惑・ルクス',
-      enemyTag:'BOSS — LUST',
-      narration:`月の出る頃、ネオンの翼を持つ妖艶な精霊が現れる。\n<em>「あと少し、もう少しだけ…」</em>`,
-      pixe:`「ルクスはバランスが嫌い！運動も栄養も対話も全部やってる人が一番強いよ」`,
-      victory:`ルクスは朝陽に溶けて消えた。\n生活のリズムを取り戻した体は、内側から光っている。` },
-    zako:[
-      {id:'z7_fire', emoji:'🌙', name:'夜更かしの蛍', hp:25, color:'#7090c8',
-       narration:'夜更かしを誘う光る蛍。',
-       pixe:'「早めに寝る前に1記録、で消えるよ」'},
-      {id:'z7_screen', emoji:'📱', name:'画面の妖精（小）', hp:35, color:'#5878b0',
-       narration:'スマホの光に宿る小さな妖精。',
-       pixe:'「画面を置いて、5分散歩記録で勝てる」'},
-    ]},
-  // Stage 8: 最終決戦
-  { id:'final', label:'最終決戦', boss:{
-      id:'final', title:'最終章 — 真の試練', hp:450, weakness:'すべての行動',
-      img:'./image/A8-Photoroom.png',
-      stayVideo:'./image/A8stay.mp4', attackVideo:'./image/A8attack.mp4',
-      enemyName:'⟪ 真の試練 ⟫',
-      enemyTag:'FINAL — TRUE TRIAL',
-      narration:`七つの試練を超えた先で、光の翼を広げる存在があなたを迎える。\n敵か、味方か、それとも — <em>あなた自身の真の姿</em>か。`,
-      pixe:`「これが最後の戦いだよ！運動も栄養も対話も、全部の積み重ねが武器になる！」`,
-      victory:`光の存在が頷き、あなたの中へ溶けていく。\n<em>「あなたは、ヴィタリアの新たな伝説となりました。」</em>` },
-    zako:[
-      {id:'zf_past', emoji:'🕰', name:'過去の影', hp:40, color:'#9c8ad0',
-       narration:'過去の自分の影が立ちはだかる。',
-       pixe:'「今の自分の積み重ねで超えられるよ」'},
-      {id:'zf_future', emoji:'🌫', name:'未来への不安', hp:50, color:'#c8a8e0',
-       narration:'まだ来ぬ未来への不安が霧のように。',
-       pixe:'「一歩ずつ、今できることだけ。それで十分」'},
-    ]},
+// ===== 12章の戦闘構造（チュートリアル1 + 成長ボス3 + 大罪7 + ラスボス1） =====
+const CHAPTERS=[
+  // Week 1: チュートリアル
+  { id:'tutorial', kind:'tutorial', title:'第一章 — 迷いの霧',
+    enemyName:'迷いの霧', enemyTag:'TUTORIAL — DOUBT',
+    emoji:'🌫', color:'#a0a8c8', hp:30, weakness:'最初の一歩（何でも記録）',
+    narration:`気がつくと、灰色の霧があなたを包んでいた。<em>「動いていいのだろうか…」</em>`,
+    pixe:`「ぴくっ！転生者さん、ようこそヴィタリアへ！\n私はピクセ — この冒険の記録係＆ご案内役だよ✨\n\n目の前の <em>迷いの霧</em> は最初の障害。心配しないで、<em>どんな小さな記録でも</em>霧を晴らす力になるよ。\n\n下のボタンから、運動・栄養・ルナとの対話のどれかを試してみて♪」`,
+    victory:`「やった！霧が晴れたね！\nあなたの最初の一歩が、ヴィタリアに光を取り戻したよ。次は仲間との出会いだよ — 行こう！」` },
+
+  // Week 2-4: 成長ボス3連戦（ピクセが各仲間を紹介）
+  { id:'growth_kaito', kind:'growth', title:'第二章 — 疲労の影（カイトとの出会い）',
+    enemyName:'疲労の影', enemyTag:'GROWTH — FATIGUE',
+    emoji:'💧', color:'#5878a8', hp:80, weakness:'運動',
+    narration:`霧の先で、青く流れる影が立ちはだかる。<em>「身体が重い…」</em>`,
+    pixe:`「ぴくっ、見て！赤マントの剣士が来たよ — <em>カイト</em>だよ！\n運動を担当する仲間で、ちょっとぶっきらぼうだけど、優しい人なの。\n\n目の前の <em>疲労の影</em> は治療後の倦怠感の象徴。<em>運動を1分でも記録</em>すると、影がどんどん薄くなるよ。\n\nカイトが言ってた：「1分の散歩から始めればいい」って♪」`,
+    victory:`「カイトとの絆が深まったね！\n疲労の影が消えて、身体に軽さが戻ったよ。\nカイトは無口だけど、あなたを応援してる。次の章へ進もう！」` },
+
+  { id:'growth_sera', kind:'growth', title:'第三章 — 枯渇の魔物（セラとの出会い）',
+    enemyName:'枯渇の魔物', enemyTag:'GROWTH — MALNUTRITION',
+    emoji:'🌑', color:'#a87858', hp:100, weakness:'魚・野菜・大豆',
+    narration:`枯れた森の奥に、茶色く萎んだ魔物が蠢く。<em>「何を食べても力が出ない…」</em>`,
+    pixe:`「次は緑のローブの巫女 — <em>セラ</em>！\n栄養を担当する仲間で、いつも穏やかで、レシピを教えてくれるよ。\n\n<em>枯渇の魔物</em> は栄養不足の象徴。<em>魚🐟・野菜🥗・大豆🌱</em> が特に苦手なんだ。\nセラのおすすめレシピを使うと、まとめて記録できて効率的だよ♪\n\n栄養クエストのページから記録してみて！」`,
+    victory:`「魔物が砕けて、緑が森に戻ったよ！\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。\n3人目の仲間 — ルナを呼びにいこう！」` },
+
+  { id:'growth_luna', kind:'growth', title:'第四章 — 孤独の幽霊（ルナとの出会い）',
+    enemyName:'孤独の幽霊', enemyTag:'GROWTH — LONELINESS',
+    emoji:'👻', color:'#8088b8', hp:120, weakness:'ルナとの対話',
+    narration:`湖のほとりに、青く透けた幽霊が浮かぶ。<em>「誰にも分かってもらえない…」</em>`,
+    pixe:`「最後の仲間が、銀髪の女神 <em>ルナ</em>！\n対話を担当する仲間で、AIコーチとしていつでも話を聞いてくれるんだ。\n\n<em>孤独の幽霊</em> は治療経験の言葉にできない感情。<em>ルナと話す</em>とゆっくり消えていくよ。\n\nGROWモデルって聞いたことある？\nG（目標）→ R（現状）→ O（選択肢）→ W（意志）の4ステップで気持ちを整理するんだよ。\nホーム画面の紫のカードからルナと話してみて♪」`,
+    victory:`「幽霊が穏やかに笑って空に溶けたよ。\n言葉にすることで、孤独は薄れるんだね。\n\nこれで4人揃ったよ！カイト・セラ・ルナ・私。みんなであなたを支えるよ。\n\nここからは <em>大罪との連戦</em>。仲間と力を合わせて、頑張ろう！」` },
+
+  // Week 5-11: 大罪7連戦（ピクセ主役の解説）
+  { id:'sloth', kind:'boss', title:'第五章 — 大罪・怠惰', stageLabel:'怠惰の系譜',
+    img:'./image/A1-Photoroom.png', stayVideo:'./image/A1stay.mp4', attackVideo:'./image/A1attack.mp4',
+    enemyName:'泥の巨像・スロウス', enemyTag:'SIN — SLOTH',
+    hp:200, weakness:'運動',
+    narration:`森の入口に、紫の泥でできた巨人が立ちはだかる。<em>「動きたくない…」</em>`,
+    pixe:`「いよいよ大罪との戦いが始まるよ！第一の敵は <em>スロウス（怠惰）</em>。\n体を動かしたくないって気持ちを巨大化させた敵なの。\n\n弱点は <em>運動</em>！カイトの出番だよ。\n散歩・買い物・家事 — 何でも体を動かすことが効く。\n\n無理は禁物、でも一歩ずつね♪」`,
+    victory:`「スロウスを倒したよ！\n泥が崩れて、奥への道が開けたんだ。\n身体が確かに軽くなってるね。次の敵が待ってるよ — 行こう！」` },
+
+  { id:'gluttony', kind:'boss', title:'第六章 — 大罪・暴食', stageLabel:'暴食の系譜',
+    img:'./image/A2-Photoroom.png', stayVideo:'./image/A2stay.mp4', attackVideo:'./image/A2attack.mp4',
+    enemyName:'お菓子な魔女・グラト', enemyTag:'SIN — GLUTTONY',
+    hp:220, weakness:'魚・野菜・大豆',
+    narration:`お菓子と毒キノコでできた魔女が舞う。<em>「もっと食べて、楽になりなさい」</em>`,
+    pixe:`「次は <em>グラト（暴食）</em>！\nお菓子や脂っこいもので誘惑してくる、甘い罠の魔女だよ。\n\n弱点は <em>魚🐟・野菜🥗・大豆🌱</em>！セラのおすすめレシピが効果絶大なんだ。\n\nグラトは加工食品が大好物だから、シンプルな手作りメニューでダメージが入るよ♪」`,
+    victory:`「グラトを倒した！甘い泡になって消えたよ。\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。次へ進もう！」` },
+
+  { id:'wrath', kind:'boss', title:'第七章 — 大罪・憤怒', stageLabel:'憤怒の系譜',
+    img:'./image/A3-Photoroom.png', stayVideo:'./image/A3stay.mp4', attackVideo:'./image/A3attack.mp4',
+    enemyName:'爆ぜる黒炎・イラ', enemyTag:'SIN — WRATH',
+    hp:220, weakness:'ルナとの対話',
+    narration:`燃え上がる獣が怒り狂う。<em>「全てが憎い」</em>`,
+    pixe:`「<em>イラ（憤怒）</em>だ！怒りやストレスを燃やし続ける黒炎の獣。\n些細なことでカッとなる時の心の状態だよ。\n\n弱点は <em>ルナとの対話</em>！\n感情を言葉にすると、不思議と落ち着くんだ。GROWモデルで一緒に整理してもらおう。\n\n話すだけでイラの炎が静まるよ♪」`,
+    victory:`「黒い炎が静まって、せせらぎだけが残ったよ。\n言葉にすれば、感情は形を変えるんだね。\nルナが頷いてる：「よく頑張りました」って」` },
+
+  { id:'greed', kind:'boss', title:'第八章 — 大罪・強欲', stageLabel:'強欲の系譜',
+    img:'./image/A4-Photoroom.png', stayVideo:'./image/A4stay.mp4', attackVideo:'./image/A4attack.mp4',
+    enemyName:'黄金のガラクタ鬼', enemyTag:'SIN — GREED',
+    hp:270, weakness:'地道な継続記録',
+    narration:`黄金とガラクタを積み上げた巨大な鬼。<em>「もっとサプリを、もっと情報を…」</em>`,
+    pixe:`「<em>ガラクタ鬼（強欲）</em>！\n「あれもこれも」と詰め込みたがる気持ちの怪物だよ。\nサプリ・健康情報・ダイエット法 — どれも本当に必要？\n\n弱点は <em>地道な毎日の記録</em>！\n派手なことをしなくても、コツコツ続けることが一番効くんだ。シンプル・イズ・ベスト♪」`,
+    victory:`「黄金が砂になって流れ落ちたよ。\n本当に大切なものは、すでにあなたの中にある。\nピクセも改めて気づいたな〜」` },
+
+  { id:'pride', kind:'boss', title:'第九章 — 大罪・傲慢', stageLabel:'傲慢の系譜',
+    img:'./image/A5-Photoroom.png', stayVideo:'./image/A5stay.mp4', attackVideo:'./image/A5attack.mp4',
+    enemyName:'鏡の騎士・スペルビア', enemyTag:'SIN — PRIDE',
+    hp:270, weakness:'休まない継続',
+    narration:`鏡の甲冑の騎士。<em>「俺は完璧だ」</em>`,
+    pixe:`「<em>スペルビア（傲慢）</em>！\n「自分は大丈夫」って過信させてくる、鏡の騎士なんだ。\n無理して頑張りすぎる人ほど、後で挫折しちゃう…。\n\n弱点は <em>休まない継続</em>！\nゆっくりでいい、ペースを守って続けることが一番強い。\nカイトもこう言ってる：「過信は身を滅ぼす」って」`,
+    victory:`「鏡が砕けて、自分の本当の姿が水面に映ったよ。\n慢心じゃなく、淡々と続けることが本当の力なんだね。\n大罪、あと2体！」` },
+
+  { id:'envy', kind:'boss', title:'第十章 — 大罪・嫉妬', stageLabel:'嫉妬の系譜',
+    img:'./image/A6-Photoroom.png', stayVideo:'./image/A6stay.mp4', attackVideo:'./image/A6attack.mp4',
+    enemyName:'姿なき影・インヴィ', enemyTag:'SIN — ENVY',
+    hp:270, weakness:'ルナとの自己対話',
+    narration:`霧の谷に、ボロ布の影が砂時計を持って佇む。<em>「お前は他の人より劣っている」</em>`,
+    pixe:`「<em>インヴィ（嫉妬）</em>！\n他人と比べさせて、やる気を削いでくる影の怪物だよ。\n「あの人はもっと…」って思っちゃう時の気持ち。\n\n弱点は <em>ルナとの対話</em>！\n比べる相手は他人じゃなくて、<em>昨日の自分</em>。それをルナが教えてくれるよ。\n\n自分のペースを大切にね♪」`,
+    victory:`「影が霧散して、砂時計だけが残ったよ。\n時間の流れは、人それぞれ違うんだね。\nラスト2体、頑張ろう！」` },
+
+  { id:'lust', kind:'boss', title:'第十一章 — 大罪・色欲', stageLabel:'色欲の系譜',
+    img:'./image/A7-Photoroom.png', stayVideo:'./image/A7stay.mp4', attackVideo:'./image/A7attack.mp4',
+    enemyName:'夜の誘惑・ルクス', enemyTag:'SIN — LUST',
+    hp:220, weakness:'バランスの取れた毎日',
+    narration:`ネオンの翼を持つ妖艶な精霊。<em>「あと少し、もう少しだけ…」</em>`,
+    pixe:`「最後の大罪、<em>ルクス（色欲）</em>だよ！\n夜更かしや誘惑など、生活リズムを乱してくる精霊。\nスマホやゲームを「あと少しだけ」って延長させちゃうの。\n\n弱点は <em>バランスの取れた毎日</em>！\n運動・栄養・対話の <em>全部</em> をやってる人が最強なんだ。\nセラの結界も発動するよ♪」`,
+    victory:`「ルクスが朝陽に溶けて消えたよ！\n生活のリズムを取り戻した身体は、内側から光ってる。\n\n大罪7体、全部倒したね…！\n次が最終決戦だよ！心の準備はいい？」` },
+
+  // Week 12: 最終決戦
+  { id:'final', kind:'boss', title:'最終章 — 真の試練', stageLabel:'最終決戦',
+    img:'./image/A8-Photoroom.png', stayVideo:'./image/A8stay.mp4', attackVideo:'./image/A8attack.mp4',
+    enemyName:'⟪ 真の試練 ⟫', enemyTag:'FINAL — TRUE TRIAL',
+    hp:450, weakness:'すべての行動',
+    narration:`光の翼を広げる存在があなたを迎える。<em>「12週間、よくここまで来ました」</em>`,
+    pixe:`「ついに最終章…！\n光の翼の存在は、敵か味方か、それとも <em>あなた自身の真の姿</em> か。\n\n弱点は <em>すべての行動</em>！\n運動・栄養・対話・体重測定・知識、全部の積み重ねが武器になるよ。\n\n12週間の冒険、本当によく頑張ってきたね。\n最後まで一緒に行こう、私もカイトもセラもルナも、ずっとそばにいるから♪」`,
+    victory:`「やったぁぁ！光の存在が頷いて、あなたの中に溶けていったよ。\n<em>「あなたは、ヴィタリアの新たな伝説となりました」</em>\n\n12週間の冒険が、新しいあなたを作り上げたんだ。\nぴくっ…！本当に、本当によく頑張ったね。誇らしいよ✨」` },
 ];
 
-// プロローグ＋ステージを展開してCHAPTERSを生成
-function buildChapters(){
-  const list=[];
-  // Ch1: プロローグ
-  list.push({ id:'prologue', title:'転生 — 目覚めの章', kind:'story',
-    narration:`気がつくと、あなたは見知らぬ草原に立っていた。\n空には銀色の女神<em>ルナ</em>。傍らで小さな緑の妖精が翼を震わせている。\n\nここは <em>ヴィタリア</em>。前世の試練を乗り越えた者だけが辿り着ける、健康の異世界。`,
-    pixe:`「ぴくっ！転生者さん、ようこそ！記録係の妖精ピクセだよ！」`,
-    enemy:null });
-  // Ch2: 仲間との出会い
-  list.push({ id:'meeting', title:'仲間との出会い', kind:'story',
-    narration:`草原の先で、赤いマントの剣士<em>カイト</em>と、緑のローブの巫女<em>セラ</em>に出会う。\n\n「俺たちと一緒に旅をするか？」カイトが問う。\n「ヴィタリアの平和を蝕む者たちが、すぐそこまで迫っています」セラが続ける。`,
-    pixe:`「3人の仲間が揃ったよ！記録は私に任せて、安心して冒険してね♪」`,
-    enemy:null });
-  // 各ステージ：雑魚2 → ボス1
-  STAGES.forEach((stage,si)=>{
-    stage.zako.forEach((z,zi)=>{
-      list.push({
-        id:z.id,
-        kind:'zako',
-        title:`${stage.label} — 雑魚 ${zi+1}/2`,
-        stageId:stage.id,
-        stageLabel:stage.label,
-        enemy:'zako',
-        enemyName:z.name,
-        enemyTag:`MOB — ${stage.label}`,
-        emoji:z.emoji,
-        color:z.color,
-        hp:z.hp,
-        weakness:'何でも記録',
-        img:null,
-        narration:z.narration,
-        pixe:z.pixe,
-        victory:`${z.name} を撃退！次の敵が見えてきた…`
-      });
-    });
-    // ボス
-    list.push(Object.assign({}, stage.boss, {
-      kind:'boss', stageId:stage.id, stageLabel:stage.label,
-    }));
-  });
-  return list;
-}
-const CHAPTERS=buildChapters();
+// 旧 STAGES（buildChapters用）— 互換性のため空配列に
 
 // ===== 累積データの計算 =====
 function loadCumulativeStats(){
@@ -912,18 +841,7 @@ function render(){
   const totalStats=loadCumulativeStats();
   const totalDmg=statsToDamage(totalStats);
 
-  // 自動進行：プロローグ章は条件達成で次章へ
-  // Ch1 → Ch2: 1記録 or 1対話 で進む
-  if(state.chapterIdx===0 && (totalDmg.total>0 || totalStats.coachTurns>0)){
-    state.chapterIdx=1;
-    saveState(state);
-  }
-  // Ch2 → Ch3: 累計5回以上の記録/対話で進む
-  if(state.chapterIdx===1 && (totalDmg.total>20 || totalStats.coachTurns>=2)){
-    state.chapterIdx=2;
-    state.chapterStartDmg=totalDmg.total;
-    saveState(state);
-  }
+  // 12章すべてバトルあり、自動進行は不要（討伐で次章へ）
 
   const ch=CHAPTERS[state.chapterIdx];
   if(!ch) return; // クリア後
@@ -932,7 +850,7 @@ function render(){
   document.getElementById('chapter-num').textContent=`— CHAPTER ${state.chapterIdx+1} —`;
   document.getElementById('chapter-title').textContent=ch.title;
   document.getElementById('chapter-narration').innerHTML=ch.narration.replace(/\n/g,'<br>');
-  document.getElementById('pixe-msg').textContent=ch.pixe;
+  document.getElementById('pixe-msg').innerHTML=ch.pixe.replace(/\n/g,'<br>');
   document.getElementById('adv-progress-mini').textContent=`${state.chapterIdx+1} / ${CHAPTERS.length}章`;
 
   // バトルカード（story章は非表示、zako/boss は表示）
@@ -981,33 +899,34 @@ function render(){
   // 戦歴グリッド
   renderHistory(state);
 
-  // 全体進捗
+  // 全体進捗（全12戦）
   const totalChapters=CHAPTERS.length;
-  const totalProgress=Math.round((state.defeated.length + (state.chapterIdx>=2?1:0)*0)/8*100);
-  // より直感的に：倒した敵 / 全敵(8) を進捗とする
-  const enemiesTotal=CHAPTERS.filter(c=>c.enemy!==null||c.hp).length; // 8体
   const enemiesDefeated=state.defeated.length;
-  const progressPct=Math.round(enemiesDefeated/8*100);
+  const progressPct=Math.round(enemiesDefeated/totalChapters*100);
   document.getElementById('gp-pct').textContent=progressPct+'%';
   document.getElementById('gp-fill').style.width=progressPct+'%';
-  document.getElementById('gp-defeated').textContent=`${enemiesDefeated} / 8 体討伐`;
+  document.getElementById('gp-defeated').textContent=`${enemiesDefeated} / ${totalChapters} 戦 制覇`;
   document.getElementById('gp-total-dmg').textContent=`累計 ${totalDmg.total.toLocaleString()}pt 与ダメージ`;
 }
 
 function renderHistory(state){
   const grid=document.getElementById('history-grid');
-  // ボスのみ戦歴に並べる（雑魚はスキップ）
-  const bossChapters=CHAPTERS.filter(c=>c.kind==='boss');
-  let count=bossChapters.filter(c=>state.defeated.includes(c.id)).length;
-  document.getElementById('history-count').textContent=`${count} / ${bossChapters.length}`;
+  // 全12戦を戦歴に並べる
+  const allChapters=CHAPTERS;
+  let count=allChapters.filter(c=>state.defeated.includes(c.id)).length;
+  document.getElementById('history-count').textContent=`${count} / ${allChapters.length}`;
 
-  grid.innerHTML=bossChapters.map((c,i)=>{
+  grid.innerHTML=allChapters.map((c,i)=>{
     const defeated=state.defeated.includes(c.id);
     const current=CHAPTERS[state.chapterIdx]?.id===c.id;
     const cls=defeated?'history-cell-defeated':current?'history-cell-current':'history-cell-locked';
-    const label=defeated?(c.enemyName||'').split('・')[1]||(c.enemyName||'').split('・')[0]||'討伐':current?'戦闘中':`Sin.${String(i+1).padStart(2,'0')}`;
+    const label=defeated?((c.enemyName||'').split('・')[1]||(c.enemyName||'').split('・')[0]||'討伐'):current?'戦闘中':`Ch.${String(i+1).padStart(2,'0')}`;
+    // 画像とemoji両対応
+    const visual=c.img
+      ? `<img src="${c.img}" alt="">`
+      : `<div style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:radial-gradient(circle, ${c.color||'#9090c0'} 0%, transparent 70%);border-radius:50%;">${c.emoji||'?'}</div>`;
     return `<div class="history-cell ${cls}">
-      <img src="${c.img}" alt="">
+      ${visual}
       <div class="history-cell-name">${label}</div>
     </div>`;
   }).join('');
