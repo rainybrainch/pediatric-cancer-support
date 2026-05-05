@@ -140,11 +140,26 @@ body::before{
   pointer-events:none;
 }
 .battle-enemy-img{
-  height:240px;width:auto;
+  max-height:260px;max-width:80%;height:auto;width:auto;
   filter:drop-shadow(0 12px 40px rgba(180,80,160,.5));
   transition:transform .3s,filter .3s;
+  object-fit:contain;
 }
 .battle-enemy-img.attacking{animation:shake .35s ease;filter:drop-shadow(0 0 24px rgba(255,200,100,.8));}
+.battle-enemy-video{
+  max-height:260px;max-width:80%;height:auto;width:auto;
+  filter:drop-shadow(0 12px 40px rgba(180,80,160,.5));
+  object-fit:contain;
+  background:transparent;
+}
+.battle-enemy-video.attacking{filter:drop-shadow(0 0 24px rgba(255,200,100,.8)) saturate(1.3);}
+.battle-attack-flash{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 60%,rgba(255,220,140,.5) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.battle-attack-flash.show{opacity:1;animation:flashOut .9s ease both;}
+@keyframes flashOut{0%{opacity:0;}20%{opacity:1;}100%{opacity:0;}}
 .battle-enemy-name-tag{
   position:absolute;top:12px;left:14px;
   background:rgba(8,6,18,.9);border:1px solid rgba(180,80,160,.45);
@@ -423,7 +438,9 @@ body::before{
     <div class="battle-card" id="battle-card" style="display:none;">
       <div class="battle-enemy-stage">
         <span class="battle-enemy-name-tag" id="enemy-tag">SIN.01 — SLOTH</span>
+        <video class="battle-enemy-video" id="enemy-video" autoplay muted loop playsinline preload="metadata" style="display:none;"></video>
         <img class="battle-enemy-img" id="enemy-img" src="./image/A1-Photoroom.png" alt="">
+        <div class="battle-attack-flash" id="attack-flash"></div>
       </div>
       <div class="battle-hp-row">
         <div class="battle-name" id="enemy-name">…</div>
@@ -532,6 +549,7 @@ const CHAPTERS=[
   // 3章：vs スロウス
   { id:'sloth', title:'第一の試練 — 怠惰の沼', hp:200, weakness:'運動',
     img:'./image/A1-Photoroom.png',
+    stayVideo:'./image/A1stay.mp4', attackVideo:'./image/A1attack.mp4',
     enemyName:'泥の巨像・スロウス',
     enemyTag:'SIN.01 — SLOTH',
     narration:`森の入口に、紫の泥でできた巨人が立ちはだかる。\n足元から重い波動が広がり、<em>「動きたくない…」</em>という声があなたの心に響く。\n\nカイトが剣を抜く。「あいつを倒すには、お前自身が動くしかない！」`,
@@ -541,6 +559,7 @@ const CHAPTERS=[
   // 4章：vs グラト
   { id:'gluttony', title:'第二の試練 — 甘い罠', hp:250, weakness:'栄養（特に野菜）',
     img:'./image/A2-Photoroom.png',
+    stayVideo:'./image/A2stay.mp4', attackVideo:'./image/A2attack.mp4',
     enemyName:'お菓子な魔女・グラト',
     enemyTag:'SIN.02 — GLUTTONY',
     narration:`深い森の中、お菓子と毒キノコでできた魔女が舞っていた。\n甘い香りが鼻をくすぐり、判断力が鈍る。<em>「もっと食べて、楽になりなさい」</em>\n\nセラが杖を構える。「バランスの取れた食事こそが、彼女を打ち破る魔法です」`,
@@ -550,6 +569,7 @@ const CHAPTERS=[
   // 5章：vs イラ
   { id:'wrath', title:'第三の試練 — 黒い炎', hp:250, weakness:'ルナ対話',
     img:'./image/A3-Photoroom.png',
+    attackVideo:'./image/A3attack.mp4',
     enemyName:'爆ぜる黒炎・イラ',
     enemyTag:'SIN.03 — WRATH',
     narration:`次の道で待っていたのは、燃え上がる獣。怒りで自らを焼き、周囲を焦土に変えていく。\n<em>「全てが憎い、全てが許せない」</em>\n\nルナが静かに進み出る。「怒りは、語ることで鎮まります。一緒に解きほぐしましょう」`,
@@ -681,6 +701,72 @@ function defaultState(){
   };
 }
 
+// ===== 敵表示の切り替え（動画⇔画像） =====
+let _currentEnemyId=null;
+let _attackTimer=null;
+
+function setEnemyDisplay(ch){
+  const video=document.getElementById('enemy-video');
+  const img=document.getElementById('enemy-img');
+  // 章が変わったときだけソースを更新
+  if(_currentEnemyId!==ch.id){
+    _currentEnemyId=ch.id;
+    if(ch.stayVideo){
+      video.src=ch.stayVideo;
+      video.loop=true;
+      video.style.display='';
+      img.style.display='none';
+      video.play().catch(()=>{});
+    }else{
+      // stay video がない章は静止画
+      video.style.display='none';
+      video.removeAttribute('src');
+      video.load();
+      img.src=ch.img;
+      img.style.display='';
+    }
+  }
+}
+
+function playAttackAnimation(ch){
+  // フラッシュ演出
+  const flash=document.getElementById('attack-flash');
+  flash.classList.remove('show');
+  void flash.offsetWidth;
+  flash.classList.add('show');
+
+  if(!ch.attackVideo) return;
+  const video=document.getElementById('enemy-video');
+  const img=document.getElementById('enemy-img');
+
+  // 攻撃ビデオを再生
+  video.style.display='';
+  img.style.display='none';
+  video.classList.add('attacking');
+  video.loop=false;
+  video.src=ch.attackVideo;
+  video.play().catch(()=>{});
+
+  if(_attackTimer){clearTimeout(_attackTimer);}
+  // 5秒後または ended で stay に戻す
+  const back=()=>{
+    video.classList.remove('attacking');
+    if(ch.stayVideo){
+      video.loop=true;
+      video.src=ch.stayVideo;
+      video.play().catch(()=>{});
+    }else{
+      // stay 動画がない場合は静止画に戻す
+      video.style.display='none';
+      video.removeAttribute('src');
+      video.load();
+      img.style.display='';
+    }
+  };
+  video.onended=back;
+  _attackTimer=setTimeout(back, 5500);
+}
+
 // ===== UI レンダリング =====
 function render(){
   const state=loadState();
@@ -716,13 +802,23 @@ function render(){
     battleCard.style.display='none';
   } else {
     battleCard.style.display='';
-    document.getElementById('enemy-img').src=ch.img;
+    setEnemyDisplay(ch);
     document.getElementById('enemy-name').textContent=ch.enemyName;
     document.getElementById('enemy-tag').textContent=ch.enemyTag;
     document.getElementById('enemy-weakness').innerHTML=`弱点：<strong>${ch.weakness}</strong>`;
 
     // 現在のダメージ計算（章開始時からの差分）
     const dmgDealt=Math.max(0, totalDmg.total - state.chapterStartDmg);
+
+    // 攻撃検出：前回見たダメージより増えていたら攻撃アニメ発動
+    const lastSeenKey=`va_lastseen_${uid}_${ch.id}`;
+    let lastSeen=0;
+    try{ lastSeen=parseInt(localStorage.getItem(lastSeenKey)||'0',10); }catch(e){}
+    if(dmgDealt>lastSeen && lastSeen>0){
+      // 新しいダメージが入った → 攻撃演出
+      setTimeout(()=>playAttackAnimation(ch), 600);
+    }
+    try{ localStorage.setItem(lastSeenKey, String(dmgDealt)); }catch(e){}
     const exDmg=Math.max(0, totalDmg.ex - (state.chapterStartDmg ? Math.round(state.chapterStartDmg*0.4) : 0));
     const nuDmg=Math.max(0, totalDmg.nu - (state.chapterStartDmg ? Math.round(state.chapterStartDmg*0.4) : 0));
     const coDmg=Math.max(0, totalDmg.co - (state.chapterStartDmg ? Math.round(state.chapterStartDmg*0.2) : 0));
