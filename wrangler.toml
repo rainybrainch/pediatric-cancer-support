@@ -1,0 +1,22 @@
+# Cloudflare Workers + Static Assets 設定
+# プロジェクト名は Cloudflare ダッシュボードで指定する名前と一致させる
+name = "aya-health-quest"
+main = "_worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# 静的アセット配信（HTML/CSS/JS/画像/動画）
+[assets]
+directory = "./"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+# 環境変数（Cloudflare ダッシュボードで GEMINI_API_KEY を Secret として設定）
+[vars]
+# プレースホルダー（実際の値はダッシュボードの Secret で上書き）
+
+# 不要なファイルを除外
+[[rules]]
+type = "Data"
+globs = ["**/*.md", "**/*.toml", "**/.gitignore", "**/SETUP.md", "**/CLOUDFLARE_MIGRATION.md", "**/firestore.rules"]
+fallthrough = false
