@@ -1714,18 +1714,22 @@ function updateUI(){
     const advBanner=document.getElementById('adv-banner');
     if(advBanner){
       const ADV_CHAPTERS=[
-        {id:'tutorial',title:'迷いの霧（チュートリアル）',img:'./image/pikuse-sabun%20(1).png'},
+        {id:'tutorial',title:'迷いの霧（入門）',img:'./image/pikuse-sabun%20(1).png'},
         {id:'growth_kaito',title:'疲労の影（カイトと）',img:'./image/kaito-sabun%20(1).png'},
         {id:'growth_sera',title:'枯渇の魔物（セラと）',img:'./image/sera-sabun%20(1).png'},
         {id:'growth_luna',title:'孤独の幽霊（ルナと）',img:'./image/runa-sabun%20(1).png'},
-        {id:'sloth',title:'vs 怠惰・スロウス',img:'./image/A1-Photoroom.png'},
-        {id:'gluttony',title:'vs 暴食・グラト',img:'./image/A2-Photoroom.png'},
-        {id:'wrath',title:'vs 憤怒・イラ',img:'./image/A3-Photoroom.png'},
-        {id:'greed',title:'vs 強欲・ガラクタ鬼',img:'./image/A4-Photoroom.png'},
-        {id:'pride',title:'vs 傲慢・スペルビア',img:'./image/A5-Photoroom.png'},
-        {id:'envy',title:'vs 嫉妬・インヴィ',img:'./image/A6-Photoroom.png'},
-        {id:'lust',title:'vs 色欲・ルクス',img:'./image/A7-Photoroom.png'},
-        {id:'final',title:'vs 真の試練（最終）',img:'./image/A8-Photoroom.png'},
+        // 体の試練
+        {id:'sloth',title:'体の試練① 怠惰・スロウス',img:'./image/A1-Photoroom.png'},
+        {id:'gluttony',title:'体の試練② 暴食・グラト',img:'./image/A2-Photoroom.png'},
+        // 心の試練
+        {id:'wrath',title:'心の試練① 憤怒・イラ',img:'./image/A3-Photoroom.png'},
+        {id:'envy',title:'心の試練② 嫉妬・インヴィ',img:'./image/A6-Photoroom.png'},
+        // 世界の試練
+        {id:'greed',title:'世界の試練① 強欲・ガラクタ鬼',img:'./image/A4-Photoroom.png'},
+        {id:'pride',title:'世界の試練② 傲慢・スペルビア',img:'./image/A5-Photoroom.png'},
+        {id:'lust',title:'世界の試練③ 色欲・ルクス',img:'./image/A7-Photoroom.png'},
+        // 最終
+        {id:'final',title:'最終決戦・真の試練',img:'./image/A8-Photoroom.png'},
       ];
       const advState=JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
       const advCh=ADV_CHAPTERS[advState.chapterIdx]||ADV_CHAPTERS[0];

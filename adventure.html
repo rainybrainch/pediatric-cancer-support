@@ -91,6 +91,17 @@ body::before{
   font-size:.6rem;letter-spacing:.18em;color:rgba(200,180,255,.55);
   font-weight:700;margin-bottom:5px;text-transform:uppercase;position:relative;z-index:1;
 }
+.chapter-theme-tag{
+  display:inline-block;font-size:.55rem;letter-spacing:.12em;
+  padding:2px 9px;border-radius:99px;font-weight:700;
+  margin-left:8px;
+}
+.chapter-theme-body{background:rgba(224,138,60,.18);color:#f0c890;border:1px solid rgba(224,138,60,.4);}
+.chapter-theme-mind{background:rgba(156,114,224,.18);color:#c0a0f0;border:1px solid rgba(156,114,224,.4);}
+.chapter-theme-social{background:rgba(78,201,138,.18);color:#a8e8c0;border:1px solid rgba(78,201,138,.4);}
+.chapter-theme-tutorial{background:rgba(160,170,200,.18);color:#c0c8e0;border:1px solid rgba(160,170,200,.4);}
+.chapter-theme-growth{background:rgba(92,180,240,.18);color:#a8d8ff;border:1px solid rgba(92,180,240,.4);}
+.chapter-theme-final{background:linear-gradient(90deg,rgba(240,212,138,.2),rgba(200,180,255,.2));color:#f0e0a8;border:1px solid rgba(240,212,138,.5);}
 .chapter-title{
   font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;
   color:#f0e8ff;margin-bottom:8px;letter-spacing:.04em;position:relative;z-index:1;
@@ -568,6 +579,7 @@ function weekKey(){
 const CHAPTERS=[
   // Week 1: チュートリアル
   { id:'tutorial', kind:'tutorial', title:'第一章 — 迷いの霧',
+    themeGroup:'tutorial',
     enemyName:'迷いの霧', enemyTag:'TUTORIAL — DOUBT',
     emoji:'🌫', color:'#a0a8c8', hp:30, weakness:'最初の一歩（何でも記録）',
     narration:`気がつくと、灰色の霧があなたを包んでいた。<em>「動いていいのだろうか…」</em>`,
@@ -576,6 +588,7 @@ const CHAPTERS=[
 
   // Week 2-4: 成長ボス3連戦（ピクセが各仲間を紹介）
   { id:'growth_kaito', kind:'growth', title:'第二章 — 疲労の影（カイトとの出会い）',
+    themeGroup:'growth',
     enemyName:'疲労の影', enemyTag:'GROWTH — FATIGUE',
     emoji:'💧', color:'#5878a8', hp:80, weakness:'運動',
     narration:`霧の先で、青く流れる影が立ちはだかる。<em>「身体が重い…」</em>`,
@@ -583,6 +596,7 @@ const CHAPTERS=[
     victory:`「カイトとの絆が深まったね！\n疲労の影が消えて、身体に軽さが戻ったよ。\nカイトは無口だけど、あなたを応援してる。次の章へ進もう！」` },
 
   { id:'growth_sera', kind:'growth', title:'第三章 — 枯渇の魔物（セラとの出会い）',
+    themeGroup:'growth',
     enemyName:'枯渇の魔物', enemyTag:'GROWTH — MALNUTRITION',
     emoji:'🌑', color:'#a87858', hp:100, weakness:'魚・野菜・大豆',
     narration:`枯れた森の奥に、茶色く萎んだ魔物が蠢く。<em>「何を食べても力が出ない…」</em>`,
@@ -590,71 +604,82 @@ const CHAPTERS=[
     victory:`「魔物が砕けて、緑が森に戻ったよ！\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。\n3人目の仲間 — ルナを呼びにいこう！」` },
 
   { id:'growth_luna', kind:'growth', title:'第四章 — 孤独の幽霊（ルナとの出会い）',
+    themeGroup:'growth',
     enemyName:'孤独の幽霊', enemyTag:'GROWTH — LONELINESS',
     emoji:'👻', color:'#8088b8', hp:120, weakness:'ルナとの対話',
     narration:`湖のほとりに、青く透けた幽霊が浮かぶ。<em>「誰にも分かってもらえない…」</em>`,
     pixe:`「最後の仲間が、銀髪の女神 <em>ルナ</em>！\n対話を担当する仲間で、AIコーチとしていつでも話を聞いてくれるんだ。\n\n<em>孤独の幽霊</em> は治療経験の言葉にできない感情。<em>ルナと話す</em>とゆっくり消えていくよ。\n\nGROWモデルって聞いたことある？\nG（目標）→ R（現状）→ O（選択肢）→ W（意志）の4ステップで気持ちを整理するんだよ。\nホーム画面の紫のカードからルナと話してみて♪」`,
     victory:`「幽霊が穏やかに笑って空に溶けたよ。\n言葉にすることで、孤独は薄れるんだね。\n\nこれで4人揃ったよ！カイト・セラ・ルナ・私。みんなであなたを支えるよ。\n\nここからは <em>大罪との連戦</em>。仲間と力を合わせて、頑張ろう！」` },
 
-  // Week 5-11: 大罪7連戦（ピクセ主役の解説）
-  { id:'sloth', kind:'boss', title:'第五章 — 大罪・怠惰', stageLabel:'怠惰の系譜',
+  // ===== 第Ⅰ部：体の試練（Ch5-6） =====
+  { id:'sloth', kind:'boss', title:'第五章 — 大罪・怠惰', stageLabel:'体の試練 ①',
+    themeGroup:'body',
     img:'./image/A1-Photoroom.png', stayVideo:'./image/A1stay.mp4', attackVideo:'./image/A1attack.mp4',
-    enemyName:'泥の巨像・スロウス', enemyTag:'SIN — SLOTH',
+    enemyName:'泥の巨像・スロウス', enemyTag:'BODY — SLOTH',
     hp:200, weakness:'運動',
     narration:`森の入口に、紫の泥でできた巨人が立ちはだかる。<em>「動きたくない…」</em>`,
-    pixe:`「いよいよ大罪との戦いが始まるよ！第一の敵は <em>スロウス（怠惰）</em>。\n体を動かしたくないって気持ちを巨大化させた敵なの。\n\n弱点は <em>運動</em>！カイトの出番だよ。\n散歩・買い物・家事 — 何でも体を動かすことが効く。\n\n無理は禁物、でも一歩ずつね♪」`,
-    victory:`「スロウスを倒したよ！\n泥が崩れて、奥への道が開けたんだ。\n身体が確かに軽くなってるね。次の敵が待ってるよ — 行こう！」` },
+    pixe:`「いよいよ大罪との戦いが始まるよ！\nここから3章は <em>「体の試練」</em>。身体の習慣を変えていく旅だよ。\n\n第一の敵は <em>スロウス（怠惰）</em>。動きたくない気持ちを巨大化させた敵なの。\n\n弱点は <em>運動</em>！カイトの出番だよ。\n散歩・買い物・家事、何でも体を動かすことが効く。一歩ずつね♪」`,
+    victory:`「スロウスを倒したよ！\n泥が崩れて、奥への道が開けたんだ。\n身体が確かに軽くなってるね。次は食事の戦い、グラトの番だよ！」` },
 
-  { id:'gluttony', kind:'boss', title:'第六章 — 大罪・暴食', stageLabel:'暴食の系譜',
+  { id:'gluttony', kind:'boss', title:'第六章 — 大罪・暴食', stageLabel:'体の試練 ②',
+    themeGroup:'body',
     img:'./image/A2-Photoroom.png', stayVideo:'./image/A2stay.mp4', attackVideo:'./image/A2attack.mp4',
-    enemyName:'お菓子な魔女・グラト', enemyTag:'SIN — GLUTTONY',
+    enemyName:'お菓子な魔女・グラト', enemyTag:'BODY — GLUTTONY',
     hp:220, weakness:'魚・野菜・大豆',
     narration:`お菓子と毒キノコでできた魔女が舞う。<em>「もっと食べて、楽になりなさい」</em>`,
-    pixe:`「次は <em>グラト（暴食）</em>！\nお菓子や脂っこいもので誘惑してくる、甘い罠の魔女だよ。\n\n弱点は <em>魚🐟・野菜🥗・大豆🌱</em>！セラのおすすめレシピが効果絶大なんだ。\n\nグラトは加工食品が大好物だから、シンプルな手作りメニューでダメージが入るよ♪」`,
-    victory:`「グラトを倒した！甘い泡になって消えたよ。\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。次へ進もう！」` },
+    pixe:`「体の試練、第二弾！<em>グラト（暴食）</em>だよ。\nお菓子や脂っこいもので誘惑してくる、甘い罠の魔女。\n\n弱点は <em>魚🐟・野菜🥗・大豆🌱</em>！セラのおすすめレシピが効果絶大なんだ。\nグラトは加工食品が大好物だから、シンプルな手作りメニューでダメージが入るよ♪」`,
+    victory:`「グラトを倒した！甘い泡になって消えたよ。\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。\n\nここから先は <em>「心の試練」</em>。一緒に乗り越えよう！」` },
 
-  { id:'wrath', kind:'boss', title:'第七章 — 大罪・憤怒', stageLabel:'憤怒の系譜',
+  // ===== 第Ⅱ部：心の試練（Ch7-8） =====
+  { id:'wrath', kind:'boss', title:'第七章 — 大罪・憤怒', stageLabel:'心の試練 ①',
+    themeGroup:'mind',
     img:'./image/A3-Photoroom.png', stayVideo:'./image/A3stay.mp4', attackVideo:'./image/A3attack.mp4',
-    enemyName:'爆ぜる黒炎・イラ', enemyTag:'SIN — WRATH',
+    enemyName:'爆ぜる黒炎・イラ', enemyTag:'MIND — WRATH',
     hp:220, weakness:'ルナとの対話',
     narration:`燃え上がる獣が怒り狂う。<em>「全てが憎い」</em>`,
-    pixe:`「<em>イラ（憤怒）</em>だ！怒りやストレスを燃やし続ける黒炎の獣。\n些細なことでカッとなる時の心の状態だよ。\n\n弱点は <em>ルナとの対話</em>！\n感情を言葉にすると、不思議と落ち着くんだ。GROWモデルで一緒に整理してもらおう。\n\n話すだけでイラの炎が静まるよ♪」`,
+    pixe:`「ここからは <em>「心の試練」</em> に入るよ。\n身体は整えてきたから、今度は心の番だね。\n\n第一の敵は <em>イラ（憤怒）</em>！怒りやストレスを燃やし続ける黒炎の獣だよ。\n些細なことでカッとなる時の心の状態。\n\n弱点は <em>ルナとの対話</em>！\n感情を言葉にすると、不思議と落ち着くんだ。GROWモデルで整理してもらおう♪」`,
     victory:`「黒い炎が静まって、せせらぎだけが残ったよ。\n言葉にすれば、感情は形を変えるんだね。\nルナが頷いてる：「よく頑張りました」って」` },
 
-  { id:'greed', kind:'boss', title:'第八章 — 大罪・強欲', stageLabel:'強欲の系譜',
-    img:'./image/A4-Photoroom.png', stayVideo:'./image/A4stay.mp4', attackVideo:'./image/A4attack.mp4',
-    enemyName:'黄金のガラクタ鬼', enemyTag:'SIN — GREED',
-    hp:270, weakness:'地道な継続記録',
-    narration:`黄金とガラクタを積み上げた巨大な鬼。<em>「もっとサプリを、もっと情報を…」</em>`,
-    pixe:`「<em>ガラクタ鬼（強欲）</em>！\n「あれもこれも」と詰め込みたがる気持ちの怪物だよ。\nサプリ・健康情報・ダイエット法 — どれも本当に必要？\n\n弱点は <em>地道な毎日の記録</em>！\n派手なことをしなくても、コツコツ続けることが一番効くんだ。シンプル・イズ・ベスト♪」`,
-    victory:`「黄金が砂になって流れ落ちたよ。\n本当に大切なものは、すでにあなたの中にある。\nピクセも改めて気づいたな〜」` },
-
-  { id:'pride', kind:'boss', title:'第九章 — 大罪・傲慢', stageLabel:'傲慢の系譜',
-    img:'./image/A5-Photoroom.png', stayVideo:'./image/A5stay.mp4', attackVideo:'./image/A5attack.mp4',
-    enemyName:'鏡の騎士・スペルビア', enemyTag:'SIN — PRIDE',
-    hp:270, weakness:'休まない継続',
-    narration:`鏡の甲冑の騎士。<em>「俺は完璧だ」</em>`,
-    pixe:`「<em>スペルビア（傲慢）</em>！\n「自分は大丈夫」って過信させてくる、鏡の騎士なんだ。\n無理して頑張りすぎる人ほど、後で挫折しちゃう…。\n\n弱点は <em>休まない継続</em>！\nゆっくりでいい、ペースを守って続けることが一番強い。\nカイトもこう言ってる：「過信は身を滅ぼす」って」`,
-    victory:`「鏡が砕けて、自分の本当の姿が水面に映ったよ。\n慢心じゃなく、淡々と続けることが本当の力なんだね。\n大罪、あと2体！」` },
-
-  { id:'envy', kind:'boss', title:'第十章 — 大罪・嫉妬', stageLabel:'嫉妬の系譜',
+  { id:'envy', kind:'boss', title:'第八章 — 大罪・嫉妬', stageLabel:'心の試練 ②',
+    themeGroup:'mind',
     img:'./image/A6-Photoroom.png', stayVideo:'./image/A6stay.mp4', attackVideo:'./image/A6attack.mp4',
-    enemyName:'姿なき影・インヴィ', enemyTag:'SIN — ENVY',
+    enemyName:'姿なき影・インヴィ', enemyTag:'MIND — ENVY',
     hp:270, weakness:'ルナとの自己対話',
     narration:`霧の谷に、ボロ布の影が砂時計を持って佇む。<em>「お前は他の人より劣っている」</em>`,
-    pixe:`「<em>インヴィ（嫉妬）</em>！\n他人と比べさせて、やる気を削いでくる影の怪物だよ。\n「あの人はもっと…」って思っちゃう時の気持ち。\n\n弱点は <em>ルナとの対話</em>！\n比べる相手は他人じゃなくて、<em>昨日の自分</em>。それをルナが教えてくれるよ。\n\n自分のペースを大切にね♪」`,
-    victory:`「影が霧散して、砂時計だけが残ったよ。\n時間の流れは、人それぞれ違うんだね。\nラスト2体、頑張ろう！」` },
+    pixe:`「心の試練、第二弾！<em>インヴィ（嫉妬）</em>だよ。\n他人と比べさせて、やる気を削いでくる影の怪物。\n「あの人はもっと…」って思っちゃう時の気持ち。\n\n弱点は <em>ルナとの対話</em>！\n比べる相手は他人じゃなくて、<em>昨日の自分</em>。それをルナが教えてくれるよ。\n\n自分のペースを大切にね♪」`,
+    victory:`「影が霧散して、砂時計だけが残ったよ。\n時間の流れは、人それぞれ違うんだね。\n\n体と心を整えたあなたを、最後に試すのは <em>「世界との関係」</em>。\n世界の試練、3連戦が始まるよ！」` },
 
-  { id:'lust', kind:'boss', title:'第十一章 — 大罪・色欲', stageLabel:'色欲の系譜',
+  // ===== 第Ⅲ部：世界の試練（Ch9-11） =====
+  { id:'greed', kind:'boss', title:'第九章 — 大罪・強欲', stageLabel:'世界の試練 ①',
+    themeGroup:'social',
+    img:'./image/A4-Photoroom.png', stayVideo:'./image/A4stay.mp4', attackVideo:'./image/A4attack.mp4',
+    enemyName:'黄金のガラクタ鬼', enemyTag:'SOCIAL — GREED',
+    hp:270, weakness:'地道な継続記録',
+    narration:`黄金とガラクタを積み上げた巨大な鬼。<em>「もっとサプリを、もっと情報を…」</em>`,
+    pixe:`「最終章は <em>「世界の試練」</em>！\n世間の情報や周りの目との付き合い方が試されるよ。\n\n第一の敵は <em>ガラクタ鬼（強欲）</em>！\n「あれもこれも」と詰め込みたがる気持ちの怪物だよ。サプリ・健康情報・ダイエット法 — 本当に必要？\n\n弱点は <em>地道な毎日の記録</em>！\n派手なことより、コツコツ続けることが一番効くんだ♪」`,
+    victory:`「黄金が砂になって流れ落ちたよ。\n本当に大切なものは、すでにあなたの中にある。\nピクセも改めて気づいたな〜」` },
+
+  { id:'pride', kind:'boss', title:'第十章 — 大罪・傲慢', stageLabel:'世界の試練 ②',
+    themeGroup:'social',
+    img:'./image/A5-Photoroom.png', stayVideo:'./image/A5stay.mp4', attackVideo:'./image/A5attack.mp4',
+    enemyName:'鏡の騎士・スペルビア', enemyTag:'SOCIAL — PRIDE',
+    hp:270, weakness:'休まない継続',
+    narration:`鏡の甲冑の騎士。<em>「俺は完璧だ」</em>`,
+    pixe:`「世界の試練、第二弾！<em>スペルビア（傲慢）</em>だよ。\n「自分は大丈夫」って過信させてくる、鏡の騎士なんだ。\n無理して頑張りすぎる人ほど、後で挫折しちゃう…。\n\n弱点は <em>休まない継続</em>！\nゆっくりでいい、ペースを守って続けることが一番強い。\nカイトもこう言ってる：「過信は身を滅ぼす」って」`,
+    victory:`「鏡が砕けて、自分の本当の姿が水面に映ったよ。\n慢心じゃなく、淡々と続けることが本当の力なんだね。\n世界の試練、ラストひとつ！」` },
+
+  { id:'lust', kind:'boss', title:'第十一章 — 大罪・色欲', stageLabel:'世界の試練 ③',
+    themeGroup:'social',
     img:'./image/A7-Photoroom.png', stayVideo:'./image/A7stay.mp4', attackVideo:'./image/A7attack.mp4',
-    enemyName:'夜の誘惑・ルクス', enemyTag:'SIN — LUST',
+    enemyName:'夜の誘惑・ルクス', enemyTag:'SOCIAL — LUST',
     hp:220, weakness:'バランスの取れた毎日',
     narration:`ネオンの翼を持つ妖艶な精霊。<em>「あと少し、もう少しだけ…」</em>`,
-    pixe:`「最後の大罪、<em>ルクス（色欲）</em>だよ！\n夜更かしや誘惑など、生活リズムを乱してくる精霊。\nスマホやゲームを「あと少しだけ」って延長させちゃうの。\n\n弱点は <em>バランスの取れた毎日</em>！\n運動・栄養・対話の <em>全部</em> をやってる人が最強なんだ。\nセラの結界も発動するよ♪」`,
-    victory:`「ルクスが朝陽に溶けて消えたよ！\n生活のリズムを取り戻した身体は、内側から光ってる。\n\n大罪7体、全部倒したね…！\n次が最終決戦だよ！心の準備はいい？」` },
+    pixe:`「世界の試練、最後！<em>ルクス（色欲）</em>だよ。\n夜更かしや誘惑など、生活リズムを乱してくる精霊。\nスマホやゲームを「あと少しだけ」って延長させちゃうの。\n\n弱点は <em>バランスの取れた毎日</em>！\n運動・栄養・対話の <em>全部</em> をやってる人が最強なんだ。\nセラの結界も発動するよ♪」`,
+    victory:`「ルクスが朝陽に溶けて消えたよ！\n生活のリズムを取り戻した身体は、内側から光ってる。\n\n体・心・世界 — 全ての試練を超えたね…！\n次が最終決戦だよ！心の準備はいい？」` },
 
   // Week 12: 最終決戦
   { id:'final', kind:'boss', title:'最終章 — 真の試練', stageLabel:'最終決戦',
+    themeGroup:'final',
     img:'./image/A8-Photoroom.png', stayVideo:'./image/A8stay.mp4', attackVideo:'./image/A8attack.mp4',
     enemyName:'⟪ 真の試練 ⟫', enemyTag:'FINAL — TRUE TRIAL',
     hp:450, weakness:'すべての行動',
@@ -847,7 +872,10 @@ function render(){
   if(!ch) return; // クリア後
 
   // 章カード
-  document.getElementById('chapter-num').textContent=`— CHAPTER ${state.chapterIdx+1} —`;
+  // テーマグループ表示
+  const themeLabels={tutorial:'入門',growth:'成長',body:'体の試練',mind:'心の試練',social:'世界の試練',final:'最終決戦'};
+  const themeTag=ch.themeGroup?` <span class="chapter-theme-tag chapter-theme-${ch.themeGroup}">${themeLabels[ch.themeGroup]||''}</span>`:'';
+  document.getElementById('chapter-num').innerHTML=`— CHAPTER ${state.chapterIdx+1} —${themeTag}`;
   document.getElementById('chapter-title').textContent=ch.title;
   document.getElementById('chapter-narration').innerHTML=ch.narration.replace(/\n/g,'<br>');
   document.getElementById('pixe-msg').innerHTML=ch.pixe.replace(/\n/g,'<br>');
