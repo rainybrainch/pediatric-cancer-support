@@ -513,6 +513,48 @@ body::before{
   font-size:.82rem;font-weight:700;cursor:pointer;margin-top:8px;
 }
 
+/* ========== 冒険ステータス バナー ========== */
+.adv-banner{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,rgba(80,40,140,.18),rgba(140,40,100,.12));
+  border:1px solid rgba(156,114,224,.35);border-radius:14px;
+  padding:12px 14px;text-decoration:none;color:inherit;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.adv-banner:hover{transform:translateY(-2px);border-color:rgba(156,114,224,.55);box-shadow:0 8px 24px rgba(156,114,224,.15);}
+.adv-banner::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(156,114,224,.12) 0%,transparent 60%);
+}
+.adv-banner-icon{
+  width:48px;height:48px;border-radius:50%;flex-shrink:0;
+  background:rgba(0,0,0,.4);border:1.5px solid rgba(180,80,160,.4);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  position:relative;z-index:1;
+}
+.adv-banner-icon img{width:90%;height:90%;object-fit:contain;}
+.adv-banner-text{flex:1;min-width:0;position:relative;z-index:1;}
+.adv-banner-lbl{
+  font-size:.55rem;letter-spacing:.14em;color:rgba(200,180,255,.6);
+  font-weight:700;text-transform:uppercase;margin-bottom:2px;
+}
+.adv-banner-name{
+  font-family:'Noto Serif JP',serif;font-size:.86rem;font-weight:900;
+  color:#f0e4ff;line-height:1.3;
+}
+.adv-banner-progress{
+  height:5px;background:rgba(0,0,0,.4);border-radius:99px;overflow:hidden;
+  margin-top:6px;
+}
+.adv-banner-progress-fill{
+  height:100%;background:linear-gradient(90deg,#e05c5c,#e08a3c);
+  border-radius:99px;transition:width .8s ease;
+}
+.adv-banner-arrow{
+  font-size:1rem;color:rgba(200,180,255,.5);flex-shrink:0;
+  position:relative;z-index:1;
+}
+
 /* ========== 今週の目標バナー（ルナと決めた誓い） ========== */
 .goal-banner{
   display:none;
@@ -1178,6 +1220,19 @@ body::before{
       </div>
     </div>
 
+    <!-- 冒険ステータス -->
+    <a href="./adventure.html" class="adv-banner" id="adv-banner" style="display:none;">
+      <div class="adv-banner-icon">
+        <img id="adv-banner-img" src="./image/A1-Photoroom.png" alt="">
+      </div>
+      <div class="adv-banner-text">
+        <div class="adv-banner-lbl">🗺 現在の冒険 — <span id="adv-banner-ch">Ch.0</span></div>
+        <div class="adv-banner-name" id="adv-banner-name">…</div>
+        <div class="adv-banner-progress"><div class="adv-banner-progress-fill" id="adv-banner-progress" style="width:0%"></div></div>
+      </div>
+      <div class="adv-banner-arrow">→</div>
+    </a>
+
     <!-- 今週ルナと決めた目標 -->
     <div class="goal-banner" id="goal-banner">
       <div class="goal-banner-icon">📜</div>
@@ -1501,12 +1556,13 @@ function loadData(){
   let streak=0;
   try{ const s=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); streak=s.count||0; }catch(e){}
 
-  // 実績（運動 + 栄養 + コーチ合算）
-  let achQ={}, achN={}, achC={};
+  // 実績（運動 + 栄養 + コーチ + 冒険合算）
+  let achQ={}, achN={}, achC={}, achA={};
   try{ achQ=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); }catch(e){}
   try{ achN=JSON.parse(localStorage.getItem(`vn_ach_${uid}`)||'{}'); }catch(e){}
   try{ achC=JSON.parse(localStorage.getItem(`vc_ach_${uid}`)||'{}'); }catch(e){}
-  const allAch=Object.assign({},achQ,achN,achC);
+  try{ achA=JSON.parse(localStorage.getItem(`va_ach_${uid}`)||'{}'); }catch(e){}
+  const allAch=Object.assign({},achQ,achN,achC,achA);
   const achCount=Object.keys(allAch).filter(k=>allAch[k]).length;
 
   // 記録週数
@@ -1608,6 +1664,36 @@ function updateUI(){
   // 実績バッジ
   renderAchv(d.allAch);
 
+  // 冒険ステータス バナー
+  try{
+    const advBanner=document.getElementById('adv-banner');
+    if(advBanner){
+      const ADV_CHAPTERS=[
+        {id:'prologue',title:'転生の章',img:'./image/runa-sabun%20(1).png',hp:0},
+        {id:'meeting',title:'仲間との出会い',img:'./image/kaito-sabun%20(1).png',hp:0},
+        {id:'sloth',title:'vs 泥の巨像・スロウス',img:'./image/A1-Photoroom.png',hp:200},
+        {id:'gluttony',title:'vs お菓子な魔女・グラト',img:'./image/A2-Photoroom.png',hp:250},
+        {id:'wrath',title:'vs 爆ぜる黒炎・イラ',img:'./image/A3-Photoroom.png',hp:250},
+        {id:'greed',title:'vs 黄金のガラクタ鬼',img:'./image/A4-Photoroom.png',hp:300},
+        {id:'pride',title:'vs 鏡の騎士・スペルビア',img:'./image/A5-Photoroom.png',hp:300},
+        {id:'envy',title:'vs 姿なき影・インヴィ',img:'./image/A6-Photoroom.png',hp:300},
+        {id:'lust',title:'vs 夜の誘惑・ルクス',img:'./image/A7-Photoroom.png',hp:250},
+        {id:'final',title:'vs 真の試練',img:'./image/A8-Photoroom.png',hp:500},
+      ];
+      const advState=JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
+      const advCh=ADV_CHAPTERS[advState.chapterIdx]||ADV_CHAPTERS[0];
+      if(advCh){
+        advBanner.style.display='flex';
+        document.getElementById('adv-banner-img').src=advCh.img;
+        document.getElementById('adv-banner-ch').textContent=`Ch.${advState.chapterIdx+1}`;
+        document.getElementById('adv-banner-name').textContent=advCh.title;
+        // 進捗バー：倒した数 / 8
+        const pct=Math.round((advState.defeated||[]).length/8*100);
+        document.getElementById('adv-banner-progress').style.width=pct+'%';
+      }
+    }
+  }catch(e){}
+
   // 今週ルナと決めた目標バナー
   const banner=document.getElementById('goal-banner');
   if(banner){
@@ -1638,18 +1724,26 @@ function updateUI(){
 
 // ===== 実績レンダリング =====
 const ALL_ACHV=[
+  // 基本系
   {id:'first',   icon:'⚔', name:'初陣'},
   {id:'goal',    icon:'🎯', name:'目標達成'},
-  {id:'high',    icon:'🔥', name:'高強度'},
   {id:'streak3', icon:'📅', name:'3週連続'},
   {id:'lv3',     icon:'⭐', name:'Lv3'},
   {id:'lv5',     icon:'👑', name:'覚醒'},
-  {id:'veg7',    icon:'🥦', name:'野菜使い'},
   {id:'veg_goal',icon:'💚', name:'野菜の達人'},
-  {id:'fruit_g', icon:'🍎', name:'果物魔術師'},
+  // コーチ系
   {id:'coach_first', icon:'💬', name:'初対話'},
   {id:'coach_3',     icon:'🗣️', name:'相談3回'},
   {id:'coach_grow',  icon:'🧭', name:'GROW完走'},
+  // 七大罪討伐系
+  {id:'def_sloth',     icon:'💧', name:'怠惰討伐'},
+  {id:'def_gluttony',  icon:'🍰', name:'暴食討伐'},
+  {id:'def_wrath',     icon:'🔥', name:'憤怒討伐'},
+  {id:'def_greed',     icon:'💰', name:'強欲討伐'},
+  {id:'def_pride',     icon:'🪞', name:'傲慢討伐'},
+  {id:'def_envy',      icon:'⏳', name:'嫉妬討伐'},
+  {id:'def_lust',      icon:'🌙', name:'色欲討伐'},
+  {id:'def_final',     icon:'✨', name:'真の試練突破'},
 ];
 function renderAchv(ach){
   const el=document.getElementById('achv-grid');
@@ -2495,7 +2589,8 @@ function closeTutorial(){
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
   <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
   <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
-  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイページ</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
 
 <!-- 週次サマリーモーダル -->
