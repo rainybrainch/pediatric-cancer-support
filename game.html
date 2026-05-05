@@ -1468,8 +1468,10 @@ function updateUI(){
   const wk=weekKey();
 
   // 週ラベル
-  document.getElementById('week-label').textContent=weekLabel();
-  document.getElementById('week-label-txt').textContent=weekLabel()+'の記録';
+  const wkLblEl=document.getElementById('week-label');
+  if(wkLblEl) wkLblEl.textContent=weekLabel();
+  const wkLblTxtEl=document.getElementById('week-label-txt');
+  if(wkLblTxtEl) wkLblTxtEl.textContent=weekLabel()+'の記録';
 
   // レベル・XP
   const lv=getLv(d.totalXp);
