@@ -1,22 +1,33 @@
 # Cloudflare Workers で静的アセットとしてアップロードしないファイル
 # _worker.js などのサーバーサイドコードを除外
 
+# Git 関連（重要！.git/ には大きい pack ファイルがある）
+.git/
+.git/**
+.gitignore
+.gitattributes
+.github/
+
+# Worker / 設定ファイル
 _worker.js
 wrangler.toml
+wrangler.jsonc
 .assetsignore
-.gitignore
 .env
 .env.*
 
 # Netlify 関連（CFには不要）
 netlify.toml
 netlify/
+netlify/**
 _redirects
 
-# Pages Functions（Worker モードでは _worker.js を使うため不要）
+# Pages Functions（Worker モードでは _worker.js を使う）
 functions/
+functions/**
 
 # ドキュメント類
+*.md
 SETUP.md
 CLOUDFLARE_MIGRATION.md
 firestore.rules
@@ -26,7 +37,10 @@ firestore.rules
 
 # 古いバージョン
 v1/
+v1/**
 
 # その他
 .DS_Store
 node_modules/
+package-lock.json
+yarn.lock
