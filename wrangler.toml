@@ -10,3 +10,6 @@ directory = "./"
 binding = "ASSETS"
 # /api/* は静的アセットより先に Worker が処理する（重要！）
 run_worker_first = ["/api/*"]
+# .html を勝手に除去するリダイレクトを無効化（モバイルでERR_FAILEDになる原因）
+html_handling = "none"
+not_found_handling = "404-page"
