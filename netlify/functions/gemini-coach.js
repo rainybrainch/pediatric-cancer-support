@@ -76,7 +76,7 @@ exports.handler = async (event) => {
   }));
   contents.push({ role: 'user', parts: [{ text: userText }] });
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   try {
     const res = await fetch(url, {

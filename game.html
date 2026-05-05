@@ -1748,7 +1748,9 @@ async function callCoachProxy(userText){
   });
   if(!res.ok){
     const err=await res.json().catch(()=>({}));
-    throw new Error(err.error||`HTTP ${res.status}`);
+    const msg=err.error||`HTTP ${res.status}`;
+    const detail=err.detail?` (${String(err.detail).slice(0,200)})`:'';
+    throw new Error(msg+detail);
   }
   const data=await res.json();
   return data.text||'';
