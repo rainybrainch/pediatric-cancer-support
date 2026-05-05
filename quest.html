@@ -2029,17 +2029,15 @@ function updateLinked(){
   }catch(e){}
 }
 
-// ===== AI Coach モーダル =====
+// ===== AI Coach: ホーム画面のルナチャットへ遷移 =====
 document.getElementById('coach-fab').addEventListener('click',()=>{
-  const m=document.getElementById('coach-modal');
-  const iframe=document.getElementById('coach-iframe');
-  m.classList.add('open');
-  if(!iframe.src) iframe.src='https://udify.app/chat/KXoLEteQQnrlbz1P';
+  // ルナとの本格チャットは game.html に集約（GROWモデル＋Gemini連携）
+  window.location.href='./game.html#coach';
 });
-document.getElementById('coach-close').addEventListener('click',()=>{
-  document.getElementById('coach-modal').classList.remove('open');
+document.getElementById('coach-close')?.addEventListener('click',()=>{
+  document.getElementById('coach-modal')?.classList.remove('open');
 });
-document.getElementById('coach-modal').addEventListener('click',e=>{
+document.getElementById('coach-modal')?.addEventListener('click',e=>{
   if(e.target===document.getElementById('coach-modal'))
     document.getElementById('coach-modal').classList.remove('open');
 });
@@ -2102,19 +2100,5 @@ onAuthStateChanged(auth,user=>{
   ✦ ルナに話す
 </button>
 
-<!-- AI Coach モーダル -->
-<div id="coach-modal" role="dialog" aria-modal="true" aria-label="ルナのコーチング">
-  <div class="coach-panel">
-    <div class="coach-ph">
-      <img src="./image/runa-sabun%20(1).png" alt="ルナ">
-      <div>
-        <div class="coach-ph-name">ルナ</div>
-        <div class="coach-ph-sub">AIコーチ ／ GROWモデル</div>
-      </div>
-      <button id="coach-close" aria-label="閉じる">✕</button>
-    </div>
-    <iframe class="coach-iframe" id="coach-iframe" title="ルナのコーチング" allow="microphone"></iframe>
-  </div>
-</div>
 </body>
 </html>

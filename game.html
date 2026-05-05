@@ -1942,6 +1942,10 @@ onAuthStateChanged(auth, user=>{
     setTimeout(showTutorial, 800);
     // 週次サマリーはチュートリアル後（または完了済みなら直接）表示
     setTimeout(maybeShowWeeklySummary, 1200);
+    // クエスト/栄養画面から #coach で来た場合は自動でルナチャットを開く
+    if(location.hash==='#coach'){
+      setTimeout(()=>{ openCoach(); history.replaceState(null,'',location.pathname); }, 1500);
+    }
   } else {
     uid='';
     localStorage.removeItem('vitalia_uid_hint');
