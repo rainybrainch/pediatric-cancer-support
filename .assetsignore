@@ -1,0 +1,32 @@
+# Cloudflare Workers で静的アセットとしてアップロードしないファイル
+# _worker.js などのサーバーサイドコードを除外
+
+_worker.js
+wrangler.toml
+.assetsignore
+.gitignore
+.env
+.env.*
+
+# Netlify 関連（CFには不要）
+netlify.toml
+netlify/
+_redirects
+
+# Pages Functions（Worker モードでは _worker.js を使うため不要）
+functions/
+
+# ドキュメント類
+SETUP.md
+CLOUDFLARE_MIGRATION.md
+firestore.rules
+
+# Python スクリプト
+*.py
+
+# 古いバージョン
+v1/
+
+# その他
+.DS_Store
+node_modules/
