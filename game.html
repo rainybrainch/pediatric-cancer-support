@@ -513,6 +513,38 @@ body::before{
   font-size:.82rem;font-weight:700;cursor:pointer;margin-top:8px;
 }
 
+/* ========== 今週の目標バナー（ルナと決めた誓い） ========== */
+.goal-banner{
+  display:none;
+  background:linear-gradient(135deg,rgba(156,114,224,.18),rgba(201,168,76,.1));
+  border:1px solid rgba(156,114,224,.4);
+  border-radius:14px;padding:14px 18px;
+  position:relative;overflow:hidden;
+}
+.goal-banner.show{display:flex;align-items:center;gap:14px;}
+.goal-banner::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(156,114,224,.15) 0%,transparent 60%);
+}
+.goal-banner-icon{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(156,114,224,.3),rgba(201,168,76,.2));
+  border:1px solid rgba(156,114,224,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+  position:relative;z-index:1;
+  box-shadow:0 0 12px rgba(156,114,224,.2);
+}
+.goal-banner-text{flex:1;min-width:0;position:relative;z-index:1;}
+.goal-banner-lbl{
+  font-size:.55rem;letter-spacing:.14em;color:rgba(200,180,255,.7);
+  font-weight:700;text-transform:uppercase;margin-bottom:3px;
+}
+.goal-banner-content{
+  font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:700;
+  color:#e8dcff;line-height:1.45;
+}
+
 /* ========== ストーリー章（チャプター） ========== */
 .story-section{
   background:linear-gradient(160deg,rgba(12,16,28,.95),rgba(20,12,32,.92));
@@ -1146,6 +1178,15 @@ body::before{
       </div>
     </div>
 
+    <!-- 今週ルナと決めた目標 -->
+    <div class="goal-banner" id="goal-banner">
+      <div class="goal-banner-icon">📜</div>
+      <div class="goal-banner-text">
+        <div class="goal-banner-lbl">今週ルナと決めた誓い</div>
+        <div class="goal-banner-content" id="goal-banner-content">—</div>
+      </div>
+    </div>
+
     <!-- クエストカード -->
     <div class="quest-grid">
 
@@ -1433,11 +1474,28 @@ function loadData(){
     if(raw){ const d=JSON.parse(raw); nScore=d.score||0; nXp=d.xp||0; nCounts=d.counts||nCounts; }
   }catch(e){}
 
-  // 総合XP（両方の週間XP合算）
-  let totalQXp=0, totalNXp=0;
+  // 総合XP（運動 + 栄養 + AIコーチの週間XP合算）
+  let totalQXp=0, totalNXp=0, coachWeekXp=0, coachTotalXp=0;
   try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
   try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  const totalXp=totalQXp+totalNXp+qXp+nXp;
+  try{ coachWeekXp=parseInt(localStorage.getItem(`vc_xp_${uid}_${weekKey()}`)||'0',10); }catch(e){}
+  // 過去のコーチXP累計（vc_xp_uid_W*** をすべてスキャン）
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith(`vc_xp_${uid}_`) && !k.includes('_daily_')){
+        coachTotalXp+=parseInt(localStorage.getItem(k)||'0',10);
+      }
+    }
+  }catch(e){}
+  const totalXp=totalQXp+totalNXp+qXp+nXp+coachTotalXp;
+
+  // 今週ルナと決めた目標
+  let weekGoal=null;
+  try{
+    const g=localStorage.getItem(`vc_goal_${uid}_${weekKey()}`);
+    if(g) weekGoal=JSON.parse(g);
+  }catch(e){}
 
   // ストリーク（運動優先）
   let streak=0;
@@ -1459,7 +1517,7 @@ function loadData(){
     histWeeks=Math.max(hq,hn);
   }catch(e){}
 
-  return { qScore, qGoal, qXp, nScore, nXp, nCounts, totalXp, streak, allAch, achCount, histWeeks };
+  return { qScore, qGoal, qXp, nScore, nXp, nCounts, totalXp, streak, allAch, achCount, histWeeks, coachWeekXp, coachTotalXp, weekGoal };
 }
 
 // ===== UI更新 =====
@@ -1549,6 +1607,17 @@ function updateUI(){
 
   // 実績バッジ
   renderAchv(d.allAch);
+
+  // 今週ルナと決めた目標バナー
+  const banner=document.getElementById('goal-banner');
+  if(banner){
+    if(d.weekGoal && d.weekGoal.text){
+      document.getElementById('goal-banner-content').textContent=d.weekGoal.text;
+      banner.classList.add('show');
+    } else {
+      banner.classList.remove('show');
+    }
+  }
 
   // ストーリー章のリスト更新
   renderStoryList();
@@ -1759,12 +1828,66 @@ async function callCoachProxy(userText){
 }
 
 function parseStepTag(text){
-  const m=text.match(/\[STEP:([GROW])\]/);
-  if(m){
-    _coachState.step=m[1];
-    return text.replace(/\s*\[STEP:[GROW]\]\s*/g,'').trim();
+  let cleaned=text;
+  // STEP タグ抽出
+  const stepM=cleaned.match(/\[STEP:([GROW])\]/);
+  if(stepM){
+    _coachState.step=stepM[1];
   }
-  return text.trim();
+  // GOAL タグ抽出（W段階で決めた具体的目標を保存）
+  const goalM=cleaned.match(/\[GOAL:([^\]]+)\]/);
+  if(goalM && uid && uid!=='guest'){
+    const goalText=goalM[1].trim().slice(0,80);
+    try{
+      localStorage.setItem(`vc_goal_${uid}_${weekKey()}`, JSON.stringify({
+        text: goalText,
+        step: _coachState.step,
+        ts: Date.now()
+      }));
+    }catch(e){}
+    _coachState.justSetGoal = goalText;
+  }
+  // タグを応答テキストから除去
+  cleaned = cleaned.replace(/\s*\[STEP:[GROW]\]\s*/g,'').replace(/\s*\[GOAL:[^\]]+\]\s*/g,'').trim();
+  return cleaned;
+}
+
+// ===== コーチXPシステム =====
+const COACH_XP_TURN=5;       // 1ターンあたり
+const COACH_XP_DAILY=20;     // 1日初回ボーナス
+const COACH_XP_W_GOAL=50;    // W段階で目標設定したら
+
+function awardCoachXp(){
+  if(!uid||uid==='guest') return 0;
+  const today=new Date().toISOString().slice(0,10);
+  const dailyKey=`vc_xp_daily_${uid}_${today}`;
+  const weekXpKey=`vc_xp_${uid}_${weekKey()}`;
+
+  let gained=COACH_XP_TURN;
+  let reasons=['対話 +'+COACH_XP_TURN+'XP'];
+
+  // 1日初回ボーナス
+  if(!localStorage.getItem(dailyKey)){
+    gained+=COACH_XP_DAILY;
+    reasons.push('今日初回 +'+COACH_XP_DAILY+'XP');
+    try{ localStorage.setItem(dailyKey,'1'); }catch(e){}
+  }
+  // W段階で目標設定したらボーナス
+  if(_coachState.justSetGoal){
+    gained+=COACH_XP_W_GOAL;
+    reasons.push('🎯 目標設定 +'+COACH_XP_W_GOAL+'XP');
+    _coachState.justSetGoal=null;
+  }
+
+  // 週次の合計に加算
+  let currentWeekXp=0;
+  try{ currentWeekXp=parseInt(localStorage.getItem(weekXpKey)||'0',10); }catch(e){}
+  try{ localStorage.setItem(weekXpKey, String(currentWeekXp+gained)); }catch(e){}
+
+  // トースト表示
+  showCoachToast('✨ '+reasons.join(' / '));
+
+  return gained;
 }
 
 // ルナの表情を会話文脈から推定して画像を切り替え
@@ -1811,6 +1934,9 @@ async function sendCoachMessage(){
     renderCoachStep();
     applyLunaFace(pickLunaFace(clean, _coachState.step));
     awardCoachAchievements();
+    awardCoachXp();
+    // ホーム画面のUIを再計算（XP合算・目標バナー反映）
+    if(typeof updateUI==='function') updateUI();
   }catch(err){
     removeTyping();
     appendBubble('luna',`（呼び出しに失敗しました：${err.message}）\n\n少し時間をおいて、もう一度お試しください。継続する場合は研究事務局までご連絡を。`);
