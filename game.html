@@ -438,6 +438,195 @@ body::before{
 }
 .qc-grow-sub{font-size:.44rem;color:rgba(156,114,224,.45);display:block;margin-top:2px;}
 
+/* ========== PWAインストールバナー ========== */
+#pwa-banner{
+  display:none;
+  position:fixed;left:14px;right:14px;bottom:80px;z-index:120;
+  background:linear-gradient(135deg,rgba(20,16,40,.98),rgba(28,22,52,.98));
+  border:1px solid rgba(201,168,76,.4);
+  border-radius:14px;padding:12px 14px;
+  box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 30px rgba(201,168,76,.1);
+  align-items:center;gap:11px;
+  animation:slideUp .35s cubic-bezier(.22,1,.36,1) both;
+}
+#pwa-banner.show{display:flex;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.pwa-icon{
+  width:42px;height:42px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,#c9a84c,#f0d48a);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;color:#1a1200;
+  box-shadow:0 0 12px rgba(201,168,76,.3);
+}
+.pwa-text{flex:1;min-width:0;}
+.pwa-title{font-size:.78rem;font-weight:700;color:var(--gold2);line-height:1.3;margin-bottom:2px;}
+.pwa-desc{font-size:.62rem;color:rgba(170,188,216,.55);line-height:1.55;}
+.pwa-btns{display:flex;flex-direction:column;gap:5px;flex-shrink:0;}
+.pwa-install{
+  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.22));
+  border:1px solid rgba(201,168,76,.5);
+  border-radius:8px;padding:6px 14px;
+  color:var(--gold2);font-family:inherit;font-size:.7rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;transition:background .2s;
+}
+.pwa-install:hover{background:linear-gradient(135deg,rgba(201,168,76,.55),rgba(201,168,76,.3));}
+.pwa-dismiss{
+  background:none;border:1px solid rgba(170,188,216,.15);
+  border-radius:8px;padding:4px 10px;
+  color:rgba(170,188,216,.4);font-family:inherit;font-size:.6rem;
+  cursor:pointer;
+}
+.pwa-dismiss:hover{color:rgba(170,188,216,.7);border-color:rgba(170,188,216,.3);}
+
+/* iOS用ヘルプモーダル */
+#ios-install-modal{
+  display:none;position:fixed;inset:0;z-index:290;
+  background:rgba(4,6,12,.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:18px;
+}
+#ios-install-modal.open{display:flex;}
+.ios-box{
+  background:linear-gradient(160deg,#0d1225 0%,#101830 100%);
+  border:1px solid rgba(201,168,76,.4);border-radius:18px;
+  max-width:340px;width:100%;padding:22px;text-align:center;
+  animation:modalIn .35s cubic-bezier(.22,1,.36,1);
+}
+.ios-title{
+  font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;
+  color:var(--gold2);margin-bottom:8px;
+}
+.ios-step{
+  text-align:left;font-size:.78rem;color:rgba(220,225,245,.85);
+  line-height:1.85;margin:12px 0;padding:10px 14px;
+  background:rgba(255,255,255,.04);border-radius:8px;
+}
+.ios-step b{color:#90b8ff;}
+.ios-close{
+  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));
+  border:1px solid rgba(201,168,76,.5);border-radius:10px;
+  padding:9px 18px;color:var(--gold2);font-family:inherit;
+  font-size:.82rem;font-weight:700;cursor:pointer;margin-top:8px;
+}
+
+/* ========== ストーリー章（チャプター） ========== */
+.story-section{
+  background:linear-gradient(160deg,rgba(12,16,28,.95),rgba(20,12,32,.92));
+  border:1px solid rgba(156,114,224,.18);border-radius:18px;padding:18px 20px;
+  position:relative;overflow:hidden;
+}
+.story-section::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 0% 0%,rgba(156,114,224,.08) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 30% at 100% 100%,rgba(201,168,76,.05) 0%,transparent 55%);
+}
+.story-head{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.65rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;
+  position:relative;z-index:1;
+}
+.story-progress{font-size:.6rem;color:rgba(156,114,224,.7);font-weight:700;}
+.story-list{display:flex;flex-direction:column;gap:8px;position:relative;z-index:1;}
+.story-chapter{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:11px 14px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:all .25s;
+  opacity:.5;
+}
+.story-chapter.unlocked{
+  opacity:1;
+  background:linear-gradient(135deg,rgba(156,114,224,.1),rgba(156,114,224,.03));
+  border-color:rgba(156,114,224,.3);
+}
+.story-chapter.unlocked:hover{
+  border-color:rgba(156,114,224,.5);
+  box-shadow:0 4px 16px rgba(156,114,224,.1);
+  transform:translateY(-1px);
+}
+.story-num{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(156,114,224,.1);border:1px solid rgba(156,114,224,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;
+  color:rgba(200,180,255,.5);flex-shrink:0;
+}
+.story-chapter.unlocked .story-num{
+  background:linear-gradient(135deg,rgba(156,114,224,.3),rgba(201,168,76,.18));
+  border-color:rgba(156,114,224,.55);
+  color:#d8c8ff;
+  box-shadow:0 0 12px rgba(156,114,224,.2);
+}
+.story-info{flex:1;min-width:0;}
+.story-title{
+  font-family:'Noto Serif JP',serif;font-size:.84rem;font-weight:700;
+  color:rgba(200,215,235,.55);margin-bottom:1px;line-height:1.3;
+}
+.story-chapter.unlocked .story-title{color:var(--gold2);}
+.story-meta{font-size:.58rem;color:var(--muted);}
+.story-chapter.unlocked .story-meta{color:rgba(200,180,255,.55);}
+.story-arrow{
+  font-size:.85rem;color:rgba(156,114,224,.4);flex-shrink:0;
+}
+.story-chapter.unlocked .story-arrow{color:rgba(200,180,255,.7);}
+.story-chapter.locked .story-arrow{color:rgba(170,188,216,.2);}
+
+/* チャプター閲覧モーダル */
+#story-modal{
+  display:none;position:fixed;inset:0;z-index:280;
+  background:rgba(4,6,12,.88);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:18px;
+}
+#story-modal.open{display:flex;}
+.story-modal-box{
+  background:linear-gradient(160deg,#0d0a1f 0%,#10122a 60%,#080a18 100%);
+  border:1px solid rgba(156,114,224,.45);border-radius:22px;
+  max-width:460px;width:100%;max-height:90vh;overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,0,0,.8),0 0 60px rgba(156,114,224,.12);
+  animation:modalIn .4s cubic-bezier(.22,1,.36,1);position:relative;
+}
+.sm-hero{
+  padding:24px 24px 18px;text-align:center;
+  border-bottom:1px solid rgba(156,114,224,.15);
+  background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(156,114,224,.12) 0%,transparent 65%);
+}
+.sm-chapter-num{
+  font-size:.58rem;letter-spacing:.2em;color:rgba(156,114,224,.6);
+  font-weight:700;margin-bottom:6px;
+}
+.sm-title{
+  font-family:'Noto Serif JP',serif;font-size:1.25rem;font-weight:900;
+  color:#d8c8ff;margin-bottom:8px;letter-spacing:.05em;
+}
+.sm-subtitle{
+  font-size:.68rem;color:rgba(200,180,255,.5);font-style:italic;
+}
+.sm-body{padding:20px 24px 22px;}
+.sm-text{
+  font-family:'Noto Serif JP',serif;
+  font-size:.86rem;line-height:2;color:rgba(220,215,245,.85);
+  white-space:pre-line;
+}
+.sm-text em{color:#c0a0f0;font-style:normal;font-weight:700;}
+.sm-quote{
+  margin-top:16px;background:rgba(156,114,224,.08);
+  border-left:3px solid rgba(156,114,224,.45);border-radius:6px;
+  padding:10px 14px;font-size:.78rem;line-height:1.85;
+  color:rgba(200,180,255,.75);font-style:italic;
+}
+.sm-close{
+  display:block;width:100%;margin-top:18px;
+  background:linear-gradient(135deg,rgba(156,114,224,.32),rgba(156,114,224,.18));
+  border:1px solid rgba(156,114,224,.5);border-radius:12px;
+  padding:11px;color:#d8c8ff;
+  font-family:'Noto Serif JP',serif;font-size:.86rem;font-weight:700;
+  cursor:pointer;
+}
+.sm-locked-note{
+  text-align:center;font-size:.7rem;color:rgba(170,188,216,.45);
+  padding:24px;line-height:1.85;
+}
+
 /* ========== 実績エリア ========== */
 .achv-section{
   background:rgba(12,16,28,.92);
@@ -1088,6 +1277,17 @@ body::before{
 
     </div>
 
+    <!-- ストーリー章 -->
+    <div class="story-section">
+      <div class="story-head">
+        <span>📖 ヴィタリアの物語</span>
+        <span class="story-progress" id="story-progress-lbl">—</span>
+      </div>
+      <div class="story-list" id="story-list">
+        <!-- JSで描画 -->
+      </div>
+    </div>
+
     <!-- 実績 -->
     <div class="achv-section">
       <div class="achv-head">
@@ -1342,6 +1542,22 @@ function updateUI(){
 
   // 実績バッジ
   renderAchv(d.allAch);
+
+  // ストーリー章のリスト更新
+  renderStoryList();
+
+  // レベル昇格でチャプター解放のお祝い
+  const lvSeenKey=`vt_lv_seen_${uid}`;
+  let lvSeen=0;
+  try{ lvSeen=parseInt(localStorage.getItem(lvSeenKey)||'1',10); }catch(e){ lvSeen=1; }
+  if(lv.lv>lvSeen){
+    localStorage.setItem(lvSeenKey,String(lv.lv));
+    // 新しい章が開放されたら少し遅れて開いてみせる
+    const newChapter=CHAPTERS.find(c=>c.lv===lv.lv);
+    if(newChapter){
+      setTimeout(()=>openStory(lv.lv,true), 1500);
+    }
+  }
 }
 
 // ===== 実績レンダリング =====
@@ -1730,6 +1946,200 @@ onAuthStateChanged(auth, user=>{
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
 
+// ===== PWAインストール促進 =====
+let _pwaDeferredPrompt=null;
+const PWA_DISMISS_KEY='vt_pwa_dismiss';
+const PWA_DISMISS_DAYS=7;
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone===true;
+}
+function isIOSSafari(){
+  const ua=navigator.userAgent;
+  return /iP(hone|ad|od)/.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua);
+}
+function pwaCanShow(){
+  if(isStandalone()) return false; // 既にインストール済み
+  const dismissed=parseInt(localStorage.getItem(PWA_DISMISS_KEY)||'0',10);
+  if(dismissed && Date.now()-dismissed < PWA_DISMISS_DAYS*86400000) return false;
+  return true;
+}
+function showPwaBanner(){
+  if(!pwaCanShow()) return;
+  document.getElementById('pwa-banner').classList.add('show');
+}
+
+// Chrome / Edge：beforeinstallprompt をキャッチ
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  _pwaDeferredPrompt=e;
+  // ログイン後＆少し時間が経ってから表示
+  setTimeout(()=>{ if(uid && uid!=='guest') showPwaBanner(); }, 6000);
+});
+
+// iOS Safari は beforeinstallprompt 非対応 → 手動で出す
+if(isIOSSafari()){
+  setTimeout(()=>{ if(uid && uid!=='guest') showPwaBanner(); }, 8000);
+}
+
+document.getElementById('pwa-install-btn').addEventListener('click',async ()=>{
+  if(_pwaDeferredPrompt){
+    document.getElementById('pwa-banner').classList.remove('show');
+    _pwaDeferredPrompt.prompt();
+    const choice=await _pwaDeferredPrompt.userChoice.catch(()=>({outcome:'dismissed'}));
+    if(choice.outcome==='accepted'){
+      localStorage.setItem(PWA_DISMISS_KEY,String(Date.now()));
+    }
+    _pwaDeferredPrompt=null;
+  } else if(isIOSSafari()){
+    document.getElementById('pwa-banner').classList.remove('show');
+    document.getElementById('ios-install-modal').classList.add('open');
+  } else {
+    document.getElementById('pwa-banner').classList.remove('show');
+  }
+});
+document.getElementById('pwa-dismiss-btn').addEventListener('click',()=>{
+  localStorage.setItem(PWA_DISMISS_KEY,String(Date.now()));
+  document.getElementById('pwa-banner').classList.remove('show');
+});
+document.getElementById('ios-close-btn').addEventListener('click',()=>{
+  document.getElementById('ios-install-modal').classList.remove('open');
+});
+
+// ===== ストーリー章（チャプター） =====
+const CHAPTERS=[
+  {lv:1, num:1, title:'転生 — 目覚めの時', subtitle:'Lv.1 で開放',
+    text:`気がつくと、あなたは見知らぬ草原に立っていた。
+頭上では銀色の女神が微笑んでいる。
+
+「ようこそ、ヴィタリアへ。」
+
+ここは <em>健康の異世界</em>。前世での試練を乗り越えたあなただけが、辿り着ける場所。
+
+「あなたの身体は、まだ本来の力を取り戻していません。これから少しずつ、運動と栄養の冒険を通じて、力を蘇らせていきましょう。」`,
+    quote:`ルナ：「焦らなくていい。一歩ずつ、確実に。」`},
+  {lv:2, num:2, title:'剣士カイトとの出会い', subtitle:'Lv.2 で開放',
+    text:`草原を抜けた先に、赤いマントを翻す剣士が立っていた。
+
+「俺はカイト。鍛錬の剣士だ。お前の身体を鍛え直す手伝いをしよう。」
+
+カイトは、かつて重い試練を乗り越えた経験を持つ。だからこそ、無理をしない大切さを知っている。
+
+「<em>週150分</em>。それが俺たちの目標だ。散歩でも、買い物でも、家事でも構わない。続けることが、何よりの強さだ。」`,
+    quote:`カイト：「強くなるんじゃない。続けるんだ。」`},
+  {lv:3, num:3, title:'魔法使いセラの祝福', subtitle:'Lv.3 で開放',
+    text:`森の奥、エメラルドの泉のほとりに、緑のローブを纏った若き魔法使いが座っていた。
+
+「セラと申します。魔力の巫女です。」
+
+セラの魔法は、食事に宿る命の力を引き出す術。野菜・果物・たんぱく質 — それぞれが特別な意味を持つ。
+
+「<em>1日350gの野菜</em>を目指しましょう。多すぎる加工食品は魔力を濁らせます。バランスこそが、真の魔法の鍵です。」
+
+セラはあなたに、栄養クエストを記録する魔法の手帳を授けた。`,
+    quote:`セラ：「身体が変われば、心も明るく彩られますよ。」`},
+  {lv:4, num:4, title:'試練の日々', subtitle:'Lv.4 で開放',
+    text:`冒険を始めて、いくつかの週が過ぎた。
+楽な日もあれば、辛い日もある。
+
+ある日、あなたが疲れた顔で泉を訪れたとき、ルナは静かに語りかけた。
+
+「<em>停滞は、後退ではありません</em>。
+休む日も、冒険の一部です。」
+
+カイトもセラも、頷いている。
+ヴィタリアでは、立ち止まる勇気こそが、最も称賛されるものなのだ。
+
+あなたは深く息を吸い、もう一度立ち上がる。`,
+    quote:`ルナ：「強さとは、続ける勇気のこと。」`},
+  {lv:5, num:5, title:'伝説の転生者へ', subtitle:'Lv.5 で開放',
+    text:`12週の冒険を経て、あなたは確かに変わった。
+
+身体は軽く、心は澄んでいる。
+ルナ、カイト、セラ — 三人があなたを囲む。
+
+「あなたは <em>伝説の転生者</em> として、新たな章へ進む資格を得ました。」
+
+ルナの声には、ほのかな涙が混じっていた。
+
+「ヴィタリアでの冒険は終わりません。これからも、あなた自身の物語を紡いでいってください。」
+
+光が満ち、ヴィタリアの全景が眼前に広がる。
+あなたの冒険は、ここから本当の意味で始まるのだ。`,
+    quote:`三人より：「あなたが歩んだ道のりこそが、ヴィタリアの新しい伝説です。」`},
+];
+
+function getCurrentLevel(){
+  // updateUI と同じロジックで現在のレベルを取得
+  let totalQXp=0,totalNXp=0,qXp=0,nXp=0;
+  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const r=localStorage.getItem(`vq_${uid}_${weekKey()}`); if(r) qXp=(JSON.parse(r).xp||0); }catch(e){}
+  try{ const r=localStorage.getItem(`vn_${uid}_${weekKey()}`); if(r) nXp=(JSON.parse(r).xp||0); }catch(e){}
+  const totalXp=totalQXp+totalNXp+qXp+nXp;
+  return getLv(totalXp).lv;
+}
+
+function renderStoryList(){
+  const el=document.getElementById('story-list');
+  if(!el) return;
+  const currentLv=getCurrentLevel();
+  const unlockedCount=CHAPTERS.filter(c=>currentLv>=c.lv).length;
+  document.getElementById('story-progress-lbl').textContent=`${unlockedCount} / ${CHAPTERS.length} 章 開放`;
+  el.innerHTML=CHAPTERS.map(c=>{
+    const unlocked=currentLv>=c.lv;
+    return `<div class="story-chapter ${unlocked?'unlocked':'locked'}" data-lv="${c.lv}">
+      <div class="story-num">${c.num}</div>
+      <div class="story-info">
+        <div class="story-title">${unlocked?c.title:'??? — 未開放の章'}</div>
+        <div class="story-meta">${unlocked?'タップして読む':`Lv.${c.lv} で開放`}</div>
+      </div>
+      <div class="story-arrow">${unlocked?'→':'🔒'}</div>
+    </div>`;
+  }).join('');
+  // クリックイベント
+  el.querySelectorAll('.story-chapter').forEach(node=>{
+    node.addEventListener('click',()=>{
+      const lv=parseInt(node.dataset.lv,10);
+      openStory(lv, currentLv>=lv);
+    });
+  });
+}
+
+function openStory(lv, unlocked){
+  const c=CHAPTERS.find(x=>x.lv===lv);
+  if(!c) return;
+  document.getElementById('sm-chapter-num').textContent=`— CHAPTER ${c.num} —`;
+  if(unlocked){
+    document.getElementById('sm-title').textContent=c.title;
+    document.getElementById('sm-subtitle').textContent=c.subtitle;
+    document.getElementById('sm-content').innerHTML=`
+      <div class="sm-text">${c.text}</div>
+      <div class="sm-quote">${c.quote}</div>
+    `;
+  }else{
+    document.getElementById('sm-title').textContent='??? — 未開放の章';
+    document.getElementById('sm-subtitle').textContent=`Lv.${c.lv} で開放されます`;
+    document.getElementById('sm-content').innerHTML=`
+      <div class="sm-locked-note">
+        🔒<br><br>
+        この章はまだ封印されています。<br>
+        運動・栄養クエストを記録してXPを貯め、<br>
+        <strong>Lv.${c.lv}</strong> に到達すると開放されます。
+      </div>
+    `;
+  }
+  document.getElementById('story-modal').classList.add('open');
+}
+
+document.getElementById('sm-close').addEventListener('click',()=>{
+  document.getElementById('story-modal').classList.remove('open');
+});
+document.getElementById('story-modal').addEventListener('click',e=>{
+  if(e.target.id==='story-modal') e.target.classList.remove('open');
+});
+
 // ===== 週次サマリーモーダル =====
 function prevWeekKey(){
   const d=new Date(); d.setDate(d.getDate()-7);
@@ -1749,6 +2159,19 @@ function prevWeekLabel(){
 
 function maybeShowWeeklySummary(){
   if(!uid || uid==='guest') return;
+
+  // 最終訪問日時を更新（次回の不在判定用）
+  const lastVisitKey=`vt_last_visit_${uid}`;
+  const now=Date.now();
+  const lastVisit=parseInt(localStorage.getItem(lastVisitKey)||'0',10);
+  localStorage.setItem(lastVisitKey,String(now));
+
+  // 7日以上の不在から復帰した場合は復帰モーダルを優先表示
+  if(lastVisit>0 && now-lastVisit>=7*24*60*60*1000){
+    showReturnModal(Math.floor((now-lastVisit)/86400000));
+    return;
+  }
+
   const seenKey=`vt_weekly_seen_${uid}`;
   const thisWeek=weekKey();
   // 今週内に既に表示済みならスキップ
@@ -1819,6 +2242,59 @@ function maybeShowWeeklySummary(){
 document.getElementById('weekly-close').addEventListener('click',()=>{
   document.getElementById('weekly-modal').style.display='none';
 });
+
+// 7日以上の不在から復帰したときの「お帰りなさい」モーダル
+function showReturnModal(daysAway){
+  // 過去2週間の合算データを集計
+  let totalEverXp=0,achCount=0,streak=0;
+  try{
+    const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]');
+    totalEverXp+=h.reduce((s,x)=>s+(x.xp||0),0);
+  }catch(e){}
+  try{
+    const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]');
+    totalEverXp+=h.reduce((s,x)=>s+(x.xp||0),0);
+  }catch(e){}
+  try{
+    const achQ=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}');
+    const achN=JSON.parse(localStorage.getItem(`vn_ach_${uid}`)||'{}');
+    const achC=JSON.parse(localStorage.getItem(`vc_ach_${uid}`)||'{}');
+    achCount=Object.keys(Object.assign({},achQ,achN,achC)).filter(k=>(Object.assign({},achQ,achN,achC))[k]).length;
+  }catch(e){}
+  try{ const s=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); streak=s.count||0; }catch(e){}
+
+  // モーダルの内容を「お帰りなさい」モードに書き換え
+  const head=document.querySelector('#weekly-modal .sm-hero')||document.querySelector('#weekly-modal > div > div:first-child');
+  // 既存のweekly-modalを使うので、テキストを差し替える
+  document.getElementById('weekly-luna-img').src=`./image/runa-sabun%20(5).png`; // 優しい表情
+  const wkLbl=document.getElementById('weekly-week-lbl');
+  if(wkLbl) wkLbl.textContent='';
+  // ヘッダーのSUMMARYラベルとタイトルを書き換え
+  const headerEl=document.querySelector('#weekly-modal .reveal, #weekly-modal h2')||document.querySelector('#weekly-modal h2');
+  // weekly-modal のヘッダー直下の要素を直接書き換える
+  const allDivs=document.querySelectorAll('#weekly-modal div');
+  allDivs.forEach(el=>{
+    if(el.textContent==='— LAST WEEK SUMMARY —') el.textContent='— WELCOME BACK —';
+  });
+  const titleH=document.querySelector('#weekly-modal h2');
+  if(titleH) titleH.textContent='お帰りなさい、勇者よ';
+
+  document.getElementById('weekly-luna-msg').textContent=
+    `${daysAway}日ぶりですね。あなたが戻ってくるのを、ずっと待っていました。\n\n冒険は、いつでも再開できます。今日は、無理のないところから始めましょう。`;
+
+  // 統計ブロックは「これまでの累計」に
+  document.getElementById('weekly-ex-num').textContent=daysAway+'日';
+  document.getElementById('weekly-ex-sub').textContent='お休みでした';
+  document.getElementById('weekly-nu-num').textContent=achCount+'個';
+  document.getElementById('weekly-nu-sub').textContent='獲得した実績';
+  document.getElementById('weekly-xp-num').textContent='+'+totalEverXp;
+  document.getElementById('weekly-streak-num').textContent=streak;
+
+  document.getElementById('weekly-suggestion').textContent=
+    '今日はまず、5分の散歩か、野菜を1皿食べるところから。記録ボタンを押すだけで、冒険は再開します。';
+
+  document.getElementById('weekly-modal').style.display='flex';
+}
 
 // ===== チュートリアル =====
 const TUT_STEPS=[
@@ -1933,6 +2409,46 @@ function closeTutorial(){
       </div>
 
       <button id="weekly-close" style="width:100%;background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));border:1px solid rgba(201,168,76,.5);border-radius:12px;padding:11px;color:var(--gold2);font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;cursor:pointer;">今週も冒険を続ける ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- PWA インストールバナー -->
+<div id="pwa-banner" role="dialog" aria-label="ホーム画面に追加">
+  <div class="pwa-icon">✦</div>
+  <div class="pwa-text">
+    <div class="pwa-title">アプリとしてインストール</div>
+    <div class="pwa-desc">ホーム画面に追加すると、より快適に冒険できます</div>
+  </div>
+  <div class="pwa-btns">
+    <button class="pwa-install" id="pwa-install-btn">追加</button>
+    <button class="pwa-dismiss" id="pwa-dismiss-btn">後で</button>
+  </div>
+</div>
+
+<!-- iOS Safari 用インストール手順モーダル -->
+<div id="ios-install-modal">
+  <div class="ios-box">
+    <div class="ios-title">📱 ホーム画面に追加</div>
+    <p style="font-size:.74rem;color:rgba(170,188,216,.6);line-height:1.7;margin-bottom:6px;">アプリのように起動できるようになります。</p>
+    <div class="ios-step">1. 画面下の <b>共有ボタン</b>（□に↑のアイコン）をタップ</div>
+    <div class="ios-step">2. メニューから <b>「ホーム画面に追加」</b> を選ぶ</div>
+    <div class="ios-step">3. 名前を確認して <b>「追加」</b></div>
+    <button class="ios-close" id="ios-close-btn">閉じる</button>
+  </div>
+</div>
+
+<!-- ストーリー章モーダル -->
+<div id="story-modal" role="dialog" aria-modal="true">
+  <div class="story-modal-box">
+    <div class="sm-hero">
+      <div class="sm-chapter-num" id="sm-chapter-num">— CHAPTER 1 —</div>
+      <h2 class="sm-title" id="sm-title">章タイトル</h2>
+      <div class="sm-subtitle" id="sm-subtitle"></div>
+    </div>
+    <div class="sm-body">
+      <div id="sm-content"></div>
+      <button class="sm-close" id="sm-close">続きを冒険する ✦</button>
     </div>
   </div>
 </div>

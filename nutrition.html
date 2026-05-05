@@ -635,6 +635,54 @@ body::before{
   font-size:.85rem;cursor:pointer;transition:background .15s;line-height:1;
 }
 .food-cam-btn:hover{background:rgba(92,140,212,.3);}
+
+/* ===== 写真CTAバナー ===== */
+.photo-cta{
+  display:flex;align-items:center;gap:14px;width:100%;
+  background:linear-gradient(135deg,rgba(78,201,138,.18) 0%,rgba(92,140,212,.18) 100%);
+  border:1px solid rgba(78,201,138,.4);
+  border-radius:14px;padding:14px 16px;margin-bottom:12px;
+  color:inherit;font-family:inherit;cursor:pointer;
+  text-align:left;position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.photo-cta::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 0% 0%,rgba(78,201,138,.15) 0%,transparent 60%);
+  pointer-events:none;
+}
+.photo-cta:hover{
+  transform:translateY(-2px);
+  border-color:rgba(78,201,138,.6);
+  box-shadow:0 8px 28px rgba(78,201,138,.18);
+}
+.photo-cta-icon{
+  font-size:1.7rem;flex-shrink:0;
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(78,201,138,.35),rgba(92,140,212,.3));
+  border:1px solid rgba(78,201,138,.5);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(78,201,138,.2);
+  position:relative;z-index:1;
+}
+.photo-cta-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;position:relative;z-index:1;}
+.photo-cta-title{
+  font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;
+  color:#a8e8c0;letter-spacing:.04em;
+}
+.photo-cta-sub{
+  font-size:.65rem;color:rgba(170,210,200,.7);line-height:1.55;
+}
+.photo-cta-arrow{
+  font-size:1.1rem;color:rgba(168,232,192,.6);flex-shrink:0;
+  position:relative;z-index:1;transition:transform .2s;
+}
+.photo-cta:hover .photo-cta-arrow{transform:translateX(4px);color:#a8e8c0;}
+@media(max-width:480px){
+  .photo-cta-sub{display:none;}
+  .photo-cta{padding:12px 14px;}
+  .photo-cta-icon{width:40px;height:40px;font-size:1.4rem;}
+}
 /* ===== Gemini Visionモーダル ===== */
 #vision-modal{
   position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:400;
@@ -831,10 +879,20 @@ setTimeout(function(){
     <!-- ===== 左：食材ボード ===== -->
     <div class="food-board">
 
+      <!-- 写真撮影 CTAバナー -->
+      <button class="photo-cta" id="photo-cta-btn" type="button">
+        <span class="photo-cta-icon">📷</span>
+        <span class="photo-cta-text">
+          <span class="photo-cta-title">写真でAI自動記録</span>
+          <span class="photo-cta-sub">食事の写真を撮るだけ。セラの魔法で食材を自動判定します</span>
+        </span>
+        <span class="photo-cta-arrow">→</span>
+      </button>
+
       <!-- 食材検索 -->
       <div class="food-search-wrap">
         <span class="food-search-icon">🔍</span>
-        <input type="text" class="food-search-box" id="food-search" placeholder="食材・料理を検索（例：ラーメン、鮭、玄米…）" autocomplete="off">
+        <input type="text" class="food-search-box" id="food-search" placeholder="または手動で検索（例：ラーメン、鮭、玄米…）" autocomplete="off">
         <button class="food-cam-btn" id="food-cam-btn" title="写真でAI解析">📷</button>
         <button class="food-search-clear" id="search-clear">✕</button>
         <div class="search-results" id="search-results"></div>
@@ -1952,6 +2010,9 @@ let _visionItems=[];
 document.getElementById('food-cam-btn').addEventListener('click',()=>{
   document.getElementById('img-capture').click();
 });
+document.getElementById('photo-cta-btn').addEventListener('click',()=>{
+  document.getElementById('img-capture').click();
+});
 
 document.getElementById('img-capture').addEventListener('change',async e=>{
   const file=e.target.files[0]; if(!file) return;
@@ -1966,67 +2027,39 @@ function openVisionModal(file){
   const addBtn=document.getElementById('vm-add-btn');
   _visionItems=[];
   addBtn.disabled=true;
+  addBtn.textContent='選択した食事を記録する';
   body.innerHTML=`<div class="vm-analyzing"><div class="vm-spin">⟳</div><br>解析中…</div>`;
   preview.style.display='block';
   preview.src=URL.createObjectURL(file);
   const keySection=document.getElementById('vm-key-section');
-  keySection.style.display='none';
+  if(keySection) keySection.style.display='none';
   modal.classList.add('open');
 
-  const storedKey=localStorage.getItem(GEMINI_KEY_STORE)||'';
-  if(!storedKey){
-    keySection.style.display='block';
-    document.getElementById('vm-key-input').value='';
-    body.innerHTML='<div style="text-align:center;font-size:.75rem;color:var(--muted);padding:8px 0">APIキーを入力して「解析開始」を押してください</div>';
-    addBtn.textContent='解析開始';
-    addBtn.disabled=false;
-    addBtn.onclick=()=>{
-      const k=document.getElementById('vm-key-input').value.trim();
-      if(!k){ return; }
-      localStorage.setItem(GEMINI_KEY_STORE,k);
-      keySection.style.display='none';
-      addBtn.disabled=true;
-      addBtn.textContent='選択した食事を記録する';
-      body.innerHTML=`<div class="vm-analyzing"><div class="vm-spin">⟳</div><br>解析中…</div>`;
-      analyzeWithGemini(file,k);
-    };
-  } else {
-    analyzeWithGemini(file,storedKey);
-  }
+  // サーバー側プロキシ経由で解析（APIキー入力は不要）
+  analyzeViaProxy(file);
 }
 
-async function analyzeWithGemini(file,key){
+async function analyzeViaProxy(file){
   const body=document.getElementById('vm-body');
-  const addBtn=document.getElementById('vm-add-btn');
   try{
     const base64=await fileToBase64(file);
     const mime=file.type||'image/jpeg';
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+    const res=await fetch('/.netlify/functions/gemini-vision',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{parts:[
-          {inline_data:{mime_type:mime,data:base64}},
-          {text:GEMINI_VISION_PROMPT}
-        ]}],
-        generationConfig:{temperature:0.2,maxOutputTokens:1024}
-      })
+      body:JSON.stringify({image:base64,mime})
     });
     if(!res.ok){
       const err=await res.json().catch(()=>({}));
-      throw new Error(err.error?.message||`HTTP ${res.status}`);
+      throw new Error(err.error||`HTTP ${res.status}`);
     }
     const data=await res.json();
-    const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    const raw=data.text||'';
     const jsonStr=raw.replace(/```json|```/g,'').trim();
     const parsed=JSON.parse(jsonStr);
     renderVisionResults(parsed);
   }catch(err){
-    body.innerHTML=`<div class="vm-error">解析に失敗しました：${err.message}<br><small>APIキーを確認してください</small></div>`;
-    const reset=document.createElement('button');
-    reset.className='vm-close';reset.textContent='APIキーを再設定';
-    reset.onclick=()=>{ localStorage.removeItem(GEMINI_KEY_STORE); document.getElementById('vision-modal').classList.remove('open'); };
-    body.appendChild(reset);
+    body.innerHTML=`<div class="vm-error">解析に失敗しました：${err.message}<br><small>少し時間を置いてもう一度お試しください</small></div>`;
   }
 }
 
