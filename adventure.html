@@ -178,6 +178,16 @@ body::before{
   object-fit:contain;
 }
 .battle-enemy-img.attacking{animation:shake .35s ease;filter:drop-shadow(0 0 24px rgba(255,200,100,.8));}
+/* 白背景JPEGはmix-blend-mode: multiply で背景の白を透明化 */
+.battle-enemy-img.whitebg{
+  mix-blend-mode:multiply;
+  filter:drop-shadow(0 12px 40px rgba(180,80,160,.3));
+}
+.battle-enemy-img.whitebg.attacking{filter:drop-shadow(0 0 24px rgba(255,200,100,.8));}
+/* 白背景JPEGの時はステージ自体を白で覆って馴染ませる */
+.battle-enemy-stage.whitebg-mode{
+  background:radial-gradient(ellipse at 50% 60%,#fff 0%,#fff 60%,rgba(245,240,255,.95) 100%);
+}
 .battle-enemy-video{
   max-height:260px;max-width:80%;height:auto;width:auto;
   filter:drop-shadow(0 12px 40px rgba(180,80,160,.5));
@@ -581,6 +591,7 @@ const CHAPTERS=[
   { id:'tutorial', kind:'tutorial', title:'第一章 — 迷いの霧',
     themeGroup:'tutorial',
     enemyName:'迷いの霧', enemyTag:'TUTORIAL — DOUBT',
+    img:'./image/A9.jpeg', whiteBg:true,
     emoji:'🌫', color:'#a0a8c8', hp:30, weakness:'最初の一歩（何でも記録）',
     narration:`気がつくと、灰色の霧があなたを包んでいた。<em>「動いていいのだろうか…」</em>`,
     pixe:`「ぴくっ！転生者さん、ようこそヴィタリアへ！\n私はピクセ — この冒険の記録係＆ご案内役だよ✨\n\n目の前の <em>迷いの霧</em> は最初の障害。心配しないで、<em>どんな小さな記録でも</em>霧を晴らす力になるよ。\n\n下のボタンから、運動・栄養・ルナとの対話のどれかを試してみて♪」`,
@@ -590,6 +601,7 @@ const CHAPTERS=[
   { id:'growth_kaito', kind:'growth', title:'第二章 — 疲労の影（カイトとの出会い）',
     themeGroup:'growth',
     enemyName:'疲労の影', enemyTag:'GROWTH — FATIGUE',
+    img:'./image/A10.jpeg', whiteBg:true,
     emoji:'💧', color:'#5878a8', hp:80, weakness:'運動',
     narration:`霧の先で、青く流れる影が立ちはだかる。<em>「身体が重い…」</em>`,
     pixe:`「ぴくっ、見て！赤マントの剣士が来たよ — <em>カイト</em>だよ！\n運動を担当する仲間で、ちょっとぶっきらぼうだけど、優しい人なの。\n\n目の前の <em>疲労の影</em> は治療後の倦怠感の象徴。<em>運動を1分でも記録</em>すると、影がどんどん薄くなるよ。\n\nカイトが言ってた：「1分の散歩から始めればいい」って♪」`,
@@ -598,6 +610,7 @@ const CHAPTERS=[
   { id:'growth_sera', kind:'growth', title:'第三章 — 枯渇の魔物（セラとの出会い）',
     themeGroup:'growth',
     enemyName:'枯渇の魔物', enemyTag:'GROWTH — MALNUTRITION',
+    img:'./image/A12.jpeg', whiteBg:true,
     emoji:'🌑', color:'#a87858', hp:100, weakness:'魚・野菜・大豆',
     narration:`枯れた森の奥に、茶色く萎んだ魔物が蠢く。<em>「何を食べても力が出ない…」</em>`,
     pixe:`「次は緑のローブの巫女 — <em>セラ</em>！\n栄養を担当する仲間で、いつも穏やかで、レシピを教えてくれるよ。\n\n<em>枯渇の魔物</em> は栄養不足の象徴。<em>魚🐟・野菜🥗・大豆🌱</em> が特に苦手なんだ。\nセラのおすすめレシピを使うと、まとめて記録できて効率的だよ♪\n\n栄養クエストのページから記録してみて！」`,
@@ -606,6 +619,7 @@ const CHAPTERS=[
   { id:'growth_luna', kind:'growth', title:'第四章 — 孤独の幽霊（ルナとの出会い）',
     themeGroup:'growth',
     enemyName:'孤独の幽霊', enemyTag:'GROWTH — LONELINESS',
+    img:'./image/A11.jpeg', whiteBg:true,
     emoji:'👻', color:'#8088b8', hp:120, weakness:'ルナとの対話',
     narration:`湖のほとりに、青く透けた幽霊が浮かぶ。<em>「誰にも分かってもらえない…」</em>`,
     pixe:`「最後の仲間が、銀髪の女神 <em>ルナ</em>！\n対話を担当する仲間で、AIコーチとしていつでも話を聞いてくれるんだ。\n\n<em>孤独の幽霊</em> は治療経験の言葉にできない感情。<em>ルナと話す</em>とゆっくり消えていくよ。\n\nGROWモデルって聞いたことある？\nG（目標）→ R（現状）→ O（選択肢）→ W（意志）の4ステップで気持ちを整理するんだよ。\nホーム画面の紫のカードからルナと話してみて♪」`,
@@ -793,6 +807,9 @@ function setEnemyDisplay(ch){
     // 既存の絵文字雑魚要素を削除
     const oldZako=document.getElementById('enemy-zako');
     if(oldZako) oldZako.remove();
+    // ステージとimgのwhitebg modeをリセット
+    stage.classList.remove('whitebg-mode');
+    img.classList.remove('whitebg');
     if(ch.kind==='zako'){
       // 雑魚：絵文字＋カラー円
       video.style.display='none';
@@ -817,6 +834,11 @@ function setEnemyDisplay(ch){
       video.load();
       img.src=ch.img;
       img.style.display='';
+      // 白背景JPEGなら blend-mode で馴染ませる
+      if(ch.whiteBg){
+        img.classList.add('whitebg');
+        stage.classList.add('whitebg-mode');
+      }
     }
   }
 }
