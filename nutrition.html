@@ -2048,7 +2048,7 @@ async function analyzeViaProxy(file){
   try{
     const base64=await fileToBase64(file);
     const mime=file.type||'image/jpeg';
-    const res=await fetch('/.netlify/functions/gemini-vision',{
+    const res=await fetch('/api/gemini-vision',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({image:base64,mime})
