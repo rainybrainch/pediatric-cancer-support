@@ -618,6 +618,13 @@ body::before{
   .section-label{font-size:.9rem;}
   .section-note{font-size:.65rem;}
 }
+@media(max-width:480px){
+  body{overflow-x:hidden;}
+  .main-content{padding:8px 10px 50px;gap:12px;}
+  .ex-board, .quest-side{min-width:0;}
+  .linked-panel, .side-panel{padding:10px 12px;}
+  .hist-bar{flex-wrap:wrap;}
+}
 @media(max-width:400px){
   .ex-card{min-width:62px;padding:7px 8px;}
   .card-grid{gap:5px;}

@@ -429,11 +429,40 @@ body::before{
   text-decoration:none;cursor:pointer;
 }
 
+@media(max-width:600px){
+  .adv-main{padding:14px 12px;}
+  .chapter-card, .battle-card, .history-card, .global-progress{padding-left:14px;padding-right:14px;}
+  .battle-enemy-stage{height:240px;}
+  .battle-enemy-img{max-height:200px;}
+  .battle-enemy-video{max-height:200px;}
+  .battle-enemy-zako{width:160px;height:160px;}
+  .zako-emoji{font-size:5rem;}
+  .pixe-msg{font-size:.78rem;}
+  .chapter-title{font-size:1rem;}
+  .gp-stats{font-size:.55rem;flex-wrap:wrap;gap:4px;}
+}
 @media(max-width:480px){
-  .battle-enemy-stage{height:220px;}
-  .battle-enemy-img{height:185px;}
+  .adv-header{padding:10px 12px;}
+  .adv-title{font-size:.85rem;}
+  .battle-enemy-stage{height:200px;}
+  .battle-enemy-img{max-height:170px;}
+  .battle-enemy-video{max-height:170px;}
   .attack-grid{grid-template-columns:1fr 1fr 1fr;gap:6px;}
-  .history-grid{grid-template-columns:repeat(4,1fr);}
+  .attack-card{padding:8px 5px;}
+  .attack-icon{font-size:1.1rem;}
+  .attack-label{font-size:.55rem;}
+  .attack-dmg{font-size:.85rem;}
+  .attack-sub{font-size:.45rem;}
+  .history-grid{grid-template-columns:repeat(4,1fr);gap:5px;}
+  .history-cell img{width:32px;height:32px;}
+  .history-cell-name{font-size:.45rem;}
+  .pixe-bubble{padding:11px 12px;gap:9px;}
+  .pixe-face{width:42px;height:42px;}
+  .pixe-msg{font-size:.74rem;line-height:1.7;}
+}
+@media(max-width:380px){
+  .history-grid{grid-template-columns:repeat(3,1fr);}
+  .attack-grid{gap:5px;}
 }
 </style>
 </head>

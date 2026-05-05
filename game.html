@@ -1096,14 +1096,45 @@ body::before{
   .player-stats-mobile{display:flex;}
   .achv-grid{grid-template-columns:repeat(4,1fr);}
 }
+@media(max-width:600px){
+  .g-header{padding:0 14px;height:50px;gap:8px;}
+  .g-logo span:not(.gold-text){display:none;}
+  .g-logo .g-logo-icon{width:24px;height:24px;font-size:.6rem;}
+  .g-logo{font-size:.78rem;}
+  .g-btn{padding:4px 9px;font-size:.65rem;}
+  .g-user{display:none;}
+  .g-main{padding:14px 12px 70px;gap:14px;}
+  .player-card-bar{height:3px;}
+  .player-card-inner{padding:14px 16px;gap:14px;}
+  .quiz-banner, .goal-banner, .adv-banner{padding:11px 13px;}
+  .qb-q{font-size:.82rem;}
+  .qb-opt{font-size:.74rem;padding:8px 10px;}
+  .qcard{border-radius:14px;}
+  .qc-hero{padding:12px 14px 10px;gap:10px;}
+  .qc-face{width:50px;height:50px;}
+  .qc-body{padding:7px 14px 11px;}
+  .qc-xp-num{font-size:.95rem;}
+  .achv-section{padding:14px 14px;}
+}
 @media(max-width:480px){
-  .g-main{padding:16px 14px 60px;}
-  .player-card-inner{flex-direction:column;text-align:center;align-items:center;}
+  body{overflow-x:hidden;}
+  .g-main{padding:12px 10px 70px;gap:12px;}
+  .player-card-inner{flex-direction:column;text-align:center;align-items:center;padding:14px 12px;}
   .player-avatar{width:64px;height:64px;}
-  .xp-note{justify-content:center;gap:16px;}
+  .xp-note{justify-content:center;gap:14px;}
   .player-stats-mobile{justify-content:center;}
+  .player-info{width:100%;}
   .qc-row-xp{display:none;}
   .achv-grid{grid-template-columns:repeat(3,1fr);}
+  .qcard{padding:0;}
+  .bn-tab{padding:0 4px;}
+  .bn-label{font-size:.48rem;}
+}
+@media(max-width:380px){
+  .achv-grid{grid-template-columns:repeat(3,1fr);gap:5px;}
+  .achv-badge{padding:7px 4px;}
+  .achv-badge .ab-icon{font-size:1.15rem;}
+  .achv-badge span:not(.ab-icon){font-size:.5rem;}
 }
 </style>
 </head>
