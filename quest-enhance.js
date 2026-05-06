@@ -240,6 +240,8 @@
     setTimeout(()=>pop.remove(), 1500);
     // 軽い振動
     try{ if(navigator.vibrate) navigator.vibrate(8); }catch(e){}
+    // 効果音
+    try{ sndCoin(); sndDamage(); }catch(e){}
     // ボスバナー再描画
     setTimeout(renderBossBanner, 300);
   }
@@ -273,6 +275,8 @@
           else navigator.vibrate(15);
         }
       }catch(e){}
+      // 効果音
+      try{ sndCombo(lvl); }catch(e){}
 
       // フラッシュ
       if(lvl>=2){
@@ -507,6 +511,7 @@
     `;
     document.body.appendChild(t);
     try{ if(navigator.vibrate) navigator.vibrate([20,40,20]); }catch(e){}
+    try{ sndAchievement(); }catch(e){}
     setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),500); }, 3500);
   }
   // CSSも追加
@@ -549,6 +554,60 @@
     }
   `;
   document.head.appendChild(achStyles);
+
+  // ========== 効果音（Web Audio API・素材不要） ==========
+  let _audioCtx=null;
+  function getAudio(){
+    if(_audioCtx) return _audioCtx;
+    try{
+      _audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    }catch(e){}
+    return _audioCtx;
+  }
+  function isSoundEnabled(){
+    try{ return localStorage.getItem('vt_sound_off')!=='1'; }catch(e){ return true; }
+  }
+  function tone(freq, duration, type='sine', vol=0.05, delay=0){
+    if(!isSoundEnabled()) return;
+    const ctx=getAudio(); if(!ctx) return;
+    const t0=ctx.currentTime+delay;
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.type=type;
+    osc.frequency.value=freq;
+    gain.gain.value=0;
+    gain.gain.linearRampToValueAtTime(vol, t0+0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, t0+duration);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0+duration+0.05);
+  }
+
+  function sndCoin(){
+    // 短い金属チャリン
+    tone(880, 0.08, 'square', 0.04, 0);
+    tone(1320, 0.12, 'square', 0.04, 0.05);
+  }
+  function sndCombo(level){
+    if(level===1){
+      tone(660, 0.1, 'triangle', 0.05);
+      tone(880, 0.15, 'triangle', 0.05, 0.08);
+    } else if(level===2){
+      [523,659,784,1047].forEach((f,i)=>tone(f, 0.12, 'triangle', 0.05, i*0.06));
+    } else {
+      [523,659,784,1047,1318].forEach((f,i)=>tone(f, 0.18, 'square', 0.06, i*0.07));
+      tone(2093, 0.4, 'sine', 0.06, 0.4);
+    }
+  }
+  function sndAchievement(){
+    // ファンファーレ
+    [523,659,784,1047,1568].forEach((f,i)=>tone(f, 0.15, 'triangle', 0.05, i*0.08));
+    tone(2093, 0.5, 'sine', 0.07, 0.5);
+  }
+  function sndDamage(){
+    // ボス被弾
+    tone(120, 0.18, 'sawtooth', 0.05);
+  }
 
   // ========== 公開 API ==========
   window.AppEnhance={

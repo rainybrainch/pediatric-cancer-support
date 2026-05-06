@@ -65,6 +65,51 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 .save-msg{text-align:center;font-size:.72rem;color:var(--green);margin-top:10px;min-height:18px;}
 
 @media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+
+/* テーマ・アクセシビリティ */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-info{flex:1;min-width:0;}
+.toggle-label{font-size:.8rem;color:#e8edff;font-weight:700;}
+.toggle-desc{font-size:.65rem;color:rgba(170,188,216,.5);margin-top:2px;line-height:1.5;}
+.toggle-switch{
+  width:44px;height:24px;border-radius:99px;
+  background:rgba(100,120,200,.2);border:1px solid rgba(255,255,255,.1);
+  position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;
+}
+.toggle-switch::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:18px;height:18px;border-radius:50%;background:#aabcd8;
+  transition:left .2s,background .2s;
+}
+.toggle-switch.on{background:rgba(78,201,138,.35);border-color:rgba(78,201,138,.5);}
+.toggle-switch.on::after{left:22px;background:#a8e8c0;}
+
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.theme-opt{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;
+  font-size:.7rem;font-weight:700;color:rgba(220,225,245,.7);
+  transition:all .2s;
+}
+.theme-opt.selected{border-color:rgba(201,168,76,.5);color:var(--gold2);background:rgba(201,168,76,.08);}
+.theme-opt-circle{width:36px;height:36px;margin:0 auto 6px;border-radius:50%;}
+.theme-opt-gold .theme-opt-circle{background:linear-gradient(135deg,#c9a84c,#f0d48a);}
+.theme-opt-purple .theme-opt-circle{background:linear-gradient(135deg,#9c72e0,#c0a0f0);}
+.theme-opt-green .theme-opt-circle{background:linear-gradient(135deg,#4ec98a,#a8e8c0);}
+
+.btn-export{
+  display:block;width:100%;background:linear-gradient(135deg,rgba(78,201,138,.3),rgba(78,201,138,.15));
+  border:1px solid rgba(78,201,138,.5);border-radius:10px;padding:11px;
+  color:#a8e8c0;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+  margin-top:8px;
+}
+.btn-danger{
+  display:block;width:100%;background:linear-gradient(135deg,rgba(224,92,92,.2),rgba(224,92,92,.1));
+  border:1px solid rgba(224,92,92,.4);border-radius:10px;padding:11px;
+  color:#f0a0a0;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;
+  margin-top:8px;
+}
 </style>
 <script src="./quest-enhance.js" defer></script>
 </head>
@@ -197,6 +242,102 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 
   <button class="btn-save-main" id="save-btn">設定を保存する ✦</button>
   <div class="save-msg" id="save-msg"></div>
+
+  <!-- アクセシビリティ＆体験設定 -->
+  <div class="section">
+    <div class="section-title">⚙ 体験・アクセシビリティ設定</div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🔊 効果音</div>
+        <div class="toggle-desc">記録時のコイン音・コンボ音・実績ファンファーレ</div>
+      </div>
+      <div class="toggle-switch on" id="t-sound" data-key="vt_sound_off"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">📳 振動フィードバック</div>
+        <div class="toggle-desc">記録時・コンボ時に手元が震える（モバイル）</div>
+      </div>
+      <div class="toggle-switch on" id="t-vibrate" data-key="vt_vibrate_off"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">✨ アニメーション軽量化</div>
+        <div class="toggle-desc">画面の動き・キラキラ演出を抑える</div>
+      </div>
+      <div class="toggle-switch" id="t-reduced-motion" data-key="vt_reduced_motion"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🔠 文字大きめ</div>
+        <div class="toggle-desc">本文サイズを 110% に拡大</div>
+      </div>
+      <div class="toggle-switch" id="t-large-text" data-key="vt_large_text"></div>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="toggle-label" style="margin-bottom:6px;">🎨 アクセントテーマ</div>
+      <div class="theme-grid">
+        <div class="theme-opt theme-opt-gold selected" data-theme="gold">
+          <div class="theme-opt-circle"></div>金（標準）
+        </div>
+        <div class="theme-opt theme-opt-purple" data-theme="purple">
+          <div class="theme-opt-circle"></div>紫
+        </div>
+        <div class="theme-opt theme-opt-green" data-theme="green">
+          <div class="theme-opt-circle"></div>緑
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知設定 -->
+  <div class="section">
+    <div class="section-title">🔔 通知設定</div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">📱 ブラウザ通知を許可</div>
+        <div class="toggle-desc">記録のリマインダーや実績解放を通知</div>
+      </div>
+      <div class="toggle-switch" id="t-notify"></div>
+    </div>
+    <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:8px;line-height:1.6;">
+      通知は端末/ブラウザ側でも設定が必要です。許可後は研究のリマインドが届くことがあります。
+    </p>
+  </div>
+
+  <!-- 招待コード -->
+  <div class="section">
+    <div class="section-title">🎁 友達招待</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:12px;line-height:1.7;">
+      研究プロジェクトを一緒に体験する仲間を招待しよう！招待した人・された人どちらにも <strong style="color:#a8e8c0;">+100XP</strong> ボーナス。
+    </p>
+    <div style="background:rgba(78,201,138,.08);border:1px dashed rgba(78,201,138,.4);border-radius:12px;padding:14px;text-align:center;margin-bottom:10px;">
+      <div style="font-size:.6rem;color:rgba(168,232,192,.6);letter-spacing:.1em;font-weight:700;margin-bottom:5px;">あなたの招待コード</div>
+      <div id="my-invite-code" style="font-family:monospace;font-size:1.5rem;font-weight:900;color:#a8e8c0;letter-spacing:.2em;margin-bottom:8px;">—</div>
+      <button class="btn-export" id="btn-copy-code" style="margin-top:0;">📋 コピー</button>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="toggle-label" style="margin-bottom:6px;">招待コードを入力</div>
+      <p style="font-size:.65rem;color:rgba(170,188,216,.4);margin-bottom:8px;">仲間からもらったコードを入れると、両方に +100XP</p>
+      <input type="text" class="form-input" id="invite-code-input" placeholder="例: ABCD12" maxlength="6" style="letter-spacing:.15em;text-align:center;font-family:monospace;font-size:1.1rem;text-transform:uppercase;">
+      <button class="btn-export" id="btn-redeem-code" style="margin-top:8px;">招待コードを使う</button>
+      <div id="invite-msg" style="font-size:.7rem;margin-top:8px;text-align:center;min-height:18px;"></div>
+    </div>
+  </div>
+
+  <!-- データ管理 -->
+  <div class="section">
+    <div class="section-title">💾 データ管理</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:10px;line-height:1.7;">
+      自分の記録データをCSVファイルでダウンロードできます。研究撤回時の参考や、自己管理にご利用ください。
+    </p>
+    <button class="btn-export" id="btn-export-mydata">⬇ 自分のデータをCSVダウンロード</button>
+    <button class="btn-export" id="btn-export-json" style="background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.12));border-color:rgba(92,140,212,.45);color:#a8c8f0;">⬇ JSON形式でバックアップ</button>
+    <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:14px;line-height:1.7;">
+      ⚠️ 「全データ削除」はゲーム進行・記録をリセットします。Firebase 上のデータは別途、研究事務局に削除依頼が必要です。
+    </p>
+    <button class="btn-danger" id="btn-clear-all">🗑 ローカルデータを全削除</button>
+  </div>
 </div>
 
 <script>
@@ -397,6 +538,194 @@ if(saved.weeklyGoal){
 updateBMIDisplay();
 loadNutritionStatus();
 loadQuestStatus();
+
+// ===== トグル設定 =====
+function loadToggles(){
+  document.querySelectorAll('.toggle-switch').forEach(t=>{
+    const key=t.dataset.key;
+    if(!key) return;
+    // _off 系：保存値が '1' なら OFF（toggle off）
+    // 通常系：保存値が '1' なら ON
+    const isOffKey=key.endsWith('_off');
+    const stored=localStorage.getItem(key);
+    if(isOffKey){
+      // OFF系：'1' なら off表示、それ以外は on
+      if(stored==='1') t.classList.remove('on'); else t.classList.add('on');
+    } else {
+      if(stored==='1') t.classList.add('on'); else t.classList.remove('on');
+    }
+    t.addEventListener('click',()=>{
+      const isOn=t.classList.toggle('on');
+      const willStore = isOffKey ? (isOn ? null : '1') : (isOn ? '1' : null);
+      if(willStore===null) localStorage.removeItem(key);
+      else localStorage.setItem(key, willStore);
+      // アニメーション軽減を即適用
+      if(key==='vt_reduced_motion') document.documentElement.style.setProperty('--anim-speed', isOn?'0':'1');
+      if(key==='vt_large_text') document.documentElement.style.fontSize = isOn ? '110%' : '';
+    });
+  });
+  // 初期適用
+  if(localStorage.getItem('vt_large_text')==='1') document.documentElement.style.fontSize='110%';
+}
+loadToggles();
+
+// ===== テーマ選択 =====
+function loadTheme(){
+  const saved=localStorage.getItem('vt_theme')||'gold';
+  document.querySelectorAll('.theme-opt').forEach(o=>{
+    o.classList.toggle('selected', o.dataset.theme===saved);
+    o.addEventListener('click',()=>{
+      document.querySelectorAll('.theme-opt').forEach(x=>x.classList.remove('selected'));
+      o.classList.add('selected');
+      localStorage.setItem('vt_theme', o.dataset.theme);
+      document.documentElement.dataset.theme=o.dataset.theme;
+    });
+  });
+  document.documentElement.dataset.theme=saved;
+}
+loadTheme();
+
+// ===== データエクスポート =====
+function getAllUserData(){
+  const data={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(!k) continue;
+    // 自分のキー（vq_, vn_, vc_, vt_, vb_, va_, vh_）のみ
+    if(/^v[abchnqtw]_/.test(k)){
+      data[k]=localStorage.getItem(k);
+    }
+  }
+  data._exported_at=new Date().toISOString();
+  return data;
+}
+
+function downloadFile(filename, content, mime){
+  const bom='﻿';
+  const blob=new Blob([bom+content],{type:mime});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+
+document.getElementById('btn-export-mydata').addEventListener('click',()=>{
+  const data=getAllUserData();
+  // CSV化（フラットなkey-valueとして）
+  const rows=[['key','value']];
+  Object.keys(data).sort().forEach(k=>{
+    const v=String(data[k]||'').replace(/"/g,'""');
+    rows.push([k, v]);
+  });
+  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const date=new Date().toISOString().slice(0,10);
+  downloadFile(`vitalia_mydata_${date}.csv`, csv, 'text/csv;charset=utf-8;');
+});
+
+document.getElementById('btn-export-json').addEventListener('click',()=>{
+  const data=getAllUserData();
+  const json=JSON.stringify(data,null,2);
+  const date=new Date().toISOString().slice(0,10);
+  downloadFile(`vitalia_backup_${date}.json`, json, 'application/json;charset=utf-8;');
+});
+
+// ===== 招待コード =====
+function getOrCreateInviteCode(){
+  let code=localStorage.getItem('vt_invite_code');
+  if(!code){
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    code='';
+    for(let i=0;i<6;i++) code+=chars[Math.floor(Math.random()*chars.length)];
+    localStorage.setItem('vt_invite_code', code);
+  }
+  return code;
+}
+function awardInviteBonus(reason){
+  // コーチXPに +100XP
+  try{
+    const d=new Date(), j=new Date(d.getFullYear(),0,1);
+    const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+    const wk=`${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+    // とりあえずlocalStorageへ。uidはsettings.htmlでは取得困難なため簡易記録
+    const k=`vt_invite_xp_${reason}_${Date.now()}`;
+    localStorage.setItem(k, '100');
+  }catch(e){}
+}
+document.getElementById('my-invite-code').textContent=getOrCreateInviteCode();
+document.getElementById('btn-copy-code').addEventListener('click',()=>{
+  const code=getOrCreateInviteCode();
+  navigator.clipboard?.writeText(code).then(()=>{
+    document.getElementById('btn-copy-code').textContent='✓ コピーしました！';
+    setTimeout(()=>{ document.getElementById('btn-copy-code').textContent='📋 コピー'; }, 2000);
+  });
+});
+document.getElementById('btn-redeem-code').addEventListener('click',()=>{
+  const input=document.getElementById('invite-code-input');
+  const msg=document.getElementById('invite-msg');
+  const code=(input.value||'').toUpperCase().trim();
+  if(!/^[A-Z0-9]{6}$/.test(code)){
+    msg.textContent='⚠ 6文字のコードを入力してください'; msg.style.color='var(--red)'; return;
+  }
+  if(code===getOrCreateInviteCode()){
+    msg.textContent='⚠ 自分のコードは使えません'; msg.style.color='var(--red)'; return;
+  }
+  if(localStorage.getItem('vt_invite_redeemed')){
+    msg.textContent='⚠ すでに招待コードを使用済みです'; msg.style.color='var(--red)'; return;
+  }
+  localStorage.setItem('vt_invite_redeemed', code);
+  awardInviteBonus('redeemed');
+  msg.textContent='✨ +100XPボーナス！招待ありがとう'; msg.style.color='#a8e8c0';
+  input.value='';
+});
+
+// ===== 通知オプトイン =====
+const notifyToggle=document.getElementById('t-notify');
+function refreshNotifyState(){
+  if(!('Notification' in window)){
+    notifyToggle.classList.remove('on');
+    notifyToggle.style.opacity='.4';
+    notifyToggle.title='このブラウザは通知に対応していません';
+    return;
+  }
+  if(Notification.permission==='granted') notifyToggle.classList.add('on');
+  else notifyToggle.classList.remove('on');
+}
+refreshNotifyState();
+notifyToggle.addEventListener('click', async ()=>{
+  if(!('Notification' in window)) return;
+  if(Notification.permission==='granted'){
+    // 通知をOFFにはブラウザ設定で。ここでは案内のみ
+    alert('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。');
+    return;
+  }
+  if(Notification.permission==='denied'){
+    alert('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。');
+    return;
+  }
+  const result=await Notification.requestPermission();
+  if(result==='granted'){
+    new Notification('ヴィタリア転生録', {
+      body: '通知が有効になりました！ピクセからリマインドが届きます ♪',
+      icon: './icon.svg',
+    });
+  }
+  refreshNotifyState();
+});
+
+document.getElementById('btn-clear-all').addEventListener('click',()=>{
+  if(!confirm('本当にローカルデータを全削除しますか？\nゲーム進行・記録がリセットされます。\n（Firebase上のデータは別途研究事務局へ削除依頼が必要です）')) return;
+  if(!confirm('もう一度確認：本当にすべて削除しますか？')) return;
+  // 自分のキーだけ削除
+  const keysToDelete=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && /^v[abchnqtw]_/.test(k)) keysToDelete.push(k);
+  }
+  keysToDelete.forEach(k=>localStorage.removeItem(k));
+  alert(`${keysToDelete.length}件のローカルデータを削除しました。`);
+  location.href='./index.html';
+});
 </script>
 </body>
 </html>

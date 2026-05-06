@@ -158,6 +158,7 @@ body::before{
 .bn-icon{font-size:1.15rem;line-height:1;}
 .bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
 </style>
+<script src="./quest-enhance.js" defer></script>
 </head>
 <body>
 
@@ -315,6 +316,16 @@ body::before{
         <div class="chart-area" id="chart-nutrition"></div>
         <div class="chart-legend">
           <div class="cl-item"><div class="cl-dot" style="background:#4ec98a;"></div>栄養スコア (0〜25)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">😊 毎日の調子（QOL）— 過去14日</div>
+        <div class="chart-area" id="chart-qol"></div>
+        <div class="chart-legend">
+          <div class="cl-item"><div class="cl-dot" style="background:#a8e8c0;"></div>体調</div>
+          <div class="cl-item"><div class="cl-dot" style="background:#a8d8ff;"></div>気分</div>
+          <div class="cl-item"><div class="cl-dot" style="background:#f0d48a;"></div>活力</div>
         </div>
       </div>
 
@@ -541,11 +552,12 @@ function drawLineChart(containerId, datasets, opts={}){
     return;
   }
   const allPts=datasets.flatMap(d=>d.points);
-  const xMin=0, xMax=allPts.length>0 ? Math.max(...allPts.map(p=>p.x)) : 1;
+  const xMin=0, xMax=opts.xMax!=null?opts.xMax:(allPts.length>0 ? Math.max(...allPts.map(p=>p.x)) : 1);
   const rawMin=Math.min(...allPts.map(p=>p.y));
   const rawMax=Math.max(...allPts.map(p=>p.y));
   const yPad=(rawMax-rawMin)*0.15||1;
-  const yMin=Math.floor(rawMin-yPad), yMax=Math.ceil(rawMax+yPad);
+  const yMin=opts.yMin!=null?opts.yMin:Math.floor(rawMin-yPad);
+  const yMax=opts.yMax!=null?opts.yMax:Math.ceil(rawMax+yPad);
 
   const px=x=>pad.left+cW*(x/Math.max(xMax,1));
   const py=y=>pad.top+cH*(1-(y-yMin)/Math.max(yMax-yMin,1));
@@ -621,6 +633,36 @@ function renderChartExercise(){
 }
 
 // ===== 栄養スコアグラフ =====
+function renderChartQol(){
+  const target=document.getElementById('chart-qol');
+  if(!target) return;
+  const records=[];
+  for(let i=13;i>=0;i--){
+    const d=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    let r=null;
+    try{
+      const raw=localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(raw) r=JSON.parse(raw);
+    }catch(e){}
+    records.push({date:d, ...r});
+  }
+  const dates=records.map(r=>r.date.slice(5));
+  const condPts=records.map((r,i)=>r.condition!=null?{x:i,y:r.condition,label:dates[i]}:null).filter(Boolean);
+  const moodPts=records.map((r,i)=>r.mood!=null?{x:i,y:r.mood,label:dates[i]}:null).filter(Boolean);
+  const energyPts=records.map((r,i)=>r.energy!=null?{x:i,y:r.energy,label:dates[i]}:null).filter(Boolean);
+
+  if(condPts.length===0 && moodPts.length===0 && energyPts.length===0){
+    target.innerHTML='<div class="chart-empty">QOL記録（毎日の調子）がまだありません。ホーム画面から記録できます。</div>';
+    return;
+  }
+
+  drawLineChart('chart-qol', [
+    {points:condPts, color:'#a8e8c0'},
+    {points:moodPts, color:'#a8d8ff'},
+    {points:energyPts, color:'#f0d48a'},
+  ], {height:200, yMax:5, goalY:null, xMax:13});
+}
+
 function renderChartNutrition(){
   let nHist=[];
   try{ nHist=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]').slice().reverse(); }catch(e){}
@@ -639,6 +681,7 @@ function initApp(){
   renderChartBody();
   renderChartExercise();
   renderChartNutrition();
+  renderChartQol();
 }
 
 // ===== イベント =====
