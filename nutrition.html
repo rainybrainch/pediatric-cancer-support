@@ -845,6 +845,7 @@ body::before{
 .vm-close{display:block;width:100%;margin-top:10px;background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;padding:6px;}
 .vm-select-hint{font-size:.62rem;color:var(--muted);text-align:center;margin-bottom:10px;}
 </style>
+<script src="./quest-enhance.js" defer></script>
 </head>
 <body>
 
@@ -1888,6 +1889,7 @@ function buildQuickBoard(){
       sessions.push({name:f.name,icon:f.icon,cat:f.cat,xp:f.xp});
       spawnPlus(e,label,catColor[f.cat]);
       renderLog(); updateUI(); updateCardCounts();
+      if(window.AppEnhance) window.AppEnhance.onFoodRecord(f.cat, f.subtype||null, f.xp);
     });
     c.querySelector('.f-dec').addEventListener('click',e=>{
       e.stopPropagation();
@@ -2015,6 +2017,7 @@ function buildBoard(id, items, cat, cls){
       const label=f.xp>=0 ? `+${f.xp}XP` : `${f.xp}XP`;
       spawnPlus(e, label, color);
       renderLog(); updateUI();
+      if(window.AppEnhance) window.AppEnhance.onFoodRecord(cat, f.subtype, f.xp);
     });
     c.querySelector('.f-dec').addEventListener('click',e=>{
       e.stopPropagation();
@@ -2556,6 +2559,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
+    if(window.AppEnhance) window.AppEnhance.init(uid);
     buildQuickBoard();
     buildRestaurantBoard();
     buildBoard('veg-grid',    FOODS.veg,    'veg',    'fc-veg');

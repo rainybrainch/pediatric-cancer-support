@@ -710,6 +710,7 @@ body::before{
 #coach-close:hover{color:rgba(170,188,216,.8);}
 .coach-iframe{flex:1;border:none;width:100%;background:#080b14;}
 </style>
+<script src="./quest-enhance.js" defer></script>
 </head>
 <body>
 
@@ -1723,6 +1724,8 @@ function addSession(name,icon,mets,type){
   sessions.push({name,icon,mets,type,xp});
   if(type==='high') highMin+=10; else modMin+=10;
   renderLog(); updateUI();
+  // 拡張：演出・コンボ・デイリー・ダメージ
+  if(window.AppEnhance) window.AppEnhance.onExerciseRecord(10, type);
   if(mult>1 && !window._nutBonusShown){
     window._nutBonusShown=true;
     const pct=mult===1.15?'+15%':'+8%';
@@ -2067,6 +2070,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
+    if(window.AppEnhance) window.AppEnhance.init(uid);
     buildBoard('daily-board',EXERCISES.daily,'moderate');
     buildBoard('mod-board',EXERCISES.moderate,'moderate');
     buildBoard('high-board',EXERCISES.high,'high');
