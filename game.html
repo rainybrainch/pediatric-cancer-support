@@ -1137,6 +1137,7 @@ body::before{
   .achv-badge span:not(.ab-icon){font-size:.5rem;}
 }
 </style>
+<script src="./quest-enhance.js" defer></script>
 </head>
 <body>
 
@@ -1827,11 +1828,25 @@ const ALL_ACHV=[
   {id:'def_lust',      icon:'🌙', name:'色欲討伐'},
   {id:'def_final',     icon:'✨', name:'真の試練突破'},
 ];
+let _achvSeen=null;
 function renderAchv(ach){
   const el=document.getElementById('achv-grid');
   const unlockedCount=ALL_ACHV.filter(a=>!!ach[a.id]).length;
   const countEl=document.getElementById('achv-count-lbl');
   if(countEl) countEl.textContent=`${unlockedCount} / ${ALL_ACHV.length} 解放`;
+
+  // 新規解放を検出して派手トースト
+  if(_achvSeen!==null){
+    ALL_ACHV.forEach(a=>{
+      if(ach[a.id] && !_achvSeen[a.id]){
+        if(window.AppEnhance && window.AppEnhance.achievement){
+          window.AppEnhance.achievement(a.name, a.icon);
+        }
+      }
+    });
+  }
+  _achvSeen={...ach};
+
   el.innerHTML=ALL_ACHV.map(a=>{
     const unlocked=!!ach[a.id];
     return `<div class="achv-badge${unlocked?' unlocked':''}">
@@ -2242,8 +2257,12 @@ onAuthStateChanged(auth, user=>{
     document.getElementById('bottom-nav').style.display='flex';
     updateUI();
     setTimeout(showTutorial, 800);
-    // 週次サマリーはチュートリアル後（または完了済みなら直接）表示
+    // 週次サマリー
     setTimeout(maybeShowWeeklySummary, 1200);
+    // ログインボーナス（連続日数チェック）
+    setTimeout(checkLoginBonus, 1800);
+    // QOLトラッカー（毎日1回）
+    setTimeout(maybeShowQolTracker, 3000);
     // クエスト/栄養画面から #coach で来た場合は自動でルナチャットを開く
     if(location.hash==='#coach'){
       setTimeout(()=>{ openCoach(); history.replaceState(null,'',location.pathname); }, 1500);
@@ -2538,6 +2557,143 @@ function renderDailyQuiz(){
     explain.classList.add('show');
   }
 }
+
+// ===== QOL（今日の調子）トラッカー =====
+const QOL_EMOJIS=['😞','😐','🙂','😊','😄'];
+const _qolAnswers={condition:null, mood:null, energy:null};
+
+function buildQolScales(){
+  document.querySelectorAll('.qol-scale').forEach(scale=>{
+    if(scale.children.length>0) return;
+    for(let i=1;i<=5;i++){
+      const b=document.createElement('button');
+      b.className='qol-scale-btn';
+      b.innerHTML=`<span class="qol-emoji">${QOL_EMOJIS[i-1]}</span><span class="qol-num">${i}</span>`;
+      b.onclick=()=>{
+        const key=scale.parentElement.dataset.key;
+        _qolAnswers[key]=i;
+        scale.querySelectorAll('.qol-scale-btn').forEach(x=>x.classList.remove('selected'));
+        b.classList.add('selected');
+        // 全部回答したらSave有効化
+        const done=Object.values(_qolAnswers).every(v=>v!=null);
+        const saveBtn=document.getElementById('qol-save');
+        saveBtn.disabled=!done;
+        saveBtn.style.opacity=done?'1':'.5';
+      };
+      scale.appendChild(b);
+    }
+  });
+}
+
+function maybeShowQolTracker(){
+  if(!uid||uid==='guest') return;
+  const today=new Date().toISOString().slice(0,10);
+  const key=`vt_qol_${uid}_${today}`;
+  if(localStorage.getItem(key)) return; // 今日もう答えた
+  const skipKey=`vt_qol_skip_${uid}_${today}`;
+  if(localStorage.getItem(skipKey)) return; // 今日スキップ済み
+
+  buildQolScales();
+  // リセット
+  Object.keys(_qolAnswers).forEach(k=>_qolAnswers[k]=null);
+  document.querySelectorAll('.qol-scale-btn').forEach(b=>b.classList.remove('selected'));
+  const saveBtn=document.getElementById('qol-save');
+  saveBtn.disabled=true; saveBtn.style.opacity='.5';
+  document.getElementById('qol-modal').style.display='flex';
+}
+
+document.getElementById('qol-save').addEventListener('click',async ()=>{
+  const today=new Date().toISOString().slice(0,10);
+  const data={
+    uid, date:today, week:weekKey(),
+    condition:_qolAnswers.condition,
+    mood:_qolAnswers.mood,
+    energy:_qolAnswers.energy,
+    total:(_qolAnswers.condition||0)+(_qolAnswers.mood||0)+(_qolAnswers.energy||0),
+    ts:Date.now()
+  };
+  try{ localStorage.setItem(`vt_qol_${uid}_${today}`, JSON.stringify(data)); }catch(e){}
+  // Firestore へ同期（任意）
+  try{
+    if(db && uid){
+      await addDoc(collection(db,'qol_records'),{
+        ...data, ts:serverTimestamp()
+      });
+    }
+  }catch(e){ console.warn('QOL sync:', e?.message); }
+  // XP +15
+  try{
+    const wk=weekKey();
+    const xpKey=`vc_xp_${uid}_${wk}`;
+    const cur=parseInt(localStorage.getItem(xpKey)||'0',10);
+    localStorage.setItem(xpKey, String(cur+15));
+  }catch(e){}
+  document.getElementById('qol-modal').style.display='none';
+  if(typeof updateUI==='function') updateUI();
+});
+document.getElementById('qol-skip').addEventListener('click',()=>{
+  const today=new Date().toISOString().slice(0,10);
+  try{ localStorage.setItem(`vt_qol_skip_${uid}_${today}`,'1'); }catch(e){}
+  document.getElementById('qol-modal').style.display='none';
+});
+
+// ===== デイリーログインボーナス =====
+function checkLoginBonus(){
+  if(!uid||uid==='guest') return;
+  const today=new Date().toISOString().slice(0,10);
+  const lastKey=`vt_last_login_${uid}`;
+  const streakKey=`vt_login_streak_${uid}`;
+  const todayKey=`vt_login_today_${uid}_${today}`;
+
+  if(localStorage.getItem(todayKey)) return; // 今日もう受け取り済み
+
+  const lastLogin=localStorage.getItem(lastKey)||'';
+  let streak=parseInt(localStorage.getItem(streakKey)||'0',10);
+
+  if(lastLogin===today) return;
+
+  const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  if(lastLogin===yesterday){
+    streak+=1;
+  } else if(lastLogin===''){
+    streak=1;
+  } else {
+    streak=1; // ストリーク途切れ・リセット
+  }
+
+  // ボーナスXP計算
+  let xp=10; // 基本
+  let msg='ピクセ：「ぴくっ！今日も来てくれてありがとう♪」';
+  if(streak>=28){ xp=300; msg='ピクセ：「28日連続…！もう完全に習慣だね、すごい！」'; }
+  else if(streak>=14){ xp=100; msg='ピクセ：「2週間連続！本当に頑張ってるね✨」'; }
+  else if(streak>=7){ xp=50; msg='ピクセ：「1週間連続！ぴくっ、あなた素敵♪」'; }
+  else if(streak>=3){ xp=20; msg='ピクセ：「3日連続！いい感じだね！」'; }
+
+  // XP付与
+  try{
+    const wk=weekKey();
+    const xpKey=`vc_xp_${uid}_${wk}`;
+    const cur=parseInt(localStorage.getItem(xpKey)||'0',10);
+    localStorage.setItem(xpKey, String(cur+xp));
+  }catch(e){}
+
+  // 状態保存
+  try{
+    localStorage.setItem(lastKey, today);
+    localStorage.setItem(streakKey, String(streak));
+    localStorage.setItem(todayKey, '1');
+  }catch(e){}
+
+  // モーダル表示
+  document.getElementById('lb-streak-num').textContent=streak;
+  document.getElementById('lb-xp').textContent=`+${xp} XP`;
+  document.getElementById('lb-msg').textContent=msg;
+  document.getElementById('login-bonus-modal').style.display='flex';
+}
+document.getElementById('lb-close').addEventListener('click',()=>{
+  document.getElementById('login-bonus-modal').style.display='none';
+  if(typeof updateUI==='function') updateUI();
+});
 
 // ===== ヘルシーストリーク（魚2回・大豆・体重・コンボ） =====
 function evaluateHealthyStreaks(){
@@ -2834,6 +2990,61 @@ function closeTutorial(){
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
   <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
+
+<!-- QOL（今日の調子）トラッカーモーダル -->
+<div id="qol-modal" style="display:none;position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:285;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px);">
+  <div style="background:linear-gradient(160deg,#0d1225,#101830);border:1px solid rgba(78,201,138,.4);border-radius:22px;max-width:400px;width:100%;padding:24px 22px;box-shadow:0 24px 64px rgba(0,0,0,.7);animation:modalIn .4s cubic-bezier(.22,1,.36,1);">
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-size:.6rem;letter-spacing:.18em;color:rgba(168,232,192,.65);font-weight:700;margin-bottom:4px;">— DAILY CHECK-IN —</div>
+      <h2 style="font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:#a8e8c0;">今日の調子はいかがですか？</h2>
+      <p style="font-size:.7rem;color:rgba(170,188,216,.55);margin-top:4px;">3問・約20秒（記録で +15XP）</p>
+    </div>
+
+    <div class="qol-q" data-key="condition" style="margin-bottom:14px;">
+      <div style="font-size:.78rem;color:#e8f4ec;font-weight:700;margin-bottom:6px;">① 体調はどう？</div>
+      <div class="qol-scale" style="display:flex;gap:6px;justify-content:space-between;"></div>
+    </div>
+    <div class="qol-q" data-key="mood" style="margin-bottom:14px;">
+      <div style="font-size:.78rem;color:#e8f4ec;font-weight:700;margin-bottom:6px;">② 気分はどう？</div>
+      <div class="qol-scale" style="display:flex;gap:6px;justify-content:space-between;"></div>
+    </div>
+    <div class="qol-q" data-key="energy" style="margin-bottom:18px;">
+      <div style="font-size:.78rem;color:#e8f4ec;font-weight:700;margin-bottom:6px;">③ 活力はどう？</div>
+      <div class="qol-scale" style="display:flex;gap:6px;justify-content:space-between;"></div>
+    </div>
+
+    <button id="qol-save" disabled style="width:100%;background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);border-radius:12px;padding:11px;color:#a8e8c0;font-family:inherit;font-size:.86rem;font-weight:900;cursor:pointer;opacity:.5;">記録する</button>
+    <button id="qol-skip" style="width:100%;background:none;border:none;color:rgba(170,188,216,.45);font-size:.7rem;margin-top:8px;cursor:pointer;font-family:inherit;">今日はスキップ</button>
+  </div>
+</div>
+
+<style>
+.qol-scale-btn{
+  flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:10px 4px;color:rgba(220,225,245,.7);
+  font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;cursor:pointer;
+  transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.qol-scale-btn .qol-emoji{font-size:1.3rem;line-height:1;}
+.qol-scale-btn .qol-num{font-size:.55rem;color:rgba(170,188,216,.5);}
+.qol-scale-btn:hover{background:rgba(78,201,138,.08);border-color:rgba(78,201,138,.3);}
+.qol-scale-btn.selected{background:rgba(78,201,138,.18);border-color:rgba(78,201,138,.55);color:#a8e8c0;}
+</style>
+
+<!-- ログインボーナスモーダル -->
+<div id="login-bonus-modal" style="display:none;position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:285;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px);">
+  <div style="background:linear-gradient(160deg,#1a1230 0%,#2a1f50 60%,#0d0a20 100%);border:2px solid rgba(240,212,138,.5);border-radius:22px;max-width:380px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(240,212,138,.15);animation:modalIn .4s cubic-bezier(.22,1,.36,1);">
+    <div style="font-size:3rem;animation:flash 1.5s ease-in-out infinite;">🎁</div>
+    <h2 style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,#f0d48a,#fff8d8,#f0d48a);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite;margin:8px 0 4px;letter-spacing:.06em;">ログインボーナス</h2>
+    <div id="lb-streak-text" style="font-size:.85rem;color:rgba(240,212,138,.85);margin-bottom:16px;">連続 <strong id="lb-streak-num" style="font-size:1.4rem;color:#fff;">0</strong> 日目！</div>
+    <div style="background:rgba(0,0,0,.3);border:1px solid rgba(240,212,138,.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-size:.6rem;color:rgba(240,212,138,.6);letter-spacing:.1em;font-weight:700;margin-bottom:5px;">本日の獲得XP</div>
+      <div id="lb-xp" style="font-family:'Noto Serif JP',serif;font-size:1.8rem;font-weight:900;color:#f0d48a;">+10 XP</div>
+    </div>
+    <div id="lb-msg" style="font-size:.78rem;line-height:1.85;color:rgba(220,210,240,.8);margin-bottom:18px;">ピクセ：「ぴくっ！今日も来てくれてありがとう♪」</div>
+    <button id="lb-close" style="background:linear-gradient(135deg,rgba(240,212,138,.4),rgba(201,168,76,.3));border:1px solid rgba(240,212,138,.5);border-radius:11px;padding:11px 22px;color:#1a1200;background-color:#f0d48a;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;cursor:pointer;width:100%;">受け取る ✦</button>
+  </div>
+</div>
 
 <!-- 週次サマリーモーダル -->
 <div id="weekly-modal" style="display:none;position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:280;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px);">

@@ -67,6 +67,26 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // QOL記録（毎日の体調・気分・活力）
+    match /qol_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.condition is int
+        && request.resource.data.mood is int
+        && request.resource.data.energy is int
+        && request.resource.data.condition >= 1 && request.resource.data.condition <= 5
+        && request.resource.data.mood >= 1 && request.resource.data.mood <= 5
+        && request.resource.data.energy >= 1 && request.resource.data.energy <= 5;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // ログインストリーク・ゲーム進行（任意で同期）
+    match /play_logs/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
     // それ以外は拒否
     match /{document=**} {
       allow read, write: if false;

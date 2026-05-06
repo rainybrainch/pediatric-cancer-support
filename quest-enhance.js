@@ -238,6 +238,8 @@
     pop.textContent=`-${amount}`;
     document.body.appendChild(pop);
     setTimeout(()=>pop.remove(), 1500);
+    // 軽い振動
+    try{ if(navigator.vibrate) navigator.vibrate(8); }catch(e){}
     // ボスバナー再描画
     setTimeout(renderBossBanner, 300);
   }
@@ -262,6 +264,15 @@
       pop.textContent=txt;
       document.body.appendChild(pop);
       setTimeout(()=>pop.remove(), 1700);
+
+      // 振動フィードバック（モバイル）
+      try{
+        if(navigator.vibrate){
+          if(lvl===3) navigator.vibrate([30,40,30,40,80]);
+          else if(lvl===2) navigator.vibrate([20,30,30]);
+          else navigator.vibrate(15);
+        }
+      }catch(e){}
 
       // フラッシュ
       if(lvl>=2){
@@ -482,6 +493,63 @@
     }
   }
 
+  // ========== 実績解放トースト（全ページ共通） ==========
+  function showAchievementToast(achName, icon){
+    const t=document.createElement('div');
+    t.className='qe-ach-toast';
+    t.innerHTML=`
+      <div class="qe-ach-burst"></div>
+      <div class="qe-ach-icon">${icon||'🏆'}</div>
+      <div class="qe-ach-text">
+        <div class="qe-ach-lbl">ACHIEVEMENT UNLOCKED</div>
+        <div class="qe-ach-name">${achName}</div>
+      </div>
+    `;
+    document.body.appendChild(t);
+    try{ if(navigator.vibrate) navigator.vibrate([20,40,20]); }catch(e){}
+    setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),500); }, 3500);
+  }
+  // CSSも追加
+  const achStyles=document.createElement('style');
+  achStyles.textContent=`
+    .qe-ach-toast{
+      position:fixed;top:80px;left:50%;transform:translate(-50%,-30px);
+      background:linear-gradient(135deg,rgba(40,30,80,.96),rgba(20,15,40,.96));
+      border:2px solid rgba(240,212,138,.6);border-radius:14px;
+      padding:14px 20px;display:flex;align-items:center;gap:14px;
+      z-index:5003;pointer-events:none;
+      box-shadow:0 12px 40px rgba(240,212,138,.3),0 0 60px rgba(240,212,138,.2);
+      animation:qeAchIn .5s cubic-bezier(.22,1,.36,1) both;
+      max-width:90vw;
+    }
+    .qe-ach-toast.out{animation:qeAchOut .4s ease both;}
+    @keyframes qeAchIn{
+      0%{opacity:0;transform:translate(-50%,-50px) scale(.5);}
+      60%{opacity:1;transform:translate(-50%,5px) scale(1.05);}
+      100%{opacity:1;transform:translate(-50%,0) scale(1);}
+    }
+    @keyframes qeAchOut{
+      0%{opacity:1;transform:translate(-50%,0) scale(1);}
+      100%{opacity:0;transform:translate(-50%,-30px) scale(.95);}
+    }
+    .qe-ach-burst{
+      position:absolute;inset:-12px;border-radius:18px;pointer-events:none;
+      background:radial-gradient(ellipse at center,rgba(240,212,138,.3),transparent 60%);
+      animation:qeAchBurst 1.2s ease-out forwards;
+    }
+    @keyframes qeAchBurst{0%{transform:scale(.5);opacity:0;}40%{opacity:1;}100%{transform:scale(1.5);opacity:0;}}
+    .qe-ach-icon{font-size:2rem;line-height:1;filter:drop-shadow(0 0 8px rgba(240,212,138,.6));z-index:1;}
+    .qe-ach-text{position:relative;z-index:1;}
+    .qe-ach-lbl{font-size:.5rem;letter-spacing:.18em;color:rgba(240,212,138,.7);font-weight:900;}
+    .qe-ach-name{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;color:#f0d48a;line-height:1.3;margin-top:2px;}
+    @media(max-width:480px){
+      .qe-ach-toast{padding:11px 16px;gap:11px;}
+      .qe-ach-icon{font-size:1.6rem;}
+      .qe-ach-name{font-size:.82rem;}
+    }
+  `;
+  document.head.appendChild(achStyles);
+
   // ========== 公開 API ==========
   window.AppEnhance={
     init(uid){
@@ -523,7 +591,8 @@
       renderTimeTip();
       renderDailyQuest();
       renderBossBanner();
-    }
+    },
+    achievement: showAchievementToast,
   };
 
   // helper

@@ -160,6 +160,7 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       <button class="tab active" data-tab="quest">クエスト記録</button>
       <button class="tab" data-tab="nutrition">栄養記録</button>
       <button class="tab" data-tab="qol">QOL記録</button>
+      <button class="tab" data-tab="qol-daily" style="border-color:rgba(78,201,138,.3);color:#a8e8c0;">毎日QOL</button>
       <button class="tab" data-tab="body">体組成記録</button>
       <button class="tab" data-tab="coach" style="border-color:rgba(156,114,224,.3);color:#c0a0f0;">AIコーチ会話</button>
       <button class="tab" data-tab="profiles">参加者プロフィール</button>
@@ -235,6 +236,26 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       </div>
     </div>
 
+    <!-- 毎日QOL記録 -->
+    <div id="tab-qol-daily" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+        <div style="font-size:.75rem;color:rgba(170,188,216,.55);">
+          毎日記録される体調・気分・活力（1〜5）。研究データの中核。
+        </div>
+        <button class="btn-sm" id="export-qol-daily-btn" style="border-color:rgba(78,201,138,.4);color:#a8e8c0;">⬇ 毎日QOL CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>UID(短縮)</th><th>日付</th><th>週</th>
+            <th>体調(1-5)</th><th>気分(1-5)</th><th>活力(1-5)</th>
+            <th>合計(3-15)</th>
+          </tr></thead>
+          <tbody id="qol-daily-tbody"><tr><td colspan="7" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- AIコーチ会話 -->
     <div id="tab-coach" class="hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
@@ -294,7 +315,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['quest','nutrition','qol','body','coach','profiles'].forEach(id=>{
+    ['quest','nutrition','qol','qol-daily','body','coach','profiles'].forEach(id=>{
       document.getElementById('tab-'+id).classList.toggle('hidden', id!==t.dataset.tab);
     });
   });
@@ -336,12 +357,13 @@ onAuthStateChanged(auth, user=>{
 
 async function loadData(){
   try{
-    const [questSnap, nutrSnap, bodySnap, profSnap, coachSnap] = await Promise.all([
+    const [questSnap, nutrSnap, bodySnap, profSnap, coachSnap, qolSnap] = await Promise.all([
       getDocs(query(collection(db,'quest_records'),   orderBy('savedAt','desc'))),
       getDocs(query(collection(db,'nutrition_records'),orderBy('savedAt','desc'))),
       getDocs(query(collection(db,'body_records'),    orderBy('savedAt','desc'))),
       getDocs(collection(db,'profiles')),
       getDocs(query(collection(db,'coach_sessions'),  orderBy('ts','desc'))).catch(()=>({docs:[]})),
+      getDocs(query(collection(db,'qol_records'),     orderBy('ts','desc'))).catch(()=>({docs:[]})),
     ]);
 
     const questDocs = questSnap.docs.map(d=>d.data());
@@ -349,7 +371,8 @@ async function loadData(){
     const bodyDocs  = bodySnap.docs.map(d=>d.data());
     const profDocs  = profSnap.docs.map(d=>d.data());
     const coachDocs = coachSnap.docs.map(d=>d.data());
-    _questData=questDocs; _nutrData=nutrDocs; _bodyData=bodyDocs; _coachData=coachDocs;
+    const qolDailyDocs = qolSnap.docs.map(d=>d.data());
+    _questData=questDocs; _nutrData=nutrDocs; _bodyData=bodyDocs; _coachData=coachDocs; _qolDailyData=qolDailyDocs;
 
     // サマリ
     const uids=new Set([...questDocs.map(d=>d.uid),...nutrDocs.map(d=>d.uid),...coachDocs.map(d=>d.uid)]);
@@ -474,6 +497,22 @@ async function loadData(){
           <td>${d.savedAt ? new Date(d.savedAt).toLocaleString('ja-JP') : '—'}</td>
         </tr>`).join('');
 
+    // 毎日QOLテーブル
+    const qolDailyBody=document.getElementById('qol-daily-tbody');
+    if(qolDailyBody){
+      qolDailyBody.innerHTML=qolDailyDocs.length===0
+        ? '<tr><td colspan="7" class="loading-msg">毎日QOLデータなし</td></tr>'
+        : qolDailyDocs.slice(0,300).map(d=>`<tr>
+            <td style="font-family:monospace;font-size:.66rem;">${(d.uid||'').slice(0,10)}…</td>
+            <td>${d.date||'—'}</td>
+            <td>${d.week||'—'}</td>
+            <td style="text-align:center;color:var(--gold2);font-weight:700;">${d.condition??'—'}</td>
+            <td style="text-align:center;color:var(--gold2);font-weight:700;">${d.mood??'—'}</td>
+            <td style="text-align:center;color:var(--gold2);font-weight:700;">${d.energy??'—'}</td>
+            <td style="text-align:center;color:#a8e8c0;font-weight:900;">${d.total??'—'}</td>
+          </tr>`).join('');
+    }
+
     // AIコーチ会話テーブル
     const cBody=document.getElementById('coach-tbody');
     const stepBadge=s=>{
@@ -554,7 +593,7 @@ function downloadCSV(filename, csv){
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download=filename; a.click(); URL.revokeObjectURL(a.href);
 }
-let _questData=[], _nutrData=[], _bodyData=[], _coachData=[];
+let _questData=[], _nutrData=[], _bodyData=[], _coachData=[], _qolDailyData=[];
 document.getElementById('export-quest-btn').addEventListener('click',()=>{
   if(!_questData.length){ alert('データがありません'); return; }
   const headers=['メール','週','中強度(分)','高強度(分)','合計スコア','目標達成','XP','Lv','歩数','BMI','QOL①体調','QOL②気分','QOL③活力','QOL合計','保存日時'];
@@ -579,6 +618,19 @@ document.getElementById('export-qol-btn').addEventListener('click',()=>{
   const headers=['メール','週','QOL①体調(1-5)','QOL②気分(1-5)','QOL③活力(1-5)','QOL合計(3-15)','運動達成','運動スコア(分)','保存日時'];
   const rows=qolDocs.map(d=>[d.email,d.weekLabel||d.weekKey,d.qol1??'',d.qol2??'',d.qol3??'',d.qolTotal??'',d.goalAchieved?'達成':'未達成',d.totalScore??'',d.savedAt]);
   downloadCSV(`qol_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
+});
+document.getElementById('export-qol-daily-btn')?.addEventListener('click',()=>{
+  if(!_qolDailyData.length){ alert('毎日QOLデータがありません'); return; }
+  const headers=['UID','日付','週','体調','気分','活力','合計','保存日時(ISO)'];
+  const fmtTs=t=>{
+    if(!t) return '';
+    try{
+      const ms=t.seconds?t.seconds*1000:(typeof t==='number'?t:new Date(t).getTime());
+      return new Date(ms).toISOString();
+    }catch(e){ return ''; }
+  };
+  const rows=_qolDailyData.map(d=>[d.uid||'',d.date||'',d.week||'',d.condition??'',d.mood??'',d.energy??'',d.total??'',fmtTs(d.ts)]);
+  downloadCSV(`qol_daily_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 document.getElementById('export-coach-btn').addEventListener('click',()=>{
   if(!_coachData.length){ alert('AIコーチ会話データがありません'); return; }
