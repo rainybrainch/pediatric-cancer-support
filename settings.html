@@ -9,7 +9,7 @@
 <style>
 :root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
 .hidden{display:none!important;}
 
 header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
@@ -111,6 +111,7 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
   margin-top:8px;
 }
 </style>
+<script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>
 </head>
 <body>
@@ -185,6 +186,31 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
       <strong style="color:var(--gold2);">運動量の換算式</strong><br>
       合計スコア ＝ 中強度の分数 ＋ 高強度の分数 × 2<br>
       <span style="color:rgba(170,188,216,.45);font-size:.68rem;">例）中強度100分 ＋ 高強度25分 → 100 + 50 = 150点（目標達成）</span>
+    </div>
+
+    <!-- Implementation Intentions（if-thenプラン） -->
+    <div style="margin-top:14px;background:linear-gradient(135deg,rgba(78,201,138,.07),rgba(78,201,138,.02));border:1px solid rgba(78,201,138,.3);border-radius:10px;padding:14px;">
+      <div style="font-size:.7rem;color:#a8e8c0;font-weight:700;letter-spacing:.06em;margin-bottom:8px;">📐 実行プラン（if-then）</div>
+      <div style="font-size:.66rem;color:rgba(170,188,216,.55);margin-bottom:10px;line-height:1.7;">
+        Gollwitzer研究：「いつ・どこで」を決めるだけで習慣化率が <strong style="color:#a8e8c0;">2〜3倍</strong>になります。
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div>
+          <div style="font-size:.68rem;color:rgba(170,188,216,.6);margin-bottom:4px;">いつ？（曜日・時間帯）</div>
+          <input type="text" class="form-input" id="ii-when" placeholder="例: 火・木の朝7:30" style="font-size:.85rem;">
+        </div>
+        <div>
+          <div style="font-size:.68rem;color:rgba(170,188,216,.6);margin-bottom:4px;">どこで？（場所）</div>
+          <input type="text" class="form-input" id="ii-where" placeholder="例: 自宅近くの公園" style="font-size:.85rem;">
+        </div>
+        <div>
+          <div style="font-size:.68rem;color:rgba(170,188,216,.6);margin-bottom:4px;">何分？</div>
+          <input type="number" class="form-input" id="ii-howlong" min="1" max="120" placeholder="例: 20" style="font-size:.85rem;">
+        </div>
+      </div>
+      <div id="ii-preview" style="margin-top:10px;padding:10px;background:rgba(0,0,0,.25);border-left:2.5px solid rgba(78,201,138,.6);border-radius:6px;font-size:.78rem;color:rgba(168,232,192,.85);font-style:italic;line-height:1.7;">
+        プランを入力すると、ここに「もし〇〇なら〜」の形で表示されます
+      </div>
     </div>
   </div>
 
@@ -300,6 +326,32 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
       </div>
       <div class="toggle-switch" id="t-notify"></div>
     </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">📺 コンパクトホーム</div>
+        <div class="toggle-desc">ホームのカードを最小限に（情報量を絞る）</div>
+      </div>
+      <div class="toggle-switch" id="t-compact" data-key="vt_compact_home"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🚫 自動ログアウトを無効化</div>
+        <div class="toggle-desc">30分非アクティブでの確認をオフ</div>
+      </div>
+      <div class="toggle-switch" id="t-no-autologout" data-key="vt_no_auto_logout"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">⏰ 毎日のリマインダー</div>
+        <div class="toggle-desc">指定時刻に未記録なら通知（タブ開いている時のみ）</div>
+      </div>
+      <div class="toggle-switch" id="t-reminder"></div>
+    </div>
+    <div id="reminder-time-row" style="display:none;align-items:center;gap:10px;margin-top:6px;padding:10px 0;">
+      <label style="font-size:.72rem;color:rgba(170,188,216,.7);">通知時刻</label>
+      <input type="time" id="reminder-time" value="20:00" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:6px 10px;color:var(--silver);font-family:inherit;font-size:.85rem;">
+      <span id="reminder-saved" style="font-size:.65rem;color:var(--green);min-height:14px;"></span>
+    </div>
     <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:8px;line-height:1.6;">
       通知は端末/ブラウザ側でも設定が必要です。許可後は研究のリマインドが届くことがあります。
     </p>
@@ -325,6 +377,18 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
     </div>
   </div>
 
+  <!-- ヘルプ・規約 -->
+  <div class="section">
+    <div class="section-title">📖 ヘルプ・規約</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:12px;line-height:1.7;">
+      使い方や研究参加に関する詳細は、以下のページをご覧ください。
+    </p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <a href="./faq.html" class="btn-export" style="text-decoration:none;display:block;text-align:left;">❓ ヘルプ・FAQ <span style="float:right;color:rgba(201,168,76,.6);">→</span></a>
+      <a href="./privacy.html" class="btn-export" style="text-decoration:none;display:block;text-align:left;">🛡 プライバシーポリシー <span style="float:right;color:rgba(201,168,76,.6);">→</span></a>
+    </div>
+  </div>
+
   <!-- データ管理 -->
   <div class="section">
     <div class="section-title">💾 データ管理</div>
@@ -332,11 +396,40 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
       自分の記録データをCSVファイルでダウンロードできます。研究撤回時の参考や、自己管理にご利用ください。
     </p>
     <button class="btn-export" id="btn-export-mydata">⬇ 自分のデータをCSVダウンロード</button>
+    <button class="btn-export" id="btn-export-research" style="background:linear-gradient(135deg,rgba(78,201,138,.2),rgba(78,201,138,.1));border-color:rgba(78,201,138,.4);color:#a8e8c0;">📊 研究用データセット（ロング形式CSV）</button>
+    <button class="btn-export" id="btn-share-summary" style="background:linear-gradient(135deg,rgba(156,114,224,.2),rgba(156,114,224,.1));border-color:rgba(156,114,224,.4);color:#c0a0f0;">📤 ご家族・主治医に週次レポートを共有</button>
     <button class="btn-export" id="btn-export-json" style="background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.12));border-color:rgba(92,140,212,.45);color:#a8c8f0;">⬇ JSON形式でバックアップ</button>
     <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:14px;line-height:1.7;">
-      ⚠️ 「全データ削除」はゲーム進行・記録をリセットします。Firebase 上のデータは別途、研究事務局に削除依頼が必要です。
+      ⚠️ 「全データ削除」はこの端末上のゲーム進行・記録をリセットします（クラウド側はそのまま）。
     </p>
     <button class="btn-danger" id="btn-clear-all">🗑 ローカルデータを全削除</button>
+  </div>
+
+  <!-- 研究離脱・アカウント削除 -->
+  <div class="section" style="border-color:rgba(224,92,92,.2);">
+    <div class="section-title" style="color:#f0a0a0;">🚪 研究離脱・アカウント削除</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.65);margin-bottom:10px;line-height:1.75;">
+      研究参加を中止する／アカウントを削除する場合、下記から申請できます。<br>
+      <strong style="color:#f0a0a0;">削除後、ご自身のすべての記録（運動・食事・QOL・コーチ会話・ジャーナル）が研究データから除外され、72時間以内に完全に削除されます。</strong>
+    </p>
+    <p style="font-size:.65rem;color:rgba(170,188,216,.5);margin-bottom:12px;line-height:1.7;">
+      ⚠ いったん削除すると元に戻せません。記録のバックアップが必要な場合は、先に上の「データ管理」からエクスポートしてください。
+    </p>
+    <button class="btn-danger" id="btn-revoke-consent" style="background:linear-gradient(135deg,rgba(224,92,92,.3),rgba(224,92,92,.18));border-color:rgba(224,92,92,.55);color:#f0a0a0;">
+      🚪 研究離脱・アカウント削除を申請
+    </button>
+    <div id="revoke-msg" style="font-size:.72rem;color:rgba(168,232,192,.85);margin-top:10px;min-height:18px;"></div>
+  </div>
+
+  <!-- ヘルプ・サポート -->
+  <div class="section">
+    <div class="section-title">🛟 困ったとき</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:12px;line-height:1.7;">
+      不安・つらさ・困りごとを感じたら、ひとりで抱え込まずに専門窓口へ。
+    </p>
+    <a href="./support.html" class="btn-export" style="text-decoration:none;display:block;text-align:center;background:linear-gradient(135deg,rgba(78,201,138,.18),rgba(78,201,138,.08));border-color:rgba(78,201,138,.4);color:#a8e8c0;">
+      🛟 相談・サポート窓口を見る
+    </a>
   </div>
 </div>
 
@@ -462,6 +555,35 @@ document.getElementById('goal-slider').addEventListener('input', e=>{
   updateGoalDisplay(parseInt(e.target.value));
 });
 
+// Implementation Intentions
+function updateIIPreview(){
+  const w = document.getElementById('ii-when').value.trim();
+  const p = document.getElementById('ii-where').value.trim();
+  const m = document.getElementById('ii-howlong').value.trim();
+  const out = document.getElementById('ii-preview');
+  if(w && p && m){
+    out.innerHTML = `「もし ${escapeHtml(w)} になったら、${escapeHtml(p)} で ${escapeHtml(m)}分 動く」`;
+    out.style.color = '#a8e8c0';
+  } else {
+    out.textContent = 'プランを入力すると、ここに「もし〇〇なら〜」の形で表示されます';
+    out.style.color = 'rgba(170,188,216,.5)';
+  }
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+['ii-when','ii-where','ii-howlong'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', updateIIPreview);
+});
+// 既存値読み込み
+try{
+  const ii = JSON.parse(localStorage.getItem('vt_implementation_intention')||'null');
+  if(ii){
+    document.getElementById('ii-when').value = ii.when||'';
+    document.getElementById('ii-where').value = ii.where||'';
+    document.getElementById('ii-howlong').value = ii.howlong||'';
+    updateIIPreview();
+  }
+}catch(e){}
+
 // 保存
 document.getElementById('save-btn').addEventListener('click',()=>{
   const h = parseFloat(document.getElementById('height').value)||0;
@@ -470,6 +592,15 @@ document.getElementById('save-btn').addEventListener('click',()=>{
   const bmi = calcBMI(h, w);
   const settings = { height:h, weight:w, bmi:parseFloat(bmi.toFixed(1))||0, weeklyGoal:goal, updatedAt:new Date().toISOString() };
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  // Implementation Intention 保存
+  const iiW = document.getElementById('ii-when').value.trim();
+  const iiP = document.getElementById('ii-where').value.trim();
+  const iiM = document.getElementById('ii-howlong').value.trim();
+  if(iiW || iiP || iiM){
+    localStorage.setItem('vt_implementation_intention', JSON.stringify({
+      when: iiW, where: iiP, howlong: iiM, updatedAt: Date.now()
+    }));
+  }
   document.getElementById('save-msg').textContent = '✓ 設定を保存しました';
   setTimeout(()=>{ document.getElementById('save-msg').textContent=''; }, 3000);
 });
@@ -559,6 +690,7 @@ function loadToggles(){
       const willStore = isOffKey ? (isOn ? null : '1') : (isOn ? '1' : null);
       if(willStore===null) localStorage.removeItem(key);
       else localStorage.setItem(key, willStore);
+      localStorage.setItem('vt_settings_updated', String(Date.now()));
       // アニメーション軽減を即適用
       if(key==='vt_reduced_motion') document.documentElement.style.setProperty('--anim-speed', isOn?'0':'1');
       if(key==='vt_large_text') document.documentElement.style.fontSize = isOn ? '110%' : '';
@@ -578,6 +710,7 @@ function loadTheme(){
       document.querySelectorAll('.theme-opt').forEach(x=>x.classList.remove('selected'));
       o.classList.add('selected');
       localStorage.setItem('vt_theme', o.dataset.theme);
+      localStorage.setItem('vt_settings_updated', String(Date.now()));
       document.documentElement.dataset.theme=o.dataset.theme;
     });
   });
@@ -629,6 +762,203 @@ document.getElementById('btn-export-json').addEventListener('click',()=>{
   const date=new Date().toISOString().slice(0,10);
   downloadFile(`vitalia_backup_${date}.json`, json, 'application/json;charset=utf-8;');
 });
+
+// ===== 研究用ロング形式CSVエクスポート（R/SPSS分析対応） =====
+document.getElementById('btn-export-research').addEventListener('click', ()=>{
+  const uid = localStorage.getItem('vitalia_uid_hint') || 'anonymous';
+  const rows = [['uid','category','timepoint','variable','value','unit','timestamp']];
+
+  // ベースライン
+  try{
+    const bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null');
+    if(bl){
+      const ts = bl.completedAt;
+      Object.entries(bl.step1||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`demo_${k}`,Array.isArray(v)?v.join(';'):v,'',ts]));
+      Object.entries(bl.step2||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`activity_${k}`,v,'',ts]));
+      Object.entries(bl.step3||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`diet_${k}`,v,'',ts]));
+      Object.entries(bl.step4||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`promis_${k}`,v,'1-5',ts]));
+      Object.entries(bl.step5||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`selfeff_${k}`,v,'1-5',ts]));
+      Object.entries(bl.step6||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`motiv_${k}`,String(v).slice(0,100),'',ts]));
+    }
+  }catch(e){}
+
+  // 週次サーベイ（複数）
+  try{
+    const arr = JSON.parse(localStorage.getItem(`vt_weekly_survey_${uid}`)||'[]');
+    arr.forEach(s=>{
+      const tp = `W${s.weekNum}`;
+      ['fatigue','sleep','depression','anxiety','self-eff','global'].forEach(f=>{
+        if(s[f]!=null) rows.push([uid,'weekly',tp,`promis_${f}`,s[f],'1-5',s.completedAt]);
+      });
+    });
+  }catch(e){}
+
+  // QOLデイリー
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vt_qol_${uid}_`)){
+        const date = k.slice(`vt_qol_${uid}_`.length);
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          ['condition','mood','energy'].forEach(f=>{
+            if(v[f]!=null) rows.push([uid,'daily_qol',date,f,v[f],'1-5',v.ts?new Date(v.ts).toISOString():'']);
+          });
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 週次運動
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vq_${uid}_`) && !k.includes('_hist_') && !k.includes('_ach_') && !k.includes('_streak') && !k.includes('_bonus')){
+        const wk = k.replace(`vq_${uid}_`,'');
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          if(v.score!=null) rows.push([uid,'weekly_exercise',wk,'mod_high_min',v.score,'min','']);
+          if(v.xp!=null) rows.push([uid,'weekly_exercise',wk,'xp',v.xp,'','']);
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 週次栄養
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vn_${uid}_`) && !k.includes('_hist_') && !k.includes('_ach_') && !k.includes('_bonus')){
+        const wk = k.replace(`vn_${uid}_`,'');
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          ['veg','fruit','protein','grain','limit','drink','snack'].forEach(c=>{
+            if(v.counts && v.counts[c]!=null) rows.push([uid,'weekly_nutrition',wk,`count_${c}`,v.counts[c],'servings','']);
+          });
+          if(v.xp!=null) rows.push([uid,'weekly_nutrition',wk,'xp',v.xp,'','']);
+          if(v.score!=null) rows.push([uid,'weekly_nutrition',wk,'nut_score',v.score,'','']);
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 睡眠
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vt_sleep_${uid}_`)){
+        const date = k.slice(`vt_sleep_${uid}_`.length);
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          if(v.hours) rows.push([uid,'sleep',date,'hours',v.hours,'h','']);
+          if(v.quality) rows.push([uid,'sleep',date,'quality',v.quality,'1-5','']);
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 水分
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vt_hyd_${uid}_`)){
+        const date = k.slice(`vt_hyd_${uid}_`.length);
+        const v = parseInt(localStorage.getItem(k)||'0',10);
+        if(v>0) rows.push([uid,'hydration',date,'cups',v,'cups','']);
+      }
+    }
+  }catch(e){}
+
+  // 冒険進捗
+  try{
+    const adv = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'null');
+    if(adv){
+      rows.push([uid,'adventure','current','chapter_idx',adv.chapterIdx,'','']);
+      rows.push([uid,'adventure','current','defeated_count',(adv.defeated||[]).length,'','']);
+    }
+  }catch(e){}
+
+  // メタ情報
+  rows.push([uid,'meta','-','class',localStorage.getItem('vt_class')||'','','']);
+  rows.push([uid,'meta','-','story_mode',localStorage.getItem('vt_story_mode')||'','','']);
+  rows.push([uid,'meta','-','consent_version',localStorage.getItem(`vt_consent_${uid}`)||'','','']);
+  rows.push([uid,'meta','-','start_date',localStorage.getItem(`vt_start_date_${uid}`)||'','','']);
+  rows.push([uid,'meta','-','export_date',new Date().toISOString(),'','']);
+
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const date = new Date().toISOString().slice(0,10);
+  downloadFile(`vitalia_research_${date}.csv`, csv, 'text/csv;charset=utf-8;');
+});
+
+// ===== 週次レポート共有 =====
+document.getElementById('btn-share-summary').addEventListener('click', ()=>{
+  const uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+  const wk = weekKey();
+  const today = new Date().toISOString().slice(0,10);
+
+  // データ集計
+  let exMin = 0, vegC=0, fishC=0, soyC=0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const s = JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      exMin += s.exMinToday||0;
+      vegC += s.vegToday||0;
+      fishC += s.fishToday||0;
+      soyC += s.soyToday||0;
+    }catch(e){}
+  }
+  let qolTotal=0, qolDays=0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r = localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(r){
+        const v = JSON.parse(r);
+        const avg = ((v.condition||0)+(v.mood||0)+(v.energy||0))/3;
+        qolTotal += avg; qolDays++;
+      }
+    }catch(e){}
+  }
+  let advState = {chapterIdx:0, defeated:[]};
+  try{ advState = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}'); }catch(e){}
+  let nuScore = 0;
+  try{ const n = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}'); nuScore = n.score||0; }catch(e){}
+
+  const userMsg = prompt('ご家族・主治医に伝えたいメッセージがあればどうぞ（任意）:', '今週はこれだけ頑張れました。応援ありがとう。') || '';
+
+  const payload = {
+    name: '冒険者',
+    weekLabel: weekLabel(wk),
+    generatedAt: today,
+    exMin, exGoal: 150,
+    nuScore,
+    veg: vegC, fish: fishC, soy: soyC,
+    qolAvg: qolDays>0 ? qolTotal/qolDays : null,
+    qolDays,
+    advDefeated: (advState.defeated||[]).length,
+    advCurrent: advState.chapterIdx||0,
+    userMsg: userMsg.slice(0,300),
+    heroMsg: '今週の歩みをお届けします',
+  };
+
+  const json = JSON.stringify(payload);
+  const b64 = btoa(unescape(encodeURIComponent(json)));
+  const url = `${location.origin}/share.html#${b64}`;
+
+  // 共有モーダル風にコピー
+  if(navigator.share){
+    navigator.share({ title:'ヴィタリア転生録 — 週次レポート', url }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(url).then(()=>{
+      alert('✓ 共有リンクをコピーしました。\nLINE・メールなどに貼り付けて送信してください。\n\n' + url);
+    });
+  }
+});
+
+function weekLabel(wk){
+  return wk.replace(/_W/, '年 第') + '週';
+}
 
 // ===== 招待コード =====
 function getOrCreateInviteCode(){
@@ -711,6 +1041,72 @@ notifyToggle.addEventListener('click', async ()=>{
     });
   }
   refreshNotifyState();
+});
+
+// ===== デイリーリマインダー =====
+const reminderToggle=document.getElementById('t-reminder');
+const reminderTimeRow=document.getElementById('reminder-time-row');
+const reminderTimeInput=document.getElementById('reminder-time');
+const reminderSaved=document.getElementById('reminder-saved');
+function loadReminder(){
+  let cfg={};
+  try{ cfg=JSON.parse(localStorage.getItem('vt_reminder')||'{}'); }catch(e){}
+  if(cfg.enabled){
+    reminderToggle.classList.add('on');
+    reminderTimeRow.style.display='flex';
+  }
+  if(cfg.time) reminderTimeInput.value=cfg.time;
+}
+loadReminder();
+reminderToggle.addEventListener('click',()=>{
+  const on=reminderToggle.classList.toggle('on');
+  reminderTimeRow.style.display=on?'flex':'none';
+  if(on && Notification.permission!=='granted'){
+    alert('通知を先に許可してください（上のトグル）。');
+    reminderToggle.classList.remove('on');
+    reminderTimeRow.style.display='none';
+    return;
+  }
+  saveReminder();
+});
+reminderTimeInput.addEventListener('change', saveReminder);
+function saveReminder(){
+  const cfg={ enabled: reminderToggle.classList.contains('on'), time: reminderTimeInput.value };
+  localStorage.setItem('vt_reminder', JSON.stringify(cfg));
+  localStorage.setItem('vt_settings_updated', String(Date.now()));
+  reminderSaved.textContent='✓ 保存しました';
+  setTimeout(()=>{ reminderSaved.textContent=''; }, 1800);
+}
+
+// ===== 研究離脱・アカウント削除 =====
+document.getElementById('btn-revoke-consent').addEventListener('click', ()=>{
+  const reason = prompt('差し支えなければ、離脱の理由を教えてください（任意・研究改善のため）：\n\n（空欄でも進めます）');
+  if(reason === null) return; // キャンセル
+
+  if(!confirm('本当に研究離脱・アカウント削除を申請しますか？\n\nこの端末のデータは即座に削除されます。\nクラウド側のデータは72時間以内に完全削除されます。')) return;
+  if(!confirm('最終確認：本当によろしいですか？\nこの操作は取り消せません。')) return;
+
+  try{
+    // 削除リクエストフラグをセット → game.htmlで処理
+    const uid = localStorage.getItem('vitalia_uid_hint') || '';
+    localStorage.setItem('vt_deletion_request', JSON.stringify({
+      uid, reason: (reason||'').slice(0,500), ts: Date.now()
+    }));
+    // ローカルクリア（自分のキーだけ）
+    const keysToDelete=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && /^v[abchnqtw]_/.test(k) && !k.startsWith('vt_deletion_request') && k!=='vitalia_uid_hint') keysToDelete.push(k);
+    }
+    keysToDelete.forEach(k=>localStorage.removeItem(k));
+
+    document.getElementById('revoke-msg').innerHTML='✓ 申請を受け付けました。ホームに戻り、サーバへ削除リクエストを送信します…';
+    document.getElementById('revoke-msg').style.color='#a8e8c0';
+    setTimeout(()=>{ location.href='./game.html?deletion=1'; }, 1800);
+  }catch(e){
+    document.getElementById('revoke-msg').textContent='エラー: '+e.message;
+    document.getElementById('revoke-msg').style.color='#f0a0a0';
+  }
 });
 
 document.getElementById('btn-clear-all').addEventListener('click',()=>{

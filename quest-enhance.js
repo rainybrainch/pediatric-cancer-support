@@ -229,19 +229,58 @@
     document.getElementById('qe-boss-name').textContent='vs '+boss.name;
     document.getElementById('qe-hp-fill').style.width=(100-pct)+'%';
     document.getElementById('qe-hp-text').textContent=`HP ${remaining} / ${boss.hp}（あと${boss.hp-dmgDealt}pt で討伐）`;
+    // ボス討伐時：祝福演出を一度だけ
+    if(remaining<=0 && _uid){
+      const seenKey=`qe_defeated_${_uid}_${boss.id||boss.name}`;
+      try{
+        if(!localStorage.getItem(seenKey)){
+          localStorage.setItem(seenKey,'1');
+          try{ confetti({count:120,duration:3200}); }catch(e){}
+          try{ sndAchievement(); }catch(e){}
+          showAchievementToast(`${boss.name} 討伐！`, '⚔');
+        }
+      }catch(e){}
+    }
   }
 
-  // ========== ダメージ演出 ==========
+  // ========== ダメージ演出（クリティカル・ドロップ統合） ==========
   function showDamage(amount){
+    // クリティカル判定
+    let isCrit = false;
+    let finalDamage = amount;
+    try{
+      if(window.Gamification){
+        const r = window.Gamification.rollCritical(amount);
+        finalDamage = r.damage;
+        isCrit = r.crit;
+      }
+    }catch(e){}
+
     const pop=document.createElement('div');
-    pop.className='qe-damage-pop';
-    pop.textContent=`-${amount}`;
+    pop.className='qe-damage-pop' + (isCrit ? ' qe-damage-crit' : '');
+    pop.textContent = isCrit ? `CRITICAL! -${finalDamage}` : `-${finalDamage}`;
+    if(isCrit){
+      pop.style.cssText = 'color:#f0d048;font-size:2.4rem;font-weight:900;text-shadow:0 0 20px #f0a040,0 0 40px #f0a040;letter-spacing:.05em;';
+    }
     document.body.appendChild(pop);
     setTimeout(()=>pop.remove(), 1500);
-    // 軽い振動
-    try{ if(navigator.vibrate) navigator.vibrate(8); }catch(e){}
+    // 振動
+    try{ if(navigator.vibrate) navigator.vibrate(isCrit ? [30,40,30,40,80] : 8); }catch(e){}
     // 効果音
-    try{ sndCoin(); sndDamage(); }catch(e){}
+    try{
+      if(isCrit){ tone(880,0.15,'square',0.07); tone(1320,0.2,'square',0.07,0.08); tone(1760,0.3,'sine',0.06,0.18); }
+      else { sndCoin(); sndDamage(); }
+    }catch(e){}
+    // アイテムドロップ（30%確率）
+    try{
+      if(window.Gamification){
+        const item = window.Gamification.rollLootDrop();
+        if(item){
+          window.Gamification.addToInventory(item);
+          setTimeout(()=>window.Gamification.showLootToast(item), 800);
+        }
+      }
+    }catch(e){}
     // ボスバナー再描画
     setTimeout(renderBossBanner, 300);
   }
@@ -497,6 +536,46 @@
     }
   }
 
+  // ========== コンフェッティ（紙吹雪） ==========
+  function confetti(opts){
+    opts=opts||{};
+    const count=opts.count||80;
+    const duration=opts.duration||2400;
+    const colors=opts.colors||['#f0d48a','#c9a84c','#a8e8c0','#a8d8ff','#f0a0a0','#c0a0f0'];
+    const container=document.createElement('div');
+    container.className='qe-confetti-wrap';
+    container.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
+    document.body.appendChild(container);
+    for(let i=0;i<count;i++){
+      const piece=document.createElement('div');
+      const color=colors[Math.floor(Math.random()*colors.length)];
+      const size=6+Math.random()*8;
+      const startX=Math.random()*100;
+      const drift=(Math.random()-.5)*200;
+      const rotate=Math.random()*720;
+      const delay=Math.random()*0.5;
+      piece.style.cssText=`
+        position:absolute;left:${startX}%;top:-10px;
+        width:${size}px;height:${size*0.4}px;background:${color};
+        border-radius:${Math.random()>.5?'50%':'2px'};
+        opacity:1;
+        animation:qeConfettiFall ${(duration+Math.random()*800)/1000}s ${delay}s ease-in forwards;
+        --drift:${drift}px;--rotate:${rotate}deg;
+      `;
+      container.appendChild(piece);
+    }
+    setTimeout(()=>container.remove(), duration+1500);
+  }
+  // CSS for confetti
+  const confettiStyles=document.createElement('style');
+  confettiStyles.textContent=`
+    @keyframes qeConfettiFall{
+      0%{transform:translate(0,0) rotate(0);opacity:1;}
+      100%{transform:translate(var(--drift),110vh) rotate(var(--rotate));opacity:0;}
+    }
+  `;
+  document.head.appendChild(confettiStyles);
+
   // ========== 実績解放トースト（全ページ共通） ==========
   function showAchievementToast(achName, icon){
     const t=document.createElement('div');
@@ -512,6 +591,7 @@
     document.body.appendChild(t);
     try{ if(navigator.vibrate) navigator.vibrate([20,40,20]); }catch(e){}
     try{ sndAchievement(); }catch(e){}
+    try{ confetti({count:60,duration:2200}); }catch(e){}
     setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),500); }, 3500);
   }
   // CSSも追加
@@ -652,6 +732,8 @@
       renderBossBanner();
     },
     achievement: showAchievementToast,
+    confetti: confetti,
+    cheer: showCheer,
   };
 
   // helper

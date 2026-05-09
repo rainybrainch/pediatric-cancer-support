@@ -1,6 +1,10 @@
 // ヴィタリア転生録 — 食事写真認識 Gemini Vision プロキシ
 // クライアントから API キーを隠し、サーバー側の環境変数で API を呼び出す。
 // Netlify 環境変数 `GEMINI_API_KEY` を使用（gemini-coach と共通）。
+//
+// 注：本ファイルは _worker.js（Cloudflare Worker）と同等のロジックを Netlify Functions
+// 形式に置き換えたもの。レート制限まで完全同期。
+// 編集時はかならず _worker.js も同時に更新すること。
 
 const VISION_PROMPT = `この食事の写真を分析してください。含まれる料理・食材をすべて特定し、以下のJSONのみで返答してください。余分なテキストは不要です。
 
@@ -20,6 +24,51 @@ const VISION_PROMPT = `この食事の写真を分析してください。含ま
 
 写真にうつっていない食材は推測しないでください。`;
 
+// レート制限（Visionは軽め・coach と共有しないインメモリ）
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX_REQS = 20;
+const RATE_LIMIT_DAILY_MAX = 200;
+const DAILY_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+function getClientIp(event){
+  const h = event.headers || {};
+  return h['x-nf-client-connection-ip']
+      || h['client-ip']
+      || (h['x-forwarded-for'] || '').split(',')[0].trim()
+      || 'unknown';
+}
+
+function checkRateLimit(ip){
+  const now = Date.now();
+  if(rateLimitMap.size > 5000){
+    for(const [k, v] of rateLimitMap.entries()){
+      if(now - v.lastTs > DAILY_WINDOW_MS) rateLimitMap.delete(k);
+    }
+  }
+  let entry = rateLimitMap.get(ip);
+  if(!entry){
+    entry = { reqs: [], dailyCount: 0, dailyStart: now, lastTs: now };
+    rateLimitMap.set(ip, entry);
+  }
+  if(now - entry.dailyStart > DAILY_WINDOW_MS){
+    entry.dailyCount = 0;
+    entry.dailyStart = now;
+  }
+  entry.reqs = entry.reqs.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
+  entry.lastTs = now;
+
+  if(entry.dailyCount >= RATE_LIMIT_DAILY_MAX){
+    return { ok: false, reason: 'daily', retryAfter: Math.ceil((entry.dailyStart + DAILY_WINDOW_MS - now)/1000) };
+  }
+  if(entry.reqs.length >= RATE_LIMIT_MAX_REQS){
+    return { ok: false, reason: 'minute', retryAfter: 60 };
+  }
+  entry.reqs.push(now);
+  entry.dailyCount++;
+  return { ok: true };
+}
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -27,41 +76,37 @@ const CORS = {
   'Content-Type': 'application/json; charset=utf-8',
 };
 
+function jsonResponse(statusCode, body, extraHeaders = {}) {
+  return { statusCode, headers: { ...CORS, ...extraHeaders }, body: JSON.stringify(body) };
+}
+
 exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: CORS, body: '' };
-  }
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: 'Method not allowed' }) };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
+  if (event.httpMethod !== 'POST')    return jsonResponse(405, { error: 'Method not allowed' });
+
+  // レート制限
+  const ip = getClientIp(event);
+  const rl = checkRateLimit(ip);
+  if(!rl.ok){
+    return jsonResponse(429, {
+      error: '少し早すぎます。1分ほど時間をおいて再度お試しください。',
+      retryAfter: rl.retryAfter
+    }, { 'Retry-After': String(rl.retryAfter) });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return {
-      statusCode: 500,
-      headers: CORS,
-      body: JSON.stringify({ error: 'Server-side GEMINI_API_KEY not configured' }),
-    };
-  }
+  if (!apiKey) return jsonResponse(500, { error: 'Server-side GEMINI_API_KEY not configured' });
 
   let payload;
-  try {
-    payload = JSON.parse(event.body || '{}');
-  } catch (e) {
-    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Invalid JSON' }) };
-  }
+  try { payload = JSON.parse(event.body || '{}'); }
+  catch (e) { return jsonResponse(400, { error: 'Invalid JSON' }); }
 
   const base64 = typeof payload.image === 'string' ? payload.image : '';
   const mime   = typeof payload.mime === 'string'  ? payload.mime  : 'image/jpeg';
-  if (!base64) {
-    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'image is required' }) };
-  }
-  // ざっくりサイズ制限（base64 で約 6MB）
-  if (base64.length > 8_000_000) {
-    return { statusCode: 413, headers: CORS, body: JSON.stringify({ error: 'image too large' }) };
-  }
+  if (!base64)                       return jsonResponse(400, { error: 'image is required' });
+  if (base64.length > 8_000_000)     return jsonResponse(413, { error: 'image too large' });
   if (!/^image\/(jpeg|png|webp|heic|heif)$/i.test(mime)) {
-    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'unsupported mime' }) };
+    return jsonResponse(400, { error: 'unsupported mime' });
   }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -83,21 +128,13 @@ exports.handler = async (event) => {
 
     if (!res.ok) {
       const errBody = await res.text();
-      return {
-        statusCode: 502,
-        headers: CORS,
-        body: JSON.stringify({ error: 'Upstream Gemini error', detail: errBody.slice(0, 500) }),
-      };
+      return jsonResponse(502, { error: 'Upstream Gemini error', detail: errBody.slice(0, 500) });
     }
 
     const data = await res.json();
     const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    return { statusCode: 200, headers: CORS, body: JSON.stringify({ text: raw }) };
+    return jsonResponse(200, { text: raw });
   } catch (e) {
-    return {
-      statusCode: 502,
-      headers: CORS,
-      body: JSON.stringify({ error: 'Fetch failed', detail: String(e?.message || e).slice(0, 500) }),
-    };
+    return jsonResponse(502, { error: 'Fetch failed', detail: String(e?.message || e).slice(0, 500) });
   }
 };

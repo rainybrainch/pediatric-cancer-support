@@ -465,6 +465,8 @@ body::before{
   .attack-grid{gap:5px;}
 }
 </style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 </head>
 <body>
@@ -553,6 +555,12 @@ body::before{
           <div class="attack-sub">pt 与ダメージ</div>
         </a>
       </div>
+
+      <!-- ボスタップミニゲーム ボタン -->
+      <div style="margin-top:12px;text-align:center;">
+        <button id="boss-tap-btn" type="button" style="background:linear-gradient(135deg,rgba(224,92,92,.25),rgba(224,92,92,.1));border:1.5px solid rgba(224,92,92,.5);color:#f0a0a0;font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;padding:11px 24px;border-radius:12px;cursor:pointer;letter-spacing:.06em;box-shadow:0 4px 14px rgba(224,92,92,.15);">⚔ 直接攻撃モード（1日1回）</button>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.55);margin-top:5px;">30秒間タップ連打でボーナスダメージ</div>
+      </div>
     </div>
 
     <!-- 戦歴 -->
@@ -573,6 +581,7 @@ body::before{
     <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
     <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
     <a href="./adventure.html" class="bn-tab active"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+    <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
     <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
   </nav>
 </div>
@@ -731,6 +740,373 @@ const CHAPTERS=[
     pixe:`「ついに最終章…！\n光の翼の存在は、敵か味方か、それとも <em>あなた自身の真の姿</em> か。\n\n弱点は <em>すべての行動</em>！\n運動・栄養・対話・体重測定・知識、全部の積み重ねが武器になるよ。\n\n12週間の冒険、本当によく頑張ってきたね。\n最後まで一緒に行こう、私もカイトもセラもルナも、ずっとそばにいるから♪」`,
     victory:`「やったぁぁ！光の存在が頷いて、あなたの中に溶けていったよ。\n<em>「あなたは、ヴィタリアの新たな伝説となりました」</em>\n\n12週間の冒険が、新しいあなたを作り上げたんだ。\nぴくっ…！本当に、本当によく頑張ったね。誇らしいよ✨」` },
 ];
+
+// ===== 悪役令嬢編：ストーリー上書き =====
+// vt_story_mode === 'villainess' のとき、章のテキストをこちらに差し替え
+const VILLAINESS_OVERRIDES = {
+  tutorial: {
+    title:'第一章 — 婚約破棄、その日の朝',
+    enemyName:'婚約破棄パワー', enemyTag:'PROLOGUE — REJECTION',
+    narration:`鏡の前で目が覚めると――<em>「私、悪役令嬢に転生してる…!?」</em><br>パーティ会場で婚約者の王子から「お前との婚約は破棄だ！」と糾弾されている真っ最中だった。`,
+    pixe:`「ぴくっ！転生者さま、あなたは『令嬢ヴィタリア』。物語の終盤、糾弾されて断罪される運命の悪役令嬢…！\n\n でも大丈夫、私が記録係として味方になるよ✨ <em>健康で美しく、心も身体も整えれば</em>、運命は変えられる！\n\n まずは深呼吸して、何か小さく記録してみて。それが反撃の<em>第一歩</em>♪」`,
+    victory:`「あなたは涙の代わりに微笑んで、毅然と会場を後にした。\n──「断罪なんて、させないわ」。物語は、あなたの手で書き換わりはじめた。`,
+  },
+  growth_kaito: {
+    title:'第二章 — 領地の警備隊長（カイト）',
+    enemyName:'倦怠のため息', enemyTag:'CHAPTER 2 — FATIGUE',
+    narration:`領地に戻ったあなたを、無口で誠実な警備隊長カイトが迎える。<em>「お嬢様、この身体ではいざという時に動けませぬ」</em>`,
+    pixe:`「カイトは寡黙だけど、あなたを命がけで守ってくれる剣士。\n彼が心配しているのは <em>あなたの身体</em>。\n\n断罪を回避するには <em>動ける身体</em> が必要！\n運動を1分でも記録すると、倦怠が薄れていく。カイト直伝の最初の特訓だよ♪」`,
+    victory:`「カイトが小さく頷いた：『お嬢様…見直しました』\nあなたの身体が、少しずつ目覚めはじめている。`,
+  },
+  growth_sera: {
+    title:'第三章 — 薬草園の侍女（セラ）',
+    enemyName:'毒に侵された食卓', enemyTag:'CHAPTER 3 — POISON',
+    narration:`屋敷の裏手の薬草園。緑のローブを纏った優しい侍女セラが微笑む。<em>「お嬢様…料理長から不審な献立が…」</em>`,
+    pixe:`「セラは薬草と栄養に詳しい侍女。\n屋敷では <em>毒入りの食事</em> が出されているかも…！\n\n<em>魚・野菜・大豆</em> なら確実に身体を癒やしてくれる。セラのおすすめレシピで、安全な食卓を取り戻そう♪」`,
+    victory:`「セラが胸に手を当てる：『お嬢様の血色が…とても綺麗です』\n身体の内側から、悪役令嬢が「ヒロイン」に変わっていく。`,
+  },
+  growth_luna: {
+    title:'第四章 — 月光の女神官（ルナ）',
+    enemyName:'孤独な夜', enemyTag:'CHAPTER 4 — LONELINESS',
+    narration:`深夜の礼拝堂、銀髪の女神官ルナが静かに祈っていた。<em>「お嬢様、ひとりで抱え込まないで」</em>`,
+    pixe:`「ルナは月の女神に仕える神官。あなたの心の声を聴いてくれる人なの。\n\n悪役令嬢は孤独になりがちだけど、<em>言葉にする</em>ことで気持ちは整理される。GROWモデルってあって…ルナと話してみて♪」`,
+    victory:`「ルナが優しく頷いた：『あなたの中に、もう光があります』\n孤独は和らぎ、心に余裕が戻ってきた。`,
+  },
+  sloth: {
+    title:'第五章 — 大広間の重圧（怠惰）', stageLabel:'体の試練 ①',
+    enemyName:'怠惰の亡霊・スロウス', enemyTag:'BODY — SLOTH',
+    narration:`「動かなければ、つらくない」。動きたくないあなたを、亡霊が囁き続ける。`,
+    pixe:`「悪役令嬢の最初の試練は <em>怠惰</em>。\n屋敷に閉じこもっていては、運命は変わらない。\n\nカイトと一緒に、まずは <em>1分の散歩</em> から！動き出す勇気を取り戻そう♪」`,
+    victory:`「亡霊が砕け散った。あなたは庭園を毅然と歩いた。\nカイトが頭を下げる：『お嬢様、この戦い、見事です』」`,
+  },
+  gluttony: {
+    title:'第六章 — 茶会の誘惑（暴食）', stageLabel:'体の試練 ②',
+    enemyName:'お菓子な令嬢・グラト', enemyTag:'BODY — GLUTTONY',
+    narration:`貴族の茶会、お菓子で誘惑するライバル令嬢。<em>「もっと食べて太ってしまいなさい」</em>`,
+    pixe:`「お茶会の罠！甘い物・脂っこい物の誘惑は強い。\nでもセラの教えで <em>魚・野菜・大豆</em> を選べば撃退できる。\n\n断罪ルートを脱出するために、<em>賢い選択</em> を♪」`,
+    victory:`「ライバルが歯ぎしり：『なぜ、痩せて美しくなっていくの…!?』\nあなたは紅茶を優雅に飲み干した。`,
+  },
+  wrath: {
+    title:'第七章 — 王宮の冤罪（憤怒）', stageLabel:'心の試練 ①',
+    enemyName:'濡れ衣の業火・イラ', enemyTag:'MIND — WRATH',
+    narration:`王宮で根も葉もない噂を流される。心の中で怒りが燃え上がる。`,
+    pixe:`「冤罪の怒り！『なぜ私だけ』って心が燃える…\nでも怒りに飲まれたら、断罪ルート確定だよ。\n\nルナに話して、<em>言葉にする</em>。それだけで火は鎮まる♪」`,
+    victory:`「炎が消え、静かな湖面に変わった。\nあなたは冷静に立ち回り、噂は1週間で消えた。」`,
+  },
+  envy: {
+    title:'第八章 — 鏡の中のヒロイン（嫉妬）', stageLabel:'心の試練 ②',
+    enemyName:'比べる影・インヴィ', enemyTag:'MIND — ENVY',
+    narration:`ヒロインの輝きを見ると、胸が締めつけられる。<em>「私はあの子に勝てない」</em>`,
+    pixe:`「悪役令嬢の本当の敵は <em>ヒロインへの嫉妬</em>。\nでも比べる相手は <em>昨日の自分</em>。\n\nあなたは確実に変わってる。記録が証明してるよ✨」`,
+    victory:`「鏡が割れて、もう誰も映らなくなった。\nあなたは、あなただけの物語を歩み始めた。`,
+  },
+  greed: {
+    title:'第九章 — 美への執着（強欲）', stageLabel:'世界の試練 ①',
+    enemyName:'宝飾品コレクター・ガラクタ鬼', enemyTag:'WORLD — GREED',
+    narration:`ドレス・宝石・サプリ。「もっと、もっと」と求める心。`,
+    pixe:`「悪役令嬢が陥る罠 — <em>飾り立てる強欲</em>！\n外側ばかり磨いても、内側は満たされない。\n\n<em>地道な毎日の記録</em> こそ、本当の輝きだよ♪」`,
+    victory:`「黄金が砂になり、あなたは飾りを脱いだ。\n素のままが、いちばん美しいと気づいた。`,
+  },
+  pride: {
+    title:'第十章 — 完璧の鎧（傲慢）', stageLabel:'世界の試練 ②',
+    enemyName:'鏡の貴婦人・スペルビア', enemyTag:'WORLD — PRIDE',
+    narration:`「私は完璧」――そう思い込んだ瞬間、鎧の中で身動きが取れなくなった。`,
+    pixe:`「悪役令嬢の典型 — <em>完璧主義の鎧</em>。\n失敗できないと思い込むほど、続けられなくなる。\n\n<em>休んでいい、ペースを守る</em>。それが本当の強さ♪」`,
+    victory:`「鎧が割れて、ありのままのあなたが現れた。\n弱さを認めた者だけが、本当に強くなれる。`,
+  },
+  lust: {
+    title:'第十一章 — 夜会の誘惑（色欲）', stageLabel:'世界の試練 ③',
+    enemyName:'夜想曲のルクス', enemyTag:'WORLD — LUST',
+    narration:`眠らない夜会、終わらない誘惑。生活リズムが乱れていく。`,
+    pixe:`「悪役令嬢の最後の罠 — <em>夜更かしと自己破壊</em>。\nスマホ・SNS・夜更けの暴食、全部断罪フラグ。\n\n<em>運動・栄養・対話・睡眠</em> の四角形が完成すれば、撃退できる♪」`,
+    victory:`「朝陽が差し、あなたは清々しい朝を迎えた。\n断罪エンドの未来は、もう存在しない。`,
+  },
+  final: {
+    title:'最終章 — 断罪を回避し、新たな物語へ', stageLabel:'最終決戦',
+    enemyName:'⟪ もう一人のあなた ⟫', enemyTag:'FINAL — SHADOW SELF',
+    narration:`目の前に立つのは、<em>過去の悪役令嬢のあなた</em>。「お前にこんなこと、できるはずない」と冷笑する。`,
+    pixe:`「最後の敵は <em>過去の自分</em>！\n12週間で身体も心も変わったあなたを、過去の自分は認めたくない。\n\nでも記録が、あなたの<em>変化の証拠</em>！\nカイト・セラ・ルナと私、みんなで最後の戦いに行こう♪」`,
+    victory:`「過去のあなたが微笑み、光に溶けていった：『あなたが、新しい私ね』\nあなたは断罪を回避し、自分自身の物語を生きはじめた。\n\nぴくっ…！転生してから12週間、本当に本当によく頑張ったね。これからの<em>あなたの物語</em>を、楽しんで✨」`,
+  },
+};
+
+// ===== ユーザー状態に応じた動的ピクセコメント =====
+function buildDynamicPixeComment(){
+  if(!uid || uid==='guest') return '';
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
+  const hour = now.getHours();
+
+  // 1) 直近QOLを集計（過去3日）
+  let qolDays = 0, qolSum = 0, qolLow = 0;
+  for(let i=0;i<3;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r = localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(r){
+        const v = JSON.parse(r);
+        const avg = ((v.condition||0)+(v.mood||0)+(v.energy||0))/3;
+        qolSum += avg; qolDays++;
+        if(avg <= 2.5) qolLow++;
+      }
+    }catch(e){}
+  }
+  // 2) 直近活動量（過去7日）
+  let activeDays = 0, exMin = 0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const s = JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      if(s.exMinToday || s.vegToday || s.proToday) activeDays++;
+      exMin += (s.exMinToday||0);
+    }catch(e){}
+  }
+  // 3) ストリーク
+  let streak = 0;
+  try{ streak = parseInt(localStorage.getItem(`vt_login_streak_${uid}`)||'0',10); }catch(e){}
+  // 4) 最終ログインから何日空いたか
+  const lastLogin = localStorage.getItem(`vt_last_login_${uid}`)||'';
+  let gapDays = 0;
+  if(lastLogin){
+    gapDays = Math.floor((Date.now() - new Date(lastLogin).getTime())/86400000);
+  }
+  // 5) 直近の実績解放
+  let recentAch = false;
+  try{
+    const ach = JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}');
+    Object.values(ach).forEach(t=>{ if(typeof t==='number' && Date.now()-t<2*86400000) recentAch = true; });
+  }catch(e){}
+
+  // 優先度の高いトリガーから順に判定
+  // ① 帰還（3日以上ぶり）
+  if(gapDays >= 3 && gapDays <= 30){
+    return `🌙 <strong>${gapDays}日ぶりだね、お帰り…！</strong> 治療の影響で疲れてた？それともただ休んでた？どちらでも、また来てくれて嬉しいよ。`;
+  }
+  // ② QOL連続低下
+  if(qolDays >= 2 && qolLow >= 2){
+    return `🌫 体調や気分、しんどい日が続いてるみたい…。<strong>無理しなくていい</strong>。「水を1杯飲む」だけでも、今日のクエスト達成だよ。`;
+  }
+  // ③ ストリーク好調
+  if(streak >= 7){
+    return `✨ <strong>${streak}日連続記録中</strong>！習慣の灯がもう消えにくい段階に入ってるよ。すごい…！`;
+  }
+  // ④ 朝（5時〜10時）
+  if(hour >= 5 && hour <= 10){
+    return `🌅 おはよう！朝の光は<strong>体内時計を整える</strong>働きがあるんだ。今日のクエスト、何から始める？`;
+  }
+  // ⑤ 夜（21時以降）
+  if(hour >= 21){
+    return `🌙 今日もお疲れさま。<strong>寝る前のスマホは少なめに</strong>、深い睡眠が免疫修復を助けてくれるよ。`;
+  }
+  // ⑥ 週末で活動量少なめ
+  if((now.getDay()===0 || now.getDay()===6) && activeDays <= 2){
+    return `☕ 週末だね。リラックスも大事だけど、<strong>5分の散歩</strong>でも体が喜ぶよ。気分転換にどう？`;
+  }
+  // ⑦ 直近活動が活発
+  if(exMin >= 90){
+    return `⚔ <strong>1週間で${exMin}分</strong>動けてる！カイトも誇らしげだよ。回復の時間も忘れずにね。`;
+  }
+  // ⑧ 直近で実績解放
+  if(recentAch){
+    return `🏆 最近、新しい実績を解放したね！その勢いで次の章へ進もう♪`;
+  }
+  // ⑨ 戻ってきた人へ（活動少なめ・ギャップ短い）
+  if(activeDays <= 2 && gapDays >= 1){
+    return `🌱 久しぶり、というほどじゃないかな？<strong>「今日の最小ミッション」</strong>でホームに戻ると、すぐ復帰できるよ。`;
+  }
+  return ''; // デフォルト時は固定ピクセメッセージのみ
+}
+
+function applyStoryMode(ch){
+  const mode = localStorage.getItem('vt_story_mode');
+  if(mode !== 'villainess') return ch;
+  const ov = VILLAINESS_OVERRIDES[ch.id];
+  if(!ov) return ch;
+  return { ...ch, ...ov };
+}
+
+// ===== ボスのHP連動セリフ =====
+const BOSS_DIALOGUES = {
+  // 各章ID: { entry: 100%-71%, struggle: 70%-31%, breakdown: 30%-1%, defeat: 0% }
+  tutorial: {
+    entry:`霧：「動かなくていい…眠っていなさい…」`,
+    struggle:`霧：「なぜ動こうとする…？」`,
+    breakdown:`霧：「光が…刺さる……」`,
+  },
+  growth_kaito: {
+    entry:`疲労の影：「お前の身体は重い、動けまい」`,
+    struggle:`疲労の影：「これしき…まだ立っているのか」`,
+    breakdown:`疲労の影：「カイト…懐かしい名だな…」`,
+  },
+  growth_sera: {
+    entry:`枯渇の魔物：「貴様に栄養を渡すものか」`,
+    struggle:`枯渇の魔物：「魚…大豆…呪わしい食材め」`,
+    breakdown:`枯渇の魔物：「セラの結界…破れぬ…」`,
+  },
+  growth_luna: {
+    entry:`孤独の幽霊：「誰もお前を理解しない…」`,
+    struggle:`孤独の幽霊：「言葉にしても…無駄だ…」`,
+    breakdown:`孤独の幽霊：「私の…声が…薄れていく…」`,
+  },
+  sloth: {
+    entry:`スロウス：「動けば疲れるだけだ…泥に沈め…」`,
+    struggle:`スロウス：「なぜ毎日…続けられるのだ…」`,
+    breakdown:`スロウス：「ぐ…泥が、剥がれていく…」`,
+  },
+  gluttony: {
+    entry:`グラト：「もっと食べて、楽になりなさい♡」`,
+    struggle:`グラト：「魚…野菜…そんなものより甘い物よ！」`,
+    breakdown:`グラト：「美味しいものなのに…なぜ選ばないの…」`,
+  },
+  wrath: {
+    entry:`イラ：「ほら、怒れ！周りの全てが憎い！」`,
+    struggle:`イラ：「なぜ…言葉にして整理できる…」`,
+    breakdown:`イラ：「炎が…静まる…なぜだ…」`,
+  },
+  envy: {
+    entry:`インヴィ：「あの人は楽そうだな…お前は不幸だ」`,
+    struggle:`インヴィ：「比べるな…比べないで……」`,
+    breakdown:`インヴィ：「お前の物語は、お前のものか…」`,
+  },
+  greed: {
+    entry:`ガラクタ鬼：「もっと、もっと、サプリも情報も全部！」`,
+    struggle:`ガラクタ鬼：「地味な記録に何の価値が…」`,
+    breakdown:`ガラクタ鬼：「黄金が…砂に…」`,
+  },
+  pride: {
+    entry:`スペルビア：「お前は完璧であれ。失敗は許されぬ」`,
+    struggle:`スペルビア：「休むだと…？それは敗北だ…」`,
+    breakdown:`スペルビア：「鏡が…割れる……」`,
+  },
+  lust: {
+    entry:`ルクス：「夜は終わらない…眠るな、楽しめ」`,
+    struggle:`ルクス：「規則正しい生活…つまらないわ…」`,
+    breakdown:`ルクス：「朝陽が…やめてくれ…」`,
+  },
+  final: {
+    entry:`真の試練：「12週間、よくぞここまで」`,
+    struggle:`真の試練：「あなたの中の、まだ見ぬ力を解き放て」`,
+    breakdown:`真の試練：「あなたは、もう大丈夫」`,
+  },
+};
+
+// 悪役令嬢編のボスセリフ（章IDごとに上書き）
+const VILLAINESS_BOSS_DIALOGUES = {
+  tutorial: {
+    entry:`婚約者：「お前との婚約は破棄だ！」`,
+    struggle:`婚約者：「な…なぜ毅然としていられる…？」`,
+    breakdown:`婚約者：「…お前は変わったのか…？」`,
+  },
+  sloth: {
+    entry:`亡霊：「屋敷に閉じこもっていれば、傷つかないわ」`,
+    struggle:`亡霊：「なぜ庭園を歩く…？それは反逆よ…」`,
+    breakdown:`亡霊：「…貴女は、もう泥の中の令嬢ではない」`,
+  },
+  gluttony: {
+    entry:`ライバル令嬢：「ほほほ、もっと召し上がって♡」`,
+    struggle:`ライバル令嬢：「なぜ甘いケーキを断れるのよ…！」`,
+    breakdown:`ライバル令嬢：「く…貴女、痩せて美しくなって…！」`,
+  },
+  envy: {
+    entry:`影：「ヒロインの方が愛されるわ」`,
+    struggle:`影：「比べないで…って言うけど、できるの…？」`,
+    breakdown:`影：「…貴女自身の物語、見つけたのね」`,
+  },
+  pride: {
+    entry:`鏡の貴婦人：「悪役令嬢は完璧でなければ断罪よ」`,
+    struggle:`鏡の貴婦人：「休むですって…弱さの証明よ…」`,
+    breakdown:`鏡の貴婦人：「…弱さを認める強さ、私は知らなかった」`,
+  },
+  final: {
+    entry:`過去のあなた：「お前にこんなこと、できるはずない」`,
+    struggle:`過去のあなた：「私の物語を…奪うな…」`,
+    breakdown:`過去のあなた：「あなたが…新しい私ね」`,
+  },
+};
+
+function getBossDialogue(ch){
+  const mode = localStorage.getItem('vt_story_mode');
+  if(mode === 'villainess' && VILLAINESS_BOSS_DIALOGUES[ch.id]){
+    return VILLAINESS_BOSS_DIALOGUES[ch.id];
+  }
+  return BOSS_DIALOGUES[ch.id] || null;
+}
+
+function updateBossDialogue(ch, pct){
+  let el = document.getElementById('boss-dialogue');
+  if(!el){
+    // 動的に挿入
+    const battleCard = document.getElementById('battle-card');
+    if(!battleCard) return;
+    el = document.createElement('div');
+    el.id = 'boss-dialogue';
+    el.style.cssText = `
+      background:linear-gradient(135deg,rgba(40,20,40,.85),rgba(20,10,30,.95));
+      border-left:3px solid rgba(220,160,210,.55);
+      border-radius:8px;padding:10px 14px;margin:10px 0;
+      font-family:'Noto Serif JP',serif;font-size:.82rem;line-height:1.7;
+      color:rgba(240,200,220,.9);font-style:italic;
+      position:relative;z-index:2;
+    `;
+    battleCard.appendChild(el);
+  }
+  const dlg = getBossDialogue(ch);
+  if(!dlg){ el.style.display='none'; return; }
+  el.style.display = 'block';
+  let line;
+  if(pct < 30) line = dlg.entry;
+  else if(pct < 70) line = dlg.struggle;
+  else line = dlg.breakdown;
+  el.innerHTML = `💬 ${line}`;
+}
+
+// ===== 多段階ナレーション =====
+const STAGE_NARRATIONS = {
+  // 章のID毎に追加ナレーションを定義（必要なものだけ）
+  tutorial: {
+    mid:'霧の中で、あなたの足元に小さな光が灯る。<em>「動けるかも」</em>と感じはじめる。',
+    near:'霧が薄れ、向こうに4人のシルエットが見える。仲間が呼んでいる…！',
+  },
+  sloth: {
+    mid:'泥が剥がれて、あなたの足が地面を捉えた。<em>身体は応えてくれる</em>と気づく。',
+    near:'スロウスが膝をつく。あなたは、もう「動けない」自分ではない。',
+  },
+  gluttony: {
+    mid:'魚と野菜の力が、グラトの甘い泡を吹き飛ばす。あなたの舌が <em>本物の美味しさ</em> を思い出す。',
+    near:'グラトが砕けはじめる。「我慢じゃなく、選んでる」あなたが、ここにいる。',
+  },
+  wrath: {
+    mid:'ルナとの対話で、怒りに名前がつく。<em>名前のついた感情は、暴走しない</em>。',
+    near:'黒炎が小さくなる。あなたは怒りに支配されない、新しい自分を見つけた。',
+  },
+  envy: {
+    mid:'比べる相手は他人ではなく、<em>1週間前のあなた</em>。記録が確かな成長を示している。',
+    near:'影が霧散しはじめる。あなただけの物語が、形を取り戻す。',
+  },
+  pride: {
+    mid:'鏡にヒビが入る。完璧でない自分を、あなたは赦している。',
+    near:'鎧が砕け、ありのままの姿が露わになる。それが、いちばん強い。',
+  },
+  final: {
+    mid:'光の存在が微笑む。<em>「あなたは、自分の中に答えを持っていた」</em>',
+    near:'12週間の記録が、光の翼となってあなたを包む。最後の一撃を…！',
+  },
+};
+function updateStageNarration(ch, pct){
+  const stages = STAGE_NARRATIONS[ch.id];
+  if(!stages) return;
+  const narrEl = document.getElementById('chapter-narration');
+  if(!narrEl) return;
+  // 元のナレーションを保持しつつ、進行に応じて追加表示
+  const baseHtml = (ch.narration || '').replace(/\n/g,'<br>');
+  let extra = '';
+  if(pct >= 70 && stages.near){
+    extra = `<br><br><span style="color:rgba(240,212,138,.85);">${stages.near}</span>`;
+  } else if(pct >= 30 && stages.mid){
+    extra = `<br><br><span style="color:rgba(168,232,192,.85);">${stages.mid}</span>`;
+  }
+  narrEl.innerHTML = baseHtml + extra;
+}
 
 // 旧 STAGES（buildChapters用）— 互換性のため空配列に
 
@@ -920,7 +1296,7 @@ function render(){
 
   // 12章すべてバトルあり、自動進行は不要（討伐で次章へ）
 
-  const ch=CHAPTERS[state.chapterIdx];
+  const ch=applyStoryMode(CHAPTERS[state.chapterIdx]);
   if(!ch) return; // クリア後
 
   // 章カード
@@ -930,7 +1306,11 @@ function render(){
   document.getElementById('chapter-num').innerHTML=`— CHAPTER ${state.chapterIdx+1} —${themeTag}`;
   document.getElementById('chapter-title').textContent=ch.title;
   document.getElementById('chapter-narration').innerHTML=ch.narration.replace(/\n/g,'<br>');
-  document.getElementById('pixe-msg').innerHTML=ch.pixe.replace(/\n/g,'<br>');
+  // ピクセのメッセージは「章の説明」+「ユーザー状態に応じた動的コメント」
+  const dynamicComment = buildDynamicPixeComment();
+  const pixeBase = ch.pixe.replace(/\n/g,'<br>');
+  const pixeFinal = dynamicComment ? `<div style="margin-bottom:10px;padding:8px 11px;background:rgba(240,212,138,.08);border-left:3px solid rgba(240,212,138,.6);border-radius:6px;font-size:.85em;line-height:1.7;">${dynamicComment}</div>${pixeBase}` : pixeBase;
+  document.getElementById('pixe-msg').innerHTML=pixeFinal;
   document.getElementById('adv-progress-mini').textContent=`${state.chapterIdx+1} / ${CHAPTERS.length}章`;
 
   // バトルカード（story章は非表示、zako/boss は表示）
@@ -944,8 +1324,10 @@ function render(){
     document.getElementById('enemy-tag').textContent=ch.enemyTag;
     document.getElementById('enemy-weakness').innerHTML=`弱点：<strong>${ch.weakness}</strong>`;
 
-    // 現在のダメージ計算（章開始時からの差分）
-    const dmgDealt=Math.max(0, totalDmg.total - state.chapterStartDmg);
+    // 現在のダメージ計算（章開始時からの差分）+ ボスタップミニのボーナス
+    let bossMiniDmg = 0;
+    try{ bossMiniDmg = parseInt(localStorage.getItem(`va_boss_mini_dmg_${uid}_${ch.id}`)||'0',10); }catch(e){}
+    const dmgDealt=Math.max(0, totalDmg.total - state.chapterStartDmg) + bossMiniDmg;
 
     // 攻撃検出：前回見たダメージより増えていたら攻撃アニメ発動
     const lastSeenKey=`va_lastseen_${uid}_${ch.id}`;
@@ -967,6 +1349,11 @@ function render(){
     document.getElementById('atk-ex').textContent=exDmg;
     document.getElementById('atk-nu').textContent=nuDmg;
     document.getElementById('atk-co').textContent=coDmg;
+
+    // ===== 多段階ナレーション（HP%で切り替え） =====
+    updateStageNarration(ch, pct);
+    // ボスのHP連動セリフ
+    updateBossDialogue(ch, pct);
 
     // 討伐判定
     if(remaining<=0 && !state.defeated.includes(ch.id)){
@@ -1038,6 +1425,21 @@ function showVictory(ch, state){
   document.getElementById('victory-modal').classList.add('open');
 }
 
+// ボスタップミニゲーム起動
+document.getElementById('boss-tap-btn')?.addEventListener('click', ()=>{
+  if(!window.Gamification){ alert('ゲーム機能の読み込みに失敗しました'); return; }
+  const state = loadState();
+  const ch = applyStoryMode(CHAPTERS[state.chapterIdx]);
+  if(!ch || ch.kind === 'tutorial'){ alert('チュートリアル章ではミニゲームは使えません'); return; }
+  if(!window.Gamification.canPlayBossMini()){
+    alert('今日のミニゲームはプレイ済みです。明日また！');
+    return;
+  }
+  window.Gamification.showBossMiniGame(ch);
+  // モーダル閉じた後の再描画（ボスのHPに反映）
+  setTimeout(()=>{ try{ render(); }catch(e){} }, 1500);
+});
+
 document.getElementById('victory-close').addEventListener('click',()=>{
   document.getElementById('victory-modal').classList.remove('open');
   // 次の章へ
@@ -1047,9 +1449,95 @@ document.getElementById('victory-close').addEventListener('click',()=>{
     const totalDmg=statsToDamage(loadCumulativeStats());
     state.chapterStartDmg=totalDmg.total;
     saveState(state);
+    render();
+  } else {
+    // 全章クリア → 真エンディング
+    showTrueEnding();
   }
-  render();
 });
+
+// ===== 真エンディング =====
+function showTrueEnding(){
+  if(localStorage.getItem(`vt_true_ending_${uid}`)) {
+    showGraduateMode();
+    return;
+  }
+  localStorage.setItem(`vt_true_ending_${uid}`, '1');
+  const mode = localStorage.getItem('vt_story_mode') || 'vitalia';
+  const txt = mode === 'villainess'
+    ? `<p>断罪を回避し、悪役令嬢の運命を書き換えた12週間。</p>
+       <p>鏡の中のあなたは、もう <em>誰かに決められたヒロイン像</em> ではない。<br>
+       自分の食卓を選び、自分の身体を動かし、自分の言葉で語る、<strong>あなた自身</strong>。</p>
+       <p>カイト・セラ・ルナ・ピクセが微笑む。<br>
+       <em>「お嬢様…いいえ、あなたは、もう新しい物語の主人公です」</em></p>
+       <p style="color:#f0a0c8;font-weight:900;">真エンド「自分自身の物語」を達成！</p>`
+    : `<p>七つの試練を超え、最終章を制した12週間。</p>
+       <p>光の翼の存在は、実は <em>あなた自身の中にあった可能性</em> の象徴だった。<br>
+       身体は応え、心は安らぎ、世界との関係も整った。</p>
+       <p>カイト：「お前は、俺の弟子じゃない。俺の <em>師匠</em> だ」<br>
+       セラ：「あなたの食卓には、もう魔法が宿っています」<br>
+       ルナ：「銀の月は、これからもあなたを照らします」<br>
+       ピクセ：「ぴく…！本当に、本当によく頑張ったね✨」</p>
+       <p style="color:#f0d48a;font-weight:900;">真エンド「ヴィタリアの新たな伝説」を達成！</p>`;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'true-ending-modal';
+  overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at center,rgba(40,30,80,.96),rgba(0,0,0,.99));backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 1s ease both;`;
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(160deg,#1a1230,#0d0a20);border:3px solid rgba(240,212,138,.6);border-radius:24px;max-width:520px;width:100%;padding:32px 26px;text-align:center;box-shadow:0 0 80px rgba(240,212,138,.3),0 24px 64px rgba(0,0,0,.7);">
+      <div style="font-size:3rem;line-height:1;margin-bottom:12px;animation:floatStar 3s ease-in-out infinite;">✦</div>
+      <div style="font-size:.65rem;letter-spacing:.3em;color:rgba(240,212,138,.7);font-weight:900;margin-bottom:8px;">— TRUE ENDING —</div>
+      <h1 style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#f0d48a;margin-bottom:20px;line-height:1.4;">12週間の冒険、完走！</h1>
+      <div style="background:rgba(0,0,0,.35);border-left:3px solid rgba(240,212,138,.6);border-radius:10px;padding:18px 18px;text-align:left;font-size:.85rem;line-height:1.95;color:#e8e4d4;">
+        ${txt}
+      </div>
+      <p style="font-size:.78rem;color:rgba(220,225,245,.7);margin-top:18px;line-height:1.85;">
+        ここからは <strong style="color:#a8e8c0;">卒業生モード</strong>。<br>
+        習慣を「維持する」フェーズです。記録は続けられますが、<br>
+        通知やリマインダーは <strong>あなたのペース</strong> に合わせて減らせます。
+      </p>
+      <button id="te-close" style="margin-top:22px;background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;padding:13px 36px;border-radius:12px;cursor:pointer;letter-spacing:.06em;width:100%;">ヴィタリアを旅し続ける ✦</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('te-close').onclick = ()=>{
+    overlay.remove();
+    // 卒業生フラグ
+    localStorage.setItem(`vt_graduate_${uid}`, new Date().toISOString());
+    showGraduateMode();
+  };
+  // 大量コンフェッティ
+  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:200, duration:5000, colors:['#f0d48a','#a8e8c0','#c0a0f0','#fff8d8']}); }catch(e){}
+}
+
+function showGraduateMode(){
+  // 章リストの代わりに「卒業生モード」表示
+  const el = document.getElementById('chapter-card');
+  if(!el) return;
+  el.innerHTML = `
+    <div style="text-align:center;padding:14px 4px;">
+      <div style="font-size:.6rem;letter-spacing:.18em;color:rgba(240,212,138,.7);font-weight:900;margin-bottom:6px;">— GRADUATE MODE —</div>
+      <h2 style="font-family:'Noto Serif JP',serif;font-size:1.25rem;color:#f0d48a;margin-bottom:8px;">🎓 卒業生・ヴィタリア</h2>
+      <p style="font-size:.78rem;color:rgba(220,225,245,.85);line-height:1.85;">12週間の冒険を完走したあなた。<br>これからは、<strong style="color:#a8e8c0;">習慣を「維持する」</strong> フェーズです。<br><br>記録は引き続きできますが、<strong>通知・リマインダーは控えめ</strong>に。<br>たまにルナと話したり、新しい仲間（次世代の転生者）を応援したりできます。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px;">
+        <a href="./game.html" style="background:rgba(240,212,138,.12);border:1px solid rgba(240,212,138,.4);color:#f0d48a;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">🏠 ホームへ</a>
+        <a href="./party.html" style="background:rgba(168,232,192,.12);border:1px solid rgba(168,232,192,.4);color:#a8e8c0;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">👥 仲間と繋がる</a>
+      </div>
+    </div>
+  `;
+  // バトルカード非表示
+  const battle = document.getElementById('battle-card');
+  if(battle) battle.style.display='none';
+  // 卒業生は通知頻度を抑える
+  localStorage.setItem('vt_graduate_quiet', '1');
+}
+
+// 既に卒業した人は最初から卒業生モードを表示
+function checkGraduateOnLoad(){
+  if(localStorage.getItem(`vt_graduate_${uid}`)){
+    setTimeout(showGraduateMode, 200);
+  }
+}
 
 // 認証
 onAuthStateChanged(auth, user=>{
@@ -1058,6 +1546,7 @@ onAuthStateChanged(auth, user=>{
     document.getElementById('auth-screen').style.display='none';
     document.getElementById('main-app').style.display='';
     render();
+    checkGraduateOnLoad();
   } else {
     // ゲストとしても遊べるようにする
     uid='guest';

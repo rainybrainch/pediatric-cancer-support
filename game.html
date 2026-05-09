@@ -234,6 +234,251 @@ body::before{
 
 /* ========== ヘッダー ========== */
 #main-screen{display:none;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
+
+/* ========== コンパクトホーム（DBL風メニュー）========== */
+.compact-home{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.ch-toprow{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
+.ch-tbtn{
+  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.22);
+  color:rgba(220,225,245,.85);font-family:inherit;font-size:.6rem;font-weight:700;
+  padding:7px 4px;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em;
+}
+.ch-tbtn:hover{background:rgba(201,168,76,.12);color:var(--gold2);}
+
+.ch-hero{
+  background:linear-gradient(135deg,rgba(80,40,140,.2),rgba(140,40,100,.12));
+  border:1.5px solid rgba(156,114,224,.4);border-radius:12px;
+  padding:11px 14px;display:flex;align-items:center;gap:11px;
+  position:relative;overflow:hidden;
+}
+.ch-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 100% 0%,rgba(156,114,224,.15) 0%,transparent 60%);
+}
+.ch-hero-icon{font-size:1.6rem;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 10px rgba(156,114,224,.5));position:relative;z-index:1;}
+.ch-hero-text{flex:1;min-width:0;position:relative;z-index:1;}
+.ch-hero-name{font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;color:#e8d4ff;line-height:1.3;}
+.ch-hero-sub{font-size:.66rem;color:rgba(220,220,250,.65);margin-top:2px;}
+
+.ch-mission{
+  background:linear-gradient(135deg,rgba(168,232,192,.12),rgba(78,201,138,.04));
+  border:1px solid rgba(168,232,192,.4);border-radius:10px;
+  padding:8px 12px;display:flex;align-items:center;gap:9px;
+}
+.ch-m-icon{font-size:1.1rem;line-height:1;}
+.ch-m-text{flex:1;font-size:.78rem;font-weight:700;color:#a8e8c0;}
+.ch-m-done{
+  background:linear-gradient(135deg,#4ec98a,#a8e8c0);border:none;color:#0a2018;
+  font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;
+  padding:5px 12px;border-radius:7px;cursor:pointer;
+}
+.ch-m-done:disabled{opacity:.5;cursor:default;}
+
+/* 大きな「メニュー」ボタン */
+.ch-main-btn{
+  width:100%;background:linear-gradient(135deg,rgba(201,168,76,.32),rgba(201,168,76,.12));
+  border:2px solid rgba(240,212,138,.55);border-radius:14px;
+  padding:16px 18px;display:flex;align-items:center;gap:14px;
+  color:#1a1200;background-color:transparent;cursor:pointer;
+  font-family:inherit;position:relative;overflow:hidden;
+  transition:transform .15s, box-shadow .2s;
+  box-shadow:0 4px 18px rgba(201,168,76,.18);
+}
+.ch-main-btn::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.04),transparent 50%);
+}
+.ch-main-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(240,212,138,.28);border-color:#f0d48a;}
+.ch-main-btn:active{transform:translateY(0);}
+.ch-mb-icon{font-size:2rem;line-height:1;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(240,212,138,.6));position:relative;z-index:1;}
+.ch-mb-text{flex:1;text-align:left;display:flex;flex-direction:column;gap:2px;position:relative;z-index:1;}
+.ch-mb-title{font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;color:var(--gold2);letter-spacing:.04em;}
+.ch-mb-sub{font-size:.66rem;color:rgba(240,212,138,.7);letter-spacing:.02em;}
+.ch-mb-arrow{font-size:1.4rem;color:var(--gold2);position:relative;z-index:1;}
+.ch-mb-badge{
+  position:absolute;top:8px;right:50px;background:#f0d048;color:#1a1200;
+  font-size:.6rem;font-weight:900;width:18px;height:18px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 10px #f0d048;animation:chBadgePulse 1.5s ease-in-out infinite;
+}
+
+/* クイック2ボタン */
+.ch-quick{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px;}
+.ch-quick-btn{
+  background:rgba(20,16,40,.85);border:1px solid rgba(201,168,76,.22);
+  border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:9px;
+  text-decoration:none;color:#e8e4d4;transition:all .18s;font-family:inherit;
+}
+.quick-ex{border-color:rgba(224,92,92,.35);}
+.quick-ex:hover{border-color:rgba(224,92,92,.7);background:rgba(224,92,92,.05);}
+.quick-nu{border-color:rgba(78,201,138,.35);}
+.quick-nu:hover{border-color:rgba(78,201,138,.7);background:rgba(78,201,138,.05);}
+.qb-icon{font-size:1.4rem;line-height:1;}
+.qb-text{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;}
+
+/* メニューオーバーレイ */
+.ch-menu-overlay{position:fixed;inset:0;z-index:7000;display:flex !important;align-items:center;justify-content:center;}
+.ch-menu-overlay[aria-hidden="true"]{pointer-events:none;}
+.ch-menu-overlay[aria-hidden="false"]{pointer-events:auto;}
+.ch-menu-backdrop{
+  position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);
+  opacity:0;transition:opacity .3s ease;
+}
+.ch-menu-overlay[aria-hidden="false"] .ch-menu-backdrop{opacity:1;}
+.ch-menu-sheet{
+  position:relative;background:linear-gradient(160deg,#0d1225,#101830 60%,#0a0d1c);
+  border:1.5px solid rgba(201,168,76,.35);border-radius:18px;
+  max-width:480px;width:92vw;max-height:88vh;
+  padding:18px 18px 22px;overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 80px rgba(201,168,76,.1);
+  transform:translateY(40px) scale(.92);opacity:0;
+  transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .35s ease;
+}
+.ch-menu-overlay[aria-hidden="false"] .ch-menu-sheet{transform:translateY(0) scale(1);opacity:1;}
+.ch-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid rgba(201,168,76,.18);padding-bottom:11px;}
+.ch-menu-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);letter-spacing:.04em;}
+.ch-menu-close{
+  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);color:rgba(220,225,245,.8);
+  font-size:1.3rem;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-family:inherit;
+}
+.ch-menu-close:hover{background:rgba(201,168,76,.15);color:var(--gold2);}
+
+/* メニュー内のカード入場アニメーション */
+.ch-menu-overlay[aria-hidden="false"] .ch-card{animation:cardIn .4s cubic-bezier(.22,1,.36,1) both;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(1){animation-delay:.05s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(2){animation-delay:.09s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(3){animation-delay:.13s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(4){animation-delay:.17s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(5){animation-delay:.21s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(6){animation-delay:.25s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(7){animation-delay:.29s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(8){animation-delay:.33s;}
+.ch-menu-overlay[aria-hidden="false"] .ch-card:nth-child(9){animation-delay:.37s;}
+@keyframes cardIn{from{opacity:0;transform:translateY(15px) scale(.85);}to{opacity:1;transform:translateY(0) scale(1);}}
+.ch-menu-overlay[aria-hidden="false"] .ch-sub{animation:fadeIn .5s ease both;animation-delay:.45s;}
+
+.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.ch-card{
+  background:linear-gradient(160deg,rgba(20,16,40,.92),rgba(8,6,20,.97));
+  border:1.5px solid rgba(201,168,76,.22);border-radius:10px;
+  padding:9px 5px 7px;text-align:center;cursor:pointer;
+  text-decoration:none;color:inherit;font-family:inherit;
+  transition:all .18s;position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  min-height:104px;
+}
+.ch-card:hover{transform:translateY(-2px);}
+.ch-card-img{
+  width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.4);
+  border:1.5px solid rgba(201,168,76,.3);overflow:hidden;flex-shrink:0;
+}
+.ch-card-img img{width:100%;height:100%;object-fit:cover;}
+.ch-card-icon{font-size:1.9rem;line-height:1;height:50px;display:flex;align-items:center;justify-content:center;}
+.ch-card-name{font-family:'Noto Serif JP',serif;font-size:.74rem;font-weight:900;color:#e8e4d4;line-height:1.2;margin-top:1px;}
+.ch-card-meta{font-size:.55rem;color:rgba(170,188,216,.55);line-height:1.3;}
+.ch-badge{
+  position:absolute;top:5px;right:5px;background:#f0d048;color:#1a1200;
+  font-size:.55rem;font-weight:900;width:14px;height:14px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 8px #f0d048;animation:chBadgePulse 1.5s ease-in-out infinite;
+}
+@keyframes chBadgePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+
+.ch-card-ex{border-color:rgba(224,92,92,.35);}
+.ch-card-ex:hover{border-color:rgba(224,92,92,.7);box-shadow:0 6px 18px rgba(224,92,92,.18);}
+.ch-card-ex .ch-card-img{border-color:rgba(224,92,92,.5);}
+.ch-card-nu{border-color:rgba(78,201,138,.35);}
+.ch-card-nu:hover{border-color:rgba(78,201,138,.7);box-shadow:0 6px 18px rgba(78,201,138,.18);}
+.ch-card-nu .ch-card-img{border-color:rgba(78,201,138,.5);}
+.ch-card-co{border-color:rgba(156,114,224,.35);}
+.ch-card-co:hover{border-color:rgba(156,114,224,.7);box-shadow:0 6px 18px rgba(156,114,224,.18);}
+.ch-card-co .ch-card-img{border-color:rgba(156,114,224,.5);}
+.ch-card-adv{border-color:rgba(240,180,80,.35);}
+.ch-card-adv:hover{border-color:rgba(240,180,80,.7);box-shadow:0 6px 18px rgba(240,180,80,.18);}
+.ch-card-pt{border-color:rgba(168,200,240,.35);}
+.ch-card-pt:hover{border-color:rgba(168,200,240,.7);box-shadow:0 6px 18px rgba(168,200,240,.18);}
+.ch-card-gc{border-color:rgba(240,212,138,.4);}
+.ch-card-gc:hover{border-color:rgba(240,212,138,.8);box-shadow:0 6px 18px rgba(240,212,138,.2);}
+.ch-card-cl{border-color:rgba(192,160,240,.35);}
+.ch-card-cl:hover{border-color:rgba(192,160,240,.7);box-shadow:0 6px 18px rgba(192,160,240,.18);}
+.ch-card-sk{border-color:rgba(168,232,192,.35);}
+.ch-card-sk:hover{border-color:rgba(168,232,192,.7);box-shadow:0 6px 18px rgba(168,232,192,.18);}
+.ch-card-sh{border-color:rgba(240,180,80,.35);}
+.ch-card-sh:hover{border-color:rgba(240,180,80,.7);box-shadow:0 6px 18px rgba(240,180,80,.18);}
+
+.ch-sub{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.ch-sub-btn{
+  flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);
+  color:rgba(220,225,245,.7);font-family:inherit;font-size:.65rem;font-weight:700;
+  padding:6px 4px;border-radius:7px;text-decoration:none;text-align:center;letter-spacing:.04em;
+  white-space:nowrap;
+}
+.ch-sub-btn:hover{background:rgba(201,168,76,.1);color:var(--gold2);}
+
+@media(max-width:380px){
+  .ch-toprow{grid-template-columns:repeat(3,1fr);}
+  .ch-card{min-height:92px;padding:7px 3px 5px;}
+  .ch-card-img,.ch-card-icon{width:42px;height:42px;font-size:1.6rem;}
+  .ch-card-name{font-size:.68rem;}
+}
+
+/* コンパクトモード（デフォルト）：詳細ウィジェットを非表示 */
+body.compact-mode .insight-card,
+body.compact-mode .footprint-card,
+body.compact-mode .streak-cal-card,
+body.compact-mode .affinity-card,
+body.compact-mode .habit-stack-card,
+body.compact-mode .hydsleep-grid,
+body.compact-mode .ctx-greeting,
+body.compact-mode .qol-trend-card,
+body.compact-mode #hope-banner,
+body.compact-mode #stage-banner,
+body.compact-mode .tiny-habit-card,
+body.compact-mode .game-actions,
+body.compact-mode .adv-banner-wrap,
+body.compact-mode .goal-banner,
+body.compact-mode .quiz-banner,
+body.compact-mode .quest-grid{display:none !important;}
+
+/* 詳細モード時はcompact-homeを隠す */
+body.detail-mode #compact-home{display:none !important;}
+
+/* PWAインストール案内バナー */
+.pwa-banner{
+  position:fixed;left:14px;right:14px;bottom:14px;z-index:200;
+  background:linear-gradient(135deg,rgba(40,30,80,.96),rgba(20,15,40,.96));
+  border:1px solid rgba(240,212,138,.45);border-radius:14px;
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 12px 36px rgba(0,0,0,.6),0 0 32px rgba(240,212,138,.1);
+  animation:pwaBannerIn .5s cubic-bezier(.22,1,.36,1) both;
+  max-width:520px;margin:0 auto;
+}
+@keyframes pwaBannerIn{0%{opacity:0;transform:translateY(40px);}100%{opacity:1;transform:translateY(0);}}
+.pwa-banner-icon{font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(240,212,138,.5));}
+.pwa-banner-text{flex:1;min-width:0;}
+.pwa-banner-title{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:var(--gold2);line-height:1.3;}
+.pwa-banner-sub{font-size:.65rem;color:rgba(220,225,245,.65);margin-top:2px;line-height:1.5;}
+.pwa-banner-btn{
+  background:linear-gradient(135deg,rgba(240,212,138,.4),rgba(201,168,76,.3));
+  border:1px solid rgba(240,212,138,.55);border-radius:10px;padding:8px 14px;
+  color:#1a1200;background-color:#f0d48a;font-family:'Noto Serif JP',serif;
+  font-size:.78rem;font-weight:900;cursor:pointer;flex-shrink:0;
+}
+.pwa-banner-btn:hover{filter:brightness(1.08);}
+.pwa-banner-close{
+  background:none;border:none;color:rgba(220,225,245,.5);font-size:1.4rem;
+  cursor:pointer;padding:0 4px;line-height:1;flex-shrink:0;
+}
+.pwa-banner-close:hover{color:#fff;}
+@media(max-width:480px){
+  .pwa-banner{padding:10px 12px;gap:8px;}
+  .pwa-banner-icon{font-size:1.3rem;}
+  .pwa-banner-title{font-size:.78rem;}
+  .pwa-banner-sub{font-size:.6rem;}
+  .pwa-banner-btn{padding:7px 11px;font-size:.72rem;}
+}
 .g-header{
   background:rgba(8,11,20,.92);
   border-bottom:1px solid rgba(201,168,76,.12);
@@ -546,6 +791,315 @@ body::before{
   font-size:.6rem;color:rgba(168,232,192,.6);text-align:center;
 }
 .qol-trend-empty{font-size:.7rem;color:rgba(170,188,216,.4);text-align:center;padding:8px;}
+
+/* ========== ゲームアクション（ガチャ・コレクション・スキル）========== */
+.game-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+@media(max-width:480px){.game-actions{grid-template-columns:repeat(2,1fr);gap:6px;}}
+.ga-btn{
+  background:linear-gradient(135deg,rgba(20,16,40,.85),rgba(8,6,20,.95));
+  border:1.5px solid rgba(201,168,76,.3);border-radius:14px;
+  padding:11px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;font-family:inherit;
+  position:relative;overflow:hidden;
+}
+.ga-btn:hover{transform:translateY(-2px);}
+.ga-btn::before{
+  content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,var(--ga-glow,transparent) 0%,transparent 60%);pointer-events:none;
+}
+.ga-gacha{--ga-glow:rgba(240,212,138,.18);border-color:rgba(240,212,138,.4);}
+.ga-gacha:hover{border-color:#f0d48a;box-shadow:0 8px 24px rgba(240,212,138,.2);}
+.ga-collection{--ga-glow:rgba(192,160,240,.18);border-color:rgba(192,160,240,.4);}
+.ga-collection:hover{border-color:#c0a0f0;box-shadow:0 8px 24px rgba(192,160,240,.2);}
+.ga-skills{--ga-glow:rgba(168,232,192,.18);border-color:rgba(168,232,192,.4);}
+.ga-skills:hover{border-color:#a8e8c0;box-shadow:0 8px 24px rgba(168,232,192,.2);}
+.ga-shop{--ga-glow:rgba(240,180,80,.18);border-color:rgba(240,180,80,.4);}
+.ga-shop:hover{border-color:#f0c060;box-shadow:0 8px 24px rgba(240,180,80,.2);}
+.ga-novel{--ga-glow:rgba(240,160,200,.16);border-color:rgba(240,160,200,.4);}
+.ga-novel:hover{border-color:#f0a0c8;box-shadow:0 8px 24px rgba(240,160,200,.2);}
+.ga-icon{font-size:1.4rem;line-height:1;position:relative;z-index:1;}
+.ga-label{font-size:.7rem;font-weight:900;font-family:'Noto Serif JP',serif;color:#e8e4d4;position:relative;z-index:1;}
+.ga-meta{font-size:.55rem;letter-spacing:.04em;color:rgba(170,188,216,.65);position:relative;z-index:1;}
+.ga-btn.has-action .ga-meta{color:#f0d48a;font-weight:700;}
+.ga-btn.has-action::after{content:'';position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#f0d48a;box-shadow:0 0 10px #f0d48a;animation:gaPulse 1.5s ease-in-out infinite;}
+@keyframes gaPulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+
+/* ========== 状況適応型グリーティング ========== */
+.ctx-greeting{
+  background:linear-gradient(135deg,rgba(156,114,224,.1),rgba(156,114,224,.03));
+  border:1px solid rgba(156,114,224,.3);border-radius:12px;
+  padding:11px 14px;display:flex;align-items:flex-start;gap:10px;
+  animation:fadeIn .4s ease both;
+}
+.ctx-greeting.warn{background:linear-gradient(135deg,rgba(240,180,80,.1),rgba(240,180,80,.03));border-color:rgba(240,180,80,.4);}
+.ctx-greeting.celebrate{background:linear-gradient(135deg,rgba(78,201,138,.1),rgba(78,201,138,.03));border-color:rgba(78,201,138,.4);}
+.ctx-greeting.gentle{background:linear-gradient(135deg,rgba(168,200,240,.1),rgba(168,200,240,.03));border-color:rgba(168,200,240,.4);}
+.ctx-greet-icon{font-size:1.3rem;flex-shrink:0;line-height:1;}
+.ctx-greet-text{flex:1;min-width:0;font-size:.78rem;line-height:1.7;color:rgba(220,225,245,.92);}
+.ctx-greet-text strong{color:#f0d48a;}
+
+/* ========== Habit Stacking 提案 ========== */
+.habit-stack-card{
+  background:linear-gradient(135deg,rgba(78,201,138,.06),rgba(78,201,138,.02));
+  border:1px solid rgba(78,201,138,.22);border-radius:12px;
+  padding:12px 14px;
+}
+.hs-head{font-size:.6rem;letter-spacing:.12em;color:rgba(168,232,192,.78);font-weight:700;text-transform:uppercase;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;}
+.hs-suggestion{font-size:.8rem;color:#e8e4d4;line-height:1.7;font-family:'Noto Serif JP',serif;}
+.hs-suggestion strong{color:#a8e8c0;}
+.hs-rationale{font-size:.6rem;color:rgba(170,188,216,.55);margin-top:5px;line-height:1.5;font-style:italic;}
+
+/* ========== Tiny Habits ミッションカード ========== */
+.tiny-habit-card{
+  background:linear-gradient(135deg,rgba(168,232,192,.1),rgba(78,201,138,.04));
+  border:1.5px solid rgba(168,232,192,.4);border-radius:14px;
+  padding:14px 16px;position:relative;overflow:hidden;
+}
+.tiny-habit-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 40% 60% at 100% 0%,rgba(168,232,192,.18) 0%,transparent 70%);
+}
+.th-head{display:flex;justify-content:space-between;align-items:center;font-size:.62rem;letter-spacing:.12em;color:rgba(168,232,192,.85);font-weight:700;text-transform:uppercase;margin-bottom:8px;position:relative;z-index:1;}
+.th-streak{font-size:.55rem;color:rgba(168,232,192,.7);background:rgba(78,201,138,.15);padding:2px 9px;border-radius:99px;letter-spacing:.04em;}
+.th-mission{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;color:#a8e8c0;margin-bottom:5px;line-height:1.4;position:relative;z-index:1;}
+.th-why{font-size:.65rem;color:rgba(168,232,192,.7);font-style:italic;margin-bottom:10px;line-height:1.5;position:relative;z-index:1;}
+.th-actions{display:flex;gap:8px;position:relative;z-index:1;}
+.th-done{
+  flex:1;background:linear-gradient(135deg,rgba(78,201,138,.5),rgba(78,201,138,.3));
+  border:1px solid rgba(78,201,138,.6);color:#1a3020;
+  background-color:#a8e8c0;font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;
+  padding:9px 16px;border-radius:9px;cursor:pointer;letter-spacing:.04em;
+}
+.th-done:hover{filter:brightness(1.08);}
+.th-done.done{opacity:.55;cursor:default;}
+.th-skip{
+  background:none;border:1px solid rgba(170,188,216,.25);color:rgba(170,188,216,.7);
+  font-family:inherit;font-size:.7rem;padding:8px 14px;border-radius:9px;cursor:pointer;
+}
+.th-celebration{
+  margin-top:10px;padding:10px 12px;background:rgba(78,201,138,.1);
+  border-left:3px solid rgba(78,201,138,.6);border-radius:6px;
+  font-size:.74rem;color:rgba(168,232,192,.9);line-height:1.7;
+  animation:thCelebrate .4s ease-out;position:relative;z-index:1;
+}
+@keyframes thCelebrate{0%{opacity:0;transform:scale(.95);}100%{opacity:1;transform:scale(1);}}
+
+/* ========== 水分・睡眠カード ========== */
+.hydsleep-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hyd-card,.sleep-card{
+  background:linear-gradient(135deg,rgba(92,160,224,.08),rgba(92,160,224,.03));
+  border:1px solid rgba(92,160,224,.22);border-radius:14px;
+  padding:13px 14px;display:flex;flex-direction:column;
+}
+.sleep-card{background:linear-gradient(135deg,rgba(140,114,224,.08),rgba(140,114,224,.03));border-color:rgba(140,114,224,.22);}
+.hyd-head,.sleep-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.6rem;letter-spacing:.12em;font-weight:700;text-transform:uppercase;margin-bottom:8px;
+  color:rgba(168,200,240,.78);
+}
+.sleep-head{color:rgba(200,180,255,.78);}
+.hyd-cups{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;flex:1;align-content:flex-start;}
+.hyd-cup{
+  width:18px;height:24px;border-radius:3px 3px 6px 6px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(168,200,240,.25);
+  position:relative;transition:all .25s;
+}
+.hyd-cup.full{background:linear-gradient(180deg,rgba(92,160,224,.6),rgba(92,160,224,1));border-color:rgba(168,232,255,.6);box-shadow:0 0 8px rgba(92,160,224,.4);}
+.hyd-foot{display:flex;gap:6px;}
+.hyd-btn{
+  flex:1;background:rgba(92,160,224,.15);border:1px solid rgba(92,160,224,.4);
+  color:#a8c8f0;font-family:inherit;font-size:.72rem;font-weight:700;
+  padding:7px 0;border-radius:8px;cursor:pointer;transition:all .15s;
+}
+.hyd-btn:hover{background:rgba(92,160,224,.28);}
+.hyd-btn.alt{flex:0 0 40px;}
+.sleep-input-row{display:flex;gap:5px;align-items:center;margin-bottom:6px;flex-wrap:wrap;}
+.sleep-input-row input,.sleep-input-row select{
+  background:rgba(0,0,0,.25);border:1px solid rgba(140,114,224,.3);
+  border-radius:7px;padding:6px 8px;color:#e8e4f4;font-family:inherit;
+  font-size:.78rem;outline:none;min-width:0;
+}
+.sleep-input-row input{width:55px;}
+.sleep-input-row select{flex:1;min-width:60px;font-size:.7rem;}
+.sleep-unit{font-size:.7rem;color:rgba(200,180,255,.6);}
+.sleep-save{
+  background:linear-gradient(135deg,rgba(140,114,224,.4),rgba(140,114,224,.22));
+  border:1px solid rgba(140,114,224,.5);color:#c0a0f0;
+  font-family:inherit;font-size:.72rem;font-weight:700;
+  padding:6px 10px;border-radius:7px;cursor:pointer;
+}
+.sleep-save:hover{filter:brightness(1.1);}
+.sleep-meta{font-size:.6rem;color:rgba(200,180,255,.55);margin-top:auto;}
+@media(max-width:480px){
+  .hydsleep-grid{grid-template-columns:1fr;}
+  .hyd-cup{width:22px;height:28px;}
+}
+
+/* ========== 週次インサイトカード ========== */
+.insight-card{
+  background:linear-gradient(135deg,rgba(156,114,224,.10),rgba(78,201,138,.05));
+  border:1px solid rgba(156,114,224,.28);border-radius:14px;
+  padding:13px 16px;position:relative;overflow:hidden;
+}
+.insight-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 50% 70% at 100% 0%,rgba(156,114,224,.10) 0%,transparent 60%);
+}
+.insight-head{
+  font-size:.6rem;letter-spacing:.12em;color:rgba(200,180,255,.75);
+  font-weight:700;text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;position:relative;z-index:1;
+}
+.insight-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px;position:relative;z-index:1;}
+.insight-list li{
+  font-size:.78rem;line-height:1.55;color:#e8e4f4;
+  padding:8px 11px;background:rgba(0,0,0,.22);border-radius:8px;
+  border-left:3px solid rgba(156,114,224,.55);
+}
+.insight-list li.good{border-left-color:rgba(78,201,138,.7);}
+.insight-list li.warn{border-left-color:rgba(240,170,80,.7);}
+
+/* ========== ストリークカレンダー ========== */
+.streak-cal-card{
+  background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(0,0,0,.18));
+  border:1px solid rgba(201,168,76,.22);border-radius:14px;
+  padding:13px 16px;
+}
+.streak-cal-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.6rem;letter-spacing:.12em;color:rgba(240,212,138,.75);
+  font-weight:700;text-transform:uppercase;margin-bottom:9px;
+  flex-wrap:wrap;gap:6px;
+}
+.streak-cal-legend{display:flex;align-items:center;gap:3px;font-size:.55rem;color:rgba(240,212,138,.55);text-transform:none;letter-spacing:0;}
+.streak-cal-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(240,212,138,.15);}
+.streak-cal-legend i.sl1{background:rgba(78,201,138,.25);}
+.streak-cal-legend i.sl2{background:rgba(78,201,138,.5);}
+.streak-cal-legend i.sl3{background:rgba(78,201,138,.75);}
+.streak-cal-legend i.sl4{background:rgba(78,201,138,1);box-shadow:0 0 6px rgba(78,201,138,.5);}
+.streak-cal-grid{
+  display:grid;grid-template-columns:repeat(15,1fr);gap:3px;
+  margin-bottom:8px;
+}
+.streak-cal-cell{
+  aspect-ratio:1/1;border-radius:3px;background:rgba(255,255,255,.05);
+  position:relative;cursor:default;transition:transform .15s;
+}
+.streak-cal-cell.l1{background:rgba(78,201,138,.25);}
+.streak-cal-cell.l2{background:rgba(78,201,138,.5);}
+.streak-cal-cell.l3{background:rgba(78,201,138,.75);}
+.streak-cal-cell.l4{background:rgba(78,201,138,1);box-shadow:0 0 6px rgba(78,201,138,.5);}
+.streak-cal-cell.today{outline:2px solid rgba(240,212,138,.7);}
+.streak-cal-cell:hover{transform:scale(1.3);z-index:2;}
+.streak-cal-foot{font-size:.65rem;color:rgba(240,212,138,.6);text-align:center;}
+
+/* ========== 12週間の足跡カード ========== */
+.footprint-card{
+  background:linear-gradient(135deg, rgba(240,180,80,.08), rgba(201,168,76,.04));
+  border:1px solid rgba(240,180,80,.25);border-radius:14px;
+  padding:13px 16px;
+}
+.footprint-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.6rem;letter-spacing:.12em;color:rgba(240,180,80,.78);
+  font-weight:700;text-transform:uppercase;margin-bottom:10px;
+}
+.footprint-counter{font-size:.55rem;color:rgba(240,212,138,.7);background:rgba(240,212,138,.1);padding:2px 10px;border-radius:99px;letter-spacing:.04em;}
+.footprint-track{
+  display:grid;grid-template-columns:repeat(12, 1fr);gap:5px;margin-bottom:9px;
+  position:relative;
+}
+.footprint-cell{
+  aspect-ratio:1/1;border-radius:50%;
+  background:rgba(255,255,255,.04);border:1.5px dashed rgba(170,188,216,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;line-height:1;color:rgba(170,188,216,.3);
+  position:relative;transition:all .25s;
+}
+.footprint-cell.cleared{
+  background:linear-gradient(135deg, #c9a84c, #f0d48a);
+  border:none;color:#1a1200;font-size:1rem;
+  box-shadow:0 0 14px rgba(240,212,138,.45);
+  animation:stampPop .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.footprint-cell.partial{
+  background:rgba(240,180,80,.15);border:1.5px solid rgba(240,180,80,.5);
+  color:rgba(240,212,138,.85);
+}
+.footprint-cell.current{
+  border-color:var(--gold2);border-style:solid;
+  animation:currentPulse 2s ease-in-out infinite;
+}
+@keyframes stampPop{0%{transform:scale(0) rotate(-45deg);}60%{transform:scale(1.2) rotate(15deg);}100%{transform:scale(1) rotate(0);}}
+@keyframes currentPulse{0%,100%{box-shadow:0 0 0 0 rgba(240,212,138,.5);}50%{box-shadow:0 0 0 6px rgba(240,212,138,0);}}
+.footprint-foot{font-size:.65rem;color:rgba(240,212,138,.6);text-align:center;line-height:1.6;}
+.footprint-foot strong{color:var(--gold2);}
+@media(max-width:480px){
+  .footprint-track{gap:3px;}
+  .footprint-cell{font-size:.7rem;}
+  .footprint-cell.cleared{font-size:.85rem;}
+}
+
+/* ========== キャラクター好感度カード ========== */
+.affinity-card{
+  background:linear-gradient(135deg,rgba(240,140,180,.06),rgba(156,114,224,.04));
+  border:1px solid rgba(240,140,180,.2);border-radius:14px;
+  padding:13px 16px;
+}
+.affinity-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.6rem;letter-spacing:.12em;color:rgba(240,180,210,.78);
+  font-weight:700;text-transform:uppercase;margin-bottom:10px;
+  flex-wrap:wrap;gap:6px;
+}
+.affinity-foot{font-size:.55rem;color:rgba(240,180,210,.55);text-transform:none;letter-spacing:0;}
+.affinity-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.affinity-cell{
+  display:flex;align-items:center;gap:9px;
+  background:rgba(0,0,0,.22);border-radius:10px;padding:8px 10px;
+  position:relative;overflow:hidden;
+}
+.affinity-cell::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 50% 80% at 0% 50%,var(--accent-glow,rgba(255,255,255,.04)) 0%,transparent 70%);
+}
+.affinity-cell.kaito{--accent-glow:rgba(224,92,92,.10);}
+.affinity-cell.sera{--accent-glow:rgba(78,201,138,.10);}
+.affinity-cell.luna{--accent-glow:rgba(156,114,224,.10);}
+.affinity-cell.pixe{--accent-glow:rgba(240,180,80,.10);}
+.affinity-face{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;overflow:hidden;
+  border:1.5px solid rgba(255,255,255,.15);background:rgba(0,0,0,.4);position:relative;z-index:1;
+}
+.affinity-face img{width:100%;height:100%;object-fit:cover;}
+.affinity-cell.kaito .affinity-face{border-color:rgba(224,92,92,.4);}
+.affinity-cell.sera .affinity-face{border-color:rgba(78,201,138,.4);}
+.affinity-cell.luna .affinity-face{border-color:rgba(156,114,224,.4);}
+.affinity-cell.pixe .affinity-face{border-color:rgba(240,180,80,.4);}
+.affinity-info{flex:1;min-width:0;position:relative;z-index:1;}
+.affinity-name{font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;color:#f0e4d4;line-height:1.2;display:flex;justify-content:space-between;align-items:baseline;gap:6px;}
+.affinity-lv{font-size:.55rem;color:rgba(240,212,138,.7);font-weight:900;letter-spacing:.06em;}
+.affinity-bar{height:5px;background:rgba(255,255,255,.08);border-radius:99px;margin-top:5px;overflow:hidden;}
+.affinity-bar-fill{height:100%;border-radius:99px;transition:width .5s ease;}
+.affinity-cell.kaito .affinity-bar-fill{background:linear-gradient(90deg,#e05c5c,#f08080);}
+.affinity-cell.sera .affinity-bar-fill{background:linear-gradient(90deg,#4ec98a,#a8e8c0);}
+.affinity-cell.luna .affinity-bar-fill{background:linear-gradient(90deg,#9c72e0,#c0a0f0);}
+.affinity-cell.pixe .affinity-bar-fill{background:linear-gradient(90deg,#f0c060,#f0d48a);}
+.affinity-quote{font-size:.58rem;color:rgba(220,225,245,.5);margin-top:3px;font-style:italic;line-height:1.3;}
+.affinity-side{margin-top:5px;}
+.affinity-side-btn{
+  background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(201,168,76,.08));
+  border:1px solid rgba(240,212,138,.4);color:#f0d48a;
+  font-family:inherit;font-size:.55rem;font-weight:700;letter-spacing:.04em;
+  padding:3px 10px;border-radius:99px;cursor:pointer;
+}
+.affinity-side-btn:hover{filter:brightness(1.1);}
+.affinity-locked{font-size:.55rem;color:rgba(170,188,216,.4);font-style:italic;}
+@media(max-width:480px){
+  .affinity-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .streak-cal-grid{grid-template-columns:repeat(15,1fr);}
+}
 
 /* ========== 今日のクイズバナー ========== */
 .quiz-banner{
@@ -1171,6 +1725,8 @@ body::before{
   .achv-badge span:not(.ab-icon){font-size:.5rem;}
 }
 </style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 </head>
 <body>
@@ -1258,6 +1814,17 @@ body::before{
 
 </div>
 
+<!-- PWAインストール案内バナー（自動表示・閉じれる） -->
+<div id="pwa-install-banner" class="pwa-banner" style="display:none;">
+  <div class="pwa-banner-icon">✨</div>
+  <div class="pwa-banner-text">
+    <div class="pwa-banner-title">アプリとしてインストール</div>
+    <div class="pwa-banner-sub" id="pwa-banner-sub">ホーム画面に追加すると、起動が速くなり通知も使えます。</div>
+  </div>
+  <button id="pwa-install-btn" class="pwa-banner-btn">入れる</button>
+  <button id="pwa-banner-close" class="pwa-banner-close" aria-label="閉じる">×</button>
+</div>
+
 <!-- メイン -->
 <div id="main-screen">
   <header class="g-header">
@@ -1286,6 +1853,9 @@ body::before{
           <div class="player-lv">
             <div class="lv-badge"><span>Lv</span><span class="lv-n" id="lv-n">1</span><span id="lv-name">転生者</span></div>
             <span class="lv-title" id="lv-title"></span>
+            <a href="./class-select.html" class="class-badge" id="class-badge" style="display:none;text-decoration:none;background:linear-gradient(135deg,rgba(192,160,240,.2),rgba(192,160,240,.08));border:1px solid rgba(192,160,240,.4);color:#c0a0f0;font-size:.55rem;font-weight:900;letter-spacing:.1em;padding:2px 9px;border-radius:99px;margin-left:6px;">
+              <span id="class-icon">⚔</span> <span id="class-name">勇者</span>
+            </a>
           </div>
           <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
           <div class="xp-note">
@@ -1321,11 +1891,271 @@ body::before{
     <div class="qol-trend-card">
       <div class="qol-trend-head">
         <span>📊 今週の調子</span>
-        <button class="qol-trend-action" id="qol-trend-record">+ 今日を記録</button>
+        <div style="display:flex;gap:6px;">
+          <a href="./journal.html" class="qol-trend-action" style="text-decoration:none;display:inline-block;">📓 ノート</a>
+          <button class="qol-trend-action" id="qol-trend-record">+ 今日を記録</button>
+        </div>
       </div>
       <div id="qol-trend-content">
         <div class="qol-trend-empty">まだ記録がありません。今日の調子を入れてみよう。</div>
       </div>
+    </div>
+
+    <!-- 🎮 コンパクトホーム（DBL風）— デフォルト表示 -->
+    <div class="compact-home" id="compact-home">
+      <!-- 上部の小ボタン6個 -->
+      <div class="ch-toprow">
+        <a href="./settings.html" class="ch-tbtn">⚙ 設定</a>
+        <a href="./class-select.html" class="ch-tbtn">⚔ クラス</a>
+        <button class="ch-tbtn" id="ch-stats-btn" type="button">📊 統計</button>
+        <a href="./journal.html" class="ch-tbtn">📓 ノート</a>
+        <a href="./faq.html" class="ch-tbtn">❓ FAQ</a>
+        <button class="ch-tbtn" id="ch-detail-btn" type="button">📋 詳細</button>
+      </div>
+
+      <!-- ヒーローバナー（イベント・hope・ctx-greeting統合） -->
+      <div class="ch-hero" id="ch-hero">
+        <div class="ch-hero-icon">🌟</div>
+        <div class="ch-hero-text">
+          <div class="ch-hero-name" id="ch-hero-name">ヴィタリアの冒険</div>
+          <div class="ch-hero-sub" id="ch-hero-sub">記録を続けて、12週間を歩もう</div>
+        </div>
+      </div>
+
+      <!-- 🌱 今日のミッション（1行コンパクト） -->
+      <div class="ch-mission" id="ch-mission" style="display:none;">
+        <span class="ch-m-icon">🌱</span>
+        <span class="ch-m-text" id="ch-m-text">水を1杯飲む</span>
+        <button class="ch-m-done" id="ch-m-done">✓</button>
+      </div>
+
+      <!-- 大きなメインメニューボタン -->
+      <button class="ch-main-btn" id="ch-main-btn" type="button">
+        <span class="ch-mb-icon">🎮</span>
+        <span class="ch-mb-text">
+          <span class="ch-mb-title">メニュー</span>
+          <span class="ch-mb-sub">タップで全部開く</span>
+        </span>
+        <span class="ch-mb-badge" id="ch-mb-badge" style="display:none;">!</span>
+        <span class="ch-mb-arrow">→</span>
+      </button>
+
+      <!-- クイック導線（最頻使用2つ） -->
+      <div class="ch-quick">
+        <a href="./quest.html" class="ch-quick-btn quick-ex">
+          <span class="qb-icon">⚔</span>
+          <span class="qb-text">運動を記録</span>
+        </a>
+        <a href="./nutrition.html" class="ch-quick-btn quick-nu">
+          <span class="qb-icon">🌿</span>
+          <span class="qb-text">食事を記録</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- フルスクリーン・メニューオーバーレイ -->
+    <div class="ch-menu-overlay" id="ch-menu-overlay" style="display:none;" aria-hidden="true">
+      <div class="ch-menu-backdrop"></div>
+      <div class="ch-menu-sheet" role="dialog" aria-label="メインメニュー">
+        <div class="ch-menu-header">
+          <h2 class="ch-menu-title">🎮 メインメニュー</h2>
+          <button class="ch-menu-close" id="ch-menu-close" aria-label="閉じる">×</button>
+        </div>
+
+        <!-- 9カードメニュー（3x3） -->
+        <div class="ch-grid">
+          <a href="./quest.html" class="ch-card ch-card-ex">
+            <div class="ch-card-img"><img src="./image/kaito-sabun%20(1).png" alt="" style="object-position:center 12%;"></div>
+            <div class="ch-card-name">運動</div>
+            <div class="ch-card-meta" id="ch-meta-ex">— カイトと —</div>
+          </a>
+          <a href="./nutrition.html" class="ch-card ch-card-nu">
+            <div class="ch-card-img"><img src="./image/sera-sabun.png" alt="" style="object-position:center 18%;"></div>
+            <div class="ch-card-name">栄養</div>
+            <div class="ch-card-meta" id="ch-meta-nu">— セラと —</div>
+          </a>
+          <button class="ch-card ch-card-co" id="ch-card-luna" type="button">
+            <div class="ch-card-img"><img src="./image/runa-sabun%20(2).png" alt="" style="object-position:center 14%;"></div>
+            <div class="ch-card-name">ルナ対話</div>
+            <div class="ch-card-meta">— GROWで —</div>
+          </button>
+          <a href="./adventure.html" class="ch-card ch-card-adv">
+            <div class="ch-card-icon">🗺</div>
+            <div class="ch-card-name">冒険</div>
+            <div class="ch-card-meta" id="ch-meta-adv">12章の旅</div>
+          </a>
+          <a href="./party.html" class="ch-card ch-card-pt">
+            <div class="ch-card-icon">👥</div>
+            <div class="ch-card-name">仲間</div>
+            <div class="ch-card-meta">パーティ</div>
+          </a>
+          <button class="ch-card ch-card-gc" id="ch-card-gacha" type="button">
+            <div class="ch-card-icon">🎁</div>
+            <div class="ch-card-name">ガチャ</div>
+            <div class="ch-card-meta" id="ch-meta-gacha">毎日1回</div>
+            <span class="ch-badge" id="ch-badge-gacha" style="display:none;">!</span>
+          </button>
+          <a href="./collection.html" class="ch-card ch-card-cl">
+            <div class="ch-card-icon">🎴</div>
+            <div class="ch-card-name">コレクション</div>
+            <div class="ch-card-meta" id="ch-meta-cl">— / 12種</div>
+          </a>
+          <a href="./skills.html" class="ch-card ch-card-sk">
+            <div class="ch-card-icon">🌳</div>
+            <div class="ch-card-name">スキル</div>
+            <div class="ch-card-meta" id="ch-meta-sk">— pt</div>
+            <span class="ch-badge" id="ch-badge-sk" style="display:none;">!</span>
+          </a>
+          <a href="./shop.html" class="ch-card ch-card-sh">
+            <div class="ch-card-icon">🛒</div>
+            <div class="ch-card-name">ショップ</div>
+            <div class="ch-card-meta" id="ch-meta-sh">— 🪙</div>
+          </a>
+        </div>
+
+        <!-- 副メニュー（横並び） -->
+        <div class="ch-sub">
+          <a href="./novel.html" class="ch-sub-btn">📖 小説版</a>
+          <a href="./adventure-map.html" class="ch-sub-btn">🗺 マップ</a>
+          <a href="./account.html" class="ch-sub-btn">👤 マイページ</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- イベントバナー（既存・詳細モード用） -->
+    <div id="event-banner" style="display:none;"></div>
+
+    <!-- 🎁 ガチャ・コレクション・スキル・ショップ -->
+    <div class="game-actions" id="game-actions">
+      <button class="ga-btn ga-gacha" id="btn-gacha" type="button">
+        <span class="ga-icon">🎁</span>
+        <span class="ga-label">今日のガチャ</span>
+        <span class="ga-meta" id="ga-gacha-meta">引ける！</span>
+      </button>
+      <a href="./collection.html" class="ga-btn ga-collection">
+        <span class="ga-icon">🎴</span>
+        <span class="ga-label">コレクション</span>
+        <span class="ga-meta" id="ga-collection-meta">—</span>
+      </a>
+      <a href="./skills.html" class="ga-btn ga-skills">
+        <span class="ga-icon">🌳</span>
+        <span class="ga-label">スキルツリー</span>
+        <span class="ga-meta" id="ga-skills-meta">—</span>
+      </a>
+      <a href="./shop.html" class="ga-btn ga-shop">
+        <span class="ga-icon">🛒</span>
+        <span class="ga-label">ショップ</span>
+        <span class="ga-meta" id="ga-shop-meta">—</span>
+      </a>
+      <a href="./novel.html" class="ga-btn ga-novel">
+        <span class="ga-icon">📖</span>
+        <span class="ga-label">小説版</span>
+        <span class="ga-meta">13章・32,000字</span>
+      </a>
+    </div>
+
+    <!-- 状況適応型ホーム挨拶 -->
+    <div class="ctx-greeting" id="ctx-greeting" style="display:none;"></div>
+
+    <!-- 🌱 Tiny Habits（今日の最小ミッション）-->
+    <div class="tiny-habit-card" id="tiny-habit-card">
+      <div class="th-head">
+        <span>🌱 今日の最小ミッション</span>
+        <span class="th-streak" id="th-streak">—</span>
+      </div>
+      <div class="th-mission" id="th-mission-text">水を1杯飲む</div>
+      <div class="th-why" id="th-why-display"></div>
+      <div class="th-actions">
+        <button class="th-done" id="th-done">✓ できた！</button>
+        <button class="th-skip" id="th-skip">他のにする</button>
+      </div>
+      <div class="th-celebration" id="th-celebration" style="display:none;">
+        🎉 今日の小さな勝利を、自分に讃えよう。<br>
+        <small>BJ Foggの行動科学：「<strong>祝う</strong>」ことが習慣の根を作ります</small>
+      </div>
+    </div>
+
+    <!-- Habit Stacking 提案 -->
+    <div class="habit-stack-card" id="habit-stack-card">
+      <div class="hs-head">
+        <span>🔗 今週の習慣ペアリング</span>
+      </div>
+      <div class="hs-suggestion" id="hs-suggestion">読み込み中…</div>
+      <div class="hs-rationale" id="hs-rationale"></div>
+    </div>
+
+    <!-- 水分・睡眠カード -->
+    <div class="hydsleep-grid">
+      <!-- 水分 -->
+      <div class="hyd-card" id="hyd-card">
+        <div class="hyd-head">
+          <span>💧 今日の水分</span>
+          <span id="hyd-amount">0/8</span>
+        </div>
+        <div class="hyd-cups" id="hyd-cups"></div>
+        <div class="hyd-foot">
+          <button class="hyd-btn" id="hyd-add" aria-label="1杯追加">+1杯</button>
+          <button class="hyd-btn alt" id="hyd-undo" aria-label="1杯取り消し">−</button>
+        </div>
+      </div>
+      <!-- 睡眠 -->
+      <div class="sleep-card" id="sleep-card">
+        <div class="sleep-head">
+          <span>🌙 昨夜の睡眠</span>
+          <span id="sleep-streak">—</span>
+        </div>
+        <div class="sleep-input-row">
+          <input type="number" id="sleep-hours" min="0" max="24" step="0.5" placeholder="時間" aria-label="睡眠時間">
+          <span class="sleep-unit">h</span>
+          <select id="sleep-quality" aria-label="睡眠の質">
+            <option value="">質</option>
+            <option value="5">😄 良</option>
+            <option value="4">😊 やや良</option>
+            <option value="3">😐 普通</option>
+            <option value="2">😕 やや悪</option>
+            <option value="1">😞 悪</option>
+          </select>
+          <button class="sleep-save" id="sleep-save">保存</button>
+        </div>
+        <div class="sleep-meta" id="sleep-meta">直近7日 平均 —h</div>
+      </div>
+    </div>
+
+    <!-- 週次インサイトカード（データから自動生成） -->
+    <div class="insight-card" id="insight-card" style="display:none;">
+      <div class="insight-head">
+        <span>🔮 ルナの今週の気づき</span>
+      </div>
+      <ul class="insight-list" id="insight-list"></ul>
+    </div>
+
+    <!-- 12週間の足跡 -->
+    <div class="footprint-card" id="footprint-card">
+      <div class="footprint-head">
+        <span>👣 12週間の冒険</span>
+        <span class="footprint-counter" id="footprint-counter">0/12 週</span>
+      </div>
+      <div class="footprint-track" id="footprint-track"></div>
+      <div class="footprint-foot" id="footprint-foot">記録を続けて、毎週クリアマークを集めよう</div>
+    </div>
+
+    <!-- ストリークカレンダー -->
+    <div class="streak-cal-card" id="streak-cal-card">
+      <div class="streak-cal-head">
+        <span>📅 過去30日の活動</span>
+        <span class="streak-cal-legend"><i class="sl1"></i>少 <i class="sl2"></i> <i class="sl3"></i> <i class="sl4"></i>多</span>
+      </div>
+      <div class="streak-cal-grid" id="streak-cal-grid"></div>
+      <div class="streak-cal-foot" id="streak-cal-foot">—</div>
+    </div>
+
+    <!-- キャラクター好感度 -->
+    <div class="affinity-card" id="affinity-card">
+      <div class="affinity-head">
+        <span>💞 仲間との絆</span>
+        <span class="affinity-foot" id="affinity-foot">—</span>
+      </div>
+      <div class="affinity-grid" id="affinity-grid"></div>
     </div>
 
     <!-- 今日のクイズ -->
@@ -1337,17 +2167,24 @@ body::before{
     </div>
 
     <!-- 冒険ステータス -->
-    <a href="./adventure.html" class="adv-banner" id="adv-banner" style="display:none;">
-      <div class="adv-banner-icon">
-        <img id="adv-banner-img" src="./image/A1-Photoroom.png" alt="">
-      </div>
-      <div class="adv-banner-text">
-        <div class="adv-banner-lbl">🗺 現在の冒険 — <span id="adv-banner-ch">Ch.0</span></div>
-        <div class="adv-banner-name" id="adv-banner-name">…</div>
-        <div class="adv-banner-progress"><div class="adv-banner-progress-fill" id="adv-banner-progress" style="width:0%"></div></div>
-      </div>
-      <div class="adv-banner-arrow">→</div>
-    </a>
+    <div class="adv-banner-wrap" style="display:flex;gap:8px;align-items:stretch;">
+      <a href="./adventure.html" class="adv-banner" id="adv-banner" style="display:none;flex:1;">
+        <div class="adv-banner-icon">
+          <img id="adv-banner-img" src="./image/A1-Photoroom.png" alt="">
+        </div>
+        <div class="adv-banner-text">
+          <div class="adv-banner-lbl">🗺 現在の冒険 — <span id="adv-banner-ch">Ch.0</span> <span id="adv-banner-counter" style="color:rgba(168,232,192,.7);font-weight:700;">(0/12)</span></div>
+          <div class="adv-banner-name" id="adv-banner-name">…</div>
+          <div class="adv-banner-progress"><div class="adv-banner-progress-fill" id="adv-banner-progress" style="width:0%"></div></div>
+          <div class="adv-banner-meta" id="adv-banner-meta" style="font-size:.6rem;color:rgba(200,180,255,.55);margin-top:4px;">—</div>
+        </div>
+        <div class="adv-banner-arrow">→</div>
+      </a>
+      <a href="./adventure-map.html" id="adv-map-btn" style="display:none;text-decoration:none;color:rgba(200,180,255,.85);background:linear-gradient(135deg,rgba(80,40,140,.18),rgba(140,40,100,.12));border:1px solid rgba(156,114,224,.35);border-radius:14px;padding:0 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;letter-spacing:.06em;width:56px;flex-shrink:0;" aria-label="冒険マップ">
+        <span style="font-size:1.4rem;">🗺</span>
+        <span style="margin-top:2px;">マップ</span>
+      </a>
+    </div>
 
     <!-- 今週ルナと決めた目標 -->
     <div class="goal-banner" id="goal-banner">
@@ -1586,7 +2423,7 @@ body::before{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp }
+import { getFirestore, collection, addDoc, doc, getDoc, setDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1789,38 +2626,100 @@ function updateUI(){
   // QOL トレンド
   renderQolTrend();
 
+  // 週次インサイトカード（過去7日のデータから生成）
+  renderWeeklyInsight();
+
+  // コンパクトモード適用（デフォルトON、ユーザーが詳細表示を選んだら詳細）
+  const detailPref = localStorage.getItem('vt_home_view');
+  if(detailPref === 'detail'){
+    document.body.classList.remove('compact-mode');
+    document.body.classList.add('detail-mode');
+  } else {
+    document.body.classList.add('compact-mode');
+    document.body.classList.remove('detail-mode');
+  }
+  // コンパクトホーム描画
+  try{ renderCompactHome(); }catch(e){ console.warn('compactHome:',e); }
+
+  // ストリークカレンダー（過去30日）
+  try{ renderStreakCalendar(); }catch(e){ console.warn('streakCal:',e); }
+
+  // 12週間足跡
+  try{ renderFootprint(); }catch(e){ console.warn('footprint:',e); }
+
+  // 状況適応型ホーム挨拶
+  try{ renderContextGreeting(); }catch(e){ console.warn('ctxGreeting:',e); }
+
+  // Tiny Habits 今日のミッション
+  try{ renderTinyHabit(); }catch(e){ console.warn('tinyHabit:',e); }
+
+  // Habit Stacking 提案
+  try{ renderHabitStacking(); }catch(e){ console.warn('habitStack:',e); }
+
+  // WHY (hope) 表示
+  try{ renderHope(); }catch(e){ console.warn('hope:',e); }
+
+  // Stages of Change メッセージ
+  try{ renderStageMessage(); }catch(e){ console.warn('stage:',e); }
+
+  // ゲームアクション（ガチャ・コレクション・スキル）
+  try{ renderGameActions(); }catch(e){ console.warn('gameActions:',e); }
+
+  // クラスバッジ
+  try{ renderClassBadge(); }catch(e){ console.warn('classBadge:',e); }
+
+  // キャラクター好感度
+  try{ renderAffinity(); }catch(e){ console.warn('affinity:',e); }
+
+  // 水分・睡眠
+  try{ renderHydration(); renderSleep(); }catch(e){ console.warn('hydSleep:',e); }
+
   // 冒険ステータス バナー
   try{
     const advBanner=document.getElementById('adv-banner');
     if(advBanner){
       const ADV_CHAPTERS=[
-        {id:'tutorial',title:'迷いの霧（入門）',img:'./image/A9-Photoroom.png'},
-        {id:'growth_kaito',title:'疲労の影（カイトと）',img:'./image/A10-Photoroom.png'},
-        {id:'growth_sera',title:'枯渇の魔物（セラと）',img:'./image/A12-Photoroom.png'},
-        {id:'growth_luna',title:'孤独の幽霊（ルナと）',img:'./image/A11-Photoroom.png'},
-        // 体の試練
-        {id:'sloth',title:'体の試練① 怠惰・スロウス',img:'./image/A1-Photoroom.png'},
-        {id:'gluttony',title:'体の試練② 暴食・グラト',img:'./image/A2-Photoroom.png'},
-        // 心の試練
-        {id:'wrath',title:'心の試練① 憤怒・イラ',img:'./image/A3-Photoroom.png'},
-        {id:'envy',title:'心の試練② 嫉妬・インヴィ',img:'./image/A6-Photoroom.png'},
-        // 世界の試練
-        {id:'greed',title:'世界の試練① 強欲・ガラクタ鬼',img:'./image/A4-Photoroom.png'},
-        {id:'pride',title:'世界の試練② 傲慢・スペルビア',img:'./image/A5-Photoroom.png'},
-        {id:'lust',title:'世界の試練③ 色欲・ルクス',img:'./image/A7-Photoroom.png'},
-        // 最終
-        {id:'final',title:'最終決戦・真の試練',img:'./image/A8-Photoroom.png'},
+        {id:'tutorial',title:'迷いの霧（入門）',img:'./image/A9-Photoroom.png',hp:30},
+        {id:'growth_kaito',title:'疲労の影（カイトと）',img:'./image/A10-Photoroom.png',hp:80},
+        {id:'growth_sera',title:'枯渇の魔物（セラと）',img:'./image/A12-Photoroom.png',hp:100},
+        {id:'growth_luna',title:'孤独の幽霊（ルナと）',img:'./image/A11-Photoroom.png',hp:120},
+        {id:'sloth',title:'体の試練① 怠惰・スロウス',img:'./image/A1-Photoroom.png',hp:200},
+        {id:'gluttony',title:'体の試練② 暴食・グラト',img:'./image/A2-Photoroom.png',hp:220},
+        {id:'wrath',title:'心の試練① 憤怒・イラ',img:'./image/A3-Photoroom.png',hp:220},
+        {id:'envy',title:'心の試練② 嫉妬・インヴィ',img:'./image/A6-Photoroom.png',hp:270},
+        {id:'greed',title:'世界の試練① 強欲・ガラクタ鬼',img:'./image/A4-Photoroom.png',hp:270},
+        {id:'pride',title:'世界の試練② 傲慢・スペルビア',img:'./image/A5-Photoroom.png',hp:270},
+        {id:'lust',title:'世界の試練③ 色欲・ルクス',img:'./image/A7-Photoroom.png',hp:220},
+        {id:'final',title:'最終決戦・真の試練',img:'./image/A8-Photoroom.png',hp:450},
       ];
       const advState=JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
+      const defeatedCount=(advState.defeated||[]).length;
       const advCh=ADV_CHAPTERS[advState.chapterIdx]||ADV_CHAPTERS[0];
       if(advCh){
         advBanner.style.display='flex';
+        const mapBtn=document.getElementById('adv-map-btn');
+        if(mapBtn) mapBtn.style.display='flex';
         document.getElementById('adv-banner-img').src=advCh.img;
         document.getElementById('adv-banner-ch').textContent=`Ch.${advState.chapterIdx+1}`;
+        document.getElementById('adv-banner-counter').textContent=`(討伐 ${defeatedCount}/12)`;
         document.getElementById('adv-banner-name').textContent=advCh.title;
         // 進捗バー：倒した数 / 12
-        const pct=Math.round((advState.defeated||[]).length/12*100);
+        const pct=Math.round(defeatedCount/12*100);
         document.getElementById('adv-banner-progress').style.width=pct+'%';
+        // 残HP表示（accumulated dmg / boss.hp）
+        try{
+          const dmgKey=`va_dmg_${uid}_${advCh.id}`;
+          const dmg=parseInt(localStorage.getItem(dmgKey)||'0',10);
+          const remain=Math.max(0, advCh.hp-dmg);
+          const meta=document.getElementById('adv-banner-meta');
+          if(meta){
+            if(defeatedCount>=12){
+              meta.textContent='⭐ 全章クリア！おめでとうございます';
+            } else {
+              meta.textContent=`HP残 ${remain}/${advCh.hp} ・ あと${remain>0?remain+'pt':'討伐!'}`;
+            }
+          }
+        }catch(e){}
       }
     }
   }catch(e){}
@@ -2047,13 +2946,75 @@ async function syncCoachToFirestore(userMsg, lunaMsg){
   }
 }
 
+function buildCoachContext(){
+  const ctx={};
+  try{
+    // 週番号
+    const startStr = localStorage.getItem(`vt_start_date_${uid}`);
+    if(startStr){
+      const start = new Date(startStr);
+      ctx.weekNum = Math.floor((Date.now() - start) / 86400000 / 7) + 1;
+    }
+    // クラス
+    const cls = localStorage.getItem('vt_class');
+    const clsLabel = {witch:'魔女っ子',hero:'勇者',saint:'聖女',villainess:'悪役令嬢',prince:'王子',knight:'騎士'}[cls];
+    if(clsLabel) ctx.cls = clsLabel;
+    // ストリーク
+    ctx.streak = parseInt(localStorage.getItem(`vt_login_streak_${uid}`)||'0',10);
+    // 直近7日の活動
+    let exMin=0, vegC=0, fishC=0;
+    for(let i=0;i<7;i++){
+      const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+      try{
+        const s=JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+        exMin += s.exMinToday||0;
+        vegC += s.vegToday||0;
+        fishC += s.fishToday||0;
+      }catch(e){}
+    }
+    ctx.recentExMin = exMin;
+    ctx.recentVeg = vegC;
+    ctx.recentFish = fishC;
+    // QOL
+    let qolSum=0, qolDays=0, qolLow=0;
+    for(let i=0;i<7;i++){
+      const d=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+      try{
+        const r=localStorage.getItem(`vt_qol_${uid}_${d}`);
+        if(r){
+          const v=JSON.parse(r);
+          const avg=((v.condition||0)+(v.mood||0)+(v.energy||0))/3;
+          qolSum+=avg; qolDays++;
+          if(avg<=2.5) qolLow++;
+        }
+      }catch(e){}
+    }
+    if(qolDays>0){ ctx.qolAvg = qolSum/qolDays; ctx.qolLowDays = qolLow; }
+    // 最終ログイン
+    const lastLogin = localStorage.getItem(`vt_last_login_${uid}`)||'';
+    if(lastLogin) ctx.gapDays = Math.floor((Date.now() - new Date(lastLogin).getTime())/86400000);
+    // 週目標
+    try{
+      const wkGoal = JSON.parse(localStorage.getItem(`vc_goal_${uid}_${weekKey()}`)||'null');
+      if(wkGoal && wkGoal.text) ctx.weekGoal = String(wkGoal.text).slice(0,100);
+    }catch(e){}
+    // hope
+    try{
+      const bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null');
+      if(bl?.step6?.hope) ctx.hope = bl.step6.hope;
+    }catch(e){}
+  }catch(e){}
+  return ctx;
+}
+
 async function callCoachProxy(userText){
   const res=await fetch(COACH_PROXY_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
       history:_coachState.history,
-      userText
+      userText,
+      context: buildCoachContext()
     })
   });
   if(!res.ok){
@@ -2160,6 +3121,13 @@ async function sendCoachMessage(){
   _coachState.history.push({role:'user',text});
   saveCoachHistory();
   updatePresetVisibility();
+
+  // 危機キーワード検知（送信時）
+  try{
+    if(window.AppSafety?.detectCrisis(text)){
+      setTimeout(()=>window.AppSafety.showCrisisModal({source:'coach'}), 800);
+    }
+  }catch(e){}
 
   appendTyping();
   try{
@@ -2293,24 +3261,134 @@ const _to=setTimeout(()=>{
   document.getElementById('login-screen').style.display='flex';
 },_authDelay);
 
-onAuthStateChanged(auth, user=>{
+onAuthStateChanged(auth, async user=>{
   clearTimeout(_to);
   document.getElementById('loading-screen').style.display='none';
   if(user){
     uid=user.uid;
     localStorage.setItem('vitalia_uid_hint',uid);
+
+    // 削除リクエストの処理（settings からのリダイレクト）
+    try{
+      const dReq = localStorage.getItem('vt_deletion_request');
+      if(dReq){
+        const req = JSON.parse(dReq);
+        if(db){
+          await addDoc(collection(db,'deletion_requests'), {
+            uid: req.uid || uid,
+            email: user.email || '',
+            reason: req.reason || '',
+            requested_at: serverTimestamp(),
+            client_ts: req.ts,
+            status: 'pending'
+          });
+        }
+        localStorage.removeItem('vt_deletion_request');
+        // 全クリア & ログアウト
+        try{
+          for(let i=localStorage.length-1;i>=0;i--){
+            const k=localStorage.key(i);
+            if(k && /^v[abchnqtw]_/.test(k)) localStorage.removeItem(k);
+          }
+          localStorage.removeItem('vitalia_uid_hint');
+        }catch(e){}
+        alert('✓ 削除リクエストを送信しました。\n\n72時間以内にクラウド側のデータも削除されます。\nご協力ありがとうございました。');
+        await signOut(auth);
+        location.href='./homepage.html';
+        return;
+      }
+    }catch(e){ console.warn('deletion request:', e); }
+
     document.getElementById('login-screen').style.display='none';
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('bottom-nav').style.display='flex';
     updateUI();
-    setTimeout(showTutorial, 800);
+
+    // インフォームド・コンセント（未同意なら最優先で表示）
+    if(window.AppSafety && !window.AppSafety.hasConsented(uid)){
+      setTimeout(()=>{
+        window.AppSafety.showConsentModal(uid,
+          // 同意した場合
+          ()=>{
+            try{
+              if(db && uid){
+                addDoc(collection(db,'consent_records'),{
+                  uid, version: window.AppSafety.consentVersion,
+                  ts: serverTimestamp(),
+                  ua: navigator.userAgent.slice(0,200)
+                });
+              }
+            }catch(e){}
+            setTimeout(()=>{
+              // 同意完了後、ベースライン未回答なら baseline.html → class-select の順
+              if(!localStorage.getItem(`vt_baseline_${uid}`)){
+                location.href='./baseline.html';
+              } else if(!localStorage.getItem('vt_class')){
+                location.href='./class-select.html';
+              } else {
+                showTutorial();
+              }
+            }, 400);
+          },
+          // 同意しない場合：ログアウト
+          ()=>{ try{ signOut(auth); }catch(e){} location.href='./homepage.html'; }
+        );
+      }, 400);
+    } else {
+      // クラス未選択でも、ログイン済みなら選択を促す（初回のみ）
+      if(!localStorage.getItem('vt_class') && !localStorage.getItem('vt_class_skipped')){
+        setTimeout(()=>{
+          if(confirm('🎮 まだクラス（職業）を選んでいません。\n選択しますか？（あとからでも変更可能）')){
+            location.href='./class-select.html';
+          } else {
+            localStorage.setItem('vt_class_skipped', '1');
+            showTutorial();
+          }
+        }, 800);
+      } else {
+        setTimeout(showTutorial, 800);
+      }
+    }
+
+    // QOL連続低下による危機介入チェック
+    setTimeout(()=>{ try{ window.AppSafety?.checkQolPattern(uid); }catch(e){} }, 4500);
+
     // 週次サマリー
     setTimeout(maybeShowWeeklySummary, 1200);
     // ログインボーナス（連続日数チェック）
     setTimeout(checkLoginBonus, 1800);
     // QOLトラッカー（毎日1回）
     setTimeout(maybeShowQolTracker, 3000);
+    // 週次サーベイのリマインダー（日曜・週1回）
+    setTimeout(maybeWeeklySurveyReminder, 6000);
+    // マイルストーン調査（6週・12週）
+    setTimeout(maybeMilestoneReminder, 7000);
+    // ドロップアウトリスク介入（リスク高いとき）
+    setTimeout(maybeDropoutIntervention, 8000);
+    // PWAインストール案内（ユーザー閉じる/インストール後は再表示しない）
+    setTimeout(maybeShowPwaBanner, 5000);
+    // デイリーリマインダー（設定があれば登録）
+    setTimeout(scheduleDailyReminder, 1000);
+    // オフラインキューのフラッシュ（オンライン時）
+    if(navigator.onLine && db && uid){
+      setTimeout(()=>{
+        window.AppSafety?.flushQueue(async (col, data) => {
+          await addDoc(collection(db, col), { ...data, ts: serverTimestamp() });
+        });
+      }, 2500);
+    }
+    // オンライン復帰時の自動同期
+    if(window.AppSafety){
+      window.AppSafety._onOnline = ()=>{
+        if(!db || !uid) return;
+        window.AppSafety.flushQueue(async (col, data) => {
+          await addDoc(collection(db, col), { ...data, ts: serverTimestamp() });
+        });
+      };
+    }
+    // 設定の双方向同期（ユーザー設定をFirestoreに保存／復元）
+    setTimeout(syncUserSettings, 3500);
     // クエスト/栄養画面から #coach で来た場合は自動でルナチャットを開く
     if(location.hash==='#coach'){
       setTimeout(()=>{ openCoach(); history.replaceState(null,'',location.pathname); }, 1500);
@@ -2606,6 +3684,952 @@ function renderDailyQuiz(){
   }
 }
 
+// ===== 週次インサイト生成（過去7日のデータから自動分析） =====
+function renderWeeklyInsight(){
+  const card=document.getElementById('insight-card');
+  const list=document.getElementById('insight-list');
+  if(!card||!list||!uid||uid==='guest') return;
+
+  const tips=[];
+
+  // 過去7日の運動・食事カウントを集計
+  let exDays=0, exTotalMin=0;
+  let vegTotal=0, fruitTotal=0, proTotal=0, fishTotal=0, soyTotal=0;
+  for(let i=0;i<7;i++){
+    const d=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const s=JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      if((s.exMinToday||0)>0){ exDays++; exTotalMin+=s.exMinToday; }
+      vegTotal+=s.vegToday||0;
+      fruitTotal+=s.fruitToday||0;
+      proTotal+=s.proToday||0;
+      fishTotal+=s.fishToday||0;
+      soyTotal+=s.soyToday||0;
+    }catch(e){}
+  }
+
+  // QOL記録数
+  let qolDays=0, qolMoodLow=0;
+  for(let i=0;i<7;i++){
+    const d=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r=localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(r){
+        qolDays++;
+        const v=JSON.parse(r);
+        if((v.mood||5)<=2 || (v.condition||5)<=2) qolMoodLow++;
+      }
+    }catch(e){}
+  }
+
+  // 運動
+  if(exDays>=5){
+    tips.push({type:'good', text:`✨ 運動を ${exDays}/7日 続けています。素晴らしい習慣の灯です。`});
+  } else if(exDays>=3){
+    tips.push({type:'', text:`🌙 運動 ${exDays}/7日。あと2日で「習慣の灯」が灯ります。`});
+  } else if(exDays>=1){
+    tips.push({type:'warn', text:`🌫 運動 ${exDays}/7日。短い散歩でもOK、火を絶やさないことが鍵です。`});
+  } else {
+    tips.push({type:'warn', text:`🌫 今週はまだ運動の記録がありません。5分のストレッチからでも。`});
+  }
+
+  // 野菜
+  const vegPerDay = vegTotal/7;
+  if(vegPerDay>=3){
+    tips.push({type:'good', text:`🥗 野菜 平均${vegPerDay.toFixed(1)}皿/日 — 推奨ラインを満たしています。`});
+  } else if(vegPerDay>=1.5){
+    tips.push({type:'', text:`🥬 野菜は平均${vegPerDay.toFixed(1)}皿/日。あと1皿追加できると理想に近づきます。`});
+  } else {
+    tips.push({type:'warn', text:`🌫 今週は野菜が少なめ（平均${vegPerDay.toFixed(1)}皿/日）。`});
+  }
+
+  // 魚 or 大豆（がん経験者向け推奨）
+  if(fishTotal+soyTotal>=4){
+    tips.push({type:'good', text:`🐟 魚・大豆 合計${fishTotal+soyTotal}食 — 体の修復素材が十分です。`});
+  } else if(fishTotal+soyTotal>=2){
+    tips.push({type:'', text:`🐟 魚・大豆 ${fishTotal+soyTotal}食。週3〜4食を目安にすると修復力が高まります。`});
+  } else {
+    tips.push({type:'warn', text:`🐟 魚・大豆が不足気味（${fishTotal+soyTotal}食）。回復素材として意識してみて。`});
+  }
+
+  // QOL記録
+  if(qolDays>=5){
+    tips.push({type:'good', text:`📊 QOLを ${qolDays}/7日 記録。データが厚いほど分析が活きます。`});
+  } else if(qolDays>=1){
+    tips.push({type:'', text:`📓 QOL記録 ${qolDays}/7日。毎日の１タップで研究データになります。`});
+  }
+  if(qolMoodLow>=2){
+    tips.push({type:'warn', text:`🌙 気分・体調が低めの日が${qolMoodLow}日ありました。無理せず、ルナに相談してみて。`});
+  }
+
+  // 表示（最大4件）
+  list.innerHTML = tips.slice(0,4).map(t=>`<li class="${t.type}">${t.text}</li>`).join('');
+  card.style.display = tips.length ? 'block' : 'none';
+}
+
+// ===== ストリークカレンダー（過去30日） =====
+function renderStreakCalendar(){
+  const grid=document.getElementById('streak-cal-grid');
+  const foot=document.getElementById('streak-cal-foot');
+  if(!grid||!foot||!uid||uid==='guest') return;
+
+  const days=30;
+  let activeDays=0, currentStreak=0, streakBroken=false;
+  const cells=[];
+  for(let i=days-1;i>=0;i--){
+    const dt=new Date(Date.now()-i*86400000);
+    const d=dt.toISOString().slice(0,10);
+    let score=0;
+    try{
+      const s=JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      score += (s.exMinToday>=30?2:s.exMinToday>=10?1:0);
+      score += (s.vegToday>=2?1:0);
+      score += ((s.fishToday||0)+(s.soyToday||0)>=1?1:0);
+      score += (s.proToday>=1?1:0);
+    }catch(e){}
+    let lvl=0;
+    if(score>=4) lvl=4;
+    else if(score>=3) lvl=3;
+    else if(score>=2) lvl=2;
+    else if(score>=1) lvl=1;
+    if(lvl>0) activeDays++;
+    if(!streakBroken){
+      if(lvl>0) currentStreak++;
+      else if(i!==0) streakBroken=true; // 今日だけ未記録は許容
+    }
+    const isToday = i===0;
+    const md = `${dt.getMonth()+1}/${dt.getDate()}`;
+    cells.push(`<div class="streak-cal-cell${lvl?(' l'+lvl):''}${isToday?' today':''}" title="${md}: ${score?score+'活動':'記録なし'}"></div>`);
+  }
+  grid.innerHTML = cells.join('');
+  foot.textContent = `直近30日：活動${activeDays}日 / 現在の連続記録 ${currentStreak}日`;
+}
+
+// ===== 水分（ハイドレーション）==========
+const HYDRATION_GOAL = 8; // 1日8杯（200ml × 8 = 1.6L）
+function hydKey(){
+  const today = new Date().toISOString().slice(0,10);
+  return `vt_hyd_${uid}_${today}`;
+}
+function getHydCount(){
+  if(!uid||uid==='guest') return 0;
+  return parseInt(localStorage.getItem(hydKey())||'0',10);
+}
+function setHydCount(n){
+  if(!uid||uid==='guest') return;
+  localStorage.setItem(hydKey(), String(Math.max(0, Math.min(20, n))));
+  renderHydration();
+}
+function renderHydration(){
+  const cups = document.getElementById('hyd-cups');
+  const amount = document.getElementById('hyd-amount');
+  if(!cups||!amount) return;
+  const n = getHydCount();
+  amount.textContent = `${n}/${HYDRATION_GOAL}`;
+  // カップを表示数（達成時は超過分も表示、最大12）
+  const total = Math.max(HYDRATION_GOAL, n);
+  cups.innerHTML = '';
+  for(let i=0;i<total;i++){
+    const c = document.createElement('div');
+    c.className = 'hyd-cup' + (i < n ? ' full' : '');
+    cups.appendChild(c);
+  }
+  // 達成で実績
+  if(n === HYDRATION_GOAL){
+    const seen = `vt_hyd_ach_${uid}_${new Date().toISOString().slice(0,10)}`;
+    if(!localStorage.getItem(seen)){
+      localStorage.setItem(seen, '1');
+      window.AppEnhance?.achievement?.('💧 水分補給達成！', '💧');
+    }
+  }
+}
+document.getElementById('hyd-add')?.addEventListener('click', ()=>{
+  setHydCount(getHydCount()+1);
+  try{ if(navigator.vibrate) navigator.vibrate(15); }catch(e){}
+});
+document.getElementById('hyd-undo')?.addEventListener('click', ()=>{
+  setHydCount(getHydCount()-1);
+});
+
+// ===== 睡眠 ==========
+function sleepKey(){
+  // 昨夜の睡眠 = 昨日付け
+  const d = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  return `vt_sleep_${uid}_${d}`;
+}
+function renderSleep(){
+  if(!uid||uid==='guest') return;
+  const meta = document.getElementById('sleep-meta');
+  const streakEl = document.getElementById('sleep-streak');
+  if(!meta) return;
+  // 過去7日の平均
+  let total=0, days=0, cur=0;
+  for(let i=1;i<=7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r = localStorage.getItem(`vt_sleep_${uid}_${d}`);
+      if(r){
+        const v = JSON.parse(r);
+        if(v.hours){ total += v.hours; days++; }
+        if(i===cur+1 && v.hours) cur++;
+      }
+    }catch(e){}
+  }
+  const avg = days ? (total/days).toFixed(1) : '—';
+  meta.textContent = `直近${days}日 平均 ${avg}h`;
+  if(streakEl) streakEl.textContent = cur>0 ? `${cur}日連続記録` : '';
+
+  // 既に昨夜入力済みなら値を表示
+  try{
+    const r = localStorage.getItem(sleepKey());
+    if(r){
+      const v = JSON.parse(r);
+      const h = document.getElementById('sleep-hours');
+      const q = document.getElementById('sleep-quality');
+      if(h && !h.value) h.value = v.hours;
+      if(q && !q.value && v.quality) q.value = v.quality;
+    }
+  }catch(e){}
+}
+document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
+  if(!uid||uid==='guest'){ alert('ログイン後にご利用ください'); return; }
+  const h = parseFloat(document.getElementById('sleep-hours').value);
+  const q = parseInt(document.getElementById('sleep-quality').value, 10);
+  if(!h || h<=0 || h>24){ alert('睡眠時間を0〜24で入力してください'); return; }
+  const data = { hours: h, quality: q||null, ts: Date.now() };
+  localStorage.setItem(sleepKey(), JSON.stringify(data));
+  // Firestore にも（オフラインキュー対応）
+  try{
+    if(db && navigator.onLine){
+      await addDoc(collection(db,'sleep_records'), { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10), ts: serverTimestamp() });
+    } else {
+      window.AppSafety?.queueRecord('sleep_records', { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10) });
+    }
+  }catch(e){ window.AppSafety?.queueRecord('sleep_records', { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10) }); }
+  // フィードバック
+  const btn = document.getElementById('sleep-save');
+  const orig = btn.textContent;
+  btn.textContent = '✓ 保存';
+  btn.style.background = 'rgba(78,201,138,.4)';
+  setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; }, 1500);
+  renderSleep();
+});
+
+// ===== コンパクトホーム（DBL風メニュー） =====
+function renderCompactHome(){
+  if(!uid || uid==='guest') return;
+  // ヒーロー：イベントorhopeorあいさつから優先度高いものを表示
+  const heroIcon = document.getElementById('ch-hero-icon');
+  const heroName = document.getElementById('ch-hero-name');
+  const heroSub  = document.getElementById('ch-hero-sub');
+  if(heroName){
+    let icon='🌟', name='ヴィタリアの冒険', sub='記録を続けて、12週間を歩もう';
+    // イベント優先
+    try{
+      const ev = window.Gamification?.getActiveEvent();
+      if(ev){ icon=ev.icon; name=ev.name; sub=ev.desc; }
+    }catch(e){}
+    // hope（あれば）
+    if(name === 'ヴィタリアの冒険'){
+      try{
+        const bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null');
+        if(bl?.step6?.hope){ icon='🎯'; name='12週後の希望'; sub=bl.step6.hope.slice(0,60); }
+      }catch(e){}
+    }
+    // ストリーク（高ければ）
+    try{
+      const streak = parseInt(localStorage.getItem(`vt_login_streak_${uid}`)||'0',10);
+      if(streak >= 7){ icon='✨'; name=`${streak}日連続記録中！`; sub='習慣の灯が、もう消えにくい段階に入っています'; }
+    }catch(e){}
+    if(heroIcon) document.querySelector('.ch-hero-icon').textContent = icon;
+    heroName.textContent = name;
+    heroSub.textContent = sub;
+  }
+
+  // Tiny Mission
+  try{
+    const mission = (typeof getTinyToday === 'function') ? getTinyToday() : null;
+    const mEl = document.getElementById('ch-mission');
+    if(mEl && mission){
+      mEl.style.display = 'flex';
+      document.getElementById('ch-m-text').textContent = mission.text;
+      const btn = document.getElementById('ch-m-done');
+      if(mission.done){
+        btn.textContent = '✓ 完了';
+        btn.disabled = true;
+      } else {
+        btn.textContent = '✓';
+        btn.disabled = false;
+      }
+    }
+  }catch(e){}
+
+  // 各カードのメタ情報
+  try{
+    // 運動：今週の分数
+    const wk = weekKey();
+    const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}');
+    document.getElementById('ch-meta-ex').textContent = exData.score ? `${exData.score}/150分` : 'カイトと';
+  }catch(e){}
+  try{
+    // 栄養：今週の野菜
+    const wk = weekKey();
+    const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
+    document.getElementById('ch-meta-nu').textContent = nuData.counts?.veg ? `野菜${nuData.counts.veg}皿` : 'セラと';
+  }catch(e){}
+  try{
+    // 冒険：章
+    const adv = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
+    document.getElementById('ch-meta-adv').textContent = `Ch.${adv.chapterIdx+1} / 12`;
+  }catch(e){}
+  try{
+    // ガチャ：引けるか
+    const canGacha = window.Gamification?.canRollDailyGacha?.();
+    document.getElementById('ch-meta-gacha').textContent = canGacha ? '引ける！' : '明日また';
+    document.getElementById('ch-badge-gacha').style.display = canGacha ? 'flex' : 'none';
+  }catch(e){}
+  try{
+    // コレクション
+    const cp = window.Gamification?.getCollectionProgress?.();
+    if(cp) document.getElementById('ch-meta-cl').textContent = `${cp.haveUnique}/${cp.totalUnique}種`;
+  }catch(e){}
+  try{
+    // スキル
+    const pts = window.Gamification?.getSkillPoints?.();
+    if(pts != null){
+      document.getElementById('ch-meta-sk').textContent = `${pts}pt 残`;
+      document.getElementById('ch-badge-sk').style.display = pts > 0 ? 'flex' : 'none';
+    }
+  }catch(e){}
+  try{
+    // ショップ：所持コイン
+    const coins = window.Gamification?.getCoins?.();
+    if(coins != null) document.getElementById('ch-meta-sh').textContent = `${coins} 🪙`;
+  }catch(e){}
+
+  // メインボタンのバッジ：何かアクションある時に !
+  try{
+    const canGacha = window.Gamification?.canRollDailyGacha?.();
+    const skPts = window.Gamification?.getSkillPoints?.() || 0;
+    const hasAction = canGacha || skPts > 0;
+    const mb = document.getElementById('ch-mb-badge');
+    if(mb) mb.style.display = hasAction ? 'flex' : 'none';
+  }catch(e){}
+}
+
+// 詳細表示トグル
+document.getElementById('ch-detail-btn')?.addEventListener('click', ()=>{
+  const isDetail = document.body.classList.toggle('detail-mode');
+  document.body.classList.toggle('compact-mode', !isDetail);
+  localStorage.setItem('vt_home_view', isDetail ? 'detail' : 'compact');
+});
+
+// メインメニュー開閉
+function openMainMenu(){
+  const ov = document.getElementById('ch-menu-overlay');
+  if(!ov) return;
+  ov.style.display = 'flex';
+  ov.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+  // 触覚フィードバック
+  try{ if(navigator.vibrate) navigator.vibrate(15); }catch(e){}
+  // メタ情報をリフレッシュ
+  try{ renderCompactHome(); }catch(e){}
+}
+function closeMainMenu(){
+  const ov = document.getElementById('ch-menu-overlay');
+  if(!ov) return;
+  ov.setAttribute('aria-hidden','true');
+  setTimeout(()=>{
+    if(ov.getAttribute('aria-hidden') === 'true') ov.style.display = 'none';
+  }, 350);
+  document.body.style.overflow = '';
+}
+document.getElementById('ch-main-btn')?.addEventListener('click', openMainMenu);
+document.getElementById('ch-menu-close')?.addEventListener('click', closeMainMenu);
+document.querySelector('#ch-menu-overlay .ch-menu-backdrop')?.addEventListener('click', closeMainMenu);
+// ESCキーで閉じる
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    const ov = document.getElementById('ch-menu-overlay');
+    if(ov && ov.getAttribute('aria-hidden') === 'false') closeMainMenu();
+  }
+});
+// メニュー内ボタンタップで閉じる（外部リンクも遷移前に閉じる演出）
+document.querySelectorAll('#ch-menu-overlay a, #ch-menu-overlay button:not(#ch-menu-close)').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    setTimeout(closeMainMenu, 50);
+  });
+});
+
+// 統計モーダルトグル（詳細モードに切替して、画面を統計エリアにスクロール）
+document.getElementById('ch-stats-btn')?.addEventListener('click', ()=>{
+  document.body.classList.add('detail-mode');
+  document.body.classList.remove('compact-mode');
+  localStorage.setItem('vt_home_view','detail');
+  setTimeout(()=>{
+    document.querySelector('.qol-trend-card')?.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 100);
+});
+
+// ガチャカード
+document.getElementById('ch-card-gacha')?.addEventListener('click', ()=>{
+  if(window.Gamification?.showGachaModal) window.Gamification.showGachaModal();
+});
+// ルナ対話カード
+document.getElementById('ch-card-luna')?.addEventListener('click', ()=>{
+  if(typeof openCoach === 'function') openCoach();
+});
+// ミッション完了ボタン
+document.getElementById('ch-m-done')?.addEventListener('click', ()=>{
+  const btn = document.getElementById('th-done');
+  if(btn) btn.click();
+  setTimeout(renderCompactHome, 300);
+});
+
+// ===== ゲームアクション（ガチャ/コレクション/スキル） =====
+function renderGameActions(){
+  if(!window.Gamification) return;
+  const gachaBtn = document.getElementById('btn-gacha');
+  const gachaMeta = document.getElementById('ga-gacha-meta');
+  if(gachaBtn){
+    gachaBtn.onclick = ()=>window.Gamification.showGachaModal();
+    if(window.Gamification.canRollDailyGacha()){
+      gachaMeta.textContent = '引ける！';
+      gachaBtn.classList.add('has-action');
+    } else {
+      gachaMeta.textContent = '明日また';
+      gachaBtn.classList.remove('has-action');
+    }
+  }
+  const colMeta = document.getElementById('ga-collection-meta');
+  if(colMeta){
+    const cp = window.Gamification.getCollectionProgress();
+    colMeta.textContent = `${cp.haveUnique}/${cp.totalUnique} 種`;
+  }
+  const skMeta = document.getElementById('ga-skills-meta');
+  if(skMeta){
+    const pts = window.Gamification.getSkillPoints();
+    skMeta.textContent = pts > 0 ? `${pts}pt 残` : '解放スキル無し';
+    if(pts > 0) document.querySelector('.ga-skills')?.classList.add('has-action');
+  }
+  const shopMeta = document.getElementById('ga-shop-meta');
+  if(shopMeta){
+    const coins = window.Gamification.getCoins();
+    shopMeta.textContent = `${coins} 🪙`;
+    if(coins >= 40) document.querySelector('.ga-shop')?.classList.add('has-action');
+  }
+  // イベントバナー
+  const ev = window.Gamification.getActiveEvent();
+  const eb = document.getElementById('event-banner');
+  if(ev && eb){
+    eb.style.display = 'block';
+    eb.innerHTML = `
+      <div style="background:linear-gradient(135deg,rgba(240,180,80,.18),rgba(240,180,80,.06));border:1.5px solid rgba(240,180,80,.5);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;animation:fadeIn .5s ease both;">
+        <div style="font-size:1.6rem;line-height:1;">${ev.icon}</div>
+        <div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;color:#f0d048;">${ev.name}</div>
+          <div style="font-size:.66rem;color:rgba(220,225,245,.85);margin-top:2px;">${ev.desc}</div>
+        </div>
+      </div>
+    `;
+  } else if(eb){
+    eb.style.display = 'none';
+  }
+}
+
+// ===== Stages of Change メッセージ =====
+function renderStageMessage(){
+  if(!uid || uid==='guest') return;
+  if(!window.AppSafety) return;
+  const profile = window.AppSafety.getClinicalProfile();
+  const msg = window.AppSafety.getStageMessage(profile);
+  if(!msg) return;
+  // ctx-greeting に追記（既に表示中なら下に積む）
+  let el = document.getElementById('stage-banner');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'stage-banner';
+    el.style.cssText = `
+      background:linear-gradient(135deg,rgba(168,200,240,.08),rgba(168,200,240,.02));
+      border:1px solid rgba(168,200,240,.3);border-radius:12px;
+      padding:11px 14px;margin-bottom:10px;font-size:.78rem;line-height:1.7;color:#e8e4d4;
+    `;
+    const qolCard = document.querySelector('.qol-trend-card');
+    if(qolCard && qolCard.parentNode) qolCard.parentNode.insertBefore(el, qolCard);
+  }
+  const colorMap = { gentle:'#a8c8f0', celebrate:'#a8e8c0' };
+  el.style.borderColor = `${colorMap[msg.tone]||'#a8c8f0'}55`;
+  el.innerHTML = `<span style="font-size:.55rem;letter-spacing:.12em;color:${colorMap[msg.tone]||'#a8c8f0'};font-weight:700;">変化のステージから</span><br>${msg.text}`;
+}
+
+// ===== 状況適応型ホーム挨拶 =====
+function renderContextGreeting(){
+  const el = document.getElementById('ctx-greeting');
+  if(!el || !uid || uid==='guest') return;
+  const now = new Date();
+  const hour = now.getHours();
+  const today = now.toISOString().slice(0,10);
+
+  // 直近データ集計
+  let qolDays=0, qolLow=0, activeDays=0, exMin=0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r = localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(r){
+        const v=JSON.parse(r);
+        const avg=((v.condition||0)+(v.mood||0)+(v.energy||0))/3;
+        qolDays++;
+        if(avg<=2.5) qolLow++;
+      }
+    }catch(e){}
+    try{
+      const s = JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      if(s.exMinToday || s.vegToday || s.proToday) activeDays++;
+      exMin += (s.exMinToday||0);
+    }catch(e){}
+  }
+  const lastLogin = localStorage.getItem(`vt_last_login_${uid}`)||'';
+  let gapDays = 0;
+  if(lastLogin) gapDays = Math.floor((Date.now() - new Date(lastLogin).getTime())/86400000);
+
+  // ベースラインからのhope
+  let hope = '';
+  try{
+    const bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null');
+    hope = bl?.step6?.hope || '';
+  }catch(e){}
+
+  // 一番優先度の高いトリガーを選ぶ
+  let icon='🌙', cls='gentle', text='';
+
+  if(gapDays >= 3 && gapDays <= 30){
+    icon='💜'; cls='gentle';
+    text = `<strong>${gapDays}日ぶりですね。</strong>治療の経験者なら、波があるのは自然なこと。「動けない時期」も大事な時間でした。今日、戻ってきてくれてありがとう。`;
+  } else if(qolDays >= 2 && qolLow >= 2){
+    icon='🌫'; cls='warn';
+    text = `体調や気分、しんどい日が続いてますね…。<strong>無理に動かなくて大丈夫</strong>。まずは今日の最小ミッションだけ、見てみませんか？`;
+  } else if(exMin >= 90){
+    icon='⚔'; cls='celebrate';
+    text = `この1週間で <strong>${exMin}分</strong>、よく動けてます！${hope?`「${hope.slice(0,40)}」`:'目標に近づいてる感覚、ありますか？'}`;
+  } else if(hour >= 5 && hour <= 9){
+    icon='🌅'; cls='gentle';
+    text = `おはようございます。<strong>朝の光は体内時計と免疫リズムを整えます</strong>。今日の最初の1歩、何にしますか？`;
+  } else if(hour >= 22){
+    icon='🌙'; cls='gentle';
+    text = `今日もお疲れさまでした。<strong>寝る30分前にスマホを置く</strong>と、メラトニンが出やすく深い睡眠に。免疫の修復タイムです。`;
+  } else if(activeDays >= 5){
+    icon='🌟'; cls='celebrate';
+    text = `今週はすでに <strong>${activeDays}日</strong> 何かしら記録できてますね。素晴らしい流れです。`;
+  } else {
+    el.style.display='none';
+    return;
+  }
+  el.className = `ctx-greeting ${cls}`;
+  el.innerHTML = `<div class="ctx-greet-icon">${icon}</div><div class="ctx-greet-text">${text}</div>`;
+  el.style.display = 'flex';
+}
+
+// ===== Habit Stacking 提案 =====
+const HABIT_STACK_SUGGESTIONS = [
+  { trigger:'朝のコーヒー・お茶を淹れた後', habit:'立ったまま1分ストレッチ', why:'血流改善で朝の倦怠感を軽減（治療後疲労に有効）' },
+  { trigger:'歯磨きの後', habit:'コップ1杯の水を飲む', why:'就寝中の脱水を解消し、代謝を起動' },
+  { trigger:'通勤・通学の電車を待つ間', habit:'つま先立ち10回', why:'ふくらはぎ＝第2の心臓。血流UPで免疫細胞が巡る' },
+  { trigger:'昼食を食べる時', habit:'最初に野菜から食べる', why:'血糖の急上昇を抑え、炎症マーカー低下' },
+  { trigger:'仕事/勉強の休憩時', habit:'深呼吸を3回する', why:'副交感神経起動→自律神経バランス→免疫調整' },
+  { trigger:'夜のテレビ・スマホ時間', habit:'ストレッチや軽いヨガを並行', why:'同じ時間で動ける効率の良いスタッキング' },
+  { trigger:'寝る前の歯磨き後', habit:'感謝を1つ思い出す', why:'心の炎症マーカーが下がる研究結果（RCTで検証済み）' },
+  { trigger:'お風呂上がり', habit:'豆乳or牛乳を飲む', why:'入浴後のたんぱく合成が高まる時間に栄養補給' },
+];
+function renderHabitStacking(){
+  if(!uid || uid==='guest') return;
+  const sugEl = document.getElementById('hs-suggestion');
+  const ratEl = document.getElementById('hs-rationale');
+  if(!sugEl) return;
+  // 週ごとに固定（同じ週は同じ提案）
+  const wk = weekKey();
+  const seed = wk.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const s = HABIT_STACK_SUGGESTIONS[seed % HABIT_STACK_SUGGESTIONS.length];
+  sugEl.innerHTML = `「<strong>${s.trigger}</strong>」<br>→ そのあと <strong>${s.habit}</strong>`;
+  ratEl.innerHTML = `💡 ${s.why}`;
+}
+
+// ===== キャラクター裏話モーダル =====
+function showCharBackstory(c){
+  if(document.getElementById('char-backstory-modal')) return;
+  const overlay = document.createElement('div');
+  overlay.id = 'char-backstory-modal';
+  overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:rgba(4,6,12,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px;`;
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(160deg,#0d1225,#101830);border:2px solid var(--c-color);border-radius:20px;max-width:440px;width:100%;padding:22px 22px 18px;box-shadow:0 24px 64px rgba(0,0,0,.7);animation:modalIn .4s ease both;" data-char="${c.key}">
+      <div style="text-align:center;margin-bottom:14px;">
+        <div style="width:84px;height:84px;border-radius:50%;overflow:hidden;border:2.5px solid var(--c-color);margin:0 auto 10px;">
+          <img src="${c.img}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;object-position:${c.objPos};">
+        </div>
+        <div style="font-size:.55rem;letter-spacing:.18em;color:rgba(200,180,255,.6);font-weight:700;margin-bottom:3px;">— SIDE STORY UNLOCKED —</div>
+        <h2 style="font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;color:var(--c-color);">${c.name}の過去</h2>
+      </div>
+      <div style="background:rgba(0,0,0,.3);border-left:3px solid var(--c-color);border-radius:8px;padding:14px 16px;margin-bottom:14px;">
+        <div style="font-family:'Noto Serif JP',serif;font-size:.86rem;color:#e8e4f4;line-height:1.95;font-style:italic;">${escapeHopeHtml(c.backstory)}</div>
+      </div>
+      <button id="cbm-close" style="width:100%;background:linear-gradient(135deg,var(--c-color),rgba(255,255,255,.4));border:none;color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;padding:10px;border-radius:10px;cursor:pointer;letter-spacing:.06em;">受け取る ✦</button>
+    </div>
+  `;
+  // CSS変数で色を渡す
+  const colorMap = { kaito:'#f08080', sera:'#a8e8c0', luna:'#c0a0f0', pixe:'#f0d48a' };
+  overlay.style.setProperty('--c-color', colorMap[c.key]||'#f0d48a');
+  overlay.querySelector('[data-char]').style.setProperty('--c-color', colorMap[c.key]||'#f0d48a');
+  document.body.appendChild(overlay);
+  document.getElementById('cbm-close').addEventListener('click', ()=>overlay.remove());
+  // 演出
+  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:35, duration:1800, colors:[colorMap[c.key]||'#f0d48a','#fff8d8']}); }catch(e){}
+}
+
+// ===== Tiny Habits（BJ Fogg "Tiny Habits"理論ベース） =====
+const TINY_MISSIONS = [
+  { id:'water1', text:'水を1杯飲む', why:'体内の代謝・解毒の出発点', cat:'hyd' },
+  { id:'walk1', text:'1分だけ歩く（玄関を出るだけでもOK）', why:'動き出す閾値を超えれば、続きやすい', cat:'ex' },
+  { id:'veg1', text:'野菜を1口食べる', why:'抗酸化の入口は1口から', cat:'nut' },
+  { id:'breath3', text:'深呼吸を3回する', why:'副交感神経を起動して炎症を抑える', cat:'qol' },
+  { id:'stretch1', text:'肩・首を1ストレッチ', why:'血行で免疫細胞が巡る', cat:'ex' },
+  { id:'fish1', text:'魚を1切れ（缶詰でOK）', why:'オメガ3で抗炎症スイッチ', cat:'nut' },
+  { id:'soy1', text:'豆腐or納豆を一口', why:'植物性タンパクで身体を整える', cat:'nut' },
+  { id:'sun5', text:'5分外に出て光を浴びる', why:'体内時計と免疫リズムを整える', cat:'qol' },
+  { id:'gratitude', text:'感謝を1つ書く・思う', why:'心の炎症マーカーが下がる研究結果あり', cat:'qol' },
+  { id:'sleep30', text:'寝る30分前にスマホを置く', why:'メラトニン分泌→深い睡眠→免疫修復', cat:'qol' },
+];
+function todayDate(){ return new Date().toISOString().slice(0,10); }
+function tinyKey(){ return `vt_tiny_${uid}_${todayDate()}`; }
+function tinyStreakKey(){ return `vt_tiny_streak_${uid}`; }
+function getTinyToday(){
+  let stored = null;
+  try{ stored = JSON.parse(localStorage.getItem(tinyKey())||'null'); }catch(e){}
+  if(stored) return stored;
+  // 新規生成（日替わり）
+  const seed = todayDate().split('-').reduce((a,b)=>a+parseInt(b,10),0);
+  const m = TINY_MISSIONS[seed % TINY_MISSIONS.length];
+  const obj = { id:m.id, text:m.text, why:m.why, cat:m.cat, done:false };
+  localStorage.setItem(tinyKey(), JSON.stringify(obj));
+  return obj;
+}
+function renderTinyHabit(){
+  const card = document.getElementById('tiny-habit-card');
+  if(!card || !uid || uid==='guest') return;
+  const m = getTinyToday();
+  document.getElementById('th-mission-text').textContent = m.text;
+  document.getElementById('th-why-display').textContent = '💡 ' + m.why;
+  const doneBtn = document.getElementById('th-done');
+  if(m.done){
+    doneBtn.classList.add('done');
+    doneBtn.textContent = '✓ 完了済み';
+    doneBtn.disabled = true;
+    document.getElementById('th-celebration').style.display='block';
+  } else {
+    doneBtn.classList.remove('done');
+    doneBtn.textContent = '✓ できた！';
+    doneBtn.disabled = false;
+    document.getElementById('th-celebration').style.display='none';
+  }
+  // 連続記録
+  let streak = 0;
+  try{ streak = parseInt(localStorage.getItem(tinyStreakKey())||'0',10); }catch(e){}
+  document.getElementById('th-streak').textContent = streak>0?`${streak}日連続`:'';
+}
+document.getElementById('th-done')?.addEventListener('click', ()=>{
+  const m = getTinyToday();
+  if(m.done) return;
+  m.done = true;
+  localStorage.setItem(tinyKey(), JSON.stringify(m));
+  // 連続記録
+  const ystr = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  let yObj = null;
+  try{ yObj = JSON.parse(localStorage.getItem(`vt_tiny_${uid}_${ystr}`)||'null'); }catch(e){}
+  let streak = parseInt(localStorage.getItem(tinyStreakKey())||'0',10);
+  if(yObj && yObj.done) streak += 1; else streak = 1;
+  localStorage.setItem(tinyStreakKey(), String(streak));
+  // 軽いXP（祝い・小さく）
+  try{
+    const k = `vc_xp_${uid}_${weekKey()}`;
+    const cur = parseInt(localStorage.getItem(k)||'0',10);
+    localStorage.setItem(k, String(cur+5));
+  }catch(e){}
+  // バイブ＋演出
+  try{ if(navigator.vibrate) navigator.vibrate([15,40,15]); }catch(e){}
+  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:25, duration:1500}); }catch(e){}
+  renderTinyHabit();
+});
+document.getElementById('th-skip')?.addEventListener('click', ()=>{
+  // ランダムに変える
+  const m = TINY_MISSIONS[Math.floor(Math.random()*TINY_MISSIONS.length)];
+  const obj = { id:m.id, text:m.text, why:m.why, cat:m.cat, done:false };
+  localStorage.setItem(tinyKey(), JSON.stringify(obj));
+  renderTinyHabit();
+});
+
+// ===== WHY（hope）表示 =====
+function renderHope(){
+  if(!uid || uid==='guest') return;
+  let bl = null;
+  let ii = null;
+  try{ bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null'); }catch(e){}
+  try{ ii = JSON.parse(localStorage.getItem('vt_implementation_intention')||'null'); }catch(e){}
+  const hope = bl?.step6?.hope;
+  const hasII = ii && (ii.when || ii.where || ii.howlong);
+  if(!hope && !hasII) return;
+  // 既に挿入済みなら更新
+  let banner = document.getElementById('hope-banner');
+  if(!banner){
+    banner = document.createElement('div');
+    banner.id = 'hope-banner';
+    banner.style.cssText = `
+      background:linear-gradient(135deg,rgba(240,212,138,.08),rgba(240,212,138,.02));
+      border:1px solid rgba(240,212,138,.3);border-radius:12px;
+      padding:12px 14px;margin-bottom:10px;
+    `;
+    const qolCard = document.querySelector('.qol-trend-card');
+    if(qolCard && qolCard.parentNode){
+      qolCard.parentNode.insertBefore(banner, qolCard);
+    }
+  }
+  let html = '';
+  if(hope){
+    html += `
+      <div style="display:flex;align-items:center;gap:10px;${hasII?'margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(240,212,138,.15);':''}">
+        <div style="font-size:1.1rem;flex-shrink:0;">🎯</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:.55rem;color:rgba(240,212,138,.65);letter-spacing:.12em;font-weight:700;margin-bottom:2px;">あなたが12週間後に望むこと</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:.82rem;color:#f0d48a;font-weight:700;line-height:1.4;">${escapeHopeHtml(hope)}</div>
+        </div>
+      </div>
+    `;
+  }
+  if(hasII){
+    const iiText = `もし<strong>${escapeHopeHtml(ii.when||'')}</strong>になったら、<strong>${escapeHopeHtml(ii.where||'')}</strong>で<strong>${escapeHopeHtml(ii.howlong||'')}分</strong>動く`;
+    html += `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:1.1rem;flex-shrink:0;">📐</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:.55rem;color:rgba(168,232,192,.65);letter-spacing:.12em;font-weight:700;margin-bottom:2px;">あなたの実行プラン（if-then）</div>
+          <div style="font-size:.78rem;color:#a8e8c0;line-height:1.5;font-style:italic;">${iiText}</div>
+        </div>
+      </div>
+    `;
+  }
+  banner.innerHTML = html;
+}
+function escapeHopeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ===== クラスバッジ表示 =====
+const CLASS_DATA = {
+  witch:      { name:'魔女っ子',   icon:'🧙‍♀️', color:'#c0a0f0' },
+  hero:       { name:'勇者',       icon:'⚔',   color:'#f0d48a' },
+  saint:      { name:'聖女',       icon:'⛪',   color:'#a8e8c0' },
+  villainess: { name:'悪役令嬢',   icon:'👑',   color:'#f0a0c8' },
+  prince:     { name:'王子',       icon:'🤴',   color:'#a8c8f0' },
+  knight:     { name:'騎士',       icon:'🛡',   color:'#d8a878' },
+};
+function renderClassBadge(){
+  const badge = document.getElementById('class-badge');
+  if(!badge) return;
+  const cls = localStorage.getItem('vt_class');
+  if(!cls || !CLASS_DATA[cls]){ badge.style.display='none'; return; }
+  const c = CLASS_DATA[cls];
+  badge.style.display = 'inline-flex';
+  badge.style.alignItems = 'center';
+  badge.style.gap = '4px';
+  document.getElementById('class-icon').textContent = c.icon;
+  document.getElementById('class-name').textContent = c.name;
+  badge.style.color = c.color;
+  badge.style.borderColor = `rgba(${hexToRgb(c.color)}, .5)`;
+  badge.style.background = `linear-gradient(135deg, rgba(${hexToRgb(c.color)}, .2), rgba(${hexToRgb(c.color)}, .08))`;
+}
+function hexToRgb(hex){
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+
+// ===== 12週間足跡（参加開始日からの12週分） =====
+function renderFootprint(){
+  const track = document.getElementById('footprint-track');
+  const counter = document.getElementById('footprint-counter');
+  const foot = document.getElementById('footprint-foot');
+  if(!track || !uid || uid==='guest') return;
+
+  // 参加開始日（最初のログインボーナス取得日）を基準
+  let startKey = `vt_start_date_${uid}`;
+  let startDate = localStorage.getItem(startKey);
+  if(!startDate){
+    startDate = new Date().toISOString().slice(0,10);
+    localStorage.setItem(startKey, startDate);
+  }
+  const start = new Date(startDate);
+  const now = new Date();
+  const daysSinceStart = Math.floor((now - start) / 86400000);
+  const currentWeekIdx = Math.floor(daysSinceStart / 7);
+
+  let cleared = 0, partial = 0;
+  const cells = [];
+  for(let w=0; w<12; w++){
+    const wkStart = new Date(start.getTime() + w*7*86400000);
+    const wkEnd = new Date(wkStart.getTime() + 7*86400000);
+    // この週内に運動・栄養・QOLどれかの記録があるか
+    let hasQuest=false, hasNut=false, hasQol=false;
+    // 週キー範囲内のデータをチェック
+    const wkY = wkStart.getFullYear();
+    const j = new Date(wkY, 0, 1);
+    const wn = Math.ceil(((wkStart - j)/86400000 + j.getDay() + 1)/7);
+    const wkKey = `${wkY}_W${String(wn).padStart(2,'0')}`;
+    try{
+      if(localStorage.getItem(`vq_${uid}_${wkKey}`)) hasQuest = true;
+      if(localStorage.getItem(`vn_${uid}_${wkKey}`)) hasNut = true;
+    }catch(e){}
+    // QOL は日付ベース
+    for(let d=0; d<7; d++){
+      const ds = new Date(wkStart.getTime() + d*86400000).toISOString().slice(0,10);
+      if(localStorage.getItem(`vt_qol_${uid}_${ds}`)){ hasQol = true; break; }
+    }
+
+    let state = 'future';
+    let icon = w+1;
+    if(w < currentWeekIdx){
+      // 過去週
+      const score = (hasQuest?1:0) + (hasNut?1:0) + (hasQol?1:0);
+      if(score >= 2){ state = 'cleared'; icon = '✦'; cleared++; }
+      else if(score >= 1){ state = 'partial'; icon = '◐'; partial++; }
+      else { state = 'missed'; icon = '·'; }
+    } else if(w === currentWeekIdx){
+      state = 'current';
+      const score = (hasQuest?1:0) + (hasNut?1:0) + (hasQol?1:0);
+      if(score >= 2){ state = 'current cleared'; icon='✦'; cleared++; }
+      else if(score >= 1){ state = 'current partial'; icon='◐'; partial++; }
+      else { icon = w+1; }
+    }
+    const lbl = `${wkStart.getMonth()+1}/${wkStart.getDate()}〜`;
+    cells.push(`<div class="footprint-cell ${state}" title="第${w+1}週 (${lbl})">${icon}</div>`);
+  }
+  track.innerHTML = cells.join('');
+  if(counter) counter.textContent = `${cleared}/12 週クリア${partial?` (一部 ${partial})`:''}`;
+
+  // フッター：状況に応じたメッセージ
+  if(foot){
+    const remaining = 12 - currentWeekIdx;
+    if(cleared >= 12){
+      foot.innerHTML = '🎉 <strong>12週間完走！</strong>あなたは伝説の冒険者です';
+    } else if(currentWeekIdx >= 12){
+      foot.innerHTML = '12週間の冒険、お疲れさま。これからも記録を続けよう';
+    } else if(cleared >= currentWeekIdx){
+      foot.innerHTML = `第${currentWeekIdx+1}週・<strong>パーフェクト継続中</strong>！残り${remaining}週`;
+    } else {
+      foot.innerHTML = `第${currentWeekIdx+1}週進行中・残り${remaining}週で踏破`;
+    }
+  }
+}
+
+// ===== キャラクター好感度（既存データから累積算出） =====
+function renderAffinity(){
+  const grid=document.getElementById('affinity-grid');
+  const foot=document.getElementById('affinity-foot');
+  if(!grid||!uid||uid==='guest') return;
+
+  // 累積データ
+  let exMin=0, foodCount=0, coachTurns=0, totalRecords=0;
+  try{
+    const exHist=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]');
+    exMin=exHist.reduce((s,x)=>s+(x.score||0),0);
+    totalRecords += exHist.length;
+  }catch(e){}
+  try{
+    const nuHist=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]');
+    nuHist.forEach(w=>{
+      const c=w.counts||{};
+      foodCount += (c.veg||0)+(c.fruit||0)+(c.protein||0)+(c.grain||0);
+    });
+    totalRecords += nuHist.length;
+  }catch(e){}
+  try{
+    // コーチターン累積（vc_xp_*ベースで概算：5xp=1ターン）
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith(`vc_xp_${uid}_`) && !k.includes('_daily_')){
+        coachTurns += Math.floor(parseInt(localStorage.getItem(k)||'0',10)/5);
+      }
+    }
+  }catch(e){}
+
+  // レベル算出（10段階）
+  // カイト：運動分数 / 30 = レベル（max 10）
+  // セラ：食事カウント / 20 = レベル（max 10）
+  // ルナ：会話ターン / 10 = レベル（max 10）
+  // ピクセ：総記録数 / 15 = レベル（max 10）
+  function calcLv(value, divisor){
+    const lv=Math.min(10, Math.floor(value/divisor));
+    const next=(lv+1)*divisor;
+    const cur=value-(lv*divisor);
+    const pct=lv>=10?100:Math.round(cur/divisor*100);
+    return {lv, pct, value, next};
+  }
+
+  const chars=[
+    {key:'kaito', name:'カイト', img:'./image/kaito-sabun%20(1).png', objPos:'center 12%',
+      stats:calcLv(exMin,30),
+      quotes:['「…ふん。来たか」','「もう少しで筋肉が裏切らないって分かるよ」','「お前のペースでいい」','「俺の方が一歩遅いかもな」','「お前の継続、剣士並みだ」','「俺の弟子か?」','「最強だな」','「お前は俺の師匠」'],
+      backstory: '俺も昔、身体が動かない時期があった。事故でな…剣を握れない自分を許せなかった。でも、毎日「1分だけ」を積み重ねたら、また動ける身体になった。お前のその「1分」、俺は知ってるんだ。',
+    },
+    {key:'sera', name:'セラ', img:'./image/sera-sabun.png', objPos:'center 18%',
+      stats:calcLv(foodCount,20),
+      quotes:['「いらっしゃい…」','「お腹は空いてない?」','「あなたの食卓に魔法が宿る」','「素敵な手のひらね」','「セラのレシピ完璧♡」','「あなたは料理の女神…」','「永遠の食卓を…」','「我が家へどうぞ♡」'],
+      backstory: '私の母は…毒を盛られて亡くなりました。だから「食」が誰かを救うと信じて、薬草と栄養を学んだの。あなたの食卓に、お母さまから受け継いだ祈りが届きますように。',
+    },
+    {key:'luna', name:'ルナ', img:'./image/runa-sabun%20(2).png', objPos:'center 14%',
+      stats:calcLv(coachTurns,10),
+      quotes:['「…静かに、聞きましょう」','「あなたの気持ちを大切に」','「言葉にしてくれて、嬉しい」','「あなたの内なる星、見えます」','「絆が深まりました」','「あなたは私の一番の理解者」','「銀の月のように」','「永遠のパートナー」'],
+      backstory: '私もかつて、声を失っていました。誰にも気持ちを言えない時間が長くて…。月の女神に祈り続けて、ようやく言葉が戻ったのです。あなたが言葉にしてくれること、私には何より嬉しい。',
+    },
+    {key:'pixe', name:'ピクセ', img:'./image/pixe-sabun.png', objPos:'center 16%',
+      stats:calcLv(totalRecords,15),
+      quotes:['「ぴく…?」','「あ、転生者さん♪」','「ぴくぴく〜！記録しよう！」','「相棒だね♡」','「私の冒険の主役！」','「最高のパートナー！」','「ヴィタリアの英雄！」','「ぴく…大好き！」'],
+      backstory: 'ぴくっ…実はね、私は前の転生者さんを、最後まで応援できなかったの…。だから今度こそ、あなたの「全部の記録」を見届けたいんだ。一緒に、12週間ね♪',
+    },
+  ];
+
+  grid.innerHTML = chars.map(c=>{
+    const q = c.quotes[Math.min(c.quotes.length-1, c.stats.lv)] || c.quotes[0];
+    const unlocked = c.stats.lv >= 5;
+    const sideStoryBtn = unlocked
+      ? `<button class="affinity-side-btn" data-char="${c.key}" title="裏話を読む">📜 裏話 解放</button>`
+      : `<span class="affinity-locked">🔒 Lv.5で裏話解放</span>`;
+    return `
+      <div class="affinity-cell ${c.key}">
+        <div class="affinity-face"><img src="${c.img}" alt="${c.name}" style="object-position:${c.objPos};"></div>
+        <div class="affinity-info">
+          <div class="affinity-name"><span>${c.name}</span><span class="affinity-lv">Lv.${c.stats.lv}</span></div>
+          <div class="affinity-bar"><div class="affinity-bar-fill" style="width:${c.stats.pct}%"></div></div>
+          <div class="affinity-quote">${q}</div>
+          <div class="affinity-side">${sideStoryBtn}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 裏話ボタン
+  document.querySelectorAll('.affinity-side-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const cKey = b.dataset.char;
+      const c = chars.find(x=>x.key===cKey);
+      if(!c) return;
+      showCharBackstory(c);
+    });
+  });
+
+  const totalLv = chars.reduce((s,c)=>s+c.stats.lv,0);
+  foot.textContent = `絆ポイント計 ${totalLv}/40`;
+}
+
 // ===== QOL週間トレンド表示 =====
 function renderQolTrend(){
   const target=document.getElementById('qol-trend-content');
@@ -2708,6 +4732,7 @@ function buildQolScales(){
 }
 
 function maybeShowQolTracker(){
+  if(window.AppSafety?.isAnyModalOpen?.()) return;
   if(!uid||uid==='guest') return;
   const today=new Date().toISOString().slice(0,10);
   const key=`vt_qol_${uid}_${today}`;
@@ -2721,20 +4746,115 @@ function maybeShowQolTracker(){
   document.querySelectorAll('.qol-scale-btn').forEach(b=>b.classList.remove('selected'));
   const saveBtn=document.getElementById('qol-save');
   saveBtn.disabled=true; saveBtn.style.opacity='.5';
+  const noteEl=document.getElementById('qol-note');
+  if(noteEl){ noteEl.value=''; document.getElementById('qol-note-count').textContent='0/120'; }
   document.getElementById('qol-modal').style.display='flex';
+}
+
+// ノート文字数カウンター
+document.getElementById('qol-note')?.addEventListener('input',(e)=>{
+  document.getElementById('qol-note-count').textContent=`${e.target.value.length}/120`;
+});
+
+// ノート写真添付
+let _qolPhotoData = null;
+document.getElementById('qol-photo-input')?.addEventListener('change', async (e)=>{
+  const file = e.target.files?.[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')){ alert('画像ファイルを選んでください'); return; }
+  if(file.size > 10*1024*1024){ alert('10MB以下の画像を選んでください'); return; }
+  try{
+    const resized = await resizeImage(file, 800, 800, 0.7);
+    _qolPhotoData = resized;
+    const preview = document.getElementById('qol-photo-preview');
+    preview.src = resized;
+    preview.style.display = 'block';
+    document.getElementById('qol-photo-status').textContent = `✓ ${(resized.length/1024).toFixed(0)}KB`;
+    document.getElementById('qol-photo-clear').style.display = 'inline-block';
+  }catch(err){
+    alert('画像の処理に失敗しました: '+err.message);
+  }
+});
+document.getElementById('qol-photo-clear')?.addEventListener('click', ()=>{
+  _qolPhotoData = null;
+  document.getElementById('qol-photo-preview').style.display = 'none';
+  document.getElementById('qol-photo-status').textContent = '';
+  document.getElementById('qol-photo-clear').style.display = 'none';
+  document.getElementById('qol-photo-input').value = '';
+});
+
+function resizeImage(file, maxW, maxH, quality){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      img.onload = ()=>{
+        let w = img.width, h = img.height;
+        if(w > maxW){ h = h * maxW / w; w = maxW; }
+        if(h > maxH){ w = w * maxH / h; h = maxH; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 document.getElementById('qol-save').addEventListener('click',async ()=>{
   const today=new Date().toISOString().slice(0,10);
+  const noteEl=document.getElementById('qol-note');
+  const note=(noteEl?.value||'').trim().slice(0,120);
   const data={
     uid, date:today, week:weekKey(),
     condition:_qolAnswers.condition,
     mood:_qolAnswers.mood,
     energy:_qolAnswers.energy,
+    note: note || null,
     total:(_qolAnswers.condition||0)+(_qolAnswers.mood||0)+(_qolAnswers.energy||0),
     ts:Date.now()
   };
   try{ localStorage.setItem(`vt_qol_${uid}_${today}`, JSON.stringify(data)); }catch(e){}
+  // ジャーナル単独でも保存（一覧用）
+  if(note || _qolPhotoData){
+    try{
+      const jKey=`vt_journal_${uid}`;
+      const arr=JSON.parse(localStorage.getItem(jKey)||'[]');
+      arr.unshift({
+        date:today,
+        note: note || '',
+        photo: _qolPhotoData || null,
+        mood:_qolAnswers.mood,
+        condition:_qolAnswers.condition,
+        ts:Date.now()
+      });
+      // 写真は容量を取るので最新30件に絞る
+      const trimmed = arr.slice(0, _qolPhotoData ? 30 : 90);
+      // 古い写真は削除して容量節約（最新10件のみ写真保持）
+      trimmed.forEach((e, i) => { if(i >= 10 && e.photo) e.photo = null; });
+      localStorage.setItem(jKey, JSON.stringify(trimmed));
+    }catch(e){
+      console.warn('journal save:', e?.message);
+    }
+    // 危機キーワード検知
+    if(note){
+      try{
+        if(window.AppSafety?.detectCrisis(note)){
+          setTimeout(()=>window.AppSafety.showCrisisModal({source:'journal'}), 600);
+        }
+      }catch(e){}
+    }
+  }
+  // 写真状態リセット
+  _qolPhotoData = null;
+  const pp = document.getElementById('qol-photo-preview'); if(pp) pp.style.display='none';
+  const ps = document.getElementById('qol-photo-status'); if(ps) ps.textContent='';
+  const pc = document.getElementById('qol-photo-clear'); if(pc) pc.style.display='none';
+  const pi = document.getElementById('qol-photo-input'); if(pi) pi.value='';
   // Firestore へ同期（任意）
   try{
     if(db && uid){
@@ -2751,6 +4871,21 @@ document.getElementById('qol-save').addEventListener('click',async ()=>{
     localStorage.setItem(xpKey, String(cur+15));
   }catch(e){}
   document.getElementById('qol-modal').style.display='none';
+  // QOLが低い時、優しい認知メッセージ
+  const avgQol = ((_qolAnswers.condition||0)+(_qolAnswers.mood||0)+(_qolAnswers.energy||0))/3;
+  if(avgQol > 0 && avgQol <= 2.3){
+    setTimeout(()=>{
+      const lowMsg = document.createElement('div');
+      lowMsg.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:8500;background:linear-gradient(135deg,rgba(168,200,240,.95),rgba(120,150,200,.92));color:#1a1830;padding:16px 22px;border-radius:14px;max-width:380px;width:90vw;box-shadow:0 16px 40px rgba(0,0,0,.5);animation:fadeIn .35s ease both;font-size:.85rem;line-height:1.85;`;
+      lowMsg.innerHTML = `
+        <div style="font-family:'Noto Serif JP',serif;font-weight:900;font-size:.95rem;margin-bottom:6px;">🌫 つらい日もあります</div>
+        <div>治療後の波は、誰にでもあるもの。<strong>記録できたあなた自身</strong>を、まず讃えてください。<br>動けないこと自体も、健康行動の一部です。</div>
+        <button onclick="this.parentNode.remove()" style="margin-top:10px;background:rgba(0,0,0,.15);border:none;color:#1a1830;padding:6px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.74rem;">わかった</button>
+      `;
+      document.body.appendChild(lowMsg);
+      setTimeout(()=>lowMsg.remove(), 12000);
+    }, 600);
+  }
   if(typeof updateUI==='function') updateUI();
 });
 document.getElementById('qol-skip').addEventListener('click',()=>{
@@ -2775,12 +4910,25 @@ function checkLoginBonus(){
   if(lastLogin===today) return;
 
   const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  let usedFreeze = false;
   if(lastLogin===yesterday){
     streak+=1;
   } else if(lastLogin===''){
     streak=1;
   } else {
-    streak=1; // ストリーク途切れ・リセット
+    // ストリーク途切れ。フリーズトークンがあれば1日だけ救済
+    const monthKey = today.slice(0,7); // YYYY-MM
+    const freezeKey = `vt_freeze_${uid}_${monthKey}`;
+    const freezeUsed = localStorage.getItem(freezeKey) === '1';
+    // 2日以内のギャップなら救済（1日休んだ場合）
+    const gapDays = Math.floor((new Date(today) - new Date(lastLogin))/86400000);
+    if(!freezeUsed && gapDays === 2){
+      localStorage.setItem(freezeKey, '1');
+      streak += 1; // 連続を維持
+      usedFreeze = true;
+    } else {
+      streak=1;
+    }
   }
 
   // ボーナスXP計算
@@ -2790,6 +4938,26 @@ function checkLoginBonus(){
   else if(streak>=14){ xp=100; msg='ピクセ：「2週間連続！本当に頑張ってるね✨」'; }
   else if(streak>=7){ xp=50; msg='ピクセ：「1週間連続！ぴくっ、あなた素敵♪」'; }
   else if(streak>=3){ xp=20; msg='ピクセ：「3日連続！いい感じだね！」'; }
+
+  // ストリークフリーズ使用通知
+  if(usedFreeze){
+    msg='ピクセ：「❄ストリークフリーズ発動！1日のお休みを救済したよ。連続記録は続いてる！」';
+    xp = Math.max(xp, 30);
+  }
+  // カムバックボーナス（3日以上空けて戻ってきた人を歓迎）
+  const lastLoginDate = lastLogin ? new Date(lastLogin) : null;
+  if(lastLoginDate){
+    const gapDays = Math.floor((new Date(today) - lastLoginDate)/86400000);
+    if(gapDays >= 3 && gapDays <= 30){
+      // クラスが「悪役令嬢」ならXP×2
+      const isVillainess = localStorage.getItem('vt_class') === 'villainess';
+      const bonus = isVillainess ? 100 : 50;
+      xp += bonus;
+      msg = isVillainess
+        ? `ピクセ：「お帰りなさい！${gapDays}日ぶりですね。悪役令嬢の特性で <strong>+${bonus}XP</strong>ボーナス！断罪なんてさせないわ💪」`
+        : `ピクセ：「お帰りなさい！${gapDays}日ぶりですね。戻ってきてくれてありがとう、<strong>+${bonus}XP</strong>のカムバックボーナス！」`;
+    }
+  }
 
   // XP付与
   try{
@@ -2910,6 +5078,212 @@ function prevWeekLabel(){
   return `第${w}週 (${f(s)}〜${f(e)})`;
 }
 
+// ===== PWAインストール案内バナー =====
+let _deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  _deferredPrompt=e;
+});
+
+function maybeShowPwaBanner(){
+  if(!uid || uid==='guest') return;
+  // 既に閉じた、またはインストール済みなら表示しない
+  try{
+    if(localStorage.getItem('vt_pwa_dismiss')==='1') return;
+    if(window.matchMedia('(display-mode: standalone)').matches) return;
+    if(window.navigator.standalone) return; // iOS
+  }catch(e){}
+  const banner=document.getElementById('pwa-install-banner');
+  if(!banner) return;
+  // iOS の場合は手動手順を案内
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  if(isIOS){
+    document.getElementById('pwa-banner-sub').textContent='共有ボタン → "ホーム画面に追加" でアプリ化できます';
+    const btn=document.getElementById('pwa-install-btn');
+    btn.textContent='方法';
+    btn.onclick=()=>alert('iOSの場合：\n1. Safariの共有ボタン（□↑）をタップ\n2. 「ホーム画面に追加」を選択\n3. ホーム画面のアイコンから起動できます');
+  } else if(_deferredPrompt){
+    document.getElementById('pwa-install-btn').onclick=async ()=>{
+      _deferredPrompt.prompt();
+      const r=await _deferredPrompt.userChoice;
+      _deferredPrompt=null;
+      if(r.outcome==='accepted'){
+        try{ localStorage.setItem('vt_pwa_installed','1'); }catch(e){}
+        banner.style.display='none';
+      }
+    };
+  } else {
+    // 対応外ブラウザの場合は表示しない
+    return;
+  }
+  banner.style.display='flex';
+}
+
+document.getElementById('pwa-banner-close')?.addEventListener('click',()=>{
+  try{ localStorage.setItem('vt_pwa_dismiss','1'); }catch(e){}
+  document.getElementById('pwa-install-banner').style.display='none';
+});
+
+// ===== デイリーリマインダー（同セッション中のみsetTimeoutで通知） =====
+function scheduleDailyReminder(){
+  if(!uid || uid==='guest') return;
+  if(!('Notification' in window)) return;
+  if(Notification.permission!=='granted') return;
+  let cfg={};
+  try{ cfg=JSON.parse(localStorage.getItem('vt_reminder')||'{}'); }catch(e){}
+  if(!cfg.enabled) return;
+
+  const [hh,mm]=(cfg.time||'20:00').split(':').map(n=>parseInt(n,10));
+  if(isNaN(hh)||isNaN(mm)) return;
+
+  const now=new Date();
+  let target=new Date(now.getFullYear(),now.getMonth(),now.getDate(),hh,mm,0,0);
+  if(target<=now) target=new Date(target.getTime()+86400000); // 翌日に
+
+  const delay=target.getTime()-now.getTime();
+  // 24時間以内のみスケジュール（タブ開いてる前提）
+  if(delay>0 && delay<25*60*60*1000){
+    setTimeout(()=>{
+      try{
+        // 今日まだ記録ないかチェック
+        const today=new Date().toISOString().slice(0,10);
+        const hasQol=!!localStorage.getItem(`vt_qol_${uid}_${today}`);
+        const stats=JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${today}`)||'{}');
+        const recorded=hasQol || stats.exMinToday || stats.vegToday;
+        if(!recorded){
+          new Notification('ヴィタリア転生録', {
+            body: '今日の記録、もう少しで途切れます。1分でできるよ✨',
+            icon: './icon.svg',
+            tag: 'daily-reminder-'+today,
+          });
+        }
+      }catch(e){}
+      // 翌日も再スケジュール
+      scheduleDailyReminder();
+    }, delay);
+  }
+}
+
+// ===== 週次サーベイ催促 =====
+function maybeWeeklySurveyReminder(){
+  if(!uid || uid==='guest') return;
+  if(window.AppSafety?.isAnyModalOpen?.()) return;
+  const today = new Date();
+  // 日曜（0）または月曜（1）にチェック
+  if(today.getDay() > 1) return;
+  // 参加日からの週番号計算
+  const startStr = localStorage.getItem(`vt_start_date_${uid}`);
+  if(!startStr) return;
+  const start = new Date(startStr);
+  const days = Math.floor((today - start) / 86400000);
+  const weekNum = Math.floor(days / 7) + 1;
+  if(weekNum < 1 || weekNum > 12) return;
+  // 既に今週回答済みならスキップ
+  if(localStorage.getItem(`vt_weekly_survey_done_${uid}_${weekNum}`)) return;
+  // 24時間以内に促したらスキップ
+  const lastNudgeKey = `vt_weekly_survey_nudge_${uid}`;
+  const last = parseInt(localStorage.getItem(lastNudgeKey)||'0',10);
+  if(Date.now() - last < 24*3600*1000) return;
+  localStorage.setItem(lastNudgeKey, String(Date.now()));
+  // 軽いトースト＋誘導
+  if(confirm(`📋 第${weekNum}週の週次アンケート（約1分・+30XP）\n\n研究データとして大切な情報です。今すぐ回答しますか？`)){
+    location.href = './weekly-survey.html';
+  }
+}
+
+// ===== マイルストーン調査催促（6週・12週） =====
+function maybeMilestoneReminder(){
+  if(!uid || uid==='guest') return;
+  if(window.AppSafety?.isAnyModalOpen?.()) return;
+  const startStr = localStorage.getItem(`vt_start_date_${uid}`);
+  if(!startStr) return;
+  const start = new Date(startStr);
+  const days = Math.floor((Date.now() - start) / 86400000);
+  // 6週時点（42-49日）または 12週時点（84日以降）
+  let type = null;
+  if(days >= 42 && days <= 56 && !localStorage.getItem(`vt_milestone_midpoint_${uid}`)){
+    type = 'midpoint';
+  } else if(days >= 84 && !localStorage.getItem(`vt_milestone_endpoint_${uid}`)){
+    type = 'endpoint';
+  }
+  if(!type) return;
+  // 24時間ルール
+  const last = parseInt(localStorage.getItem(`vt_milestone_nudge_${uid}_${type}`)||'0',10);
+  if(Date.now() - last < 24*3600*1000) return;
+  localStorage.setItem(`vt_milestone_nudge_${uid}_${type}`, String(Date.now()));
+
+  const isMid = type === 'midpoint';
+  if(confirm(`${isMid?'🌗 6週時点の中間評価':'🎓 12週後の最終評価'}（${isMid?'約2分・+80XP':'約3-5分・+150XP'}）\n\nベースラインからの変化を測る、研究にとって最も大切な調査です。今すぐ回答しますか？`)){
+    location.href = `./milestone-survey.html?type=${type}`;
+  }
+}
+
+// ===== ドロップアウトリスク介入 =====
+function maybeDropoutIntervention(){
+  if(!uid || uid==='guest') return;
+  if(!window.AppSafety) return;
+  if(window.AppSafety.isAnyModalOpen()) return;
+  const risk = window.AppSafety.calcDropoutRisk();
+  if(risk < 60) return; // 中リスク以上のみ介入
+  // 24時間に1回
+  const lastK = `vt_dropout_intervention_${uid}`;
+  const last = parseInt(localStorage.getItem(lastK)||'0',10);
+  if(Date.now() - last < 24*3600*1000) return;
+  localStorage.setItem(lastK, String(Date.now()));
+  // クラスに応じたメッセージ
+  const cls = localStorage.getItem('vt_class') || 'hero';
+  const msgs = {
+    villainess: '👑 悪役令嬢、お帰りなさい！\n\n3日空けても大丈夫、復帰でXP×2のボーナスが発動中。\n断罪エンドを回避するには、いま1つでも記録しましょう？',
+    knight: '🛡 騎士よ、守るべきは「習慣」そのもの。\n\n今日1分の散歩、または野菜1皿でも記録すれば、ストリークは続きます。',
+    saint: '⛪ 聖女よ、お疲れの様子。\n\nQOLを1つだけ、記録してみませんか？それだけでも今日のあなたを大切にできます。',
+    hero: '⚔ 勇者よ、冒険を中断しているようです。\n\n小さな一歩でも、また始めれば道は続きます。',
+    witch: '🧙‍♀️ 魔女っ子、しばらく見ないわね。\n\n野菜1皿の魔法から、また始めてみない？',
+    prince: '🤴 王子、仲間が待っています。\n\nパーティに近況を一言投稿するだけで、絆は途切れません。',
+  };
+  const msg = msgs[cls] || msgs.hero;
+  const action = confirm(msg + '\n\n今すぐ何か記録しますか？');
+  if(action){
+    location.href = './quest.html';
+  }
+}
+
+// ===== ユーザー設定の双方向同期（Firestore <-> localStorage） =====
+async function syncUserSettings(){
+  if(!uid || uid==='guest' || !db) return;
+  const SYNCABLE_KEYS = [
+    'vt_sound_off','vt_vibrate_off','vt_reduced_motion','vt_large_text',
+    'vt_theme','vt_reminder',
+  ];
+  try{
+    const settingsDoc = doc(db, 'user_settings', uid);
+    const snap = await getDoc(settingsDoc);
+    const cloud = snap.exists() ? (snap.data() || {}) : {};
+    const local = {};
+    SYNCABLE_KEYS.forEach(k => {
+      const v = localStorage.getItem(k);
+      if(v !== null) local[k] = v;
+    });
+
+    // クラウドの方が新しい→ローカルに適用
+    const cloudUpdated = cloud._updated || 0;
+    const localUpdated = parseInt(localStorage.getItem('vt_settings_updated')||'0',10);
+
+    if(cloudUpdated > localUpdated && cloud){
+      SYNCABLE_KEYS.forEach(k=>{
+        if(cloud[k] !== undefined && cloud[k] !== null){
+          localStorage.setItem(k, cloud[k]);
+        }
+      });
+      localStorage.setItem('vt_settings_updated', String(cloudUpdated));
+    } else if(localUpdated > cloudUpdated || !snap.exists()){
+      // ローカルの方が新しい→クラウドに送信
+      const payload = { ...local, _updated: Date.now(), uid };
+      await setDoc(settingsDoc, payload, { merge: true });
+      localStorage.setItem('vt_settings_updated', String(payload._updated));
+    }
+  }catch(e){ console.warn('settings sync:', e?.message); }
+}
+
 function maybeShowWeeklySummary(){
   if(!uid || uid==='guest') return;
 
@@ -2994,7 +5368,77 @@ function maybeShowWeeklySummary(){
 
 document.getElementById('weekly-close').addEventListener('click',()=>{
   document.getElementById('weekly-modal').style.display='none';
+  // リフレクションプロンプト（週次サマリー閉じた直後）
+  setTimeout(showWeeklyReflection, 600);
 });
+
+// ===== 週次リフレクション =====
+function showWeeklyReflection(){
+  if(!uid || uid==='guest') return;
+  const wk = weekKey();
+  const seenKey = `vt_reflection_done_${uid}_${wk}`;
+  if(localStorage.getItem(seenKey)) return;
+
+  // データから「できた/できなかった」を判定
+  let qScore=0, nScore=0;
+  try{ const v = JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}'); qScore = v.score||0; }catch(e){}
+  try{ const v = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}'); nScore = v.score||0; }catch(e){}
+  const ok = qScore>=100 || nScore>=15;
+  const promptText = ok
+    ? '今週、続けられたのは…なぜ？（自分の中で何が効いた？）'
+    : '今週、思うようにいかなかったとしたら…何が邪魔だった？';
+  const placeholder = ok
+    ? '例: 朝の散歩を歯磨きの後にしたら、自然に続いた'
+    : '例: 仕事が忙しすぎて、運動を後回しにした';
+
+  const overlay = document.createElement('div');
+  overlay.id = 'reflection-modal';
+  overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:rgba(4,6,12,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px;`;
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(160deg,#0d1225,#101830);border:2px solid rgba(168,200,240,.5);border-radius:20px;max-width:440px;width:100%;padding:24px 22px;box-shadow:0 24px 64px rgba(0,0,0,.7);">
+      <div style="text-align:center;margin-bottom:14px;">
+        <div style="font-size:.55rem;letter-spacing:.18em;color:rgba(168,200,240,.7);font-weight:700;margin-bottom:5px;">— WEEKLY REFLECTION —</div>
+        <h2 style="font-family:'Noto Serif JP',serif;font-size:1.05rem;color:#a8c8f0;line-height:1.5;">${promptText}</h2>
+        <p style="font-size:.65rem;color:rgba(170,188,216,.5);margin-top:6px;">未来の自分のためのメモ。任意・1〜2行でOK</p>
+      </div>
+      <textarea id="ref-text" rows="4" maxlength="300" placeholder="${placeholder}" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(168,200,240,.2);border-radius:8px;padding:10px 12px;color:#e8e4d4;font-family:inherit;font-size:.82rem;line-height:1.7;resize:vertical;outline:none;"></textarea>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button id="ref-skip" style="flex:1;background:none;border:1px solid rgba(170,188,216,.25);color:rgba(170,188,216,.7);padding:9px;border-radius:9px;cursor:pointer;font-family:inherit;font-size:.78rem;">あとで</button>
+        <button id="ref-save" style="flex:2;background:linear-gradient(135deg,#5878a8,#a8c8f0);border:none;color:#1a1200;padding:9px;border-radius:9px;cursor:pointer;font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;">記録する +20XP</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('ref-skip').onclick = ()=>{ overlay.remove(); };
+  document.getElementById('ref-save').onclick = async ()=>{
+    const text = document.getElementById('ref-text').value.trim().slice(0,300);
+    if(text){
+      // ジャーナルに保存
+      try{
+        const jKey = `vt_journal_${uid}`;
+        const arr = JSON.parse(localStorage.getItem(jKey)||'[]');
+        arr.unshift({
+          date: new Date().toISOString().slice(0,10),
+          note: `[週次リフレクション] ${text}`,
+          ts: Date.now(),
+          tag: 'reflection',
+        });
+        localStorage.setItem(jKey, JSON.stringify(arr.slice(0,90)));
+      }catch(e){}
+      // XP
+      try{
+        const k = `vc_xp_${uid}_${wk}`;
+        const cur = parseInt(localStorage.getItem(k)||'0',10);
+        localStorage.setItem(k, String(cur+20));
+      }catch(e){}
+      // Firestore
+      try{ window.AppSafety?.queueRecord('reflections', { uid, weekKey: wk, text, type: ok?'positive':'obstacle', ts: Date.now() }); }catch(e){}
+    }
+    localStorage.setItem(seenKey, '1');
+    overlay.remove();
+    if(text) updateUI();
+  };
+}
 
 // 7日以上の不在から復帰したときの「お帰りなさい」モーダル
 function showReturnModal(daysAway){
@@ -3110,6 +5554,7 @@ function closeTutorial(){
   <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
   <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
   <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
 
@@ -3130,9 +5575,27 @@ function closeTutorial(){
       <div style="font-size:.78rem;color:#e8f4ec;font-weight:700;margin-bottom:6px;">② 気分はどう？</div>
       <div class="qol-scale" style="display:flex;gap:6px;justify-content:space-between;"></div>
     </div>
-    <div class="qol-q" data-key="energy" style="margin-bottom:18px;">
+    <div class="qol-q" data-key="energy" style="margin-bottom:14px;">
       <div style="font-size:.78rem;color:#e8f4ec;font-weight:700;margin-bottom:6px;">③ 活力はどう？</div>
       <div class="qol-scale" style="display:flex;gap:6px;justify-content:space-between;"></div>
+    </div>
+
+    <!-- 思い出ノート（任意） -->
+    <div style="margin-bottom:18px;">
+      <div style="font-size:.74rem;color:#e8f4ec;font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
+        <span>📓 今日のひとこと <span style="font-size:.6rem;color:rgba(170,188,216,.45);font-weight:400;">（任意）</span></span>
+        <span id="qol-note-count" style="font-size:.55rem;color:rgba(170,188,216,.4);">0/120</span>
+      </div>
+      <textarea id="qol-note" maxlength="120" rows="2" placeholder="例：朝の散歩が気持ちよかった／治療後の倦怠感が強い…" style="width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(78,201,138,.18);border-radius:10px;padding:9px 11px;color:#e8f4ec;font-family:inherit;font-size:.78rem;line-height:1.55;resize:vertical;outline:none;transition:border-color .2s;"></textarea>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+        <label for="qol-photo-input" style="background:rgba(78,201,138,.1);border:1px solid rgba(78,201,138,.3);border-radius:8px;padding:6px 12px;font-size:.7rem;color:#a8e8c0;cursor:pointer;font-weight:700;">
+          📷 写真を添付
+        </label>
+        <input type="file" accept="image/*" id="qol-photo-input" style="display:none;">
+        <span id="qol-photo-status" style="font-size:.62rem;color:rgba(170,188,216,.55);"></span>
+        <button type="button" id="qol-photo-clear" style="display:none;background:none;border:none;color:rgba(224,160,160,.7);font-size:.7rem;cursor:pointer;font-family:inherit;">✕ 削除</button>
+      </div>
+      <img id="qol-photo-preview" style="display:none;max-width:100%;max-height:120px;border-radius:8px;margin-top:8px;border:1px solid rgba(78,201,138,.25);">
     </div>
 
     <button id="qol-save" disabled style="width:100%;background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);border-radius:12px;padding:11px;color:#a8e8c0;font-family:inherit;font-size:.86rem;font-weight:900;cursor:pointer;opacity:.5;">記録する</button>

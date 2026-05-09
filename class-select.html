@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キャラクター選択 ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;--rose:#f0a0c8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:radial-gradient(ellipse at 50% 0%, #1a1430 0%, #080b14 60%);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+
+header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.skip-btn{background:none;border:1px solid rgba(170,188,216,.3);color:rgba(170,188,216,.7);font-size:.7rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:1080px;margin:0 auto;padding:24px 20px 80px;}
+.intro{text-align:center;margin-bottom:30px;}
+.intro-badge{
+  display:inline-block;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.4);
+  color:var(--gold2);font-size:.6rem;font-weight:700;letter-spacing:.18em;padding:4px 14px;border-radius:99px;margin-bottom:12px;
+}
+.intro h1{font-family:'Noto Serif JP',serif;font-size:1.8rem;font-weight:900;color:var(--gold2);line-height:1.4;margin-bottom:8px;}
+.intro p{font-size:.85rem;color:rgba(220,220,250,.75);line-height:1.85;}
+
+/* ストーリーモード切替 */
+.story-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:30px;flex-wrap:wrap;}
+.story-tab{
+  background:rgba(255,255,255,.04);border:1.5px solid rgba(170,188,216,.2);
+  color:rgba(220,225,245,.7);font-family:inherit;font-size:.82rem;font-weight:700;
+  padding:11px 22px;border-radius:99px;cursor:pointer;transition:all .25s;
+  display:flex;align-items:center;gap:8px;
+}
+.story-tab:hover{border-color:rgba(201,168,76,.4);color:var(--gold2);}
+.story-tab.active{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border-color:var(--gold2);color:var(--gold2);box-shadow:0 0 24px rgba(201,168,76,.2);}
+.story-tab.active.villainess{background:linear-gradient(135deg,rgba(240,160,200,.22),rgba(156,114,224,.12));border-color:var(--rose);color:var(--rose);box-shadow:0 0 24px rgba(240,160,200,.2);}
+
+.story-desc{
+  text-align:center;font-size:.78rem;color:rgba(220,220,250,.65);
+  background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.18);border-radius:12px;
+  padding:12px 18px;max-width:680px;margin:0 auto 28px;line-height:1.85;
+}
+
+/* クラス選択グリッド */
+.class-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px;
+}
+.class-card{
+  background:linear-gradient(160deg, rgba(20,16,40,.85), rgba(8,6,20,.95));
+  border:2px solid rgba(170,188,216,.2);border-radius:18px;padding:18px 16px;
+  cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.class-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 80% at 50% 0%, var(--accent-color, rgba(201,168,76,.15)) 0%, transparent 60%);
+  opacity:.5;
+}
+.class-card:hover{transform:translateY(-4px);border-color:var(--accent-color, var(--gold2));box-shadow:0 12px 36px rgba(0,0,0,.5), 0 0 32px var(--accent-glow, rgba(201,168,76,.2));}
+.class-card.selected{border-color:var(--accent-color, var(--gold2));border-width:3px;box-shadow:0 0 40px var(--accent-glow, rgba(201,168,76,.4));}
+.class-card.selected::after{
+  content:'✓ 選択中';position:absolute;top:10px;right:10px;
+  background:var(--accent-color, var(--gold2));color:#1a1200;font-size:.6rem;font-weight:900;
+  padding:3px 10px;border-radius:99px;letter-spacing:.06em;
+}
+
+.cc-portrait{
+  width:100%;aspect-ratio:1/1;max-height:200px;
+  background:rgba(0,0,0,.4);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:5rem;line-height:1;margin-bottom:10px;
+  position:relative;z-index:1;
+  border:1.5px solid var(--accent-color, rgba(201,168,76,.3));
+}
+.cc-name{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;color:var(--accent-color, var(--gold2));margin-bottom:3px;text-align:center;position:relative;z-index:1;}
+.cc-title{font-size:.6rem;letter-spacing:.14em;color:rgba(220,220,250,.55);text-transform:uppercase;text-align:center;margin-bottom:10px;position:relative;z-index:1;}
+.cc-desc{font-size:.74rem;color:rgba(220,220,250,.85);line-height:1.7;margin-bottom:10px;position:relative;z-index:1;}
+.cc-skills{display:flex;flex-direction:column;gap:5px;margin-top:auto;position:relative;z-index:1;}
+.cc-skill{
+  font-size:.65rem;background:rgba(0,0,0,.35);
+  border-left:2.5px solid var(--accent-color, var(--gold2));
+  padding:5px 9px;border-radius:5px;color:rgba(220,225,245,.85);
+}
+.cc-skill strong{color:var(--accent-color, var(--gold2));}
+
+/* クラスごとのアクセントカラー */
+.class-card.witch    {--accent-color:#c0a0f0;--accent-glow:rgba(192,160,240,.3);}
+.class-card.hero     {--accent-color:#f0d48a;--accent-glow:rgba(240,212,138,.3);}
+.class-card.saint    {--accent-color:#a8e8c0;--accent-glow:rgba(168,232,192,.3);}
+.class-card.villainess{--accent-color:#f0a0c8;--accent-glow:rgba(240,160,200,.3);}
+.class-card.prince   {--accent-color:#a8c8f0;--accent-glow:rgba(168,200,240,.3);}
+.class-card.knight   {--accent-color:#d8a878;--accent-glow:rgba(216,168,120,.3);}
+
+.confirm-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:linear-gradient(180deg, rgba(20,16,40,.92), rgba(8,6,20,.98));
+  backdrop-filter:blur(12px);border-top:1px solid rgba(201,168,76,.25);
+  padding:14px 18px;display:flex;justify-content:center;align-items:center;gap:12px;
+  z-index:100;flex-wrap:wrap;
+}
+.confirm-msg{font-size:.78rem;color:rgba(220,225,245,.85);}
+.confirm-msg strong{color:var(--gold2);}
+.confirm-btn{
+  background:linear-gradient(135deg, #c9a84c, #f0d48a);border:none;color:#1a1200;
+  font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;
+  padding:11px 28px;border-radius:12px;cursor:pointer;letter-spacing:.06em;
+  box-shadow:0 6px 20px rgba(201,168,76,.3);
+}
+.confirm-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+@media(max-width:540px){
+  .intro h1{font-size:1.35rem;}
+  .class-grid{grid-template-columns:1fr;gap:10px;}
+  .cc-portrait{max-height:140px;font-size:3.5rem;}
+  .cc-desc{font-size:.7rem;}
+  .story-tab{font-size:.74rem;padding:9px 16px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./game.html" class="skip-btn">あとで決める</a>
+</header>
+
+<main class="page">
+  <div class="intro">
+    <div class="intro-badge">⚔ CHARACTER CLASS</div>
+    <h1>どのクラスで転生しますか？</h1>
+    <p>あなたの目標・性格に合うクラスを選んで、健康習慣の冒険をはじめよう。<br>
+    <span style="color:rgba(240,212,138,.85);font-weight:700;">いつでも変更できます。</span></p>
+  </div>
+
+  <!-- ストーリーモード -->
+  <div class="story-tabs">
+    <button class="story-tab active" data-story="vitalia">⚔ 王道勇者編</button>
+    <button class="story-tab" data-story="villainess">👑 悪役令嬢編</button>
+  </div>
+  <div class="story-desc" id="story-desc">
+    仲間とパーティを組んで、ダンジョンを攻略！七つの大罪を打ち倒し、ヴィタリアに光を取り戻す王道RPGストーリー。
+  </div>
+
+  <!-- クラス選択 -->
+  <div class="class-grid">
+    <div class="class-card witch" data-class="witch">
+      <div class="cc-portrait">🧙‍♀️</div>
+      <div class="cc-name">魔女っ子</div>
+      <div class="cc-title">— THE WITCH —</div>
+      <div class="cc-desc">魔法の食材で、どんな食事も健康に変える。栄養特化型クラス。</div>
+      <div class="cc-skills">
+        <div class="cc-skill"><strong>得意：</strong>栄養記録・抗酸化食品</div>
+        <div class="cc-skill"><strong>パッシブ：</strong>野菜・果物XP+15%</div>
+        <div class="cc-skill"><strong>必殺：</strong>セットボーナスXP×1.5倍</div>
+      </div>
+    </div>
+
+    <div class="class-card hero" data-class="hero">
+      <div class="cc-portrait">⚔</div>
+      <div class="cc-name">勇者</div>
+      <div class="cc-title">— THE HERO —</div>
+      <div class="cc-desc">挑戦と成長を愛する戦士。バランス良く全カテゴリを攻略。</div>
+      <div class="cc-skills">
+        <div class="cc-skill"><strong>得意：</strong>運動・冒険全般</div>
+        <div class="cc-skill"><strong>パッシブ：</strong>運動XP+12%、ボス挑戦XP+10%</div>
+        <div class="cc-skill"><strong>必殺：</strong>連続記録ストリーク+1日</div>
+      </div>
+    </div>
+
+    <div class="class-card saint" data-class="saint">
+      <div class="cc-portrait">⛪</div>
+      <div class="cc-name">聖女</div>
+      <div class="cc-title">— THE SAINT —</div>
+      <div class="cc-desc">癒やしの力で心と体を整える。QOL・メンタルケア特化。</div>
+      <div class="cc-skills">
+        <div class="cc-skill"><strong>得意：</strong>QOL記録・ジャーナル・ルナとの対話</div>
+        <div class="cc-skill"><strong>パッシブ：</strong>コーチ会話XP+20%</div>
+        <div class="cc-skill"><strong>必殺：</strong>気分↓の日に+50XP回復ボーナス</div>
+      </div>
+    </div>
+
+    <div class="class-card villainess" data-class="villainess">
+      <div class="cc-portrait">👑</div>
+      <div class="cc-name">悪役令嬢</div>
+      <div class="cc-title">— THE VILLAINESS —</div>
+      <div class="cc-desc">「断罪なんてさせないわ」逆境からの逆転を得意とする特殊型。</div>
+      <div class="cc-skills">
+        <div class="cc-skill"><strong>得意：</strong>カムバック・リカバリー</div>
+        <div class="cc-skill"><strong>パッシブ：</strong>3日空けて復帰でXP×2</div>
+        <div class="cc-skill"><strong>必殺：</strong>ストリーク途切れ時に1回まで自動復活</div>
+      </div>
+    </div>
+
+    <div class="class-card prince" data-class="prince">
+      <div class="cc-portrait">🤴</div>
+      <div class="cc-name">王子</div>
+      <div class="cc-title">— THE PRINCE —</div>
+      <div class="cc-desc">パーティを率いるリーダー。仲間と一緒に進む協調型クラス。</div>
+      <div class="cc-skills">
+        <div class="cc-skill"><strong>得意：</strong>パーティ参加・コミュニティ</div>
+        <div class="cc-skill"><strong>パッシブ：</strong>パーティ参加でXP+15%</div>
+        <div class="cc-skill"><strong>必殺：</strong>仲間招待で+100XP（互いに）</div>
+      </div>
+    </div>
+
+    <div class="class-card knight" data-class="knight">
+      <div class="cc-portrait">🛡</div>
+      <div class="cc-name">騎士</div>
+      <div class="cc-title">— THE KNIGHT —</div>
+      <div class="cc-desc">守備堅固。コツコツ続けることで、守りの力が最強になる。</div>
+      <div class="cc-skills">
+        <div class="cc-skill"><strong>得意：</strong>習慣化・連続記録</div>
+        <div class="cc-skill"><strong>パッシブ：</strong>7日連続でXP+25%</div>
+        <div class="cc-skill"><strong>必殺：</strong>毎月1回のストリークフリーズ自動付与</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="confirm-bar">
+  <div class="confirm-msg">選択中: <strong id="selected-name">なし</strong></div>
+  <button class="confirm-btn" id="confirm-btn" disabled>この道を進む ✦</button>
+</div>
+
+<script>
+let selectedClass = null;
+let selectedStory = 'vitalia';
+
+const CLASS_NAMES = {
+  witch:'魔女っ子', hero:'勇者', saint:'聖女', villainess:'悪役令嬢', prince:'王子', knight:'騎士'
+};
+const STORY_DESCS = {
+  vitalia: '仲間とパーティを組んで、ダンジョンを攻略！七つの大罪を打ち倒し、ヴィタリアに光を取り戻す王道RPGストーリー。',
+  villainess: '気がつけば悪役令嬢に転生していた…。健康習慣で逆転して、断罪を回避し「ギャフン」と言わせる、痛快な異世界転生編。',
+};
+
+// 既存選択読み込み
+try{
+  const cur = localStorage.getItem('vt_class');
+  const story = localStorage.getItem('vt_story_mode');
+  if(cur && CLASS_NAMES[cur]) selectClass(cur);
+  if(story === 'villainess') selectStory('villainess');
+}catch(e){}
+
+// クラス選択
+document.querySelectorAll('.class-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    selectClass(card.dataset.class);
+  });
+});
+function selectClass(cls){
+  selectedClass = cls;
+  document.querySelectorAll('.class-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.class-card[data-class="${cls}"]`)?.classList.add('selected');
+  document.getElementById('selected-name').textContent = CLASS_NAMES[cls] || 'なし';
+  document.getElementById('confirm-btn').disabled = false;
+}
+
+// ストーリー選択
+document.querySelectorAll('.story-tab').forEach(t=>{
+  t.addEventListener('click', ()=>selectStory(t.dataset.story));
+});
+function selectStory(story){
+  selectedStory = story;
+  document.querySelectorAll('.story-tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.story === story);
+    t.classList.toggle('villainess', story === 'villainess');
+  });
+  document.getElementById('story-desc').textContent = STORY_DESCS[story];
+}
+
+// 確定
+document.getElementById('confirm-btn').addEventListener('click', ()=>{
+  if(!selectedClass) return;
+  localStorage.setItem('vt_class', selectedClass);
+  localStorage.setItem('vt_story_mode', selectedStory);
+  // パーティ自動振り分け（クラスをそのままパーティ名に）
+  if(!localStorage.getItem('vt_party')){
+    localStorage.setItem('vt_party', selectedClass);
+  }
+  // 完了演出
+  const card = document.querySelector(`.class-card[data-class="${selectedClass}"]`);
+  if(card){
+    card.style.animation = 'pulse 0.6s ease';
+  }
+  setTimeout(()=>{
+    location.href = './game.html';
+  }, 700);
+});
+</script>
+</body>
+</html>

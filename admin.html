@@ -155,15 +155,192 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       <div class="da-list" id="dropout-list"></div>
     </div>
 
+    <!-- 研究設計ツール -->
+    <div id="research-tools" style="background:linear-gradient(135deg,rgba(240,212,138,.06),rgba(78,201,138,.04));border:1px solid rgba(240,212,138,.25);border-radius:14px;padding:16px 18px;margin-bottom:18px;">
+      <div style="font-family:'Noto Serif JP',serif;font-size:1rem;color:#f0d48a;margin-bottom:12px;">🔬 研究設計ツール</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+        <!-- サンプルサイズ計算 -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:12px 14px;">
+          <div style="font-size:.7rem;color:rgba(240,212,138,.7);font-weight:700;margin-bottom:8px;">📐 サンプルサイズ計算</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.7rem;margin-bottom:6px;">
+            <label>効果量(Cohen's d)
+              <input type="number" id="ssc-d" value="0.5" step="0.1" min="0.1" max="2" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+            </label>
+            <label>検出力 1-β
+              <input type="number" id="ssc-power" value="0.8" step="0.05" min="0.5" max="0.99" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+            </label>
+            <label>有意水準 α
+              <input type="number" id="ssc-alpha" value="0.05" step="0.01" min="0.001" max="0.1" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+            </label>
+            <label>脱落率
+              <input type="number" id="ssc-dropout" value="0.2" step="0.05" min="0" max="0.5" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+            </label>
+          </div>
+          <div id="ssc-result" style="font-family:'Noto Serif JP',serif;font-size:.85rem;color:#a8e8c0;margin-top:8px;">必要N: 計算中…</div>
+        </div>
+
+        <!-- A/B割り当て分布 -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:12px 14px;">
+          <div style="font-size:.7rem;color:rgba(240,212,138,.7);font-weight:700;margin-bottom:8px;">⚗ A/B群分布</div>
+          <div id="ab-dist" style="font-size:.72rem;color:rgba(220,225,245,.85);">読み込み中…</div>
+        </div>
+
+        <!-- ドロップアウトリスク表示 -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(224,92,92,.22);border-radius:10px;padding:12px 14px;">
+          <div style="font-size:.7rem;color:rgba(240,170,170,.85);font-weight:700;margin-bottom:8px;">⚠ 高リスク参加者</div>
+          <div id="risk-list" style="font-size:.72rem;color:rgba(220,225,245,.85);max-height:120px;overflow-y:auto;">—</div>
+        </div>
+
+        <!-- 統計分析（pre/post） -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(168,200,240,.22);border-radius:10px;padding:12px 14px;grid-column:span 2;">
+          <div style="font-size:.7rem;color:rgba(168,200,240,.85);font-weight:700;margin-bottom:8px;">📈 ベースライン → 12週 比較（Paired t-test + Cohen's d）</div>
+          <div id="stat-results" style="font-size:.72rem;color:rgba(220,225,245,.85);">分析対象データが揃うと自動表示</div>
+        </div>
+
+        <!-- データ品質フラグ -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(240,180,80,.22);border-radius:10px;padding:12px 14px;grid-column:span 2;">
+          <div style="font-size:.7rem;color:rgba(240,212,138,.85);font-weight:700;margin-bottom:8px;">🚦 データ品質フラグ</div>
+          <div id="quality-flags" style="font-size:.72rem;color:rgba(220,225,245,.85);">—</div>
+        </div>
+
+        <!-- アドヒアランス分布 -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(78,201,138,.22);border-radius:10px;padding:12px 14px;">
+          <div style="font-size:.7rem;color:rgba(168,232,192,.85);font-weight:700;margin-bottom:8px;">📊 アドヒアランス分布（介入忠実度）</div>
+          <div id="adherence-dist" style="font-size:.72rem;color:rgba(220,225,245,.85);">—</div>
+        </div>
+
+        <!-- 行動変化ステージ分布 -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(192,160,240,.22);border-radius:10px;padding:12px 14px;">
+          <div style="font-size:.7rem;color:rgba(192,160,240,.85);font-weight:700;margin-bottom:8px;">🌀 変化ステージ分布</div>
+          <div id="stage-dist" style="font-size:.72rem;color:rgba(220,225,245,.85);">—</div>
+        </div>
+
+        <!-- K-匿名化エクスポート -->
+        <div style="background:rgba(0,0,0,.25);border:1px solid rgba(170,188,216,.22);border-radius:10px;padding:12px 14px;grid-column:span 2;">
+          <div style="font-size:.7rem;color:rgba(220,225,245,.9);font-weight:700;margin-bottom:8px;">🔐 K-匿名化エクスポート</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;">
+            <label style="font-size:.65rem;color:rgba(170,188,216,.6);">対象テーブル
+              <select id="kanon-target" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(170,188,216,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+                <option value="baseline">ベースライン</option>
+                <option value="weekly">週次PROMs</option>
+                <option value="milestone">マイルストーン</option>
+                <option value="qol">毎日QOL</option>
+              </select>
+            </label>
+            <label style="font-size:.65rem;color:rgba(170,188,216,.6);">k値（最低同一群サイズ）
+              <input type="number" id="kanon-k" min="1" max="50" value="3" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(170,188,216,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+            </label>
+            <label style="font-size:.65rem;color:rgba(170,188,216,.6);">時刻ジッター
+              <select id="kanon-jitter" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(170,188,216,.2);color:#e8e4d4;border-radius:6px;padding:5px;font-family:inherit;">
+                <option value="0">なし</option>
+                <option value="1" selected>±1日</option>
+                <option value="3">±3日</option>
+                <option value="7">±7日</option>
+              </select>
+            </label>
+            <button id="kanon-export-btn" class="btn-sm" style="border-color:rgba(78,201,138,.4);color:#a8e8c0;">⬇ 匿名化CSV</button>
+          </div>
+          <div id="kanon-status" style="font-size:.6rem;color:rgba(170,188,216,.55);margin-top:6px;line-height:1.6;">k=3：同じ属性組み合わせが最低3名以上いるレコードのみ出力。それ未満は除外。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PPI（経験者参加デザイン）記録 -->
+    <div id="ppi-section" style="background:linear-gradient(135deg,rgba(240,160,200,.06),rgba(156,114,224,.04));border:1px solid rgba(240,160,200,.25);border-radius:14px;padding:16px 18px;margin-bottom:18px;">
+      <div style="font-family:'Noto Serif JP',serif;font-size:1rem;color:#f0a0c8;margin-bottom:10px;">👥 PPI（Patient and Public Involvement）記録</div>
+      <div style="font-size:.7rem;color:rgba(170,188,216,.6);margin-bottom:12px;line-height:1.7;">
+        当事者・経験者ヒアリングや共同設計セッションのログ。論文・倫理申請に必要な「PPI実施記録」をここに残せます。
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <input type="date" id="ppi-date" style="background:rgba(255,255,255,.05);border:1px solid rgba(240,160,200,.25);color:#e8e4d4;border-radius:7px;padding:7px;font-family:inherit;font-size:.78rem;">
+        <select id="ppi-type" style="background:rgba(255,255,255,.05);border:1px solid rgba(240,160,200,.25);color:#e8e4d4;border-radius:7px;padding:7px;font-family:inherit;font-size:.78rem;">
+          <option value="">セッション種別</option>
+          <option value="hearing">経験者ヒアリング</option>
+          <option value="codesign">共同設計セッション</option>
+          <option value="usability">ユーザビリティテスト</option>
+          <option value="advisory">アドバイザリーボード</option>
+          <option value="feedback">フィードバック収集</option>
+        </select>
+      </div>
+      <input type="text" id="ppi-participants" placeholder="参加者（匿名OK・例: AYA経験者3名・保護者2名）" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(240,160,200,.25);color:#e8e4d4;border-radius:7px;padding:7px 10px;font-family:inherit;font-size:.78rem;margin-bottom:8px;">
+      <textarea id="ppi-notes" placeholder="議題・出された意見・反映方針（要点で可）" rows="3" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(240,160,200,.25);color:#e8e4d4;border-radius:7px;padding:7px 10px;font-family:inherit;font-size:.78rem;line-height:1.7;outline:none;resize:vertical;"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="btn-sm" id="ppi-save-btn" style="border-color:rgba(240,160,200,.5);color:#f0a0c8;">💾 記録を保存</button>
+        <button class="btn-sm" id="ppi-export-btn" style="border-color:rgba(240,160,200,.3);color:rgba(240,160,200,.7);">⬇ PPIログ CSV</button>
+      </div>
+      <div id="ppi-list" style="margin-top:12px;font-size:.7rem;max-height:200px;overflow-y:auto;"></div>
+    </div>
+
     <!-- タブ -->
     <div class="tabs">
       <button class="tab active" data-tab="quest">クエスト記録</button>
       <button class="tab" data-tab="nutrition">栄養記録</button>
       <button class="tab" data-tab="qol">QOL記録</button>
       <button class="tab" data-tab="qol-daily" style="border-color:rgba(78,201,138,.3);color:#a8e8c0;">毎日QOL</button>
+      <button class="tab" data-tab="baseline" style="border-color:rgba(240,212,138,.4);color:#f0d48a;">📋 ベースライン</button>
+      <button class="tab" data-tab="weekly" style="border-color:rgba(192,160,240,.4);color:#c0a0f0;">📊 週次PROMs</button>
+      <button class="tab" data-tab="milestone" style="border-color:rgba(240,180,80,.4);color:#f0c060;">🎓 マイルストーン</button>
       <button class="tab" data-tab="body">体組成記録</button>
       <button class="tab" data-tab="coach" style="border-color:rgba(156,114,224,.3);color:#c0a0f0;">AIコーチ会話</button>
       <button class="tab" data-tab="profiles">参加者プロフィール</button>
+    </div>
+
+    <!-- ベースラインテーブル -->
+    <div id="tab-baseline" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:.72rem;color:rgba(170,188,216,.55);">研究開始時アセスメント（全6セクション）</div>
+        <button class="btn-sm" id="export-baseline-btn">⬇ CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>研究ID</th><th>年齢</th><th>性別</th><th>診断時年齢</th><th>治療終了</th><th>治療内容</th>
+            <th>BMI</th><th>運動(中強度日)</th><th>運動(高強度日)</th>
+            <th>野菜頻度</th><th>魚頻度</th><th>大豆頻度</th>
+            <th>疲労</th><th>睡眠</th><th>不安</th><th>抑うつ</th><th>身体機能</th>
+            <th>SE運動</th><th>SE栄養</th><th>SE管理</th><th>動機</th><th>記録日時</th>
+          </tr></thead>
+          <tbody id="baseline-tbody"><tr><td colspan="22" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 週次PROMsテーブル -->
+    <div id="tab-weekly" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:.72rem;color:rgba(170,188,216,.55);">週次PROMs（PROMIS-29ベース・6項目・1〜5）</div>
+        <button class="btn-sm" id="export-weekly-btn">⬇ CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>研究ID</th><th>週番号</th>
+            <th>疲労</th><th>睡眠</th><th>抑うつ</th><th>不安</th><th>自己効力</th><th>体調総合</th>
+            <th>記録日時</th>
+          </tr></thead>
+          <tbody id="weekly-tbody"><tr><td colspan="9" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- マイルストーンテーブル -->
+    <div id="tab-milestone" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:.72rem;color:rgba(170,188,216,.55);">中間（6週）・最終（12週）評価＋うけいれ性（uMARS）</div>
+        <button class="btn-sm" id="export-milestone-btn">⬇ CSVエクスポート</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>研究ID</th><th>時点</th>
+            <th>疲労</th><th>睡眠</th><th>不安</th><th>抑うつ</th><th>身体機能</th>
+            <th>SE運動</th><th>SE栄養</th><th>SE管理</th>
+            <th>uMARS-Eng</th><th>uMARS-Func</th><th>uMARS-Aes</th><th>uMARS-Info</th><th>uMARS-Behav</th><th>uMARS-Rec</th>
+            <th>フィードバック</th><th>記録日時</th>
+          </tr></thead>
+          <tbody id="milestone-tbody"><tr><td colspan="18" class="loading-msg">読み込み中...</td></tr></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- クエストテーブル -->
@@ -315,8 +492,9 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['quest','nutrition','qol','qol-daily','body','coach','profiles'].forEach(id=>{
-      document.getElementById('tab-'+id).classList.toggle('hidden', id!==t.dataset.tab);
+    ['quest','nutrition','qol','qol-daily','baseline','weekly','milestone','body','coach','profiles'].forEach(id=>{
+      const el=document.getElementById('tab-'+id);
+      if(el) el.classList.toggle('hidden', id!==t.dataset.tab);
     });
   });
 });
@@ -357,13 +535,16 @@ onAuthStateChanged(auth, user=>{
 
 async function loadData(){
   try{
-    const [questSnap, nutrSnap, bodySnap, profSnap, coachSnap, qolSnap] = await Promise.all([
+    const [questSnap, nutrSnap, bodySnap, profSnap, coachSnap, qolSnap, baselineSnap, weeklySnap, milestoneSnap] = await Promise.all([
       getDocs(query(collection(db,'quest_records'),   orderBy('savedAt','desc'))),
       getDocs(query(collection(db,'nutrition_records'),orderBy('savedAt','desc'))),
       getDocs(query(collection(db,'body_records'),    orderBy('savedAt','desc'))),
       getDocs(collection(db,'profiles')),
       getDocs(query(collection(db,'coach_sessions'),  orderBy('ts','desc'))).catch(()=>({docs:[]})),
       getDocs(query(collection(db,'qol_records'),     orderBy('ts','desc'))).catch(()=>({docs:[]})),
+      getDocs(collection(db,'baseline_assessments')).catch(()=>({docs:[]})),
+      getDocs(collection(db,'weekly_surveys')).catch(()=>({docs:[]})),
+      getDocs(collection(db,'milestone_assessments')).catch(()=>({docs:[]})),
     ]);
 
     const questDocs = questSnap.docs.map(d=>d.data());
@@ -372,7 +553,12 @@ async function loadData(){
     const profDocs  = profSnap.docs.map(d=>d.data());
     const coachDocs = coachSnap.docs.map(d=>d.data());
     const qolDailyDocs = qolSnap.docs.map(d=>d.data());
+    const baselineDocs = baselineSnap.docs.map(d=>d.data());
+    const weeklyDocs = weeklySnap.docs.map(d=>d.data());
+    const milestoneDocs = milestoneSnap.docs.map(d=>d.data());
     _questData=questDocs; _nutrData=nutrDocs; _bodyData=bodyDocs; _coachData=coachDocs; _qolDailyData=qolDailyDocs;
+    _baselineData=baselineDocs; _weeklyData=weeklyDocs; _milestoneData=milestoneDocs;
+    renderResearchTabs(baselineDocs, weeklyDocs, milestoneDocs, profDocs);
 
     // サマリ
     const uids=new Set([...questDocs.map(d=>d.uid),...nutrDocs.map(d=>d.uid),...coachDocs.map(d=>d.uid)]);
@@ -594,6 +780,576 @@ function downloadCSV(filename, csv){
   a.download=filename; a.click(); URL.revokeObjectURL(a.href);
 }
 let _questData=[], _nutrData=[], _bodyData=[], _coachData=[], _qolDailyData=[];
+let _baselineData=[], _weeklyData=[], _milestoneData=[];
+
+// ========== 研究設計ツール ==========
+
+// サンプルサイズ計算（独立2標本t検定・Cohen's d）
+function calcSampleSize(){
+  const d = parseFloat(document.getElementById('ssc-d').value)||0.5;
+  const power = parseFloat(document.getElementById('ssc-power').value)||0.8;
+  const alpha = parseFloat(document.getElementById('ssc-alpha').value)||0.05;
+  const dropout = parseFloat(document.getElementById('ssc-dropout').value)||0.2;
+  // z_alpha/2（両側）と z_beta
+  const zAlpha = inverseNormal(1 - alpha/2);
+  const zBeta  = inverseNormal(power);
+  // n per group = 2 * ((z_alpha + z_beta)/d)^2
+  const nPerGroup = Math.ceil(2 * Math.pow((zAlpha + zBeta)/d, 2));
+  const adjusted = Math.ceil(nPerGroup / (1 - dropout));
+  document.getElementById('ssc-result').innerHTML = `
+    各群 <strong style="color:#f0d48a;">${nPerGroup}名</strong>（脱落補正後 <strong style="color:#a8e8c0;">${adjusted}名</strong>）
+    <br><span style="font-size:.6rem;color:rgba(170,188,216,.5);">2群比較の場合、合計${adjusted*2}名以上</span>
+  `;
+}
+// 簡易逆正規分布（Beasley-Springer-Moro近似）
+function inverseNormal(p){
+  if(p<=0||p>=1) return 0;
+  const a=[-3.969683028665376e+01,2.209460984245205e+02,-2.759285104469687e+02,1.383577518672690e+02,-3.066479806614716e+01,2.506628277459239e+00];
+  const b=[-5.447609879822406e+01,1.615858368580409e+02,-1.556989798598866e+02,6.680131188771972e+01,-1.328068155288572e+01];
+  const c=[-7.784894002430293e-03,-3.223964580411365e-01,-2.400758277161838e+00,-2.549732539343734e+00,4.374664141464968e+00,2.938163982698783e+00];
+  const d_=[7.784695709041462e-03,3.224671290700398e-01,2.445134137142996e+00,3.754408661907416e+00];
+  const pLow=0.02425, pHigh=1-pLow;
+  let q,r;
+  if(p<pLow){
+    q=Math.sqrt(-2*Math.log(p));
+    return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d_[0]*q+d_[1])*q+d_[2])*q+d_[3])*q+1);
+  }
+  if(p<=pHigh){
+    q=p-0.5; r=q*q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+  q=Math.sqrt(-2*Math.log(1-p));
+  return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d_[0]*q+d_[1])*q+d_[2])*q+d_[3])*q+1);
+}
+// 入力変更で再計算
+['ssc-d','ssc-power','ssc-alpha','ssc-dropout'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', calcSampleSize);
+});
+calcSampleSize();
+
+// 統計分析: 対応のあるt検定
+function pairedTTest(pairs){
+  // pairs: [{pre: number, post: number}]
+  const valid = pairs.filter(p => Number.isFinite(p.pre) && Number.isFinite(p.post));
+  const n = valid.length;
+  if(n < 2) return null;
+  const diffs = valid.map(p => p.post - p.pre);
+  const mean = diffs.reduce((a,b)=>a+b,0) / n;
+  const sd = Math.sqrt(diffs.reduce((a,b)=>a+(b-mean)**2,0) / (n-1));
+  const se = sd / Math.sqrt(n);
+  const t = mean / (se || 1);
+  // Cohen's dz（対応のある場合の効果量）
+  const dz = mean / (sd || 1);
+  // 片側 p-value（自由度 n-1, t分布の近似）
+  const df = n - 1;
+  const p = 2 * (1 - studentT_CDF(Math.abs(t), df));
+  return { n, mean, sd, t, df, p, dz };
+}
+// Student's t 累積分布関数（簡易近似）
+function studentT_CDF(t, df){
+  // df→∞ で正規分布になる近似
+  const x = df / (df + t*t);
+  // 不完全ベータ関数の近似（df>=5で十分）
+  let result = 1 - 0.5 * regBetaInc(df/2, 0.5, x);
+  return t >= 0 ? result : 1 - result;
+}
+function regBetaInc(a,b,x){
+  // 簡易ベータ関数（B(a,b,x)）— Press et al. 数値計算レシピ近似
+  if(x<=0) return 0; if(x>=1) return 1;
+  const bt = Math.exp(logGamma(a+b) - logGamma(a) - logGamma(b) + a*Math.log(x) + b*Math.log(1-x));
+  if(x < (a+1)/(a+b+2)) return bt * betaCF(a,b,x) / a;
+  else return 1 - bt * betaCF(b,a,1-x) / b;
+}
+function betaCF(a,b,x){
+  const MAXIT=100, EPS=3e-7, FPMIN=1e-30;
+  let qab=a+b, qap=a+1, qam=a-1;
+  let c=1, d=1-qab*x/qap;
+  if(Math.abs(d)<FPMIN) d=FPMIN;
+  d=1/d; let h=d;
+  for(let m=1;m<=MAXIT;m++){
+    let m2=2*m;
+    let aa=m*(b-m)*x/((qam+m2)*(a+m2));
+    d=1+aa*d; if(Math.abs(d)<FPMIN) d=FPMIN;
+    c=1+aa/c; if(Math.abs(c)<FPMIN) c=FPMIN;
+    d=1/d; h*=d*c;
+    aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));
+    d=1+aa*d; if(Math.abs(d)<FPMIN) d=FPMIN;
+    c=1+aa/c; if(Math.abs(c)<FPMIN) c=FPMIN;
+    d=1/d; let del=d*c; h*=del;
+    if(Math.abs(del-1)<EPS) break;
+  }
+  return h;
+}
+function logGamma(x){
+  const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.1208650973866179e-2,-0.5395239384953e-5];
+  let y=x, tmp=x+5.5;
+  tmp-=(x+0.5)*Math.log(tmp);
+  let ser=1.000000000190015;
+  for(let j=0;j<6;j++){y+=1; ser+=c[j]/y;}
+  return -tmp+Math.log(2.5066282746310005*ser/x);
+}
+
+function renderStatResults(baseline, milestone){
+  const el = document.getElementById('stat-results');
+  if(!el) return;
+  if(baseline.length===0){ el.textContent='ベースライン記録待ち'; return; }
+  // ペア作成（uid一致）
+  const blMap = {};
+  baseline.forEach(b=>{ if(b.uid) blMap[b.uid] = b; });
+  const endpoints = milestone.filter(m=>m.type==='endpoint');
+  if(endpoints.length === 0){ el.textContent='12週評価記録待ち（最低1名）'; return; }
+
+  const measures = [
+    { key: 'fatigue',     label: '疲労感',   getBl: b=>b.step4?.fatigue,    getMl: m=>m.fatigue },
+    { key: 'sleep',       label: '睡眠の質', getBl: b=>b.step4?.sleepQ,     getMl: m=>m.sleep },
+    { key: 'anxiety',     label: '不安',     getBl: b=>b.step4?.anxiety,    getMl: m=>m.anxiety },
+    { key: 'depression',  label: '抑うつ',   getBl: b=>b.step4?.depression, getMl: m=>m.depression },
+    { key: 'phys-func',   label: '身体機能', getBl: b=>b.step4?.physFunc,   getMl: m=>m['phys-func'] },
+    { key: 'se-exercise', label: 'SE運動',   getBl: b=>b.step5?.seExercise, getMl: m=>m['se-exercise'] },
+    { key: 'se-nutrition',label: 'SE栄養',   getBl: b=>b.step5?.seNutrition,getMl: m=>m['se-nutrition'] },
+  ];
+  let html = '<table style="width:100%;font-size:.65rem;border-collapse:collapse;"><thead><tr style="border-bottom:1px solid rgba(168,200,240,.3);"><th style="text-align:left;padding:3px;">測定項目</th><th style="padding:3px;">N</th><th style="padding:3px;">変化量(M±SD)</th><th style="padding:3px;">t</th><th style="padding:3px;">p</th><th style="padding:3px;">d_z</th></tr></thead><tbody>';
+  measures.forEach(meas=>{
+    const pairs = endpoints.map(m=>{
+      const bl = blMap[m.uid];
+      if(!bl) return null;
+      return { pre: meas.getBl(bl), post: meas.getMl(m) };
+    }).filter(Boolean);
+    const r = pairedTTest(pairs);
+    if(!r){ html += `<tr><td>${meas.label}</td><td colspan="5" style="color:rgba(170,188,216,.5);">N不足</td></tr>`; return; }
+    const sig = r.p < 0.001 ? '***' : r.p < 0.01 ? '**' : r.p < 0.05 ? '*' : '';
+    const effLbl = Math.abs(r.dz) >= 0.8 ? '大' : Math.abs(r.dz) >= 0.5 ? '中' : Math.abs(r.dz) >= 0.2 ? '小' : '微';
+    const color = r.p < 0.05 ? '#a8e8c0' : 'rgba(220,225,245,.85)';
+    html += `<tr style="color:${color};border-bottom:1px solid rgba(255,255,255,.04);"><td style="padding:3px;">${meas.label}</td><td style="padding:3px;text-align:center;">${r.n}</td><td style="padding:3px;text-align:center;">${r.mean.toFixed(2)}±${r.sd.toFixed(2)}</td><td style="padding:3px;text-align:center;">${r.t.toFixed(2)}</td><td style="padding:3px;text-align:center;">${r.p.toFixed(3)}${sig}</td><td style="padding:3px;text-align:center;">${r.dz.toFixed(2)}(${effLbl})</td></tr>`;
+  });
+  html += '</tbody></table>';
+  html += '<div style="font-size:.55rem;color:rgba(170,188,216,.5);margin-top:6px;">* p&lt;.05  ** p&lt;.01  *** p&lt;.001 ｜ d_z=対応のある効果量（0.2小・0.5中・0.8大）</div>';
+  el.innerHTML = html;
+}
+
+function renderAdherenceDist(weekly, quest, nutr, baseline){
+  const el = document.getElementById('adherence-dist');
+  if(!el) return;
+  // ユーザーごとに「12週間中、何週で記録があったか」を計算
+  const baseUids = new Set(baseline.map(b=>b.uid));
+  const wkRecords = {}; // uid -> Set of weekKeys
+  [...quest, ...nutr].forEach(d=>{
+    if(!d.uid || !d.weekKey) return;
+    if(!wkRecords[d.uid]) wkRecords[d.uid] = new Set();
+    wkRecords[d.uid].add(d.weekKey);
+  });
+  // 集計
+  const buckets = { high:0, med:0, low:0, none:0 };
+  baseUids.forEach(u=>{
+    const n = wkRecords[u] ? wkRecords[u].size : 0;
+    const pct = (n/12)*100;
+    if(pct >= 75) buckets.high++;
+    else if(pct >= 25) buckets.med++;
+    else if(pct >= 1) buckets.low++;
+    else buckets.none++;
+  });
+  const total = baseUids.size || 1;
+  el.innerHTML = `
+    <table style="width:100%;font-size:.65rem;">
+      <tr><td>高（≥75%）</td><td style="text-align:right;color:#a8e8c0;font-weight:700;">${buckets.high}名 (${Math.round(buckets.high/total*100)}%)</td></tr>
+      <tr><td>中（25-74%）</td><td style="text-align:right;color:#f0d48a;font-weight:700;">${buckets.med}名 (${Math.round(buckets.med/total*100)}%)</td></tr>
+      <tr><td>低（1-24%）</td><td style="text-align:right;color:#f0c060;font-weight:700;">${buckets.low}名 (${Math.round(buckets.low/total*100)}%)</td></tr>
+      <tr><td>未記録</td><td style="text-align:right;color:#f0a0a0;font-weight:700;">${buckets.none}名 (${Math.round(buckets.none/total*100)}%)</td></tr>
+    </table>
+    <div style="font-size:.55rem;color:rgba(170,188,216,.5);margin-top:6px;">対象: ベースライン回答済み ${total}名</div>
+  `;
+}
+
+function renderStageDist(baseline){
+  const el = document.getElementById('stage-dist');
+  if(!el) return;
+  const labels = {
+    precontemplation:'前熟考期',
+    contemplation:'熟考期',
+    preparation:'準備期',
+    action:'実行期',
+    maintenance:'維持期',
+  };
+  const counts = {};
+  baseline.forEach(b=>{
+    const s = b.step1?.stage;
+    if(s){ counts[s] = (counts[s]||0)+1; }
+  });
+  const keys = Object.keys(labels);
+  if(Object.keys(counts).length === 0){
+    el.innerHTML = '<span style="color:rgba(170,188,216,.55);">記録待ち</span>';
+    return;
+  }
+  el.innerHTML = '<table style="width:100%;font-size:.65rem;">' +
+    keys.map(k=>`<tr><td>${labels[k]}</td><td style="text-align:right;color:#c0a0f0;font-weight:700;">${counts[k]||0}名</td></tr>`).join('') +
+    '</table>';
+}
+
+// K-匿名化エクスポート
+document.getElementById('kanon-export-btn')?.addEventListener('click', ()=>{
+  const target = document.getElementById('kanon-target').value;
+  const k = parseInt(document.getElementById('kanon-k').value)||3;
+  const jitter = parseInt(document.getElementById('kanon-jitter').value)||0;
+  const status = document.getElementById('kanon-status');
+  const dataMap = { baseline:_baselineData, weekly:_weeklyData, milestone:_milestoneData, qol:_qolDailyData };
+  const data = dataMap[target] || [];
+  if(data.length === 0){ alert('対象データがありません'); return; }
+
+  // 行を平坦化
+  let rows = [];
+  if(target === 'baseline'){
+    rows = data.map(b=>{
+      const s1=b.step1||{}, s4=b.step4||{}, s5=b.step5||{};
+      return {
+        uid_hash: 'R' + (b.uid||'').slice(0,4).toUpperCase(),
+        age_band: s1.age ? Math.floor(s1.age/5)*5+'-'+(Math.floor(s1.age/5)*5+4) : '?',
+        sex: s1.sex||'?',
+        post_tx_band: s1.postTxYrs!=null ? Math.floor(s1.postTxYrs/3)*3+'-'+(Math.floor(s1.postTxYrs/3)*3+2)+'年' : '?',
+        bmi_band: (s1.height && s1.weight) ? (function(){ const b = s1.weight/((s1.height/100)**2); if(b<18.5)return '<18.5'; if(b<25)return '18.5-24.9'; if(b<30)return '25-29.9'; return '≥30'; })() : '?',
+        fatigue:s4.fatigue, sleepQ:s4.sleepQ, anxiety:s4.anxiety, depression:s4.depression,
+        seExercise:s5.seExercise, seNutrition:s5.seNutrition, seControl:s5.seControl,
+        ts: b.completedAt,
+      };
+    });
+  } else if(target === 'weekly'){
+    rows = data.map(w=>({
+      uid_hash:'R'+(w.uid||'').slice(0,4).toUpperCase(),
+      week_num:w.weekNum, fatigue:w.fatigue, sleep:w.sleep, anxiety:w.anxiety, depression:w.depression,
+      self_eff:w['self-eff'], global:w.global, ts:w.completedAt,
+    }));
+  } else if(target === 'milestone'){
+    rows = data.map(m=>({
+      uid_hash:'R'+(m.uid||'').slice(0,4).toUpperCase(),
+      type:m.type, fatigue:m.fatigue, sleep:m.sleep, anxiety:m.anxiety, depression:m.depression,
+      phys_func:m['phys-func'], se_exercise:m['se-exercise'], se_nutrition:m['se-nutrition'], ts:m.completedAt,
+    }));
+  } else if(target === 'qol'){
+    rows = data.map(q=>({
+      uid_hash:'R'+(q.uid||'').slice(0,4).toUpperCase(),
+      week:q.week, condition:q.condition, mood:q.mood, energy:q.energy, ts: q.date||q.ts,
+    }));
+  }
+
+  // 時刻ジッター
+  if(jitter > 0){
+    rows.forEach(r=>{
+      if(r.ts){
+        const d = new Date(r.ts);
+        if(!isNaN(d)){
+          const offsetMs = (Math.random()-0.5)*2*jitter*86400000;
+          r.ts = new Date(d.getTime()+offsetMs).toISOString().slice(0,10);
+        }
+      }
+    });
+  }
+
+  // K-匿名化：同じ属性組合せ（quasi-identifiers）の頻度を計算し、k未満は除外
+  const quasi = target === 'baseline' ? ['age_band','sex','post_tx_band','bmi_band']
+              : target === 'weekly' ? ['week_num']
+              : target === 'milestone' ? ['type']
+              : ['week'];
+  const counts = {};
+  rows.forEach(r=>{
+    const key = quasi.map(q=>r[q]).join('|');
+    counts[key] = (counts[key]||0)+1;
+  });
+  const filtered = rows.filter(r=>{
+    const key = quasi.map(q=>r[q]).join('|');
+    return counts[key] >= k;
+  });
+  const removed = rows.length - filtered.length;
+
+  if(filtered.length === 0){
+    alert(`k=${k}を満たすレコードがありません（全${rows.length}件除外）。\nkを下げるか、データを増やしてください。`);
+    return;
+  }
+
+  // CSVに出力
+  const headers = Object.keys(filtered[0]);
+  const csv = [headers.join(',')]
+    .concat(filtered.map(r=>headers.map(h=>`"${String(r[h]||'').replace(/"/g,'""')}"`).join(',')))
+    .join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `kanon_${target}_k${k}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  status.innerHTML = `✓ ${filtered.length}件を出力（${removed}件は k=${k} 未達のため除外）`;
+});
+
+// PPI記録
+function loadPPILogs(){
+  try{ return JSON.parse(localStorage.getItem('vt_admin_ppi_logs')||'[]'); }catch(e){ return []; }
+}
+function savePPILogs(logs){
+  localStorage.setItem('vt_admin_ppi_logs', JSON.stringify(logs.slice(0,100)));
+}
+function renderPPIList(){
+  const el = document.getElementById('ppi-list');
+  if(!el) return;
+  const logs = loadPPILogs();
+  if(logs.length === 0){
+    el.innerHTML = '<div style="color:rgba(170,188,216,.45);font-size:.65rem;text-align:center;padding:14px;">PPIログはまだありません</div>';
+    return;
+  }
+  el.innerHTML = logs.map(l=>`
+    <div style="background:rgba(0,0,0,.25);border-left:2.5px solid rgba(240,160,200,.5);border-radius:6px;padding:9px 11px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:rgba(240,160,200,.85);font-weight:700;margin-bottom:3px;">
+        <span>${l.date} · ${l.type||'-'}</span>
+        <span style="color:rgba(170,188,216,.45);font-weight:400;">${l.participants||'-'}</span>
+      </div>
+      <div style="font-size:.7rem;color:rgba(220,225,245,.85);line-height:1.65;white-space:pre-wrap;">${l.notes||''}</div>
+    </div>
+  `).join('');
+}
+document.getElementById('ppi-save-btn')?.addEventListener('click', ()=>{
+  const date = document.getElementById('ppi-date').value;
+  const type = document.getElementById('ppi-type').value;
+  const participants = document.getElementById('ppi-participants').value.trim();
+  const notes = document.getElementById('ppi-notes').value.trim();
+  if(!date || !type || !notes){ alert('日付・種別・記録は必須です'); return; }
+  const logs = loadPPILogs();
+  logs.unshift({ date, type, participants, notes, savedAt: new Date().toISOString() });
+  savePPILogs(logs);
+  document.getElementById('ppi-notes').value = '';
+  document.getElementById('ppi-participants').value = '';
+  renderPPIList();
+});
+document.getElementById('ppi-export-btn')?.addEventListener('click', ()=>{
+  const logs = loadPPILogs();
+  if(logs.length === 0){ alert('PPIログがありません'); return; }
+  const rows = [['date','type','participants','notes','saved_at']];
+  logs.forEach(l=>rows.push([l.date,l.type,l.participants,(l.notes||'').replace(/[\r\n]/g,' '),l.savedAt]));
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ppi_logs_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+});
+// 起動時に表示
+renderPPIList();
+
+function renderQualityFlags(quest, nutr, qol, weekly){
+  const el = document.getElementById('quality-flags');
+  if(!el) return;
+  const flags = [];
+  // Quest: BMI が極端な値（<14 or >40）
+  quest.forEach(q=>{
+    if(q.bmi && (q.bmi < 14 || q.bmi > 40)) flags.push({type:'極端BMI', uid:q.uid, value:q.bmi.toFixed(1), wk:q.weekKey});
+  });
+  // Quest: 1週で1000分超え（疑わしい）
+  quest.forEach(q=>{
+    if(q.totalScore && q.totalScore > 1000) flags.push({type:'過大運動量', uid:q.uid, value:q.totalScore+'分', wk:q.weekKey});
+  });
+  // 同じ値の連発（QOL記録で同じ値を5日以上連続）
+  const qolByUid = {};
+  qol.forEach(r=>{
+    if(!r.uid || !r.date) return;
+    if(!qolByUid[r.uid]) qolByUid[r.uid] = [];
+    qolByUid[r.uid].push(r);
+  });
+  Object.entries(qolByUid).forEach(([uid,arr])=>{
+    arr.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+    let lastTotal = null, run = 0;
+    arr.forEach(r=>{
+      const t = (r.condition||0)+(r.mood||0)+(r.energy||0);
+      if(t === lastTotal) run++;
+      else { lastTotal = t; run = 1; }
+      if(run === 5){ flags.push({type:'同値連続(QOL)', uid, value:`合計${t}×5日`, wk:r.date}); run = 6; }
+    });
+  });
+  // 週次サーベイ未記録（複数週欠損）
+  const wkByUid = {};
+  weekly.forEach(w=>{
+    if(!w.uid) return;
+    if(!wkByUid[w.uid]) wkByUid[w.uid] = new Set();
+    wkByUid[w.uid].add(w.weekNum);
+  });
+  Object.entries(wkByUid).forEach(([uid,set])=>{
+    if(set.size > 0 && set.size < 3) flags.push({type:'週次調査未完', uid, value:`${set.size}/12週`, wk:'-'});
+  });
+
+  if(flags.length === 0){
+    el.innerHTML = '<span style="color:rgba(168,232,192,.85);">⚑ 全データ品質OK</span>';
+    return;
+  }
+  el.innerHTML = '<table style="width:100%;font-size:.62rem;"><tbody>' +
+    flags.slice(0,15).map(f=>`<tr><td style="color:#f0c060;padding:2px 4px;">⚑ ${f.type}</td><td style="padding:2px 4px;">${(f.uid||'?').slice(0,6)}</td><td style="padding:2px 4px;color:rgba(220,225,245,.7);">${f.value}</td><td style="padding:2px 4px;color:rgba(170,188,216,.5);">${f.wk}</td></tr>`).join('') +
+    `</tbody></table>${flags.length>15?`<div style="font-size:.55rem;color:rgba(170,188,216,.5);">他${flags.length-15}件…</div>`:''}`;
+}
+
+// 研究タブのレンダリング
+function renderResearchTabs(baseline, weekly, milestone, profiles){
+  // 研究IDマップ
+  const idMap = {};
+  profiles.forEach(p=>{ if(p.uid) idMap[p.uid] = p.researchId || ('R'+(p.uid||'').slice(0,5).toUpperCase()); });
+
+  // ベースライン
+  const blBody = document.getElementById('baseline-tbody');
+  if(blBody){
+    if(baseline.length===0){
+      blBody.innerHTML = '<tr><td colspan="22" class="loading-msg">記録がまだありません</td></tr>';
+    } else {
+      blBody.innerHTML = baseline.map(b=>{
+        const s1=b.step1||{}, s2=b.step2||{}, s3=b.step3||{}, s4=b.step4||{}, s5=b.step5||{}, s6=b.step6||{};
+        const bmi = s1.height && s1.weight ? (s1.weight/((s1.height/100)**2)).toFixed(1) : '—';
+        return `<tr>
+          <td>${idMap[b.uid]||'?'}</td>
+          <td>${s1.age||''}</td><td>${s1.sex||''}</td><td>${s1.dxAge||''}</td><td>${s1.postTxYrs||''}</td>
+          <td>${(s1.tx||[]).join(',')}</td><td>${bmi}</td>
+          <td>${s2.ipaqVigDays??''}</td><td>${s2.ipaqModDays??''}</td>
+          <td>${s3.vegFreq||''}</td><td>${s3.fishFreq||''}</td><td>${s3.soyFreq||''}</td>
+          <td>${s4.fatigue||''}</td><td>${s4.sleepQ||''}</td><td>${s4.anxiety||''}</td><td>${s4.depression||''}</td><td>${s4.physFunc||''}</td>
+          <td>${s5.seExercise||''}</td><td>${s5.seNutrition||''}</td><td>${s5.seControl||''}</td>
+          <td>${s6.motivation||''}</td><td>${b.completedAt||''}</td>
+        </tr>`;
+      }).join('');
+    }
+  }
+
+  // 週次
+  const wkBody = document.getElementById('weekly-tbody');
+  if(wkBody){
+    if(weekly.length===0){
+      wkBody.innerHTML = '<tr><td colspan="9" class="loading-msg">記録がまだありません</td></tr>';
+    } else {
+      const sorted = [...weekly].sort((a,b)=>(a.uid||'').localeCompare(b.uid||'') || (a.weekNum||0)-(b.weekNum||0));
+      wkBody.innerHTML = sorted.map(w=>`<tr>
+        <td>${idMap[w.uid]||'?'}</td><td>W${w.weekNum||''}</td>
+        <td>${w.fatigue||''}</td><td>${w.sleep||''}</td><td>${w.depression||''}</td><td>${w.anxiety||''}</td>
+        <td>${w['self-eff']||''}</td><td>${w.global||''}</td>
+        <td>${w.completedAt||''}</td>
+      </tr>`).join('');
+    }
+  }
+
+  // マイルストーン
+  const mlBody = document.getElementById('milestone-tbody');
+  if(mlBody){
+    if(milestone.length===0){
+      mlBody.innerHTML = '<tr><td colspan="18" class="loading-msg">記録がまだありません</td></tr>';
+    } else {
+      mlBody.innerHTML = milestone.map(m=>`<tr>
+        <td>${idMap[m.uid]||'?'}</td><td>${m.type||''}</td>
+        <td>${m.fatigue||''}</td><td>${m.sleep||''}</td><td>${m.anxiety||''}</td><td>${m.depression||''}</td><td>${m['phys-func']||''}</td>
+        <td>${m['se-exercise']||''}</td><td>${m['se-nutrition']||''}</td><td>${m['se-control']||''}</td>
+        <td>${m['uMARS-engagement']||''}</td><td>${m['uMARS-functionality']||''}</td><td>${m['uMARS-aesthetics']||''}</td>
+        <td>${m['uMARS-info']||''}</td><td>${m['uMARS-behavior']||''}</td><td>${m['uMARS-recommend']||''}</td>
+        <td style="max-width:200px;font-size:.65rem;">${(m.feedback||'').slice(0,100)}</td>
+        <td>${m.completedAt||''}</td>
+      </tr>`).join('');
+    }
+  }
+
+  // 統計分析（ベースライン → エンドポイント）
+  renderStatResults(baseline, milestone);
+  // データ品質フラグ
+  renderQualityFlags(_questData, _nutrData, _qolDailyData, weekly);
+  // アドヒアランス分布
+  renderAdherenceDist(weekly, _questData, _nutrData, baseline);
+  // 変化ステージ分布
+  renderStageDist(baseline);
+
+  // ドロップアウトリスク表示（最終ログインからの経過日数で簡易判定）
+  const riskList = document.getElementById('risk-list');
+  if(riskList){
+    const lastByUid = {};
+    [..._questData, ..._nutrData, ..._qolDailyData].forEach(d=>{
+      const ts = d.savedAt || d.ts || '';
+      if(!ts || !d.uid) return;
+      const t = new Date(ts).getTime();
+      if(!lastByUid[d.uid] || t > lastByUid[d.uid]) lastByUid[d.uid] = t;
+    });
+    const now = Date.now();
+    const risks = Object.entries(lastByUid).map(([uid,t])=>{
+      const days = Math.floor((now - t)/86400000);
+      const score = Math.min(100, days*15);
+      return { id: idMap[uid]||uid.slice(0,6), days, score };
+    }).filter(r=>r.score>=50).sort((a,b)=>b.score-a.score).slice(0,10);
+    if(risks.length===0){
+      riskList.innerHTML = '<span style="color:rgba(168,232,192,.65);">高リスク参加者なし</span>';
+    } else {
+      riskList.innerHTML = risks.map(r=>`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);"><span>${r.id}</span><span style="color:#f0a0a0;">${r.days}日 (${r.score})</span></div>`).join('');
+    }
+  }
+
+  // A/B分布表示（profileから arm 情報を集計）
+  const abEl = document.getElementById('ab-dist');
+  if(abEl){
+    // 各 profile.assignments から実験割り当てを集計
+    const counts = {};
+    profiles.forEach(p=>{
+      const a = p.assignments || {};
+      Object.entries(a).forEach(([exp, arm])=>{
+        if(!counts[exp]) counts[exp]={};
+        counts[exp][arm] = (counts[exp][arm]||0)+1;
+      });
+    });
+    const expIds = Object.keys(counts);
+    if(expIds.length === 0){
+      abEl.innerHTML = `<span style="color:rgba(170,188,216,.55);">A/B群はまだ未設定（実装した実験がない）</span>`;
+    } else {
+      abEl.innerHTML = expIds.map(exp=>{
+        const arms = counts[exp];
+        const armStr = Object.entries(arms).map(([k,v])=>`${k}:${v}`).join(' / ');
+        return `<div style="margin-bottom:4px;"><strong>${exp}</strong>: ${armStr}</div>`;
+      }).join('');
+    }
+  }
+}
+
+// CSVエクスポート - 研究タブ
+function exportTabAsCsv(rows, filename){
+  if(rows.length===0){ alert('データがありません'); return; }
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+
+document.getElementById('export-baseline-btn')?.addEventListener('click',()=>{
+  const rows = [['research_id','age','sex','dx_age','post_tx_yrs','tx','height','weight','bmi','ipaq_vig_days','ipaq_mod_days','sedentary','veg_freq','fish_freq','soy_freq','processed_freq','fatigue','sleep_q','anxiety','depression','phys_func','se_exercise','se_nutrition','se_control','motivation','hope','completed_at','instrument_version']];
+  _baselineData.forEach(b=>{
+    const s1=b.step1||{},s2=b.step2||{},s3=b.step3||{},s4=b.step4||{},s5=b.step5||{},s6=b.step6||{};
+    const bmi = s1.height && s1.weight ? (s1.weight/((s1.height/100)**2)).toFixed(1) : '';
+    rows.push([
+      b.researchId||b.uid?.slice(0,6)||'?',
+      s1.age,s1.sex,s1.dxAge,s1.postTxYrs,(s1.tx||[]).join(';'),s1.height,s1.weight,bmi,
+      s2.ipaqVigDays,s2.ipaqModDays,s2.sedentary,
+      s3.vegFreq,s3.fishFreq,s3.soyFreq,s3.processedFreq,
+      s4.fatigue,s4.sleepQ,s4.anxiety,s4.depression,s4.physFunc,
+      s5.seExercise,s5.seNutrition,s5.seControl,
+      s6.motivation,(s6.hope||'').replace(/[\r\n]/g,' '),
+      b.completedAt,b.instrumentVersion
+    ]);
+  });
+  exportTabAsCsv(rows, `baseline_${new Date().toISOString().slice(0,10)}.csv`);
+});
+document.getElementById('export-weekly-btn')?.addEventListener('click',()=>{
+  const rows = [['research_id','week_num','fatigue','sleep','depression','anxiety','self_eff','global','completed_at','instrument_version']];
+  _weeklyData.forEach(w=>{
+    rows.push([w.researchId||w.uid?.slice(0,6)||'?',w.weekNum,w.fatigue,w.sleep,w.depression,w.anxiety,w['self-eff'],w.global,w.completedAt,w.instrumentVersion]);
+  });
+  exportTabAsCsv(rows, `weekly_promis_${new Date().toISOString().slice(0,10)}.csv`);
+});
+document.getElementById('export-milestone-btn')?.addEventListener('click',()=>{
+  const rows = [['research_id','type','fatigue','sleep','anxiety','depression','phys_func','se_exercise','se_nutrition','se_control','umars_engagement','umars_functionality','umars_aesthetics','umars_info','umars_behavior','umars_recommend','feedback','completed_at']];
+  _milestoneData.forEach(m=>{
+    rows.push([
+      m.researchId||m.uid?.slice(0,6)||'?',m.type,
+      m.fatigue,m.sleep,m.anxiety,m.depression,m['phys-func'],
+      m['se-exercise'],m['se-nutrition'],m['se-control'],
+      m['uMARS-engagement'],m['uMARS-functionality'],m['uMARS-aesthetics'],m['uMARS-info'],m['uMARS-behavior'],m['uMARS-recommend'],
+      (m.feedback||'').replace(/[\r\n]/g,' '),m.completedAt
+    ]);
+  });
+  exportTabAsCsv(rows, `milestone_${new Date().toISOString().slice(0,10)}.csv`);
+});
+
 document.getElementById('export-quest-btn').addEventListener('click',()=>{
   if(!_questData.length){ alert('データがありません'); return; }
   const headers=['メール','週','中強度(分)','高強度(分)','合計スコア','目標達成','XP','Lv','歩数','BMI','QOL①体調','QOL②気分','QOL③活力','QOL合計','保存日時'];

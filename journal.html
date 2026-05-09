@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思い出ノート ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+
+header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:32px 20px 80px;}
+.page-title{font-family:'Noto Serif JP',serif;font-size:1.4rem;font-weight:900;color:var(--gold2);margin-bottom:6px;}
+.page-sub{font-size:.72rem;color:rgba(170,188,216,.5);margin-bottom:20px;}
+
+.intro{
+  background:linear-gradient(135deg,rgba(156,114,224,.08),rgba(78,201,138,.04));
+  border:1px solid rgba(156,114,224,.22);border-radius:14px;
+  padding:14px 18px;margin-bottom:22px;font-size:.78rem;line-height:1.75;color:rgba(220,220,250,.85);
+}
+.intro strong{color:#e8d4ff;}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px;}
+.stat-cell{
+  background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.18);
+  border-radius:10px;padding:11px 8px;text-align:center;
+}
+.stat-num{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:var(--gold2);line-height:1;}
+.stat-lbl{font-size:.6rem;color:rgba(170,188,216,.5);margin-top:3px;}
+
+.controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.search-input{
+  flex:1;min-width:160px;background:rgba(20,26,44,.7);border:1px solid rgba(201,168,76,.25);
+  border-radius:10px;padding:9px 14px;color:var(--silver);font-family:inherit;
+  font-size:.82rem;outline:none;
+}
+.search-input:focus{border-color:rgba(201,168,76,.6);}
+.export-btn{
+  background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.3);
+  color:#a8e8c0;font-family:inherit;font-size:.72rem;font-weight:700;
+  padding:0 14px;border-radius:10px;cursor:pointer;
+}
+
+.entry{
+  background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.15);
+  border-radius:12px;padding:14px 16px;margin-bottom:10px;
+  position:relative;
+}
+.entry-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.entry-date{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);}
+.entry-day{font-size:.6rem;color:rgba(170,188,216,.4);margin-left:6px;font-weight:400;}
+.entry-mood{font-size:1.2rem;line-height:1;}
+.entry-text{font-size:.82rem;line-height:1.75;color:rgba(220,225,245,.9);white-space:pre-wrap;}
+.entry-photo{max-width:100%;max-height:280px;border-radius:8px;margin-top:8px;border:1px solid rgba(201,168,76,.25);cursor:pointer;display:block;}
+.entry-photo:hover{filter:brightness(1.05);}
+.entry-tags{font-size:.6rem;color:rgba(168,232,192,.6);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;}
+.entry-tag{background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.2);padding:1px 8px;border-radius:99px;}
+
+.empty{text-align:center;padding:60px 20px;color:rgba(170,188,216,.5);font-size:.85rem;line-height:1.8;}
+.empty-emoji{font-size:2.5rem;margin-bottom:10px;}
+.empty a{color:var(--gold2);text-decoration:underline;}
+
+@media(max-width:480px){
+  .page{padding:24px 14px 60px;}
+  .page-title{font-size:1.18rem;}
+  .stat-num{font-size:1.05rem;}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./settings.html" class="back-btn">設定</a>
+</header>
+
+<main class="page">
+  <h1 class="page-title">📓 思い出ノート</h1>
+  <div class="page-sub">あなたが綴った日々の記録</div>
+
+  <div class="intro">
+    気持ち・体調・できたこと、何でも書いた <strong>「今日のひとこと」</strong> を時系列で振り返れます。<br>
+    記録は端末内に保存され、最大90日分が表示されます。
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num" id="js-total">—</div><div class="stat-lbl">記録数</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-week">—</div><div class="stat-lbl">今週</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-streak">—</div><div class="stat-lbl">最長連続</div></div>
+  </div>
+
+  <div class="controls">
+    <input type="text" class="search-input" id="js-search" placeholder="🔍 言葉で探す">
+    <button class="export-btn" id="js-export">⬇ エクスポート</button>
+  </div>
+
+  <div id="entries-wrap"></div>
+</main>
+
+<script>
+const uid = localStorage.getItem('vitalia_uid_hint') || '';
+const wrap = document.getElementById('entries-wrap');
+
+function loadJournal(){
+  if(!uid){
+    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">🔒</div>ログインしてからご利用ください。<br><a href="./game.html">ホームへ</a></div>`;
+    return;
+  }
+  let arr=[];
+  try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
+  if(arr.length===0){
+    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">📜</div>まだ思い出がありません。<br>QOL記録のときに「今日のひとこと」を書いてみてください。<br><br><a href="./game.html">ホームへ</a></div>`;
+    document.getElementById('js-total').textContent='0';
+    document.getElementById('js-week').textContent='0';
+    document.getElementById('js-streak').textContent='0';
+    return;
+  }
+
+  // 統計
+  const today=new Date().toISOString().slice(0,10);
+  const weekAgo=new Date(Date.now()-7*86400000).toISOString().slice(0,10);
+  const weekCount=arr.filter(e=>e.date>=weekAgo).length;
+
+  // 連続記録（最長）
+  const dates=arr.map(e=>e.date).sort();
+  let maxStreak=0, cur=0, prev=null;
+  dates.forEach(d=>{
+    if(prev){
+      const diff=(new Date(d)-new Date(prev))/86400000;
+      if(diff===1) cur++;
+      else cur=1;
+    } else cur=1;
+    if(cur>maxStreak) maxStreak=cur;
+    prev=d;
+  });
+
+  document.getElementById('js-total').textContent=arr.length;
+  document.getElementById('js-week').textContent=weekCount;
+  document.getElementById('js-streak').textContent=maxStreak;
+
+  renderEntries(arr);
+}
+
+function moodEmoji(v){
+  if(v==null) return '';
+  if(v>=5) return '😄';
+  if(v>=4) return '😊';
+  if(v>=3) return '🙂';
+  if(v>=2) return '😐';
+  return '😞';
+}
+function dayLabel(dateStr){
+  const d=new Date(dateStr);
+  const days=['日','月','火','水','木','金','土'];
+  return days[d.getDay()];
+}
+
+function renderEntries(arr){
+  wrap.innerHTML = arr.map(e=>{
+    const tags=[];
+    if(e.mood!=null) tags.push(`気分${e.mood}`);
+    if(e.condition!=null) tags.push(`体調${e.condition}`);
+    const photoHtml = e.photo ? `<img class="entry-photo" src="${e.photo}" alt="思い出の写真" onclick="openPhotoLightbox(this.src)">` : '';
+    const noteHtml = e.note ? `<div class="entry-text">${escapeHtml(e.note)}</div>` : '';
+    return `
+      <div class="entry">
+        <div class="entry-head">
+          <div>
+            <span class="entry-date">${e.date}</span>
+            <span class="entry-day">(${dayLabel(e.date)})</span>
+          </div>
+          <div class="entry-mood">${moodEmoji(e.mood)}</div>
+        </div>
+        ${noteHtml}
+        ${photoHtml}
+        ${tags.length?`<div class="entry-tags">${tags.map(t=>`<span class="entry-tag">${t}</span>`).join('')}</div>`:''}
+      </div>
+    `;
+  }).join('');
+}
+
+function openPhotoLightbox(src){
+  const lb = document.createElement('div');
+  lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:14px;';
+  lb.innerHTML = `<img src="${src}" style="max-width:100%;max-height:100%;border-radius:8px;">`;
+  lb.addEventListener('click', ()=>lb.remove());
+  document.body.appendChild(lb);
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('js-search').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  let arr=[];
+  try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
+  if(!q){ renderEntries(arr); return; }
+  const filtered = arr.filter(x=>x.note.toLowerCase().includes(q) || x.date.includes(q));
+  if(filtered.length===0){
+    wrap.innerHTML=`<div class="empty"><div class="empty-emoji">🔍</div>「${escapeHtml(q)}」を含む記録は見つかりませんでした。</div>`;
+  } else {
+    renderEntries(filtered);
+  }
+});
+
+document.getElementById('js-export').addEventListener('click', ()=>{
+  let arr=[];
+  try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
+  if(arr.length===0){ alert('エクスポートする記録がありません。'); return; }
+  const csv=['date,note,mood,condition,ts'].concat(
+    arr.map(e=>`"${e.date}","${(e.note||'').replace(/"/g,'""')}","${e.mood||''}","${e.condition||''}","${new Date(e.ts).toISOString()}"`)
+  ).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`journal_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+loadJournal();
+</script>
+</body>
+</html>

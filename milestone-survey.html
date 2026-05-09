@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マイルストーン調査 ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.skip-btn{background:none;border:1px solid rgba(170,188,216,.25);color:rgba(170,188,216,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+.page{max-width:680px;margin:0 auto;padding:20px 18px 100px;}
+.intro{background:linear-gradient(135deg,rgba(240,212,138,.1),rgba(240,212,138,.03));border:1.5px solid rgba(240,212,138,.35);border-radius:14px;padding:18px 20px;margin-bottom:18px;text-align:center;}
+.tp-badge{display:inline-block;background:rgba(240,212,138,.18);border:1px solid rgba(240,212,138,.5);color:var(--gold2);font-size:.6rem;letter-spacing:.18em;font-weight:700;padding:3px 14px;border-radius:99px;margin-bottom:8px;}
+.intro h1{font-family:'Noto Serif JP',serif;font-size:1.25rem;color:var(--gold2);margin-bottom:6px;}
+.intro p{font-size:.78rem;line-height:1.85;color:rgba(220,225,245,.85);}
+.section{background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.18);border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+.section.hidden{display:none;}
+.section-title{font-family:'Noto Serif JP',serif;font-size:1rem;color:var(--gold2);margin-bottom:14px;}
+.section-citation{font-size:.55rem;color:rgba(170,188,216,.4);margin-top:10px;border-left:2px solid rgba(170,188,216,.18);padding-left:8px;line-height:1.5;}
+.q-block{margin-bottom:18px;}.q-block:last-child{margin-bottom:0;}
+.q-text{font-size:.82rem;color:#e8e4d4;font-weight:700;margin-bottom:10px;line-height:1.55;}
+.scale-row{display:flex;gap:5px;}
+.scale-row label{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:rgba(255,255,255,.04);border:1.5px solid rgba(170,188,216,.15);border-radius:9px;padding:9px 4px;font-size:.7rem;color:rgba(220,225,245,.7);}
+.scale-row label:has(input:checked){background:rgba(240,212,138,.18);border-color:var(--gold2);color:var(--gold2);}
+.scale-row input{display:none;}
+.scale-row .scale-num{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;}
+.scale-row .scale-lbl{font-size:.55rem;}
+textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:10px 12px;color:#e8e4d4;font-family:inherit;font-size:.82rem;outline:none;resize:vertical;line-height:1.7;}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(8,11,20,.95);backdrop-filter:blur(12px);border-top:1px solid rgba(201,168,76,.2);padding:12px 18px;text-align:center;z-index:100;}
+.btn-submit{background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;padding:11px 32px;border-radius:10px;cursor:pointer;width:100%;max-width:340px;}
+.btn-submit:disabled{opacity:.4;cursor:not-allowed;}
+.cmp-badge{font-size:.62rem;color:rgba(168,232,192,.85);background:rgba(78,201,138,.1);border:1px solid rgba(78,201,138,.3);border-radius:99px;padding:2px 9px;margin-left:6px;}
+</style>
+<script src="./app-safety.js"></script>
+</head>
+<body>
+<header>
+  <a href="./game.html">⟵ ヴィタリア転生録</a>
+  <a href="./game.html" class="skip-btn">あとで</a>
+</header>
+
+<main class="page">
+  <div class="intro">
+    <div class="tp-badge" id="tp-badge">MILESTONE —</div>
+    <h1 id="intro-title">マイルストーン調査</h1>
+    <p id="intro-desc">研究の重要なポイントです。ベースラインからの変化を測定します。</p>
+  </div>
+
+  <!-- PROMIS-29 風 -->
+  <div class="section">
+    <div class="section-title">📊 健康関連QOL（PROMIS-29短縮版）</div>
+
+    <div class="q-block">
+      <div class="q-text">疲労感の強さ（過去7日間）</div>
+      <div class="scale-row" data-name="fatigue">
+        <label><input type="radio" name="fatigue" value="1"><span class="scale-num">1</span><span class="scale-lbl">なし</span></label>
+        <label><input type="radio" name="fatigue" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="fatigue" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="fatigue" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="fatigue" value="5"><span class="scale-num">5</span><span class="scale-lbl">非常</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">睡眠の質</div>
+      <div class="scale-row" data-name="sleep">
+        <label><input type="radio" name="sleep" value="1"><span class="scale-num">1</span><span class="scale-lbl">悪い</span></label>
+        <label><input type="radio" name="sleep" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="sleep" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="sleep" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="sleep" value="5"><span class="scale-num">5</span><span class="scale-lbl">良い</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">不安</div>
+      <div class="scale-row" data-name="anxiety">
+        <label><input type="radio" name="anxiety" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="anxiety" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="anxiety" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="anxiety" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="anxiety" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">気分の落ち込み</div>
+      <div class="scale-row" data-name="depression">
+        <label><input type="radio" name="depression" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="depression" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="depression" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="depression" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="depression" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">身体機能（日常生活でできること）</div>
+      <div class="scale-row" data-name="phys-func">
+        <label><input type="radio" name="phys-func" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="phys-func" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="phys-func" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="phys-func" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="phys-func" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="section-citation">PROMIS-29 Profile v2.0 を5段階に簡略化</div>
+  </div>
+
+  <!-- 自己効力感 -->
+  <div class="section">
+    <div class="section-title">💪 自己効力感（変化測定）</div>
+    <div class="q-block">
+      <div class="q-text">忙しい時でも、運動習慣を続けられる自信</div>
+      <div class="scale-row" data-name="se-exercise">
+        <label><input type="radio" name="se-exercise" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="se-exercise" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="se-exercise" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="se-exercise" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="se-exercise" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">健康的な食事を選べる自信</div>
+      <div class="scale-row" data-name="se-nutrition">
+        <label><input type="radio" name="se-nutrition" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="se-nutrition" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="se-nutrition" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="se-nutrition" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="se-nutrition" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">自分の健康をコントロールできる感覚</div>
+      <div class="scale-row" data-name="se-control">
+        <label><input type="radio" name="se-control" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="se-control" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="se-control" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="se-control" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="se-control" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- うけいれ性（uMARS型）— エンドポイントのみ -->
+  <div class="section" id="acceptability-section" style="display:none;">
+    <div class="section-title">🎮 アプリの使いやすさ（uMARSベース）<span class="cmp-badge">最終評価のみ</span></div>
+
+    <div class="q-block">
+      <div class="q-text">エンゲージメント — このアプリは楽しかった</div>
+      <div class="scale-row" data-name="uMARS-engagement">
+        <label><input type="radio" name="uMARS-engagement" value="1"><span class="scale-num">1</span><span class="scale-lbl">違う</span></label>
+        <label><input type="radio" name="uMARS-engagement" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="uMARS-engagement" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="uMARS-engagement" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="uMARS-engagement" value="5"><span class="scale-num">5</span><span class="scale-lbl">そう</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">機能性 — 操作はわかりやすかった</div>
+      <div class="scale-row" data-name="uMARS-functionality">
+        <label><input type="radio" name="uMARS-functionality" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="uMARS-functionality" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="uMARS-functionality" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="uMARS-functionality" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="uMARS-functionality" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">美的価値 — デザインや雰囲気は気に入った</div>
+      <div class="scale-row" data-name="uMARS-aesthetics">
+        <label><input type="radio" name="uMARS-aesthetics" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="uMARS-aesthetics" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="uMARS-aesthetics" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="uMARS-aesthetics" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="uMARS-aesthetics" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">情報の質 — 健康情報は信頼できた</div>
+      <div class="scale-row" data-name="uMARS-info">
+        <label><input type="radio" name="uMARS-info" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="uMARS-info" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="uMARS-info" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="uMARS-info" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="uMARS-info" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">行動変容 — 実際に健康習慣が改善した</div>
+      <div class="scale-row" data-name="uMARS-behavior">
+        <label><input type="radio" name="uMARS-behavior" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="uMARS-behavior" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="uMARS-behavior" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="uMARS-behavior" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="uMARS-behavior" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">推奨意向 — 友人にも勧めたい</div>
+      <div class="scale-row" data-name="uMARS-recommend">
+        <label><input type="radio" name="uMARS-recommend" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="uMARS-recommend" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="uMARS-recommend" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="uMARS-recommend" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="uMARS-recommend" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-text">最も役に立った機能・改善してほしい点（自由記述）</div>
+      <textarea id="feedback" rows="4" maxlength="500" placeholder="例: パーティ機能が続けるモチベになった／QOL記録は毎日でなく週1でいいかも"></textarea>
+    </div>
+    <div class="section-citation">uMARS（user version of the Mobile Application Rating Scale）の主要4ドメインを6項目に簡略化</div>
+  </div>
+</main>
+
+<div class="bottom-bar">
+  <button class="btn-submit" id="submit" disabled>送信する ✦</button>
+</div>
+
+<script>
+// URL ?type=midpoint or ?type=endpoint
+const params = new URLSearchParams(location.search);
+const type = params.get('type') || 'midpoint';
+const isEnd = type === 'endpoint';
+
+document.getElementById('tp-badge').textContent = isEnd ? '— ENDPOINT (Week 12) —' : '— MIDPOINT (Week 6) —';
+document.getElementById('intro-title').textContent = isEnd ? '🎓 最終評価アンケート（12週後）' : '🌗 中間評価アンケート（6週時点）';
+document.getElementById('intro-desc').textContent = isEnd
+  ? '12週間の冒険、お疲れさまでした。最後のアンケートで研究の総まとめをします（約3-5分・+150XP）。'
+  : '前半の振り返りです。ベースラインから6週間でどんな変化があったかを測定（約2分・+80XP）。';
+
+if(isEnd){
+  document.getElementById('acceptability-section').style.display = 'block';
+}
+
+const requiredFields = ['fatigue','sleep','anxiety','depression','phys-func','se-exercise','se-nutrition','se-control'];
+if(isEnd){
+  requiredFields.push('uMARS-engagement','uMARS-functionality','uMARS-aesthetics','uMARS-info','uMARS-behavior','uMARS-recommend');
+}
+
+function check(){
+  const ok = requiredFields.every(f => document.querySelector(`input[name="${f}"]:checked`));
+  document.getElementById('submit').disabled = !ok;
+}
+requiredFields.forEach(f=>{
+  document.querySelectorAll(`input[name="${f}"]`).forEach(r=>r.addEventListener('change', check));
+});
+
+document.getElementById('submit').addEventListener('click', async ()=>{
+  const data = { type, completedAt: new Date().toISOString(), instrumentVersion:'2026-05-milestone-v1' };
+  requiredFields.forEach(f=>{
+    const v = document.querySelector(`input[name="${f}"]:checked`)?.value;
+    data[f] = v ? parseInt(v,10) : null;
+  });
+  if(isEnd){
+    data.feedback = document.getElementById('feedback').value.trim().slice(0,500);
+  }
+
+  try{
+    const uid = localStorage.getItem('vitalia_uid_hint') || '';
+    data.uid = uid;
+    data.researchId = window.AppSafety?.getResearchId() || '';
+    localStorage.setItem(`vt_milestone_${type}_${uid}`, JSON.stringify(data));
+    // XP
+    const wk = weekKey();
+    const xpKey = `vc_xp_${uid}_${wk}`;
+    const cur = parseInt(localStorage.getItem(xpKey)||'0',10);
+    localStorage.setItem(xpKey, String(cur + (isEnd?150:80)));
+  }catch(e){}
+
+  try{
+    if(window.AppSafety) window.AppSafety.queueRecord('milestone_assessments', data);
+  }catch(e){}
+
+  alert(`✓ ${isEnd?'12週':'6週'}時点の調査を保存しました。\n+${isEnd?150:80}XP獲得しました！`);
+  location.href = './game.html';
+});
+
+function weekKey(){
+  const d=new Date(),j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+</script>
+</body>
+</html>

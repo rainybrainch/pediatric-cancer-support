@@ -710,6 +710,8 @@ body::before{
 #coach-close:hover{color:rgba(170,188,216,.8);}
 .coach-iframe{flex:1;border:none;width:100%;background:#080b14;}
 </style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 </head>
 <body>
@@ -979,7 +981,18 @@ setTimeout(function(){
             <div class="section-note">1タップ＝10分（中強度の2倍換算）</div>
           </div>
         </div>
+        <!-- 心リスク警告（条件で表示） -->
+        <div id="cardio-warning" style="display:none;background:linear-gradient(135deg,rgba(224,92,92,.18),rgba(224,92,92,.08));border:1.5px solid rgba(224,92,92,.55);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+          <div style="font-size:.78rem;color:#f0a0a0;font-weight:700;line-height:1.7;">⚠ 治療歴の確認</div>
+          <div style="font-size:.7rem;color:rgba(245,200,200,.85);line-height:1.85;margin-top:4px;" id="cardio-warning-text"></div>
+        </div>
         <div id="high-board"></div>
+      </div>
+
+      <!-- MHLW出典 -->
+      <div style="font-size:.6rem;color:rgba(170,188,216,.5);text-align:center;padding:12px 8px;line-height:1.7;">
+        ※ メッツ値は <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.7);">厚生労働省「身体活動のメッツ（METs）表」改訂版</a>（国立健康・栄養研究所）に準拠<br>
+        消費kcal = METs × 体重(kg) × 時間(h) × 1.05
       </div>
 
     </div>
@@ -1162,7 +1175,10 @@ setTimeout(function(){
 
       <!-- 今日の記録 -->
       <div class="side-panel">
-        <div class="panel-head">📜 今週の記録</div>
+        <div class="panel-head" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>📜 今週の記録</span>
+          <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">🔥 合計 <span id="total-kcal-burn">0</span> kcal</span>
+        </div>
         <ul id="log-list"></ul>
       </div>
 
@@ -1182,6 +1198,22 @@ setTimeout(function(){
           <div style="font-size:.64rem;color:rgba(170,188,216,.5);margin-bottom:6px;">今週の一言（任意・研究データとして活用）</div>
           <textarea id="week-memo" rows="3" placeholder="例：仕事が忙しかったけど朝10分ずつ継続できた" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
         </div>
+      </div>
+
+      <!-- 歩数計（DeviceMotion） -->
+      <div id="step-counter-card" style="background:linear-gradient(135deg,rgba(78,201,138,.08),rgba(78,201,138,.03));border:1px solid rgba(78,201,138,.22);border-radius:12px;padding:14px 16px;margin-top:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="font-size:.7rem;color:rgba(168,232,192,.85);font-weight:700;letter-spacing:.06em;">👟 リアルタイム歩数計</div>
+          <div id="step-status" style="font-size:.6rem;color:rgba(170,188,216,.55);">未計測</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#a8e8c0;line-height:1;flex:1;text-align:center;">
+            <span id="step-count">0</span><span style="font-size:.65rem;color:rgba(168,232,192,.6);"> 歩</span>
+          </div>
+          <button id="step-toggle" style="background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);color:#a8e8c0;font-family:inherit;font-size:.78rem;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;">▶ スタート</button>
+          <button id="step-import" style="display:none;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#f0d48a;font-family:inherit;font-size:.7rem;font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer;">分に変換</button>
+        </div>
+        <div style="font-size:.58rem;color:rgba(170,188,216,.45);margin-top:6px;line-height:1.5;">スマホをポケットに入れて歩くと自動カウント。1000歩 ≈ 10分換算で運動セッションに追加できます。</div>
       </div>
 
       <!-- 保存 -->
@@ -1234,31 +1266,118 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 // ===== データ =====
+// 厚労省 国立健康・栄養研究所「身体活動のメッツ（METs）表」改訂版に準拠
+// https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf
 const EXERCISES = {
+  // 生活活動 + 3メッツ未満の運動
   daily:[
-    {mets:2.0, label:'のんびり動く', list:[
-      {name:'ゆっくり散歩',icon:'🚶'},{name:'立ち仕事',icon:'🧍'},{name:'ストレッチ',icon:'🧘'},{name:'料理・家事',icon:'🍳'},
+    {mets:2.0, label:'2.0 METs（生活活動）', list:[
+      {name:'ゆっくり散歩',icon:'🚶'},{name:'立ち仕事',icon:'🧍'},{name:'料理・家事',icon:'🍳'},
     ]},
-    {mets:2.5, label:'日常の動き', list:[
-      {name:'買い物・外出',icon:'🛒'},{name:'掃除・片付け',icon:'🧹'},{name:'子どもと遊ぶ',icon:'🧒'},{name:'通学・通勤歩き',icon:'🎒'},
+    {mets:2.3, label:'2.3 METs', list:[
+      {name:'ストレッチング',icon:'🧘'},
     ]},
-    {mets:3.0, label:'歩く・階段', list:[
-      {name:'普通の速さで歩く',icon:'🚶'},{name:'階段の上り下り',icon:'🪜'},{name:'自転車で移動',icon:'🚲'},{name:'軽いジョギング',icon:'🏃'},
+    {mets:2.5, label:'2.5 METs', list:[
+      {name:'ヨガ',icon:'🧘'},{name:'ビリヤード',icon:'🎱'},{name:'買い物・外出',icon:'🛒'},{name:'子どもと遊ぶ',icon:'🧒'},
+    ]},
+    {mets:2.8, label:'2.8 METs', list:[
+      {name:'座って行うラジオ体操',icon:'💺'},{name:'楽な強度の腹筋運動',icon:'💪'},{name:'掃除・片付け',icon:'🧹'},
     ]},
   ],
+  // 中強度（3〜6 METs未満）— MHLW運動メッツ表
   moderate:[
-    {mets:3.0, list:[{name:'歩行・ウォーキング',icon:'🚶'},{name:'筋トレ（軽〜中等度）',icon:'💪'},{name:'ボーリング',icon:'🎳'},{name:'バレーボール',icon:'🏐'}]},
-    {mets:3.5, list:[{name:'体操',icon:'🤸'}]},
-    {mets:4.0, list:[{name:'速歩',icon:'🏃'},{name:'水中運動',icon:'🏊'},{name:'アクアビクス',icon:'💦'},{name:'卓球',icon:'🏓'}]},
-    {mets:4.5, list:[{name:'バドミントン',icon:'🏸'},{name:'バレエ',icon:'🩰'},{name:'ダンス',icon:'💃'}]},
-    {mets:5.0, list:[{name:'野球',icon:'⚾'}]},
+    {mets:3.0, label:'3.0 METs', list:[
+      {name:'ボウリング',icon:'🎳'},{name:'バレーボール',icon:'🏐'},
+      {name:'社交ダンス（ワルツ等）',icon:'💃'},{name:'ピラティス',icon:'🧘'},{name:'太極拳',icon:'🥋'},
+      {name:'普通の速さで歩く',icon:'🚶'},{name:'階段の上り下り',icon:'🪜'},
+    ]},
+    {mets:3.5, label:'3.5 METs', list:[
+      {name:'自転車エルゴ（30-50W）',icon:'🚲'},
+      {name:'体操（家で・軽中等度）',icon:'🤸'},
+      {name:'ゴルフ（手引きカート）',icon:'⛳'},
+    ]},
+    {mets:3.8, label:'3.8 METs', list:[
+      {name:'筋トレ（腕立て・中等度）',icon:'💪'},
+      {name:'筋トレ（腹筋・中等度）',icon:'🏋️'},
+    ]},
+    {mets:4.0, label:'4.0 METs', list:[
+      {name:'卓球',icon:'🏓'},{name:'パワーヨガ',icon:'🧘'},{name:'ラジオ体操第1',icon:'📻'},
+    ]},
+    {mets:4.3, label:'4.3 METs', list:[
+      {name:'やや速歩（平地93m/分）',icon:'🚶'},
+      {name:'ゴルフ（クラブを担いで）',icon:'⛳'},
+    ]},
+    {mets:4.5, label:'4.5 METs', list:[
+      {name:'テニス（ダブルス）',icon:'🎾'},
+      {name:'水中歩行（中等度）',icon:'🏊'},
+      {name:'ラジオ体操第2',icon:'📻'},
+    ]},
+    {mets:4.8, label:'4.8 METs', list:[
+      {name:'水泳（ゆっくり背泳）',icon:'🏊'},
+    ]},
+    {mets:5.0, label:'5.0 METs', list:[
+      {name:'かなり速歩（107m/分）',icon:'🏃'},
+      {name:'野球',icon:'⚾'},{name:'ソフトボール',icon:'⚾'},
+      {name:'サーフィン',icon:'🏄'},{name:'バレエ（モダン・ジャズ）',icon:'🩰'},
+      {name:'筋トレ（スクワット）',icon:'🏋️'},
+    ]},
+    {mets:5.3, label:'5.3 METs', list:[
+      {name:'水泳（ゆっくり平泳ぎ）',icon:'🏊'},
+      {name:'スキー',icon:'⛷️'},{name:'アクアビクス',icon:'💦'},
+    ]},
+    {mets:5.5, label:'5.5 METs', list:[
+      {name:'バドミントン',icon:'🏸'},
+    ]},
   ],
+  // 高強度（6 METs以上）— MHLW運動メッツ表
   high:[
-    {mets:6.0, list:[{name:'筋トレ（強度）',icon:'🏋️'},{name:'ジョギング&歩行',icon:'🏃'},{name:'バスケットボール',icon:'🏀'}]},
-    {mets:6.5, list:[{name:'エアロビクス',icon:'🎵'}]},
-    {mets:7.0, list:[{name:'ジョギング',icon:'🏃'},{name:'サッカー',icon:'⚽'},{name:'テニス',icon:'🎾'},{name:'スキー',icon:'⛷️'},{name:'登山',icon:'🏔️'}]},
-    {mets:8.0, list:[{name:'サイクリング',icon:'🚴'},{name:'ランニング',icon:'🏃'},{name:'クロール',icon:'🏊'}]},
-    {mets:10.0,list:[{name:'柔道',icon:'🥋'},{name:'空手',icon:'🥋'},{name:'平泳ぎ',icon:'🏊'}]},
+    {mets:6.0, label:'6.0 METs', list:[
+      {name:'ゆっくりジョギング',icon:'🏃'},
+      {name:'ウェイトトレ（高強度）',icon:'🏋️'},
+      {name:'バスケットボール',icon:'🏀'},
+      {name:'水泳（のんびり泳ぐ）',icon:'🏊'},
+    ]},
+    {mets:6.5, label:'6.5 METs', list:[
+      {name:'山登り（0-4kg荷物）',icon:'🏔️'},
+    ]},
+    {mets:6.8, label:'6.8 METs', list:[
+      {name:'自転車エルゴ（90-100W）',icon:'🚲'},
+    ]},
+    {mets:7.0, label:'7.0 METs', list:[
+      {name:'ジョギング',icon:'🏃'},
+      {name:'サッカー',icon:'⚽'},{name:'スキー',icon:'⛷️'},
+      {name:'スケート',icon:'⛸️'},{name:'ハンドボール',icon:'🤾'},
+    ]},
+    {mets:7.3, label:'7.3 METs', list:[
+      {name:'エアロビクス',icon:'🎵'},
+      {name:'テニス（シングルス）',icon:'🎾'},
+      {name:'山登り（4.5-9kg荷物）',icon:'🏔️'},
+    ]},
+    {mets:8.0, label:'8.0 METs', list:[
+      {name:'サイクリング（20km/h）',icon:'🚴'},
+      {name:'激しい筋トレ',icon:'🏋️'},
+    ]},
+    {mets:8.3, label:'8.3 METs', list:[
+      {name:'ランニング（134m/分）',icon:'🏃'},
+      {name:'水泳（クロール46m/分未満）',icon:'🏊'},
+      {name:'ラグビー',icon:'🏉'},
+    ]},
+    {mets:9.0, label:'9.0 METs', list:[
+      {name:'ランニング（139m/分）',icon:'🏃'},
+    ]},
+    {mets:9.8, label:'9.8 METs', list:[
+      {name:'ランニング（161m/分）',icon:'🏃'},
+    ]},
+    {mets:10.0, label:'10.0 METs', list:[
+      {name:'水泳（速いクロール69m/分）',icon:'🏊'},
+    ]},
+    {mets:10.3, label:'10.3 METs', list:[
+      {name:'武道・武術（柔道・空手等）',icon:'🥋'},
+    ]},
+    {mets:11.0, label:'11.0 METs', list:[
+      {name:'ランニング（188m/分）',icon:'🏃'},
+      {name:'自転車エルゴ（161-200W）',icon:'🚴'},
+    ]},
   ]
 };
 const LEVELS=[
@@ -1688,19 +1807,26 @@ document.getElementById('consent-btn').addEventListener('click',()=>{
 function renderLog(){
   const ul=document.getElementById('log-list');
   ul.innerHTML='';
+  let totalKcal = 0;
   sessions.forEach((s,i)=>{
     const li=document.createElement('li');
     li.className='log-item';
+    const min = s.minutes || 10;
+    const kcal = s.kcal != null ? s.kcal : calcCaloriesBurned(s.mets, min);
+    totalKcal += kcal;
     li.innerHTML=`
       <span class="li-icon">${s.icon}</span>
       <span class="li-name">${s.name}<br>
-        <span class="li-sub">${s.type==='high'?'高強度':'中強度'} ${s.mets}METs / 10分</span>
+        <span class="li-sub">${s.type==='high'?'高強度':'中強度'} ${s.mets}METs · ${min}分 · 🔥${kcal}kcal</span>
       </span>
       <span class="li-xp">+${s.xp}XP</span>
       <button class="li-del" data-i="${i}">✕</button>`;
     ul.appendChild(li);
   });
   ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>removeSession(+b.dataset.i)));
+  // 合計カロリー消費表示
+  const kcalEl = document.getElementById('total-kcal-burn');
+  if(kcalEl) kcalEl.textContent = totalKcal;
   updateCardCounts();
 }
 
@@ -1715,14 +1841,29 @@ function updateCardCounts(){
   });
 }
 
+// ===== カロリー消費計算 =====
+function getUserWeight(){
+  try{
+    const s = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+    return parseFloat(s.weight) || 60; // デフォルト60kg
+  }catch(e){ return 60; }
+}
+function calcCaloriesBurned(mets, minutes){
+  // METs * 体重(kg) * 時間(h) * 1.05 (補正係数)
+  const w = getUserWeight();
+  return Math.round(mets * w * (minutes/60) * 1.05);
+}
+
 // ===== セッション操作 =====
-function addSession(name,icon,mets,type){
+function addSession(name,icon,mets,type,minutes){
+  const min = minutes || 10;
   const baseXp=xpForActivity(mets,type);
   const nutScore=getNutritionScore();
   const mult=getNutritionMult(nutScore);
   const xp=Math.round(baseXp*mult);
-  sessions.push({name,icon,mets,type,xp});
-  if(type==='high') highMin+=10; else modMin+=10;
+  const kcal = calcCaloriesBurned(mets, min);
+  sessions.push({name,icon,mets,type,xp,minutes:min,kcal});
+  if(type==='high') highMin+=min; else modMin+=min;
   renderLog(); updateUI();
   // 拡張：演出・コンボ・デイリー・ダメージ
   if(window.AppEnhance) window.AppEnhance.onExerciseRecord(10, type);
@@ -1742,8 +1883,9 @@ function decrementSession(name){
 }
 function removeSession(i){
   const s=sessions[i];
-  if(s.type==='high') highMin=Math.max(0,highMin-10);
-  else                modMin =Math.max(0,modMin-10);
+  const min = s.minutes || 10;
+  if(s.type==='high') highMin=Math.max(0,highMin-min);
+  else                modMin =Math.max(0,modMin-min);
   sessions.splice(i,1);
   renderLog(); updateUI();
 }
@@ -1804,28 +1946,36 @@ async function saveWeek(){
   checkAch();
   const s=applyStreak(); renderStreak(s);
 
-  // Firestoreにも保存（研究データ収集）
-  try {
-    await setDoc(doc(db,'quest_records',`${uid}_${weekKey()}`), {
-      uid,
-      email: auth.currentUser?.email||'',
-      weekKey: weekKey(),
-      weekLabel: weekLabel(),
-      bmi: data.bmi,
-      steps: data.steps,
-      modMin, highMin,
-      totalScore: data.score,
-      exercises: sessions.map(s=>({name:s.name,mets:s.mets,type:s.type,xp:s.xp})),
-      xp, lv:lv.lv, lvName:lv.name,
-      goalAchieved: data.score>=getWeeklyGoal(),
-      qol1:qol.qol1, qol2:qol.qol2, qol3:qol.qol3,
-      qolTotal: (qol.qol1||0)+(qol.qol2||0)+(qol.qol3||0)||null,
-      exerciseTime: (document.querySelector('input[name="exercise-time"]:checked')||{}).value||null,
-      memo: document.getElementById('week-memo').value.trim()||null,
-      savedAt: new Date().toISOString(),
-      dataType:'quest'
-    });
-  } catch(e){ console.warn('Firestore:', e.message); }
+  // Firestoreにも保存（研究データ収集／オフライン時はキュー）
+  const recordPayload = {
+    uid,
+    email: auth.currentUser?.email||'',
+    weekKey: weekKey(),
+    weekLabel: weekLabel(),
+    bmi: data.bmi,
+    steps: data.steps,
+    modMin, highMin,
+    totalScore: data.score,
+    exercises: sessions.map(s=>({name:s.name,mets:s.mets,type:s.type,xp:s.xp})),
+    xp, lv:lv.lv, lvName:lv.name,
+    goalAchieved: data.score>=getWeeklyGoal(),
+    qol1:qol.qol1, qol2:qol.qol2, qol3:qol.qol3,
+    qolTotal: (qol.qol1||0)+(qol.qol2||0)+(qol.qol3||0)||null,
+    exerciseTime: (document.querySelector('input[name="exercise-time"]:checked')||{}).value||null,
+    memo: document.getElementById('week-memo').value.trim()||null,
+    savedAt: new Date().toISOString(),
+    dataType:'quest'
+  };
+  if(!navigator.onLine){
+    window.AppSafety?.queueRecord('quest_records', recordPayload);
+  } else {
+    try {
+      await setDoc(doc(db,'quest_records',`${uid}_${weekKey()}`), recordPayload);
+    } catch(e){
+      console.warn('Firestore:', e.message);
+      window.AppSafety?.queueRecord('quest_records', recordPayload);
+    }
+  }
 
   document.getElementById('save-msg').textContent='';
   showSaveToast('✅', '記録を保存しました');
@@ -1989,6 +2139,103 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
   signOut(auth);
 });
 document.getElementById('save-btn').addEventListener('click',saveWeek);
+
+// 臨床安全性警告の表示
+function renderClinicalSafety(){
+  if(!window.AppSafety) return;
+  const profile = window.AppSafety.getClinicalProfile();
+  if(!profile) return;
+  // 高強度運動の警告
+  if(window.AppSafety.hasCardioRiskFromTx(profile)){
+    const w = document.getElementById('cardio-warning');
+    const t = document.getElementById('cardio-warning-text');
+    if(w && t){
+      w.style.display = 'block';
+      t.innerHTML = 'ベースライン記録から<strong>心血管系への影響が想定される治療歴</strong>を検出しました。<br>'
+        + '高強度運動（7 METs以上）は<strong>主治医にご相談</strong>のうえご判断ください。'
+        + '中強度（3〜6 METs）から始めるのが安全です。気になる症状（息切れ・動悸・胸痛）が出たら直ちに中止を。';
+    }
+    // 高強度ボード自体に薄く印
+    const highBoard = document.querySelector('.is-high');
+    if(highBoard) highBoard.style.opacity = '0.85';
+  }
+}
+// ログイン後の認証済みタイミングでチェック
+setTimeout(renderClinicalSafety, 1500);
+
+// ===== 歩数計（DeviceMotion） =====
+let _stepCount = 0, _stepActive = false, _lastPeak = 0, _lastMag = 0;
+function onMotion(e){
+  const a = e.accelerationIncludingGravity || e.acceleration;
+  if(!a) return;
+  const mag = Math.sqrt((a.x||0)**2 + (a.y||0)**2 + (a.z||0)**2);
+  const now = Date.now();
+  // ピーク検出：閾値 11〜15 (m/s²) かつ前ピークから 250ms 以上経過
+  if(mag > 13 && _lastMag <= 13 && now - _lastPeak > 250){
+    _stepCount++;
+    _lastPeak = now;
+    document.getElementById('step-count').textContent = _stepCount;
+  }
+  _lastMag = mag;
+}
+async function startStepCounter(){
+  // iOS 13+ では明示的なpermissionが必要
+  if(typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function'){
+    try{
+      const r = await DeviceMotionEvent.requestPermission();
+      if(r !== 'granted'){
+        alert('モーションセンサーの許可が必要です。設定 → Safari → モーションとジャイロ から許可してください。');
+        return false;
+      }
+    }catch(e){
+      alert('モーションセンサー利用エラー: '+e.message);
+      return false;
+    }
+  } else if(!('DeviceMotionEvent' in window)){
+    alert('このブラウザはモーションセンサーに対応していません。スマートフォンでお試しください。');
+    return false;
+  }
+  window.addEventListener('devicemotion', onMotion);
+  _stepActive = true;
+  return true;
+}
+function stopStepCounter(){
+  window.removeEventListener('devicemotion', onMotion);
+  _stepActive = false;
+}
+
+document.getElementById('step-toggle').addEventListener('click', async ()=>{
+  const btn = document.getElementById('step-toggle');
+  const status = document.getElementById('step-status');
+  const importBtn = document.getElementById('step-import');
+  if(!_stepActive){
+    const ok = await startStepCounter();
+    if(!ok) return;
+    btn.textContent = '⏸ 停止';
+    status.textContent = '計測中…';
+    status.style.color = 'rgba(168,232,192,.85)';
+    importBtn.style.display = 'inline-block';
+  } else {
+    stopStepCounter();
+    btn.textContent = '▶ 再開';
+    status.textContent = `${_stepCount}歩で停止`;
+    status.style.color = 'rgba(170,188,216,.55)';
+  }
+});
+
+document.getElementById('step-import').addEventListener('click', ()=>{
+  if(_stepCount < 100){ alert('100歩以上で変換できます'); return; }
+  const minutes = Math.round(_stepCount / 100); // 1000歩=10分
+  if(!confirm(`${_stepCount}歩を「ウォーキング ${minutes}分（中強度）」として記録に追加しますか？`)) return;
+  // セッションに直接追加（addSessionは10分単位なのでminutesを渡せる版を使う）
+  addSession('ウォーキング（自動計測）', '👟', 3.5, 'mod', minutes);
+  _stepCount = 0;
+  document.getElementById('step-count').textContent = '0';
+  document.getElementById('step-status').textContent = '✓ 記録に追加されました';
+  stopStepCounter();
+  document.getElementById('step-toggle').textContent = '▶ スタート';
+  document.getElementById('step-import').style.display = 'none';
+});
 document.getElementById('reset-btn').addEventListener('click',()=>{
   if(!confirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）')) return;
   sessions=[]; modMin=0; highMin=0;
@@ -2103,6 +2350,7 @@ onAuthStateChanged(auth,user=>{
   <a href="./quest.html"     class="bn-tab active"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
   <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
   <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
 

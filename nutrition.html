@@ -270,6 +270,67 @@ body::before{
 }
 .food-card.counted .f-dec{display:flex;}
 
+/* 量・時間帯セレクター */
+.portion-bar{
+  background:rgba(20,26,44,.7);border:1px solid rgba(201,168,76,.18);
+  border-radius:12px;padding:10px 14px;margin-bottom:10px;
+  display:flex;gap:18px;flex-wrap:wrap;
+}
+.portion-block{display:flex;align-items:center;gap:10px;flex:1;min-width:200px;}
+.portion-lbl{font-size:.65rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.06em;flex-shrink:0;}
+.portion-radios{display:flex;gap:5px;flex:1;flex-wrap:wrap;}
+.portion-radios label{
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  cursor:pointer;flex:1;min-width:42px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.15);
+  border-radius:7px;padding:5px 4px;transition:all .15s;
+}
+.portion-radios label:has(input:checked){background:rgba(201,168,76,.18);border-color:rgba(201,168,76,.5);}
+.portion-radios input{display:none;}
+.portion-radios span{font-size:.72rem;color:#e8e4d4;font-weight:700;}
+.portion-radios em{font-size:.5rem;color:rgba(170,188,216,.5);font-style:normal;}
+
+/* リアルタイム栄養サマリー */
+.nut-summary{
+  background:linear-gradient(135deg,rgba(78,201,138,.06),rgba(78,201,138,.02));
+  border:1px solid rgba(78,201,138,.22);border-radius:12px;
+  padding:12px 14px;margin-bottom:10px;
+}
+.ns-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.ns-cell{text-align:center;padding:6px 4px;background:rgba(0,0,0,.2);border-radius:8px;}
+.ns-num{display:block;font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:#a8e8c0;line-height:1;}
+.ns-lbl{display:block;font-size:.55rem;color:rgba(168,232,192,.6);margin-top:2px;}
+.ns-bonuses{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;min-height:0;}
+.ns-bonus{
+  background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(201,168,76,.1));
+  border:1px solid rgba(240,212,138,.4);color:#f0d48a;
+  font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:99px;
+  display:flex;align-items:center;gap:4px;animation:bonusIn .35s ease both;
+}
+@keyframes bonusIn{0%{transform:scale(.7);opacity:0;}100%{transform:scale(1);opacity:1;}}
+
+/* 飲み物・おやつカテゴリスタイル */
+.fc-drink{border-color:rgba(92,160,224,.22);}
+.fc-drink:hover{border-color:rgba(92,160,224,.55);background:rgba(92,160,224,.07);}
+.fc-drink .f-unit{color:rgba(92,160,224,.7);}
+.fc-drink .f-count{background:#5ca0e0;}
+.fc-snack{border-color:rgba(240,180,80,.22);}
+.fc-snack:hover{border-color:rgba(240,180,80,.55);background:rgba(240,180,80,.07);}
+.fc-snack .f-unit{color:rgba(240,180,80,.7);}
+.fc-snack .f-count{background:#f0b450;}
+.f-note{
+  position:absolute;bottom:4px;left:4px;right:4px;
+  font-size:.5rem;color:rgba(170,188,216,.55);text-align:center;
+  font-style:italic;line-height:1.2;
+  pointer-events:none;
+}
+.f-tags{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-top:2px;}
+.f-tag{
+  font-size:.46rem;font-weight:700;padding:1px 4px;
+  border:1px solid;border-radius:99px;background:rgba(0,0,0,.3);
+  letter-spacing:.04em;
+}
+
 /* カテゴリ別スタイル */
 .fc-veg{border-color:rgba(224,92,92,.22);}
 .fc-veg:hover{border-color:rgba(224,92,92,.55);background:rgba(224,92,92,.07);box-shadow:0 4px 14px rgba(224,92,92,.1);}
@@ -845,6 +906,8 @@ body::before{
 .vm-close{display:block;width:100%;margin-top:10px;background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;padding:6px;}
 .vm-select-hint{font-size:.62rem;color:var(--muted);text-align:center;margin-bottom:10px;}
 </style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 </head>
 <body>
@@ -1091,6 +1154,37 @@ setTimeout(function(){
         <div class="resto-grid" id="resto-grid"></div>
       </div>
 
+      <!-- 量・時間帯セレクター -->
+      <div class="portion-bar">
+        <div class="portion-block">
+          <div class="portion-lbl">📏 量</div>
+          <div class="portion-radios">
+            <label><input type="radio" name="portion" value="small"><span>小</span><em>×0.6</em></label>
+            <label><input type="radio" name="portion" value="normal" checked><span>中</span><em>×1.0</em></label>
+            <label><input type="radio" name="portion" value="large"><span>大</span><em>×1.4</em></label>
+          </div>
+        </div>
+        <div class="portion-block">
+          <div class="portion-lbl">⏰ 時間</div>
+          <div class="portion-radios">
+            <label><input type="radio" name="meal-time" value="morning"><span>朝</span></label>
+            <label><input type="radio" name="meal-time" value="lunch" checked><span>昼</span></label>
+            <label><input type="radio" name="meal-time" value="dinner"><span>夜</span></label>
+            <label><input type="radio" name="meal-time" value="snack"><span>間食</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 栄養サマリー（リアルタイム） -->
+      <div class="nut-summary" id="nut-summary">
+        <div class="ns-row">
+          <div class="ns-cell"><span class="ns-num" id="ns-kcal">0</span><span class="ns-lbl">kcal</span></div>
+          <div class="ns-cell"><span class="ns-num" id="ns-prot">0</span><span class="ns-lbl">g タンパク</span></div>
+          <div class="ns-cell"><span class="ns-num" id="ns-fib">0</span><span class="ns-lbl">g 食物繊維</span></div>
+        </div>
+        <div class="ns-bonuses" id="ns-bonuses"></div>
+      </div>
+
       <!-- 野菜 -->
       <div class="board-section">
         <div class="section-head">
@@ -1139,6 +1233,30 @@ setTimeout(function(){
           </div>
         </div>
         <div class="card-grid" id="grain-grid"></div>
+      </div>
+
+      <!-- 飲み物 -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(92,160,224,.1);border:1px solid rgba(92,160,224,.3);">💧</div>
+          <div>
+            <div class="section-label">飲み物</div>
+            <div class="section-note">1タップ＝1杯（200ml目安）｜ 水分補給で代謝UP</div>
+          </div>
+        </div>
+        <div class="card-grid" id="drink-grid"></div>
+      </div>
+
+      <!-- 健康おやつ -->
+      <div class="board-section">
+        <div class="section-head">
+          <div class="section-icon" style="background:rgba(240,180,80,.1);border:1px solid rgba(240,180,80,.3);">🍵</div>
+          <div>
+            <div class="section-label">健康おやつ</div>
+            <div class="section-note">小さじ1〜手のひら大 ｜ 罪悪感ゼロの間食</div>
+          </div>
+        </div>
+        <div class="card-grid" id="snack-grid"></div>
       </div>
 
       <!-- 制限食品 -->
@@ -1360,50 +1478,174 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 // ===== 食材データ =====
+// 食品DB：tags = ['anti-ox'(抗酸化), 'anti-inf'(抗炎症), 'immune'(免疫力UP), 'omega3', 'fiber', 'fermented']
 const FOODS = {
   veg:[
-    {name:'ほうれん草',icon:'🥬',xp:15},{name:'ブロッコリー',icon:'🥦',xp:18},
-    {name:'にんじん',icon:'🥕',xp:12},{name:'トマト',icon:'🍅',xp:12},
-    {name:'キャベツ',icon:'🥗',xp:10},{name:'たまねぎ',icon:'🧅',xp:10},
-    {name:'なす',icon:'🍆',xp:10},{name:'ピーマン',icon:'🫑',xp:12},
-    {name:'きのこ類',icon:'🍄',xp:14},{name:'かぼちゃ',icon:'🎃',xp:15},
-    {name:'だいこん',icon:'🫚',xp:8},{name:'小松菜',icon:'🥬',xp:15},
-    {name:'もやし',icon:'🌱',xp:7},{name:'れんこん',icon:'🔗',xp:12},
+    {name:'ほうれん草',icon:'🥬',xp:15,kcal:15,prot:2.0,fib:2.5,tags:['anti-ox','immune']},
+    {name:'ブロッコリー',icon:'🥦',xp:18,kcal:30,prot:4.0,fib:4.0,tags:['anti-ox','anti-inf','immune']},
+    {name:'にんじん',icon:'🥕',xp:12,kcal:35,prot:0.6,fib:2.5,tags:['anti-ox','immune']},
+    {name:'トマト',icon:'🍅',xp:12,kcal:20,prot:0.7,fib:1.0,tags:['anti-ox','anti-inf']},
+    {name:'キャベツ',icon:'🥗',xp:10,kcal:15,prot:1.0,fib:1.8,tags:['anti-inf']},
+    {name:'たまねぎ',icon:'🧅',xp:10,kcal:30,prot:1.0,fib:1.5,tags:['anti-inf']},
+    {name:'なす',icon:'🍆',xp:10,kcal:18,prot:0.8,fib:2.2,tags:['anti-ox']},
+    {name:'ピーマン',icon:'🫑',xp:12,kcal:18,prot:0.8,fib:2.3,tags:['anti-ox','immune']},
+    {name:'きのこ類',icon:'🍄',xp:14,kcal:18,prot:2.5,fib:3.5,tags:['immune','fiber']},
+    {name:'かぼちゃ',icon:'🎃',xp:15,kcal:60,prot:1.5,fib:3.0,tags:['anti-ox','immune']},
+    {name:'だいこん',icon:'🫚',xp:8,kcal:15,prot:0.5,fib:1.4,tags:['anti-inf']},
+    {name:'小松菜',icon:'🥬',xp:15,kcal:14,prot:1.5,fib:1.9,tags:['anti-ox','immune']},
+    {name:'もやし',icon:'🌱',xp:7,kcal:14,prot:1.7,fib:1.3,tags:[]},
+    {name:'れんこん',icon:'🔗',xp:12,kcal:60,prot:2.0,fib:2.0,tags:['anti-inf']},
+    {name:'ごぼう',icon:'🥬',xp:14,kcal:55,prot:1.8,fib:5.7,tags:['fiber','anti-ox']},
+    {name:'アスパラ',icon:'🌿',xp:13,kcal:20,prot:2.5,fib:1.8,tags:['anti-ox']},
+    {name:'白菜',icon:'🥬',xp:9,kcal:14,prot:0.8,fib:1.3,tags:[]},
+    {name:'レタス',icon:'🥬',xp:8,kcal:12,prot:0.6,fib:1.1,tags:[]},
+    // 海藻・きのこ類（追加）
+    {name:'わかめ',icon:'🌊',xp:14,kcal:16,prot:1.9,fib:3.6,note:'海藻',tags:['fiber','immune']},
+    {name:'ひじき',icon:'🌊',xp:16,kcal:11,prot:1.0,fib:6.5,note:'海藻',tags:['fiber','immune']},
+    {name:'もずく',icon:'🌊',xp:14,kcal:6,prot:0.2,fib:1.4,note:'海藻',tags:['fiber']},
+    {name:'昆布',icon:'🌊',xp:13,kcal:12,prot:1.5,fib:3.5,note:'海藻',tags:['fiber','immune']},
+    {name:'えのき',icon:'🍄',xp:12,kcal:22,prot:2.7,fib:3.9,tags:['immune','fiber']},
+    {name:'しめじ',icon:'🍄',xp:13,kcal:18,prot:2.7,fib:3.0,tags:['immune','fiber']},
+    {name:'まいたけ',icon:'🍄',xp:14,kcal:15,prot:2.0,fib:3.5,tags:['immune','fiber']},
   ],
   fruit:[
-    {name:'りんご',icon:'🍎',xp:12},{name:'みかん',icon:'🍊',xp:12},
-    {name:'バナナ',icon:'🍌',xp:10},{name:'いちご',icon:'🍓',xp:14},
-    {name:'ブルーベリー',icon:'🫐',xp:16},{name:'ぶどう',icon:'🍇',xp:12},
-    {name:'キウイ',icon:'🥝',xp:14},{name:'スイカ',icon:'🍉',xp:10},
+    {name:'りんご',icon:'🍎',xp:12,kcal:54,prot:0.2,fib:1.5,tags:['anti-ox','fiber']},
+    {name:'みかん',icon:'🍊',xp:12,kcal:46,prot:0.7,fib:1.0,tags:['anti-ox','immune']},
+    {name:'バナナ',icon:'🍌',xp:10,kcal:86,prot:1.1,fib:1.1,tags:[]},
+    {name:'いちご',icon:'🍓',xp:14,kcal:34,prot:0.9,fib:1.4,tags:['anti-ox','immune']},
+    {name:'ブルーベリー',icon:'🫐',xp:16,kcal:49,prot:0.5,fib:3.3,tags:['anti-ox','anti-inf'],note:'抗酸化No.1'},
+    {name:'ぶどう',icon:'🍇',xp:12,kcal:59,prot:0.4,fib:0.5,tags:['anti-ox']},
+    {name:'キウイ',icon:'🥝',xp:14,kcal:53,prot:1.0,fib:2.5,tags:['anti-ox','immune']},
+    {name:'スイカ',icon:'🍉',xp:10,kcal:37,prot:0.6,fib:0.3,tags:['anti-ox']},
+    {name:'梨',icon:'🍐',xp:11,kcal:43,prot:0.3,fib:0.9,tags:[]},
+    {name:'柿',icon:'🍑',xp:13,kcal:60,prot:0.4,fib:1.6,tags:['anti-ox']},
+    {name:'桃',icon:'🍑',xp:12,kcal:40,prot:0.6,fib:1.3,tags:[]},
+    {name:'グレープフルーツ',icon:'🍊',xp:13,kcal:38,prot:0.9,fib:0.6,tags:['anti-ox','immune']},
   ],
   protein:[
     // 🌱 大豆製品（高XP・推奨）
-    {name:'豆腐・大豆',icon:'🫘',xp:22,subtype:'soy'},
-    {name:'納豆',icon:'🫘',xp:22,subtype:'soy'},
+    {name:'豆腐',icon:'🫘',xp:22,subtype:'soy',kcal:72,prot:6.6,fib:0.4,tags:['anti-inf','immune']},
+    {name:'納豆',icon:'🫘',xp:22,subtype:'soy',kcal:200,prot:16.5,fib:6.7,tags:['fermented','anti-inf','immune']},
+    {name:'豆乳',icon:'🥛',xp:18,subtype:'soy',kcal:46,prot:3.6,fib:0.2,note:'飲み物',tags:['anti-inf']},
+    {name:'枝豆',icon:'🫘',xp:18,subtype:'soy',kcal:135,prot:11.7,fib:5.0,tags:['anti-inf','fiber']},
+    {name:'厚揚げ',icon:'🟫',xp:20,subtype:'soy',kcal:150,prot:10.7,fib:0.7,tags:['anti-inf']},
     // 🐟 魚介類（最高XP・最優先）
-    {name:'さけ',icon:'🐟',xp:25,subtype:'fish'},
-    {name:'さば',icon:'🐟',xp:25,subtype:'fish'},
-    {name:'まぐろ',icon:'🐠',xp:24,subtype:'fish'},
-    {name:'いわし',icon:'🐟',xp:25,subtype:'fish'},
-    {name:'えび',icon:'🦐',xp:18,subtype:'fish'},
+    {name:'さけ',icon:'🐟',xp:25,subtype:'fish',kcal:140,prot:22.0,fib:0,tags:['omega3','anti-inf'],note:'EPA・DHA・アスタキサンチン'},
+    {name:'さば',icon:'🐟',xp:25,subtype:'fish',kcal:200,prot:21.0,fib:0,note:'EPA・DHA豊富',tags:['omega3','anti-inf']},
+    {name:'まぐろ',icon:'🐠',xp:24,subtype:'fish',kcal:125,prot:26.0,fib:0,tags:['omega3','anti-inf']},
+    {name:'いわし',icon:'🐟',xp:25,subtype:'fish',kcal:170,prot:19.0,fib:0,note:'EPA豊富',tags:['omega3','anti-inf']},
+    {name:'あじ',icon:'🐟',xp:24,subtype:'fish',kcal:120,prot:19.0,fib:0,tags:['omega3','anti-inf']},
+    {name:'ぶり',icon:'🐟',xp:23,subtype:'fish',kcal:255,prot:21.4,fib:0,tags:['omega3','anti-inf']},
+    {name:'えび',icon:'🦐',xp:18,subtype:'fish',kcal:80,prot:18.0,fib:0,tags:['anti-ox']},
+    {name:'たこ',icon:'🐙',xp:18,subtype:'fish',kcal:75,prot:16.0,fib:0,tags:[]},
+    {name:'いか',icon:'🦑',xp:17,subtype:'fish',kcal:80,prot:18.0,fib:0,tags:[]},
     // その他たんぱく質
-    {name:'鶏むね肉',icon:'🍗',xp:15},
-    {name:'ゆで卵',icon:'🥚',xp:12},
-    {name:'ヨーグルト',icon:'🥛',xp:10},
-    {name:'チーズ',icon:'🧀',xp:10},
+    {name:'鶏むね肉',icon:'🍗',xp:15,kcal:108,prot:22.0,fib:0,tags:[]},
+    {name:'鶏もも肉',icon:'🍗',xp:13,kcal:200,prot:17.0,fib:0,tags:[]},
+    {name:'ささみ',icon:'🍗',xp:16,kcal:105,prot:23.0,fib:0,tags:[]},
+    {name:'ゆで卵',icon:'🥚',xp:12,kcal:80,prot:6.5,fib:0,tags:[]},
+    {name:'ヨーグルト',icon:'🥛',xp:10,kcal:60,prot:3.6,fib:0,tags:['fermented','immune']},
+    {name:'チーズ',icon:'🧀',xp:10,kcal:80,prot:5.5,fib:0,tags:['fermented']},
+    {name:'牛乳',icon:'🥛',xp:9,kcal:67,prot:3.3,fib:0,note:'飲み物',tags:[]},
   ],
   grain:[
-    {name:'玄米ご飯',icon:'🍚',xp:15},{name:'全粒粉パン',icon:'🍞',xp:14},
-    {name:'オートミール',icon:'🌾',xp:16},{name:'そば',icon:'🍜',xp:12},
-    {name:'全粒粉パスタ',icon:'🍝',xp:13},
+    {name:'玄米ご飯',icon:'🍚',xp:15,kcal:165,prot:2.8,fib:1.4},
+    {name:'白米ご飯',icon:'🍚',xp:6,kcal:170,prot:2.5,fib:0.3,note:'食物繊維少なめ'},
+    {name:'雑穀米',icon:'🍚',xp:16,kcal:170,prot:3.5,fib:2.0},
+    {name:'もち麦ご飯',icon:'🌾',xp:17,kcal:155,prot:2.8,fib:3.5,note:'βグルカン豊富'},
+    {name:'全粒粉パン',icon:'🍞',xp:14,kcal:200,prot:7.5,fib:5.5},
+    {name:'オートミール',icon:'🌾',xp:16,kcal:160,prot:5.5,fib:4.5,note:'βグルカン'},
+    {name:'そば',icon:'🍜',xp:12,kcal:295,prot:9.6,fib:2.0},
+    {name:'全粒粉パスタ',icon:'🍝',xp:13,kcal:330,prot:11.5,fib:6.0},
+    {name:'さつまいも',icon:'🍠',xp:13,kcal:130,prot:1.2,fib:2.3},
+  ],
+  // 🆕 飲み物カテゴリ
+  drink:[
+    {name:'水',icon:'💧',xp:5,kcal:0,prot:0,fib:0,tags:[]},
+    {name:'お茶（緑茶）',icon:'🍵',xp:10,kcal:2,prot:0.2,fib:0,note:'カテキン・抗酸化',tags:['anti-ox','anti-inf']},
+    {name:'麦茶',icon:'🍵',xp:8,kcal:1,prot:0,fib:0,tags:['anti-ox']},
+    {name:'ほうじ茶',icon:'🍵',xp:9,kcal:0,prot:0,fib:0,tags:['anti-ox']},
+    {name:'紅茶（無糖）',icon:'☕',xp:7,kcal:1,prot:0.1,fib:0,tags:['anti-ox']},
+    {name:'コーヒー（無糖）',icon:'☕',xp:6,kcal:4,prot:0.2,fib:0,tags:['anti-ox']},
+    {name:'青汁',icon:'🥬',xp:14,kcal:15,prot:1.0,fib:1.5,tags:['anti-ox','immune']},
+    {name:'野菜ジュース',icon:'🥤',xp:8,kcal:30,prot:0.7,fib:0.5,note:'糖分注意',tags:['anti-ox']},
+    {name:'スポーツ飲料',icon:'🥤',xp:5,kcal:25,prot:0,fib:0,note:'運動時のみ',tags:[]},
+    {name:'ココア（無糖）',icon:'☕',xp:8,kcal:50,prot:2.0,fib:1.5,note:'カカオポリフェノール',tags:['anti-ox','anti-inf']},
+  ],
+  // 🆕 健康おやつ
+  snack:[
+    {name:'素焼きナッツ',icon:'🥜',xp:14,kcal:170,prot:5.0,fib:2.5,note:'食物繊維・ビタミンE',tags:['anti-ox','fiber']},
+    {name:'アーモンド',icon:'🥜',xp:15,kcal:160,prot:6.0,fib:3.3,tags:['anti-ox','fiber']},
+    {name:'くるみ',icon:'🥜',xp:14,kcal:200,prot:4.5,fib:1.5,note:'オメガ3',tags:['omega3','anti-inf']},
+    {name:'ドライフルーツ',icon:'🍇',xp:11,kcal:90,prot:0.5,fib:1.5,tags:['anti-ox']},
+    {name:'プロテインバー',icon:'🍫',xp:9,kcal:200,prot:10,fib:3.0,tags:[]},
+    {name:'ダークチョコ',icon:'🍫',xp:8,kcal:60,prot:0.6,fib:0.7,note:'高カカオ70%以上',tags:['anti-ox','anti-inf']},
+    {name:'枝豆',icon:'🫛',xp:16,kcal:135,prot:11.7,fib:5.0,tags:['anti-inf','fiber']},
+    {name:'ゆで卵（間食）',icon:'🥚',xp:12,kcal:80,prot:6.5,fib:0,tags:[]},
+    {name:'おしゃぶり昆布',icon:'🌊',xp:11,kcal:5,prot:0.3,fib:1.0,tags:['fiber','immune']},
+    {name:'プレーンヨーグルト',icon:'🥛',xp:10,kcal:60,prot:3.6,fib:0,tags:['fermented','immune']},
   ],
   limit:[
-    {name:'牛・豚肉',icon:'🥩',xp:-5},{name:'ウインナー',icon:'🌭',xp:-8},
-    {name:'ベーコン',icon:'🥓',xp:-8},{name:'揚げ物',icon:'🍟',xp:-5},
-    {name:'甘い飲み物',icon:'🥤',xp:-5},{name:'アルコール',icon:'🍺',xp:-10},
-    {name:'ファストフード',icon:'🍔',xp:-6},{name:'インスタント麺',icon:'🍜',xp:-5},
+    {name:'牛・豚肉（脂身）',icon:'🥩',xp:-5,kcal:280,prot:18,fib:0},
+    {name:'ウインナー',icon:'🌭',xp:-8,kcal:170,prot:7,fib:0,note:'添加物'},
+    {name:'ベーコン',icon:'🥓',xp:-8,kcal:180,prot:9,fib:0,note:'塩分・添加物'},
+    {name:'揚げ物',icon:'🍟',xp:-5,kcal:300,prot:5,fib:1},
+    {name:'甘い飲み物',icon:'🥤',xp:-5,kcal:120,prot:0,fib:0,note:'糖分'},
+    {name:'アルコール',icon:'🍺',xp:-10,kcal:140,prot:0,fib:0,note:'肝負担'},
+    {name:'ファストフード',icon:'🍔',xp:-6,kcal:500,prot:18,fib:2,note:'脂質・塩分'},
+    {name:'インスタント麺',icon:'🍜',xp:-5,kcal:380,prot:8,fib:1,note:'塩分・添加物'},
+    {name:'スナック菓子',icon:'🍪',xp:-6,kcal:280,prot:3,fib:1,note:'脂質・塩分'},
+    {name:'ケーキ',icon:'🍰',xp:-4,kcal:350,prot:5,fib:0.5,note:'糖分'},
+    {name:'菓子パン',icon:'🥐',xp:-4,kcal:300,prot:6,fib:1,note:'糖分・脂質'},
+    {name:'清涼飲料水',icon:'🥤',xp:-6,kcal:180,prot:0,fib:0,note:'砂糖10%'},
   ]
 };
+
+// 量倍率（小=0.6 / 中=1.0 / 大=1.4）
+const PORTION_MULTIPLIERS = { small:0.6, normal:1.0, large:1.4 };
+const PORTION_LABELS = { small:'小', normal:'中', large:'大' };
+// 時間帯
+const MEAL_TIMES = { morning:'🌅 朝', lunch:'☀️ 昼', dinner:'🌙 夜', snack:'🍵 間食' };
+
+// セットボーナス（食材組み合わせで追加XP）
+const SET_BONUSES = [
+  { id:'sera_perfect', name:'セラの完璧プレート', xp:30, icon:'🌟', cond:(s)=>{
+    return s.some(x=>x.subtype==='fish') && s.some(x=>x.cat==='veg') && s.some(x=>x.subtype==='soy');
+  }, desc:'魚＋野菜＋大豆を1食で' },
+  { id:'rainbow', name:'レインボー食卓', xp:25, icon:'🌈', cond:(s)=>{
+    const cats = new Set(s.filter(x=>!x.components).map(x=>x.cat));
+    return cats.has('veg') && cats.has('fruit') && cats.has('protein') && cats.has('grain');
+  }, desc:'4カテゴリ揃い踏み' },
+  { id:'omega3', name:'オメガ3戦士', xp:20, icon:'🐟', cond:(s)=>{
+    return s.filter(x=>x.subtype==='fish').length >= 2;
+  }, desc:'魚を2食以上' },
+  { id:'green', name:'緑の戦士', xp:15, icon:'🥬', cond:(s)=>{
+    return s.filter(x=>x.cat==='veg').length >= 5;
+  }, desc:'野菜5皿以上' },
+  { id:'fermented', name:'発酵パワー', xp:18, icon:'🦠', cond:(s)=>{
+    return s.some(x=>x.name==='納豆' || x.name==='ヨーグルト' || x.name==='プレーンヨーグルト');
+  }, desc:'発酵食品を取り入れた' },
+  { id:'hydro', name:'ハイドロマスター', xp:12, icon:'💧', cond:(s)=>{
+    return s.filter(x=>x.cat==='drink').length >= 3;
+  }, desc:'飲み物3杯以上' },
+  { id:'no_limit', name:'クリーンイートデイ', xp:25, icon:'✨', cond:(s)=>{
+    return s.length>=4 && s.filter(x=>x.cat==='limit').length === 0;
+  }, desc:'4品記録で制限食品ゼロ' },
+  // 🆕 抗酸化・抗炎症・免疫力ボーナス
+  { id:'anti_ox', name:'抗酸化マイスター', xp:20, icon:'🛡️', cond:(s)=>{
+    return s.filter(x=>(x.tags||[]).includes('anti-ox')).length >= 4;
+  }, desc:'抗酸化食品4品以上' },
+  { id:'anti_inf', name:'抗炎症マスター', xp:22, icon:'❄️', cond:(s)=>{
+    return s.filter(x=>(x.tags||[]).includes('anti-inf')).length >= 3;
+  }, desc:'抗炎症食品3品以上' },
+  { id:'immune', name:'免疫アップ', xp:25, icon:'🌟', cond:(s)=>{
+    return s.filter(x=>(x.tags||[]).includes('immune')).length >= 3;
+  }, desc:'免疫サポート食品3品以上' },
+  { id:'omega3_master', name:'オメガ3マスター', xp:22, icon:'🐟', cond:(s)=>{
+    return s.filter(x=>(x.tags||[]).includes('omega3')).length >= 1
+        && s.filter(x=>(x.tags||[]).includes('anti-ox')).length >= 2;
+  }, desc:'オメガ3+抗酸化2品以上' },
+];
 
 // ===== おすすめ献立データ =====
 const MENUS={
@@ -1520,7 +1762,7 @@ const LEVELS=[
 // ===== 状態 =====
 let uid='', sessions=[], prevLv=1;
 function getCounts(){
-  const c={veg:0,fruit:0,protein:0,grain:0,limit:0};
+  const c={veg:0,fruit:0,protein:0,grain:0,drink:0,snack:0,limit:0};
   sessions.forEach(s=>{
     if(s.components){
       s.components.forEach(comp=>{ if(c[comp.cat]!==undefined) c[comp.cat]+=comp.count; });
@@ -1530,13 +1772,18 @@ function getCounts(){
   });
   return c;
 }
+function setBonusXp(){
+  let total = 0;
+  SET_BONUSES.forEach(b=>{ if(b.cond(sessions)) total += b.xp; });
+  return total;
+}
 function totalXp(){
   const sXp=sessions.reduce((sum,s)=>{
     if(s.components) return sum+s.components.reduce((a,c)=>a+c.xp,0);
-    return sum+s.xp;
+    return sum+(s.xp||0);
   },0);
   const bXp=parseInt(localStorage.getItem(bonusKey())||'0');
-  return Math.max(0, sXp+bXp);
+  return Math.max(0, sXp+bXp+setBonusXp());
 }
 function getLv(xp){ let r=LEVELS[0]; for(const l of LEVELS){if(xp>=l.xp)r=l;} return r; }
 function nextXp(xp){ for(const l of LEVELS){if(l.xp>xp)return l.xp;} return null; }
@@ -1684,6 +1931,41 @@ function updateUI(){
   document.getElementById('protein-bar').style.width=pProt+'%';
   document.getElementById('grain-bar').style.width  =pGrain+'%';
 
+  // 栄養合計（kcal/タンパク/食物繊維）
+  let totalKcal=0, totalProt=0, totalFib=0;
+  sessions.forEach(s=>{
+    if(s.components){
+      totalKcal += s.kcal||0;
+      totalProt += s.protein||0;
+      totalFib  += s.fiber||0;
+    } else {
+      totalKcal += s.kcal||0;
+      totalProt += s.prot||0;
+      totalFib  += s.fib||0;
+    }
+  });
+  const nsKcal = document.getElementById('ns-kcal');
+  const nsProt = document.getElementById('ns-prot');
+  const nsFib  = document.getElementById('ns-fib');
+  if(nsKcal) nsKcal.textContent = Math.round(totalKcal);
+  if(nsProt) nsProt.textContent = totalProt.toFixed(0);
+  if(nsFib)  nsFib.textContent  = totalFib.toFixed(0);
+
+  // セットボーナス検出
+  const bonusEl = document.getElementById('ns-bonuses');
+  if(bonusEl){
+    bonusEl.innerHTML = '';
+    SET_BONUSES.forEach(b=>{
+      if(b.cond(sessions)){
+        const tag = document.createElement('span');
+        tag.className = 'ns-bonus';
+        tag.title = b.desc;
+        tag.innerHTML = `${b.icon} ${b.name} +${b.xp}XP`;
+        bonusEl.appendChild(tag);
+      }
+    });
+  }
+
   // レベルアップ
   if(lv.lv>prevLv){
     showLvUp(lv.lv, lv.name);
@@ -1795,8 +2077,8 @@ document.getElementById('consent-btn').addEventListener('click',()=>{
 });
 
 // ===== ログ =====
-const catLabel={veg:'野菜',fruit:'果物',protein:'たんぱく質',grain:'全粒穀物',limit:'制限食品'};
-const catColor ={veg:'var(--hp)',fruit:'var(--mp)',protein:'var(--atk)',grain:'var(--def)',limit:'var(--debuff)'};
+const catLabel={veg:'野菜',fruit:'果物',protein:'たんぱく質',grain:'全粒穀物',drink:'飲み物',snack:'おやつ',limit:'制限食品'};
+const catColor ={veg:'var(--hp)',fruit:'var(--mp)',protein:'var(--atk)',grain:'var(--def)',drink:'#5ca0e0',snack:'#f0b450',limit:'var(--debuff)'};
 function renderLog(){
   const ul=document.getElementById('log-list');
   ul.innerHTML='';
@@ -1816,12 +2098,15 @@ function renderLog(){
         <button class="li-del" data-i="${i}">✕</button>`;
     } else {
       const xpStr=s.xp>0 ? `+${s.xp}XP` : `${s.xp}XP`;
+      const portionLbl = s.portion && s.portion!=='normal' ? `（${PORTION_LABELS[s.portion]||s.portion}）` : '';
+      const mealLbl = s.mealTime ? ` · ${(MEAL_TIMES[s.mealTime]||'').slice(0,2)}` : '';
+      const kcalLbl = s.kcal>0 ? ` · ${s.kcal}kcal` : '';
       li.innerHTML=`
         <span class="li-icon">${s.icon}</span>
-        <span class="li-name">${s.name}<br>
-          <span class="li-sub">${catLabel[s.cat]}</span>
+        <span class="li-name">${s.name}${portionLbl}<br>
+          <span class="li-sub">${catLabel[s.cat]||s.cat}${mealLbl}${kcalLbl}</span>
         </span>
-        <span class="li-xp" style="color:${catColor[s.cat]}">${xpStr}</span>
+        <span class="li-xp" style="color:${catColor[s.cat]||'var(--gold)'}">${xpStr}</span>
         <button class="li-del" data-i="${i}">✕</button>`;
     }
     ul.appendChild(li);
@@ -1994,6 +2279,7 @@ document.getElementById('resto-tabs').addEventListener('click',e=>{
 // ===== ボード構築 =====
 function buildBoard(id, items, cat, cls){
   const grid=document.getElementById(id);
+  if(!grid) return;
   grid.innerHTML='';
   items.forEach(f=>{
     const c=document.createElement('div');
@@ -2004,17 +2290,56 @@ function buildBoard(id, items, cat, cls){
     const recommend = f.subtype==='fish' ? `<span class="f-recommend">🐟 推奨</span>`
                     : f.subtype==='soy'  ? `<span class="f-recommend">🌱 推奨</span>`
                     : '';
+    const unitLabel = cat==='veg'||cat==='fruit' ? '皿'
+                    : cat==='drink' ? '杯'
+                    : cat==='snack' ? '回'
+                    : '食';
+    const kcalLabel = (f.kcal!=null) ? `${f.kcal}kcal` : '';
+    const noteLabel = f.note ? `<span class="f-note">${f.note}</span>` : '';
+    const tagBadges = (f.tags||[]).slice(0,3).map(t=>{
+      const map = {
+        'anti-ox':   {label:'抗酸化',  color:'#a8c8f0'},
+        'anti-inf':  {label:'抗炎症',  color:'#a8e8c0'},
+        'immune':    {label:'免疫力↑', color:'#f0d48a'},
+        'omega3':    {label:'オメガ3', color:'#c0a0f0'},
+        'fiber':     {label:'食物繊維', color:'#d8a878'},
+        'fermented': {label:'発酵',    color:'#f0a0c8'},
+      };
+      const info = map[t]; if(!info) return '';
+      return `<span class="f-tag" style="color:${info.color};border-color:${info.color}66;">${info.label}</span>`;
+    }).join('');
     c.innerHTML=`
       ${recommend}
       <span class="f-icon">${f.icon}</span>
       <span class="f-name">${f.name}</span>
-      <span class="f-unit">1${cat==='veg'||cat==='fruit'?'皿':'食'}</span>
+      <span class="f-unit">1${unitLabel}・${kcalLabel}</span>
+      ${tagBadges?`<span class="f-tags">${tagBadges}</span>`:''}
+      ${noteLabel}
       <span class="f-count">0</span>
       <button class="f-dec">−</button>`;
     c.addEventListener('click',(e)=>{
-      sessions.push({name:f.name,icon:f.icon,cat,xp:f.xp,subtype:f.subtype||null});
-      const color=catColor[cat];
-      const label=f.xp>=0 ? `+${f.xp}XP` : `${f.xp}XP`;
+      // 臨床相互作用チェック
+      try{
+        const profile = window.AppSafety?.getClinicalProfile();
+        const warnings = window.AppSafety?.getFoodInteractionWarnings(profile, f.name) || [];
+        if(warnings.length > 0){
+          const msg = warnings.map(w => (w.level==='warn'?'⚠ ':'ℹ ')+w.text).join('\n\n');
+          if(!confirm(`${f.name} について：\n\n${msg}\n\nこのまま記録しますか？`)) return;
+        }
+      }catch(err){}
+      const portion = currentPortion();
+      const mult = PORTION_MULTIPLIERS[portion] || 1;
+      sessions.push({
+        name:f.name, icon:f.icon, cat, xp:f.xp, subtype:f.subtype||null,
+        kcal: Math.round((f.kcal||0)*mult),
+        prot: +((f.prot||0)*mult).toFixed(1),
+        fib: +((f.fib||0)*mult).toFixed(1),
+        tags: f.tags||[],
+        portion,
+        mealTime: currentMealTime(),
+      });
+      const color=catColor[cat] || 'var(--gold)';
+      const label=f.xp>=0 ? `+${Math.round(f.xp*mult)}XP` : `${Math.round(f.xp*mult)}XP`;
       spawnPlus(e, label, color);
       renderLog(); updateUI();
       if(window.AppEnhance) window.AppEnhance.onFoodRecord(cat, f.subtype, f.xp);
@@ -2026,6 +2351,16 @@ function buildBoard(id, items, cat, cls){
     });
     grid.appendChild(c);
   });
+}
+
+// 現在選択されている量・時間帯
+function currentPortion(){
+  const sel = document.querySelector('input[name="portion"]:checked');
+  return sel ? sel.value : 'normal';
+}
+function currentMealTime(){
+  const sel = document.querySelector('input[name="meal-time"]:checked');
+  return sel ? sel.value : 'lunch';
 }
 
 // ===== 食材検索 =====
@@ -2349,22 +2684,44 @@ async function saveWeek(){
   checkAch();
   const s=applyStreak(); renderStreak(s);
 
-  // Firestoreにも保存（研究データ収集）
-  try {
-    await setDoc(doc(db,'nutrition_records',`${uid}_${weekKey()}`), {
-      uid,
-      email: auth.currentUser?.email||'',
-      weekKey: weekKey(),
-      weekLabel: weekLabel(),
-      veg:c.veg, fruit:c.fruit, protein:c.protein, grain:c.grain, limit:c.limit,
-      nutritionScore: score,
-      foods: sessions.map(s=>({name:s.name,cat:s.cat,xp:s.xp})),
-      xp, lv:lv.lv, lvName:lv.name,
-      memo: document.getElementById('week-memo').value.trim()||null,
-      savedAt: new Date().toISOString(),
-      dataType:'nutrition'
-    });
-  } catch(e){ console.warn('Firestore:', e.message); }
+  // Firestoreにも保存（研究データ収集／オフライン時はキュー）
+  // 栄養合計を計算
+  let totKcal=0, totProt=0, totFib=0;
+  sessions.forEach(s=>{
+    if(s.components){ totKcal += s.kcal||0; totProt += s.protein||0; totFib += s.fiber||0; }
+    else { totKcal += s.kcal||0; totProt += s.prot||0; totFib += s.fib||0; }
+  });
+  // セットボーナス取得
+  const earnedBonuses = SET_BONUSES.filter(b=>b.cond(sessions)).map(b=>({id:b.id, name:b.name, xp:b.xp}));
+
+  const recordPayload = {
+    uid,
+    email: auth.currentUser?.email||'',
+    weekKey: weekKey(),
+    weekLabel: weekLabel(),
+    veg:c.veg, fruit:c.fruit, protein:c.protein, grain:c.grain,
+    drink:c.drink||0, snack:c.snack||0, limit:c.limit,
+    totalKcal: Math.round(totKcal),
+    totalProtein: +totProt.toFixed(1),
+    totalFiber: +totFib.toFixed(1),
+    setBonuses: earnedBonuses,
+    nutritionScore: score,
+    foods: sessions.map(s=>({name:s.name,cat:s.cat,xp:s.xp,portion:s.portion||null,mealTime:s.mealTime||null,kcal:s.kcal||0})),
+    xp, lv:lv.lv, lvName:lv.name,
+    memo: document.getElementById('week-memo').value.trim()||null,
+    savedAt: new Date().toISOString(),
+    dataType:'nutrition'
+  };
+  if(!navigator.onLine){
+    window.AppSafety?.queueRecord('nutrition_records', recordPayload);
+  } else {
+    try {
+      await setDoc(doc(db,'nutrition_records',`${uid}_${weekKey()}`), recordPayload);
+    } catch(e){
+      console.warn('Firestore:', e.message);
+      window.AppSafety?.queueRecord('nutrition_records', recordPayload);
+    }
+  }
 
   document.getElementById('save-msg').textContent='';
   showSaveToast('✅','記録を保存しました');
@@ -2566,6 +2923,8 @@ onAuthStateChanged(auth,user=>{
     buildBoard('fruit-grid',  FOODS.fruit,  'fruit',  'fc-fruit');
     buildBoard('protein-grid',FOODS.protein,'protein','fc-protein');
     buildBoard('grain-grid',  FOODS.grain,  'grain',  'fc-grain');
+    buildBoard('drink-grid',  FOODS.drink,  'drink',  'fc-drink');
+    buildBoard('snack-grid',  FOODS.snack,  'snack',  'fc-snack');
     buildBoard('limit-grid',  FOODS.limit,  'limit',  'fc-limit');
     buildMenuBoard();
     loadFoodsDB();
@@ -2769,6 +3128,7 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
   <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
   <a href="./nutrition.html" class="bn-tab active"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
   <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
 

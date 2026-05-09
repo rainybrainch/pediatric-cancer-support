@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パーティ ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;--rose:#f0a0c8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+
+header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:760px;margin:0 auto;padding:24px 18px 80px;}
+
+.party-hero{
+  background:linear-gradient(135deg, rgba(192,160,240,.15), rgba(201,168,76,.1));
+  border:1.5px solid rgba(192,160,240,.4);border-radius:18px;
+  padding:22px 22px;margin-bottom:18px;position:relative;overflow:hidden;
+  text-align:center;
+}
+.ph-badge{display:inline-block;background:rgba(192,160,240,.18);border:1px solid rgba(192,160,240,.5);color:#c0a0f0;font-size:.6rem;font-weight:700;letter-spacing:.18em;padding:3px 14px;border-radius:99px;margin-bottom:10px;}
+.ph-name{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;color:#e8d4ff;margin-bottom:6px;}
+.ph-desc{font-size:.78rem;color:rgba(220,225,245,.75);line-height:1.85;}
+
+.section-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+
+.party-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.ps-cell{background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:12px 10px;text-align:center;}
+.ps-num{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:var(--gold2);line-height:1;}
+.ps-lbl{font-size:.6rem;color:rgba(170,188,216,.55);margin-top:3px;}
+
+.member-list{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+.member{
+  background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.15);border-radius:12px;
+  padding:11px 14px;display:flex;align-items:center;gap:11px;
+}
+.member.you{border-color:rgba(240,212,138,.4);background:rgba(240,212,138,.06);}
+.m-avatar{
+  width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  border:1.5px solid rgba(201,168,76,.3);flex-shrink:0;
+}
+.member.you .m-avatar{border-color:var(--gold2);}
+.m-info{flex:1;min-width:0;}
+.m-name{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:#e8e4d4;}
+.m-stats{font-size:.62rem;color:rgba(170,188,216,.55);margin-top:2px;}
+.m-rank{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;color:var(--gold);min-width:28px;text-align:center;}
+
+.report-box{
+  background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.15);border-radius:14px;
+  padding:14px 16px;margin-bottom:14px;
+}
+.report-input{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
+  border-radius:10px;padding:11px 12px;color:#e8e4d4;font-family:inherit;font-size:.82rem;
+  resize:vertical;min-height:80px;outline:none;line-height:1.7;
+}
+.report-input:focus{border-color:rgba(201,168,76,.5);}
+.report-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:10px;flex-wrap:wrap;}
+.report-mood{display:flex;gap:5px;}
+.report-mood label{cursor:pointer;font-size:1.4rem;opacity:.4;transition:opacity .2s, transform .2s;}
+.report-mood input{display:none;}
+.report-mood label:has(input:checked){opacity:1;transform:scale(1.2);}
+.report-submit{
+  background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;
+  font-family:inherit;font-size:.78rem;font-weight:900;padding:9px 18px;border-radius:10px;cursor:pointer;
+}
+.report-submit:disabled{opacity:.4;cursor:not-allowed;}
+
+.report-feed{display:flex;flex-direction:column;gap:8px;}
+.report-card{
+  background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.12);border-radius:10px;
+  padding:11px 13px;
+}
+.rc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.rc-author{font-size:.74rem;font-weight:700;color:#e8e4d4;}
+.rc-time{font-size:.6rem;color:rgba(170,188,216,.4);}
+.rc-mood{font-size:1rem;}
+.rc-text{font-size:.75rem;line-height:1.7;color:rgba(220,225,245,.85);white-space:pre-wrap;}
+
+.zoom-card{
+  background:linear-gradient(135deg, rgba(78,201,138,.1), rgba(78,201,138,.04));
+  border:1px solid rgba(78,201,138,.3);border-radius:14px;
+  padding:16px 18px;margin-bottom:18px;
+}
+.zoom-head{font-family:'Noto Serif JP',serif;font-size:.95rem;color:#a8e8c0;font-weight:900;margin-bottom:6px;}
+.zoom-info{font-size:.78rem;color:rgba(220,225,245,.85);line-height:1.85;}
+.zoom-info strong{color:#a8e8c0;}
+.zoom-link{display:inline-block;margin-top:8px;background:rgba(78,201,138,.2);border:1px solid rgba(78,201,138,.5);color:#a8e8c0;padding:7px 14px;border-radius:8px;text-decoration:none;font-size:.78rem;font-weight:700;}
+
+@media(max-width:480px){
+  .ph-name{font-size:1.18rem;}
+  .ps-num{font-size:1.05rem;}
+  .party-stats{grid-template-columns:1fr 1fr 1fr;gap:6px;}
+}
+</style>
+<script src="./app-safety.js"></script>
+</head>
+<body>
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./class-select.html" class="back-btn">クラス変更</a>
+</header>
+
+<main class="page">
+  <!-- パーティヒーロー -->
+  <div class="party-hero">
+    <div class="ph-badge" id="party-badge">PARTY</div>
+    <div class="ph-name" id="party-name">あなたのパーティ</div>
+    <div class="ph-desc" id="party-desc">同じ目標を持つ仲間と一緒に、健康習慣を続けましょう。</div>
+  </div>
+
+  <!-- 統計 -->
+  <div class="party-stats">
+    <div class="ps-cell"><div class="ps-num" id="party-members">—</div><div class="ps-lbl">メンバー</div></div>
+    <div class="ps-cell"><div class="ps-num" id="party-active">—</div><div class="ps-lbl">今週アクティブ</div></div>
+    <div class="ps-cell"><div class="ps-num" id="party-xp">—</div><div class="ps-lbl">パーティ平均XP</div></div>
+  </div>
+
+  <!-- Zoom/会場ミーティング情報 -->
+  <div class="zoom-card">
+    <div class="zoom-head">📅 次回のミーティング</div>
+    <div class="zoom-info" id="meeting-info">
+      <strong>近況報告会</strong> — 日程は研究事務局からのお知らせをお待ちください。<br>
+      Zoomまたは会場にて、仲間同士で「今週どうだった？」「どうすれば続けられそう？」を共有します。最後に発表もあります🎤
+    </div>
+  </div>
+
+  <!-- ランキング/メンバー -->
+  <div class="section-title">⚔ パーティメンバー</div>
+  <div class="member-list" id="member-list"></div>
+
+  <!-- 近況報告ボード -->
+  <div class="section-title">📣 近況報告ボード</div>
+  <div class="report-box">
+    <textarea class="report-input" id="report-input" maxlength="500" placeholder="今週の出来事・続けるコツ・困っていること… 仲間に共有しよう（500字以内）"></textarea>
+    <div class="report-row">
+      <div class="report-mood" role="radiogroup" aria-label="今の気分">
+        <label><input type="radio" name="rmood" value="good"><span>😄</span></label>
+        <label><input type="radio" name="rmood" value="ok" checked><span>🙂</span></label>
+        <label><input type="radio" name="rmood" value="tough"><span>😔</span></label>
+      </div>
+      <button class="report-submit" id="report-submit">投稿する ✦</button>
+    </div>
+  </div>
+
+  <div class="report-feed" id="report-feed"></div>
+</main>
+
+<script>
+const CLASS_DATA = {
+  witch:      { name:'魔女っ子パーティ',   icon:'🧙‍♀️', desc:'魔法の食材で身体を癒やす、栄養特化の冒険者たち。' },
+  hero:       { name:'勇者パーティ',       icon:'⚔',   desc:'バランス良く全カテゴリを攻略する、王道の冒険者たち。' },
+  saint:      { name:'聖女パーティ',       icon:'⛪',   desc:'心と体を整える、QOL・メンタルケア重視の癒やし手。' },
+  villainess: { name:'悪役令嬢パーティ',   icon:'👑',   desc:'断罪なんてさせない、逆境から逆転する転生者たち。' },
+  prince:     { name:'王子パーティ',       icon:'🤴',   desc:'仲間と進む、リーダーシップと協調の冒険者たち。' },
+  knight:     { name:'騎士パーティ',       icon:'🛡',   desc:'コツコツ守り続ける、習慣の鉄壁の継続者たち。' },
+};
+
+const uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+const cls = localStorage.getItem('vt_class') || 'hero';
+const c = CLASS_DATA[cls] || CLASS_DATA.hero;
+
+document.getElementById('party-badge').textContent = c.icon + ' ' + c.name.replace('パーティ','').toUpperCase();
+document.getElementById('party-name').textContent = c.name;
+document.getElementById('party-desc').textContent = c.desc;
+
+// パーティ統計（クライアント側のサンプル：実装時はFirestoreで集計）
+const sampleSize = 8 + Math.floor(Math.random()*15); // 8-22人
+const activeRatio = 0.55 + Math.random()*0.3;
+document.getElementById('party-members').textContent = sampleSize;
+document.getElementById('party-active').textContent = Math.floor(sampleSize*activeRatio);
+
+let myXp = 0;
+try{ myXp = parseInt(localStorage.getItem(`vc_xp_${uid}_${weekKey()}`)||'0',10); }catch(e){}
+const avgXp = Math.max(120, myXp + Math.floor(Math.random()*200) - 100);
+document.getElementById('party-xp').textContent = avgXp;
+
+function weekKey(){
+  const d=new Date(),j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+
+// パーティメンバー（モック - 自分 + サンプル仲間）
+const SAMPLE_NAMES = ['星見の旅人','森の番人','黄昏の歌い手','蒼穹の探究者','光の継承者','風の踊り手','炎の鍛冶師','銀の月','緑の魔導士','静寂の賢者'];
+const SAMPLE_AVATARS = ['🌙','🌟','✨','🌸','🍃','🔥','💎','🌊','🌿','⭐'];
+
+function renderMembers(){
+  const list = document.getElementById('member-list');
+  const members = [];
+  // 自分
+  members.push({ name:'あなた', avatar:c.icon, xp:myXp, you:true });
+  // サンプル
+  for(let i=0;i<6;i++){
+    members.push({
+      name: SAMPLE_NAMES[i % SAMPLE_NAMES.length],
+      avatar: SAMPLE_AVATARS[i % SAMPLE_AVATARS.length],
+      xp: Math.floor(50 + Math.random()*400),
+      you:false,
+    });
+  }
+  members.sort((a,b)=>b.xp-a.xp);
+  list.innerHTML = members.map((m,i)=>{
+    const rank = i+1;
+    const medal = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
+    return `
+      <div class="member${m.you?' you':''}">
+        <div class="m-rank">${medal}</div>
+        <div class="m-avatar">${m.avatar}</div>
+        <div class="m-info">
+          <div class="m-name">${m.name}${m.you?' (あなた)':''}</div>
+          <div class="m-stats">今週 ${m.xp} XP</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+renderMembers();
+
+// 近況報告ボード
+const REPORTS_KEY = `vt_reports_${cls}`;
+function loadReports(){
+  let arr = [];
+  try{ arr = JSON.parse(localStorage.getItem(REPORTS_KEY) || '[]'); }catch(e){}
+  // サンプル投稿（初回時のみ）
+  if(arr.length === 0){
+    arr = [
+      { author:'森の番人', mood:'good', text:'今週は朝の散歩を5日続けられました！魚を週3回食べたら、なんだか体調がいい気がする🐟', ts: Date.now()-86400000*2 },
+      { author:'銀の月',   mood:'tough',text:'仕事が忙しくて運動できなかった…。でも野菜は意識したから次週こそ。', ts: Date.now()-86400000*4 },
+      { author:'光の継承者',mood:'ok',  text:'ルナと話してると、なんで自分が頑張ってるか整理できる。Goal設定大事。', ts: Date.now()-86400000*5 },
+    ];
+  }
+  return arr;
+}
+function saveReports(arr){
+  localStorage.setItem(REPORTS_KEY, JSON.stringify(arr.slice(0, 50)));
+}
+function renderReports(){
+  const arr = loadReports();
+  const feed = document.getElementById('report-feed');
+  feed.innerHTML = arr.map(r=>{
+    const moodMap = { good:'😄', ok:'🙂', tough:'😔' };
+    const t = new Date(r.ts);
+    const ago = formatAgo(r.ts);
+    return `
+      <div class="report-card">
+        <div class="rc-head">
+          <span class="rc-author">${escapeHtml(r.author)}</span>
+          <span class="rc-mood">${moodMap[r.mood]||'🙂'}</span>
+          <span class="rc-time">${ago}</span>
+        </div>
+        <div class="rc-text">${escapeHtml(r.text)}</div>
+      </div>
+    `;
+  }).join('');
+}
+function formatAgo(ts){
+  const d = (Date.now() - ts) / 1000;
+  if(d < 60) return 'たった今';
+  if(d < 3600) return Math.floor(d/60) + '分前';
+  if(d < 86400) return Math.floor(d/3600) + '時間前';
+  return Math.floor(d/86400) + '日前';
+}
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('report-input').addEventListener('input', (e)=>{
+  document.getElementById('report-submit').disabled = e.target.value.trim().length === 0;
+});
+document.getElementById('report-submit').disabled = true;
+
+document.getElementById('report-submit').addEventListener('click', ()=>{
+  const text = document.getElementById('report-input').value.trim().slice(0,500);
+  if(!text) return;
+  const mood = document.querySelector('input[name="rmood"]:checked')?.value || 'ok';
+  const arr = loadReports();
+  arr.unshift({
+    author: 'あなた',
+    text, mood,
+    ts: Date.now(),
+  });
+  saveReports(arr);
+  document.getElementById('report-input').value='';
+  document.getElementById('report-submit').disabled = true;
+  renderReports();
+  // XP+10
+  try{
+    const k = `vc_xp_${uid}_${weekKey()}`;
+    const cur = parseInt(localStorage.getItem(k)||'0',10);
+    localStorage.setItem(k, String(cur+10));
+  }catch(e){}
+});
+
+renderReports();
+</script>
+</body>
+</html>

@@ -87,6 +87,89 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // 同意記録（インフォームド・コンセント）
+    match /consent_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.version is string;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 研究離脱・アカウント削除リクエスト
+    match /deletion_requests/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update: if isResearcher();   // 研究者がstatusを更新可能
+      allow delete: if false;
+    }
+
+    // ユーザー設定（端末間同期）
+    match /user_settings/{docId} {
+      allow read, write: if isOwner(docId)
+        || (isOwner(request.resource.data.uid) && docId == request.auth.uid);
+      // ※ user_settings は uid をドキュメントIDとして使用
+    }
+
+    // 危機介入ログ（クライアント側で記録した検知履歴の研究用集計）
+    match /crisis_events/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // ベースラインアセスメント（研究開始時の必須調査）
+    match /baseline_assessments/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.instrumentVersion is string;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // マイルストーン評価（中間6週・最終12週・uMARS含む）
+    match /milestone_assessments/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.type is string;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 週次サーベイ（PROMIS-29ベース短縮版）
+    match /weekly_surveys/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.weekNum is int
+        && request.resource.data.weekNum >= 1
+        && request.resource.data.weekNum <= 52;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 睡眠記録
+    match /sleep_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.hours is number
+        && request.resource.data.hours >= 0
+        && request.resource.data.hours <= 24;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // エンゲージメントログ（ページビュー・操作・滞在時間）
+    match /engagement_logs/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher();
+      allow update, delete: if false;
+    }
+
+    // 近況報告（パーティ内）
+    match /party_reports/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.text is string
+        && request.resource.data.text.size() < 600;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update: if false;
+      allow delete: if isOwner(resource.data.uid);
+    }
+
     // それ以外は拒否
     match /{document=**} {
       allow read, write: if false;
