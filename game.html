@@ -2735,6 +2735,389 @@ input:focus, select:focus, textarea:focus{
 @media(max-width:480px){
   .jump-fab{ bottom: calc(74px + env(safe-area-inset-bottom, 0)) !important; }
 }
+
+/* ===========================================
+   ホーム残ボックス（冒険プログレス・今日のミッション）の可読化
+   =========================================== */
+#main-screen .sh-adv{
+  background: linear-gradient(135deg, #fff, #f3eef9) !important;
+  border: 2px solid #5b4ea8 !important;
+  border-radius: 14px !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  padding: 12px 16px !important;
+  margin-bottom: 10px !important;
+  box-shadow: 0 3px 0 rgba(91,78,168,.18), 0 2px 10px rgba(30,80,110,.08) !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-weight: 700 !important;
+}
+#main-screen .sh-adv-icon{ font-size: 1.4rem !important; flex-shrink: 0; }
+#main-screen .sh-adv-text{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+#main-screen .sh-adv-arrow{
+  color: #5b4ea8 !important;
+  -webkit-text-fill-color: #5b4ea8 !important;
+  font-weight: 900 !important;
+  margin-left: auto;
+  font-size: 1.2rem !important;
+}
+#main-screen .sh-mission{
+  background: linear-gradient(135deg, #fff, #e6f4ec) !important;
+  border: 2px solid #1f7d4d !important;
+  border-radius: 14px !important;
+  padding: 12px 16px !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  box-shadow: 0 3px 0 rgba(31,125,77,.18), 0 2px 10px rgba(30,80,110,.08) !important;
+}
+#main-screen .sh-m-icon{ font-size: 1.4rem !important; flex-shrink: 0; }
+#main-screen .sh-m-text{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 800 !important;
+  flex: 1;
+}
+#main-screen .sh-m-done{
+  background: linear-gradient(135deg, #1f7d4d, #2da366) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  width: 38px !important; height: 38px !important;
+  border-radius: 10px !important;
+  font-size: 1.1rem !important;
+  font-weight: 900 !important;
+  box-shadow: 0 3px 0 rgba(22,106,62,.4) !important;
+  cursor: pointer;
+}
+
+/* 3キャラ立ち絵バナー */
+.home-char-trio{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 10px !important;
+  margin: 16px 0 16px !important;
+  position: relative;
+  z-index: 2;
+}
+.hc-card{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2.5px solid;
+  border-radius: 16px;
+  padding: 12px 6px 10px;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 0 rgba(30,80,110,.10), 0 2px 12px rgba(30,80,110,.08);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  font-family: inherit;
+}
+.hc-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 0 rgba(30,80,110,.14), 0 4px 16px rgba(30,80,110,.12); }
+.hc-card:active{ transform: translateY(2px); box-shadow: 0 1px 0 rgba(30,80,110,.10), 0 1px 4px rgba(30,80,110,.06); }
+.hc-kaito{ border-color: #b53a3a; background: linear-gradient(180deg, #fff, #fdebeb) !important; }
+.hc-sera{ border-color: #1f7d4d; background: linear-gradient(180deg, #fff, #ecf8f0) !important; }
+.hc-luna{ border-color: #b07a1a; background: linear-gradient(180deg, #fff, #faf3e5) !important; }
+.hc-portrait{
+  width: 66px; height: 66px; border-radius: 50%; overflow: hidden;
+  border: 3px solid;
+  margin-bottom: 4px;
+  position: relative;
+}
+.hc-kaito .hc-portrait{ border-color: #b53a3a; box-shadow: 0 0 12px rgba(181,58,58,.2); }
+.hc-sera .hc-portrait{ border-color: #1f7d4d; box-shadow: 0 0 12px rgba(31,125,77,.2); }
+.hc-luna .hc-portrait{ border-color: #b07a1a; box-shadow: 0 0 12px rgba(176,122,26,.2); }
+.hc-portrait img{ width: 100%; height: 100%; object-fit: cover; object-position: center 12%; }
+.hc-name{
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 900;
+  font-size: .9rem;
+  letter-spacing: .02em;
+}
+.hc-kaito .hc-name{ color: #b53a3a; }
+.hc-sera .hc-name{ color: #1f7d4d; }
+.hc-luna .hc-name{ color: #b07a1a; }
+.hc-role{
+  color: #1a4860;
+  font-weight: 700;
+  font-size: .58rem;
+  letter-spacing: .04em;
+}
+.hc-cta{
+  margin-top: 4px;
+  font-size: .58rem;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: rgba(30,127,164,.08);
+  color: #0a4870;
+  letter-spacing: .03em;
+}
+@media(max-width:480px){
+  .home-char-trio{ gap: 6px; }
+  .hc-portrait{ width: 54px; height: 54px; border-width: 2.5px; }
+  .hc-name{ font-size: .76rem; }
+  .hc-role{ font-size: .52rem; }
+  .hc-cta{ font-size: .52rem; padding: 2px 6px; }
+}
+
+/* ============================================
+   背景エフェクト v9 ── 雨域図風オーロラ + 浮遊光
+   水色背景に動きと深さを加える
+   ============================================ */
+body::after{
+  content: '';
+  position: fixed;
+  inset: -20% -20% -20% -20%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 50% 35% at 22% 18%, rgba(255,255,255,.55), transparent 55%),
+    radial-gradient(ellipse 45% 30% at 78% 32%, rgba(154,210,234,.45), transparent 60%),
+    radial-gradient(circle 40% at 18% 75%, rgba(74,176,212,.18), transparent 55%),
+    radial-gradient(circle 30% at 82% 78%, rgba(168,194,232,.25), transparent 55%);
+  animation: aurora 22s ease-in-out infinite;
+  opacity: .9;
+}
+@keyframes aurora{
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(-3%, -2%) rotate(.5deg); }
+  66% { transform: translate(2%, 1%) rotate(-.5deg); }
+}
+
+/* 浮遊光（粒子） */
+.bg-particle{
+  position: fixed;
+  width: 4px; height: 4px;
+  background: radial-gradient(circle, rgba(74,176,212,.85), rgba(74,176,212,0));
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(0.3px);
+  animation: float-up 12s linear infinite;
+}
+.bg-particle.large{ width: 6px; height: 6px; background: radial-gradient(circle, rgba(255,255,255,.9), rgba(255,255,255,0)); }
+.bg-particle.gold{ background: radial-gradient(circle, rgba(216,155,43,.85), rgba(216,155,43,0)); }
+@keyframes float-up{
+  0%   { transform: translateY(110vh) translateX(0); opacity: 0; }
+  10%  { opacity: .9; }
+  90%  { opacity: .8; }
+  100% { transform: translateY(-15vh) translateX(20px); opacity: 0; }
+}
+
+/* メイン画面と要素を背景より上に */
+#login-screen, #main-screen, .bottom-nav, .jump-fab, #tutorial-overlay, #qol-modal{
+  position: relative;
+  z-index: 2;
+}
+.bottom-nav, .jump-fab, #tutorial-overlay{ z-index: 95; }
+#tutorial-overlay, #qol-modal{ z-index: 300; }
+@media (prefers-reduced-motion: reduce){
+  body::after{ animation: none !important; }
+  .bg-particle{ animation: none !important; opacity: .3; }
+}
+
+/* ============================================
+   login-screen v8 ── 2026-05-13 ランディング画面読みやすく
+   ============================================ */
+#login-screen *{ text-shadow: none !important; }
+
+/* ランタイトル「VITALIA TENSEI-ROKU」 */
+#login-screen .lp-rune{
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+  font-weight: 900 !important;
+  letter-spacing: .4em !important;
+  font-size: .68rem !important;
+}
+
+/* メインタイトル「ヴィタリア転生録」 */
+#login-screen .lp-title{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  font-weight: 900 !important;
+  text-shadow: 0 2px 4px rgba(255,255,255,.5) !important;
+}
+
+/* サブタイトル「HEALTH QUEST · RPG × AI COACHING」 */
+#login-screen .lp-subtitle{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+}
+
+/* タグライン本文 */
+#login-screen .lp-tagline{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 500 !important;
+  line-height: 1.85 !important;
+}
+#login-screen .lp-tagline strong{
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+  font-weight: 900 !important;
+}
+
+/* メインキャラ画像（中央のルナ）に金枠 */
+#login-screen .lp-char img{
+  border: 3px solid #b07a1a !important;
+  box-shadow: 0 6px 0 rgba(176,122,26,.22), 0 0 40px rgba(176,122,26,.18) !important;
+}
+
+/* 3キャラ並び（ルナ・カイト・セラ） */
+#login-screen .lp-chars{ gap: 18px !important; }
+#login-screen .lp-ch-face{
+  border: 3px solid #b0cfdf !important;
+  background: #ffffff !important;
+}
+#login-screen .ch-luna .lp-ch-face{
+  border-color: #b07a1a !important;
+  box-shadow: 0 4px 0 rgba(176,122,26,.18), 0 0 20px rgba(176,122,26,.15) !important;
+}
+#login-screen .ch-kaito .lp-ch-face{
+  border-color: #b53a3a !important;
+  box-shadow: 0 4px 0 rgba(181,58,58,.18), 0 0 20px rgba(181,58,58,.15) !important;
+}
+#login-screen .ch-sera .lp-ch-face{
+  border-color: #1f7d4d !important;
+  box-shadow: 0 4px 0 rgba(31,125,77,.18), 0 0 20px rgba(31,125,77,.15) !important;
+}
+#login-screen .lp-ch-name{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  font-size: .82rem !important;
+  margin-top: 6px;
+}
+#login-screen .ch-luna .lp-ch-name{ color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; }
+#login-screen .ch-kaito .lp-ch-name{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
+#login-screen .ch-sera .lp-ch-name{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; }
+#login-screen .lp-ch-role{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+  font-size: .62rem !important;
+  letter-spacing: .04em !important;
+}
+#login-screen .lp-ch-sep{
+  color: #b07a1a !important;
+  -webkit-text-fill-color: #b07a1a !important;
+  font-weight: 900 !important;
+  font-size: .9rem !important;
+}
+
+/* バッジ（XP・レベルアップ など） */
+#login-screen .lp-badge{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #1e7fa4 !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-size: .72rem !important;
+  padding: 6px 14px !important;
+  border-radius: 99px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.10);
+  letter-spacing: .02em;
+}
+
+/* ログインフォーム本体 */
+#login-screen .lp-form{ margin-top: 18px; }
+#login-screen .login-box{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 18px !important;
+  padding: 22px !important;
+  box-shadow: 0 6px 0 rgba(30,80,110,.10), 0 4px 20px rgba(30,80,110,.12) !important;
+}
+#login-screen .login-box-title{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+}
+#login-screen .login-field label{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+#login-screen .login-field input,
+#login-screen input[type="email"],
+#login-screen input[type="password"]{
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 600 !important;
+}
+#login-screen input:focus{
+  border-color: #1e7fa4 !important;
+  box-shadow: 0 0 0 3px rgba(30,127,164,.2) !important;
+}
+#login-screen ::placeholder{ color: #355773 !important; opacity: .7; }
+#login-screen .login-btn,
+#login-screen button[id*="login"],
+#login-screen button[id*="signup"],
+#login-screen button[type="submit"]{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  background-image: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+  padding: 13px 18px !important;
+  box-shadow: 0 4px 0 #0a4870, 0 6px 14px rgba(30,80,110,.2) !important;
+}
+#login-screen .login-switch,
+#login-screen .lp-research-link,
+#login-screen .login-meta{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+#login-screen .login-switch a,
+#login-screen .lp-research-link a,
+#login-screen a[href*="research"]{
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+  font-weight: 900 !important;
+  text-decoration: underline;
+}
+
+/* ゲスト体験ボタン等 */
+#login-screen [class*="guest"],
+#login-screen button[id*="guest"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 700 !important;
+}
 </style>
 </head>
 <body>
@@ -2911,6 +3294,35 @@ input:focus, select:focus, textarea:focus{
 
     <!-- 🎯 シンプルホーム — 記録優先 -->
     <div class="simple-home" id="compact-home">
+
+      <!-- 🆕 3キャラ立ち絵バナー（ビジュアル + 各機能への入口） -->
+      <div class="home-char-trio" id="home-char-trio">
+        <a href="./quest.html" class="hc-card hc-kaito" aria-label="運動の師 カイトと修練">
+          <div class="hc-portrait">
+            <img src="./image/kaito-sabun%20(1).png" alt="カイト">
+          </div>
+          <div class="hc-name">カイト</div>
+          <div class="hc-role">運動の師</div>
+          <div class="hc-cta">⚔ 運動を始める</div>
+        </a>
+        <a href="./nutrition.html" class="hc-card hc-sera" aria-label="栄養の巫女 セラに学ぶ">
+          <div class="hc-portrait">
+            <img src="./image/sera-sabun%20(1).png" alt="セラ">
+          </div>
+          <div class="hc-name">セラ</div>
+          <div class="hc-role">栄養の巫女</div>
+          <div class="hc-cta">🌿 食事を記録</div>
+        </a>
+        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す">
+          <div class="hc-portrait">
+            <img src="./image/runa-sabun%20(2).png" alt="ルナ">
+          </div>
+          <div class="hc-name">ルナ</div>
+          <div class="hc-role">AIコーチ</div>
+          <div class="hc-cta">🌙 話しかける</div>
+        </button>
+      </div>
+
       <!-- 3大記録ボタン（最優先） -->
       <div class="sh-record">
         <a href="./quest.html" class="sh-rec-btn rec-ex">
@@ -7147,6 +7559,45 @@ window.addEventListener('load', ()=>{
   } else {
     init();
   }
+})();
+</script>
+
+<!-- 🆕 背景パーティクル生成（雨域図の浮遊光） -->
+<script>
+(function(){
+  function init(){
+    if(document.querySelector('.bg-particle')) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const N = 18;
+    for(let i=0; i<N; i++){
+      const p = document.createElement('div');
+      p.className = 'bg-particle' + (i%5===0?' large':'') + (i%7===0?' gold':'');
+      p.style.left = (Math.random()*100) + 'vw';
+      p.style.animationDelay = (Math.random()*12) + 's';
+      p.style.animationDuration = (9 + Math.random()*6) + 's';
+      document.body.appendChild(p);
+    }
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();
+</script>
+
+<!-- ルナと話す（3キャラトリオの右） → AIコーチ起動 -->
+<script>
+(function(){
+  function init(){
+    const btn = document.getElementById('hc-luna-card');
+    if(!btn) return;
+    btn.addEventListener('click', ()=>{
+      const lunaBtn = document.getElementById('sh-rec-luna') || document.querySelector('.sh-rec-btn.rec-luna');
+      if(lunaBtn){ lunaBtn.click(); }
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
 })();
 </script>
 </body>
