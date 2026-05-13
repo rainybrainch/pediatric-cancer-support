@@ -1704,56 +1704,70 @@ body.detail-mode #compact-home{display:none !important;}
 }
 
 /* ========== チュートリアル ========== */
-#tutorial-overlay{position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
+#tutorial-overlay{position:fixed;inset:0;background:rgba(10,42,64,.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px);}
 #tutorial-box{
-  background:linear-gradient(160deg,#0d1225 0%,#111a30 60%,#0a0d1c 100%);
-  border:1px solid rgba(201,168,76,.35);border-radius:22px;
-  padding:0 0 24px;max-width:400px;width:100%;
+  background:#ffffff;
+  border:2px solid #b0cfdf;border-radius:20px;
+  padding:0 0 22px;max-width:420px;width:100%;
   text-align:center;
-  box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(201,168,76,.06);
+  box-shadow:0 12px 0 rgba(30,80,110,.18),0 24px 64px rgba(30,80,110,.25);
   position:relative;overflow:hidden;
   animation:modalIn .4s cubic-bezier(.22,1,.36,1);
 }
 #tutorial-box::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(201,168,76,.1) 0%,transparent 60%);
+  content:'';position:absolute;inset:0 0 auto 0;height:140px;pointer-events:none;
+  background:linear-gradient(180deg,#e8f4fb 0%, #ffffff 100%);
+  z-index:0;
 }
 .tut-char-wrap{
-  padding:24px 24px 16px;position:relative;z-index:1;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  border-bottom:1px solid rgba(201,168,76,.1);
+  padding:22px 24px 14px;position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  border-bottom:1.5px solid #b0cfdf;
 }
 .tut-char{
   width:88px;height:88px;border-radius:50%;overflow:hidden;
-  border:2px solid;
+  border:3px solid;
+  background:#ffffff;
   animation:float 3s ease-in-out infinite;
 }
 .tut-char img{width:100%;height:100%;object-fit:cover;}
-.tut-char-luna{border-color:rgba(201,168,76,.55);box-shadow:0 0 28px rgba(201,168,76,.25);}
-.tut-char-kaito{border-color:rgba(224,92,92,.5);box-shadow:0 0 28px rgba(224,92,92,.25);}
-.tut-char-sera{border-color:rgba(78,201,138,.5);box-shadow:0 0 28px rgba(78,201,138,.25);}
-.tut-char-trophy{border-color:rgba(240,210,120,.55);box-shadow:0 0 28px rgba(240,210,120,.25);}
-.tut-step-num{font-size:.58rem;color:rgba(201,168,76,.5);letter-spacing:.18em;font-weight:700;}
-.tut-content{padding:20px 26px 8px;position:relative;z-index:1;}
-.tut-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);margin-bottom:10px;letter-spacing:.04em;}
-.tut-desc{font-size:.82rem;line-height:1.85;color:rgba(200,215,235,.78);margin-bottom:6px;text-align:left;}
+.tut-char-luna{border-color:#b07a1a;box-shadow:0 4px 0 rgba(176,122,26,.22),0 0 28px rgba(176,122,26,.18);}
+.tut-char-kaito{border-color:#b53a3a;box-shadow:0 4px 0 rgba(181,58,58,.22),0 0 28px rgba(181,58,58,.18);}
+.tut-char-sera{border-color:#1f7d4d;box-shadow:0 4px 0 rgba(31,125,77,.22),0 0 28px rgba(31,125,77,.18);}
+.tut-char-trophy{border-color:#b07a1a;box-shadow:0 4px 0 rgba(176,122,26,.22),0 0 28px rgba(216,155,43,.22);}
+.tut-step-num{font-size:.6rem;color:#1e7fa4;letter-spacing:.18em;font-weight:900;}
+.tut-content{padding:18px 26px 8px;position:relative;z-index:1;}
+.tut-title{font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;color:#0a4870;margin-bottom:10px;letter-spacing:.04em;}
+.tut-desc{font-size:.85rem;line-height:1.85;color:#0a2a40;margin-bottom:6px;text-align:left;white-space:pre-line;font-weight:500;}
 .tut-desc-cite{
-  font-size:.62rem;color:rgba(201,168,76,.45);
-  font-style:italic;margin-top:8px;border-left:2px solid rgba(201,168,76,.25);padding-left:10px;
+  font-size:.7rem;color:#1a4860;font-weight:600;
+  font-style:italic;margin-top:10px;border-left:3px solid #1e7fa4;padding:4px 0 4px 10px;
+  background:#f4faff;border-radius:0 6px 6px 0;
 }
-.tut-dots{display:flex;justify-content:center;gap:6px;margin:16px 0 18px;position:relative;z-index:1;}
-.tut-dot{width:7px;height:7px;border-radius:50%;background:rgba(201,168,76,.18);transition:all .25s;}
-.tut-dot.active{background:var(--gold);width:22px;border-radius:99px;}
+.tut-rulebook-link{
+  display:inline-block;margin-top:12px;font-size:.7rem;
+  color:#1e7fa4;text-decoration:none;font-weight:700;
+  border-bottom:1px dotted #1e7fa4;
+}
+.tut-rulebook-link:hover{color:#0a4870;border-bottom-style:solid;}
+.tut-dots{display:flex;justify-content:center;gap:6px;margin:14px 0 18px;position:relative;z-index:1;}
+.tut-dot{width:7px;height:7px;border-radius:50%;background:#b0cfdf;transition:all .25s;}
+.tut-dot.active{background:#1e7fa4;width:22px;border-radius:99px;}
 .tut-btns{display:flex;gap:10px;justify-content:center;padding:0 24px;position:relative;z-index:1;}
-.tut-btn{padding:10px 22px;border-radius:12px;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.tut-btn{padding:11px 22px;border-radius:12px;font-family:inherit;font-size:.86rem;font-weight:900;cursor:pointer;border:none;transition:transform .1s,box-shadow .1s;}
 .tut-btn-next{
-  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));
-  color:var(--gold2);border:1px solid rgba(201,168,76,.5);
+  background:linear-gradient(135deg,#1e7fa4,#4ab0d4);
+  color:#ffffff;
   flex:1;
+  box-shadow:0 4px 0 #0a4870,0 6px 14px rgba(30,80,110,.2);
+  letter-spacing:.02em;
 }
-.tut-btn-next:hover{background:linear-gradient(135deg,rgba(201,168,76,.55),rgba(201,168,76,.3));}
-.tut-btn-skip{background:none;color:rgba(170,188,216,.4);font-size:.74rem;border:1px solid rgba(255,255,255,.08);}
-.tut-btn-skip:hover{color:rgba(200,215,235,.7);border-color:rgba(255,255,255,.15);}
+.tut-btn-next:active{transform:translateY(3px);box-shadow:0 1px 0 #0a4870,0 2px 6px rgba(30,80,110,.1);}
+.tut-btn-skip{
+  background:#ffffff;color:#1a4860;font-size:.74rem;
+  border:1.5px solid #b0cfdf;font-weight:700;
+}
+.tut-btn-skip:hover{background:#f4faff;border-color:#1e7fa4;color:#0a4870;}
 
 /* ========== レスポンシブ ========== */
 @media(max-width:700px){
@@ -2523,6 +2537,128 @@ input:focus, select:focus, textarea:focus{
   background-image: none !important;
   border: 1.5px solid #b0cfdf !important;
 }
+
+/* ============================================
+   ホームUI再編成 v7 ── 2026-05-13
+   創造主指示：物語・実績はホームに不要。キャラを圧迫しない配置。
+   運動・食事への動線を強化。
+   ============================================ */
+/* ── 物語・実績セクションをホームから非表示（ルールブック・図鑑からアクセス） ── */
+#main-screen .story-section,
+#main-screen .achv-section{
+  display: none !important;
+}
+
+/* ── プレイヤーステータスカード：キャラ画像を圧迫しないサイズに ── */
+#main-screen #player-card .player-avatar,
+#main-screen .player-card .player-avatar,
+#main-screen [class*="player-avatar"]{
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+}
+@media(max-width:600px){
+  #main-screen #player-card .player-avatar,
+  #main-screen .player-card .player-avatar,
+  #main-screen [class*="player-avatar"]{
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+  }
+}
+
+/* ── 3大記録ボタン（運動・食事・ルナ）を主役に格上げ ── */
+#main-screen .home-3btn,
+#main-screen .sh-rec-list{
+  margin-top: 14px !important;
+  gap: 10px !important;
+}
+#main-screen .sh-rec-btn{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  padding: 14px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.1), 0 2px 12px rgba(30,80,110,.08) !important;
+  transition: transform .1s, box-shadow .1s;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+#main-screen .sh-rec-btn:active{
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(30,80,110,.1), 0 1px 4px rgba(30,80,110,.06) !important;
+}
+/* 運動 = 赤系アクセント */
+#main-screen .sh-rec-btn.rec-ex,
+#main-screen .sh-rec-btn[id*="ex"]{
+  border-color: #b53a3a !important;
+  background: linear-gradient(135deg, #fff, #fdebeb) !important;
+  background-image: linear-gradient(135deg, #fff, #fdebeb) !important;
+}
+/* 食事 = 緑系アクセント */
+#main-screen .sh-rec-btn.rec-nu,
+#main-screen .sh-rec-btn[id*="nu"]{
+  border-color: #1f7d4d !important;
+  background: linear-gradient(135deg, #fff, #ecf8f0) !important;
+  background-image: linear-gradient(135deg, #fff, #ecf8f0) !important;
+}
+/* ルナと話す = 紫系 */
+#main-screen .sh-rec-btn.rec-luna,
+#main-screen .sh-rec-btn[id*="luna"]{
+  border-color: #5b4ea8 !important;
+  background: linear-gradient(135deg, #fff, #f3eef9) !important;
+  background-image: linear-gradient(135deg, #fff, #f3eef9) !important;
+}
+/* 調子チェック = 水色 */
+#main-screen .sh-rec-btn.rec-qol{
+  border-color: #1e7fa4 !important;
+  background: linear-gradient(135deg, #fff, #e0eff8) !important;
+  background-image: linear-gradient(135deg, #fff, #e0eff8) !important;
+}
+/* アイコンを大きく */
+#main-screen .sh-rec-icon{
+  font-size: 1.8rem !important;
+  flex-shrink: 0;
+  width: 48px;
+  text-align: center;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.08));
+}
+#main-screen .sh-rec-name{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  font-size: 1rem !important;
+  font-family: 'Noto Serif JP', serif !important;
+  letter-spacing: .02em;
+}
+#main-screen .sh-rec-meta{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 600 !important;
+  font-size: .68rem !important;
+  margin-top: 2px;
+}
+#main-screen .sh-rec-arrow{
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+  font-weight: 900 !important;
+  font-size: 1.2rem !important;
+  margin-left: auto;
+}
+
+/* キャラのフローティング応援メッセージは小さく */
+#main-screen .luna-floating,
+#main-screen .char-message,
+#main-screen [class*="kaito-msg"],
+#main-screen [class*="sera-msg"]{
+  font-size: .72rem !important;
+  padding: 8px 10px !important;
+  max-width: 280px;
+}
 </style>
 </head>
 <body>
@@ -2726,10 +2862,10 @@ input:focus, select:focus, textarea:focus{
           <div class="sh-rec-arrow">→</div>
         </button>
         <button class="sh-rec-btn rec-qol" id="sh-rec-qol" type="button">
-          <div class="sh-rec-icon">📊</div>
+          <div class="sh-rec-icon">💭</div>
           <div class="sh-rec-body">
-            <div class="sh-rec-name">今日のQOLを記録</div>
-            <div class="sh-rec-meta" id="sh-meta-qol">体調・気分・活力</div>
+            <div class="sh-rec-name">今日の調子をチェック</div>
+            <div class="sh-rec-meta" id="sh-meta-qol">体調・気分・活力を3問で（20秒・+15XP）</div>
           </div>
           <div class="sh-rec-arrow">→</div>
         </button>
@@ -6405,27 +6541,36 @@ function showReturnModal(daysAway){
 const TUT_STEPS=[
   {char:'luna',img:'./image/runa-sabun%20(1).png',title:'ヴィタリアへようこそ',
     desc:'私はルナ — 転生の女神です。\nあなたは今、健康の異世界ヴィタリアに転生しました。',
-    cite:'12週間、運動と栄養の力を取り戻す冒険が始まります。'},
+    cite:'12週間、運動と栄養の力を取り戻す冒険が始まります。',
+    rule:'./rulebook.html#about', ruleLabel:'このゲームについて'},
   {char:'luna',img:'./image/runa-sabun%20(3).png',title:'プレイヤーカード',
     desc:'画面上部のカードがあなたの分身です。\n運動・栄養を記録するごとにXPが貯まり、レベルが上がります。',
-    cite:'Lv.1 転生者 → Lv.5 伝説の転生者 を目指しましょう。'},
+    cite:'Lv.1 転生者 → Lv.5 伝説の転生者 を目指しましょう。',
+    rule:'./rulebook.html#xp', ruleLabel:'XP・レベルの仕組み'},
   {char:'kaito',img:'./image/kaito-sabun%20(1).png',title:'カイトの運動クエスト',
     desc:'「俺は鍛錬の剣士・カイト。」\n散歩・買い物などの日常活動も含めて記録していこう。',
-    cite:'目標は週150分。1タップで簡単に記録できます。'},
+    cite:'目標は週150分。1タップで簡単に記録できます。',
+    rule:'./rulebook.html#screens', ruleLabel:'クエスト画面の使い方'},
   {char:'sera',img:'./image/sera-sabun%20(1).png',title:'セラの栄養クエスト',
     desc:'「魔力の巫女・セラと申します。」\n野菜・果物・たんぱく質を記録して、栄養バランスを整えましょう。',
-    cite:'食事写真の自動認識（任意）も使えます。'},
+    cite:'食事写真の自動認識（任意）も使えます。',
+    rule:'./rulebook.html#nutrition', ruleLabel:'栄養と運動の連携'},
   {char:'luna',img:'./image/runa-sabun%20(2).png',title:'ルナのAIコーチング',
     desc:'いつでも私に話しかけてください。\nGROWモデル（目標→現状→選択肢→意志）であなたの考えを整理します。',
-    cite:'批判はしません。続けるための作戦を一緒に練りましょう。'},
+    cite:'批判はしません。続けるための作戦を一緒に練りましょう。',
+    rule:'./rulebook.html#luna', ruleLabel:'AIコーチング（ルナ）の詳細'},
   {char:'trophy',img:'./image/kaito-sabun%20(2).png',title:'実績バッジで継続を見える化',
     desc:'記録を続けると、12種類の実績バッジが順次解放されます。\n3週連続・完全栄養週・高強度達成…',
-    cite:'12週完走バッジを目指しましょう！'},
+    cite:'12週完走バッジを目指しましょう！',
+    rule:'./rulebook.html', ruleLabel:'ルールブック全体を見る'},
 ];
 let _tutIdx=0;
 function tutKey(){ return `vt_tut_${uid}`; }
-function showTutorial(){
-  if(localStorage.getItem(tutKey())) return;
+function showTutorial(force){
+  // URL に ?tut=1 がある場合、または force=true が渡された場合は強制表示
+  const params=new URLSearchParams(location.search);
+  const isForced = force === true || params.get('tut')==='1';
+  if(!isForced && localStorage.getItem(tutKey())) return;
   _tutIdx=0;
   // ドット数をステップ数に合わせる
   const dotsEl=document.getElementById('tut-dots');
@@ -6445,6 +6590,17 @@ function renderTutStep(){
   document.getElementById('tut-cite').textContent=s.cite||'';
   document.getElementById('tut-next').textContent=_tutIdx===TUT_STEPS.length-1?'冒険を始める ✦':'次へ →';
   document.querySelectorAll('.tut-dot').forEach((d,i)=>d.classList.toggle('active',i===_tutIdx));
+  // ルールブックリンク
+  const link=document.getElementById('tut-rule-link');
+  if(link){
+    if(s.rule){
+      link.href=s.rule;
+      link.textContent='📖 '+(s.ruleLabel||'ルールブックで詳しく読む')+' →';
+      link.style.display='inline-block';
+    } else {
+      link.style.display='none';
+    }
+  }
 }
 document.getElementById('tut-next').addEventListener('click',()=>{
   _tutIdx++;
@@ -6455,7 +6611,152 @@ document.getElementById('tut-skip').addEventListener('click',closeTutorial);
 function closeTutorial(){
   localStorage.setItem(tutKey(),'1');
   document.getElementById('tutorial-overlay').style.display='none';
+  // ?tut=1 で強制起動した場合、閉じたあとは URL から外す（再読込で再表示防止）
+  if(new URLSearchParams(location.search).get('tut')==='1'){
+    const url = new URL(location.href);
+    url.searchParams.delete('tut');
+    history.replaceState(null,'',url.toString());
+  }
+  // チュートリアル終了後、UI要素を実際に指し示すスポットライトツアーを起動
+  setTimeout(startSpotlightTour, 400);
 }
+
+// ================================================
+// スポットライトツアー：実画面の UI を「囲み + 説明」で案内
+// ================================================
+const SPOTLIGHT_STEPS = [
+  { sel: '#player-card, .player-card, [class*="player-card"]',
+    title: '📊 ステータスカード',
+    body: 'ここに あなたの Lv・XP・連続記録 が表示されます。記録するたびに増えていきます。' },
+  { sel: '#daily-mission, [id*="mission"], .tiny-habit-card, .home-3btn',
+    title: '🌱 今日のミッション',
+    body: '小さな一歩から。1日1つ、ここに表示される行動を達成すると XP がもらえます。' },
+  { sel: 'a[href*="quest.html"], #quest-card-ex, .quest-card',
+    title: '⚔ 運動クエスト（カイト）',
+    body: '散歩・買い物・階段なども運動です。1タップで記録できます。' },
+  { sel: 'a[href*="nutrition.html"], #quest-card-nu',
+    title: '🌿 栄養クエスト（セラ）',
+    body: '野菜・魚・果物を記録。写真で自動認識も可能です。' },
+  { sel: '#luna-chat-btn, [id*="luna"], .ls-link[href*="luna"]',
+    title: '🌙 ルナに話す',
+    body: 'いつでもルナと対話できます。GROW モデルで一緒に作戦を立てましょう。' },
+  { sel: '#jump-fab-root, .jump-fab',
+    title: '≡ セクションジャンプ',
+    body: '右下のボタンで、好きなセクションへワンタップで移動できます。' },
+];
+
+function findSpotEl(selectorList){
+  const sels = selectorList.split(',');
+  for(const s of sels){
+    const el = document.querySelector(s.trim());
+    if(el && el.offsetParent !== null) return el;
+  }
+  return null;
+}
+
+function ensureSpotlightDom(){
+  if(document.getElementById('spot-overlay')) return;
+  const overlay = document.createElement('div');
+  overlay.id = 'spot-overlay';
+  overlay.innerHTML = `
+    <div class="spot-ring" id="spot-ring"></div>
+    <div class="spot-tip" id="spot-tip">
+      <div class="spot-tip-title" id="spot-tip-title"></div>
+      <div class="spot-tip-body" id="spot-tip-body"></div>
+      <div class="spot-tip-foot">
+        <span class="spot-tip-num" id="spot-tip-num"></span>
+        <div class="spot-tip-btns">
+          <button class="spot-btn-skip" id="spot-skip">スキップ</button>
+          <button class="spot-btn-next" id="spot-next">次へ →</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('spot-next').addEventListener('click', spotlightNext);
+  document.getElementById('spot-skip').addEventListener('click', closeSpotlight);
+  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeSpotlight(); });
+  window.addEventListener('resize', positionSpotlight);
+  window.addEventListener('scroll', positionSpotlight, { passive: true });
+}
+
+let _spotIdx = 0;
+function startSpotlightTour(){
+  if(localStorage.getItem('vt_spot_done_'+(typeof uid!=='undefined'?uid:'guest'))) return;
+  ensureSpotlightDom();
+  _spotIdx = 0;
+  document.getElementById('spot-overlay').classList.add('on');
+  renderSpotlight();
+}
+function spotlightNext(){
+  _spotIdx++;
+  if(_spotIdx >= SPOTLIGHT_STEPS.length){ closeSpotlight(); return; }
+  renderSpotlight();
+}
+function closeSpotlight(){
+  const ov = document.getElementById('spot-overlay');
+  if(ov) ov.classList.remove('on');
+  try{ localStorage.setItem('vt_spot_done_'+(typeof uid!=='undefined'?uid:'guest'),'1'); }catch(e){}
+}
+function renderSpotlight(){
+  const s = SPOTLIGHT_STEPS[_spotIdx];
+  document.getElementById('spot-tip-title').textContent = s.title;
+  document.getElementById('spot-tip-body').textContent = s.body;
+  document.getElementById('spot-tip-num').textContent = `${_spotIdx+1} / ${SPOTLIGHT_STEPS.length}`;
+  document.getElementById('spot-next').textContent = _spotIdx === SPOTLIGHT_STEPS.length-1 ? '完了 ✦' : '次へ →';
+  positionSpotlight();
+}
+function positionSpotlight(){
+  const ov = document.getElementById('spot-overlay');
+  if(!ov || !ov.classList.contains('on')) return;
+  const s = SPOTLIGHT_STEPS[_spotIdx];
+  if(!s) return;
+  const target = findSpotEl(s.sel);
+  const ring = document.getElementById('spot-ring');
+  const tip = document.getElementById('spot-tip');
+  if(!target){
+    // 対象が見つからない場合：中央に出す
+    ring.style.display = 'none';
+    tip.style.left = '50%';
+    tip.style.top = '50%';
+    tip.style.transform = 'translate(-50%, -50%)';
+    return;
+  }
+  // ターゲットへスクロール
+  target.scrollIntoView({ behavior:'smooth', block:'center' });
+  setTimeout(()=>{
+    const r = target.getBoundingClientRect();
+    const pad = 8;
+    ring.style.display = 'block';
+    ring.style.left = (r.left - pad) + 'px';
+    ring.style.top = (r.top - pad) + 'px';
+    ring.style.width = (r.width + pad*2) + 'px';
+    ring.style.height = (r.height + pad*2) + 'px';
+    // ヒント吹き出しの位置：ターゲットの下に。ただし画面下に近ければ上に。
+    const tipH = 160;
+    const below = r.bottom + 12;
+    const above = r.top - 12 - tipH;
+    if(below + tipH < window.innerHeight){
+      tip.style.top = below + 'px';
+      tip.style.transform = 'translateX(-50%)';
+    } else if(above > 70){
+      tip.style.top = above + 'px';
+      tip.style.transform = 'translateX(-50%)';
+    } else {
+      tip.style.top = '50%';
+      tip.style.transform = 'translate(-50%, -50%)';
+    }
+    tip.style.left = Math.max(180, Math.min(window.innerWidth - 180, r.left + r.width/2)) + 'px';
+  }, 320);
+}
+// ?tut=1 で来たユーザーは、ログイン済みなら少し遅延後にチュートリアルを強制起動
+window.addEventListener('load', ()=>{
+  if(new URLSearchParams(location.search).get('tut')==='1'){
+    setTimeout(()=>{
+      try { showTutorial(true); } catch(e) { console.warn('tutorial force start failed', e); }
+    }, 800);
+  }
+});
 </script>
 <nav class="bottom-nav" id="bottom-nav" style="display:none;">
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
@@ -6646,6 +6947,7 @@ function closeTutorial(){
       <div class="tut-title" id="tut-title"></div>
       <p class="tut-desc" id="tut-desc"></p>
       <p class="tut-desc-cite" id="tut-cite"></p>
+      <a id="tut-rule-link" class="tut-rulebook-link" href="./rulebook.html" target="_blank" rel="noopener" style="display:none;">📖 ルールブックで詳しく読む →</a>
     </div>
     <div class="tut-dots" id="tut-dots">
       <div class="tut-dot active"></div>
