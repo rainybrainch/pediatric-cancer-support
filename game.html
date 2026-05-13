@@ -2000,10 +2000,14 @@ a:hover{ color: #4ab0d4; }
   margin-top: 14px;
 }
 
-/* セクションジャンプFAB */
+/* セクションジャンプFAB（下部ナビと重ならない位置） */
 .jump-fab{
-  position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+  position: fixed; right: 12px; bottom: 84px; z-index: 9999;
   font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+/* iOS safe-area 対応 */
+@supports (padding: env(safe-area-inset-bottom)){
+  .jump-fab{ bottom: calc(84px + env(safe-area-inset-bottom)); }
 }
 .jump-fab-btn{
   width: 54px; height: 54px; border-radius: 50%;
@@ -2043,8 +2047,9 @@ a:hover{ color: #4ab0d4; }
   font-weight: 700;
 }
 @media(max-width:480px){
-  .jump-fab{ right: 12px; bottom: 12px; }
-  .jump-fab-btn{ width: 48px; height: 48px; font-size: 1rem; }
+  .jump-fab{ right: 10px; bottom: 78px; }
+  .jump-fab-btn{ width: 46px; height: 46px; font-size: 1rem; }
+  .jump-fab-list{ min-width: 160px; }
 }
 
 /* ============================================
@@ -2288,6 +2293,133 @@ input:focus, select:focus, textarea:focus{
   outline: none !important;
 }
 ::placeholder{ color: var(--wc-ink-3) !important; opacity: .7; }
+
+/* ============================================
+   v5 強制濃紺レイヤー ── 2026-05-13 最終
+   メイン画面内のすべての文字を読める濃紺へ強制
+   ============================================ */
+#main-screen, #main-screen *{
+  -webkit-text-fill-color: initial;
+  text-shadow: none !important;
+}
+/* 文字色：3階層に強制統一 */
+#main-screen [style*="color:rgba(170,188,216"],
+#main-screen [style*="color:rgba(200,215,235"],
+#main-screen [style*="color:rgba(212,220,240"],
+#main-screen [style*="color:rgba(170,190,240"],
+#main-screen [style*="color:rgba(200,180,255"],
+#main-screen [style*="color:rgba(200,188,240"],
+#main-screen [style*="color:rgba(245,200,200"],
+#main-screen [style*="color:rgba(240,210,160"],
+#main-screen [style*="color:rgba(180,240,200"],
+#main-screen [style*="color:rgba(255,200,180"]{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+/* キャラ別アクセント色は濃く強調 */
+#main-screen [style*="color:rgba(201,168,76"],
+#main-screen [style*="color:#c9a84c"],
+#main-screen [style*="color:#f0d48a"],
+#main-screen [style*="color:#ffe28a"]{
+  color: #b07a1a !important;
+  -webkit-text-fill-color: #b07a1a !important;
+  font-weight: 800 !important;
+}
+#main-screen [style*="color:rgba(240,160,160"],
+#main-screen [style*="color:#f0a0a0"],
+#main-screen [style*="color:#e05c5c"]{
+  color: #b53a3a !important;
+  -webkit-text-fill-color: #b53a3a !important;
+  font-weight: 800 !important;
+}
+#main-screen [style*="color:rgba(160,240,190"],
+#main-screen [style*="color:#a0f0c0"],
+#main-screen [style*="color:#7ee8b0"],
+#main-screen [style*="color:#4ec98a"]{
+  color: #1f7d4d !important;
+  -webkit-text-fill-color: #1f7d4d !important;
+  font-weight: 800 !important;
+}
+#main-screen [style*="color:#c0a0f0"],
+#main-screen [style*="color:#9c72e0"]{
+  color: #5b4ea8 !important;
+  -webkit-text-fill-color: #5b4ea8 !important;
+  font-weight: 800 !important;
+}
+
+/* 暗背景指定を全部白カードに強制 */
+#main-screen [style*="background:rgba(14,18,32"],
+#main-screen [style*="background:rgba(10,14,24"],
+#main-screen [style*="background:rgba(255,255,255,.0"],
+#main-screen [style*="background:rgba(255,255,255,.04"],
+#main-screen [style*="background:rgba(255,255,255,.05"],
+#main-screen [style*="background:rgba(255,255,255,.06"],
+#main-screen [style*="background:rgba(255,255,255,.07"],
+#main-screen [style*="background:rgba(255,255,255,.08"],
+#main-screen [style*="background:rgba(255,255,255,.1"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  color: #0a2a40 !important;
+  border-color: #b0cfdf !important;
+}
+
+/* 透けた色付き背景（小さい不透明度）を白に */
+#main-screen [style*="background:rgba(201,168,76,.05"],
+#main-screen [style*="background:rgba(201,168,76,.06"],
+#main-screen [style*="background:rgba(201,168,76,.08"],
+#main-screen [style*="background:rgba(201,168,76,.1"],
+#main-screen [style*="background:rgba(78,201,138,.05"],
+#main-screen [style*="background:rgba(78,201,138,.06"],
+#main-screen [style*="background:rgba(78,201,138,.08"],
+#main-screen [style*="background:rgba(78,201,138,.1"],
+#main-screen [style*="background:rgba(224,92,92,.05"],
+#main-screen [style*="background:rgba(224,92,92,.06"],
+#main-screen [style*="background:rgba(224,92,92,.08"],
+#main-screen [style*="background:rgba(156,114,224,.05"],
+#main-screen [style*="background:rgba(156,114,224,.07"],
+#main-screen [style*="background:rgba(156,114,224,.08"]{
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+/* キャラ色枠だけ残す（border-color のみ強制） */
+#main-screen [style*="rgba(224,92,92,.45"],
+#main-screen [style*="rgba(224,92,92,.4"],
+#main-screen [style*="rgba(224,92,92,.3"],
+#main-screen [style*="rgba(224,92,92,.25"],
+#main-screen [style*="rgba(224,92,92,.22"]{ border-color: #b53a3a !important; }
+#main-screen [style*="rgba(78,201,138,.45"],
+#main-screen [style*="rgba(78,201,138,.4"],
+#main-screen [style*="rgba(78,201,138,.3"],
+#main-screen [style*="rgba(78,201,138,.25"],
+#main-screen [style*="rgba(78,201,138,.22"]{ border-color: #1f7d4d !important; }
+#main-screen [style*="rgba(156,114,224,.45"],
+#main-screen [style*="rgba(156,114,224,.4"],
+#main-screen [style*="rgba(156,114,224,.3"],
+#main-screen [style*="rgba(156,114,224,.25"]{ border-color: #5b4ea8 !important; }
+#main-screen [style*="rgba(201,168,76,.45"],
+#main-screen [style*="rgba(201,168,76,.4"],
+#main-screen [style*="rgba(201,168,76,.3"],
+#main-screen [style*="rgba(201,168,76,.25"],
+#main-screen [style*="rgba(201,168,76,.22"]{ border-color: #b07a1a !important; }
+
+/* バーフィルの透けるグラデを濃く */
+#main-screen [style*="linear-gradient(90deg,#4ec98a"],
+#main-screen [style*="linear-gradient(90deg,#a8e060"],
+#main-screen [style*="linear-gradient(90deg,#7ee8b0"]{
+  background: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+  background-image: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+}
+#main-screen [style*="linear-gradient(90deg,#e05c5c"],
+#main-screen [style*="linear-gradient(90deg,#e08a3c"]{
+  background: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+  background-image: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+}
+#main-screen [style*="linear-gradient(90deg,#c9a84c,#f0d48a"]{
+  background: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
+  background-image: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
+}
 </style>
 </head>
 <body>

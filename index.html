@@ -1806,6 +1806,349 @@ footer{
 .appshow-screen [style*="font-size:.44rem"]{
   color: var(--mc-ink-2) !important;
 }
+
+/* ============================================
+   モックアップ v5 ── 2026-05-13 強制全文字濃紺化
+   インライン style で透けていた要素を「核爆発級」で潰す
+   ============================================ */
+/* すべての文字を濃紺強制（特例で上書きする色は後ろに別途定義） */
+.appshow-screen,
+.appshow-screen *{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  text-shadow: none !important;
+}
+.appshow-screen .as-char-sub,
+.appshow-screen .as-tile-sub,
+.appshow-screen .as-bar-lbl,
+.appshow-screen .as-bar-val,
+.appshow-screen .as-sec-lbl,
+.appshow-screen .as-gi-xp,
+.appshow-screen .as-luna-msg,
+.appshow-screen .as-ach-name{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+}
+.appshow-screen .as-char-name,
+.appshow-screen .as-tile-name,
+.appshow-screen .as-gi-name,
+.appshow-screen .as-hdr-title,
+.appshow-screen .as-bar-xp{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+}
+
+/* 暗背景・薄背景を全部白へ（インライン背景指定を強制無効化）*/
+.appshow-screen [style*="background:rgba(201,168,76"],
+.appshow-screen [style*="background:rgba(78,201,138"],
+.appshow-screen [style*="background:rgba(224,92,92"],
+.appshow-screen [style*="background:rgba(156,114,224"],
+.appshow-screen [style*="background:rgba(100,120,200"],
+.appshow-screen [style*="background:linear-gradient(135deg,rgba(201,168,76"],
+.appshow-screen [style*="background:linear-gradient(135deg,rgba(78,201,138"],
+.appshow-screen [style*="background:linear-gradient(135deg,rgba(224,92,92"],
+.appshow-screen [style*="background:linear-gradient(135deg,rgba(156,114,224"]{
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+/* キャラ別アクセントは「枠の色」だけ残す */
+.appshow-screen [style*="rgba(224,92,92,.45"],
+.appshow-screen [style*="rgba(224,92,92,.4"],
+.appshow-screen [style*="rgba(224,92,92,.3"],
+.appshow-screen [style*="rgba(224,92,92,.25"],
+.appshow-screen [style*="rgba(224,92,92,.18"],
+.appshow-screen [style*="rgba(224,92,92,.15"]{
+  border-color: #b53a3a !important;
+}
+.appshow-screen [style*="rgba(78,201,138,.45"],
+.appshow-screen [style*="rgba(78,201,138,.4"],
+.appshow-screen [style*="rgba(78,201,138,.3"],
+.appshow-screen [style*="rgba(78,201,138,.25"],
+.appshow-screen [style*="rgba(78,201,138,.22"],
+.appshow-screen [style*="rgba(78,201,138,.18"],
+.appshow-screen [style*="rgba(78,201,138,.15"],
+.appshow-screen [style*="rgba(78,201,138,.14"]{
+  border-color: #1f7d4d !important;
+}
+.appshow-screen [style*="rgba(156,114,224,.45"],
+.appshow-screen [style*="rgba(156,114,224,.4"],
+.appshow-screen [style*="rgba(156,114,224,.3"],
+.appshow-screen [style*="rgba(156,114,224,.25"],
+.appshow-screen [style*="rgba(156,114,224,.2"],
+.appshow-screen [style*="rgba(156,114,224,.18"],
+.appshow-screen [style*="rgba(156,114,224,.15"]{
+  border-color: #5b4ea8 !important;
+}
+.appshow-screen [style*="rgba(201,168,76,.45"],
+.appshow-screen [style*="rgba(201,168,76,.4"],
+.appshow-screen [style*="rgba(201,168,76,.3"],
+.appshow-screen [style*="rgba(201,168,76,.25"],
+.appshow-screen [style*="rgba(201,168,76,.2"],
+.appshow-screen [style*="rgba(201,168,76,.18"],
+.appshow-screen [style*="rgba(201,168,76,.15"]{
+  border-color: #b07a1a !important;
+}
+
+/* XPリワードカード「+ 18 XP」を派手な不透明グラデに昇格 */
+.appshow-screen .as-xp-reward{
+  background: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
+  background-image: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
+  border: 2px solid #8a5e10 !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  box-shadow: 0 4px 0 rgba(138,94,16,.35), 0 2px 8px rgba(30,80,110,.15) !important;
+  text-align: center !important;
+  margin: 8px 0 !important;
+}
+.appshow-screen .as-xp-reward *,
+.appshow-screen .as-xp-num,
+.appshow-screen .as-xp-lbl{
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 900 !important;
+}
+.appshow-screen .as-xp-num{
+  font-size: 1.3rem !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+.appshow-screen .as-xp-lbl{
+  font-size: .58rem !important;
+  font-weight: 700 !important;
+  margin-top: 4px !important;
+  opacity: .92;
+}
+/* 栄養画面の緑XPカードだけ緑グラデに */
+.appshow-card:nth-child(3) .as-xp-reward{
+  background: linear-gradient(135deg, #2da366, #1f7d4d) !important;
+  background-image: linear-gradient(135deg, #2da366, #1f7d4d) !important;
+  border-color: #166a3e !important;
+  box-shadow: 0 4px 0 rgba(22,106,62,.4), 0 2px 8px rgba(30,80,110,.15) !important;
+}
+
+/* 実績アイコンタイル */
+.appshow-screen .as-ach-item{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 10px !important;
+  padding: 10px 6px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+.appshow-screen .as-ach-item:not(.locked){
+  background: linear-gradient(135deg, #fff, #f4eee0) !important;
+  border-color: #b07a1a !important;
+}
+.appshow-screen .as-ach-item .as-ach-icon{
+  font-size: 1.5rem !important;
+  filter: none !important;
+}
+.appshow-screen .as-ach-item.locked{
+  opacity: .42 !important;
+  background: #f0f4f8 !important;
+  filter: grayscale(.5);
+}
+.appshow-screen .as-ach-name{
+  font-size: .56rem !important;
+  font-weight: 900 !important;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* グリッドアイテム（ゆっくり散歩・買い物 等） */
+.appshow-screen .as-grid-item{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06) !important;
+}
+.appshow-screen .as-grid-item.done{
+  background: linear-gradient(135deg, #fff, #e6f4ec) !important;
+  border-color: #1f7d4d !important;
+}
+.appshow-screen .as-grid-item.done .as-gi-xp{
+  color: #1f7d4d !important;
+  -webkit-text-fill-color: #1f7d4d !important;
+  font-weight: 900 !important;
+}
+.appshow-screen .as-gi-xp{
+  color: #b07a1a !important;
+  -webkit-text-fill-color: #b07a1a !important;
+  font-weight: 900 !important;
+}
+.appshow-screen .as-gi-icon{ font-size: 1.1rem !important; }
+
+/* GROW ステップ（G/R/O/W ボタン） */
+.appshow-screen .as-body > div[style*="display:flex"][style*="gap:4px"] > div{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 8px !important;
+  color: #1a4860 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06);
+}
+/* 最初の G タイルはアクティブカラー（紫） */
+.appshow-screen .as-body > div[style*="display:flex"][style*="gap:4px"] > div:first-child{
+  background: linear-gradient(135deg, #5b4ea8, #7a6bcc) !important;
+  background-image: linear-gradient(135deg, #5b4ea8, #7a6bcc) !important;
+  border-color: #4a3f8c !important;
+  color: #ffffff !important;
+}
+.appshow-screen .as-body > div[style*="display:flex"][style*="gap:4px"] > div:first-child *{
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* チャットバブル（AIコーチング画面）*/
+.appshow-screen .as-body > div[style*="border-radius:8px"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  padding: 9px 11px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06);
+}
+/* 自分の発言（align-self:flex-end）は淡水色背景 */
+.appshow-screen .as-body > div[style*="align-self:flex-end"]{
+  background: linear-gradient(135deg, #d7ecf6, #c8e4f4) !important;
+  background-image: linear-gradient(135deg, #d7ecf6, #c8e4f4) !important;
+  border-color: #1e7fa4 !important;
+}
+
+/* キャラブロック背景 = 白 */
+.appshow-screen .as-char{
+  background: #ffffff !important;
+  background-image: none !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+}
+/* キャラ画像枠：キャラ別カラー */
+.appshow-card:nth-child(1) .as-char img{ border-color: #b07a1a !important; }
+.appshow-card:nth-child(2) .as-char img{ border-color: #b53a3a !important; }
+.appshow-card:nth-child(3) .as-char img{ border-color: #1f7d4d !important; }
+.appshow-card:nth-child(4) .as-char img{ border-color: #5b4ea8 !important; }
+.appshow-card:nth-child(5) .as-char img{ border-color: #b07a1a !important; }
+
+/* ヘッダー = 白＋濃紺タイトル */
+.appshow-screen .as-hdr{
+  background: #ffffff !important;
+  background-image: none !important;
+  border-bottom: 2px solid #b0cfdf !important;
+}
+/* ヘッダータイトルはキャラ別カラー（強い色） */
+.appshow-card:nth-child(1) .as-hdr-title{ color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; }
+.appshow-card:nth-child(2) .as-hdr-title{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
+.appshow-card:nth-child(3) .as-hdr-title{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; }
+.appshow-card:nth-child(4) .as-hdr-title{ color: #5b4ea8 !important; -webkit-text-fill-color: #5b4ea8 !important; }
+.appshow-card:nth-child(5) .as-hdr-title{ color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; }
+/* ヘッダー右側のステータス（Lv.3, 87分 等） */
+.appshow-screen .as-hdr > span:last-child{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 800 !important;
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 4px !important;
+  padding: 1px 6px !important;
+}
+
+/* ルナのコメント枠：白＋濃紺メッセージ */
+.appshow-screen .as-luna{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08) !important;
+}
+.appshow-card:nth-child(2) .as-luna{ border-color: #b53a3a !important; }
+.appshow-card:nth-child(3) .as-luna{ border-color: #1f7d4d !important; }
+.appshow-card:nth-child(4) .as-luna{ border-color: #5b4ea8 !important; }
+.appshow-card:nth-child(5) .as-luna{ border-color: #b07a1a !important; }
+.appshow-screen .as-luna-msg{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 700 !important;
+}
+
+/* バー行：白カード化 */
+.appshow-screen .as-bar-row{
+  background: #ffffff !important;
+  border: 1px solid #b0cfdf !important;
+  border-radius: 10px !important;
+  padding: 6px 10px !important;
+  margin-bottom: 5px !important;
+  box-shadow: 0 1px 0 rgba(30,80,110,.06);
+}
+.appshow-screen .as-bar-track{
+  background: rgba(30,127,164,.10) !important;
+  border: 1px solid #b0cfdf !important;
+  border-radius: 99px !important;
+  height: 8px !important;
+}
+/* バーフィルはそのままインラインのカラーを使う（緑・赤・金）。透ける色だけ濃く */
+.appshow-screen .as-bar-fill[style*="#4ec98a"],
+.appshow-screen .as-bar-fill[style*="#7ee8b0"]{
+  background: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+}
+.appshow-screen .as-bar-fill[style*="#e05c5c"]{
+  background: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+}
+.appshow-screen .as-xb-fill[style*="#c9a84c"]{
+  background: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
+}
+.appshow-screen .as-xb-fill[style*="#4ec98a"]{
+  background: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+}
+.appshow-screen .as-xb-fill[style*="#e05c5c"]{
+  background: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+}
+.appshow-screen .as-xb{
+  background: rgba(30,127,164,.10) !important;
+  border-radius: 99px !important;
+  height: 7px !important;
+}
+
+/* 仲間タイル（カイト・セラの２カード） */
+.appshow-screen .as-tile{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08) !important;
+}
+.appshow-screen .as-tile[style*="rgba(224,92,92"]{
+  border-color: #b53a3a !important;
+  background: linear-gradient(135deg, #fff, #fdebeb) !important;
+  background-image: linear-gradient(135deg, #fff, #fdebeb) !important;
+}
+.appshow-screen .as-tile[style*="rgba(78,201,138"]{
+  border-color: #1f7d4d !important;
+  background: linear-gradient(135deg, #fff, #ecf8f0) !important;
+  background-image: linear-gradient(135deg, #fff, #ecf8f0) !important;
+}
+.appshow-screen .as-tile-badge{
+  font-weight: 900 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-radius: 99px !important;
+  padding: 2px 8px !important;
+}
+.appshow-screen .as-tile[style*="rgba(224,92,92"] .as-tile-badge{ background: #b53a3a !important; }
+.appshow-screen .as-tile[style*="rgba(78,201,138"] .as-tile-badge{ background: #1f7d4d !important; }
+.appshow-screen .as-tile[style*="rgba(224,92,92"] .as-tile-name{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
+.appshow-screen .as-tile[style*="rgba(78,201,138"] .as-tile-name{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; }
+
+/* セクション本体の背景 = 淡水色 */
+.appshow-screen .as-body{
+  background: #e8f4fb !important;
+  padding: 12px !important;
+}
 </style>
 </head>
 <body>

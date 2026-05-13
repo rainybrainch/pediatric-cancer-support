@@ -197,6 +197,13 @@ body::before{
   display:grid;grid-template-columns:1fr 320px;
   gap:18px;padding:18px 20px 80px;max-width:1200px;margin:0 auto;width:100%;
 }
+/* ── 画面サイズ統一対応 v5 ── 左右カラムを一画面で完結させる */
+@media(min-width:1101px){
+  .main-content{ grid-template-columns: minmax(0,1fr) 340px; align-items:start; }
+  .quest-side{ position:sticky; top:74px; max-height:calc(100vh - 90px); overflow-y:auto; padding-right:4px; }
+  .quest-side::-webkit-scrollbar{ width:6px; }
+  .quest-side::-webkit-scrollbar-thumb{ background:rgba(78,201,138,.3); border-radius:99px; }
+}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(8,11,20,.97);border-top:1px solid rgba(78,201,138,.12);display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);}
 .bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;}
 .bn-tab:hover,.bn-tab.active{color:var(--green);}
