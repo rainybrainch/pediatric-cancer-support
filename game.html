@@ -2827,9 +2827,56 @@ input:focus, select:focus, textarea:focus{
 }
 .hc-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 0 rgba(30,80,110,.14), 0 4px 16px rgba(30,80,110,.12); }
 .hc-card:active{ transform: translateY(2px); box-shadow: 0 1px 0 rgba(30,80,110,.10), 0 1px 4px rgba(30,80,110,.06); }
-.hc-kaito{ border-color: #b53a3a; background: linear-gradient(180deg, #fff, #fdebeb) !important; }
-.hc-sera{ border-color: #1f7d4d; background: linear-gradient(180deg, #fff, #ecf8f0) !important; }
-.hc-luna{ border-color: #b07a1a; background: linear-gradient(180deg, #fff, #faf3e5) !important; }
+.hc-kaito{
+  border-color: #8a2828;
+  background: linear-gradient(160deg, #d44a4a 0%, #b53a3a 60%, #8a2828 100%) !important;
+  background-image: linear-gradient(160deg, #d44a4a 0%, #b53a3a 60%, #8a2828 100%) !important;
+}
+.hc-sera{
+  border-color: #14633c;
+  background: linear-gradient(160deg, #2da366 0%, #1f7d4d 60%, #14633c 100%) !important;
+  background-image: linear-gradient(160deg, #2da366 0%, #1f7d4d 60%, #14633c 100%) !important;
+}
+.hc-luna{
+  border-color: #8a5e10;
+  background: linear-gradient(160deg, #d99b2b 0%, #b07a1a 60%, #8a5e10 100%) !important;
+  background-image: linear-gradient(160deg, #d99b2b 0%, #b07a1a 60%, #8a5e10 100%) !important;
+}
+/* 色塗り背景上の文字を白系に */
+.hc-card .hc-name,
+.hc-card .hc-role,
+.hc-card .hc-stat,
+.hc-card .hc-cta{
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+.hc-card .hc-portrait{
+  border-color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.18) !important;
+  background: rgba(255,255,255,.15) !important;
+}
+.hc-card .hc-bar{
+  background: rgba(0,0,0,.22) !important;
+  border-color: rgba(255,255,255,.3) !important;
+}
+.hc-card .hc-cta{
+  background: rgba(255,255,255,.22) !important;
+  border: 1px solid rgba(255,255,255,.45);
+}
+/* 文字サイズアップ（指示） */
+.hc-card .hc-name{ font-size: 1.05rem !important; }
+.hc-card .hc-role{ font-size: .72rem !important; opacity: .92; }
+.hc-card .hc-stat{ font-size: .72rem !important; opacity: .95; font-weight: 900 !important; }
+.hc-card .hc-cta{ font-size: .68rem !important; padding: 5px 10px; font-weight: 900 !important; margin-top: 6px; }
+.hc-card .hc-portrait{ width: 76px; height: 76px; }
+@media(max-width:480px){
+  .hc-card .hc-portrait{ width: 60px; height: 60px; }
+  .hc-card .hc-name{ font-size: .9rem !important; }
+  .hc-card .hc-role{ font-size: .62rem !important; }
+  .hc-card .hc-stat{ font-size: .62rem !important; }
+  .hc-card .hc-cta{ font-size: .58rem !important; }
+}
 .hc-portrait{
   width: 66px; height: 66px; border-radius: 50%; overflow: hidden;
   border: 3px solid;
@@ -2871,6 +2918,98 @@ input:focus, select:focus, textarea:focus{
   .hc-name{ font-size: .76rem; }
   .hc-role{ font-size: .52rem; }
   .hc-cta{ font-size: .52rem; padding: 2px 6px; }
+  .hc-stat{ font-size: .52rem !important; }
+}
+
+/* 3キャラタイル：ステータス行・進捗バーを追加 */
+.hc-stat{
+  font-size: .6rem;
+  color: #1a4860;
+  font-weight: 800;
+  margin-top: 6px;
+  padding: 0 4px;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.hc-bar{
+  width: 80%;
+  height: 5px;
+  background: rgba(30,127,164,.12);
+  border-radius: 99px;
+  margin: 4px 0 6px;
+  overflow: hidden;
+  border: 1px solid rgba(30,127,164,.18);
+}
+.hc-bar-fill{
+  height: 100%;
+  border-radius: 99px;
+  transition: width .6s cubic-bezier(.34,1.56,.64,1);
+}
+.hc-bar-ex{ background: linear-gradient(90deg, #b53a3a, #e07a3a); }
+.hc-bar-nu{ background: linear-gradient(90deg, #1f7d4d, #2da366); }
+.hc-bar-luna{ background: linear-gradient(90deg, #b07a1a, #d99b2b); }
+
+/* ─ 重複ボタン削除：3キャラタイルから運動・食事・ルナへ行くので、
+       下の4大ボタンの運動/食事/ルナを非表示。QOLだけ残す ─ */
+#main-screen .sh-rec-btn.rec-ex,
+#main-screen .sh-rec-btn.rec-nu,
+#main-screen .sh-rec-btn.rec-luna,
+#main-screen .sh-rec-btn[href*="quest.html"],
+#main-screen .sh-rec-btn[href*="nutrition.html"]{
+  display: none !important;
+}
+/* QOL（今日の調子）を単独で目立たせる */
+#main-screen .sh-rec-btn.rec-qol{
+  border-color: #1e7fa4 !important;
+  background: linear-gradient(135deg, #fff, #d7ecf6) !important;
+  background-image: linear-gradient(135deg, #fff, #d7ecf6) !important;
+}
+
+/* フッター3ボタン（メニュー・詳細・相談窓口）の整理 */
+#main-screen .sh-foot{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1.2fr !important;
+  gap: 8px !important;
+  margin-top: 14px !important;
+}
+#main-screen .sh-foot-btn{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  padding: 10px 12px !important;
+  font-size: .78rem !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.10) !important;
+  letter-spacing: .02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+#main-screen .sh-foot-btn:active{
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(30,80,110,.10) !important;
+}
+/* 相談窓口を最も目立つ色（暖色）に */
+#main-screen .sh-foot-btn[href*="support"]{
+  background: linear-gradient(135deg, #ff9800, #f57c00) !important;
+  background-image: linear-gradient(135deg, #ff9800, #f57c00) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #c45e00 !important;
+  box-shadow: 0 4px 0 #b54e00, 0 6px 12px rgba(196,94,0,.25) !important;
+}
+@media(max-width:480px){
+  #main-screen .sh-foot{ grid-template-columns: 1fr 1fr !important; }
+  #main-screen .sh-foot-btn[href*="support"]{ grid-column: 1 / -1; }
 }
 
 /* ============================================
@@ -3295,7 +3434,7 @@ body::after{
     <!-- 🎯 シンプルホーム — 記録優先 -->
     <div class="simple-home" id="compact-home">
 
-      <!-- 🆕 3キャラ立ち絵バナー（ビジュアル + 各機能への入口） -->
+      <!-- 🆕 3キャラ立ち絵バナー（ビジュアル + 各機能への入口・統合版） -->
       <div class="home-char-trio" id="home-char-trio">
         <a href="./quest.html" class="hc-card hc-kaito" aria-label="運動の師 カイトと修練">
           <div class="hc-portrait">
@@ -3303,7 +3442,9 @@ body::after{
           </div>
           <div class="hc-name">カイト</div>
           <div class="hc-role">運動の師</div>
-          <div class="hc-cta">⚔ 運動を始める</div>
+          <div class="hc-stat" id="hc-stat-ex">今週 — / 150分</div>
+          <div class="hc-bar"><div class="hc-bar-fill hc-bar-ex" id="hc-bar-ex" style="width:0%"></div></div>
+          <div class="hc-cta">⚔ 運動を記録 →</div>
         </a>
         <a href="./nutrition.html" class="hc-card hc-sera" aria-label="栄養の巫女 セラに学ぶ">
           <div class="hc-portrait">
@@ -3311,7 +3452,9 @@ body::after{
           </div>
           <div class="hc-name">セラ</div>
           <div class="hc-role">栄養の巫女</div>
-          <div class="hc-cta">🌿 食事を記録</div>
+          <div class="hc-stat" id="hc-stat-nu">野菜 — 皿 / 魚 — 食</div>
+          <div class="hc-bar"><div class="hc-bar-fill hc-bar-nu" id="hc-bar-nu" style="width:0%"></div></div>
+          <div class="hc-cta">🌿 食事を記録 →</div>
         </a>
         <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す">
           <div class="hc-portrait">
@@ -3319,7 +3462,9 @@ body::after{
           </div>
           <div class="hc-name">ルナ</div>
           <div class="hc-role">AIコーチ</div>
-          <div class="hc-cta">🌙 話しかける</div>
+          <div class="hc-stat" id="hc-stat-luna">GROWモデルで対話</div>
+          <div class="hc-bar"><div class="hc-bar-fill hc-bar-luna" id="hc-bar-luna" style="width:30%"></div></div>
+          <div class="hc-cta">🌙 話しかける →</div>
         </button>
       </div>
 
@@ -7584,16 +7729,54 @@ window.addEventListener('load', ()=>{
 })();
 </script>
 
-<!-- ルナと話す（3キャラトリオの右） → AIコーチ起動 -->
+<!-- 3キャラトリオの統合制御 -->
 <script>
 (function(){
   function init(){
-    const btn = document.getElementById('hc-luna-card');
-    if(!btn) return;
-    btn.addEventListener('click', ()=>{
-      const lunaBtn = document.getElementById('sh-rec-luna') || document.querySelector('.sh-rec-btn.rec-luna');
-      if(lunaBtn){ lunaBtn.click(); }
+    // ルナタイル → AIコーチ起動
+    const lunaCard = document.getElementById('hc-luna-card');
+    if(lunaCard){
+      lunaCard.addEventListener('click', ()=>{
+        const lunaBtn = document.getElementById('sh-rec-luna') || document.querySelector('.sh-rec-btn.rec-luna');
+        if(lunaBtn){ lunaBtn.click(); }
+        else {
+          // 直接モーダル開く
+          const modal = document.getElementById('ai-coach-modal');
+          if(modal){ modal.style.display = 'flex'; }
+        }
+      });
+    }
+    // 既存の sh-meta-* からテキストをミラー、bar幅を反映
+    function syncCharStats(){
+      try{
+        const metaEx = document.getElementById('sh-meta-ex');
+        const statEx = document.getElementById('hc-stat-ex');
+        if(metaEx && statEx) statEx.textContent = metaEx.textContent || '今週 — / 150分';
+        // 運動の進捗（分）から bar幅を計算
+        const exMin = parseInt((metaEx?.textContent || '').match(/(\d+)\s*\/\s*150/)?.[1] || '0', 10);
+        const exPct = Math.min(100, Math.round(exMin / 150 * 100));
+        const barEx = document.getElementById('hc-bar-ex');
+        if(barEx) barEx.style.width = exPct + '%';
+
+        const metaNu = document.getElementById('sh-meta-nu');
+        const statNu = document.getElementById('hc-stat-nu');
+        if(metaNu && statNu) statNu.textContent = metaNu.textContent || '野菜 — 皿 / 魚 — 食';
+        // 野菜皿数から bar幅を計算（目標30皿/週）
+        const vegN = parseInt((metaNu?.textContent || '').match(/野菜\s*(\d+)/)?.[1] || '0', 10);
+        const nuPct = Math.min(100, Math.round(vegN / 30 * 100));
+        const barNu = document.getElementById('hc-bar-nu');
+        if(barNu) barNu.style.width = nuPct + '%';
+      }catch(e){ console.warn('hc-stat sync', e); }
+    }
+    syncCharStats();
+    // 既存の sh-meta-* が更新されるたびに同期
+    const mo = new MutationObserver(syncCharStats);
+    ['sh-meta-ex','sh-meta-nu'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) mo.observe(el, { childList:true, characterData:true, subtree:true });
     });
+    // 定期同期（updateUIが走るタイミングを掴むため）
+    setInterval(syncCharStats, 4000);
   }
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded', init);

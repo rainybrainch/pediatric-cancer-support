@@ -100,6 +100,214 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 }
 </style>
 <script src="./app-safety.js"></script>
+<style id="watercolor-skin">
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+
+/* ============================================
+   party.html 強コントラスト v8 ── 2026-05-13
+   ============================================ */
+body, html{ background: #c8e4f4 !important; }
+body *{ text-shadow: none !important; }
+header{
+  background: rgba(255,255,255,.85) !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+  backdrop-filter: blur(8px);
+}
+header a, header .brand{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+}
+.back-btn{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 800 !important;
+}
+
+/* パーティヒーロー：色塗りカード */
+.party-hero{
+  background: linear-gradient(160deg, #fff, #e0eff8) !important;
+  background-image: linear-gradient(160deg, #fff, #e0eff8) !important;
+  border: 2px solid #1e7fa4 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 6px 0 rgba(30,80,110,.10), 0 4px 18px rgba(30,80,110,.12) !important;
+}
+.ph-name{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+}
+.ph-desc{ color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; font-weight: 600 !important; }
+.ph-badge{
+  background: #ffffff !important;
+  border: 1.5px solid #5b4ea8 !important;
+  color: #5b4ea8 !important;
+  -webkit-text-fill-color: #5b4ea8 !important;
+  font-weight: 900 !important;
+}
+
+/* 統計セル */
+.party-stats .ps-cell{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.10) !important;
+}
+.ps-num{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+.ps-lbl{ color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; font-weight: 700 !important; }
+
+.section-title{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+
+/* メンバーリスト */
+.member-list .member-row,
+.member-list > div{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.08) !important;
+}
+.member-list * {
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+.member-list [class*="xp"], .member-list [class*="meta"]{
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  font-weight: 700 !important;
+}
+
+/* 近況報告ボード */
+.report-box{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08) !important;
+  padding: 14px !important;
+}
+.report-input{
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+}
+.report-input:focus{ border-color: #1e7fa4 !important; box-shadow: 0 0 0 3px rgba(30,127,164,.18) !important; }
+.report-input::placeholder{ color: #355773 !important; opacity: .7; }
+.report-submit{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 0 #0a4870 !important;
+}
+
+/* report-feed */
+.report-feed > div{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06) !important;
+}
+.report-feed *{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
+.report-feed [class*="meta"], .report-feed [class*="time"], .report-feed [class*="when"]{
+  color: #355773 !important; -webkit-text-fill-color: #355773 !important; font-weight: 700 !important;
+}
+
+/* 透けた色を強制濃く */
+[style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
+[style*="color:rgba(212,220,240"]{
+  color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important;
+}
+[style*="color:rgba(201,168,76"], [style*="color:#c9a84c"], [style*="color:#f0d48a"]{
+  color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 800 !important;
+}
+</style>
 </head>
 <body>
 <header>
@@ -108,6 +316,64 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 </header>
 
 <main class="page">
+
+  <!-- 🆕 仕組み解説（初見ユーザー向け折りたたみ） -->
+  <details id="party-howto" style="background:#ffffff;border:2px solid #b0cfdf;border-radius:14px;padding:14px 18px;margin-bottom:18px;box-shadow:0 4px 0 rgba(30,80,110,.10),0 2px 12px rgba(30,80,110,.10);">
+    <summary style="font-family:'Noto Serif JP',serif;font-weight:900;color:#0a4870;font-size:1rem;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;">
+      <span style="display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;border-radius:50%;font-size:.78rem;flex-shrink:0;">？</span>
+      <span>「仲間」と「パーティ」って何？（タップで開く）</span>
+      <span style="margin-left:auto;color:#1e7fa4;font-size:.8rem;">▾</span>
+    </summary>
+    <div style="margin-top:14px;font-size:.82rem;line-height:1.85;color:#0a2a40;">
+
+      <h3 style="font-family:'Noto Serif JP',serif;color:#1e7fa4;font-size:.95rem;font-weight:900;margin:6px 0 8px;">🤝 そもそも「仲間」って？</h3>
+      <p style="margin-bottom:12px;">あなたと同じ研究プロジェクトに参加している<strong>他の小児がん経験者・AYA世代の方々</strong>のことです。年齢も病気の経過も似ているから、「今週どう？」が一番伝わる相手。</p>
+
+      <h3 style="font-family:'Noto Serif JP',serif;color:#5b4ea8;font-size:.95rem;font-weight:900;margin:14px 0 8px;">🎮 「パーティ」（クラス）って何？</h3>
+      <p style="margin-bottom:8px;">あなたが選んだ <strong>得意分野</strong> でグループ分けされています。同じパーティの人は、同じ目標で歩んでいる仲間。</p>
+      <table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:.74rem;background:#f4faff;">
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b53a3a;white-space:nowrap;">⚔ 勇者</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">運動・栄養・対話をバランスよく続ける王道タイプ</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#5b4ea8;white-space:nowrap;">🧙‍♀️ 魔女っ子</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">栄養（食材＝魔法）で身体を整えるのが好き</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#1f7d4d;white-space:nowrap;">⛪ 聖女</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">QOLや気持ちのケアを大事にする癒やし型</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b07a1a;white-space:nowrap;">🛡 騎士</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">コツコツ毎日続けることを大切にする継続型</td>
+        </tr>
+      </table>
+      <p style="font-size:.72rem;color:#355773;margin-top:4px;">他にも「悪役令嬢」「王子」など複数あります。<a href="./class-select.html" style="color:#1e7fa4;font-weight:700;">クラス変更</a>はいつでも可能です。</p>
+
+      <h3 style="font-family:'Noto Serif JP',serif;color:#b07a1a;font-size:.95rem;font-weight:900;margin:14px 0 8px;">📣 近況報告会（一番大事！）</h3>
+      <div style="background:#fef9e8;border-left:3px solid #b07a1a;border-radius:0 8px 8px 0;padding:12px 14px;margin:6px 0;">
+        <p style="font-size:.78rem;color:#0a2a40;line-height:1.8;margin-bottom:6px;">
+          <strong style="color:#b07a1a;">月1回ペース</strong>で開催される、仲間と「今週どう？」「どうすれば続けられそう？」を共有する場です。Zoom または会場（大学）にて。
+        </p>
+        <ul style="padding-left:18px;margin:6px 0;font-size:.74rem;color:#1a4860;line-height:1.85;">
+          <li><strong>誰でも参加OK</strong>：話さなくても聞くだけでOK</li>
+          <li><strong>研究事務局</strong>から日程の通知が来ます</li>
+          <li>仲間の話を聞いて「自分だけじゃない」と感じられる</li>
+          <li>うまくいったコツの共有や、つまずきの相談ができる</li>
+        </ul>
+      </div>
+
+      <h3 style="font-family:'Noto Serif JP',serif;color:#1f7d4d;font-size:.95rem;font-weight:900;margin:14px 0 8px;">📝 近況報告ボードって？</h3>
+      <p style="margin-bottom:6px;font-size:.78rem;">報告会の日まで待たなくても、<strong>下の「近況報告ボード」</strong>に思ったことを書けます。匿名（プロフィール名のみ）で投稿でき、仲間が読んでくれます。</p>
+
+      <h3 style="font-family:'Noto Serif JP',serif;color:#0a4870;font-size:.95rem;font-weight:900;margin:14px 0 8px;">📋 メンバー一覧の数字って？</h3>
+      <p style="font-size:.78rem;margin-bottom:6px;">下に並んでいるのは <strong>順位ではなく仲間の参考情報</strong> です。「今週○XP」は活動量の目安ですが、競争ではありません。比べる相手は <strong>先週の自分</strong>。</p>
+
+      <p style="margin-top:14px;font-size:.74rem;color:#355773;">詳しくは <a href="./rulebook.html#screens" style="color:#1e7fa4;font-weight:700;">📖 ルールブック</a> を見てください。</p>
+    </div>
+  </details>
+
   <!-- パーティヒーロー -->
   <div class="party-hero">
     <div class="ph-badge" id="party-badge">PARTY</div>
@@ -115,24 +381,28 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
     <div class="ph-desc" id="party-desc">同じ目標を持つ仲間と一緒に、健康習慣を続けましょう。</div>
   </div>
 
-  <!-- 統計 -->
+  <!-- 📣 次回のミーティング（最重要・主役化） -->
+  <div class="zoom-card" style="background:linear-gradient(135deg,#fff,#fef9e8) !important;border:2.5px solid #b07a1a !important;border-radius:18px !important;padding:20px 22px !important;margin-bottom:18px !important;box-shadow:0 6px 0 rgba(176,122,26,.18),0 4px 18px rgba(30,80,110,.12) !important;">
+    <div class="zoom-head" style="color:#b07a1a !important;-webkit-text-fill-color:#b07a1a !important;font-family:'Noto Serif JP',serif !important;font-size:1.1rem !important;font-weight:900 !important;margin-bottom:10px !important;display:flex;align-items:center;gap:8px;">
+      <span style="background:#b07a1a;color:#fff;padding:3px 10px;border-radius:99px;font-size:.6rem;letter-spacing:.1em;">最重要</span>
+      📣 近況報告会
+    </div>
+    <div class="zoom-info" id="meeting-info" style="color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;font-size:.82rem !important;line-height:1.85 !important;font-weight:500 !important;">
+      <strong style="color:#b07a1a !important;-webkit-text-fill-color:#b07a1a !important;">日程</strong>は研究事務局からのお知らせをお待ちください（月1回ペース）。<br>
+      Zoom または会場にて、仲間同士で「今週どうだった？」「どうすれば続けられそう？」を共有します。最後に発表もあります🎤<br>
+      <span style="display:inline-block;margin-top:8px;background:#fff;border:1.5px solid #b07a1a;border-radius:99px;padding:5px 12px;font-size:.72rem;color:#b07a1a;font-weight:900;">👂 話さなくても聞くだけでOK</span>
+    </div>
+  </div>
+
+  <!-- 統計（控えめに） -->
   <div class="party-stats">
     <div class="ps-cell"><div class="ps-num" id="party-members">—</div><div class="ps-lbl">メンバー</div></div>
     <div class="ps-cell"><div class="ps-num" id="party-active">—</div><div class="ps-lbl">今週アクティブ</div></div>
     <div class="ps-cell"><div class="ps-num" id="party-xp">—</div><div class="ps-lbl">パーティ平均XP</div></div>
   </div>
 
-  <!-- Zoom/会場ミーティング情報 -->
-  <div class="zoom-card">
-    <div class="zoom-head">📅 次回のミーティング</div>
-    <div class="zoom-info" id="meeting-info">
-      <strong>近況報告会</strong> — 日程は研究事務局からのお知らせをお待ちください。<br>
-      Zoomまたは会場にて、仲間同士で「今週どうだった？」「どうすれば続けられそう？」を共有します。最後に発表もあります🎤
-    </div>
-  </div>
-
-  <!-- ランキング/メンバー -->
-  <div class="section-title">⚔ パーティメンバー</div>
+  <!-- メンバー（順位ではなく一覧） -->
+  <div class="section-title">👥 仲間たち <span style="font-size:.7rem;color:#355773;font-weight:600;margin-left:8px;">※ 順位ではなく参考情報</span></div>
   <div class="member-list" id="member-list"></div>
 
   <!-- 近況報告ボード -->

@@ -779,6 +779,91 @@ a:hover{ color: #4ab0d4; }
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
+
+/* ============================================
+   quest.html v8 強コントラスト白カード（2026-05-13）
+   ============================================ */
+body, html{ background: #c8e4f4 !important; color: #0a2a40 !important; }
+body *{ text-shadow: none !important; }
+
+/* セクション・パネル系 */
+.board-section, .side-panel, .linked-panel, .quest-card, .info-card,
+[style*="background:rgba(14,18,32"], [style*="background:rgba(10,14,24"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+  color: #0a2a40 !important;
+}
+
+/* 個別クエストアイテム（散歩・買い物・ヨガ等）の暗背景タイル */
+.daily-quest-card, .quest-item, .mod-quest-card, .high-quest-card,
+[class*="qe-item"], [class*="quest-tile"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.10), 0 2px 8px rgba(30,80,110,.06) !important;
+  color: #0a2a40 !important;
+}
+
+/* 見出し */
+.section-label, .section-head, .panel-head, .linked-head, .section-title{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+  text-shadow: none !important;
+}
+.section-note{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 600 !important;
+}
+
+/* 透けた色付き文字を濃く */
+[style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
+[style*="color:rgba(212,220,240"], [style*="color:rgba(170,190,240"],
+[style*="color:rgba(200,180,255"], [style*="color:rgba(200,188,240"],
+[style*="color:rgba(245,200,200"], [style*="color:rgba(240,210,160"],
+[style*="color:rgba(180,240,200"], [style*="color:rgba(255,200,180"]{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+[style*="color:rgba(201,168,76"], [style*="color:#c9a84c"], [style*="color:#f0d48a"], [style*="color:#ffe28a"]{
+  color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 800 !important;
+}
+[style*="color:rgba(240,160,160"], [style*="color:#f0a0a0"], [style*="color:#e05c5c"]{
+  color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; font-weight: 800 !important;
+}
+[style*="color:rgba(160,240,190"], [style*="color:#a0f0c0"], [style*="color:#7ee8b0"], [style*="color:#4ec98a"]{
+  color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; font-weight: 800 !important;
+}
+
+/* 下部ナビ＆floating ボタンの白カード水色化（既存はダーク） */
+.bottom-nav{
+  background: #ffffff !important;
+  border-top: 2px solid #b0cfdf !important;
+  box-shadow: 0 -4px 14px rgba(30,80,110,.10);
+}
+.bn-tab{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.bn-tab.active{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.bn-tab .bn-icon{ filter: none !important; -webkit-text-fill-color: initial !important; }
+body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
+
+/* 暗背景の戦闘パネル（vs 迷いの霧）等を白カードに */
+[style*="background:linear-gradient(135deg,rgba(14"],
+[style*="background:linear-gradient(135deg,rgba(8,11"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+}
 </style>
 </head>
 <body>
