@@ -7,7 +7,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="apple-touch-icon" href="/icon.svg">
-<meta name="theme-color" content="#c9a84c">
+<meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ヴィタリア">
@@ -234,6 +234,84 @@ body::before{
 
 /* ========== ヘッダー ========== */
 #main-screen{display:none;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
+
+/* ========== シンプルホーム（記録優先）========== */
+.simple-home{display:flex;flex-direction:column;gap:11px;margin-bottom:14px;}
+
+/* 3大記録ボタン */
+.sh-record{display:flex;flex-direction:column;gap:8px;}
+.sh-rec-btn{
+  background:linear-gradient(135deg,rgba(20,16,40,.92),rgba(8,6,20,.97));
+  border:1.5px solid rgba(201,168,76,.3);border-radius:12px;
+  padding:13px 16px;display:flex;align-items:center;gap:13px;
+  text-decoration:none;color:#e8e4d4;cursor:pointer;font-family:inherit;
+  width:100%;transition:transform .15s, box-shadow .2s, border-color .2s;text-align:left;
+}
+.sh-rec-btn:hover{transform:translateX(2px);}
+.sh-rec-btn:active{transform:translateX(0);}
+.sh-rec-icon{font-size:1.9rem;line-height:1;flex-shrink:0;width:42px;text-align:center;filter:drop-shadow(0 0 10px var(--icon-glow,rgba(201,168,76,.4)));}
+.sh-rec-body{flex:1;min-width:0;}
+.sh-rec-name{font-family:'Noto Serif JP',serif;font-size:.96rem;font-weight:900;color:#f0e4d4;letter-spacing:.04em;}
+.sh-rec-meta{font-size:.65rem;color:rgba(170,188,216,.6);margin-top:2px;}
+.sh-rec-arrow{font-size:1.2rem;color:rgba(201,168,76,.55);flex-shrink:0;}
+.rec-ex{--icon-glow:rgba(224,92,92,.5);border-color:rgba(224,92,92,.4);}
+.rec-ex:hover{border-color:rgba(224,92,92,.8);box-shadow:0 6px 18px rgba(224,92,92,.15);}
+.rec-nu{--icon-glow:rgba(78,201,138,.5);border-color:rgba(78,201,138,.4);}
+.rec-nu:hover{border-color:rgba(78,201,138,.8);box-shadow:0 6px 18px rgba(78,201,138,.15);}
+.rec-co{--icon-glow:rgba(156,114,224,.5);border-color:rgba(156,114,224,.4);}
+.rec-co:hover{border-color:rgba(156,114,224,.8);box-shadow:0 6px 18px rgba(156,114,224,.15);}
+.rec-qol{--icon-glow:rgba(168,200,240,.5);border-color:rgba(168,200,240,.4);}
+.rec-qol:hover{border-color:rgba(168,200,240,.8);box-shadow:0 6px 18px rgba(168,200,240,.15);}
+.rec-qol.done{opacity:.6;}
+.rec-qol.done .sh-rec-meta::after{content:' ・ ✓今日記録済み';color:#a8e8c0;font-weight:700;}
+
+/* 今週の進捗 */
+.sh-summary{
+  background:rgba(14,18,32,.7);border:1px solid rgba(201,168,76,.2);
+  border-radius:11px;padding:11px 14px;display:flex;flex-direction:column;gap:8px;
+}
+.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:rgba(220,225,245,.85);}
+.sh-sum-lbl{color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
+.sh-sum-val{flex:1;font-weight:700;color:#f0e4d4;}
+.sh-sum-bar{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.sh-sum-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a);border-radius:99px;transition:width .5s;}
+.sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:var(--gold2);font-size:.78rem;min-width:40px;text-align:right;}
+
+/* 冒険1行 */
+.sh-adv{
+  background:linear-gradient(135deg,rgba(80,40,140,.18),rgba(140,40,100,.12));
+  border:1px solid rgba(156,114,224,.35);border-radius:10px;
+  padding:9px 14px;display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:#e8d4ff;font-size:.78rem;
+}
+.sh-adv:hover{border-color:rgba(156,114,224,.6);}
+.sh-adv-icon{font-size:1.1rem;line-height:1;}
+.sh-adv-text{flex:1;font-weight:700;}
+.sh-adv-arrow{font-size:1rem;color:rgba(156,114,224,.7);}
+
+/* ミッション */
+.sh-mission{
+  background:rgba(78,201,138,.05);border:1px solid rgba(78,201,138,.25);border-radius:10px;
+  padding:8px 12px;display:flex;align-items:center;gap:9px;
+}
+.sh-m-icon{font-size:1.05rem;line-height:1;}
+.sh-m-text{flex:1;font-size:.74rem;font-weight:700;color:#a8e8c0;}
+.sh-m-done{
+  background:linear-gradient(135deg,#4ec98a,#a8e8c0);border:none;color:#0a2018;
+  font-family:'Noto Serif JP',serif;font-size:.72rem;font-weight:900;
+  padding:5px 11px;border-radius:7px;cursor:pointer;
+}
+.sh-m-done:disabled{opacity:.5;cursor:default;}
+
+/* フッター行（メニュー・詳細・相談） */
+.sh-foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:4px;}
+.sh-foot-btn{
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
+  color:rgba(220,225,245,.75);font-family:inherit;font-size:.65rem;font-weight:700;
+  padding:8px 4px;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;
+  letter-spacing:.04em;
+}
+.sh-foot-btn:hover{background:rgba(201,168,76,.1);color:var(--gold2);}
 
 /* ========== コンパクトホーム（DBL風メニュー）========== */
 .compact-home{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
@@ -1728,6 +1806,74 @@ body.detail-mode #compact-home{display:none !important;}
 <script src="./app-safety.js"></script>
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
+<style id="watercolor-skin">
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  /* v2 強化版：もっとはっきりした水色 */
+  --bg:    #c8e4f4;
+  --bg2:   #b0d6ed;
+  --bg3:   #95c5e5;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+</style>
 </head>
 <body>
 
@@ -1901,55 +2047,76 @@ body.detail-mode #compact-home{display:none !important;}
       </div>
     </div>
 
-    <!-- 🎮 コンパクトホーム（DBL風）— デフォルト表示 -->
-    <div class="compact-home" id="compact-home">
-      <!-- 上部の小ボタン6個 -->
-      <div class="ch-toprow">
-        <a href="./settings.html" class="ch-tbtn">⚙ 設定</a>
-        <a href="./class-select.html" class="ch-tbtn">⚔ クラス</a>
-        <button class="ch-tbtn" id="ch-stats-btn" type="button">📊 統計</button>
-        <a href="./journal.html" class="ch-tbtn">📓 ノート</a>
-        <a href="./faq.html" class="ch-tbtn">❓ FAQ</a>
-        <button class="ch-tbtn" id="ch-detail-btn" type="button">📋 詳細</button>
+    <!-- 🎯 シンプルホーム — 記録優先 -->
+    <div class="simple-home" id="compact-home">
+      <!-- 3大記録ボタン（最優先） -->
+      <div class="sh-record">
+        <a href="./quest.html" class="sh-rec-btn rec-ex">
+          <div class="sh-rec-icon">⚔</div>
+          <div class="sh-rec-body">
+            <div class="sh-rec-name">運動を記録</div>
+            <div class="sh-rec-meta" id="sh-meta-ex">今週 — / 150分</div>
+          </div>
+          <div class="sh-rec-arrow">→</div>
+        </a>
+        <a href="./nutrition.html" class="sh-rec-btn rec-nu">
+          <div class="sh-rec-icon">🌿</div>
+          <div class="sh-rec-body">
+            <div class="sh-rec-name">食事を記録</div>
+            <div class="sh-rec-meta" id="sh-meta-nu">野菜 — 皿 / 魚 — 食</div>
+          </div>
+          <div class="sh-rec-arrow">→</div>
+        </a>
+        <button class="sh-rec-btn rec-co" id="sh-rec-luna" type="button">
+          <div class="sh-rec-icon">💬</div>
+          <div class="sh-rec-body">
+            <div class="sh-rec-name">ルナと話す</div>
+            <div class="sh-rec-meta">AIコーチ・GROWモデル</div>
+          </div>
+          <div class="sh-rec-arrow">→</div>
+        </button>
+        <button class="sh-rec-btn rec-qol" id="sh-rec-qol" type="button">
+          <div class="sh-rec-icon">📊</div>
+          <div class="sh-rec-body">
+            <div class="sh-rec-name">今日のQOLを記録</div>
+            <div class="sh-rec-meta" id="sh-meta-qol">体調・気分・活力</div>
+          </div>
+          <div class="sh-rec-arrow">→</div>
+        </button>
       </div>
 
-      <!-- ヒーローバナー（イベント・hope・ctx-greeting統合） -->
-      <div class="ch-hero" id="ch-hero">
-        <div class="ch-hero-icon">🌟</div>
-        <div class="ch-hero-text">
-          <div class="ch-hero-name" id="ch-hero-name">ヴィタリアの冒険</div>
-          <div class="ch-hero-sub" id="ch-hero-sub">記録を続けて、12週間を歩もう</div>
+      <!-- 今週の進捗（1行サマリー） -->
+      <div class="sh-summary" id="sh-summary">
+        <div class="sh-sum-row">
+          <span class="sh-sum-lbl">今週</span>
+          <span class="sh-sum-val" id="sh-sum-week">記録なし</span>
+        </div>
+        <div class="sh-sum-row">
+          <span class="sh-sum-lbl">12週進捗</span>
+          <div class="sh-sum-bar"><div class="sh-sum-fill" id="sh-sum-fill" style="width:0%"></div></div>
+          <span class="sh-sum-pct" id="sh-sum-pct">0%</span>
         </div>
       </div>
 
-      <!-- 🌱 今日のミッション（1行コンパクト） -->
-      <div class="ch-mission" id="ch-mission" style="display:none;">
-        <span class="ch-m-icon">🌱</span>
-        <span class="ch-m-text" id="ch-m-text">水を1杯飲む</span>
-        <button class="ch-m-done" id="ch-m-done">✓</button>
+      <!-- 冒険プログレス（1行コンパクト・任意） -->
+      <a href="./adventure.html" class="sh-adv" id="sh-adv" style="display:none;">
+        <span class="sh-adv-icon">🗺</span>
+        <span class="sh-adv-text" id="sh-adv-text">第1章 — 進行中</span>
+        <span class="sh-adv-arrow">→</span>
+      </a>
+
+      <!-- 🌱 今日のミッション（1行・小さく） -->
+      <div class="sh-mission" id="sh-mission" style="display:none;">
+        <span class="sh-m-icon">🌱</span>
+        <span class="sh-m-text" id="sh-m-text">水を1杯飲む</span>
+        <button class="sh-m-done" id="sh-m-done">✓</button>
       </div>
 
-      <!-- 大きなメインメニューボタン -->
-      <button class="ch-main-btn" id="ch-main-btn" type="button">
-        <span class="ch-mb-icon">🎮</span>
-        <span class="ch-mb-text">
-          <span class="ch-mb-title">メニュー</span>
-          <span class="ch-mb-sub">タップで全部開く</span>
-        </span>
-        <span class="ch-mb-badge" id="ch-mb-badge" style="display:none;">!</span>
-        <span class="ch-mb-arrow">→</span>
-      </button>
-
-      <!-- クイック導線（最頻使用2つ） -->
-      <div class="ch-quick">
-        <a href="./quest.html" class="ch-quick-btn quick-ex">
-          <span class="qb-icon">⚔</span>
-          <span class="qb-text">運動を記録</span>
-        </a>
-        <a href="./nutrition.html" class="ch-quick-btn quick-nu">
-          <span class="qb-icon">🌿</span>
-          <span class="qb-text">食事を記録</span>
-        </a>
+      <!-- メニュー・詳細・サポート（小さなフッター行） -->
+      <div class="sh-foot">
+        <button class="sh-foot-btn" id="ch-main-btn" type="button">🎮 すべてのメニュー</button>
+        <button class="sh-foot-btn" id="ch-detail-btn" type="button">📋 詳細表示</button>
+        <a href="./support.html" class="sh-foot-btn">🛟 相談</a>
       </div>
     </div>
 
@@ -1970,7 +2137,7 @@ body.detail-mode #compact-home{display:none !important;}
             <div class="ch-card-meta" id="ch-meta-ex">— カイトと —</div>
           </a>
           <a href="./nutrition.html" class="ch-card ch-card-nu">
-            <div class="ch-card-img"><img src="./image/sera-sabun.png" alt="" style="object-position:center 18%;"></div>
+            <div class="ch-card-img"><img src="./image/sera-sabun%20(1).png" alt="" style="object-position:center 18%;"></div>
             <div class="ch-card-name">栄養</div>
             <div class="ch-card-meta" id="ch-meta-nu">— セラと —</div>
           </a>
@@ -3915,13 +4082,82 @@ document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
   renderSleep();
 });
 
-// ===== コンパクトホーム（DBL風メニュー） =====
+// ===== シンプルホーム（記録優先） =====
 function renderCompactHome(){
   if(!uid || uid==='guest') return;
-  // ヒーロー：イベントorhopeorあいさつから優先度高いものを表示
-  const heroIcon = document.getElementById('ch-hero-icon');
+
+  // 今週の運動・栄養
+  const wk = weekKey();
+  let exMin = 0, vegC=0, fishC=0, qolDone=false;
+  try{
+    const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}');
+    exMin = exData.score || 0;
+    document.getElementById('sh-meta-ex').textContent = `今週 ${exMin} / 150分`;
+  }catch(e){}
+  try{
+    const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
+    vegC = nuData.counts?.veg || 0;
+    fishC = nuData.counts?.protein || 0;
+    document.getElementById('sh-meta-nu').textContent = `野菜 ${vegC} 皿 / タンパク ${fishC} 食`;
+  }catch(e){}
+  // 今日のQOL記録済みか
+  try{
+    const today = new Date().toISOString().slice(0,10);
+    if(localStorage.getItem(`vt_qol_${uid}_${today}`)){
+      qolDone = true;
+      document.querySelector('.rec-qol')?.classList.add('done');
+    }
+  }catch(e){}
+
+  // 今週進捗のサマリー
+  try{
+    let summary = [];
+    if(exMin > 0) summary.push(`運動${exMin}分`);
+    if(vegC > 0) summary.push(`野菜${vegC}皿`);
+    if(qolDone) summary.push('QOL記録済');
+    const sumEl = document.getElementById('sh-sum-week');
+    if(sumEl) sumEl.textContent = summary.length ? summary.join(' ・ ') : '今週はまだ記録なし';
+  }catch(e){}
+
+  // 12週進捗バー
+  try{
+    let startDate = localStorage.getItem(`vt_start_date_${uid}`);
+    if(!startDate){
+      startDate = new Date().toISOString().slice(0,10);
+      localStorage.setItem(`vt_start_date_${uid}`, startDate);
+    }
+    const days = Math.floor((Date.now() - new Date(startDate).getTime()) / 86400000);
+    const pct = Math.min(100, Math.round(days / (12*7) * 100));
+    document.getElementById('sh-sum-fill').style.width = pct + '%';
+    document.getElementById('sh-sum-pct').textContent = pct + '%';
+  }catch(e){}
+
+  // 冒険プログレス
+  try{
+    const adv = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
+    const chId = ['迷いの霧','疲労の影','枯渇の魔物','孤独の幽霊','怠惰スロウス','暴食グラト','憤怒イラ','嫉妬インヴィ','強欲ガラクタ鬼','傲慢スペルビア','色欲ルクス','真の試練'][adv.chapterIdx] || '冒険';
+    const advEl = document.getElementById('sh-adv');
+    if(advEl){
+      advEl.style.display = 'flex';
+      document.getElementById('sh-adv-text').textContent = `第${adv.chapterIdx+1}章 ─ ${chId}`;
+    }
+  }catch(e){}
+
+  // Tiny Mission
+  try{
+    const mission = (typeof getTinyToday === 'function') ? getTinyToday() : null;
+    const mEl = document.getElementById('sh-mission');
+    if(mEl && mission){
+      mEl.style.display = 'flex';
+      document.getElementById('sh-m-text').textContent = mission.text;
+      const btn = document.getElementById('sh-m-done');
+      if(mission.done){ btn.textContent = '✓ 完了'; btn.disabled = true; }
+      else { btn.textContent = '✓'; btn.disabled = false; }
+    }
+  }catch(e){}
+
+  // ↓↓ 旧 hero/legacy code はもう使わないが、後方互換のため処理続行 ↓↓
   const heroName = document.getElementById('ch-hero-name');
-  const heroSub  = document.getElementById('ch-hero-sub');
   if(heroName){
     let icon='🌟', name='ヴィタリアの冒険', sub='記録を続けて、12週間を歩もう';
     // イベント優先
@@ -4070,6 +4306,28 @@ document.getElementById('ch-stats-btn')?.addEventListener('click', ()=>{
   setTimeout(()=>{
     document.querySelector('.qol-trend-card')?.scrollIntoView({behavior:'smooth', block:'start'});
   }, 100);
+});
+
+// シンプルホームのルナボタン
+document.getElementById('sh-rec-luna')?.addEventListener('click', ()=>{
+  if(typeof openCoach === 'function') openCoach();
+});
+// シンプルホームのQOL記録ボタン
+document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
+  // 既にQOLモーダルを開く処理があれば呼ぶ
+  const today = new Date().toISOString().slice(0,10);
+  if(localStorage.getItem(`vt_qol_${uid}_${today}`)){
+    alert('今日は既に記録済みです✓');
+    return;
+  }
+  // skip フラグ消して表示
+  try{ localStorage.removeItem(`vt_qol_skip_${uid}_${today}`); }catch(e){}
+  if(typeof maybeShowQolTracker === 'function') maybeShowQolTracker();
+});
+document.getElementById('sh-m-done')?.addEventListener('click', ()=>{
+  const btn = document.getElementById('th-done');
+  if(btn) btn.click();
+  setTimeout(renderCompactHome, 300);
 });
 
 // ガチャカード
@@ -4580,7 +4838,7 @@ function renderAffinity(){
       quotes:['「…ふん。来たか」','「もう少しで筋肉が裏切らないって分かるよ」','「お前のペースでいい」','「俺の方が一歩遅いかもな」','「お前の継続、剣士並みだ」','「俺の弟子か?」','「最強だな」','「お前は俺の師匠」'],
       backstory: '俺も昔、身体が動かない時期があった。事故でな…剣を握れない自分を許せなかった。でも、毎日「1分だけ」を積み重ねたら、また動ける身体になった。お前のその「1分」、俺は知ってるんだ。',
     },
-    {key:'sera', name:'セラ', img:'./image/sera-sabun.png', objPos:'center 18%',
+    {key:'sera', name:'セラ', img:'./image/sera-sabun%20(1).png', objPos:'center 18%',
       stats:calcLv(foodCount,20),
       quotes:['「いらっしゃい…」','「お腹は空いてない?」','「あなたの食卓に魔法が宿る」','「素敵な手のひらね」','「セラのレシピ完璧♡」','「あなたは料理の女神…」','「永遠の食卓を…」','「我が家へどうぞ♡」'],
       backstory: '私の母は…毒を盛られて亡くなりました。だから「食」が誰かを救うと信じて、薬草と栄養を学んだの。あなたの食卓に、お母さまから受け継いだ祈りが届きますように。',
