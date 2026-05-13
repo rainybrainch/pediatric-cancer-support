@@ -1514,6 +1514,91 @@ footer{
   .section-title{font-size:1.2rem;}
   .trial-card{padding:18px 14px;}
 }
+
+/* ============================================
+   モックアップ水色同期スキン ── 2026-05-13
+   HPトップは金/黒のままで、スマホモックアップ画面の中身（.pmock / .appshow-screen）だけを
+   game.html の水色テーマに合わせる
+   ============================================ */
+/* フォンフレーム内部 = 水色グラデ */
+.phone-screen, .appshow-screen, .pmock{
+  background: linear-gradient(180deg, #c8e4f4 0%, #b0d6ed 100%) !important;
+}
+/* ヘッダー：白寄り半透明＋濃紺文字 */
+.pmock-hdr, .as-hdr{
+  background: rgba(255,255,255,.78) !important;
+  border-bottom-color: rgba(30,127,164,.28) !important;
+}
+.pmock-hdr-title, .as-hdr-title{ color: #0a4870 !important; }
+.pmock-hdr-nav, .as-hdr-nav{ color: #2a5670 !important; }
+.pmock-hdr-lv{
+  background: rgba(255,255,255,.7) !important;
+  border-color: rgba(30,127,164,.4) !important;
+  color: #0a4870 !important;
+}
+/* キャラバナー */
+.pmock-char-banner, .as-char{
+  background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.25)) !important;
+  border-bottom-color: rgba(30,127,164,.22) !important;
+}
+.pmock-ch-name, .as-char-name{ color: #0a2a40 !important; }
+.pmock-ch-sub, .as-char-sub{ color: #2a5670 !important; }
+/* ボディ・セクションラベル */
+.pmock-body, .as-body{ color: #0a2a40 !important; }
+.pmock-sec-lbl, .as-sec-lbl{ color: #1a4860 !important; }
+/* バー類は淡い水色トラックに */
+.pmock-bar-track, .as-bar-track, .as-xb{
+  background: rgba(30,127,164,.13) !important;
+  border: 1px solid rgba(30,127,164,.22) !important;
+}
+.pmock-bar-lbl, .as-bar-lbl{ color: #2a5670 !important; }
+.pmock-bar-val, .as-bar-val{ color: #0a4870 !important; }
+/* タイル（仲間カード）・ルナのコメント枠 */
+.pmock-tile, .as-tile{
+  background: rgba(255,255,255,.65) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: #0a2a40 !important;
+}
+.pmock-tile-name, .as-tile-name{ color: #0a4870 !important; }
+.pmock-tile-sub, .as-tile-sub{ color: #2a5670 !important; }
+.pmock-luna, .as-luna{
+  background: rgba(255,255,255,.7) !important;
+  border-color: rgba(30,127,164,.3) !important;
+}
+.pmock-luna-msg, .as-luna-msg{ color: #0a2a40 !important; }
+/* 暗背景前提のインライン styles 上書き */
+.appshow-screen [style*="rgba(201,168,76,.06)"],
+.appshow-screen [style*="rgba(201,168,76,.05)"],
+.phone-screen   [style*="rgba(201,168,76,.06)"]{
+  background: rgba(255,255,255,.55) !important;
+}
+.appshow-screen [style*="rgba(201,168,76,.15)"]{
+  background: rgba(255,255,255,.75) !important;
+}
+.appshow-screen [style*="rgba(201,168,76,.9)"],
+.appshow-screen [style*="color:#f0d48a"],
+.appshow-screen [style*="color:#c9a84c"]{
+  color: #0a4870 !important;
+}
+.appshow-screen [style*="rgba(170,188,216,.4)"],
+.appshow-screen [style*="rgba(170,188,216,.5)"],
+.appshow-screen [style*="rgba(170,188,216,.6)"],
+.phone-screen   [style*="rgba(170,188,216,.4)"]{
+  color: #2a5670 !important;
+}
+.appshow-screen [style*="rgba(200,215,235,.7)"],
+.appshow-screen [style*="rgba(200,215,235,.8)"]{
+  color: #0a2a40 !important;
+}
+/* XPバーの黄金グラデ → 濃紺グラデ */
+.appshow-screen [style*="linear-gradient(90deg,#c9a84c,#f0d48a)"],
+.phone-screen   [style*="linear-gradient(90deg,#c9a84c,#f0d48a)"]{
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
+}
+/* フレーム自体の縁取りも水色寄りに */
+.phone-frame{ box-shadow: 0 8px 30px rgba(30,80,110,.18), 0 2px 8px rgba(30,80,110,.1) !important; }
+.appshow-frame{ box-shadow: 0 6px 22px rgba(30,80,110,.15), 0 2px 8px rgba(30,80,110,.08) !important; }
+/* App Screenshots ラベル "ゲームホーム" 等の白文字（モックアップ外側ラベル）はそのまま */
 </style>
 </head>
 <body>

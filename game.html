@@ -1957,6 +1957,95 @@ a:hover{ color: #4ab0d4; }
 }
 .rc-label, .rc-unit, .as-tile-sub{ color: #2a5670 !important; }
 .rc-value, .as-tile-name{ color: #0a4870 !important; }
+
+/* ============================================
+   縦長解消 v3 ── 2026-05-13
+   各セクションの区切りを強く可視化＋折りたたみFAB導線
+   ============================================ */
+/* セクション間のすき間を増やしてカードのリズムを作る */
+.side-panel, .linked-panel, .board-section,
+.dashboard-card, .info-card, .quest-card {
+  margin-bottom: 22px !important;
+  border-radius: 16px !important;
+  border-width: 1.5px !important;
+  box-shadow: 0 4px 14px rgba(30,80,110,.10), 0 1px 3px rgba(30,80,110,.06) !important;
+  position: relative;
+}
+/* セクション見出しを「カードの上部リボン」風に強調 */
+.panel-head, .linked-head, .section-label {
+  display: block !important;
+  font-family: 'Noto Serif JP', serif !important;
+  font-size: .92rem !important;
+  font-weight: 900 !important;
+  color: #0a4870 !important;
+  margin-bottom: 12px !important;
+  padding: 0 0 8px !important;
+  border-bottom: 1.5px solid rgba(30,127,164,.25) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  letter-spacing: .04em;
+}
+/* メインホームの大きめ見出しはさらに大きく */
+.dashboard-title, .home-section-title, [class*="section-title"]{
+  font-family: 'Noto Serif JP', serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 900 !important;
+  color: #0a4870 !important;
+  margin: 24px 0 14px !important;
+  padding-left: 12px !important;
+  border-left: 4px solid #1e7fa4 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+/* コメントベースで分かれているセクション間にも垂直余白を強制 */
+[id*="dashboard"], [id*="home"], [id*="quest"], [id*="story"], [id*="achieve"]{
+  margin-top: 14px;
+}
+
+/* セクションジャンプFAB */
+.jump-fab{
+  position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+.jump-fab-btn{
+  width: 54px; height: 54px; border-radius: 50%;
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4);
+  color: #fff; font-size: 1.2rem; font-weight: 900;
+  border: 2px solid rgba(255,255,255,.6);
+  box-shadow: 0 6px 18px rgba(30,80,110,.35), 0 2px 6px rgba(30,80,110,.2);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.jump-fab-btn:hover{ transform: translateY(-2px); transition: transform .15s; }
+.jump-fab-list{
+  position: absolute; right: 0; bottom: 64px;
+  background: rgba(255,255,255,.96); backdrop-filter: blur(8px);
+  border: 1px solid rgba(30,127,164,.35);
+  border-radius: 14px;
+  padding: 10px 6px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(30,80,110,.25);
+  display: none;
+}
+.jump-fab.open .jump-fab-list{ display: block; }
+.jump-fab-list a{
+  display: block;
+  padding: 8px 14px;
+  font-size: .8rem;
+  color: #0a4870;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.jump-fab-list a:hover{ background: rgba(30,127,164,.1); }
+.jump-fab-list .label-grp{
+  font-size: .58rem;
+  color: #5a7a90;
+  padding: 6px 14px 2px;
+  letter-spacing: .1em;
+  font-weight: 700;
+}
+@media(max-width:480px){
+  .jump-fab{ right: 12px; bottom: 12px; }
+  .jump-fab-btn{ width: 48px; height: 48px; font-size: 1rem; }
+}
 </style>
 </head>
 <body>
@@ -6095,5 +6184,98 @@ function closeTutorial(){
     </div>
   </div>
 </div>
+
+<!-- 🆕 セクションジャンプFAB（縦長解消・2026-05-13）-->
+<script>
+(function(){
+  function init(){
+    if(document.getElementById('jump-fab-root')) return;
+    const sections = [
+      { match: /プレイヤーステータス|プレイヤー状態/, icon: '📊', label: 'ステータス' },
+      { match: /3大記録ボタン|シンプルホーム|記録優先/, icon: '📝', label: '記録する' },
+      { match: /今日のミッション|Tiny Habits/, icon: '🌱', label: '今日のミッション' },
+      { match: /水分・睡眠/, icon: '💧', label: '水分・睡眠' },
+      { match: /週次インサイト|今週のQOL/, icon: '📈', label: '週次サマリー' },
+      { match: /12週間の足跡/, icon: '🗺', label: '12週の足跡' },
+      { match: /ストリークカレンダー/, icon: '🔥', label: 'ストリーク' },
+      { match: /キャラクター好感度|キャラ好感度/, icon: '✦', label: '仲間との絆' },
+      { match: /クエストカード|運動クエスト|栄養クエスト/, icon: '⚔', label: 'クエスト' },
+      { match: /AIコーチ（全幅）|今週ルナと決めた目標/, icon: '🌙', label: 'ルナと話す' },
+      { match: /ストーリー章/, icon: '📖', label: '物語' },
+      { match: /^\s*実績\s*$/, icon: '🏆', label: '実績' }
+    ];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT, null);
+    let node;
+    const found = [];
+    const seenKeys = new Set();
+    while((node = walker.nextNode())){
+      const text = (node.nodeValue || '').trim();
+      for(const s of sections){
+        const key = s.match.toString();
+        if(seenKeys.has(key)) continue;
+        if(s.match.test(text)){
+          let next = node.nextSibling;
+          while(next && next.nodeType !== 1) next = next.nextSibling;
+          if(next){
+            const id = 'jump-' + key.replace(/[^a-z0-9]/gi, '').slice(0,12) + '-' + found.length;
+            if(!next.id) next.id = id;
+            found.push({ id: next.id, icon: s.icon, label: s.label });
+            seenKeys.add(key);
+          }
+          break;
+        }
+      }
+    }
+    if(found.length < 2) return;
+    const fab = document.createElement('div');
+    fab.id = 'jump-fab-root';
+    fab.className = 'jump-fab';
+    let html = '<div class="label-grp">セクションへ移動</div>';
+    for(const f of found){
+      html += '<a href="#'+f.id+'">'+f.icon+' '+f.label+'</a>';
+    }
+    fab.innerHTML =
+      '<button class="jump-fab-btn" aria-label="セクションメニュー" aria-expanded="false">≡</button>' +
+      '<div class="jump-fab-list" role="menu">'+html+'</div>';
+    document.body.appendChild(fab);
+    const btn = fab.querySelector('.jump-fab-btn');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const open = fab.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? '×' : '≡';
+    });
+    fab.querySelectorAll('.jump-fab-list a').forEach(function(a){
+      a.addEventListener('click', function(){
+        fab.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '≡';
+      });
+    });
+    document.addEventListener('click', function(e){
+      if(!fab.contains(e.target)){
+        fab.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = '≡';
+      }
+    });
+    // ログイン前画面では非表示
+    const main = document.getElementById('main-screen');
+    const login = document.getElementById('login-screen');
+    function syncVisibility(){
+      const showMain = main && !main.classList.contains('hidden') && main.style.display !== 'none';
+      const hideLogin = !login || login.classList.contains('hidden') || login.style.display === 'none';
+      fab.style.display = (showMain && hideLogin) ? '' : 'none';
+    }
+    syncVisibility();
+    new MutationObserver(syncVisibility).observe(document.body, { subtree:true, attributes:true, attributeFilter:['class','style'] });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>
