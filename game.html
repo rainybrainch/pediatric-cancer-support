@@ -1873,6 +1873,90 @@ a:hover{ color: #4ab0d4; }
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
+
+/* ============================================
+   水色スキン v2 ── 2026-05-13 可読性強化
+   v1 で「水色背景 × 水色文字」が同化していた問題を解消
+   ============================================ */
+/* タイトルを濃紺グラデに変更（水色背景に対し十分なコントラスト） */
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #0a4870, #1e7fa4, #155f87) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,.7);
+}
+/* サブテキスト：薄すぎた v1 値を不透明寄りに */
+.ls-sub, .ls-msg{ color: #1a4860 !important; }
+.lp-rune, .lp-subtitle, .lp-tagline, .panel-sub, .section-note, .side-note,
+.streak-sub, .xp-note, .week-label, .as-char-sub, .as-bar-lbl{
+  color: #1a4860 !important;
+}
+/* 本文・ラベル：濃紺で確実に読める */
+.lp-title, .panel-head, .section-label, .lv-name, .as-char-name, .streak-num, .xp-now, .xp-next, .lv-n{
+  color: #0a2a40 !important; text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+/* パネル系：v1 で水色オーバーレイになり沈んだのを「白寄り半透明」に戻す */
+.side-panel, .linked-panel, .quest-side > div, .board-section,
+[style*="background:rgba(14,18,32"]{
+  background: rgba(255,255,255,.7) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: #0a2a40 !important;
+  box-shadow: 0 2px 8px rgba(30,80,110,.08);
+}
+/* インラインで暗背景前提だった要素（さらに白寄りに） */
+[style*="rgba(14,18,32,.85)"],
+[style*="rgba(14,18,32,.65)"],
+[style*="rgba(14,18,32,.6)"]{
+  background: rgba(255,255,255,.78) !important;
+  color: #0a2a40 !important;
+}
+/* カード内の細字（.6rem 等）も読めるトーンに */
+[style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"], [style*="color:rgba(245,200,200"]{
+  color: #2a5670 !important;
+}
+[style*="color:rgba(201,168,76"]{ color: #b07a1a !important; }
+[style*="color:#7dd8e8"], [style*="color:#9ee0ee"]{ color: #0a4870 !important; }
+[style*="color:#ffe28a"], [style*="color:#f0d48a"]{ color: #b07a1a !important; }
+[style*="color:#f0a0a0"]{ color: #a83838 !important; }
+/* ボタン：白寄り背景＋濃紺文字 */
+.btn, button:not([class*="ghost"]), [class*="btn-primary"]{
+  background: linear-gradient(135deg, #ffffff, #d7ecf6) !important;
+  color: #0a4870 !important;
+  border-color: rgba(30,127,164,.5) !important;
+  box-shadow: 0 2px 6px rgba(30,80,110,.12);
+}
+.btn:hover, button:not([class*="ghost"]):hover{
+  background: linear-gradient(135deg, #e8f4fb, #b0d6ed) !important;
+}
+/* リンクボタン (.ls-link 等) */
+.ls-link, a.btn-nav{
+  background: rgba(255,255,255,.6) !important;
+  color: #0a4870 !important;
+  border: 1px solid rgba(30,127,164,.4) !important;
+}
+/* バー（XP・ステータス）の枠を明瞭に */
+.xp-wrap, .ls-bar, .as-bar-track{
+  background: rgba(30,127,164,.12) !important;
+  border: 1px solid rgba(30,127,164,.25) !important;
+}
+.xp-fill, .ls-fill-n, .ls-fill-q, .as-bar-fill{
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
+}
+/* レベル・名前タグ */
+.lv-badge{
+  background: linear-gradient(135deg, #ffffff, #c8e4f4) !important;
+  border-color: rgba(30,127,164,.4) !important;
+  color: #0a2a40 !important;
+}
+/* タイル・チップ */
+.recommend-card, .as-tile{
+  background: rgba(255,255,255,.7) !important;
+  border-color: rgba(30,127,164,.3) !important;
+  color: #0a2a40 !important;
+}
+.rc-label, .rc-unit, .as-tile-sub{ color: #2a5670 !important; }
+.rc-value, .as-tile-name{ color: #0a4870 !important; }
 </style>
 </head>
 <body>
