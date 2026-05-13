@@ -7,7 +7,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="apple-touch-icon" href="/icon.svg">
-<meta name="theme-color" content="#c9a84c">
+<meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -468,6 +468,73 @@ body::before{
 <script src="./app-safety.js"></script>
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
+<style id="watercolor-skin">
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+</style>
 </head>
 <body>
 
@@ -491,6 +558,42 @@ body::before{
   </header>
 
   <main class="adv-main">
+
+    <!-- 🆕 冒険の仕組みガイド（折りたたみ式・初見ユーザー向け） -->
+    <details id="adv-howto" style="background:#ffffff;border:2px solid #b0cfdf;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 12px rgba(30,80,110,.08);">
+      <summary style="font-family:'Noto Serif JP',serif;font-weight:900;color:#0a4870;font-size:1rem;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;">
+        <span style="display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;border-radius:50%;font-size:.78rem;flex-shrink:0;">？</span>
+        <span>冒険ってどんな仕組み？（タップで開く）</span>
+        <span style="margin-left:auto;color:#1e7fa4;font-size:.8rem;">▾</span>
+      </summary>
+      <div style="margin-top:14px;font-size:.78rem;line-height:1.85;color:#0a2a40;">
+        <p style="margin-bottom:10px;"><strong style="color:#1e7fa4;">冒険 = 12章のストーリーを進むこと。</strong>各章には「敵（=あなたの中の弱さの象徴）」がいて、<strong>あなたの記録が武器</strong>になります。</p>
+        <table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:.74rem;">
+          <tr style="background:#f4faff;">
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b53a3a;">⚔ 運動の記録</td>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">10分ごとに +1pt のダメージを与える</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#1f7d4d;">🌿 栄養の記録</td>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">1食ごとに +1pt のダメージを与える</td>
+          </tr>
+          <tr style="background:#f4faff;">
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#5b4ea8;">🌙 ルナとの対話</td>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">1回の会話で +3pt のダメージを与える</td>
+          </tr>
+        </table>
+        <ol style="margin:14px 0 6px 18px;padding:0;">
+          <li style="margin-bottom:6px;"><strong>記録する</strong>（運動・栄養・対話）→ 自動でこの章の敵にダメージ</li>
+          <li style="margin-bottom:6px;">敵の <strong>HP が 0</strong> になると討伐成功 → 次の章へ進める</li>
+          <li style="margin-bottom:6px;">章ごとに <strong>弱点</strong>（運動が効くか、栄養が効くか、対話が効くか）が違う</li>
+          <li><strong>直接攻撃モード（1日1回）</strong>は、その日の記録の中で「ボーナスの一撃」を放てる救済機能</li>
+        </ol>
+        <div style="background:#fef9e8;border-left:3px solid #b07a1a;border-radius:0 8px 8px 0;padding:10px 12px;margin-top:10px;font-size:.74rem;color:#1a4860;">
+          <strong style="color:#b07a1a;">💡 大切なこと：</strong>敵は「あなたを苦しめるもの」ではなく、<strong>「あなたの中で乗り越えたい気持ちの象徴」</strong>です。記録しなかった日があっても、敵は元気にはなりません。あなたのペースで進めてください。
+        </div>
+        <p style="margin-top:10px;font-size:.72rem;color:#355773;">詳しくは <a href="./rulebook.html#adventure" style="color:#1e7fa4;font-weight:700;">📖 ルールブック「冒険の進め方」</a> を見てください。</p>
+      </div>
+    </details>
 
     <!-- 全体進捗ゲージ -->
     <div class="global-progress">

@@ -2659,6 +2659,82 @@ input:focus, select:focus, textarea:focus{
   padding: 8px 10px !important;
   max-width: 280px;
 }
+
+/* ============================================
+   下部ナビバー v7 ── 2026-05-13
+   ホーム・他画面で重ならず、常時表示、水色テーマ統一
+   ============================================ */
+.bottom-nav{
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important; right: 0 !important;
+  height: 64px !important;
+  background: #ffffff !important;
+  border-top: 2px solid #b0cfdf !important;
+  display: flex !important;
+  align-items: stretch !important;
+  z-index: 95 !important;
+  box-shadow: 0 -4px 14px rgba(30,80,110,.10);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.bottom-nav .bn-tab{
+  flex: 1;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-decoration: none;
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  font-weight: 700;
+  transition: color .15s, transform .1s;
+  position: relative;
+  padding: 6px 2px;
+}
+.bottom-nav .bn-tab:hover{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+.bottom-nav .bn-tab.active{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+.bottom-nav .bn-tab.active::before{
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 36px; height: 3px;
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4);
+  border-radius: 0 0 99px 99px;
+}
+.bottom-nav .bn-icon{
+  font-size: 1.35rem;
+  line-height: 1;
+  filter: none !important;
+  -webkit-text-fill-color: initial !important;
+  color: initial !important;
+}
+.bottom-nav .bn-tab.active .bn-icon{
+  transform: scale(1.1) translateY(-1px);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.bottom-nav .bn-label{
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+/* メインコンテンツが下部ナビに被らないように余白確保 */
+#main-screen{
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important;
+}
+
+/* ジャンプFAB の位置を下部ナビ高さ + 余白に */
+.jump-fab{
+  bottom: calc(78px + env(safe-area-inset-bottom, 0)) !important;
+}
+@media(max-width:480px){
+  .jump-fab{ bottom: calc(74px + env(safe-area-inset-bottom, 0)) !important; }
+}
 </style>
 </head>
 <body>
@@ -2902,7 +2978,7 @@ input:focus, select:focus, textarea:focus{
       <div class="sh-foot">
         <button class="sh-foot-btn" id="ch-main-btn" type="button">🎮 すべてのメニュー</button>
         <button class="sh-foot-btn" id="ch-detail-btn" type="button">📋 詳細表示</button>
-        <a href="./support.html" class="sh-foot-btn">🛟 相談</a>
+        <a href="./support.html" class="sh-foot-btn">💬 相談窓口</a>
       </div>
     </div>
 
@@ -5098,17 +5174,38 @@ document.getElementById('ch-stats-btn')?.addEventListener('click', ()=>{
 document.getElementById('sh-rec-luna')?.addEventListener('click', ()=>{
   if(typeof openCoach === 'function') openCoach();
 });
-// シンプルホームのQOL記録ボタン
+// シンプルホームのQOL記録ボタン（ゲスト対応＆モーダル直接表示）
 document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
-  // 既にQOLモーダルを開く処理があれば呼ぶ
   const today = new Date().toISOString().slice(0,10);
-  if(localStorage.getItem(`vt_qol_${uid}_${today}`)){
-    alert('今日は既に記録済みです✓');
-    return;
+  const safeUid = (typeof uid !== 'undefined' && uid) ? uid : 'guest';
+  const key = `vt_qol_${safeUid}_${today}`;
+  if(localStorage.getItem(key)){
+    if(!confirm('今日は既に記録済みです✓\nもう一度書き直しますか？')) return;
+    try{ localStorage.removeItem(key); }catch(e){}
   }
-  // skip フラグ消して表示
-  try{ localStorage.removeItem(`vt_qol_skip_${uid}_${today}`); }catch(e){}
-  if(typeof maybeShowQolTracker === 'function') maybeShowQolTracker();
+  try{ localStorage.removeItem(`vt_qol_skip_${safeUid}_${today}`); }catch(e){}
+  // モーダルを直接表示（maybeShowQolTracker は早期returnで詰まるので使わない）
+  try{ if(typeof buildQolScales === 'function') buildQolScales(); }catch(e){}
+  try{
+    if(typeof _qolAnswers !== 'undefined'){
+      Object.keys(_qolAnswers).forEach(k=>_qolAnswers[k]=null);
+    }
+  }catch(e){}
+  document.querySelectorAll('.qol-scale-btn').forEach(b=>b.classList.remove('selected'));
+  const saveBtn = document.getElementById('qol-save');
+  if(saveBtn){ saveBtn.disabled = true; saveBtn.style.opacity = '.5'; }
+  const noteEl = document.getElementById('qol-note');
+  if(noteEl){
+    noteEl.value = '';
+    const cnt = document.getElementById('qol-note-count');
+    if(cnt) cnt.textContent = '0/120';
+  }
+  const modal = document.getElementById('qol-modal');
+  if(modal){
+    modal.style.display = 'flex';
+  } else {
+    alert('QOLトラッカーが見つかりませんでした。ページを再読込してみてください。');
+  }
 });
 document.getElementById('sh-m-done')?.addEventListener('click', ()=>{
   const btn = document.getElementById('th-done');
@@ -6758,7 +6855,7 @@ window.addEventListener('load', ()=>{
   }
 });
 </script>
-<nav class="bottom-nav" id="bottom-nav" style="display:none;">
+<nav class="bottom-nav" id="bottom-nav">
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
   <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
   <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
@@ -6975,13 +7072,9 @@ window.addEventListener('load', ()=>{
       { match: /今日のミッション|Tiny Habits/, icon: '🌱', label: '今日のミッション' },
       { match: /水分・睡眠/, icon: '💧', label: '水分・睡眠' },
       { match: /週次インサイト|今週のQOL/, icon: '📈', label: '週次サマリー' },
-      { match: /12週間の足跡/, icon: '🗺', label: '12週の足跡' },
       { match: /ストリークカレンダー/, icon: '🔥', label: 'ストリーク' },
-      { match: /キャラクター好感度|キャラ好感度/, icon: '✦', label: '仲間との絆' },
       { match: /クエストカード|運動クエスト|栄養クエスト/, icon: '⚔', label: 'クエスト' },
-      { match: /AIコーチ（全幅）|今週ルナと決めた目標/, icon: '🌙', label: 'ルナと話す' },
-      { match: /ストーリー章/, icon: '📖', label: '物語' },
-      { match: /^\s*実績\s*$/, icon: '🏆', label: '実績' }
+      { match: /AIコーチ（全幅）|今週ルナと決めた目標/, icon: '🌙', label: 'ルナと話す' }
     ];
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT, null);
     let node;
