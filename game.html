@@ -2046,6 +2046,248 @@ a:hover{ color: #4ab0d4; }
   .jump-fab{ right: 12px; bottom: 12px; }
   .jump-fab-btn{ width: 48px; height: 48px; font-size: 1rem; }
 }
+
+/* ============================================
+   水色スキン v4 ── 2026-05-13 強コントラスト白カード
+   マネぼう参考：背景は水色のまま、パネルは「白＋濃紺文字＋3D影＋鮮やかアクセント」
+   v1〜v3 で残った「水色×水色文字の同化」「+XPが透ける」を最終解決
+   ============================================ */
+
+/* 色トークン上書き */
+:root{
+  --wc-card: #ffffff;
+  --wc-card-2: #f4faff;
+  --wc-line: #b0cfdf;
+  --wc-line-strong: #6da9c4;
+  --wc-ink: #0a2a40;
+  --wc-ink-2: #1a4860;
+  --wc-ink-3: #355773;
+  --wc-blue: #0a4870;
+  --wc-blue-2: #1e7fa4;
+  --wc-blue-3: #4ab0d4;
+  --wc-green: #1f7d4d;
+  --wc-green-2: #2da366;
+  --wc-gold: #b07a1a;
+  --wc-gold-2: #d99b2b;
+  --wc-red: #b53a3a;
+  --wc-red-2: #d44a4a;
+  --wc-purple: #5b4ea8;
+}
+
+/* ── パネル系：完全に不透明な白カード ── */
+.side-panel, .linked-panel, .board-section,
+.dashboard-card, .info-card, .quest-card,
+.recommend-card, .as-tile, .as-luna {
+  background: var(--wc-card) !important;
+  border: 1.5px solid var(--wc-line) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 4px 0 rgba(30,80,110,.08),
+    0 2px 14px rgba(30,80,110,.10) !important;
+  color: var(--wc-ink) !important;
+  padding: 16px !important;
+}
+/* インラインで暗背景を指定していた要素を一掃 */
+[style*="rgba(14,18,32"],
+[style*="background:rgba(255,255,255,.04"],
+[style*="background:rgba(255,255,255,.05"],
+[style*="background:rgba(255,255,255,.06"],
+[style*="background:rgba(255,255,255,.07"],
+[style*="background:rgba(255,255,255,.08"],
+[style*="background:rgba(255,255,255,.1"]{
+  background: var(--wc-card) !important;
+  color: var(--wc-ink) !important;
+}
+
+/* ── 見出し（カードヘッダー）── */
+.panel-head, .linked-head, .section-label, .section-title,
+.dashboard-title, .home-section-title,
+.as-sec-lbl, .pmock-sec-lbl {
+  display: block !important;
+  font-family: 'Noto Serif JP', serif !important;
+  font-size: 1rem !important;
+  font-weight: 900 !important;
+  color: var(--wc-blue) !important;
+  margin: 0 0 12px !important;
+  padding: 0 0 10px !important;
+  border-bottom: 2px solid var(--wc-line) !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: var(--wc-blue) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  letter-spacing: .04em;
+}
+
+/* ── 本文・キャラ名・数値 ── */
+.lp-title, .as-char-name, .as-tile-name,
+.lv-name, .lv-n, .week-label,
+.streak-num, .xp-now, .xp-next,
+.rc-value, .ls-val {
+  color: var(--wc-ink) !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: var(--wc-ink) !important;
+  background: none !important;
+}
+/* タイトル文字（ヴィタリア転生録 等）= 濃紺ベタ */
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: var(--wc-blue) !important;
+  color: var(--wc-blue) !important;
+  text-shadow: none !important;
+  font-weight: 900 !important;
+}
+
+/* ── サブテキスト・ラベル：完全に読める濃さ ── */
+.ls-sub, .ls-msg, .lp-rune, .lp-subtitle, .lp-tagline,
+.panel-sub, .section-note, .side-note,
+.streak-sub, .xp-note, .as-char-sub, .as-bar-lbl,
+.rc-label, .rc-unit, .as-tile-sub, .pmock-ch-sub, .pmock-bar-lbl,
+.daily-note {
+  color: var(--wc-ink-2) !important;
+  font-weight: 600 !important;
+}
+
+/* ── 薄い rgba 文字を強制上書き ── */
+[style*="color:rgba(170,188,216"],
+[style*="color:rgba(200,215,235"],
+[style*="color:rgba(212,220,240"],
+[style*="color:rgba(245,200,200"]{
+  color: var(--wc-ink-2) !important;
+}
+[style*="color:rgba(201,168,76"],
+[style*="color:#c9a84c"],
+[style*="color:#f0d48a"]{
+  color: var(--wc-gold) !important;
+  font-weight: 700 !important;
+}
+[style*="color:#7dd8e8"], [style*="color:#9ee0ee"]{
+  color: var(--wc-blue) !important;
+}
+[style*="color:#ffe28a"]{ color: var(--wc-gold) !important; font-weight: 700 !important; }
+[style*="color:#f0a0a0"]{ color: var(--wc-red) !important; font-weight: 700 !important; }
+[style*="color:rgba(240,160,160"]{ color: var(--wc-red) !important; font-weight: 700 !important; }
+[style*="color:rgba(160,240,190"], [style*="color:#a0f0c0"], [style*="color:#7ee8b0"]{
+  color: var(--wc-green) !important; font-weight: 700 !important;
+}
+[style*="color:rgba(200,180,255"], [style*="color:#c0a0f0"]{
+  color: var(--wc-purple) !important; font-weight: 700 !important;
+}
+
+/* ── XPバー・ステータスバー ── */
+.xp-wrap, .ls-bar, .as-bar-track, .pmock-bar-track, .as-xb, .xp-bar-bg{
+  background: rgba(30,127,164,.10) !important;
+  border: 1px solid var(--wc-line) !important;
+  border-radius: 99px !important;
+  height: 10px !important;
+  overflow: hidden;
+}
+.xp-fill, .ls-fill-n, .as-bar-fill, .as-xb-fill, .pmock-bar-fill, .xp-bar-fill{
+  background: linear-gradient(90deg, var(--wc-blue-2), var(--wc-blue-3)) !important;
+  border-radius: 99px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+/* 緑・赤・金のバーは色保持しつつ濃く */
+[style*="linear-gradient(90deg,#4ec98a"],
+[style*="linear-gradient(90deg,#a8e060"]{
+  background: linear-gradient(90deg, var(--wc-green), var(--wc-green-2)) !important;
+}
+[style*="linear-gradient(90deg,#e05c5c"],
+[style*="linear-gradient(90deg,#e08a3c"]{
+  background: linear-gradient(90deg, var(--wc-red), #e07a3a) !important;
+}
+[style*="linear-gradient(90deg,#c9a84c,#f0d48a"]{
+  background: linear-gradient(90deg, var(--wc-gold), var(--wc-gold-2)) !important;
+}
+
+/* ── レベル・キャラタイル ── */
+.lv-badge{
+  background: linear-gradient(135deg, #fff, #e0eff8) !important;
+  border: 2px solid var(--wc-blue-2) !important;
+  color: var(--wc-ink) !important;
+  font-weight: 900 !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.12);
+}
+.as-tile, .pmock-tile{
+  background: var(--wc-card) !important;
+  border: 2px solid var(--wc-line) !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08);
+}
+/* 仲間カード：色付き枠で属性を残す */
+.as-tile[style*="rgba(224,92,92"]{ border-color: var(--wc-red) !important; }
+.as-tile[style*="rgba(78,201,138"]{ border-color: var(--wc-green) !important; }
+.as-tile[style*="rgba(156,114,224"]{ border-color: var(--wc-purple) !important; }
+.as-tile-badge[style*="rgba(224,92,92,.18)"]{
+  background: var(--wc-red) !important; color: #fff !important; font-weight: 900 !important;
+}
+.as-tile-badge[style*="rgba(78,201,138,.18)"]{
+  background: var(--wc-green) !important; color: #fff !important; font-weight: 900 !important;
+}
+
+/* ── 強調 "+ N XP" 系（透けて消えていたもの）── */
+[style*="rgba(160,240,190,.5"],
+[style*="rgba(160,240,190,.4"],
+[style*="rgba(160,240,190,.6"]{
+  color: var(--wc-green) !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+}
+.xp-gain, .reward-xp, .quest-xp-badge,
+[class*="xp-badge"], [class*="xp-gain"]{
+  background: linear-gradient(135deg, var(--wc-gold), var(--wc-gold-2)) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  border: none !important;
+  border-radius: 99px !important;
+  padding: 4px 12px !important;
+  box-shadow: 0 2px 0 rgba(176,122,26,.4) !important;
+}
+
+/* ── ボタン（マネぼう風 3D） ── */
+.btn, button:not([class*="ghost"]):not(.jump-fab-btn):not(.tut-btn-skip),
+[class*="btn-primary"]{
+  background: linear-gradient(135deg, var(--wc-blue-2), var(--wc-blue-3)) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+  padding: 12px 18px !important;
+  box-shadow: 0 4px 0 var(--wc-blue), 0 6px 14px rgba(30,80,110,.18) !important;
+  transition: transform .1s, box-shadow .1s;
+  letter-spacing: .03em;
+}
+.btn:active, button:not([class*="ghost"]):not(.jump-fab-btn):active{
+  transform: translateY(3px) !important;
+  box-shadow: 0 1px 0 var(--wc-blue), 0 2px 6px rgba(30,80,110,.1) !important;
+}
+.ls-link, a.btn-nav{
+  background: #fff !important;
+  color: var(--wc-blue) !important;
+  border: 1.5px solid var(--wc-blue-2) !important;
+  font-weight: 700 !important;
+  border-radius: 99px !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.12);
+}
+
+/* ── 入力 ── */
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: #fff !important;
+  border: 1.5px solid var(--wc-line-strong) !important;
+  color: var(--wc-ink) !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--wc-blue-2) !important;
+  box-shadow: 0 0 0 3px rgba(30,127,164,.18) !important;
+  outline: none !important;
+}
+::placeholder{ color: var(--wc-ink-3) !important; opacity: .7; }
 </style>
 </head>
 <body>

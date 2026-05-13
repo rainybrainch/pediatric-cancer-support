@@ -1598,7 +1598,214 @@ footer{
 /* フレーム自体の縁取りも水色寄りに */
 .phone-frame{ box-shadow: 0 8px 30px rgba(30,80,110,.18), 0 2px 8px rgba(30,80,110,.1) !important; }
 .appshow-frame{ box-shadow: 0 6px 22px rgba(30,80,110,.15), 0 2px 8px rgba(30,80,110,.08) !important; }
-/* App Screenshots ラベル "ゲームホーム" 等の白文字（モックアップ外側ラベル）はそのまま */
+
+/* ============================================
+   モックアップスキン v4 ── 2026-05-13 強コントラスト白カード
+   マネぼう参考：水色背景に「白カード＋濃紺文字＋3D影」
+   ============================================ */
+:root{
+  --mc-bg: #e8f4fb;
+  --mc-card: #ffffff;
+  --mc-line: #b0cfdf;
+  --mc-ink: #0a2a40;
+  --mc-ink-2: #1a4860;
+  --mc-ink-3: #355773;
+  --mc-blue: #0a4870;
+  --mc-blue-2: #1e7fa4;
+  --mc-blue-3: #4ab0d4;
+  --mc-green: #1f7d4d;
+  --mc-gold: #b07a1a;
+  --mc-gold-2: #d99b2b;
+  --mc-red: #b53a3a;
+}
+
+/* フォン画面内：淡い水色背景に */
+.phone-screen, .appshow-screen, .pmock{
+  background: var(--mc-bg) !important;
+}
+/* アプリヘッダー：完全に白＋濃紺文字 */
+.phone-screen .pmock-hdr, .appshow-screen .as-hdr{
+  background: var(--mc-card) !important;
+  border-bottom: 1.5px solid var(--mc-line) !important;
+}
+.phone-screen .pmock-hdr-title, .appshow-screen .as-hdr-title,
+.phone-screen [class*="pmock-hdr-"] .pmock-hdr-title{
+  color: var(--mc-blue) !important;
+  font-weight: 900 !important;
+  -webkit-text-fill-color: var(--mc-blue) !important;
+  background: none !important;
+}
+.phone-screen .pmock-hdr-nav, .appshow-screen .as-hdr-nav{
+  color: var(--mc-ink-3) !important; font-weight: 700 !important;
+}
+.phone-screen .pmock-hdr-lv, .appshow-screen [style*="Lv"]{
+  background: var(--mc-card) !important;
+  border: 1.5px solid var(--mc-blue-2) !important;
+  color: var(--mc-blue) !important;
+  font-weight: 900 !important;
+}
+
+/* キャラバナー：白カード */
+.phone-screen .pmock-char-banner, .appshow-screen .as-char{
+  background: var(--mc-card) !important;
+  border-bottom: 1.5px solid var(--mc-line) !important;
+  padding: 12px !important;
+  border-radius: 0 !important;
+}
+.phone-screen .pmock-ch-name, .appshow-screen .as-char-name{
+  color: var(--mc-ink) !important; font-weight: 900 !important;
+}
+.phone-screen .pmock-ch-sub, .appshow-screen .as-char-sub{
+  color: var(--mc-ink-2) !important; font-weight: 600 !important;
+}
+
+/* ボディ（情報パネル）：白カードに */
+.phone-screen .pmock-body, .appshow-screen .as-body{
+  background: var(--mc-bg) !important;
+  padding: 10px !important;
+}
+/* セクションラベル */
+.phone-screen .pmock-sec-lbl, .appshow-screen .as-sec-lbl{
+  color: var(--mc-blue) !important;
+  font-weight: 900 !important;
+  letter-spacing: .04em;
+  margin-bottom: 8px;
+  -webkit-text-fill-color: var(--mc-blue) !important;
+  background: none !important;
+}
+
+/* バー行：白カードベース */
+.phone-screen .pmock-bar-row, .appshow-screen .as-bar-row{
+  background: var(--mc-card) !important;
+  border: 1px solid var(--mc-line) !important;
+  border-radius: 10px !important;
+  padding: 6px 10px !important;
+  margin-bottom: 6px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06);
+}
+.phone-screen .pmock-bar-track, .appshow-screen .as-bar-track{
+  background: rgba(30,127,164,.10) !important;
+  border: 1px solid var(--mc-line) !important;
+  border-radius: 99px !important;
+  height: 8px !important;
+}
+.phone-screen .pmock-bar-lbl, .appshow-screen .as-bar-lbl{
+  color: var(--mc-ink-2) !important; font-weight: 700 !important;
+}
+.phone-screen .pmock-bar-val, .appshow-screen .as-bar-val{
+  color: var(--mc-blue) !important; font-weight: 900 !important;
+}
+
+/* XPバー */
+.phone-screen .as-xb, .appshow-screen .as-xb,
+.phone-screen .pmock-xp-mini{
+  background: rgba(30,127,164,.12) !important;
+  border-radius: 99px !important;
+  height: 8px !important;
+}
+.appshow-screen .as-xb-fill[style*="linear-gradient(90deg,#c9a84c"],
+.phone-screen [style*="linear-gradient(90deg,#c9a84c"]{
+  background: linear-gradient(90deg, var(--mc-gold), var(--mc-gold-2)) !important;
+}
+
+/* 仲間カード（運動・栄養タイル）：白＋色枠 */
+.phone-screen .pmock-tile, .appshow-screen .as-tile{
+  background: var(--mc-card) !important;
+  border: 2px solid var(--mc-line) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08), 0 2px 8px rgba(30,80,110,.06) !important;
+  padding: 10px !important;
+}
+.appshow-screen .as-tile[style*="rgba(224,92,92"]{
+  border-color: var(--mc-red) !important;
+  background: linear-gradient(135deg, #fff, #fef0f0) !important;
+}
+.appshow-screen .as-tile[style*="rgba(78,201,138"]{
+  border-color: var(--mc-green) !important;
+  background: linear-gradient(135deg, #fff, #f0f9f3) !important;
+}
+.phone-screen .pmock-tile-name, .appshow-screen .as-tile-name{
+  color: var(--mc-ink) !important; font-weight: 900 !important;
+}
+.phone-screen .pmock-tile-sub, .appshow-screen .as-tile-sub{
+  color: var(--mc-ink-2) !important; font-weight: 700 !important;
+}
+.appshow-screen .as-tile-badge{
+  font-weight: 900 !important;
+  color: #fff !important;
+  border-radius: 99px !important;
+  padding: 2px 8px !important;
+}
+.appshow-screen .as-tile-badge[style*="rgba(224,92,92,.18)"]{
+  background: var(--mc-red) !important;
+}
+.appshow-screen .as-tile-badge[style*="rgba(78,201,138,.18)"]{
+  background: var(--mc-green) !important;
+}
+
+/* ルナのメッセージ */
+.phone-screen .pmock-luna, .appshow-screen .as-luna{
+  background: var(--mc-card) !important;
+  border: 1.5px solid var(--mc-blue-2) !important;
+  border-radius: 12px !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08);
+}
+.phone-screen .pmock-luna-msg, .appshow-screen .as-luna-msg{
+  color: var(--mc-ink) !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+/* インラインの暗背景を全部白に置換 */
+.phone-screen [style*="rgba(201,168,76,.06"],
+.phone-screen [style*="rgba(201,168,76,.05"],
+.appshow-screen [style*="rgba(201,168,76,.06"],
+.appshow-screen [style*="rgba(201,168,76,.05"],
+.appshow-screen [style*="rgba(78,201,138,.05"],
+.appshow-screen [style*="rgba(224,92,92,.05"],
+.appshow-screen [style*="rgba(156,114,224,.05"]{
+  background: var(--mc-card) !important;
+}
+.appshow-screen [style*="rgba(201,168,76,.15"]{
+  background: var(--mc-gold) !important; color: #fff !important;
+}
+
+/* 透けた金/シルバー/赤/緑文字を濃いトーンに */
+.phone-screen [style*="rgba(201,168,76,.9"],
+.phone-screen [style*="color:#f0d48a"],
+.appshow-screen [style*="rgba(201,168,76,.9"],
+.appshow-screen [style*="color:#f0d48a"],
+.appshow-screen [style*="rgba(201,168,76,.85"],
+.appshow-screen [style*="rgba(201,168,76,.7"]{
+  color: var(--mc-gold) !important; font-weight: 900 !important;
+}
+.phone-screen [style*="rgba(170,188,216"],
+.phone-screen [style*="rgba(212,220,240"],
+.appshow-screen [style*="rgba(170,188,216"],
+.appshow-screen [style*="rgba(200,215,235"],
+.appshow-screen [style*="rgba(212,220,240"]{
+  color: var(--mc-ink-2) !important; font-weight: 600 !important;
+}
+.appshow-screen [style*="rgba(240,160,160"],
+.appshow-screen [style*="color:#f0a0a0"]{
+  color: var(--mc-red) !important; font-weight: 800 !important;
+}
+.appshow-screen [style*="rgba(160,240,190"],
+.appshow-screen [style*="color:#a0f0c0"]{
+  color: var(--mc-green) !important; font-weight: 800 !important;
+}
+.appshow-screen [style*="rgba(200,180,255"],
+.appshow-screen [style*="color:#c0a0f0"]{
+  color: #5b4ea8 !important; font-weight: 800 !important;
+}
+
+/* "+ N XP" バッジ風表記の補強（インライン色のみで囲まれた小さい数字） */
+.appshow-screen [style*="font-size:.4rem"],
+.appshow-screen [style*="font-size:.42rem"],
+.appshow-screen [style*="font-size:.44rem"]{
+  color: var(--mc-ink-2) !important;
+}
 </style>
 </head>
 <body>
