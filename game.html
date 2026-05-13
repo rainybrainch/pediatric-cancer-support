@@ -3069,6 +3069,124 @@ body::after{
 }
 
 /* ============================================
+   QOLモーダル v8 水色化
+   ============================================ */
+#qol-modal{
+  background: rgba(10,42,64,.55) !important;
+  backdrop-filter: blur(10px);
+}
+#qol-modal > div{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 0 rgba(30,80,110,.15), 0 16px 50px rgba(30,80,110,.25) !important;
+}
+#qol-modal *{ text-shadow: none !important; }
+#qol-modal h2{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+}
+#qol-modal [style*="DAILY CHECK-IN"],
+#qol-modal [style*="letter-spacing"]{
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+  font-weight: 900 !important;
+}
+#qol-modal .qol-q > div:first-child{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+}
+#qol-modal .qol-scale-btn{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.08);
+}
+#qol-modal .qol-scale-btn:hover{ background: #e8f4fb !important; }
+#qol-modal .qol-scale-btn.selected{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  background-image: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #0a4870 !important;
+  box-shadow: 0 3px 0 #0a4870 !important;
+}
+#qol-modal textarea#qol-note{
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+}
+#qol-modal textarea#qol-note:focus{
+  border-color: #1e7fa4 !important;
+  box-shadow: 0 0 0 3px rgba(30,127,164,.18) !important;
+  outline: none !important;
+}
+#qol-modal textarea#qol-note::placeholder{ color: #355773 !important; opacity: .7; }
+#qol-modal #qol-note-count, #qol-modal [id*="photo-status"]{
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  font-weight: 600 !important;
+}
+#qol-modal label[for="qol-photo-input"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #1f7d4d !important;
+  color: #1f7d4d !important;
+  -webkit-text-fill-color: #1f7d4d !important;
+  font-weight: 800 !important;
+  border-radius: 10px !important;
+}
+#qol-modal #qol-save{
+  background: linear-gradient(135deg, #1f7d4d, #2da366) !important;
+  background-image: linear-gradient(135deg, #1f7d4d, #2da366) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 0 #166a3e, 0 6px 14px rgba(31,125,77,.25) !important;
+  letter-spacing: .04em;
+}
+#qol-modal #qol-save[disabled]{
+  background: linear-gradient(135deg, #b0cfdf, #95c5e5) !important;
+  background-image: linear-gradient(135deg, #b0cfdf, #95c5e5) !important;
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  box-shadow: 0 2px 0 #6da9c4 !important;
+  cursor: not-allowed;
+}
+#qol-modal [style*="color:#a8e8c0"],
+#qol-modal [style*="color:#7ee8aa"],
+#qol-modal [style*="rgba(168,232,192"],
+#qol-modal [style*="rgba(78,201,138"]{
+  color: #1f7d4d !important;
+  -webkit-text-fill-color: #1f7d4d !important;
+}
+#qol-modal [style*="color:#e8f4ec"],
+#qol-modal [style*="color:rgba(232,244"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+#qol-modal [style*="rgba(170,188,216"]{
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+}
+
+/* ============================================
    login-screen v8 ── 2026-05-13 ランディング画面読みやすく
    ============================================ */
 #login-screen *{ text-shadow: none !important; }

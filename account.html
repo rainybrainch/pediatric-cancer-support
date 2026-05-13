@@ -157,6 +157,127 @@ body::before{
 .bn-tab.active .bn-icon{filter:drop-shadow(0 0 6px rgba(201,168,76,.6));}
 .bn-icon{font-size:1.15rem;line-height:1;}
 .bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
+
+/* ============================================
+   account.html (マイページ) 強コントラスト v8 ── 2026-05-13
+   ============================================ */
+body, html{ background: #c8e4f4 !important; color: #0a2a40 !important; }
+body *{ text-shadow: none !important; }
+
+header{
+  background: rgba(255,255,255,.85) !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+  backdrop-filter: blur(8px);
+}
+header *{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+header a, .brand, [class*="back"]{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 800 !important;
+}
+
+.page-title{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+}
+.page-sub{ color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; font-weight: 600 !important; }
+
+/* 全カード白カード化 */
+.section, .stat-card, .panel, .card,
+[style*="background:rgba(14,18,32"], [style*="background:rgba(10,14,24"], [style*="background:rgba(8,11,20"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+  color: #0a2a40 !important;
+}
+
+.section-title{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+
+/* フォーム入力 */
+.form-input, input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="tel"], select, textarea{
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+}
+.form-input:focus, input:focus, select:focus, textarea:focus{
+  border-color: #1e7fa4 !important;
+  box-shadow: 0 0 0 3px rgba(30,127,164,.18) !important;
+  outline: none !important;
+}
+.form-group label, .form-row label{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+.form-hint{
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  font-weight: 600 !important;
+}
+
+/* 数値表示（BMI・体組成等） */
+.bmi-value, .stat-num, .ps-num, [class*="-num"]{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+.bmi-label, .stat-lbl, .ps-lbl, [class*="-label"], [class*="-lbl"]{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+
+/* 保存ボタン */
+.btn-save, button[type="submit"], [class*="save-btn"], .save-btn{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  background-image: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 0 #0a4870, 0 6px 14px rgba(30,80,110,.2) !important;
+  padding: 12px 18px !important;
+}
+
+/* 透けた色を強制濃く */
+[style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
+[style*="color:rgba(212,220,240"]{
+  color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important;
+}
+[style*="color:rgba(201,168,76"], [style*="color:#c9a84c"], [style*="color:#f0d48a"]{
+  color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 800 !important;
+}
+
+/* 下部ナビ */
+.bottom-nav{
+  background: #ffffff !important;
+  border-top: 2px solid #b0cfdf !important;
+  box-shadow: 0 -4px 14px rgba(30,80,110,.10);
+}
+.bn-tab{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.bn-tab.active{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.bn-tab .bn-icon{ filter: none !important; -webkit-text-fill-color: initial !important; }
+body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 </style>
 <script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>

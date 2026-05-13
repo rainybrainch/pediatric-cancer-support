@@ -982,6 +982,99 @@ a:hover{ color: #4ab0d4; }
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
+
+/* ============================================
+   nutrition.html 強コントラスト v8 ── 2026-05-13
+   ============================================ */
+body, html{ background: #c8e4f4 !important; color: #0a2a40 !important; }
+body *{ text-shadow: none !important; }
+
+.main-header{
+  background: rgba(255,255,255,.85) !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+  backdrop-filter: blur(8px);
+}
+.main-header *{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+#logout-btn, .back-btn, [class*="logout"]{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+
+/* 全パネル：白カード化 */
+.side-panel, .linked-panel, .quest-card, .info-card, .food-section,
+[style*="background:rgba(14,18,32"], [style*="background:rgba(10,14,24"],
+[style*="background:rgba(8,11,20"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+  color: #0a2a40 !important;
+}
+
+/* 食材カード（個別タイル） */
+.food-card{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 10px !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06) !important;
+}
+.food-card.recorded{
+  background: linear-gradient(135deg, #fff, #ecf8f0) !important;
+  border-color: #1f7d4d !important;
+}
+.food-card *{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+.food-card .f-name{ font-weight: 800 !important; }
+.food-card .f-icon{ filter: none !important; -webkit-text-fill-color: initial !important; color: initial !important; }
+
+/* 見出し */
+.section-label, .section-head, .panel-head, .linked-head, .section-title{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: initial !important;
+  -webkit-background-clip: initial !important;
+}
+
+/* 透けた色を全部濃く */
+[style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
+[style*="color:rgba(212,220,240"], [style*="color:rgba(170,190,240"],
+[style*="color:rgba(200,180,255"], [style*="color:rgba(245,200,200"],
+[style*="color:rgba(240,210,160"], [style*="color:rgba(180,240,200"],
+[style*="color:rgba(255,200,180"]{
+  color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; font-weight: 700 !important;
+}
+[style*="color:rgba(201,168,76"], [style*="color:#c9a84c"], [style*="color:#f0d48a"], [style*="color:#ffe28a"]{
+  color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 800 !important;
+}
+[style*="color:rgba(240,160,160"], [style*="color:#f0a0a0"], [style*="color:#e05c5c"]{
+  color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; font-weight: 800 !important;
+}
+[style*="color:rgba(160,240,190"], [style*="color:#a0f0c0"], [style*="color:#7ee8b0"], [style*="color:#4ec98a"]{
+  color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; font-weight: 800 !important;
+}
+
+/* 下部ナビ */
+.bottom-nav{
+  background: #ffffff !important;
+  border-top: 2px solid #b0cfdf !important;
+  box-shadow: 0 -4px 14px rgba(30,80,110,.10);
+}
+.bn-tab{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.bn-tab.active{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.bn-tab .bn-icon{ filter: none !important; -webkit-text-fill-color: initial !important; }
+body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 </style>
 </head>
 <body>
