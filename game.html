@@ -2420,6 +2420,109 @@ input:focus, select:focus, textarea:focus{
   background: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
   background-image: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
 }
+
+/* ストーリー章カード：unlocked と locked の濃淡で「読める」状態に */
+#main-screen .story-chapter{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08) !important;
+  padding: 14px !important;
+  margin-bottom: 10px !important;
+}
+#main-screen .story-chapter.unlocked{
+  background: linear-gradient(135deg, #fff, #f3eef9) !important;
+  border-color: #5b4ea8 !important;
+}
+#main-screen .story-chapter.locked{
+  opacity: .55 !important;
+  background: #f0f4f8 !important;
+}
+#main-screen .story-num{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+}
+#main-screen .story-chapter.unlocked .story-num{
+  color: #5b4ea8 !important;
+  -webkit-text-fill-color: #5b4ea8 !important;
+}
+#main-screen .story-title{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+#main-screen .story-chapter.unlocked .story-title{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+#main-screen .story-meta{
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  font-weight: 700 !important;
+}
+#main-screen .story-arrow{
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+  font-weight: 900 !important;
+}
+
+/* クエストカード（運動・栄養）── 鮮やかな白カード */
+#main-screen .quest-grid > *,
+#main-screen .quest-card,
+#main-screen [class*="quest-card"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.10), 0 2px 14px rgba(30,80,110,.10) !important;
+  color: #0a2a40 !important;
+}
+
+/* +XP バッジ・リワード表示 */
+#main-screen [class*="xp-reward"],
+#main-screen [class*="reward-xp"],
+#main-screen [class*="xp-gain"],
+#main-screen [class*="quest-xp"]{
+  background: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
+  background-image: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
+  border: 2px solid #8a5e10 !important;
+  border-radius: 12px !important;
+  padding: 8px 14px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+  box-shadow: 0 3px 0 rgba(138,94,16,.35) !important;
+}
+#main-screen [class*="xp-reward"] *,
+#main-screen [class*="reward-xp"] *,
+#main-screen [class*="xp-gain"] *{
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* リンク・アクションボタン（家事メニュー・買い物等の白カード） */
+#main-screen a[href]{
+  text-decoration: none;
+}
+
+/* 大きめテキスト「ヴィタリアの物語」「1 / 5 章開始」等 */
+#main-screen h2, #main-screen h3, #main-screen .title-h2{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+
+/* 全幅黒バナー（ヴィタリアの物語等の暗背景セクションヘッダー）を白カード化 */
+#main-screen [style*="background:rgba(8,11,20"],
+#main-screen [style*="background:rgba(14,18,32,.9"],
+#main-screen [style*="background:rgba(14,18,32,.95"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+}
 </style>
 </head>
 <body>

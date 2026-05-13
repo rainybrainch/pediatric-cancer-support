@@ -2149,6 +2149,264 @@ footer{
   background: #e8f4fb !important;
   padding: 12px !important;
 }
+
+/* ============================================
+   pmock 専用 v6 ── 2026-05-13 HPトップのスマホモック
+   appshow と同じレベルで強制濃紺化
+   ============================================ */
+.phone-screen, .phone-screen *{
+  text-shadow: none !important;
+}
+
+/* ヘッダー：白＋キャラ別カラータイトル */
+.phone-screen .pmock-hdr{
+  background: #ffffff !important;
+  background-image: none !important;
+  border-bottom: 2px solid #b0cfdf !important;
+}
+.phone-screen .pmock-hdr-gold .pmock-hdr-title{ color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 900 !important; }
+.phone-screen .pmock-hdr-red  .pmock-hdr-title{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; font-weight: 900 !important; }
+.phone-screen .pmock-hdr-green .pmock-hdr-title{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; font-weight: 900 !important; }
+.phone-screen .pmock-hdr-nav{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; font-weight: 700 !important; }
+.phone-screen .pmock-hdr-lv{
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+}
+
+/* キャラバナー */
+.phone-screen .pmock-char-banner{
+  background: #ffffff !important;
+  background-image: none !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+}
+.phone-screen .pmock-char-banner.ch-gold img{ border-color: #b07a1a !important; box-shadow: 0 0 8px rgba(176,122,26,.15) !important; }
+.phone-screen .pmock-char-banner.ch-red  img{ border-color: #b53a3a !important; box-shadow: 0 0 8px rgba(181,58,58,.15) !important; }
+.phone-screen .pmock-char-banner.ch-green img{ border-color: #1f7d4d !important; box-shadow: 0 0 8px rgba(31,125,77,.15) !important; }
+.phone-screen .pmock-ch-name{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+}
+.phone-screen .pmock-ch-sub{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+
+/* XPバー（キャラ進捗バー） */
+.phone-screen .pmock-xp-mini-bar{
+  background: rgba(30,127,164,.12) !important;
+  border: 1px solid #b0cfdf !important;
+  border-radius: 99px !important;
+  height: 7px !important;
+}
+.phone-screen .pmock-xp-mini-fill[style*="#c9a84c"]{
+  background: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
+  background-image: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
+}
+.phone-screen .pmock-xp-mini-fill[style*="#e05c5c"]{
+  background: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+  background-image: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+}
+.phone-screen .pmock-xp-mini-fill[style*="#4ec98a"]{
+  background: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+  background-image: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+}
+.phone-screen .pmock-xp-mini-lbl{
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  font-weight: 700 !important;
+}
+
+/* ボディ：淡水色背景 */
+.phone-screen .pmock-body{
+  background: #e8f4fb !important;
+  padding: 12px !important;
+}
+/* セクションラベル */
+.phone-screen .pmock-sec-label{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+  font-family: 'Noto Serif JP', serif !important;
+  letter-spacing: .04em;
+  padding: 4px 0 8px;
+  margin-bottom: 8px;
+  border-bottom: 1.5px solid #b0cfdf;
+  font-size: .68rem !important;
+}
+
+/* バー行：白カード */
+.phone-screen .pmock-bar-row{
+  background: #ffffff !important;
+  border: 1px solid #b0cfdf !important;
+  border-radius: 10px !important;
+  padding: 6px 10px !important;
+  margin-bottom: 5px !important;
+  box-shadow: 0 1px 0 rgba(30,80,110,.06);
+}
+.phone-screen .pmock-bar-lbl{
+  color: #1a4860 !important;
+  -webkit-text-fill-color: #1a4860 !important;
+  font-weight: 700 !important;
+}
+.phone-screen .pmock-bar-val{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 900 !important;
+}
+.phone-screen .pmock-bar-xp{
+  background: #b07a1a !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+  border-radius: 99px !important;
+  padding: 2px 8px !important;
+  font-size: .58rem !important;
+}
+.phone-screen .pmock-bar-track{
+  background: rgba(30,127,164,.10) !important;
+  border: 1px solid #b0cfdf !important;
+  border-radius: 99px !important;
+  height: 7px !important;
+}
+.phone-screen .pmock-bar-fill[style*="#4ec98a"]{
+  background: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+  background-image: linear-gradient(90deg, #1f7d4d, #2da366) !important;
+}
+.phone-screen .pmock-bar-fill[style*="#e05c5c"]{
+  background: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+  background-image: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
+}
+
+/* アクティビティグリッド（散歩・買い物等） */
+.phone-screen .pmock-act-grid{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 6px !important;
+  margin-bottom: 8px;
+}
+.phone-screen .pmock-act-item{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.06) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+.phone-screen .pmock-act-item.done{
+  background: linear-gradient(135deg, #fff, #e6f4ec) !important;
+  background-image: linear-gradient(135deg, #fff, #e6f4ec) !important;
+  border-color: #1f7d4d !important;
+}
+.phone-screen .pmock-act-icon{ font-size: 1.1rem !important; }
+.phone-screen .pmock-act-name{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 900 !important;
+  font-size: .62rem !important;
+}
+.phone-screen .pmock-act-xp{
+  color: #b07a1a !important;
+  -webkit-text-fill-color: #b07a1a !important;
+  font-weight: 900 !important;
+  font-size: .56rem !important;
+}
+.phone-screen .pmock-act-item.done .pmock-act-xp{
+  color: #1f7d4d !important;
+  -webkit-text-fill-color: #1f7d4d !important;
+}
+
+/* XPリワードカード「+ 18 XP」── 不透明な金グラデに昇格、白文字 */
+.phone-screen .pmock-xp-reward{
+  background: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
+  background-image: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
+  border: 2px solid #8a5e10 !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  margin: 8px 0 !important;
+  text-align: center !important;
+  box-shadow: 0 4px 0 rgba(138,94,16,.35), 0 2px 8px rgba(30,80,110,.15) !important;
+}
+.phone-screen .pmock-xp-reward *,
+.phone-screen .pmock-xp-reward-num,
+.phone-screen .pmock-xp-reward-lbl{
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+}
+.phone-screen .pmock-xp-reward-num{
+  font-size: 1.1rem !important;
+  font-family: 'Noto Serif JP', serif !important;
+}
+.phone-screen .pmock-xp-reward-lbl{
+  font-size: .54rem !important;
+  font-weight: 700 !important;
+  margin-top: 3px !important;
+  opacity: .92;
+}
+/* 栄養版（緑カード）はインライン background があるので、特定で緑グラデ強制 */
+.phone-screen .pmock-xp-reward[style*="rgba(78,201,138"]{
+  background: linear-gradient(135deg, #2da366, #1f7d4d) !important;
+  background-image: linear-gradient(135deg, #2da366, #1f7d4d) !important;
+  border-color: #166a3e !important;
+  box-shadow: 0 4px 0 rgba(22,106,62,.4), 0 2px 8px rgba(30,80,110,.15) !important;
+}
+
+/* ルナ/キャラのコメント枠 */
+.phone-screen .pmock-luna{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 12px !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 3px 0 rgba(30,80,110,.08) !important;
+}
+.phone-screen .pmock-luna[style*="rgba(224,92,92"]{ border-color: #b53a3a !important; }
+.phone-screen .pmock-luna[style*="rgba(78,201,138"]{ border-color: #1f7d4d !important; }
+.phone-screen .pmock-luna-msg{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+  font-weight: 700 !important;
+  font-size: .64rem !important;
+  line-height: 1.55 !important;
+}
+
+/* 仲間タイル（ゲームホーム画面のカイト・セラ） */
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.08) !important;
+}
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div[style*="rgba(224,92,92"]{
+  border-color: #b53a3a !important;
+  background: linear-gradient(135deg, #fff, #fdebeb) !important;
+  background-image: linear-gradient(135deg, #fff, #fdebeb) !important;
+}
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div[style*="rgba(78,201,138"]{
+  border-color: #1f7d4d !important;
+  background: linear-gradient(135deg, #fff, #ecf8f0) !important;
+  background-image: linear-gradient(135deg, #fff, #ecf8f0) !important;
+}
+/* 仲間タイル内のテキスト */
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div [style*="color:#f0a0a0"]{
+  background: #b53a3a !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-weight: 900 !important;
+}
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div [style*="color:#a0f0c0"]{
+  background: #1f7d4d !important; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; font-weight: 900 !important;
+}
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div [style*="color:rgba(212,220,240"]{
+  color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; font-weight: 900 !important;
+}
+.phone-screen .pmock-body > div[style*="grid-template-columns:1fr 1fr"] > div [style*="color:rgba(170,188,216"]{
+  color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; font-weight: 700 !important;
+}
 </style>
 </head>
 <body>
