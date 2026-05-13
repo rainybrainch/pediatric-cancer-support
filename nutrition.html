@@ -7,7 +7,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="apple-touch-icon" href="/icon.svg">
-<meta name="theme-color" content="#c9a84c">
+<meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -909,6 +909,73 @@ body::before{
 <script src="./app-safety.js"></script>
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
+<style id="watercolor-skin">
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+</style>
 </head>
 <body>
 
@@ -1334,6 +1401,54 @@ setTimeout(function(){
         </div>
         <a href="./quest.html" class="ls-link">運動クエストへ →</a>
       </div>
+
+      <!-- 運動量に応じた食事目安 -->
+      <div class="side-panel" id="kcal-balance-panel" style="border:1px solid rgba(125,216,232,.22);">
+        <div class="panel-head" style="color:#9ee0ee;">⚖ 運動量に応じた食事目安</div>
+        <div id="kcal-balance-body" style="font-size:.72rem;line-height:1.75;color:rgba(200,215,235,.85);padding:4px 2px 0;">
+          <div id="kb-out">体重を冒険プロフィールに登録すると、目安が出ます。</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;font-size:.62rem;">
+            <div style="background:rgba(125,216,232,.08);border-radius:8px;padding:7px 8px;line-height:1.6;">
+              <div style="color:#9ee0ee;font-weight:700;">🚶 軽い日</div>
+              <div style="color:rgba(170,188,216,.75);">主食ふつう＋野菜多め</div>
+            </div>
+            <div style="background:rgba(232,198,104,.08);border-radius:8px;padding:7px 8px;line-height:1.6;">
+              <div style="color:#ffe28a;font-weight:700;">🏃 動いた日</div>
+              <div style="color:rgba(170,188,216,.75);">主食＋たんぱく質も多めに</div>
+            </div>
+          </div>
+          <div style="font-size:.55rem;color:rgba(170,188,216,.42);margin-top:10px;line-height:1.7;">
+            ※ 我慢ではなく「動いた分は食べていい」が基本。出典: <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.6);">厚労省METs表</a> / <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(170,188,216,.5);">ダノン</a>
+          </div>
+        </div>
+      </div>
+      <script>
+      (function(){
+        const out=document.getElementById('kb-out'); if(!out) return;
+        function rd(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+        function update(){
+          const prof=rd('vitalia_profile_v1');
+          const wt=prof&&prof.weight?parseFloat(prof.weight):null;
+          if(!wt||!isFinite(wt)||wt<=0){
+            out.innerHTML='体重を<a href="./baseline.html" style="color:#9ee0ee;">冒険プロフィール</a>に登録すると、目安が出ます。';
+            return;
+          }
+          const baseBMR = Math.round(22 * wt);
+          const lightTDEE = Math.round(baseBMR * 1.4);
+          const activeTDEE = Math.round(baseBMR * 1.7);
+          out.innerHTML=`
+            <div style="margin-bottom:6px;">あなた（${wt}kg）の1日の目安：</div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;">
+              <span>🚶 軽い日（在宅中心）</span><strong style="color:#9ee0ee;">約 ${lightTDEE} kcal</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;">
+              <span>🏃 動いた日（運動あり）</span><strong style="color:#ffe28a;">約 ${activeTDEE} kcal</strong>
+            </div>`;
+        }
+        update();
+        window.addEventListener('storage',e=>{if(e.key==='vitalia_profile_v1') update();});
+      })();
+      </script>
 
       <!-- ストリーク -->
       <div class="side-panel">
