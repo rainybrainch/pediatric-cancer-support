@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>マイページ ｜ ヴィタリア転生録</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#c9a84c">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -78,9 +83,23 @@ body::before{
 .lf label{display:block;font-size:.7rem;color:var(--muted);margin-bottom:5px;}
 .lf input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:inherit;font-size:.85rem;outline:none;}
 .lf input:focus{border-color:rgba(201,168,76,.45);}
-.btn-login{width:100%;background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.4);border-radius:10px;color:var(--gold2);font-family:inherit;font-size:.88rem;font-weight:700;padding:11px;cursor:pointer;margin-top:6px;transition:background .2s;}
-.btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.36),rgba(201,168,76,.18));}
-.btn-sub{width:100%;background:none;border:1px solid rgba(100,120,200,.28);border-radius:10px;color:rgba(160,180,240,.65);font-family:inherit;font-size:.8rem;font-weight:700;padding:9px;cursor:pointer;margin-top:6px;}
+.btn-login{
+  width:100%;
+  background:linear-gradient(135deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;
+  border:none;border-radius:999px;
+  color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;
+  padding:13px;cursor:pointer;margin-top:6px;letter-spacing:.08em;
+  transition:background-position .4s,transform .2s,box-shadow .2s;
+  box-shadow:0 4px 18px rgba(201,168,76,.35);
+}
+.btn-login:hover{background-position:right center;transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.45);}
+.btn-sub{
+  width:100%;background:transparent;border:1.5px solid rgba(201,168,76,.4);border-radius:999px;
+  color:rgba(240,212,138,.75);font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;
+  padding:11px;cursor:pointer;margin-top:8px;letter-spacing:.06em;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.btn-sub:hover{border-color:rgba(201,168,76,.7);color:var(--gold2);background:rgba(201,168,76,.06);}
 .login-err{font-size:.72rem;color:var(--red);margin-top:8px;display:none;}
 .login-guest{text-align:center;margin-top:12px;font-size:.7rem;color:var(--muted);cursor:pointer;text-decoration:underline;}
 

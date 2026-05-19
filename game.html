@@ -2377,6 +2377,305 @@ body::after{
 }
 
 /* ============================================
+   Phase 6 追加 v10 ── プレイヤーカード・クエストカード・各種カードの水彩化
+   ============================================ */
+
+/* ── ヘッダー ── */
+#main-screen .g-header{
+  background: rgba(255,255,255,.88) !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+  backdrop-filter: blur(10px) !important;
+}
+#main-screen .g-logo .gold-text{
+  background: linear-gradient(135deg,#0a4870,#1e7fa4) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+#main-screen .g-logo-icon{
+  border-color: #1e7fa4 !important;
+  color: #1e7fa4 !important;
+}
+#main-screen .g-user{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .g-btn{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+}
+#main-screen .g-btn:hover{ border-color: #1e7fa4 !important; }
+
+/* ── プレイヤーカード ── */
+#main-screen .player-card{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 2px solid #b0cfdf !important;
+  box-shadow: 0 6px 0 rgba(30,80,110,.10), 0 3px 18px rgba(30,80,110,.10) !important;
+}
+#main-screen .player-card::before{ display:none !important; }
+#main-screen .player-card-bar{ background: rgba(30,127,164,.12) !important; }
+#main-screen .player-card-bar-fill{
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
+  background-size: initial !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+#main-screen .player-avatar{
+  border-color: #1e7fa4 !important;
+  box-shadow: 0 0 18px rgba(30,127,164,.25) !important;
+}
+#main-screen .player-name{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .lv-badge{
+  background: linear-gradient(135deg, rgba(30,127,164,.12), rgba(74,176,212,.08)) !important;
+  border-color: rgba(30,127,164,.4) !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  box-shadow: none !important;
+}
+#main-screen .lv-title{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .xp-bar{ background: rgba(30,127,164,.1) !important; }
+#main-screen .xp-fill{
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
+  box-shadow: 0 0 6px rgba(30,127,164,.4) !important;
+}
+#main-screen .xp-note{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .xp-note strong{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+#main-screen .pstat-num{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+#main-screen .pstat-label{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .pstat-div{ background: rgba(30,127,164,.2) !important; }
+#main-screen .psm-badge{
+  background: rgba(30,127,164,.1) !important;
+  border-color: rgba(30,127,164,.3) !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+
+/* ── QOLトレンドカード ── */
+#main-screen .qol-trend-card{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+}
+#main-screen .qol-trend-head{
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  border-bottom-color: rgba(30,127,164,.15) !important;
+}
+#main-screen .qol-trend-action{
+  background: rgba(30,127,164,.1) !important;
+  border: 1px solid rgba(30,127,164,.3) !important;
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
+}
+#main-screen .qol-trend-empty{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+
+/* ── クエストカード（qcard）── */
+#main-screen .qcard{
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+}
+#main-screen .qcard-ex{ border: 2px solid #b53a3a !important; }
+#main-screen .qcard-nu{ border: 2px solid #1f7d4d !important; }
+#main-screen .qcard-co{ border: 2px solid #5b4ea8 !important; }
+#main-screen .qc-hero-ex{ background: linear-gradient(135deg, rgba(181,58,58,.06), transparent) !important; }
+#main-screen .qc-hero-nu{ background: linear-gradient(135deg, rgba(31,125,77,.06), transparent) !important; }
+#main-screen .qc-hero-co{ background: linear-gradient(135deg, rgba(91,78,168,.06), transparent) !important; }
+#main-screen .qc-name-ex{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
+#main-screen .qc-name-nu{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; }
+#main-screen .qc-name-co{ color: #5b4ea8 !important; -webkit-text-fill-color: #5b4ea8 !important; }
+#main-screen .qc-sub{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .qc-bar{ background: rgba(30,127,164,.1) !important; }
+#main-screen .qc-note{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .qc-sec{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .qc-row-lbl{ color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; }
+#main-screen .qc-row-bar{ background: rgba(30,127,164,.1) !important; }
+#main-screen .qc-row-val{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .qc-row-xp{ color: rgba(176,122,26,.7) !important; -webkit-text-fill-color: rgba(176,122,26,.7) !important; }
+#main-screen .qc-xp{
+  background: linear-gradient(135deg, rgba(176,122,26,.08), rgba(176,122,26,.04)) !important;
+  border-color: rgba(176,122,26,.3) !important;
+}
+#main-screen .qc-xp-num{ color: #8a5e10 !important; -webkit-text-fill-color: #8a5e10 !important; }
+#main-screen .qc-xp-lbl{ color: #a07228 !important; -webkit-text-fill-color: #a07228 !important; }
+#main-screen .qc-msg{
+  background: rgba(30,127,164,.04) !important;
+  border-color: rgba(30,127,164,.12) !important;
+}
+#main-screen .qc-msg-text{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .qc-footer{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; border-top-color: rgba(30,127,164,.12) !important; }
+#main-screen .qc-bubble{
+  background: rgba(91,78,168,.06) !important;
+  border-color: rgba(91,78,168,.2) !important;
+}
+#main-screen .qc-bubble-lbl{ color: rgba(91,78,168,.6) !important; -webkit-text-fill-color: rgba(91,78,168,.6) !important; }
+#main-screen .qc-bubble-txt{ color: #4a3880 !important; -webkit-text-fill-color: #4a3880 !important; }
+#main-screen .qc-grow-step{
+  background: rgba(91,78,168,.08) !important;
+  border-color: rgba(91,78,168,.2) !important;
+  color: #4a3880 !important;
+  -webkit-text-fill-color: #4a3880 !important;
+}
+#main-screen .qc-grow-sub{ color: rgba(91,78,168,.6) !important; -webkit-text-fill-color: rgba(91,78,168,.6) !important; }
+
+/* ── Tiny Habit / Habit Stack カード ── */
+#main-screen .tiny-habit-card,
+#main-screen .habit-stack-card{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .th-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
+#main-screen .th-streak{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+#main-screen .th-mission{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; font-weight: 900 !important; }
+#main-screen .th-why{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .th-done{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 3px 0 #0a4870 !important;
+}
+#main-screen .th-skip{
+  background: rgba(30,127,164,.08) !important;
+  border: 1px solid rgba(30,127,164,.25) !important;
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+}
+#main-screen .hs-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
+#main-screen .hs-suggestion{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; font-weight: 800 !important; }
+#main-screen .hs-rationale{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+
+/* ── 水分・睡眠カード ── */
+#main-screen .hyd-card,
+#main-screen .sleep-card{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .hyd-head,
+#main-screen .sleep-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+#main-screen .hyd-btn{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 3px 0 #0a4870 !important;
+}
+#main-screen .hyd-btn.alt{
+  background: rgba(30,127,164,.08) !important;
+  border: 1px solid rgba(30,127,164,.3) !important;
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
+  box-shadow: none !important;
+}
+#main-screen .sleep-save{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 2px 0 #0a4870 !important;
+}
+#main-screen .sleep-meta{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+#main-screen .sleep-streak{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+#main-screen #sleep-hours,
+#main-screen #sleep-quality{
+  background: #f4faff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+
+/* ── ストリークカレンダー ── */
+#main-screen .streak-cal-card{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .streak-cal-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+#main-screen .streak-cal-foot{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+
+/* ── 12週間の足跡カード ── */
+#main-screen .footprint-card{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .footprint-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
+#main-screen .footprint-counter{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+#main-screen .footprint-foot{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+
+/* ── 仲間との絆カード ── */
+#main-screen .affinity-card{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .affinity-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
+#main-screen .affinity-foot{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+
+/* ── インサイトカード ── */
+#main-screen .insight-card{
+  background: #ffffff !important;
+  border: 1.5px solid rgba(91,78,168,.3) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(91,78,168,.12) !important;
+}
+#main-screen .insight-head{ color: #4a3880 !important; -webkit-text-fill-color: #4a3880 !important; border-bottom-color: rgba(91,78,168,.15) !important; }
+
+/* ── 週次サマリ（sh-summary）── */
+#main-screen .sh-summary{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .sh-sum-lbl{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+#main-screen .sh-sum-val{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
+#main-screen .sh-sum-bar{ background: rgba(30,127,164,.1) !important; }
+#main-screen .sh-sum-fill{ background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important; }
+#main-screen .sh-sum-pct{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+
+/* ── compact-home上部ボタン行 ── */
+#main-screen .ch-tbtn{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 0 rgba(30,80,110,.08) !important;
+}
+#main-screen .ch-tbtn:hover{ background: rgba(30,127,164,.08) !important; border-color: #1e7fa4 !important; }
+
+/* ── コンパクトホーム メインボタン ── */
+#main-screen .ch-main-btn{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  background-image: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  border-color: #0a4870 !important;
+  box-shadow: 0 5px 0 #0a4870, 0 8px 20px rgba(30,80,110,.22) !important;
+}
+#main-screen .ch-mb-title{ color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+#main-screen .ch-mb-sub{ color: rgba(255,255,255,.8) !important; -webkit-text-fill-color: rgba(255,255,255,.8) !important; }
+#main-screen .ch-mb-arrow{ color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+
+/* ── ctx-greeting ── */
+#main-screen .ctx-greeting{
+  background: linear-gradient(135deg, rgba(30,127,164,.1), rgba(74,176,212,.06)) !important;
+  border: 1.5px solid rgba(30,127,164,.25) !important;
+  border-radius: 14px !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+
+/* ============================================
    QOLモーダル v8 水色化
    ============================================ */
 #qol-modal{

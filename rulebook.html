@@ -352,5 +352,20 @@ header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
 
 </main>
 
+<style>
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(220,240,248,.97);border-top:2px solid #b0cfdf;display:flex;align-items:stretch;z-index:95;box-shadow:0 -4px 14px rgba(30,80,110,.10);padding-bottom:env(safe-area-inset-bottom,0);}
+.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:#355773;font-weight:700;padding:6px 2px;transition:color .15s;}
+.bn-tab:hover{color:#1e7fa4;}
+.bn-icon{font-size:1.35rem;line-height:1;}
+.bn-label{font-size:.58rem;font-weight:900;letter-spacing:.04em;}
+</style>
+<nav class="bottom-nav">
+  <a href="./game.html"      class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
+</nav>
 </body>
 </html>
