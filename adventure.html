@@ -534,6 +534,75 @@ a:hover{ color: #4ab0d4; }
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
+
+/* ============================================
+   adventure.html 強コントラスト v9 ── 白カード水彩化
+   ============================================ */
+body, html{ background: #c8e4f4 !important; color: #0a2a40 !important; }
+body::before{ opacity: .6 !important; }
+.adv-header{
+  background: rgba(255,255,255,.9) !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+  backdrop-filter: blur(10px) !important;
+}
+.adv-back{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+}
+.adv-title{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; font-weight: 900 !important; }
+.adv-progress-mini{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+
+/* 未ログイン画面 */
+#auth-screen{
+  background: #c8e4f4 !important;
+}
+#auth-screen-content{
+  background: #ffffff !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 0 rgba(30,80,110,.1), 0 4px 24px rgba(30,80,110,.12) !important;
+}
+.auth-title{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.auth-msg{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.auth-btn{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 0 #0a4870, 0 6px 14px rgba(30,80,110,.2) !important;
+  border-radius: 999px !important;
+}
+
+/* チャプターカード */
+.chapter-card, .adv-card, [class*="chap-"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+  color: #0a2a40 !important;
+}
+.chapter-card:hover, .adv-card:hover{ box-shadow: 0 6px 0 rgba(30,80,110,.12), 0 4px 18px rgba(30,80,110,.14) !important; transform: translateY(-2px); }
+
+/* 進捗バー */
+[class*="-progress"], [class*="-bar"]{
+  background: rgba(30,127,164,.12) !important;
+}
+[class*="-progress-fill"], [class*="-bar-fill"]{
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
+}
+
+/* ボトムナビ */
+.bottom-nav{ background: rgba(220,240,248,.97) !important; border-top: 2px solid #b0cfdf !important; box-shadow: 0 -4px 14px rgba(30,80,110,.10); position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 64px !important; display: flex !important; align-items: stretch !important; z-index: 95 !important; }
+.bn-tab{ flex: 1; display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; color: #355773 !important; -webkit-text-fill-color: #355773 !important; font-weight: 700; padding: 6px 2px; }
+.bn-tab.active{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.bn-icon{ font-size: 1.35rem; line-height: 1; color: initial !important; -webkit-text-fill-color: initial !important; }
+.bn-label{ font-size: .58rem; font-weight: 900; letter-spacing: .04em; }
+body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 </style>
 </head>
 <body>

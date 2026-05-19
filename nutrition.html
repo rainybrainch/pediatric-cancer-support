@@ -1075,6 +1075,26 @@ body *{ text-shadow: none !important; }
 .bn-tab.active{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
 .bn-tab .bn-icon{ filter: none !important; -webkit-text-fill-color: initial !important; }
 body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
+
+/* ── consent-modal 水彩化 ── */
+#consent-modal{
+  background: rgba(10,42,64,.75) !important;
+  backdrop-filter: blur(8px) !important;
+}
+#consent-modal > div{
+  background: #ffffff !important;
+  border: 2px solid rgba(31,125,77,.35) !important;
+  box-shadow: 0 8px 0 rgba(31,125,77,.1), 0 4px 24px rgba(30,80,110,.15) !important;
+}
+#consent-modal [style*="color:rgba(200,215,235"], #consent-modal [style*="color:rgba(170,188,216"]{
+  color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important;
+}
+#consent-modal [style*="background:rgba(255,255,255,.04)"]{
+  background: rgba(31,125,77,.05) !important; border-color: rgba(31,125,77,.2) !important;
+}
+#consent-modal [style*="background:rgba(156,114,224"]{
+  background: rgba(91,78,168,.06) !important; border-color: rgba(91,78,168,.2) !important;
+}
 </style>
 </head>
 <body>
