@@ -5056,10 +5056,12 @@ function loadData(){
   }catch(e){}
 
   // 総合XP（運動 + 栄養 + AIコーチの週間XP合算）
+  // 履歴から現在週を除外して二重計上を防ぐ（現在週は qXp/nXp で加算済み）
   let totalQXp=0, totalNXp=0, coachWeekXp=0, coachTotalXp=0;
-  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  try{ coachWeekXp=parseInt(localStorage.getItem(`vc_xp_${uid}_${weekKey()}`)||'0',10); }catch(e){}
+  const _wk=weekKey();
+  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.filter(x=>x.wkKey!==_wk).reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.filter(x=>x.wkKey!==_wk).reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ coachWeekXp=parseInt(localStorage.getItem(`vc_xp_${uid}_${_wk}`)||'0',10); }catch(e){}
   // 過去のコーチXP累計（vc_xp_uid_W*** をすべてスキャン）
   try{
     for(let i=0;i<localStorage.length;i++){
@@ -5328,12 +5330,16 @@ function updateUI(){
 // ===== 実績レンダリング =====
 const ALL_ACHV=[
   // 基本系
-  {id:'first',   icon:'⚔', name:'初陣'},
-  {id:'goal',    icon:'🎯', name:'目標達成'},
-  {id:'streak3', icon:'📅', name:'3週連続'},
-  {id:'lv3',     icon:'⭐', name:'Lv3'},
-  {id:'lv5',     icon:'👑', name:'覚醒'},
-  {id:'veg_goal',icon:'💚', name:'野菜の達人'},
+  {id:'first',    icon:'⚔',  name:'初陣'},
+  {id:'goal',     icon:'🎯', name:'目標達成'},
+  {id:'streak3',  icon:'📅', name:'3週連続'},
+  {id:'streak8',  icon:'🔥', name:'8週連続'},
+  {id:'season12', icon:'🏆', name:'12週完走'},
+  {id:'lv3',      icon:'⭐', name:'Lv3'},
+  {id:'lv5',      icon:'👑', name:'覚醒'},
+  {id:'veg_goal', icon:'💚', name:'野菜の達人'},
+  {id:'high',     icon:'⚡', name:'高強度突破'},
+  {id:'steps',    icon:'👟', name:'歩行の達人'},
   // コーチ系
   {id:'coach_first', icon:'💬', name:'初対話'},
   {id:'coach_3',     icon:'🗣️', name:'相談3回'},
@@ -6212,14 +6218,7 @@ const CHAPTERS=[
 ];
 
 function getCurrentLevel(){
-  // updateUI と同じロジックで現在のレベルを取得
-  let totalQXp=0,totalNXp=0,qXp=0,nXp=0;
-  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  try{ const r=localStorage.getItem(`vq_${uid}_${weekKey()}`); if(r) qXp=(JSON.parse(r).xp||0); }catch(e){}
-  try{ const r=localStorage.getItem(`vn_${uid}_${weekKey()}`); if(r) nXp=(JSON.parse(r).xp||0); }catch(e){}
-  const totalXp=totalQXp+totalNXp+qXp+nXp;
-  return getLv(totalXp).lv;
+  return getLv(loadData().totalXp).lv;
 }
 
 function renderStoryList(){

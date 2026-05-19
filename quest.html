@@ -1668,7 +1668,7 @@ function getNutritionMult(score){ return score>=20?1.15:score>=10?1.08:1.0; }
 // ===== ストレージキー =====
 function storeKey(wk){ return `vq_${uid}_${wk||weekKey()}`; }
 function histKey(){    return `vq_hist_${uid}`; }
-function bonusKey(){   return `vq_bonus_${uid}_${weekKey()}`; }
+function bonusKey(){   return `vq_bonus_${uid}`; }
 function achKey(){     return `vq_ach_${uid}`; }
 function streakSKey(){ return `vq_streak_${uid}`; }
 
@@ -2267,7 +2267,7 @@ function appendHistory(data){
   try{ hist=JSON.parse(localStorage.getItem(histKey())||'[]'); }catch(e){}
   const wk=weekKey();
   const idx=hist.findIndex(h=>h.wkKey===wk);
-  const entry={wkKey:wk,week:data.week,score:data.score,lv:data.lv,savedAt:data.savedAt};
+  const entry={wkKey:wk,week:data.week,score:data.score,xp:data.xp||0,lv:data.lv,savedAt:data.savedAt};
   if(idx>=0) hist[idx]=entry; else hist.unshift(entry);
   hist=hist.slice(0,12); // 最大12週
   localStorage.setItem(histKey(),JSON.stringify(hist));
