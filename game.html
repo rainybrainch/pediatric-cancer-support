@@ -4157,6 +4157,203 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
 /* メイン画面も透明にしてオーロラが透けるように（弱めに） */
 #main-screen{ background: transparent !important; }
+
+/* =====================================================================
+   COMPACT HOME REDESIGN + 流れ星エフェクト
+   ===================================================================== */
+
+/* --- 流れ星レイヤー --- */
+#shooting-stars-layer{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+.ss-star{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:rgba(201,168,76,.95);
+  box-shadow:0 0 4px 1px rgba(201,168,76,.5);
+  animation:ss-fly 1.1s ease-out forwards;
+}
+.ss-star::after{
+  content:'';position:absolute;top:50%;
+  left:-72px;width:72px;height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.6));
+  transform:translateY(-50%);
+}
+@keyframes ss-fly{
+  0%  {transform:translate(0,0) rotate(35deg);opacity:1;}
+  70% {opacity:.7;}
+  100%{transform:translate(140px,100px) rotate(35deg);opacity:0;}
+}
+
+/* --- 不要セクション非表示 --- */
+#main-screen #home-char-trio,
+#main-screen #game-actions,
+#main-screen .habit-stack-card,
+#main-screen .qol-trend-card,
+#main-screen #ctx-greeting,
+#main-screen #affinity-card,
+#main-screen #footprint-card
+{ display:none !important; }
+
+/* --- プレイヤーカード: コンパクト1ストリップ --- */
+#main-screen .player-card{
+  padding:10px 14px 8px !important;
+  margin-bottom:10px !important;
+  border-radius:16px !important;
+}
+#main-screen .player-card-inner{gap:10px !important;}
+#main-screen .player-avatar{width:44px !important;height:44px !important;flex-shrink:0;}
+#main-screen .player-avatar img{border-radius:50% !important;object-position:center 10% !important;}
+#main-screen .player-name{font-size:.62rem !important;margin-bottom:1px !important;color:#355773 !important;-webkit-text-fill-color:#355773 !important;}
+#main-screen .player-lv{align-items:center !important;flex-wrap:wrap !important;gap:4px !important;}
+#main-screen .lv-badge{font-size:.78rem !important;padding:2px 8px !important;}
+#main-screen .xp-bar{height:5px !important;margin:4px 0 2px !important;border-radius:99px !important;}
+#main-screen .xp-fill{border-radius:99px !important;}
+#main-screen .xp-note{font-size:.6rem !important;color:#4a7090 !important;}
+#main-screen .player-stats{display:none !important;}
+#main-screen .player-stats-mobile{display:flex !important;gap:5px !important;flex-wrap:wrap !important;margin-top:3px !important;}
+#main-screen .psm-badge{font-size:.58rem !important;padding:2px 8px !important;}
+
+/* --- 記録ボタン: 2カラムグリッドで大きく鮮明に --- */
+#main-screen .sh-record{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:10px !important;
+  margin-bottom:12px !important;
+}
+#main-screen .sh-rec-btn{
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  padding:16px 14px 12px !important;
+  border-radius:18px !important;
+  gap:4px !important;
+  min-height:88px !important;
+  position:relative !important;
+  border-width:2px !important;
+  transition:transform .15s, box-shadow .15s !important;
+}
+#main-screen .sh-rec-btn:active{transform:scale(.97) !important;}
+#main-screen .rec-ex{
+  border-color:#1e7fa4 !important;
+  background:linear-gradient(135deg,rgba(30,127,164,.08),rgba(74,176,212,.04)) !important;
+}
+#main-screen .rec-nu{
+  border-color:#1f7d4d !important;
+  background:linear-gradient(135deg,rgba(31,125,77,.08),rgba(78,201,138,.04)) !important;
+}
+/* QOL: full width */
+#main-screen .rec-qol{
+  grid-column:1 / -1 !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  min-height:unset !important;
+  padding:11px 16px !important;
+  border-color:#9c72e0 !important;
+  background:linear-gradient(135deg,rgba(156,114,224,.07),rgba(156,114,224,.02)) !important;
+}
+#main-screen .rec-qol .sh-rec-body{flex:1;}
+#main-screen .rec-qol .sh-rec-arrow{position:static !important;margin-left:auto;}
+#main-screen .sh-rec-icon{font-size:1.5rem !important;line-height:1.1 !important;}
+#main-screen .sh-rec-name{
+  font-size:.9rem !important;font-weight:900 !important;
+  color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;
+  margin-bottom:2px !important;
+}
+#main-screen .sh-rec-meta{
+  font-size:.67rem !important;
+  color:#4a7090 !important;-webkit-text-fill-color:#4a7090 !important;
+}
+#main-screen .sh-rec-arrow{
+  position:absolute;bottom:10px;right:12px;
+  font-size:.85rem;font-weight:900;
+  color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;
+}
+/* 記録済みバッジ（JS付与用） */
+#main-screen .sh-rec-btn.done-today::before{
+  content:'✓';position:absolute;top:8px;right:10px;
+  font-size:.62rem;font-weight:900;
+  background:rgba(30,127,164,.15);color:#0a4870;
+  padding:1px 7px;border-radius:99px;
+}
+
+/* --- 今週サマリー: コンパクト --- */
+#main-screen .sh-summary{
+  padding:10px 14px !important;
+  border-radius:14px !important;
+  margin-bottom:10px !important;
+}
+#main-screen .sh-sum-lbl{font-size:.65rem !important;font-weight:900 !important;color:#355773 !important;-webkit-text-fill-color:#355773 !important;}
+#main-screen .sh-sum-val{font-size:.72rem !important;color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
+
+/* --- 冒険バナー: 目立たせる --- */
+#main-screen .sh-adv{
+  display:flex !important;
+  padding:10px 16px !important;
+  border-radius:14px !important;
+  margin-bottom:10px !important;
+  background:linear-gradient(135deg,rgba(156,114,224,.1),rgba(201,168,76,.06)) !important;
+  border:1.5px solid rgba(156,114,224,.3) !important;
+  color:#0a2a40 !important;
+}
+#main-screen .sh-adv-text{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;font-weight:700 !important;}
+#main-screen .sh-adv-arrow{color:#9c72e0 !important;-webkit-text-fill-color:#9c72e0 !important;font-weight:900 !important;}
+
+/* --- タイニーハビット: スリム --- */
+#main-screen .tiny-habit-card{
+  padding:12px 14px !important;
+  border-radius:14px !important;
+  margin-bottom:10px !important;
+}
+#main-screen .th-why{display:none !important;}
+#main-screen .th-head{font-size:.7rem !important;}
+#main-screen .th-mission{
+  font-size:.9rem !important;font-weight:700 !important;
+  padding:5px 0 6px !important;
+  color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;
+}
+#main-screen .th-actions{gap:6px !important;margin-top:2px !important;}
+#main-screen .th-done{padding:7px 18px !important;font-size:.78rem !important;}
+#main-screen .th-skip{padding:7px 12px !important;font-size:.7rem !important;}
+
+/* --- 水分・睡眠: コンパクト --- */
+#main-screen .hyd-card,
+#main-screen .sleep-card{padding:12px 14px !important;border-radius:14px !important;}
+#main-screen .hyd-head,
+#main-screen .sleep-head{font-size:.7rem !important;margin-bottom:7px !important;}
+#main-screen .hyd-cups{gap:3px !important;}
+#main-screen .hyd-cup{width:14px !important;height:14px !important;}
+
+/* --- クイズ: コンパクト --- */
+#main-screen .quiz-banner{
+  padding:12px 14px !important;border-radius:14px !important;margin-bottom:10px !important;
+}
+#main-screen .qb-head{font-size:.7rem !important;}
+#main-screen .qb-q{font-size:.82rem !important;}
+
+/* --- ストリークカレンダー: タイトに --- */
+#main-screen .streak-cal-card{
+  padding:12px 14px !important;border-radius:14px !important;margin-bottom:10px !important;
+}
+
+/* --- インサイトカード --- */
+#main-screen .insight-card{
+  padding:12px 14px !important;border-radius:14px !important;margin-bottom:10px !important;
+}
+
+/* --- フッターボタン: 横並び見やすく --- */
+#main-screen .sh-foot{
+  display:flex !important;gap:8px !important;flex-wrap:wrap !important;
+  margin-bottom:16px !important;
+}
+#main-screen .sh-foot-btn{
+  flex:1 !important;min-width:90px !important;
+  padding:9px 10px !important;font-size:.72rem !important;
+  border-radius:12px !important;font-weight:900 !important;
+  background:#ffffff !important;border:1.5px solid #b0cfdf !important;
+  color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;
+  text-align:center !important;text-decoration:none !important;
+  box-shadow:0 2px 0 rgba(30,80,110,.08) !important;
+}
+
+/* --- g-main パディング調整 --- */
+#main-screen .g-main{padding-top:10px !important;padding-bottom:80px !important;}
 </style>
 </head>
 <body>
@@ -8547,6 +8744,8 @@ window.addEventListener('load', ()=>{
   }
 });
 </script>
+<div id="shooting-stars-layer" aria-hidden="true"></div>
+
 <nav class="bottom-nav" id="bottom-nav">
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
   <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
@@ -8973,6 +9172,21 @@ window.addEventListener('load', ()=>{
       }
     }catch(e){ console.error(e); }
   };
+})();
+</script>
+<script>
+(function(){
+  const layer=document.getElementById('shooting-stars-layer');
+  if(!layer)return;
+  function spawnStar(){
+    const s=document.createElement('div');
+    s.className='ss-star';
+    s.style.cssText=`left:${Math.random()*80}%;top:${Math.random()*60}%;animation-duration:${0.9+Math.random()*.5}s;`;
+    layer.appendChild(s);
+    setTimeout(()=>s.remove(),1400);
+  }
+  setInterval(()=>{ if(Math.random()<0.45) spawnStar(); },2200);
+  window.ShootingStar={burst:function(n){ for(let i=0;i<(n||5);i++) setTimeout(spawnStar,i*150); }};
 })();
 </script>
 </body>
