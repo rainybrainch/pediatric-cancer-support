@@ -188,9 +188,9 @@ body::before{
 }
 .login-box{
   background:rgba(13,18,37,.95);
-  border:1px solid rgba(201,168,76,.2);border-radius:20px;
-  padding:28px 24px 24px;
-  box-shadow:0 0 60px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.05);
+  border:1px solid rgba(201,168,76,.25);border-radius:20px;
+  padding:24px 24px 26px;
+  box-shadow:0 0 60px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.08),inset 0 1px 0 rgba(255,255,255,.03);
 }
 .login-box-title{
   font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;
@@ -207,24 +207,49 @@ body::before{
 #login-screen .login-field input:focus{outline:none;border-color:rgba(201,168,76,.45);}
 .btn-login{
   width:100%;
-  background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.15));
-  border:1px solid rgba(201,168,76,.45);border-radius:10px;
-  color:var(--gold2);font-family:inherit;font-size:.9rem;font-weight:700;
-  padding:12px;cursor:pointer;margin-top:6px;transition:background .2s;
+  background:linear-gradient(135deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;
+  border:none;border-radius:999px;
+  color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;
+  padding:13px;cursor:pointer;margin-top:6px;letter-spacing:.08em;
+  transition:background-position .4s,transform .2s,box-shadow .2s;
+  box-shadow:0 4px 18px rgba(201,168,76,.35);
 }
-#login-screen .btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.42),rgba(201,168,76,.22));}
+#login-screen .btn-login:hover{background-position:right center;transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.45);}
+#login-screen .btn-login:active{transform:translateY(0);}
 .btn-register{
-  width:100%;background:none;border:1px solid rgba(100,120,200,.28);border-radius:10px;
-  color:rgba(160,180,240,.65);font-family:inherit;font-size:.85rem;font-weight:700;
-  padding:10px;cursor:pointer;margin-top:6px;transition:border-color .2s;
+  width:100%;background:transparent;border:1.5px solid rgba(201,168,76,.4);border-radius:999px;
+  color:rgba(240,212,138,.75);font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;
+  padding:11px;cursor:pointer;margin-top:8px;letter-spacing:.06em;
+  transition:border-color .2s,color .2s,background .2s;
 }
-#login-screen .btn-register:hover{border-color:rgba(100,120,200,.55);}
+#login-screen .btn-register:hover{border-color:rgba(201,168,76,.7);color:var(--gold2);background:rgba(201,168,76,.06);}
 .login-err{font-size:.76rem;color:var(--red);margin-top:10px;display:none;line-height:1.6;}
 .login-guest{
-  text-align:center;margin-top:14px;
-  font-size:.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;
+  text-align:center;margin-top:16px;
+  font-size:.7rem;color:rgba(170,188,216,.45);cursor:pointer;
 }
+.login-guest span{text-decoration:underline;}
 #login-screen .login-guest:hover{color:var(--silver);}
+/* ログインカード内のルナキャラ */
+.login-char-wrap{display:flex;justify-content:center;margin-bottom:18px;}
+.login-char-wrap img{
+  width:110px;height:140px;object-fit:cover;object-position:top 5%;
+  filter:drop-shadow(0 0 16px rgba(201,168,76,.3));
+  animation:float 3.5s ease-in-out infinite;
+}
+/* ルナの吹き出し */
+.luna-bubble{
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);
+  border-radius:12px;padding:9px 13px;margin-bottom:16px;
+  font-size:.77rem;line-height:1.7;color:rgba(240,212,138,.85);
+  position:relative;
+}
+.luna-bubble::before{
+  content:'ルナ';position:absolute;top:-10px;left:12px;
+  font-size:.6rem;font-weight:900;letter-spacing:.08em;
+  background:rgba(201,168,76,.85);color:#1a1200;
+  padding:1px 8px;border-radius:99px;
+}
 .lp-research-link{
   text-align:center;margin-top:16px;
   font-size:.64rem;color:rgba(170,188,216,.3);
@@ -3959,6 +3984,14 @@ body:not(.app-active) .jump-fab{ display: none !important; }
   <!-- ログインフォーム -->
   <div class="lp-form">
     <div class="login-box">
+      <!-- ルナ -->
+      <div class="login-char-wrap">
+        <img src="./image/runa-sabun%20(2).png" alt="ルナ">
+      </div>
+      <!-- ルナの一言 -->
+      <div class="luna-bubble">
+        ようこそ、勇者よ。<br>あなたの12週間の旅を、ルナが一緒に歩みます。✨
+      </div>
       <div class="login-box-title" id="login-box-title">✦ 冒険者ログイン</div>
 
       <!-- ログインモード: メール or ユーザー名 -->
@@ -3988,11 +4021,12 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <div id="auth-error" class="login-err"></div>
       <button class="btn-login" id="login-btn">⚔ ログインして冒険を続ける</button>
       <button class="btn-register" id="register-btn">✨ 新規登録（研究参加・無料）</button>
-      <button class="btn-register" id="reset-pw-btn" style="font-size:.7rem;opacity:.5;border-color:transparent;">パスワードを忘れた方</button>
-      <div class="login-guest" id="guest-btn">ゲスト（デモ）として試す →</div>
+      <button class="btn-register" id="reset-pw-btn" style="font-size:.65rem;opacity:.4;border-color:transparent;border-radius:999px;margin-top:4px;">パスワードを忘れた方</button>
+      <div class="login-guest" id="guest-btn"><span>ゲスト（デモ）として試す →</span></div>
     </div>
-    <div class="lp-research-link">
-      研究の詳細・倫理情報は <a href="./index.html">研究HP →</a>
+    <div class="lp-research-link" style="margin-top:18px;padding-bottom:32px;">
+      <div>完全無料・匿名参加可 · <a href="./index.html">研究の詳細・倫理情報 →</a></div>
+      <div style="margin-top:4px;font-size:.58rem;color:rgba(170,188,216,.2);">AYA世代がん研究支援プロジェクト</div>
     </div>
   </div>
 
