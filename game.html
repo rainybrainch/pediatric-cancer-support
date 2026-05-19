@@ -5338,8 +5338,10 @@ const ALL_ACHV=[
   {id:'lv3',      icon:'⭐', name:'Lv3'},
   {id:'lv5',      icon:'👑', name:'覚醒'},
   {id:'veg_goal', icon:'💚', name:'野菜の達人'},
-  {id:'high',     icon:'⚡', name:'高強度突破'},
-  {id:'steps',    icon:'👟', name:'歩行の達人'},
+  {id:'high',       icon:'⚡', name:'高強度突破'},
+  {id:'steps',      icon:'👟', name:'歩行の達人'},
+  {id:'tiny7',      icon:'🌱', name:'7日連続ミニ習慣'},
+  {id:'hydration',  icon:'💧', name:'水分補給達成'},
   // コーチ系
   {id:'coach_first', icon:'💬', name:'初対話'},
   {id:'coach_3',     icon:'🗣️', name:'相談3回'},
@@ -6514,12 +6516,23 @@ function renderHydration(){
     c.className = 'hyd-cup' + (i < n ? ' full' : '');
     cups.appendChild(c);
   }
-  // 達成で実績
+  // 達成で実績 + XP +10（1日1回）
   if(n === HYDRATION_GOAL){
-    const seen = `vt_hyd_ach_${uid}_${new Date().toISOString().slice(0,10)}`;
+    const today=new Date().toISOString().slice(0,10);
+    const seen = `vt_hyd_ach_${uid}_${today}`;
     if(!localStorage.getItem(seen)){
       localStorage.setItem(seen, '1');
       window.AppEnhance?.achievement?.('💧 水分補給達成！', '💧');
+      try{
+        const k=`vc_xp_${uid}_${weekKey()}`;
+        localStorage.setItem(k, String(parseInt(localStorage.getItem(k)||'0',10)+10));
+        if(typeof updateUI==='function') setTimeout(updateUI,400);
+      }catch(e){}
+      // 実績フラグ
+      try{
+        const a=JSON.parse(localStorage.getItem(`va_ach_${uid}`)||'{}');
+        if(!a.hydration){ a.hydration=true; localStorage.setItem(`va_ach_${uid}`,JSON.stringify(a)); }
+      }catch(e){}
     }
   }
 }
@@ -6586,12 +6599,22 @@ document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
       window.AppSafety?.queueRecord('sleep_records', { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10) });
     }
   }catch(e){ window.AppSafety?.queueRecord('sleep_records', { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10) }); }
+  // XP +5（1日1回）
+  try{
+    const sleepXpKey=`vt_sleep_xp_${uid}_${new Date(Date.now()-86400000).toISOString().slice(0,10)}`;
+    if(!localStorage.getItem(sleepXpKey)){
+      localStorage.setItem(sleepXpKey,'1');
+      const k=`vc_xp_${uid}_${weekKey()}`;
+      localStorage.setItem(k, String(parseInt(localStorage.getItem(k)||'0',10)+5));
+      if(typeof updateUI==='function') setTimeout(updateUI,400);
+    }
+  }catch(e){}
   // フィードバック
   const btn = document.getElementById('sleep-save');
   const orig = btn.textContent;
-  btn.textContent = '✓ 保存';
+  btn.textContent = '✓ 保存 +5XP';
   btn.style.background = 'rgba(78,201,138,.4)';
-  setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; }, 1500);
+  setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; }, 1800);
   renderSleep();
 });
 
@@ -7140,6 +7163,13 @@ document.getElementById('th-done')?.addEventListener('click', ()=>{
   let streak = parseInt(localStorage.getItem(tinyStreakKey())||'0',10);
   if(yObj && yObj.done) streak += 1; else streak = 1;
   localStorage.setItem(tinyStreakKey(), String(streak));
+  // 7日連続実績
+  if(streak>=7){
+    try{
+      const a=JSON.parse(localStorage.getItem(`va_ach_${uid}`)||'{}');
+      if(!a.tiny7){ a.tiny7=true; localStorage.setItem(`va_ach_${uid}`,JSON.stringify(a)); }
+    }catch(e){}
+  }
   // 軽いXP（祝い・小さく）
   try{
     const k = `vc_xp_${uid}_${weekKey()}`;

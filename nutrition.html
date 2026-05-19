@@ -3005,7 +3005,8 @@ function appendHistory(data){
   const wk=weekKey();
   const idx=hist.findIndex(h=>h.wkKey===wk);
   const score=Math.round((data.veg/21+data.fruit/10+data.protein/14+data.grain/14)*25);
-  const entry={wkKey:wk,week:data.week,score,xp:data.xp||0,savedAt:data.savedAt};
+  const counts=data.counts||{veg:data.veg||0,fruit:data.fruit||0,protein:data.protein||0,grain:data.grain||0};
+  const entry={wkKey:wk,week:data.week,score,xp:data.xp||0,counts,savedAt:data.savedAt};
   if(idx>=0) hist[idx]=entry; else hist.unshift(entry);
   hist=hist.slice(0,12);
   localStorage.setItem(histKey(),JSON.stringify(hist));
