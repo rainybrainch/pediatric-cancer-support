@@ -199,12 +199,12 @@ body::before{
 .login-logo{display:none;}
 .login-logo-sub{display:none;}
 .login-field{margin-bottom:12px;}
-.login-field label{display:block;font-size:.68rem;color:var(--muted);margin-bottom:5px;letter-spacing:.06em;}
-.login-field input{
+#login-screen .login-field label{display:block;font-size:.68rem;color:var(--muted);margin-bottom:5px;letter-spacing:.06em;}
+#login-screen .login-field input{
   width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);
   border-radius:10px;padding:10px 13px;color:var(--text);font-family:inherit;font-size:.88rem;
 }
-.login-field input:focus{outline:none;border-color:rgba(201,168,76,.45);}
+#login-screen .login-field input:focus{outline:none;border-color:rgba(201,168,76,.45);}
 .btn-login{
   width:100%;
   background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.15));
@@ -212,24 +212,24 @@ body::before{
   color:var(--gold2);font-family:inherit;font-size:.9rem;font-weight:700;
   padding:12px;cursor:pointer;margin-top:6px;transition:background .2s;
 }
-.btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.42),rgba(201,168,76,.22));}
+#login-screen .btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.42),rgba(201,168,76,.22));}
 .btn-register{
   width:100%;background:none;border:1px solid rgba(100,120,200,.28);border-radius:10px;
   color:rgba(160,180,240,.65);font-family:inherit;font-size:.85rem;font-weight:700;
   padding:10px;cursor:pointer;margin-top:6px;transition:border-color .2s;
 }
-.btn-register:hover{border-color:rgba(100,120,200,.55);}
+#login-screen .btn-register:hover{border-color:rgba(100,120,200,.55);}
 .login-err{font-size:.76rem;color:var(--red);margin-top:10px;display:none;line-height:1.6;}
 .login-guest{
   text-align:center;margin-top:14px;
   font-size:.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;
 }
-.login-guest:hover{color:var(--silver);}
+#login-screen .login-guest:hover{color:var(--silver);}
 .lp-research-link{
   text-align:center;margin-top:16px;
   font-size:.64rem;color:rgba(170,188,216,.3);
 }
-.lp-research-link a{color:rgba(201,168,76,.4);text-decoration:none;}
+#login-screen .lp-research-link a{color:rgba(201,168,76,.4);text-decoration:none;}
 .lp-research-link a:hover{color:rgba(201,168,76,.7);}
 
 /* ========== ヘッダー ========== */
@@ -247,7 +247,7 @@ body::before{
   text-decoration:none;color:#e8e4d4;cursor:pointer;font-family:inherit;
   width:100%;transition:transform .15s, box-shadow .2s, border-color .2s;text-align:left;
 }
-.sh-rec-btn:hover{transform:translateX(2px);}
+#main-screen .sh-rec-btn:hover{transform:translateX(2px);}
 .sh-rec-btn:active{transform:translateX(0);}
 .sh-rec-icon{font-size:1.9rem;line-height:1;flex-shrink:0;width:42px;text-align:center;filter:drop-shadow(0 0 10px var(--icon-glow,rgba(201,168,76,.4)));}
 .sh-rec-body{flex:1;min-width:0;}
@@ -1822,723 +1822,6 @@ body.detail-mode #compact-home{display:none !important;}
 <script src="./quest-enhance.js" defer></script>
 <style id="watercolor-skin">
 /* ============================================
-   水色スキン v1 ── 2026-05-11
-   創造主指示「ゲームのデザインを水色に。文字見やすく」
-   既存の dark-fantasy CSS を上書きする最後尾レイヤー
-   ============================================ */
-:root{
-  /* v2 強化版：もっとはっきりした水色 */
-  --bg:    #c8e4f4;
-  --bg2:   #b0d6ed;
-  --bg3:   #95c5e5;
-  --gold:  #1e7fa4;
-  --gold2: #4ab0d4;
-  --silver:#3a6f8a;
-  --text:  #0f2a3a;
-  --muted: #5a7a90;
-  --green: #1f8a66;
-  --purple:#5b4ea8;
-  --red:   #b53a3a;
-  --orange:#c46a1e;
-  --rose:  #c26092;
-}
-html, body{ background: var(--bg) !important; color: var(--text) !important; }
-body::before{
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
-    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
-    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
-  opacity: .85 !important;
-}
-#loading-screen, #login-screen{ background: var(--bg) !important; }
-#loading-screen::before{ opacity:.6 !important; }
-.gold-text, .ls-title, [class*="title-gold"]{
-  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
-  -webkit-background-clip: text !important; background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-}
-.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
-.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
-.ls-char{
-  border-color: rgba(30,127,164,.4) !important;
-  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
-}
-/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
-[style*="rgba(255,255,255,.04)"],
-[style*="rgba(255,255,255,.06)"],
-[style*="rgba(255,255,255,.07)"],
-[style*="rgba(255,255,255,.08)"],
-[style*="rgba(255,255,255,.1)"]{
-  background: rgba(20,80,110,.07) !important;
-  border-color: rgba(30,127,164,.28) !important;
-  color: var(--text) !important;
-}
-input[type="text"], input[type="email"], input[type="number"], input[type="date"],
-input[type="password"], input[type="tel"], input[type="search"], select, textarea{
-  background: rgba(255,255,255,.85) !important;
-  border-color: rgba(30,127,164,.35) !important;
-  color: var(--text) !important;
-}
-::placeholder{ color: rgba(20,60,80,.45) !important; }
-a{ color: #1e7fa4; }
-a:hover{ color: #4ab0d4; }
-/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
-@supports not (background-clip: text){
-  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-}
-
-/* ============================================
-   水色スキン v2 ── 2026-05-13 可読性強化
-   v1 で「水色背景 × 水色文字」が同化していた問題を解消
-   ============================================ */
-/* タイトルを濃紺グラデに変更（水色背景に対し十分なコントラスト） */
-.gold-text, .ls-title, [class*="title-gold"]{
-  background: linear-gradient(135deg, #0a4870, #1e7fa4, #155f87) !important;
-  -webkit-background-clip: text !important; background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-  text-shadow: 0 1px 2px rgba(255,255,255,.7);
-}
-/* サブテキスト：薄すぎた v1 値を不透明寄りに */
-.ls-sub, .ls-msg{ color: #1a4860 !important; }
-.lp-rune, .lp-subtitle, .lp-tagline, .panel-sub, .section-note, .side-note,
-.streak-sub, .xp-note, .week-label, .as-char-sub, .as-bar-lbl{
-  color: #1a4860 !important;
-}
-/* 本文・ラベル：濃紺で確実に読める */
-.lp-title, .panel-head, .section-label, .lv-name, .as-char-name, .streak-num, .xp-now, .xp-next, .lv-n{
-  color: #0a2a40 !important; text-shadow: 0 1px 0 rgba(255,255,255,.5);
-}
-/* パネル系：v1 で水色オーバーレイになり沈んだのを「白寄り半透明」に戻す */
-.side-panel, .linked-panel, .quest-side > div, .board-section,
-[style*="background:rgba(14,18,32"]{
-  background: rgba(255,255,255,.7) !important;
-  border-color: rgba(30,127,164,.35) !important;
-  color: #0a2a40 !important;
-  box-shadow: 0 2px 8px rgba(30,80,110,.08);
-}
-/* インラインで暗背景前提だった要素（さらに白寄りに） */
-[style*="rgba(14,18,32,.85)"],
-[style*="rgba(14,18,32,.65)"],
-[style*="rgba(14,18,32,.6)"]{
-  background: rgba(255,255,255,.78) !important;
-  color: #0a2a40 !important;
-}
-/* カード内の細字（.6rem 等）も読めるトーンに */
-[style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"], [style*="color:rgba(245,200,200"]{
-  color: #2a5670 !important;
-}
-[style*="color:rgba(201,168,76"]{ color: #b07a1a !important; }
-[style*="color:#7dd8e8"], [style*="color:#9ee0ee"]{ color: #0a4870 !important; }
-[style*="color:#ffe28a"], [style*="color:#f0d48a"]{ color: #b07a1a !important; }
-[style*="color:#f0a0a0"]{ color: #a83838 !important; }
-/* ボタン：白寄り背景＋濃紺文字 */
-.btn, button:not([class*="ghost"]), [class*="btn-primary"]{
-  background: linear-gradient(135deg, #ffffff, #d7ecf6) !important;
-  color: #0a4870 !important;
-  border-color: rgba(30,127,164,.5) !important;
-  box-shadow: 0 2px 6px rgba(30,80,110,.12);
-}
-.btn:hover, button:not([class*="ghost"]):hover{
-  background: linear-gradient(135deg, #e8f4fb, #b0d6ed) !important;
-}
-/* リンクボタン (.ls-link 等) */
-.ls-link, a.btn-nav{
-  background: rgba(255,255,255,.6) !important;
-  color: #0a4870 !important;
-  border: 1px solid rgba(30,127,164,.4) !important;
-}
-/* バー（XP・ステータス）の枠を明瞭に */
-.xp-wrap, .ls-bar, .as-bar-track{
-  background: rgba(30,127,164,.12) !important;
-  border: 1px solid rgba(30,127,164,.25) !important;
-}
-.xp-fill, .ls-fill-n, .ls-fill-q, .as-bar-fill{
-  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
-}
-/* レベル・名前タグ */
-.lv-badge{
-  background: linear-gradient(135deg, #ffffff, #c8e4f4) !important;
-  border-color: rgba(30,127,164,.4) !important;
-  color: #0a2a40 !important;
-}
-/* タイル・チップ */
-.recommend-card, .as-tile{
-  background: rgba(255,255,255,.7) !important;
-  border-color: rgba(30,127,164,.3) !important;
-  color: #0a2a40 !important;
-}
-.rc-label, .rc-unit, .as-tile-sub{ color: #2a5670 !important; }
-.rc-value, .as-tile-name{ color: #0a4870 !important; }
-
-/* ============================================
-   縦長解消 v3 ── 2026-05-13
-   各セクションの区切りを強く可視化＋折りたたみFAB導線
-   ============================================ */
-/* セクション間のすき間を増やしてカードのリズムを作る */
-.side-panel, .linked-panel, .board-section,
-.dashboard-card, .info-card, .quest-card {
-  margin-bottom: 22px !important;
-  border-radius: 16px !important;
-  border-width: 1.5px !important;
-  box-shadow: 0 4px 14px rgba(30,80,110,.10), 0 1px 3px rgba(30,80,110,.06) !important;
-  position: relative;
-}
-/* セクション見出しを「カードの上部リボン」風に強調 */
-.panel-head, .linked-head, .section-label {
-  display: block !important;
-  font-family: 'Noto Serif JP', serif !important;
-  font-size: .92rem !important;
-  font-weight: 900 !important;
-  color: #0a4870 !important;
-  margin-bottom: 12px !important;
-  padding: 0 0 8px !important;
-  border-bottom: 1.5px solid rgba(30,127,164,.25) !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
-  letter-spacing: .04em;
-}
-/* メインホームの大きめ見出しはさらに大きく */
-.dashboard-title, .home-section-title, [class*="section-title"]{
-  font-family: 'Noto Serif JP', serif !important;
-  font-size: 1.05rem !important;
-  font-weight: 900 !important;
-  color: #0a4870 !important;
-  margin: 24px 0 14px !important;
-  padding-left: 12px !important;
-  border-left: 4px solid #1e7fa4 !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
-}
-/* コメントベースで分かれているセクション間にも垂直余白を強制 */
-[id*="dashboard"], [id*="home"], [id*="quest"], [id*="story"], [id*="achieve"]{
-  margin-top: 14px;
-}
-
-/* セクションジャンプFAB（下部ナビと重ならない位置） */
-.jump-fab{
-  position: fixed; right: 12px; bottom: 84px; z-index: 9999;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-}
-/* iOS safe-area 対応 */
-@supports (padding: env(safe-area-inset-bottom)){
-  .jump-fab{ bottom: calc(84px + env(safe-area-inset-bottom)); }
-}
-.jump-fab-btn{
-  width: 54px; height: 54px; border-radius: 50%;
-  background: linear-gradient(135deg, #1e7fa4, #4ab0d4);
-  color: #fff; font-size: 1.2rem; font-weight: 900;
-  border: 2px solid rgba(255,255,255,.6);
-  box-shadow: 0 6px 18px rgba(30,80,110,.35), 0 2px 6px rgba(30,80,110,.2);
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.jump-fab-btn:hover{ transform: translateY(-2px); transition: transform .15s; }
-.jump-fab-list{
-  position: absolute; right: 0; bottom: 64px;
-  background: rgba(255,255,255,.96); backdrop-filter: blur(8px);
-  border: 1px solid rgba(30,127,164,.35);
-  border-radius: 14px;
-  padding: 10px 6px;
-  min-width: 180px;
-  box-shadow: 0 8px 24px rgba(30,80,110,.25);
-  display: none;
-}
-.jump-fab.open .jump-fab-list{ display: block; }
-.jump-fab-list a{
-  display: block;
-  padding: 8px 14px;
-  font-size: .8rem;
-  color: #0a4870;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-}
-.jump-fab-list a:hover{ background: rgba(30,127,164,.1); }
-.jump-fab-list .label-grp{
-  font-size: .58rem;
-  color: #5a7a90;
-  padding: 6px 14px 2px;
-  letter-spacing: .1em;
-  font-weight: 700;
-}
-@media(max-width:480px){
-  .jump-fab{ right: 10px; bottom: 78px; }
-  .jump-fab-btn{ width: 46px; height: 46px; font-size: 1rem; }
-  .jump-fab-list{ min-width: 160px; }
-}
-
-/* ============================================
-   水色スキン v4 ── 2026-05-13 強コントラスト白カード
-   マネぼう参考：背景は水色のまま、パネルは「白＋濃紺文字＋3D影＋鮮やかアクセント」
-   v1〜v3 で残った「水色×水色文字の同化」「+XPが透ける」を最終解決
-   ============================================ */
-
-/* 色トークン上書き */
-:root{
-  --wc-card: #ffffff;
-  --wc-card-2: #f4faff;
-  --wc-line: #b0cfdf;
-  --wc-line-strong: #6da9c4;
-  --wc-ink: #0a2a40;
-  --wc-ink-2: #1a4860;
-  --wc-ink-3: #355773;
-  --wc-blue: #0a4870;
-  --wc-blue-2: #1e7fa4;
-  --wc-blue-3: #4ab0d4;
-  --wc-green: #1f7d4d;
-  --wc-green-2: #2da366;
-  --wc-gold: #b07a1a;
-  --wc-gold-2: #d99b2b;
-  --wc-red: #b53a3a;
-  --wc-red-2: #d44a4a;
-  --wc-purple: #5b4ea8;
-}
-
-/* ── パネル系：完全に不透明な白カード ── */
-.side-panel, .linked-panel, .board-section,
-.dashboard-card, .info-card, .quest-card,
-.recommend-card, .as-tile, .as-luna {
-  background: var(--wc-card) !important;
-  border: 1.5px solid var(--wc-line) !important;
-  border-radius: 16px !important;
-  box-shadow:
-    0 4px 0 rgba(30,80,110,.08),
-    0 2px 14px rgba(30,80,110,.10) !important;
-  color: var(--wc-ink) !important;
-  padding: 16px !important;
-}
-/* インラインで暗背景を指定していた要素を一掃 */
-[style*="rgba(14,18,32"],
-[style*="background:rgba(255,255,255,.04"],
-[style*="background:rgba(255,255,255,.05"],
-[style*="background:rgba(255,255,255,.06"],
-[style*="background:rgba(255,255,255,.07"],
-[style*="background:rgba(255,255,255,.08"],
-[style*="background:rgba(255,255,255,.1"]{
-  background: var(--wc-card) !important;
-  color: var(--wc-ink) !important;
-}
-
-/* ── 見出し（カードヘッダー）── */
-.panel-head, .linked-head, .section-label, .section-title,
-.dashboard-title, .home-section-title,
-.as-sec-lbl, .pmock-sec-lbl {
-  display: block !important;
-  font-family: 'Noto Serif JP', serif !important;
-  font-size: 1rem !important;
-  font-weight: 900 !important;
-  color: var(--wc-blue) !important;
-  margin: 0 0 12px !important;
-  padding: 0 0 10px !important;
-  border-bottom: 2px solid var(--wc-line) !important;
-  text-shadow: none !important;
-  -webkit-text-fill-color: var(--wc-blue) !important;
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  letter-spacing: .04em;
-}
-
-/* ── 本文・キャラ名・数値 ── */
-.lp-title, .as-char-name, .as-tile-name,
-.lv-name, .lv-n, .week-label,
-.streak-num, .xp-now, .xp-next,
-.rc-value, .ls-val {
-  color: var(--wc-ink) !important;
-  font-weight: 900 !important;
-  text-shadow: none !important;
-  -webkit-text-fill-color: var(--wc-ink) !important;
-  background: none !important;
-}
-/* タイトル文字（ヴィタリア転生録 等）= 濃紺ベタ */
-.gold-text, .ls-title, [class*="title-gold"]{
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  -webkit-text-fill-color: var(--wc-blue) !important;
-  color: var(--wc-blue) !important;
-  text-shadow: none !important;
-  font-weight: 900 !important;
-}
-
-/* ── サブテキスト・ラベル：完全に読める濃さ ── */
-.ls-sub, .ls-msg, .lp-rune, .lp-subtitle, .lp-tagline,
-.panel-sub, .section-note, .side-note,
-.streak-sub, .xp-note, .as-char-sub, .as-bar-lbl,
-.rc-label, .rc-unit, .as-tile-sub, .pmock-ch-sub, .pmock-bar-lbl,
-.daily-note {
-  color: var(--wc-ink-2) !important;
-  font-weight: 600 !important;
-}
-
-/* ── 薄い rgba 文字を強制上書き ── */
-[style*="color:rgba(170,188,216"],
-[style*="color:rgba(200,215,235"],
-[style*="color:rgba(212,220,240"],
-[style*="color:rgba(245,200,200"]{
-  color: var(--wc-ink-2) !important;
-}
-[style*="color:rgba(201,168,76"],
-[style*="color:#c9a84c"],
-[style*="color:#f0d48a"]{
-  color: var(--wc-gold) !important;
-  font-weight: 700 !important;
-}
-[style*="color:#7dd8e8"], [style*="color:#9ee0ee"]{
-  color: var(--wc-blue) !important;
-}
-[style*="color:#ffe28a"]{ color: var(--wc-gold) !important; font-weight: 700 !important; }
-[style*="color:#f0a0a0"]{ color: var(--wc-red) !important; font-weight: 700 !important; }
-[style*="color:rgba(240,160,160"]{ color: var(--wc-red) !important; font-weight: 700 !important; }
-[style*="color:rgba(160,240,190"], [style*="color:#a0f0c0"], [style*="color:#7ee8b0"]{
-  color: var(--wc-green) !important; font-weight: 700 !important;
-}
-[style*="color:rgba(200,180,255"], [style*="color:#c0a0f0"]{
-  color: var(--wc-purple) !important; font-weight: 700 !important;
-}
-
-/* ── XPバー・ステータスバー ── */
-.xp-wrap, .ls-bar, .as-bar-track, .pmock-bar-track, .as-xb, .xp-bar-bg{
-  background: rgba(30,127,164,.10) !important;
-  border: 1px solid var(--wc-line) !important;
-  border-radius: 99px !important;
-  height: 10px !important;
-  overflow: hidden;
-}
-.xp-fill, .ls-fill-n, .as-bar-fill, .as-xb-fill, .pmock-bar-fill, .xp-bar-fill{
-  background: linear-gradient(90deg, var(--wc-blue-2), var(--wc-blue-3)) !important;
-  border-radius: 99px !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
-}
-/* 緑・赤・金のバーは色保持しつつ濃く */
-[style*="linear-gradient(90deg,#4ec98a"],
-[style*="linear-gradient(90deg,#a8e060"]{
-  background: linear-gradient(90deg, var(--wc-green), var(--wc-green-2)) !important;
-}
-[style*="linear-gradient(90deg,#e05c5c"],
-[style*="linear-gradient(90deg,#e08a3c"]{
-  background: linear-gradient(90deg, var(--wc-red), #e07a3a) !important;
-}
-[style*="linear-gradient(90deg,#c9a84c,#f0d48a"]{
-  background: linear-gradient(90deg, var(--wc-gold), var(--wc-gold-2)) !important;
-}
-
-/* ── レベル・キャラタイル ── */
-.lv-badge{
-  background: linear-gradient(135deg, #fff, #e0eff8) !important;
-  border: 2px solid var(--wc-blue-2) !important;
-  color: var(--wc-ink) !important;
-  font-weight: 900 !important;
-  box-shadow: 0 3px 0 rgba(30,80,110,.12);
-}
-.as-tile, .pmock-tile{
-  background: var(--wc-card) !important;
-  border: 2px solid var(--wc-line) !important;
-  box-shadow: 0 3px 0 rgba(30,80,110,.08);
-}
-/* 仲間カード：色付き枠で属性を残す */
-.as-tile[style*="rgba(224,92,92"]{ border-color: var(--wc-red) !important; }
-.as-tile[style*="rgba(78,201,138"]{ border-color: var(--wc-green) !important; }
-.as-tile[style*="rgba(156,114,224"]{ border-color: var(--wc-purple) !important; }
-.as-tile-badge[style*="rgba(224,92,92,.18)"]{
-  background: var(--wc-red) !important; color: #fff !important; font-weight: 900 !important;
-}
-.as-tile-badge[style*="rgba(78,201,138,.18)"]{
-  background: var(--wc-green) !important; color: #fff !important; font-weight: 900 !important;
-}
-
-/* ── 強調 "+ N XP" 系（透けて消えていたもの）── */
-[style*="rgba(160,240,190,.5"],
-[style*="rgba(160,240,190,.4"],
-[style*="rgba(160,240,190,.6"]{
-  color: var(--wc-green) !important;
-  font-weight: 900 !important;
-  text-shadow: none !important;
-}
-.xp-gain, .reward-xp, .quest-xp-badge,
-[class*="xp-badge"], [class*="xp-gain"]{
-  background: linear-gradient(135deg, var(--wc-gold), var(--wc-gold-2)) !important;
-  color: #fff !important;
-  font-weight: 900 !important;
-  border: none !important;
-  border-radius: 99px !important;
-  padding: 4px 12px !important;
-  box-shadow: 0 2px 0 rgba(176,122,26,.4) !important;
-}
-
-/* ── ボタン（マネぼう風 3D） ── */
-.btn, button:not([class*="ghost"]):not(.jump-fab-btn):not(.tut-btn-skip),
-[class*="btn-primary"]{
-  background: linear-gradient(135deg, var(--wc-blue-2), var(--wc-blue-3)) !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 12px !important;
-  font-weight: 900 !important;
-  padding: 12px 18px !important;
-  box-shadow: 0 4px 0 var(--wc-blue), 0 6px 14px rgba(30,80,110,.18) !important;
-  transition: transform .1s, box-shadow .1s;
-  letter-spacing: .03em;
-}
-.btn:active, button:not([class*="ghost"]):not(.jump-fab-btn):active{
-  transform: translateY(3px) !important;
-  box-shadow: 0 1px 0 var(--wc-blue), 0 2px 6px rgba(30,80,110,.1) !important;
-}
-.ls-link, a.btn-nav{
-  background: #fff !important;
-  color: var(--wc-blue) !important;
-  border: 1.5px solid var(--wc-blue-2) !important;
-  font-weight: 700 !important;
-  border-radius: 99px !important;
-  padding: 6px 14px !important;
-  box-shadow: 0 2px 0 rgba(30,80,110,.12);
-}
-
-/* ── 入力 ── */
-input[type="text"], input[type="email"], input[type="number"], input[type="date"],
-input[type="password"], input[type="tel"], input[type="search"], select, textarea{
-  background: #fff !important;
-  border: 1.5px solid var(--wc-line-strong) !important;
-  color: var(--wc-ink) !important;
-  font-weight: 600 !important;
-  border-radius: 10px !important;
-}
-input:focus, select:focus, textarea:focus{
-  border-color: var(--wc-blue-2) !important;
-  box-shadow: 0 0 0 3px rgba(30,127,164,.18) !important;
-  outline: none !important;
-}
-::placeholder{ color: var(--wc-ink-3) !important; opacity: .7; }
-
-/* ============================================
-   v5 強制濃紺レイヤー ── 2026-05-13 最終
-   メイン画面内のすべての文字を読める濃紺へ強制
-   ============================================ */
-#main-screen, #main-screen *{
-  -webkit-text-fill-color: initial;
-  text-shadow: none !important;
-}
-/* 文字色：3階層に強制統一 */
-#main-screen [style*="color:rgba(170,188,216"],
-#main-screen [style*="color:rgba(200,215,235"],
-#main-screen [style*="color:rgba(212,220,240"],
-#main-screen [style*="color:rgba(170,190,240"],
-#main-screen [style*="color:rgba(200,180,255"],
-#main-screen [style*="color:rgba(200,188,240"],
-#main-screen [style*="color:rgba(245,200,200"],
-#main-screen [style*="color:rgba(240,210,160"],
-#main-screen [style*="color:rgba(180,240,200"],
-#main-screen [style*="color:rgba(255,200,180"]{
-  color: #1a4860 !important;
-  -webkit-text-fill-color: #1a4860 !important;
-  font-weight: 700 !important;
-}
-/* キャラ別アクセント色は濃く強調 */
-#main-screen [style*="color:rgba(201,168,76"],
-#main-screen [style*="color:#c9a84c"],
-#main-screen [style*="color:#f0d48a"],
-#main-screen [style*="color:#ffe28a"]{
-  color: #b07a1a !important;
-  -webkit-text-fill-color: #b07a1a !important;
-  font-weight: 800 !important;
-}
-#main-screen [style*="color:rgba(240,160,160"],
-#main-screen [style*="color:#f0a0a0"],
-#main-screen [style*="color:#e05c5c"]{
-  color: #b53a3a !important;
-  -webkit-text-fill-color: #b53a3a !important;
-  font-weight: 800 !important;
-}
-#main-screen [style*="color:rgba(160,240,190"],
-#main-screen [style*="color:#a0f0c0"],
-#main-screen [style*="color:#7ee8b0"],
-#main-screen [style*="color:#4ec98a"]{
-  color: #1f7d4d !important;
-  -webkit-text-fill-color: #1f7d4d !important;
-  font-weight: 800 !important;
-}
-#main-screen [style*="color:#c0a0f0"],
-#main-screen [style*="color:#9c72e0"]{
-  color: #5b4ea8 !important;
-  -webkit-text-fill-color: #5b4ea8 !important;
-  font-weight: 800 !important;
-}
-
-/* 暗背景指定を全部白カードに強制 */
-#main-screen [style*="background:rgba(14,18,32"],
-#main-screen [style*="background:rgba(10,14,24"],
-#main-screen [style*="background:rgba(255,255,255,.0"],
-#main-screen [style*="background:rgba(255,255,255,.04"],
-#main-screen [style*="background:rgba(255,255,255,.05"],
-#main-screen [style*="background:rgba(255,255,255,.06"],
-#main-screen [style*="background:rgba(255,255,255,.07"],
-#main-screen [style*="background:rgba(255,255,255,.08"],
-#main-screen [style*="background:rgba(255,255,255,.1"]{
-  background: #ffffff !important;
-  background-image: none !important;
-  color: #0a2a40 !important;
-  border-color: #b0cfdf !important;
-}
-
-/* 透けた色付き背景（小さい不透明度）を白に */
-#main-screen [style*="background:rgba(201,168,76,.05"],
-#main-screen [style*="background:rgba(201,168,76,.06"],
-#main-screen [style*="background:rgba(201,168,76,.08"],
-#main-screen [style*="background:rgba(201,168,76,.1"],
-#main-screen [style*="background:rgba(78,201,138,.05"],
-#main-screen [style*="background:rgba(78,201,138,.06"],
-#main-screen [style*="background:rgba(78,201,138,.08"],
-#main-screen [style*="background:rgba(78,201,138,.1"],
-#main-screen [style*="background:rgba(224,92,92,.05"],
-#main-screen [style*="background:rgba(224,92,92,.06"],
-#main-screen [style*="background:rgba(224,92,92,.08"],
-#main-screen [style*="background:rgba(156,114,224,.05"],
-#main-screen [style*="background:rgba(156,114,224,.07"],
-#main-screen [style*="background:rgba(156,114,224,.08"]{
-  background: #ffffff !important;
-  background-image: none !important;
-}
-
-/* キャラ色枠だけ残す（border-color のみ強制） */
-#main-screen [style*="rgba(224,92,92,.45"],
-#main-screen [style*="rgba(224,92,92,.4"],
-#main-screen [style*="rgba(224,92,92,.3"],
-#main-screen [style*="rgba(224,92,92,.25"],
-#main-screen [style*="rgba(224,92,92,.22"]{ border-color: #b53a3a !important; }
-#main-screen [style*="rgba(78,201,138,.45"],
-#main-screen [style*="rgba(78,201,138,.4"],
-#main-screen [style*="rgba(78,201,138,.3"],
-#main-screen [style*="rgba(78,201,138,.25"],
-#main-screen [style*="rgba(78,201,138,.22"]{ border-color: #1f7d4d !important; }
-#main-screen [style*="rgba(156,114,224,.45"],
-#main-screen [style*="rgba(156,114,224,.4"],
-#main-screen [style*="rgba(156,114,224,.3"],
-#main-screen [style*="rgba(156,114,224,.25"]{ border-color: #5b4ea8 !important; }
-#main-screen [style*="rgba(201,168,76,.45"],
-#main-screen [style*="rgba(201,168,76,.4"],
-#main-screen [style*="rgba(201,168,76,.3"],
-#main-screen [style*="rgba(201,168,76,.25"],
-#main-screen [style*="rgba(201,168,76,.22"]{ border-color: #b07a1a !important; }
-
-/* バーフィルの透けるグラデを濃く */
-#main-screen [style*="linear-gradient(90deg,#4ec98a"],
-#main-screen [style*="linear-gradient(90deg,#a8e060"],
-#main-screen [style*="linear-gradient(90deg,#7ee8b0"]{
-  background: linear-gradient(90deg, #1f7d4d, #2da366) !important;
-  background-image: linear-gradient(90deg, #1f7d4d, #2da366) !important;
-}
-#main-screen [style*="linear-gradient(90deg,#e05c5c"],
-#main-screen [style*="linear-gradient(90deg,#e08a3c"]{
-  background: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
-  background-image: linear-gradient(90deg, #b53a3a, #e07a3a) !important;
-}
-#main-screen [style*="linear-gradient(90deg,#c9a84c,#f0d48a"]{
-  background: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
-  background-image: linear-gradient(90deg, #b07a1a, #d99b2b) !important;
-}
-
-/* ストーリー章カード：unlocked と locked の濃淡で「読める」状態に */
-#main-screen .story-chapter{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 3px 0 rgba(30,80,110,.08) !important;
-  padding: 14px !important;
-  margin-bottom: 10px !important;
-}
-#main-screen .story-chapter.unlocked{
-  background: linear-gradient(135deg, #fff, #f3eef9) !important;
-  border-color: #5b4ea8 !important;
-}
-#main-screen .story-chapter.locked{
-  opacity: .55 !important;
-  background: #f0f4f8 !important;
-}
-#main-screen .story-num{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-  font-weight: 900 !important;
-}
-#main-screen .story-chapter.unlocked .story-num{
-  color: #5b4ea8 !important;
-  -webkit-text-fill-color: #5b4ea8 !important;
-}
-#main-screen .story-title{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-  font-weight: 900 !important;
-  font-family: 'Noto Serif JP', serif !important;
-}
-#main-screen .story-chapter.unlocked .story-title{
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-}
-#main-screen .story-meta{
-  color: #355773 !important;
-  -webkit-text-fill-color: #355773 !important;
-  font-weight: 700 !important;
-}
-#main-screen .story-arrow{
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
-  font-weight: 900 !important;
-}
-
-/* クエストカード（運動・栄養）── 鮮やかな白カード */
-#main-screen .quest-grid > *,
-#main-screen .quest-card,
-#main-screen [class*="quest-card"]{
-  background: #ffffff !important;
-  background-image: none !important;
-  border: 2px solid #b0cfdf !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.10), 0 2px 14px rgba(30,80,110,.10) !important;
-  color: #0a2a40 !important;
-}
-
-/* +XP バッジ・リワード表示 */
-#main-screen [class*="xp-reward"],
-#main-screen [class*="reward-xp"],
-#main-screen [class*="xp-gain"],
-#main-screen [class*="quest-xp"]{
-  background: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
-  background-image: linear-gradient(135deg, #d99b2b, #b07a1a) !important;
-  border: 2px solid #8a5e10 !important;
-  border-radius: 12px !important;
-  padding: 8px 14px !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  font-weight: 900 !important;
-  box-shadow: 0 3px 0 rgba(138,94,16,.35) !important;
-}
-#main-screen [class*="xp-reward"] *,
-#main-screen [class*="reward-xp"] *,
-#main-screen [class*="xp-gain"] *{
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-/* リンク・アクションボタン（家事メニュー・買い物等の白カード） */
-#main-screen a[href]{
-  text-decoration: none;
-}
-
-/* 大きめテキスト「ヴィタリアの物語」「1 / 5 章開始」等 */
-#main-screen h2, #main-screen h3, #main-screen .title-h2{
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 900 !important;
-  font-family: 'Noto Serif JP', serif !important;
-}
-
-/* 全幅黒バナー（ヴィタリアの物語等の暗背景セクションヘッダー）を白カード化 */
-#main-screen [style*="background:rgba(8,11,20"],
-#main-screen [style*="background:rgba(14,18,32,.9"],
-#main-screen [style*="background:rgba(14,18,32,.95"]{
-  background: #ffffff !important;
-  background-image: none !important;
-  border: 1.5px solid #b0cfdf !important;
-}
-
-/* ============================================
    ホームUI再編成 v7 ── 2026-05-13
    創造主指示：物語・実績はホームに不要。キャラを圧迫しない配置。
    運動・食事への動線を強化。
@@ -3186,198 +2469,1435 @@ body::after{
   -webkit-text-fill-color: #355773 !important;
 }
 
-/* ============================================
-   login-screen v8 ── 2026-05-13 ランディング画面読みやすく
-   ============================================ */
-#login-screen *{ text-shadow: none !important; }
+/* ====================================================================
+   ★ Vitalia Game · 2026 Modernization Layer
+   --------------------------------------------------------------------
+   研究HPと差別化した「水色基調×異世界転生RPG」の質感へ。
+   - 背景: ミッドナイト・オーロラ（深紺×シアン×淡い金の光）
+   - サーフェス: 結晶ガラス（透明度の高い水色エッジ＋内側光沢）
+   - アクセント: cyan/aqua + gold（HP の indigo×violet とは別系統）
+   ==================================================================== */
 
-/* ランタイトル「VITALIA TENSEI-ROKU」 */
-#login-screen .lp-rune{
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
-  font-weight: 900 !important;
-  letter-spacing: .4em !important;
-  font-size: .68rem !important;
-}
-
-/* メインタイトル「ヴィタリア転生録」 */
-#login-screen .lp-title{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-  background: none !important;
-  background-image: none !important;
-  background-clip: initial !important;
-  -webkit-background-clip: initial !important;
-  font-weight: 900 !important;
-  text-shadow: 0 2px 4px rgba(255,255,255,.5) !important;
-}
-
-/* サブタイトル「HEALTH QUEST · RPG × AI COACHING」 */
-#login-screen .lp-subtitle{
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 700 !important;
-  letter-spacing: .12em !important;
-}
-
-/* タグライン本文 */
-#login-screen .lp-tagline{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-  font-weight: 500 !important;
-  line-height: 1.85 !important;
-}
-#login-screen .lp-tagline strong{
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
-  font-weight: 900 !important;
+:root{
+  --v-cyan:        #5fd0e8;
+  --v-cyan-2:      #7ae0f0;
+  --v-cyan-deep:   #2a8aa8;
+  --v-night-1:     #060c1c;
+  --v-night-2:     #0a142e;
+  --v-ink:         #d4e4f4;
+  --v-ink-2:       #88a4c8;
+  --v-ink-3:       #5a7090;
+  --v-gold:        #c9a84c;
+  --v-gold-2:      #f0d48a;
+  /* 旧「水色マネぼう白カード」テーマで上書きされた変数を本来の深紺ナイトに戻す */
+  --bg:    #060c1c !important;
+  --bg2:   #0a142e !important;
+  --bg3:   #0e1c3e !important;
+  --gold:  #c9a84c !important;
+  --gold2: #f0d48a !important;
+  --silver:#aabcd8 !important;
+  --text:  #d4e4f4 !important;
+  --muted: #88a4c8 !important;
+  --green: #4ec98a !important;
+  --purple:#9c72e0 !important;
+  --red:   #e05c5c !important;
+  --orange:#e08a3c !important;
 }
 
-/* メインキャラ画像（中央のルナ）に金枠 */
-#login-screen .lp-char img{
-  border: 3px solid #b07a1a !important;
-  box-shadow: 0 6px 0 rgba(176,122,26,.22), 0 0 40px rgba(176,122,26,.18) !important;
+/* html, body の背景：明るめの水色ナイト＋オーロラベース */
+html, body{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(120,220,240,.32), transparent 60%),
+    radial-gradient(900px 700px at 15% 30%,   rgba(160,200,250,.22), transparent 55%),
+    radial-gradient(800px 600px at 50% 120%,  rgba(180,140,220,.18), transparent 60%),
+    linear-gradient(180deg, #0c2240 0%, #103458 45%, #1a4870 100%) !important;
+  background-attachment: fixed;
+  color: #e4f0fc !important;
 }
 
-/* 3キャラ並び（ルナ・カイト・セラ） */
-#login-screen .lp-chars{ gap: 18px !important; }
-#login-screen .lp-ch-face{
-  border: 3px solid #b0cfdf !important;
-  background: #ffffff !important;
-}
-#login-screen .ch-luna .lp-ch-face{
-  border-color: #b07a1a !important;
-  box-shadow: 0 4px 0 rgba(176,122,26,.18), 0 0 20px rgba(176,122,26,.15) !important;
-}
-#login-screen .ch-kaito .lp-ch-face{
-  border-color: #b53a3a !important;
-  box-shadow: 0 4px 0 rgba(181,58,58,.18), 0 0 20px rgba(181,58,58,.15) !important;
-}
-#login-screen .ch-sera .lp-ch-face{
-  border-color: #1f7d4d !important;
-  box-shadow: 0 4px 0 rgba(31,125,77,.18), 0 0 20px rgba(31,125,77,.15) !important;
-}
-#login-screen .lp-ch-name{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-  font-weight: 900 !important;
-  font-size: .82rem !important;
-  margin-top: 6px;
-}
-#login-screen .ch-luna .lp-ch-name{ color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; }
-#login-screen .ch-kaito .lp-ch-name{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
-#login-screen .ch-sera .lp-ch-name{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; }
-#login-screen .lp-ch-role{
-  color: #1a4860 !important;
-  -webkit-text-fill-color: #1a4860 !important;
-  font-weight: 700 !important;
-  font-size: .62rem !important;
-  letter-spacing: .04em !important;
-}
-#login-screen .lp-ch-sep{
-  color: #b07a1a !important;
-  -webkit-text-fill-color: #b07a1a !important;
-  font-weight: 900 !important;
-  font-size: .9rem !important;
+/* ローディング / ログイン スクリーンも同じ水色ベースに */
+#loading-screen, #login-screen{
+  background:
+    radial-gradient(900px 600px at 50% 20%, rgba(120,220,240,.30), transparent 60%),
+    radial-gradient(700px 500px at 20% 80%, rgba(180,140,220,.20), transparent 60%),
+    linear-gradient(180deg, #0c2240 0%, #103458 45%, #1a4870 100%) !important;
 }
 
-/* バッジ（XP・レベルアップ など） */
-#login-screen .lp-badge{
-  background: #ffffff !important;
-  background-image: none !important;
-  border: 1.5px solid #1e7fa4 !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 900 !important;
-  font-size: .72rem !important;
-  padding: 6px 14px !important;
-  border-radius: 99px !important;
-  box-shadow: 0 3px 0 rgba(30,80,110,.10);
-  letter-spacing: .02em;
+/* ====================================================================
+   ★ Aurora — 動くオーロラレイヤー
+   3層を異速度・異方向で常時アニメーション
+   ==================================================================== */
+.aurora-stage{
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.aurora-band{
+  position: absolute;
+  inset: -30% -20%;
+  filter: blur(60px) saturate(120%);
+  mix-blend-mode: screen;
+  opacity: .85;
+  will-change: transform, opacity;
+}
+.aurora-band.b1{
+  background:
+    radial-gradient(ellipse 70% 30% at 30% 40%, rgba(120,220,240,.55), transparent 60%),
+    radial-gradient(ellipse 50% 28% at 70% 35%, rgba(80,200,230,.45), transparent 60%);
+  animation: aurora-drift-1 22s ease-in-out infinite;
+}
+.aurora-band.b2{
+  background:
+    radial-gradient(ellipse 60% 25% at 60% 50%, rgba(160,140,240,.42), transparent 60%),
+    radial-gradient(ellipse 70% 30% at 20% 55%, rgba(180,120,220,.40), transparent 60%);
+  animation: aurora-drift-2 30s ease-in-out infinite;
+  opacity: .7;
+}
+.aurora-band.b3{
+  background:
+    radial-gradient(ellipse 50% 22% at 40% 65%, rgba(120,250,220,.38), transparent 60%),
+    radial-gradient(ellipse 60% 28% at 80% 70%, rgba(240,200,140,.30), transparent 60%);
+  animation: aurora-drift-3 26s ease-in-out infinite;
+  opacity: .6;
+}
+.aurora-band.b4{
+  /* 細い縦の光線 */
+  background:
+    linear-gradient(180deg, transparent, rgba(180,235,250,.18) 30%, rgba(140,210,240,.22) 50%, transparent 80%);
+  filter: blur(30px) saturate(140%);
+  opacity: .65;
+  animation: aurora-curtain 18s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes aurora-drift-1{
+  0%, 100%{ transform: translate(0%, 0%) rotate(0deg) scale(1); }
+  33%{ transform: translate(-6%, 4%) rotate(8deg) scale(1.08); }
+  66%{ transform: translate(8%, -3%) rotate(-6deg) scale(.96); }
+}
+@keyframes aurora-drift-2{
+  0%, 100%{ transform: translate(0%, 0%) rotate(0deg) scale(1); }
+  40%{ transform: translate(7%, 5%) rotate(-10deg) scale(1.1); }
+  70%{ transform: translate(-5%, -2%) rotate(6deg) scale(.94); }
+}
+@keyframes aurora-drift-3{
+  0%, 100%{ transform: translate(0%, 0%) rotate(0deg) scale(1); }
+  30%{ transform: translate(-8%, 3%) rotate(5deg) scale(1.12); }
+  65%{ transform: translate(5%, -4%) rotate(-8deg) scale(.98); }
+}
+@keyframes aurora-curtain{
+  0%, 100%{ transform: translateY(0) skewX(0deg) scaleY(1); opacity: .4; }
+  25%{ transform: translateY(-3%) skewX(-4deg) scaleY(1.06); opacity: .7; }
+  50%{ transform: translateY(2%) skewX(3deg) scaleY(.95); opacity: .55; }
+  75%{ transform: translateY(-1%) skewX(-2deg) scaleY(1.03); opacity: .65; }
 }
 
-/* ログインフォーム本体 */
-#login-screen .lp-form{ margin-top: 18px; }
-#login-screen .login-box{
-  background: #ffffff !important;
-  background-image: none !important;
-  border: 2px solid #b0cfdf !important;
+/* 星空（既存）は控えめに、より浮き立たせる */
+body::before{
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.85), transparent 100%),
+    radial-gradient(1px 1px at 28% 8%,    rgba(255,255,255,.65), transparent 100%),
+    radial-gradient(2px 2px at 45% 25%,   rgba(220,240,255,.80), transparent 100%),
+    radial-gradient(1px 1px at 65% 12%,   rgba(255,255,255,.55), transparent 100%),
+    radial-gradient(1.5px 1.5px at 82% 35%, rgba(255,255,255,.70), transparent 100%),
+    radial-gradient(1px 1px at 18% 55%,   rgba(255,255,255,.50), transparent 100%),
+    radial-gradient(2px 2px at 58% 68%,   rgba(220,240,255,.75), transparent 100%),
+    radial-gradient(1px 1px at 90% 78%,   rgba(255,255,255,.50), transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 88%, rgba(255,255,255,.65), transparent 100%),
+    radial-gradient(1px 1px at 5%  82%,   rgba(255,255,255,.70), transparent 100%) !important;
+  opacity: .85 !important;
+  animation: star-twinkle 6s ease-in-out infinite !important;
+}
+@keyframes star-twinkle{
+  0%, 100%{ opacity: .7; }
+  50%{ opacity: .9; }
+}
+
+/* ---------- アンビエント背景（オーロラ） ---------- */
+body{
+  background:
+    radial-gradient(900px 700px at 80% 10%,  rgba(40,160,200,.18), transparent 55%),
+    radial-gradient(900px 700px at 15% 30%,  rgba(80,90,200,.16),  transparent 55%),
+    radial-gradient(800px 600px at 50% 120%, rgba(120,80,180,.18), transparent 60%),
+    linear-gradient(180deg, #050a1c 0%, #08122c 60%, #0a1632 100%) !important;
+  color: #d4e4f4 !important;
+}
+body::after{
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 30% at 50% 10%, rgba(95,208,232,.08), transparent 70%),
+    radial-gradient(ellipse 80% 25% at 30% 60%, rgba(120,180,255,.05), transparent 70%);
+  mix-blend-mode: screen;
+}
+#main-screen, #login-screen, #loading-screen{ position: relative; z-index: 1; }
+
+a:focus-visible, button:focus-visible{
+  outline: 2px solid rgba(95,208,232,.6);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+/* ---------- ヘッダー ---------- */
+.g-header{
+  background: linear-gradient(180deg, rgba(8,14,32,.85), rgba(8,14,32,.7)) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid rgba(95,208,232,.14) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 12px 32px -16px rgba(0,12,30,.6);
+}
+.g-logo-icon{
+  background: linear-gradient(135deg, rgba(95,208,232,.22), rgba(201,168,76,.18));
+  border: 1px solid rgba(95,208,232,.4);
+  color: #5fd0e8;
+  box-shadow: 0 0 16px -4px rgba(95,208,232,.45), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.gold-text{
+  background: linear-gradient(135deg, #f0d48a, #5fd0e8, #f0d48a) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.g-btn{
+  background: rgba(20,40,70,.45) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(95,208,232,.25) !important;
+  color: #5fd0e8 !important;
+  border-radius: 10px !important;
+  transition: all .2s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 2px 8px -2px rgba(0,12,30,.5);
+}
+.g-btn:hover{
+  background: rgba(40,80,120,.55) !important;
+  border-color: rgba(95,208,232,.55) !important;
+  color: #7ae0f0 !important;
+  box-shadow: 0 0 0 1px rgba(95,208,232,.2), 0 6px 18px -4px rgba(95,208,232,.32);
+}
+
+/* ---------- プレイヤーカード ---------- */
+.player-card{
+  background:
+    radial-gradient(800px 200px at 50% 0%, rgba(95,208,232,.08), transparent 70%),
+    linear-gradient(160deg, rgba(14,30,60,.85), rgba(8,16,40,.92)) !important;
+  border: 1px solid rgba(95,208,232,.22) !important;
+  border-radius: 22px !important;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.10),
+    inset 0 0 0 1px rgba(95,208,232,.05),
+    0 1px 3px rgba(0,12,30,.4),
+    0 22px 48px -18px rgba(0,16,40,.65) !important;
+  overflow: hidden;
+  position: relative;
+}
+.player-card::before{
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(95,208,232,.16), transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(201,168,76,.10), transparent 50%);
+  pointer-events: none;
+}
+.player-avatar{
+  border: 2px solid rgba(95,208,232,.45) !important;
+  box-shadow: 0 0 24px -4px rgba(95,208,232,.5), inset 0 0 0 1px rgba(255,255,255,.08) !important;
+}
+
+/* ---------- QOLトレンドカード ---------- */
+.qol-trend-card{
+  background: linear-gradient(160deg, rgba(14,30,60,.7), rgba(8,16,40,.85)) !important;
+  border: 1px solid rgba(95,208,232,.18) !important;
   border-radius: 18px !important;
-  padding: 22px !important;
-  box-shadow: 0 6px 0 rgba(30,80,110,.10), 0 4px 20px rgba(30,80,110,.12) !important;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.08),
+    0 12px 28px -12px rgba(0,12,30,.5) !important;
 }
-#login-screen .login-box-title{
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 900 !important;
-  font-family: 'Noto Serif JP', serif !important;
-  background: none !important;
-  background-image: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
+.qol-trend-action{
+  background: rgba(95,208,232,.10) !important;
+  border: 1px solid rgba(95,208,232,.30) !important;
+  color: #7ae0f0 !important;
+  border-radius: 99px !important;
+  transition: all .2s;
+  font-weight: 700;
 }
-#login-screen .login-field label{
-  color: #1a4860 !important;
-  -webkit-text-fill-color: #1a4860 !important;
-  font-weight: 700 !important;
+.qol-trend-action:hover{
+  background: rgba(95,208,232,.20) !important;
+  border-color: rgba(95,208,232,.55) !important;
+  color: #ffffff !important;
 }
-#login-screen .login-field input,
-#login-screen input[type="email"],
-#login-screen input[type="password"]{
-  background: #f4faff !important;
-  border: 1.5px solid #b0cfdf !important;
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-  font-weight: 600 !important;
+
+/* ---------- 3キャラ立ち絵バナー ---------- */
+.hc-card{
+  background:
+    radial-gradient(140% 70% at 50% 0%, rgba(95,208,232,.10), transparent 70%),
+    linear-gradient(160deg, rgba(20,40,70,.75), rgba(10,20,44,.88)) !important;
+  background-image:
+    radial-gradient(140% 70% at 50% 0%, rgba(95,208,232,.10), transparent 70%),
+    linear-gradient(160deg, rgba(20,40,70,.75), rgba(10,20,44,.88)) !important;
+  border: 1.5px solid rgba(95,208,232,.22) !important;
+  border-radius: 18px !important;
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.12),
+    inset 0 0 0 1px rgba(95,208,232,.06),
+    0 14px 32px -12px rgba(0,12,30,.55) !important;
+  transition: transform .35s cubic-bezier(.2,.8,.3,1), box-shadow .35s, border-color .25s !important;
+  color: #d4e4f4 !important;
+  -webkit-text-fill-color: #d4e4f4 !important;
 }
-#login-screen input:focus{
-  border-color: #1e7fa4 !important;
-  box-shadow: 0 0 0 3px rgba(30,127,164,.2) !important;
+.hc-card *{ color: inherit; -webkit-text-fill-color: inherit; }
+.hc-card:hover{ transform: translateY(-4px); }
+.hc-kaito{ border-color: rgba(224,138,92,.32) !important; }
+.hc-kaito:hover{ border-color: rgba(224,138,92,.55) !important; box-shadow: 0 0 0 1px rgba(224,138,92,.18), 0 24px 50px -16px rgba(224,138,92,.22), 0 30px 60px -22px rgba(0,12,30,.7) !important; }
+.hc-sera{ border-color: rgba(110,210,150,.32) !important; }
+.hc-sera:hover{ border-color: rgba(110,210,150,.55) !important; box-shadow: 0 0 0 1px rgba(110,210,150,.18), 0 24px 50px -16px rgba(110,210,150,.22), 0 30px 60px -22px rgba(0,12,30,.7) !important; }
+.hc-luna{ border-color: rgba(156,114,224,.34) !important; }
+.hc-luna:hover{ border-color: rgba(156,114,224,.55) !important; box-shadow: 0 0 0 1px rgba(156,114,224,.18), 0 24px 50px -16px rgba(156,114,224,.22), 0 30px 60px -22px rgba(0,12,30,.7) !important; }
+
+.hc-portrait{ border-radius: 16px; overflow: hidden; }
+.hc-portrait img{ filter: drop-shadow(0 8px 20px rgba(0,12,30,.6)); }
+.hc-name{
+  color: #f0d48a !important;
+  -webkit-text-fill-color: #f0d48a !important;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 900;
 }
-#login-screen ::placeholder{ color: #355773 !important; opacity: .7; }
-#login-screen .login-btn,
-#login-screen button[id*="login"],
-#login-screen button[id*="signup"],
-#login-screen button[type="submit"]{
-  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
-  background-image: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+.hc-role{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+.hc-stat{ color: #88a4c8 !important; -webkit-text-fill-color: #88a4c8 !important; }
+.hc-bar{
+  background: rgba(95,208,232,.08) !important;
+  border: 1px solid rgba(95,208,232,.18) !important;
+  border-radius: 99px !important;
+  height: 6px !important;
+  overflow: hidden;
+}
+.hc-bar-fill{ height: 100%; border-radius: 99px; box-shadow: 0 0 8px rgba(95,208,232,.45); }
+.hc-bar-ex{ background: linear-gradient(90deg, #e08a3c, #f0c060) !important; }
+.hc-bar-nu{ background: linear-gradient(90deg, #4ec98a, #8ee0a0) !important; }
+.hc-bar-luna{ background: linear-gradient(90deg, #9c72e0, #c0a0f0) !important; }
+.hc-cta{
+  background: linear-gradient(135deg, rgba(95,208,232,.18), rgba(95,208,232,.06)) !important;
+  border: 1px solid rgba(95,208,232,.38) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+  border-radius: 99px;
+  padding: 8px 14px;
+  font-weight: 800;
+  margin-top: 8px;
+  text-align: center;
+  font-size: .72rem;
+  letter-spacing: .04em;
+  transition: all .2s;
+}
+.hc-kaito .hc-cta{ background: linear-gradient(135deg, rgba(224,138,92,.18), rgba(224,138,92,.06)) !important; border-color: rgba(224,138,92,.45) !important; color: #f0b878 !important; -webkit-text-fill-color: #f0b878 !important; }
+.hc-sera  .hc-cta{ background: linear-gradient(135deg, rgba(110,210,150,.18), rgba(110,210,150,.06)) !important; border-color: rgba(110,210,150,.45) !important; color: #a8e6b8 !important; -webkit-text-fill-color: #a8e6b8 !important; }
+.hc-luna  .hc-cta{ background: linear-gradient(135deg, rgba(156,114,224,.20), rgba(156,114,224,.06)) !important; border-color: rgba(156,114,224,.48) !important; color: #d0b8f0 !important; -webkit-text-fill-color: #d0b8f0 !important; }
+.hc-card:hover .hc-cta{ filter: brightness(1.15); }
+
+/* ---------- 3大記録ボタン ---------- */
+#main-screen .sh-rec-btn{
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(95,208,232,.08), transparent 70%),
+    linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important;
+  background-image:
+    radial-gradient(120% 60% at 50% 0%, rgba(95,208,232,.08), transparent 70%),
+    linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important;
+  border: 1.5px solid rgba(95,208,232,.22) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.10),
+    0 1px 2px rgba(0,12,30,.3),
+    0 10px 24px -10px rgba(0,12,30,.55) !important;
+  transition: transform .25s, box-shadow .25s, border-color .2s;
+  color: #d4e4f4 !important;
+  -webkit-text-fill-color: #d4e4f4 !important;
+}
+#main-screen .sh-rec-btn *{ color: inherit; -webkit-text-fill-color: inherit; }
+.sh-rec-btn:hover{
+  transform: translateY(-2px);
+  border-color: rgba(95,208,232,.45) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.14),
+    0 0 0 1px rgba(95,208,232,.18),
+    0 16px 32px -8px rgba(95,208,232,.20),
+    0 18px 40px -16px rgba(0,12,30,.7) !important;
+}
+#main-screen .sh-rec-btn .sh-rec-icon{
+  background: linear-gradient(135deg, rgba(95,208,232,.16), rgba(95,208,232,.06)) !important;
+  border: 1px solid rgba(95,208,232,.32) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+}
+#main-screen .sh-rec-btn .sh-rec-name{
+  color: #f0d48a !important;
+  -webkit-text-fill-color: #f0d48a !important;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 800;
+}
+#main-screen .sh-rec-btn .sh-rec-meta{ color: #88a4c8 !important; -webkit-text-fill-color: #88a4c8 !important; }
+#main-screen .sh-rec-btn .sh-rec-arrow{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; }
+#main-screen .sh-rec-btn.rec-ex{ border-color: rgba(224,138,92,.30) !important; background: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; background-image: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; }
+#main-screen .sh-rec-btn.rec-ex .sh-rec-icon{ background: linear-gradient(135deg, rgba(224,138,92,.18), rgba(224,138,92,.06)) !important; border-color: rgba(224,138,92,.4) !important; color: #f0b878 !important; -webkit-text-fill-color: #f0b878 !important; }
+#main-screen .sh-rec-btn.rec-nu{ border-color: rgba(110,210,150,.30) !important; background: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; background-image: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; }
+#main-screen .sh-rec-btn.rec-nu .sh-rec-icon{ background: linear-gradient(135deg, rgba(110,210,150,.18), rgba(110,210,150,.06)) !important; border-color: rgba(110,210,150,.4) !important; color: #a8e6b8 !important; -webkit-text-fill-color: #a8e6b8 !important; }
+#main-screen .sh-rec-btn.rec-co{ border-color: rgba(156,114,224,.32) !important; background: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; background-image: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; }
+#main-screen .sh-rec-btn.rec-co .sh-rec-icon{ background: linear-gradient(135deg, rgba(156,114,224,.20), rgba(156,114,224,.06)) !important; border-color: rgba(156,114,224,.42) !important; color: #d0b8f0 !important; -webkit-text-fill-color: #d0b8f0 !important; }
+#main-screen .sh-rec-btn.rec-qol{ border-color: rgba(95,208,232,.28) !important; background: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; background-image: linear-gradient(135deg, rgba(20,40,70,.75), rgba(8,18,40,.92)) !important; }
+
+/* ---------- 1行サマリー ---------- */
+.sh-summary{
+  background: linear-gradient(135deg, rgba(14,30,60,.7), rgba(8,16,40,.85)) !important;
+  border: 1px solid rgba(95,208,232,.18) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(180,220,250,.06), 0 6px 18px -8px rgba(0,12,30,.5) !important;
+}
+.sh-sum-lbl{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; font-weight: 800; }
+.sh-sum-val{ color: #d4e4f4 !important; -webkit-text-fill-color: #d4e4f4 !important; }
+.sh-sum-pct{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; font-weight: 900; }
+.sh-sum-bar{
+  background: rgba(95,208,232,.08) !important;
+  border: 1px solid rgba(95,208,232,.18) !important;
+  border-radius: 99px !important;
+  height: 8px !important;
+}
+.sh-sum-fill{
+  background: linear-gradient(90deg, #5fd0e8, #f0d48a) !important;
+  border-radius: 99px;
+  box-shadow: 0 0 12px rgba(95,208,232,.5);
+}
+
+/* ---------- 冒険プログレス / ミッション ---------- */
+.sh-adv{
+  background: linear-gradient(135deg, rgba(95,208,232,.10), rgba(95,208,232,.03)) !important;
+  border: 1px solid rgba(95,208,232,.28) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(8px);
+  transition: all .2s;
+}
+.sh-adv:hover{ background: linear-gradient(135deg, rgba(95,208,232,.18), rgba(95,208,232,.06)) !important; border-color: rgba(95,208,232,.5) !important; }
+.sh-mission{
+  background: linear-gradient(135deg, rgba(110,210,150,.12), rgba(110,210,150,.04)) !important;
+  border: 1px solid rgba(110,210,150,.28) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(8px);
+}
+.sh-m-text{ color: #d4e4f4 !important; -webkit-text-fill-color: #d4e4f4 !important; }
+.sh-m-done{
+  background: linear-gradient(135deg, #4ec98a, #2ea36a) !important;
+  border: 1px solid rgba(78,201,138,.6) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
-  border: none !important;
-  border-radius: 12px !important;
-  font-weight: 900 !important;
-  padding: 13px 18px !important;
-  box-shadow: 0 4px 0 #0a4870, 0 6px 14px rgba(30,80,110,.2) !important;
-}
-#login-screen .login-switch,
-#login-screen .lp-research-link,
-#login-screen .login-meta{
-  color: #1a4860 !important;
-  -webkit-text-fill-color: #1a4860 !important;
-  font-weight: 700 !important;
-}
-#login-screen .login-switch a,
-#login-screen .lp-research-link a,
-#login-screen a[href*="research"]{
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
-  font-weight: 900 !important;
-  text-decoration: underline;
+  box-shadow: 0 4px 12px -2px rgba(78,201,138,.4);
 }
 
-/* ゲスト体験ボタン等 */
-#login-screen [class*="guest"],
-#login-screen button[id*="guest"]{
-  background: #ffffff !important;
-  background-image: none !important;
-  border: 1.5px solid #b0cfdf !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 700 !important;
+/* ---------- フッターボタン ---------- */
+.sh-foot-btn{
+  background: rgba(20,40,70,.45) !important;
+  border: 1px solid rgba(95,208,232,.22) !important;
+  color: #5fd0e8 !important;
+  -webkit-text-fill-color: #5fd0e8 !important;
+  border-radius: 10px !important;
+  backdrop-filter: blur(8px);
+  transition: all .2s;
 }
+.sh-foot-btn:hover{
+  background: rgba(40,80,120,.55) !important;
+  border-color: rgba(95,208,232,.55) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+}
+
+/* ---------- フルスクリーンメニュー ---------- */
+.ch-menu-backdrop{ background: rgba(4,8,20,.78) !important; backdrop-filter: blur(16px); }
+.ch-menu-sheet{
+  background:
+    radial-gradient(900px 400px at 50% -10%, rgba(95,208,232,.10), transparent 60%),
+    linear-gradient(180deg, rgba(14,28,56,.95), rgba(8,16,40,.96)) !important;
+  border: 1px solid rgba(95,208,232,.22) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.10),
+    0 30px 80px -20px rgba(0,12,30,.7) !important;
+  border-radius: 22px !important;
+}
+.ch-menu-title{
+  background: linear-gradient(135deg, #f0d48a, #5fd0e8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.ch-menu-close{
+  background: rgba(95,208,232,.10) !important;
+  border: 1px solid rgba(95,208,232,.28) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+  border-radius: 10px !important;
+}
+.ch-menu-close:hover{ background: rgba(95,208,232,.20) !important; border-color: rgba(95,208,232,.5) !important; }
+.ch-card{
+  background:
+    radial-gradient(120% 50% at 50% 0%, rgba(95,208,232,.08), transparent 70%),
+    linear-gradient(160deg, rgba(20,40,70,.72), rgba(10,18,40,.9)) !important;
+  background-image:
+    radial-gradient(120% 50% at 50% 0%, rgba(95,208,232,.08), transparent 70%),
+    linear-gradient(160deg, rgba(20,40,70,.72), rgba(10,18,40,.9)) !important;
+  border: 1.5px solid rgba(95,208,232,.20) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(180,220,250,.08), 0 6px 18px -6px rgba(0,12,30,.5) !important;
+  transition: all .25s;
+}
+.ch-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(95,208,232,.5) !important;
+  box-shadow: inset 0 1px 0 rgba(180,220,250,.12), 0 0 0 1px rgba(95,208,232,.16), 0 12px 24px -8px rgba(0,12,30,.65) !important;
+}
+
+/* ---------- ランディング・ログイン ---------- */
+.lp-rune{ color: rgba(95,208,232,.7) !important; -webkit-text-fill-color: rgba(95,208,232,.7) !important; letter-spacing: .25em; }
+#login-screen .lp-title, #loading-screen .ls-title{
+  background: linear-gradient(135deg, #f0d48a 0%, #5fd0e8 50%, #f0d48a 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: 0 0 40px rgba(95,208,232,.25) !important;
+  animation: lp-title-shimmer 8s ease-in-out infinite !important;
+  font-size: clamp(2.2rem, 5.5vw, 3.4rem) !important;
+  letter-spacing: .04em !important;
+  font-weight: 900 !important;
+}
+@keyframes lp-title-shimmer{
+  0%, 100%{ background-position: 0% center; filter: drop-shadow(0 0 20px rgba(95,208,232,.18)); }
+  50%{ background-position: 200% center; filter: drop-shadow(0 0 32px rgba(240,212,138,.28)); }
+}
+
+/* ====================================================================
+   ★ ランディング/ログインのアニメーション＆可読性強化
+   ==================================================================== */
+@keyframes vg-fade-up{
+  from{ opacity: 0; transform: translateY(24px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+@keyframes vg-float{
+  0%, 100%{ transform: translateY(0) rotate(0deg); }
+  50%{ transform: translateY(-12px) rotate(0.5deg); }
+}
+@keyframes vg-glow-pulse{
+  0%, 100%{ box-shadow: 0 0 24px -4px rgba(95,208,232,.45), inset 0 0 0 1px rgba(255,255,255,.08); }
+  50%{ box-shadow: 0 0 44px -2px rgba(240,212,138,.55), inset 0 0 0 1px rgba(255,255,255,.14); }
+}
+@keyframes vg-sparkle{
+  0%, 100%{ opacity: .35; transform: scale(0.85) rotate(0deg); }
+  50%{ opacity: 1; transform: scale(1.05) rotate(180deg); }
+}
+@keyframes vg-aurora-drift{
+  0%{ transform: translate(0, 0); }
+  50%{ transform: translate(2%, -2%); }
+  100%{ transform: translate(0, 0); }
+}
+
+/* HEROキャラ画像（ルナ）に浮遊＋オーラ脈動 */
+#login-screen .lp-char{
+  position: relative;
+  animation: vg-fade-up .8s cubic-bezier(.2,.8,.3,1) both;
+}
+#login-screen .lp-char img{
+  animation: vg-float 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 32px rgba(95,208,232,.45)) drop-shadow(0 16px 32px rgba(0,12,30,.65)) !important;
+  border: 3px solid rgba(95,208,232,.4);
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(95,208,232,.10), rgba(20,40,70,.4));
+  padding: 0;
+}
+#login-screen .lp-char::before{
+  content:'✦';
+  position: absolute; top: -8px; right: 24%;
+  font-size: 1.4rem;
+  color: rgba(240,212,138,.85);
+  animation: vg-sparkle 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(240,212,138,.7));
+}
+#login-screen .lp-char::after{
+  content:'✦';
+  position: absolute; bottom: 0px; left: 22%;
+  font-size: 1rem;
+  color: rgba(95,208,232,.9);
+  animation: vg-sparkle 3s ease-in-out infinite .8s;
+  filter: drop-shadow(0 0 8px rgba(95,208,232,.7));
+}
+
+/* オーロラ背景に微妙な動き */
+body::after{ animation: vg-aurora-drift 18s ease-in-out infinite !important; }
+
+/* セクションごとに順次フェードイン */
+#login-screen .lp-rune{      animation: vg-fade-up .7s .05s cubic-bezier(.2,.8,.3,1) both; font-size: clamp(.7rem, 1.6vw, .85rem) !important; }
+#login-screen .lp-title{     animation: lp-title-shimmer 8s ease-in-out infinite, vg-fade-up .8s .15s cubic-bezier(.2,.8,.3,1) both !important; }
+#login-screen .lp-subtitle{  animation: vg-fade-up .7s .25s cubic-bezier(.2,.8,.3,1) both; font-size: clamp(.78rem, 1.6vw, .95rem) !important; letter-spacing: .12em !important; }
+#login-screen .lp-tagline{   animation: vg-fade-up .7s .35s cubic-bezier(.2,.8,.3,1) both; font-size: clamp(.92rem, 1.9vw, 1.08rem) !important; line-height: 2 !important; }
+#login-screen .lp-chars{     animation: vg-fade-up .7s .45s cubic-bezier(.2,.8,.3,1) both; gap: 14px !important; }
+#login-screen .lp-badges{    animation: vg-fade-up .7s .55s cubic-bezier(.2,.8,.3,1) both; }
+#login-screen .lp-form{      animation: vg-fade-up .8s .65s cubic-bezier(.2,.8,.3,1) both; }
+
+/* キャラ立ち絵にもふんわり浮遊（時間差） */
+#login-screen .ch-luna  .lp-ch-face{ animation: vg-float 5s ease-in-out infinite .1s, vg-glow-pulse 4s ease-in-out infinite; }
+#login-screen .ch-kaito .lp-ch-face{ animation: vg-float 5s ease-in-out infinite .4s; box-shadow: 0 0 22px -4px rgba(224,138,92,.45) !important; }
+#login-screen .ch-sera  .lp-ch-face{ animation: vg-float 5s ease-in-out infinite .7s; box-shadow: 0 0 22px -4px rgba(110,210,150,.45) !important; }
+
+/* キャラ画像サイズと可読性ブースト */
+#login-screen .lp-ch{ padding: 12px 8px 14px !important; min-width: 88px; }
+#login-screen .lp-ch-face{ width: 64px !important; height: 64px !important; }
+#login-screen .lp-ch-name{ font-size: .95rem !important; margin-top: 6px; }
+#login-screen .lp-ch-role{ font-size: .68rem !important; letter-spacing: .02em; }
+#login-screen .lp-ch-sep{ font-size: 1.2rem !important; }
+
+/* バッジを大きく */
+#login-screen .lp-badge{ padding: 7px 14px !important; font-size: .76rem !important; }
+#login-screen .lp-badges{ gap: 8px !important; margin-top: 22px !important; }
+
+/* ログインボックス内テキストも一段大きく */
+#login-screen .login-box{ padding: 32px 28px !important; max-width: 480px; }
+#login-screen .login-box-title{ font-size: 1.25rem !important; margin-bottom: 24px !important; letter-spacing: .04em !important; }
+#login-screen .login-field{ margin-bottom: 18px; }
+#login-screen .login-field label{ font-size: .82rem !important; margin-bottom: 8px; display: block; }
+#login-screen .login-field input{ padding: 13px 16px !important; font-size: .95rem !important; }
+#login-screen .login-hint{ font-size: .7rem; color: #88a4c8; margin-top: 6px; line-height: 1.6; }
+#login-screen .btn-login{ padding: 15px 20px !important; font-size: 1rem !important; margin-top: 8px; }
+#login-screen .btn-register{ padding: 14px 20px !important; font-size: .9rem !important; }
+#login-screen .login-guest{ padding: 12px; font-size: .82rem !important; margin-top: 12px; cursor: pointer; }
+
+/* タグライン強調文字を大きく */
+#login-screen .lp-tagline strong{ font-weight: 800 !important; font-size: 1.05em; }
+
+
+
+
+
+/* ====================================================================
+   ★ ログイン画面エフェクト — 星・流れ星・きらめき・倒した敵
+   ==================================================================== */
+
+/* === きらめく星（点滅）=== */
+.aurora-stars{ position: absolute; inset: 0; pointer-events: none; }
+.aurora-star{
+  position: absolute;
+  width: 3px; height: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #ffffff, 0 0 12px rgba(180,235,255,.65);
+  animation: vg-star-twinkle 3s ease-in-out infinite;
+  opacity: 0;
+}
+.aurora-star.big{
+  width: 5px; height: 5px;
+  box-shadow: 0 0 8px #ffffff, 0 0 18px rgba(180,235,255,.8), 0 0 32px rgba(95,208,232,.5);
+}
+@keyframes vg-star-twinkle{
+  0%, 100%{ opacity: .3; transform: scale(0.9); }
+  50%    { opacity: 1;  transform: scale(1.15); }
+}
+
+/* === 流れ星 === */
+.shooting-stars{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.shooting-star{
+  position: absolute;
+  width: 2px; height: 2px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255,255,255,.9);
+  opacity: 0;
+  animation: vg-shooting 18s linear infinite;
+}
+.shooting-star{ width: 3px !important; height: 3px !important; box-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(180,235,255,.7) !important; }
+.shooting-star::before{
+  content: '';
+  position: absolute;
+  top: 50%; right: 0;
+  width: 200px; height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(180,235,255,1), rgba(255,255,255,1));
+  transform: translateY(-50%);
+  filter: blur(.3px);
+  box-shadow: 0 0 8px rgba(180,235,255,.8);
+}
+@keyframes vg-shooting{
+  0%       { opacity: 0; transform: translate(0, 0) rotate(18deg); }
+  4%       { opacity: 1; }
+  18%      { opacity: 1; transform: translate(-500px, 150px) rotate(18deg); }
+  20%, 100%{ opacity: 0; transform: translate(-500px, 150px) rotate(18deg); }
+}
+
+/* === 浮遊するきらめき（火花パーティクル）=== */
+.sparkle-layer{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.sparkle{
+  position: absolute;
+  bottom: -10px;
+  width: 8px; height: 8px;
+  background: radial-gradient(circle, rgba(255,255,255,.95), rgba(180,235,255,.5) 40%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: vg-sparkle-rise 15s linear infinite;
+}
+.sparkle::after{
+  content:'✦';
+  position: absolute; inset: -8px;
+  color: rgba(240,220,160,.85);
+  font-size: 14px;
+  text-align: center;
+  filter: drop-shadow(0 0 4px rgba(240,220,160,.7));
+}
+@keyframes vg-sparkle-rise{
+  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(.6); }
+  10%  { opacity: 1; }
+  90%  { opacity: .7; }
+  100% { opacity: 0; transform: translate(20px, -110vh) rotate(360deg) scale(1.2); }
+}
+
+/* === 倒した敵キャラのシルエット背景 === */
+.defeated-foes{
+  position: absolute; inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.defeated-foe{
+  position: absolute;
+  width: 140px; height: 140px;
+  opacity: 0;
+  filter:
+    grayscale(.4)
+    drop-shadow(0 0 20px rgba(95,208,232,.45))
+    drop-shadow(0 0 40px rgba(180,140,220,.35));
+  animation: vg-foe-float 24s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.defeated-foe img{
+  width: 100%; height: 100%; object-fit: contain;
+  filter: brightness(1.15) saturate(.8);
+}
+.defeated-foe::after{
+  /* 倒したマーク：✦ 撃破 */
+  content: '✦';
+  position: absolute; top: -4px; right: -4px;
+  font-size: 18px;
+  color: rgba(240,220,160,.85);
+  filter: drop-shadow(0 0 6px rgba(240,220,160,.7));
+  animation: vg-sparkle-rotate 6s linear infinite;
+}
+.defeated-foe.f1{ top: 12%; left:  6%; animation-delay: 0s;   transform: scale(.9); }
+.defeated-foe.f2{ top:  8%; right:  4%; animation-delay: -6s;  transform: scale(.85); width: 120px; height: 120px;}
+.defeated-foe.f3{ top: 38%; left:  2%; animation-delay: -3s;  width: 100px; height: 100px;}
+.defeated-foe.f4{ top: 60%; right:  6%; animation-delay: -9s;  width: 130px; height: 130px;}
+.defeated-foe.f5{ bottom: 8%; left: 18%; animation-delay: -12s; width: 110px; height: 110px;}
+.defeated-foe.f6{ bottom: 14%; right: 16%; animation-delay: -16s; width: 96px;  height: 96px;}
+.defeated-foe.f7{ top: 52%; left: 38%; animation-delay: -20s; width: 86px;  height: 86px; opacity: .55 !important;}
+
+@keyframes vg-foe-float{
+  0%   { opacity: 0;   transform: translate(0,  0) scale(.9) rotate(-3deg); }
+  10%  { opacity: .45; }
+  50%  { opacity: .55; transform: translate(12px, -18px) scale(.95) rotate(3deg); }
+  90%  { opacity: .35; }
+  100% { opacity: 0;   transform: translate(0,  0) scale(.9) rotate(-3deg); }
+}
+@keyframes vg-sparkle-rotate{
+  0%, 100%{ transform: rotate(0deg) scale(1); opacity: .8; }
+  50%     { transform: rotate(180deg) scale(1.2); opacity: 1; }
+}
+
+/* === ログインしてホームに入った後はエフェクトを薄める === */
+body.app-active .aurora-stage{ opacity: .35; }
+body.app-active .shooting-stars,
+body.app-active .sparkle-layer{ display: none; }
+body.app-active .defeated-foes{ opacity: .25; }
+/* 敵キャラ背景はログイン画面では非表示。ホーム画面のみ薄く表示 */
+body:not(.app-active) .defeated-foes{ display: none !important; }
+
+
+/* モバイル：軽量化（流れ星と sparkle を減らす） */
+@media (max-width: 600px){
+  .shooting-star:nth-child(2n){ display: none; }
+  .shooting-star{ display: block; }
+  .sparkle:nth-child(2n){ display: none; }
+  .defeated-foe.f7{ display: none; }
+  .defeated-foe{ width: 90px !important; height: 90px !important; }
+}
+
+/* アクセシビリティ：アニメ抑制 */
+@media (prefers-reduced-motion: reduce){
+  .aurora-band, .shooting-star, .sparkle, .defeated-foe, .aurora-star{
+    animation: none !important;
+  }
+  .aurora-star{ opacity: .6; }
+  .defeated-foe{ opacity: .35; }
+}
+
+/* ---------- タグラインの改行を自然に ---------- */
+#login-screen .lp-tagline{
+  text-wrap: pretty !important;
+  word-break: keep-all !important;
+  overflow-wrap: anywhere !important;
+  max-width: 38em !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 16px !important;
+}
+
+/* ボタンに微妙なホバー光沢 */
+#login-screen .btn-login::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.25) 50%, transparent 70%);
+  background-size: 200% 100%; background-position: 200% 0;
+  transition: background-position .6s ease;
+}
+#login-screen .btn-login{ position: relative; overflow: hidden; }
+#login-screen .btn-login:hover::before{ background-position: -200% 0; }
+
+.lp-subtitle{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+.lp-tagline{ color: #d4e4f4 !important; -webkit-text-fill-color: #d4e4f4 !important; }
+.lp-tagline strong{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; }
+.lp-char img{ filter: drop-shadow(0 0 32px rgba(95,208,232,.4)) drop-shadow(0 16px 32px rgba(0,12,30,.6)); }
+.lp-ch{
+  background: rgba(14,30,60,.55) !important;
+  border: 1px solid rgba(95,208,232,.22) !important;
+  border-radius: 18px !important;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(180,220,250,.08), 0 8px 22px -8px rgba(0,12,30,.5);
+}
+.lp-ch-face{
+  border: 2px solid rgba(95,208,232,.4) !important;
+  box-shadow: 0 0 18px -4px rgba(95,208,232,.4);
+}
+.lp-ch-name{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; font-family: 'Noto Serif JP', serif; }
+.lp-ch-role{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+.lp-ch-sep{
+  color: rgba(95,208,232,.5) !important;
+  -webkit-text-fill-color: rgba(95,208,232,.5) !important;
+  filter: drop-shadow(0 0 8px rgba(95,208,232,.6));
+}
+#login-screen .lp-badge{
+  background: rgba(20,40,70,.5) !important;
+  border: 1px solid rgba(95,208,232,.28) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+  backdrop-filter: blur(8px);
+  font-weight: 700;
+}
+
+#login-screen .login-box{
+  background:
+    radial-gradient(800px 200px at 50% 0%, rgba(95,208,232,.10), transparent 60%),
+    linear-gradient(160deg, rgba(14,28,56,.85), rgba(8,16,40,.92)) !important;
+  border: 1px solid rgba(95,208,232,.24) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.12),
+    inset 0 0 0 1px rgba(95,208,232,.06),
+    0 30px 60px -20px rgba(0,12,30,.7) !important;
+}
+#login-screen .login-box-title{
+  background: linear-gradient(135deg, #f0d48a, #5fd0e8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+}
+.login-field label{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; font-weight: 700; }
+.login-field input{
+  background: rgba(8,16,40,.55) !important;
+  border: 1px solid rgba(95,208,232,.22) !important;
+  color: #d4e4f4 !important;
+  -webkit-text-fill-color: #d4e4f4 !important;
+  border-radius: 10px !important;
+  transition: all .2s;
+}
+.login-field input:focus{
+  outline: none;
+  border-color: rgba(95,208,232,.6) !important;
+  background: rgba(8,16,40,.75) !important;
+  box-shadow: 0 0 0 3px rgba(95,208,232,.12), inset 0 1px 0 rgba(255,255,255,.04);
+}
+#login-screen .btn-login{
+  background: linear-gradient(135deg, #b07a1a, #d99b2b) !important;
+  border: 1px solid rgba(201,168,76,.55) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.2),
+    0 1px 2px rgba(0,12,30,.4),
+    0 14px 28px -8px rgba(176,122,26,.5) !important;
+  transition: transform .25s, box-shadow .25s, background .25s;
+}
+.btn-login:hover{
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #8a5e10, #c08a22) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 18px 38px -8px rgba(176,122,26,.6) !important;
+}
+#login-screen .btn-register{
+  background: rgba(95,208,232,.10) !important;
+  border: 1px solid rgba(95,208,232,.4) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
+  backdrop-filter: blur(8px);
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  transition: all .2s;
+}
+.btn-register:hover{
+  background: rgba(95,208,232,.22) !important;
+  border-color: rgba(95,208,232,.65) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+#login-screen .login-err{ color: #ff9090 !important; -webkit-text-fill-color: #ff9090 !important; }
+#login-screen .login-guest{ color: #5a7090 !important; -webkit-text-fill-color: #5a7090 !important; }
+.login-guest:hover{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+#login-screen .lp-research-link{ color: #5a7090 !important; -webkit-text-fill-color: #5a7090 !important; }
+.lp-research-link a{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+
+/* ---------- ローディング ---------- */
+#loading-screen{
+  background:
+    radial-gradient(800px 600px at 50% 50%, rgba(95,208,232,.10), transparent 60%),
+    linear-gradient(180deg, #050a1c 0%, #08122c 100%) !important;
+}
+.ls-title{
+  background: linear-gradient(135deg, #f0d48a, #5fd0e8, #f0d48a);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+}
+.ls-sub{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; letter-spacing: .15em; }
+.ls-bar{ background: rgba(95,208,232,.08) !important; border: 1px solid rgba(95,208,232,.22) !important; }
+.ls-bar-fill{ background: linear-gradient(90deg, #5fd0e8, #f0d48a) !important; box-shadow: 0 0 12px rgba(95,208,232,.5); }
+.ls-msg{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; }
+.ls-char img{ filter: drop-shadow(0 0 40px rgba(95,208,232,.5)); }
+
+/* ---------- PWA バナー ---------- */
+.pwa-banner{
+  background: linear-gradient(135deg, rgba(14,28,56,.92), rgba(8,16,40,.95)) !important;
+  border: 1px solid rgba(95,208,232,.32) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 14px 32px -10px rgba(0,12,30,.7) !important;
+}
+.pwa-banner-btn{
+  background: linear-gradient(135deg, #5fd0e8, #2a8aa8) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-radius: 99px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 12px -2px rgba(95,208,232,.5);
+}
+.pwa-banner-title{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; }
+.pwa-banner-sub{ color: #88a4c8 !important; -webkit-text-fill-color: #88a4c8 !important; }
+.pwa-banner-close{ color: #5a7090 !important; -webkit-text-fill-color: #5a7090 !important; }
+
+/* ====================================================================
+   ★ レスポンシブ強化
+   ==================================================================== */
+@media (min-width: 901px) and (max-width: 1100px){
+  .g-main{ padding: 18px 16px !important; }
+}
+@media (max-width: 900px){
+  .g-header{ padding: 10px 16px !important; }
+  .home-char-trio{ grid-template-columns: 1fr !important; gap: 12px !important; }
+  .hc-card{ flex-direction: row !important; align-items: center !important; padding: 12px 14px !important; gap: 14px !important; }
+  .hc-portrait{ width: 56px !important; height: 56px !important; flex-shrink: 0 !important; }
+  .hc-portrait img{ width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  .hc-cta{ display: none !important; }
+}
+@media (max-width: 600px){
+  .g-header{ padding: 8px 12px !important; flex-wrap: wrap; gap: 8px !important; }
+  .g-btn{ padding: 6px 10px !important; font-size: .68rem !important; }
+  .player-card{ border-radius: 16px !important; }
+  .ch-grid{ grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .lp-title{ font-size: clamp(1.6rem, 6vw, 2rem) !important; }
+  .lp-tagline{ font-size: .85rem !important; }
+  .lp-chars{ flex-wrap: wrap !important; gap: 8px !important; justify-content: center; }
+  .lp-ch-sep{ display: none !important; }
+  .login-box{ padding: 22px 20px !important; border-radius: 18px !important; }
+}
+
+
+
+
+
+/* === ログインフォーム ラベルバッジ === */
+#login-screen .lbl-req,
+#login-screen .lbl-opt{
+  display: inline-block;
+  font-size: .58rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-left: 8px;
+  letter-spacing: .04em;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+#login-screen .lbl-req{
+  background: rgba(232,90,90,.18);
+  border: 1px solid rgba(232,90,90,.6);
+  color: #ff9b9b;
+  -webkit-text-fill-color: #ff9b9b;
+}
+#login-screen .lbl-opt{
+  background: rgba(95,208,232,.15);
+  border: 1px solid rgba(95,208,232,.45);
+  color: #8de2f0;
+  -webkit-text-fill-color: #8de2f0;
+}
+
+
+
+/* ====================================================================
+   ★ ホーム画面 — プレイヤーカード 強化レイヤー
+   - XPバーの躍動感とシマー
+   - Lvバッジを結晶風に
+   - スタッツ数字を大きく劇的に
+   - アバターに脈動する光輪
+   ==================================================================== */
+
+/* プレイヤーカード本体 */
+body.app-active .player-card{
+  background:
+    radial-gradient(800px 200px at 50% 0%, rgba(120,220,240,.18), transparent 70%),
+    radial-gradient(600px 180px at 100% 100%, rgba(180,140,220,.10), transparent 70%),
+    linear-gradient(160deg, rgba(20,40,70,.92), rgba(12,28,56,.96)) !important;
+  background-image:
+    radial-gradient(800px 200px at 50% 0%, rgba(120,220,240,.18), transparent 70%),
+    radial-gradient(600px 180px at 100% 100%, rgba(180,140,220,.10), transparent 70%),
+    linear-gradient(160deg, rgba(20,40,70,.92), rgba(12,28,56,.96)) !important;
+  border: 1px solid rgba(95,208,232,.28) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.14),
+    inset 0 0 0 1px rgba(95,208,232,.06),
+    0 8px 24px -8px rgba(95,208,232,.22),
+    0 30px 60px -22px rgba(0,16,40,.7) !important;
+}
+
+/* 上部 XP プログレスバー（カード上端の細いライン）*/
+body.app-active .player-card-bar{
+  height: 4px !important;
+  background: rgba(95,208,232,.08) !important;
+  border-bottom: 1px solid rgba(95,208,232,.12);
+}
+body.app-active .player-card-bar-fill{
+  background: linear-gradient(90deg, #5fd0e8, #f0d48a, #5fd0e8) !important;
+  background-size: 200% auto !important;
+  animation: vg-bar-shimmer 4s linear infinite, vg-bar-glow 2.5s ease-in-out infinite !important;
+  box-shadow: 0 0 12px rgba(95,208,232,.6), 0 0 24px rgba(240,212,138,.4);
+}
+@keyframes vg-bar-shimmer{
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes vg-bar-glow{
+  0%, 100%{ filter: brightness(1); }
+  50%    { filter: brightness(1.3); }
+}
+
+/* カードインナーのパディングとレイアウト */
+body.app-active .player-card-inner{
+  padding: 22px 26px !important;
+  gap: 22px !important;
+}
+
+/* アバター：もっと大きく、脈動する光輪付き */
+body.app-active .player-card .player-avatar{
+  width: 76px !important;
+  height: 76px !important;
+  border: 2px solid rgba(95,208,232,.55) !important;
+  box-shadow:
+    0 0 0 4px rgba(95,208,232,.08),
+    0 0 22px -2px rgba(95,208,232,.55),
+    0 0 48px -8px rgba(240,212,138,.3),
+    inset 0 0 0 1px rgba(255,255,255,.1) !important;
+  animation: vg-avatar-float 4.5s ease-in-out infinite, vg-avatar-pulse 3.5s ease-in-out infinite !important;
+  position: relative;
+}
+@media (max-width: 600px){
+  body.app-active .player-card .player-avatar{
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+@keyframes vg-avatar-float{
+  0%, 100%{ transform: translateY(0) rotate(0deg); }
+  50%    { transform: translateY(-6px) rotate(.5deg); }
+}
+@keyframes vg-avatar-pulse{
+  0%, 100%{ box-shadow: 0 0 0 4px rgba(95,208,232,.08), 0 0 22px -2px rgba(95,208,232,.55), 0 0 48px -8px rgba(240,212,138,.3), inset 0 0 0 1px rgba(255,255,255,.1); }
+  50%    { box-shadow: 0 0 0 6px rgba(95,208,232,.14), 0 0 32px -2px rgba(95,208,232,.75), 0 0 56px -6px rgba(240,212,138,.45), inset 0 0 0 1px rgba(255,255,255,.16); }
+}
+
+/* 「今週」ラベル */
+body.app-active .player-name{
+  font-size: .76rem !important;
+  color: #88c8e0 !important;
+  -webkit-text-fill-color: #88c8e0 !important;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 8px !important;
+}
+
+/* Lvバッジ：結晶風 */
+body.app-active .lv-badge{
+  background: linear-gradient(135deg, rgba(95,208,232,.32), rgba(240,212,138,.22)) !important;
+  border: 1px solid rgba(240,212,138,.55) !important;
+  color: #f0d48a !important;
+  -webkit-text-fill-color: #f0d48a !important;
+  padding: 5px 14px !important;
+  font-size: .88rem !important;
+  letter-spacing: .04em;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.2),
+    0 0 16px rgba(240,212,138,.32),
+    0 4px 10px -2px rgba(0,12,30,.5) !important;
+  position: relative;
+  overflow: hidden;
+}
+body.app-active .lv-badge::before{
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.3) 50%, transparent 70%);
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  animation: vg-lv-shimmer 4s linear infinite;
+  pointer-events: none;
+}
+@keyframes vg-lv-shimmer{
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+body.app-active .lv-badge .lv-n{
+  font-size: 1.2rem !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 12px rgba(240,212,138,.6);
+}
+
+/* レベルタイトル（「転生者」など） */
+body.app-active .lv-title{
+  font-size: .82rem !important;
+  color: #d4e4f4 !important;
+  -webkit-text-fill-color: #d4e4f4 !important;
+  font-weight: 700;
+}
+
+/* XPバー：大きく、光沢付き */
+body.app-active .xp-bar{
+  height: 12px !important;
+  background: rgba(95,208,232,.08) !important;
+  border: 1px solid rgba(95,208,232,.18) !important;
+  border-radius: 99px !important;
+  box-shadow: inset 0 1px 2px rgba(0,12,30,.4);
+  position: relative;
+  overflow: hidden;
+}
+body.app-active .xp-fill{
+  background: linear-gradient(90deg, #5fd0e8 0%, #7ae0f0 35%, #f0d48a 100%) !important;
+  box-shadow: 0 0 12px rgba(95,208,232,.65), 0 0 4px rgba(240,212,138,.5) !important;
+  position: relative;
+  overflow: hidden;
+}
+body.app-active .xp-fill::after{
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.45) 50%, transparent 65%);
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  animation: vg-xp-shimmer 2.5s linear infinite;
+}
+@keyframes vg-xp-shimmer{
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* XPノート（現在XP / 次Lvまで）*/
+body.app-active .xp-note{
+  font-size: .72rem !important;
+  color: #88c8e0 !important;
+  margin-top: 8px !important;
+}
+body.app-active .xp-note strong{
+  color: #f0d48a !important;
+  -webkit-text-fill-color: #f0d48a !important;
+  font-weight: 900;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.05em;
+}
+
+/* スタッツ（連続週・実績・記録週） */
+body.app-active .player-stats{
+  gap: 22px !important;
+  padding: 0 6px;
+}
+body.app-active .pstat{
+  text-align: center;
+  min-width: 56px;
+}
+body.app-active .pstat-num{
+  font-size: 1.85rem !important;
+  background: linear-gradient(180deg, #f0d48a 0%, #c9a84c 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: 0 0 16px rgba(240,212,138,.3);
+  letter-spacing: -.01em;
+  line-height: 1 !important;
+}
+body.app-active .pstat-label{
+  font-size: .68rem !important;
+  color: #88c8e0 !important;
+  -webkit-text-fill-color: #88c8e0 !important;
+  margin-top: 6px !important;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+body.app-active .pstat-div{
+  background: linear-gradient(180deg, transparent, rgba(95,208,232,.32), transparent) !important;
+  width: 1px !important;
+}
+
+/* モバイルスタッツバッジ */
+body.app-active .psm-badge{
+  background: rgba(95,208,232,.12) !important;
+  border: 1px solid rgba(95,208,232,.32) !important;
+  color: #f0d48a !important;
+  -webkit-text-fill-color: #f0d48a !important;
+  font-size: .66rem !important;
+  font-weight: 800 !important;
+  padding: 4px 12px !important;
+}
+
+/* 数字カウントアップ用クラス（必要なら JS で追加） */
+.vg-count-up{
+  animation: vg-count-up .6s cubic-bezier(.2,.8,.3,1) both;
+}
+@keyframes vg-count-up{
+  0%   { transform: translateY(8px); opacity: 0; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+
+/* ====================================================================
+   ★ ログイン中は下部メニュー（bottom-nav）を隠す
+   ==================================================================== */
+body:not(.app-active) .bottom-nav,
+body:not(.app-active) .jump-fab{ display: none !important; }
+
+/* ====================================================================
+   ★ 修正: ルナボタン非表示 + jump-fab整形
+   ==================================================================== */
+/* ルナと話すボタンは hc-card に統合済み。display:none を強制 */
+#sh-rec-luna,
+.sh-rec-btn#sh-rec-luna,
+#main-screen .sh-rec-btn#sh-rec-luna,
+#main-screen .sh-rec-btn.rec-co{
+  display: none !important;
+}
+
+/* セクションジャンプFAB（右下フローティング）を整形 */
+.jump-fab{
+  position: fixed !important;
+  right: 14px;
+  z-index: 90;
+  pointer-events: auto;
+}
+.jump-fab .jump-fab-btn{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(95,208,232,.85), rgba(42,138,168,.95));
+  border: 1px solid rgba(255,255,255,.18);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 6px 16px -4px rgba(95,208,232,.5),
+    0 4px 12px rgba(0,12,30,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s, box-shadow .2s;
+}
+.jump-fab .jump-fab-btn:hover{
+  transform: scale(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.3),
+    0 10px 24px -4px rgba(95,208,232,.6),
+    0 6px 18px rgba(0,12,30,.6);
+}
+.jump-fab .jump-fab-list{
+  position: absolute;
+  bottom: 56px;
+  right: 0;
+  min-width: 220px;
+  background: linear-gradient(160deg, rgba(20,40,70,.95), rgba(8,18,40,.96));
+  border: 1px solid rgba(95,208,232,.25);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(180,220,250,.10),
+    0 16px 36px -10px rgba(0,12,30,.7);
+  padding: 8px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transform: translateY(8px) scale(.96);
+  transition: opacity .2s, transform .2s;
+}
+.jump-fab.open .jump-fab-list{
+  display: flex !important;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.jump-fab .label-grp{
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: #88c8e0;
+  -webkit-text-fill-color: #88c8e0;
+  text-transform: uppercase;
+  padding: 6px 10px 8px;
+  border-bottom: 1px solid rgba(95,208,232,.18);
+  margin-bottom: 4px;
+}
+.jump-fab .jump-fab-list a{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  font-size: .82rem;
+  font-weight: 700;
+  color: #d4e4f4;
+  -webkit-text-fill-color: #d4e4f4;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.jump-fab .jump-fab-list a:hover{
+  background: rgba(95,208,232,.12);
+  color: #7ae0f0;
+  -webkit-text-fill-color: #7ae0f0;
+}
+
+
+
+/* ====================================================================
+   ★ オーロラ/流れ星を確実に前面表示する
+   #login-screen が opaque だと隠れるので調整
+   ==================================================================== */
+.aurora-stage{ z-index: 1 !important; }
+
+/* ログイン画面は透明にして、body の背景＋オーロラ越しに見えるようにする */
+#login-screen{
+  background: transparent !important;
+  background-image: none !important;
+  z-index: 2 !important;
+}
+#login-screen::after{ display: none !important; }
+#login-screen::before{ display: none !important; }
+
+/* ローディングも同じ扱い */
+#loading-screen{
+  background: transparent !important;
+  z-index: 3 !important;
+}
+#loading-screen::before{ display: none !important; }
+#loading-screen::after{ display: none !important; }
+
+/* ログイン画面内のフォーム・カードは透けすぎないように軽く強化 */
+#login-screen .lp-hero,
+#login-screen .lp-form{
+  position: relative;
+  z-index: 1;
+}
+
+/* メイン画面も透明にしてオーロラが透けるように（弱めに） */
+#main-screen{ background: transparent !important; }
 </style>
 </head>
 <body>
+
+<!-- オーロラ背景レイヤー＋エフェクト（ファンタジー演出） -->
+<div class="aurora-stage" aria-hidden="true">
+  <div class="aurora-band b1"></div>
+  <div class="aurora-band b2"></div>
+  <div class="aurora-band b3"></div>
+  <div class="aurora-band b4" style="left:18%;"></div>
+  <div class="aurora-band b4" style="left:62%;animation-delay:-6s;"></div>
+
+  <!-- きらめく星のレイヤー -->
+  <div class="aurora-stars">
+    <span class="aurora-star big" style="top:5%;  left:50%; animation-delay:.2s;"></span>
+    <span class="aurora-star big" style="top:70%; left:35%; animation-delay:2.4s;"></span>
+    <span class="aurora-star" style="top:11%; left:62%; animation-delay:.5s;"></span>
+    <span class="aurora-star" style="top:24%; left:18%; animation-delay:2.7s;"></span>
+    <span class="aurora-star" style="top:36%; left:72%; animation-delay:1.6s;"></span>
+    <span class="aurora-star" style="top:50%; left:46%; animation-delay:2.9s;"></span>
+    <span class="aurora-star" style="top:64%; left:14%; animation-delay:.9s;"></span>
+    <span class="aurora-star" style="top:78%; left:64%; animation-delay:3.1s;"></span>
+    <span class="aurora-star" style="top:92%; left:32%; animation-delay:1.7s;"></span>
+    <span class="aurora-star" style="top:8%;  left:12%; animation-delay:0s;"></span>
+    <span class="aurora-star" style="top:14%; left:78%; animation-delay:.8s;"></span>
+    <span class="aurora-star" style="top:22%; left:42%; animation-delay:1.4s;"></span>
+    <span class="aurora-star" style="top:30%; left:88%; animation-delay:2.2s;"></span>
+    <span class="aurora-star" style="top:42%; left:8%;  animation-delay:.4s;"></span>
+    <span class="aurora-star" style="top:48%; left:62%; animation-delay:3s;"></span>
+    <span class="aurora-star" style="top:58%; left:28%; animation-delay:1.8s;"></span>
+    <span class="aurora-star" style="top:66%; left:82%; animation-delay:2.6s;"></span>
+    <span class="aurora-star" style="top:74%; left:18%; animation-delay:.6s;"></span>
+    <span class="aurora-star" style="top:82%; left:54%; animation-delay:3.4s;"></span>
+    <span class="aurora-star" style="top:88%; left:74%; animation-delay:1.2s;"></span>
+    <span class="aurora-star big" style="top:18%; left:25%;"></span>
+    <span class="aurora-star big" style="top:60%; left:70%; animation-delay:2s;"></span>
+    <span class="aurora-star big" style="top:35%; left:55%; animation-delay:1s;"></span>
+  </div>
+
+  <!-- 流れ星（増量） -->
+  <div class="shooting-stars">
+    <span class="shooting-star" style="top:6%;  left:85%; animation-delay:0s;"></span>
+    <span class="shooting-star" style="top:18%; left:60%; animation-delay:2.5s;"></span>
+    <span class="shooting-star" style="top:30%; left:90%; animation-delay:5s;"></span>
+    <span class="shooting-star" style="top:42%; left:70%; animation-delay:7.5s;"></span>
+    <span class="shooting-star" style="top:54%; left:88%; animation-delay:10s;"></span>
+    <span class="shooting-star" style="top:14%; left:40%; animation-delay:12.5s;"></span>
+    <span class="shooting-star" style="top:38%; left:50%; animation-delay:15s;"></span>
+  </div>
+
+  <!-- 浮遊する火花パーティクル -->
+  <div class="sparkle-layer">
+    <span class="sparkle" style="left:10%; animation-delay:0s;"></span>
+    <span class="sparkle" style="left:25%; animation-delay:2.5s;"></span>
+    <span class="sparkle" style="left:42%; animation-delay:5s;"></span>
+    <span class="sparkle" style="left:58%; animation-delay:7.5s;"></span>
+    <span class="sparkle" style="left:73%; animation-delay:10s;"></span>
+    <span class="sparkle" style="left:88%; animation-delay:12.5s;"></span>
+  </div>
+
+  <!-- 倒した敵キャラのシルエット -->
+  <div class="defeated-foes" id="defeated-foes">
+    <!-- JSで動的に追加 -->
+  </div>
+</div>
 
 <!-- ローディング -->
 <div id="loading-screen">
@@ -3402,9 +3922,8 @@ body::after{
     <h1 class="lp-title">ヴィタリア転生録</h1>
     <p class="lp-subtitle">Health Quest · RPG × AI Coaching</p>
     <p class="lp-tagline">
-      あなたは今日、健康の異世界<strong>ヴィタリア</strong>に転生した。<br>
-      運動と栄養でXPを積み、<strong>ルナ</strong>のコーチングとともに<br>
-      12週間の冒険を完遂しよう。
+      あなたは今日、健康の異世界<strong>ヴィタリア</strong>に転生した。
+      運動と栄養でXPを積み、<strong>ルナ</strong>のコーチングとともに、12週間の冒険を完遂しよう。
     </p>
 
     <!-- 3キャラ -->
@@ -3440,14 +3959,31 @@ body::after{
   <!-- ログインフォーム -->
   <div class="lp-form">
     <div class="login-box">
-      <div class="login-box-title">✦ 冒険者ログイン</div>
-      <div class="login-field">
-        <label>メールアドレス</label>
-        <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+      <div class="login-box-title" id="login-box-title">✦ 冒険者ログイン</div>
+
+      <!-- ログインモード: メール or ユーザー名 -->
+      <div class="login-field" id="email-or-username-field">
+        <label id="email-or-username-label">メールアドレス または ユーザー名</label>
+        <input type="text" id="email" placeholder="your@email.com / username" autocomplete="username">
       </div>
+
+      <!-- 新規登録モード: ユーザー名（必須） -->
+      <div class="login-field" id="username-field" style="display:none;">
+        <label>ユーザー名 <span class="lbl-req">必須</span></label>
+        <input type="text" id="username" placeholder="username（半角英数3〜20文字）" autocomplete="off" maxlength="20">
+        <div class="login-hint">ログインに使えるニックネーム。後から変更できません。</div>
+      </div>
+
+      <!-- 新規登録モード: メールアドレス（任意） -->
+      <div class="login-field" id="email-optional-field" style="display:none;">
+        <label>メールアドレス <span class="lbl-opt">任意</span></label>
+        <input type="email" id="email-optional" placeholder="your@email.com（後から設定でも追加可）" autocomplete="email">
+        <div class="login-hint">パスワードを忘れた時のリセットに使います。後から設定画面で追加もできます。</div>
+      </div>
+
       <div class="login-field">
         <label>パスワード</label>
-        <input type="password" id="password" placeholder="パスワード" autocomplete="current-password">
+        <input type="password" id="password" placeholder="パスワード（6文字以上）" autocomplete="current-password">
       </div>
       <div id="auth-error" class="login-err"></div>
       <button class="btn-login" id="login-btn">⚔ ログインして冒険を続ける</button>
@@ -3604,7 +4140,7 @@ body::after{
           </div>
           <div class="sh-rec-arrow">→</div>
         </a>
-        <button class="sh-rec-btn rec-co" id="sh-rec-luna" type="button">
+        <button class="sh-rec-btn rec-co" id="sh-rec-luna" type="button" hidden style="display:none;">
           <div class="sh-rec-icon">💬</div>
           <div class="sh-rec-body">
             <div class="sh-rec-name">ルナと話す</div>
@@ -4925,21 +5461,126 @@ function authErr(code){
 function showErr(msg){ const e=document.getElementById('auth-error'); e.textContent=msg; e.style.display='block'; }
 function clearErr(){ document.getElementById('auth-error').style.display='none'; }
 
-document.getElementById('login-btn').addEventListener('click',()=>{
-  const e=document.getElementById('email').value.trim();
+// メール or ユーザー名 → 認証用メール解決
+async function resolveLoginEmail(identifier){
+  const id = (identifier||'').trim();
+  if(!id) throw new Error('入力が空です');
+  // メールアドレス形式（@ と . を含む）ならそのまま
+  if(/@/.test(id) && /\\./.test(id.split('@')[1]||'')) return id;
+  // それ以外はユーザー名としてFirestoreから引く
+  if(!db) throw new Error('オフラインです。メールでログインしてください。');
+  const key = id.toLowerCase();
+  if(!/^[a-zA-Z0-9_]{3,20}$/.test(key)){
+    throw new Error('ユーザー名は半角英数・アンダースコア3〜20文字です。');
+  }
+  try{
+    const snap = await getDoc(doc(db,'usernames',key));
+    if(snap.exists()){
+      const data = snap.data();
+      // 新形式: emailForAuth を優先（メール無しユーザーの擬似メール対応）
+      if(data && data.emailForAuth) return data.emailForAuth;
+      if(data && data.email) return data.email;
+    }
+  }catch(e){ /* fall through */ }
+  throw new Error('そのユーザー名は見つかりません。');
+}
+
+document.getElementById('login-btn').addEventListener('click', async ()=>{
+  // 登録モード中ならログインモードに戻すだけ
+  if(_regMode){ toggleRegMode(false); return; }
+  const id=document.getElementById('email').value.trim();
   const p=document.getElementById('password').value;
   clearErr();
-  if(!e||!p){ showErr('メールとパスワードを入力してください。'); return; }
-  signInWithEmailAndPassword(auth,e,p).catch(err=>showErr(authErr(err.code)));
+  if(!id||!p){ showErr('メール/ユーザー名とパスワードを入力してください。'); return; }
+  try{
+    const emailToUse = await resolveLoginEmail(id);
+    await signInWithEmailAndPassword(auth, emailToUse, p);
+  }catch(err){
+    if(err && err.code) showErr(authErr(err.code));
+    else showErr(err.message || 'ログインに失敗しました。');
+  }
 });
-document.getElementById('register-btn').addEventListener('click',()=>{
-  const e=document.getElementById('email').value.trim();
-  const p=document.getElementById('password').value;
+// 新規登録モードに切り替え（ユーザー名必須＋メール任意）
+let _regMode = false;
+function toggleRegMode(on){
+  _regMode = on;
+  const emailOrUsernameField = document.getElementById('email-or-username-field');
+  const usernameField        = document.getElementById('username-field');
+  const emailOptionalField   = document.getElementById('email-optional-field');
+  const loginBoxTitle        = document.getElementById('login-box-title');
+  const regBtn               = document.getElementById('register-btn');
+  const loginBtn             = document.getElementById('login-btn');
+  const resetBtn             = document.getElementById('reset-pw-btn');
+
+  if(on){
+    // 新規登録モード: ユーザー名必須＋メール任意
+    if(emailOrUsernameField) emailOrUsernameField.style.display = 'none';
+    if(usernameField)        usernameField.style.display = '';
+    if(emailOptionalField)   emailOptionalField.style.display = '';
+    if(loginBoxTitle)        loginBoxTitle.textContent = '✨ 新規登録（無料）';
+    if(regBtn)               regBtn.textContent = '✨ この内容で登録する';
+    if(loginBtn)             loginBtn.textContent = '← ログイン画面に戻る';
+    if(resetBtn)             resetBtn.style.display = 'none';
+  }else{
+    // ログインモード: メール or ユーザー名
+    if(emailOrUsernameField) emailOrUsernameField.style.display = '';
+    if(usernameField)        usernameField.style.display = 'none';
+    if(emailOptionalField)   emailOptionalField.style.display = 'none';
+    if(loginBoxTitle)        loginBoxTitle.textContent = '✦ 冒険者ログイン';
+    if(regBtn)               regBtn.textContent = '✨ 新規登録（研究参加・無料）';
+    if(loginBtn)             loginBtn.textContent = '⚔ ログインして冒険を続ける';
+    if(resetBtn)             resetBtn.style.display = '';
+  }
+}
+
+document.getElementById('register-btn').addEventListener('click', async ()=>{
   clearErr();
-  if(!e||!p){ showErr('メールとパスワードを入力してください。'); return; }
-  createUserWithEmailAndPassword(auth,e,p)
-    .then(()=>showErr('✓ アカウントを作成しました！'))
-    .catch(err=>showErr(authErr(err.code)));
+  if(!_regMode){
+    toggleRegMode(true);
+    return;
+  }
+  const u  = (document.getElementById('username')||{}).value;
+  const username = (u||'').trim();
+  const eOpt = (document.getElementById('email-optional')||{}).value;
+  const emailOptional = (eOpt||'').trim();
+  const p  = document.getElementById('password').value;
+
+  // バリデーション
+  if(!username){ showErr('ユーザー名は必須です。'); return; }
+  if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)){ showErr('ユーザー名は半角英数・アンダースコア3〜20文字です。'); return; }
+  if(!p){ showErr('パスワードを入力してください。'); return; }
+  if(p.length<6){ showErr('パスワードは6文字以上にしてください。'); return; }
+  if(emailOptional){
+    if(!/@/.test(emailOptional) || !/\./.test(emailOptional.split('@')[1]||'')){
+      showErr('メールアドレスの形式が正しくありません。'); return;
+    }
+  }
+
+  // ユーザー名重複チェック
+  try{
+    const snap = await getDoc(doc(db,'usernames',username.toLowerCase()));
+    if(snap.exists()){ showErr('そのユーザー名は既に使われています。'); return; }
+  }catch(_){}
+
+  // メールアドレスが空ならローカル擬似メールを生成
+  const emailForAuth = emailOptional || (username.toLowerCase() + '@vitalia.local');
+
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, emailForAuth, p);
+    if(db){
+      await setDoc(doc(db,'usernames',username.toLowerCase()), {
+        email: emailOptional || '',
+        emailForAuth: emailForAuth,
+        uid: cred.user.uid,
+        username: username,
+        hasRealEmail: !!emailOptional,
+        created_at: serverTimestamp()
+      });
+    }
+    showErr('✓ アカウントを作成しました！');
+  }catch(err){
+    showErr(authErr(err.code));
+  }
 });
 document.getElementById('reset-pw-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim();
@@ -4953,6 +5594,7 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
 });
 document.getElementById('guest-btn').addEventListener('click',()=>{
   uid='guest';
+  document.body.classList.add('app-active');
   document.getElementById('login-screen').style.display='none';
   document.getElementById('main-screen').style.display='flex';
   document.getElementById('user-display').textContent='ゲスト（デモ）';
@@ -5004,9 +5646,9 @@ onAuthStateChanged(auth, async user=>{
     }catch(e){ console.warn('deletion request:', e); }
 
     document.getElementById('login-screen').style.display='none';
+    document.body.classList.add('app-active');
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
-    document.getElementById('bottom-nav').style.display='flex';
     updateUI();
 
     // インフォームド・コンセント（未同意なら最優先で表示）
@@ -5100,15 +5742,17 @@ onAuthStateChanged(auth, async user=>{
   } else {
     uid='';
     localStorage.removeItem('vitalia_uid_hint');
+    document.body.classList.remove('app-active');
     document.getElementById('main-screen').style.display='none';
-    document.getElementById('bottom-nav').style.display='none';
     document.getElementById('login-screen').style.display='flex';
     document.getElementById('email').value='';
     document.getElementById('password').value='';
   }
 });
 
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').catch(()=>{ /* preview */ });
+}
 
 // ===== PWAインストール促進 =====
 let _pwaDeferredPrompt=null;
@@ -7899,6 +8543,63 @@ window.addEventListener('load', ()=>{
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded', init);
   } else { init(); }
+})();
+</script>
+
+<script>
+// === 倒した敵キャラを背景に表示 ===
+(function(){
+  // ヴィタリアの七大罪などのモンスター（HPで定義された A1〜A12 を使用）
+  const FOE_IMAGES = [
+    './image/A1-Photoroom.png',   // スロウス / 怠惰
+    './image/A2-Photoroom.png',   // グラト / 暴食
+    './image/A3-Photoroom.png',   // イラ / 憤怒
+    './image/A4-Photoroom.png',   // 黄金のガラクタ鬼 / 強欲
+    './image/A5-Photoroom.png',   // スペルビア / 傲慢
+    './image/A6-Photoroom.png',   // インヴィ / 嫉妬
+    './image/A7-Photoroom.png',   // ルクス / 色欲
+  ];
+
+  // localStorage から撃破済みリストを読む（gamification.js が更新する想定）
+  let defeated = [];
+  try{
+    const raw = localStorage.getItem('vitalia_defeated_foes');
+    if(raw){ defeated = JSON.parse(raw) || []; }
+  }catch(_){}
+
+  // 初回 / 空のときはダミーで2体表示しておく（操作感のため）
+  if(!Array.isArray(defeated) || defeated.length === 0){
+    defeated = [FOE_IMAGES[0], FOE_IMAGES[3]];
+  }
+
+  const slots = ['f1','f2','f3','f4','f5','f6','f7'];
+  const container = document.getElementById('defeated-foes');
+  if(!container) return;
+  defeated.slice(0, slots.length).forEach((src, i)=>{
+    const div = document.createElement('div');
+    div.className = 'defeated-foe ' + slots[i];
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.onerror = ()=>{ div.remove(); }; // 画像がなければ消す
+    div.appendChild(img);
+    container.appendChild(div);
+  });
+
+  // 開発者向けデバッグ：window.vitaliaDefeatFoe(index) で撃破を追加
+  window.vitaliaDefeatFoe = function(idx){
+    const src = FOE_IMAGES[idx];
+    if(!src) return;
+    try{
+      const cur = JSON.parse(localStorage.getItem('vitalia_defeated_foes')||'[]');
+      if(!cur.includes(src)){
+        cur.push(src);
+        localStorage.setItem('vitalia_defeated_foes', JSON.stringify(cur));
+        console.log('Defeated foe added:', src, 'Total:', cur.length);
+      }
+    }catch(e){ console.error(e); }
+  };
 })();
 </script>
 </body>

@@ -259,7 +259,11 @@
       });
     }
   });
-  _focusObserver.observe(document.body, { childList: true });
+  if (document.body) {
+    _focusObserver.observe(document.body, { childList: true });
+  } else {
+    document.addEventListener('DOMContentLoaded', () => _focusObserver.observe(document.body, { childList: true }));
+  }
 
   // スキップリンク注入（最初の <main> へジャンプ）
   if(!document.getElementById('skip-link')){

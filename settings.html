@@ -64,7 +64,35 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 .btn-save-main:hover{opacity:.88;}
 .save-msg{text-align:center;font-size:.72rem;color:var(--green);margin-top:10px;min-height:18px;}
 
-@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+/* === アカウント情報セクション === */
+.acct-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:12px;}
+.acct-row:last-child{border-bottom:none;}
+.acct-lbl{font-size:.74rem;color:rgba(170,188,216,.55);font-weight:600;flex-shrink:0;}
+.acct-val{font-size:.86rem;color:#e8edff;font-weight:700;text-align:right;word-break:break-all;}
+.acct-val.acct-uid{font-family:monospace;font-size:.7rem;color:rgba(170,188,216,.5);}
+.acct-val.acct-email-unset{color:#f0c060;font-weight:800;}
+.acct-val.acct-email-set{color:#a8e8c0;font-weight:800;}
+.btn-add-email{
+  display:block;width:100%;
+  background:linear-gradient(135deg,#5fd0e8,#2a8aa8);
+  border:1px solid rgba(95,208,232,.45);
+  color:#ffffff;
+  border-radius:10px;padding:11px;
+  font-family:inherit;font-size:.85rem;font-weight:800;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  margin-top:6px;
+  box-shadow:0 6px 16px -6px rgba(95,208,232,.4),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-add-email:hover{transform:translateY(-1px);box-shadow:0 10px 22px -6px rgba(95,208,232,.5),inset 0 1px 0 rgba(255,255,255,.2);}
+.btn-add-email:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.save-msg.success{color:#a8e8c0;}
+.save-msg.error{color:#f0a0a0;}
+
+@media(max-width:480px){
+  .form-row{grid-template-columns:1fr;}
+  .acct-row{flex-direction:column;align-items:flex-start;gap:4px;}
+  .acct-val{text-align:left;}
+}
 
 /* テーマ・アクセシビリティ */
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
@@ -125,8 +153,49 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 </header>
 
 <div class="page">
-  <h1 class="page-title">冒険者ステータス設定</h1>
+  <h1 class="page-title">冠険者ステータス設定</h1>
   <p class="page-sub">あなたの体の情報を登録すると、個人に合った運動目標が設定されます。</p>
+
+  <!-- アカウント情報 -->
+  <div class="section" id="account-section">
+    <div class="section-title">🎓 アカウント情報</div>
+    <div id="account-loading" style="font-size:.75rem;color:rgba(170,188,216,.5);">読み込み中...</div>
+    <div id="account-info" style="display:none;">
+      <!-- ユーザー名 -->
+      <div class="acct-row">
+        <div class="acct-lbl">ユーザー名</div>
+        <div class="acct-val" id="acct-username">—</div>
+      </div>
+      <!-- UID -->
+      <div class="acct-row">
+        <div class="acct-lbl">冠険者ID</div>
+        <div class="acct-val acct-uid" id="acct-uid">—</div>
+      </div>
+      <!-- メールステータス -->
+      <div class="acct-row">
+        <div class="acct-lbl">メールアドレス</div>
+        <div class="acct-val" id="acct-email">—</div>
+      </div>
+
+      <!-- メール追加フォーム（未設定ユーザーのみ表示） -->
+      <div id="add-email-form" style="display:none;margin-top:14px;padding:14px;background:rgba(95,208,232,.05);border:1px solid rgba(95,208,232,.25);border-radius:10px;">
+        <p style="font-size:.7rem;color:rgba(200,215,235,.7);line-height:1.7;margin-bottom:10px;">
+          メールアドレスを登録すると、パスワードを忘れたときにリセットできるようになります。
+        </p>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label>メールアドレス</label>
+          <input type="email" id="new-email" class="form-input" placeholder="your@email.com" autocomplete="email">
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label>現在のパスワード（本人確認）</label>
+          <input type="password" id="current-password" class="form-input" placeholder="パスワード" autocomplete="current-password">
+          <div class="form-hint">セキュリティ保護のため、現在のパスワードをもう一度入れてください。</div>
+        </div>
+        <button class="btn-add-email" id="btn-add-email">メールアドレスを登録</button>
+        <div class="save-msg" id="email-save-msg"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- 身体情報 -->
   <div class="section">
@@ -1125,5 +1194,125 @@ document.getElementById('btn-clear-all').addEventListener('click',()=>{
   location.href='./index.html';
 });
 </script>
+
+<!-- アカウント情報スクリプト（Firebase Auth + Firestore） -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, updateEmail, EmailAuthProvider, reauthenticateWithCredential }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, query, collection, where, getDocs, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
+  authDomain:"shounigann.firebaseapp.com",
+  projectId:"shounigann",
+  storageBucket:"shounigann.firebasestorage.app",
+  messagingSenderId:"317593091989",
+  appId:"1:317593091989:web:a20fe90c2b31fc09085d9f"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+const setMsg = (cls, text) => {
+  const el = $('email-save-msg');
+  el.className = 'save-msg ' + cls;
+  el.textContent = text;
+};
+
+let _currentUser = null;
+let _usernameDocId = null;
+let _usernameData = null;
+
+async function loadAccount(user){
+  _currentUser = user;
+  $('account-loading').style.display = 'none';
+  $('account-info').style.display = '';
+
+  $('acct-uid').textContent = user.uid.slice(0, 16) + '…';
+
+  // Firestore から usernames を引く（authUid 検索）
+  try {
+    const q = query(collection(db, 'usernames'), where('uid', '==', user.uid));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      const docSnap = snap.docs[0];
+      _usernameDocId = docSnap.id;
+      _usernameData = docSnap.data();
+      $('acct-username').textContent = _usernameData.username || _usernameDocId;
+    } else {
+      $('acct-username').textContent = '（未設定）';
+    }
+  } catch (e) {
+    $('acct-username').textContent = '読み込みエラー';
+  }
+
+  // メールアドレス表示
+  const email = user.email || '';
+  const isSynthetic = /@vitalia\.local$/.test(email);
+  const realEmail = _usernameData && _usernameData.hasRealEmail ? _usernameData.email : (isSynthetic ? '' : email);
+  const acctEmail = $('acct-email');
+
+  if (realEmail && !isSynthetic) {
+    acctEmail.textContent = realEmail;
+    acctEmail.className = 'acct-val acct-email-set';
+    $('add-email-form').style.display = 'none';
+  } else {
+    acctEmail.textContent = '未設定';
+    acctEmail.className = 'acct-val acct-email-unset';
+    $('add-email-form').style.display = '';
+  }
+}
+
+$('btn-add-email').addEventListener('click', async () => {
+  if (!_currentUser) return;
+  const newEmail = $('new-email').value.trim();
+  const password = $('current-password').value;
+  if (!newEmail || !password) { setMsg('error', 'メールアドレスとパスワードを入力してください。'); return; }
+  if (!/@/.test(newEmail) || !/\./.test(newEmail.split('@')[1] || '')) { setMsg('error', 'メールアドレスの形式が正しくありません。'); return; }
+
+  const btn = $('btn-add-email');
+  btn.disabled = true;
+  setMsg('', '処理中…');
+
+  try {
+    const cred = EmailAuthProvider.credential(_currentUser.email, password);
+    await reauthenticateWithCredential(_currentUser, cred);
+    await updateEmail(_currentUser, newEmail);
+    if (_usernameDocId) {
+      await updateDoc(doc(db, 'usernames', _usernameDocId), {
+        email: newEmail,
+        emailForAuth: newEmail,
+        hasRealEmail: true,
+        updated_at: serverTimestamp()
+      });
+    }
+    setMsg('success', '✓ メールアドレスを登録しました！');
+    await loadAccount(auth.currentUser);
+  } catch (err) {
+    const code = err.code || '';
+    let msg = err.message || '登録に失敗しました。';
+    if (code === 'auth/wrong-password') msg = '現在のパスワードが正しくありません。';
+    else if (code === 'auth/invalid-email') msg = 'メールアドレスの形式が正しくありません。';
+    else if (code === 'auth/email-already-in-use') msg = 'そのメールアドレスは既に使われています。';
+    else if (code === 'auth/requires-recent-login') msg = '再ログインしてからやり直してください。';
+    setMsg('error', '⚠ ' + msg);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    loadAccount(user);
+  } else {
+    $('account-loading').textContent = 'ログインが必要です。';
+    setTimeout(() => { location.href = './game.html'; }, 1200);
+  }
+});
+</script>
+
 </body>
 </html>
