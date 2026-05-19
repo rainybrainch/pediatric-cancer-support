@@ -4,17 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ショップ ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#080b14;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Zen Kaku Gothic New',sans-serif;background:radial-gradient(ellipse at 50% 0%,#1a1430 0%,#080b14 60%);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:radial-gradient(ellipse at 50% 0%,#1a1430 0%,#080b14 60%);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(8,11,20,.97);border-top:1px solid rgba(201,168,76,.12);display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);}
+.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;}
+.bn-tab:hover,.bn-tab.active{color:var(--gold);}
+.bn-icon{font-size:1.15rem;line-height:1;}
+.bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
 header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
 header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
 .back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
 
-.page{max-width:680px;margin:0 auto;padding:20px 18px 60px;}
+.page{max-width:680px;margin:0 auto;padding:20px 18px 80px;}
 .intro{text-align:center;margin-bottom:18px;}
 .intro h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;color:var(--gold2);margin-bottom:6px;}
 
@@ -115,6 +127,12 @@ a:hover{ color: #4ab0d4; }
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
+.bottom-nav{ background: rgba(220,240,248,.97) !important; border-top-color: rgba(30,127,164,.22) !important; }
+.bn-tab{ color: #355773 !important; }
+.bn-tab.active{ color: #0a4870 !important; font-weight:900; }
+header{ background: rgba(220,240,248,.97) !important; border-bottom: 1px solid rgba(30,127,164,.22); }
+header a{ color: #0a4870 !important; }
+.back-btn{ color: #1e7fa4 !important; border-color: rgba(30,127,164,.35) !important; }
 </style>
 </head>
 <body>
@@ -183,5 +201,14 @@ function render(){
 }
 render();
 </script>
+
+<nav class="bottom-nav">
+  <a href="./game.html"      class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./collection.html" class="bn-tab"><span class="bn-icon">🎴</span><span class="bn-label">コレクション</span></a>
+  <a href="./shop.html"      class="bn-tab active"><span class="bn-icon">🛒</span><span class="bn-label">ショップ</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
+</nav>
 </body>
 </html>

@@ -4,12 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>パーティ ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;--rose:#f0a0c8;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
+
+/* ===== ボトムナビ ===== */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;height:60px;
+  background:rgba(8,11,20,.97);border-top:1px solid rgba(201,168,76,.12);
+  display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);
+}
+.bn-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;
+}
+.bn-tab:hover,.bn-tab.active{color:var(--gold);}
+.bn-tab.active .bn-icon{filter:drop-shadow(0 0 6px rgba(201,168,76,.6));}
+.bn-icon{font-size:1.15rem;line-height:1;}
+.bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
 
 header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
 header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
@@ -307,12 +329,21 @@ header a, header .brand{
 [style*="color:rgba(201,168,76"], [style*="color:#c9a84c"], [style*="color:#f0d48a"]{
   color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 800 !important;
 }
+/* ボトムナビ（水色） */
+.bottom-nav{
+  background: rgba(220,240,248,.97) !important;
+  border-top: 1px solid rgba(30,127,164,.22) !important;
+}
+.bn-tab{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.bn-tab.active{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.bn-tab .bn-icon{ filter: none !important; -webkit-text-fill-color: initial !important; }
+header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(30,127,164,.22) !important; }
 </style>
 </head>
 <body>
 <header>
-  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
-  <a href="./class-select.html" class="back-btn">クラス変更</a>
+  <a href="./game.html" class="brand" style="color:#0a4870;">⟵ ヴィタリア転生録</a>
+  <a href="./class-select.html" class="back-btn" style="color:#1e7fa4;border-color:rgba(30,127,164,.35);">クラス変更</a>
 </header>
 
 <main class="page">
@@ -570,5 +601,14 @@ document.getElementById('report-submit').addEventListener('click', ()=>{
 
 renderReports();
 </script>
+
+<nav class="bottom-nav">
+  <a href="./game.html"      class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./party.html"     class="bn-tab active"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
+</nav>
 </body>
 </html>
