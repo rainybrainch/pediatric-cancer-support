@@ -5055,8 +5055,8 @@ function loadData(){
     if(raw){ const d=JSON.parse(raw); nScore=d.score||0; nXp=d.xp||0; nCounts=d.counts||nCounts; }
   }catch(e){}
 
-  // 総合XP（運動 + 栄養 + AIコーチの週間XP合算）
-  // 履歴から現在週を除外して二重計上を防ぐ（現在週は qXp/nXp で加算済み）
+  // 総合XP（運動 + 栄養 + AIコーチ + ログインボーナス）
+  // 履歴はセッションXPのみ（ボーナスは vq/vn_bonus_uid から1回だけ加算）
   let totalQXp=0, totalNXp=0, coachWeekXp=0, coachTotalXp=0;
   const _wk=weekKey();
   try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.filter(x=>x.wkKey!==_wk).reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
@@ -5071,7 +5071,10 @@ function loadData(){
       }
     }
   }catch(e){}
-  const totalXp=totalQXp+totalNXp+qXp+nXp+coachTotalXp;
+  // ログインボーナスXPを直接1回だけ加算
+  const questBonusXp=parseInt(localStorage.getItem(`vq_bonus_${uid}`)||'0',10);
+  const nutrBonusXp =parseInt(localStorage.getItem(`vn_bonus_${uid}`)||'0',10);
+  const totalXp=totalQXp+totalNXp+qXp+nXp+coachTotalXp+questBonusXp+nutrBonusXp;
 
   // 今週ルナと決めた目標
   let weekGoal=null;
@@ -5114,6 +5117,14 @@ function updateUI(){
   if(wkLblEl) wkLblEl.textContent=weekLabel();
   const wkLblTxtEl=document.getElementById('week-label-txt');
   if(wkLblTxtEl) wkLblTxtEl.textContent=weekLabel()+'の記録';
+
+  // レベル実績チェック（コーチXP経由でレベルアップした場合も確実に解放）
+  if(d.totalXp>=LEVELS[2].xp && !d.allAch.lv3){
+    try{ const a=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); if(!a.lv3){a.lv3=true;localStorage.setItem(`vq_ach_${uid}`,JSON.stringify(a));} }catch(e){}
+  }
+  if(d.totalXp>=LEVELS[4].xp && !d.allAch.lv5){
+    try{ const a=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); if(!a.lv5){a.lv5=true;localStorage.setItem(`vq_ach_${uid}`,JSON.stringify(a));} }catch(e){}
+  }
 
   // レベル・XP
   const lv=getLv(d.totalXp);

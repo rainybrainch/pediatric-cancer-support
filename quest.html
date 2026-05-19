@@ -2165,13 +2165,15 @@ function getQol(){
 async function saveWeek(){
   const isFirst=!localStorage.getItem(`vq_firstsave_${uid}`);
   const xp=totalXp(), lv=getLv(xp);
+  // 履歴にはセッションXPのみ保存（ログインボーナスは vq_bonus_uid で別管理）
+  const sessionXp=sessions.reduce((s,x)=>s+x.xp,0);
   const qol=getQol();
   const data={
     bmi:    document.getElementById('bmi-val').value,
     steps:  document.getElementById('steps-val').value,
     sessions, modMin, highMin,
     score:  modMin+highMin*2,
-    xp, lv:lv.lv, lvName:lv.name,
+    xp:sessionXp, lv:lv.lv, lvName:lv.name,
     qol1:qol.qol1, qol2:qol.qol2, qol3:qol.qol3,
     savedAt:new Date().toLocaleString('ja-JP'),
     week:   weekLabel()

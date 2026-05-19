@@ -2912,8 +2912,10 @@ async function saveWeek(){
   const isFirst=!localStorage.getItem(`vn_firstsave_${uid}`);
   const c=getCounts();
   const xp=totalXp(), lv=getLv(xp);
+  // 履歴にはセッション+セットボーナスXPのみ保存（ログインボーナスは vn_bonus_uid で別管理）
+  const sessionXp=sessions.reduce((sum,s)=>{ if(s.components) return sum+s.components.reduce((a,c2)=>a+c2.xp,0); return sum+(s.xp||0); },0)+setBonusXp();
   const score=Math.round((c.veg/21+c.fruit/10+c.protein/14+c.grain/14)*25);
-  const data={...c,sessions,xp,lv:lv.lv,lvName:lv.name,savedAt:new Date().toLocaleString('ja-JP'),week:weekLabel()};
+  const data={...c,sessions,xp:Math.max(0,sessionXp),lv:lv.lv,lvName:lv.name,savedAt:new Date().toLocaleString('ja-JP'),week:weekLabel()};
   localStorage.setItem(storeKey(),JSON.stringify(data));
   appendHistory(data);
   checkAch();
