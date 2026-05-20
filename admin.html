@@ -464,6 +464,7 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
 
 <script type="module">
 import { initializeApp }    from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
+import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
 import { getFirestore, collection, getDocs, orderBy, query }
   from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
@@ -479,8 +480,9 @@ const firebaseConfig={
   appId:"1:854133989955:web:0924f550562f2035596af6"
 };
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
 function showMain(){
   document.getElementById('login-screen').classList.add('hidden');
@@ -495,15 +497,18 @@ function showLogin(msg){
 }
 
 // セッション維持（タブを閉じるまで）
-if(sessionStorage.getItem(SESSION_KEY)==='ok') showMain();
-else showLogin();
+if(sessionStorage.getItem(SESSION_KEY)==='ok'){
+  signInAnonymously(auth).then(showMain).catch(()=>showMain());
+} else {
+  showLogin();
+}
 
 // ログイン
 document.getElementById('login-btn').addEventListener('click',()=>{
   const pw=(document.getElementById('admin-password').value||'').trim();
   if(pw===ADMIN_PW){
     sessionStorage.setItem(SESSION_KEY,'ok');
-    showMain();
+    signInAnonymously(auth).then(showMain).catch(()=>showMain());
   } else {
     showLogin('パスワードが正しくありません。');
   }
