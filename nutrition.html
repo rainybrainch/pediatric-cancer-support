@@ -1095,6 +1095,45 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 #consent-modal [style*="background:rgba(156,114,224"]{
   background: rgba(91,78,168,.06) !important; border-color: rgba(91,78,168,.2) !important;
 }
+
+/* ============================================
+   nutrition.html 追加 v10 ── 残存ライト色の一括上書き
+   ============================================ */
+[style*="color:#e8f0ff"],[style*="color:#e8e4d4"],[style*="color:#d4dcf0"],
+[style*="color:#9ee0ee"],[style*="color:#7dd8e8"],[style*="color:#a8e8c0"],
+[style*="color:#7ee8b0"],[style*="color:#b0e8ff"],[style*="color:#a0f0c0"]{
+  color: #0a3050 !important; -webkit-text-fill-color: #0a3050 !important;
+}
+[style*="border:1px solid rgba(125,216,232"],
+[style*="border:1px solid rgba(78,201,138"],
+[style*="border:1.5px solid rgba(78,201,138"]{
+  border-color: #b0cfdf !important;
+}
+[style*="background:rgba(14,18,32"],
+[style*="background:rgba(10,14,24"],
+[style*="background:rgba(8,11,20"]{
+  background: #ffffff !important; color: #0a2a40 !important;
+}
+/* ヘッダー */
+.main-header{ background: rgba(200,228,244,.97) !important; border-bottom: 1px solid #b0cfdf !important; }
+.main-header a, .main-header span{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+#logout-btn{ background: none !important; border-color: #b0cfdf !important; color: #1e7fa4 !important; }
+/* 栄養ヒーローバナー */
+.nutr-hero, .nu-hero{ background: linear-gradient(135deg,#e0f4fc,#c8e4f4) !important; border: 1.5px solid #b0cfdf !important; }
+/* 食品カード */
+.food-card, .food-item, .nutr-card, .f-card{
+  background: #ffffff !important; border-color: #b0cfdf !important; color: #0a2a40 !important;
+}
+.food-card .f-name, .f-name{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
+.food-card .f-pt, .f-pt{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+/* スコアバー */
+.score-bar-wrap, .nu-bar-wrap{ background: rgba(30,127,164,.12) !important; }
+.score-bar-fill{ background: linear-gradient(90deg,#1e7fa4,#4ab0d4) !important; }
+/* 保存ボタン */
+.btn-save{ background: linear-gradient(135deg,#1e7fa4,#4ab0d4) !important; color: #fff !important; }
+/* セクション */
+.board-section, .nu-section{ background: #ffffff !important; border-color: #b0cfdf !important; }
+.section-label, .nu-label{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
 </style>
 </head>
 <body>

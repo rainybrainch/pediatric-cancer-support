@@ -908,6 +908,54 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   color: #1e7fa4 !important;
   -webkit-text-fill-color: #1e7fa4 !important;
 }
+
+/* ============================================
+   quest.html 追加 v10 ── 残存ライト色の一括上書き
+   ============================================ */
+/* 暗背景前提の薄いシアン・白系テキスト → 濃紺に */
+[style*="color:#e8f0ff"],[style*="color:#e8e4d4"],[style*="color:#d4dcf0"],
+[style*="color:#9ee0ee"],[style*="color:#7dd8e8"],[style*="color:#7ee8b0"],
+[style*="color:#a8e8c0"],[style*="color:#a0f0c0"],[style*="color:#b0e8ff"]{
+  color: #0a3050 !important;
+  -webkit-text-fill-color: #0a3050 !important;
+}
+/* シアン系ボーダー → 水色ボーダーに */
+[style*="border:1px solid rgba(125,216,232"],
+[style*="border:1px solid rgba(78,201,138"],
+[style*="border:1.5px solid rgba(78,201,138"]{
+  border-color: #b0cfdf !important;
+}
+/* 暗背景のままのdivを白に */
+[style*="background:rgba(14,18,32"],
+[style*="background:rgba(10,14,24"],
+[style*="background:rgba(8,11,20"]{
+  background: #ffffff !important;
+  color: #0a2a40 !important;
+}
+/* METs計算機 */
+#mc-out{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+/* 全ヘッダー・パネルヘッド */
+.main-header{ background: rgba(200,228,244,.97) !important; border-bottom: 1px solid #b0cfdf !important; }
+.main-header a, .main-header span{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+#logout-btn{ background: none !important; border-color: #b0cfdf !important; color: #1e7fa4 !important; }
+/* クエストヒーローバナー */
+.quest-hero{ background: linear-gradient(135deg,#e0f4fc,#c8e4f4) !important; border: 1.5px solid #b0cfdf !important; }
+.qh-role,.qh-week-lbl,.qh-stat-lbl{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.qh-name{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.qh-stat-num{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+/* ログアイテム */
+.log-item{ background: #f0f8fc !important; border-color: #b0cfdf !important; color: #0a2a40 !important; }
+/* 保存ボタン */
+.btn-save{ background: linear-gradient(135deg,#1e7fa4,#4ab0d4) !important; color: #fff !important; }
+/* daily-note */
+.daily-note{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; background: rgba(30,127,164,.06) !important; border-color: #b0cfdf !important; }
+/* ex-card（種目カード） */
+.ex-card{ background: #ffffff !important; border-color: #b0cfdf !important; }
+.ex-card .e-name{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
+.ex-card .e-min{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+.ex-card.counted{ background: rgba(30,127,164,.08) !important; border-color: #1e7fa4 !important; }
+/* サイドパネル */
+.side-panel, .linked-panel{ background: #ffffff !important; border-color: #b0cfdf !important; }
 </style>
 </head>
 <body>
