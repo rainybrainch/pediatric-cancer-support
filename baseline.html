@@ -98,16 +98,16 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 }
 </style>
 <style id="watercolor-skin">
-/* ===== 水彩スキン ===== */
-body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body,html{background:#c8e4f4 !important;color:#0a2a40 !important;}
 header{background:rgba(200,228,244,.97) !important;border-bottom:1px solid #b0cfdf !important;}
 header a.brand{color:#1e7fa4 !important;}
-.skip-btn{border-color:#b0cfdf !important;color:#1e7fa4 !important;}
+.skip-btn{border-color:#b0cfdf !important;color:#355773 !important;}
 .intro-card{background:#ffffff !important;border-color:#b0cfdf !important;}
 .intro-card h1{color:#1e7fa4 !important;}
-.intro-card p{color:#0a2a40 !important;}
+.intro-card p,p{color:#0a2a40 !important;}
 .progress-meta{color:#1e7fa4 !important;}
 .progress-bar{background:rgba(30,127,164,.12) !important;}
+.progress-fill{background:linear-gradient(90deg,#1e7fa4,#4ab0d4) !important;}
 .section{background:#ffffff !important;border-color:#b0cfdf !important;}
 .section-title{color:#1e7fa4 !important;}
 .section-desc{color:#2a4a6a !important;}
@@ -121,83 +121,16 @@ header a.brand{color:#1e7fa4 !important;}
 .scale-row label:has(input:checked){background:rgba(74,176,212,.25) !important;border-color:#1e7fa4 !important;color:#0a4870 !important;}
 .scale-anchors{color:#4a7090 !important;}
 .input-row label{color:#2a4a6a !important;}
-.input-row input,.input-row select{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
-.input-row input:focus,.input-row select:focus{border-color:#1e7fa4 !important;outline:none;}
-.input-row select option{background:#fff;color:#0a2a40;}
-.foot-nav{background:rgba(200,228,244,.97) !important;border-top:1px solid #b0cfdf !important;}
-.btn-next,.btn-save{background:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;color:#fff !important;border:none !important;}
-.btn-prev{background:#fff !important;border-color:#b0cfdf !important;color:#1e7fa4 !important;}
-textarea{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
-textarea:focus{border-color:#1e7fa4 !important;outline:none;}
+.input-row input,.input-row select,input,select,textarea{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.input-row input:focus,.input-row select:focus,input:focus,select:focus,textarea:focus{border-color:#1e7fa4 !important;outline:none;}
+select option{background:#fff !important;color:#0a2a40 !important;}
+/* チェックボックス付きインラインラベル */
+label[style]{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.bottom-bar{background:rgba(200,228,244,.97) !important;border-top:1px solid #b0cfdf !important;}
+.btn-next{background:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;color:#fff !important;border:none !important;}
+.btn-back{background:#fff !important;border-color:#b0cfdf !important;color:#1e7fa4 !important;}
 </style>
 <script src="./app-safety.js"></script>
-<style id="watercolor-skin">
-/* ============================================
-   水色スキン v1 ── 2026-05-11
-   創造主指示「ゲームのデザインを水色に。文字見やすく」
-   既存の dark-fantasy CSS を上書きする最後尾レイヤー
-   ============================================ */
-:root{
-  --bg:    #e8f4fb;
-  --bg2:   #d6ebf6;
-  --bg3:   #c2dff0;
-  --gold:  #1e7fa4;
-  --gold2: #4ab0d4;
-  --silver:#3a6f8a;
-  --text:  #0f2a3a;
-  --muted: #5a7a90;
-  --green: #1f8a66;
-  --purple:#5b4ea8;
-  --red:   #b53a3a;
-  --orange:#c46a1e;
-  --rose:  #c26092;
-}
-html, body{ background: var(--bg) !important; color: var(--text) !important; }
-body::before{
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
-    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
-    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
-  opacity: .85 !important;
-}
-#loading-screen, #login-screen{ background: var(--bg) !important; }
-#loading-screen::before{ opacity:.6 !important; }
-.gold-text, .ls-title, [class*="title-gold"]{
-  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
-  -webkit-background-clip: text !important; background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-}
-.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
-.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
-.ls-char{
-  border-color: rgba(30,127,164,.4) !important;
-  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
-}
-/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
-[style*="rgba(255,255,255,.04)"],
-[style*="rgba(255,255,255,.06)"],
-[style*="rgba(255,255,255,.07)"],
-[style*="rgba(255,255,255,.08)"],
-[style*="rgba(255,255,255,.1)"]{
-  background: rgba(20,80,110,.07) !important;
-  border-color: rgba(30,127,164,.28) !important;
-  color: var(--text) !important;
-}
-input[type="text"], input[type="email"], input[type="number"], input[type="date"],
-input[type="password"], input[type="tel"], input[type="search"], select, textarea{
-  background: rgba(255,255,255,.85) !important;
-  border-color: rgba(30,127,164,.35) !important;
-  color: var(--text) !important;
-}
-::placeholder{ color: rgba(20,60,80,.45) !important; }
-a{ color: #1e7fa4; }
-a:hover{ color: #4ab0d4; }
-/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
-@supports not (background-clip: text){
-  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-}
-</style>
 </head>
 <body>
 <header>
@@ -208,10 +141,15 @@ a:hover{ color: #4ab0d4; }
 <main class="page">
   <div class="intro-card">
     <h1>📋 はじめてのアンケート</h1>
-    <p>あなたの今の状態を教えてください。これは <strong style="color:#a8e8c0;">研究開始時の基準（ベースライン）</strong> として、12週間後の変化を測るために使います。<br><br>
-    全6セクション・約5分。途中保存できます。</p>
-    <div class="progress-bar"><div class="progress-fill" id="progress" style="width:16%"></div></div>
-    <div class="progress-meta"><span id="step-num">1</span> / 6</div>
+    <p>ゲームを始める前に、今のあなたの体調・生活習慣を教えてください。</p>
+    <p style="margin-top:10px;font-size:.74rem;color:#355773;line-height:1.8;">
+      このアンケートは <strong style="color:#1e7fa4;">研究開始時の基準（ベースライン）</strong> として記録されます。<br>
+      12週間後に同じ項目を回答することで、あなたの変化を一緒に確認できます。<br>
+      回答内容は研究目的以外には使用しません。途中保存できるので、焦らず答えてください。
+    </p>
+    <p style="margin-top:8px;font-size:.72rem;color:#4a7090;">全6セクション・所要時間 約5分</p>
+    <div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" id="progress" style="width:16%"></div></div>
+    <div class="progress-meta"><span id="step-num">1</span> / 6 セクション</div>
   </div>
 
   <!-- Step 1: 基本情報 -->
