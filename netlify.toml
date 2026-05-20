@@ -11,3 +11,8 @@
 
 [functions]
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/claude-chat"
+  to = "/.netlify/functions/claude-chat"
+  status = 200
