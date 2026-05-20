@@ -3427,33 +3427,32 @@ body::after{ animation: vg-aurora-drift 18s ease-in-out infinite !important; }
   50%    { opacity: 1;  transform: scale(1.15); }
 }
 
-/* === 流れ星 === */
+/* === 流れ星（右上→左下） === */
 .shooting-stars{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .shooting-star{
   position: absolute;
-  width: 2px; height: 2px;
+  width: 3px; height: 3px;
   background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(255,255,255,.9);
+  box-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(180,235,255,.7);
   opacity: 0;
   animation: vg-shooting 18s linear infinite;
 }
-.shooting-star{ width: 3px !important; height: 3px !important; box-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(180,235,255,.7) !important; }
 .shooting-star::before{
   content: '';
   position: absolute;
-  top: 50%; left: 2px;
-  width: 200px; height: 2px;
-  background: linear-gradient(90deg, rgba(255,255,255,1), rgba(180,235,255,.7), rgba(255,255,255,0));
-  transform: translateY(-50%);
-  filter: blur(.3px);
-  box-shadow: 0 0 8px rgba(180,235,255,.8);
+  left: 3px; top: 50%;
+  width: 180px; height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,.9), rgba(180,235,255,.5), transparent);
+  transform: translateY(-50%) rotate(-36deg);
+  transform-origin: left center;
+  filter: blur(.4px);
 }
 @keyframes vg-shooting{
-  0%       { opacity: 0; transform: translate(0, 0) rotate(18deg); }
+  0%       { opacity: 0; transform: translate(0, 0); }
   4%       { opacity: 1; }
-  18%      { opacity: 1; transform: translate(-500px, 150px) rotate(18deg); }
-  20%, 100%{ opacity: 0; transform: translate(-500px, 150px) rotate(18deg); }
+  18%      { opacity: 1; transform: translate(-380px, 275px); }
+  20%, 100%{ opacity: 0; transform: translate(-380px, 275px); }
 }
 
 /* === 浮遊するきらめき（火花パーティクル）=== */
@@ -4393,15 +4392,15 @@ body:not(.app-active) .jump-fab{ display: none !important; }
     <span class="aurora-star big" style="top:35%; left:55%; animation-delay:1s;"></span>
   </div>
 
-  <!-- 流れ星（増量） -->
+  <!-- 流れ星（右上エリアから左下へ） -->
   <div class="shooting-stars">
-    <span class="shooting-star" style="top:6%;  left:85%; animation-delay:0s;"></span>
-    <span class="shooting-star" style="top:18%; left:60%; animation-delay:2.5s;"></span>
-    <span class="shooting-star" style="top:30%; left:90%; animation-delay:5s;"></span>
-    <span class="shooting-star" style="top:42%; left:70%; animation-delay:7.5s;"></span>
-    <span class="shooting-star" style="top:54%; left:88%; animation-delay:10s;"></span>
-    <span class="shooting-star" style="top:14%; left:40%; animation-delay:12.5s;"></span>
-    <span class="shooting-star" style="top:38%; left:50%; animation-delay:15s;"></span>
+    <span class="shooting-star" style="top:4%;  left:90%; animation-delay:0s;"></span>
+    <span class="shooting-star" style="top:8%;  left:72%; animation-delay:2.5s;"></span>
+    <span class="shooting-star" style="top:2%;  left:82%; animation-delay:5s;"></span>
+    <span class="shooting-star" style="top:12%; left:95%; animation-delay:7.5s;"></span>
+    <span class="shooting-star" style="top:6%;  left:65%; animation-delay:10s;"></span>
+    <span class="shooting-star" style="top:1%;  left:78%; animation-delay:12.5s;"></span>
+    <span class="shooting-star" style="top:10%; left:88%; animation-delay:15s;"></span>
   </div>
 
   <!-- 浮遊する火花パーティクル -->
