@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>健康クエスト ｜ ヴィタリア転生録</title>
-<link rel="manifest" href="/manifest.json">
-<link rel="icon" type="image/svg+xml" href="/icon.svg">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ヴィタリア">
@@ -2549,7 +2549,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('bottom-nav').style.display='flex';
 });
 document.getElementById('bmi-val').addEventListener('input',updateUI);
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 
 // ===== 連動ステータス更新 =====
 function updateLinked(){
@@ -2647,3 +2647,4 @@ onAuthStateChanged(auth,user=>{
 
 </body>
 </html>
+
