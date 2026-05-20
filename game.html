@@ -8252,33 +8252,9 @@ function maybeMilestoneReminder(){
   }
 }
 
-// ===== ドロップアウトリスク介入 =====
+// ===== ドロップアウトリスク介入（無効化） =====
 function maybeDropoutIntervention(){
-  if(!uid || uid==='guest') return;
-  if(!window.AppSafety) return;
-  if(window.AppSafety.isAnyModalOpen()) return;
-  const risk = window.AppSafety.calcDropoutRisk();
-  if(risk < 60) return; // 中リスク以上のみ介入
-  // 24時間に1回
-  const lastK = `vt_dropout_intervention_${uid}`;
-  const last = parseInt(localStorage.getItem(lastK)||'0',10);
-  if(Date.now() - last < 24*3600*1000) return;
-  localStorage.setItem(lastK, String(Date.now()));
-  // クラスに応じたメッセージ
-  const cls = localStorage.getItem('vt_class') || 'hero';
-  const msgs = {
-    villainess: '👑 悪役令嬢、お帰りなさい！\n\n3日空けても大丈夫、復帰でXP×2のボーナスが発動中。\n断罪エンドを回避するには、いま1つでも記録しましょう？',
-    knight: '🛡 騎士よ、守るべきは「習慣」そのもの。\n\n今日1分の散歩、または野菜1皿でも記録すれば、ストリークは続きます。',
-    saint: '⛪ 聖女よ、お疲れの様子。\n\nQOLを1つだけ、記録してみませんか？それだけでも今日のあなたを大切にできます。',
-    hero: '⚔ 勇者よ、冒険を中断しているようです。\n\n小さな一歩でも、また始めれば道は続きます。',
-    witch: '🧙‍♀️ 魔女っ子、しばらく見ないわね。\n\n野菜1皿の魔法から、また始めてみない？',
-    prince: '🤴 王子、仲間が待っています。\n\nパーティに近況を一言投稿するだけで、絆は途切れません。',
-  };
-  const msg = msgs[cls] || msgs.hero;
-  const action = confirm(msg + '\n\n今すぐ何か記録しますか？');
-  if(action){
-    location.href = './quest.html';
-  }
+  // confirm ダイアログによる割り込みは廃止
 }
 
 // ===== ユーザー設定の双方向同期（Firestore <-> localStorage） =====
