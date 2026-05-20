@@ -5700,6 +5700,47 @@ function awardCoachAchievements(){
   }
 }
 
+/* ===== アプリ内通知ユーティリティ ===== */
+function showToast(text, duration=3000){
+  let el=document.getElementById('_app-toast');
+  if(!el){
+    el=document.createElement('div');
+    el.id='_app-toast';
+    el.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);'+
+      'background:rgba(20,26,48,.97);border:1px solid rgba(201,168,76,.4);color:#f0e4d4;'+
+      'font-family:inherit;font-size:.82rem;padding:11px 20px;border-radius:12px;z-index:99999;'+
+      'box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:opacity .25s,transform .25s;'+
+      'max-width:88vw;text-align:center;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  el.textContent=text;
+  el.style.opacity='1';el.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(showToast._tid);
+  showToast._tid=setTimeout(()=>{
+    el.style.opacity='0';el.style.transform='translateX(-50%) translateY(20px)';
+  },duration);
+}
+function showConfirm(msg, onOk, onCancel){
+  let ov=document.getElementById('_app-confirm');
+  if(!ov){ ov=document.createElement('div'); ov.id='_app-confirm';
+    ov.style.cssText='position:fixed;inset:0;z-index:99998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);';
+    ov.innerHTML='<div style="background:linear-gradient(160deg,#0d1225,#101830);border:1px solid rgba(201,168,76,.35);border-radius:16px;padding:24px 24px 20px;max-width:340px;width:90vw;box-shadow:0 24px 64px rgba(0,0,0,.7);">'+
+      '<div id="_app-confirm-msg" style="font-family:\'Zen Kaku Gothic New\',sans-serif;font-size:.88rem;color:#d4dcf0;line-height:1.75;margin-bottom:18px;white-space:pre-line;"></div>'+
+      '<div style="display:flex;gap:8px;">'+
+      '<button id="_app-confirm-cancel" style="flex:1;background:transparent;border:1px solid rgba(170,188,216,.3);color:rgba(170,188,216,.8);font-family:inherit;font-size:.82rem;padding:10px;border-radius:9px;cursor:pointer;">キャンセル</button>'+
+      '<button id="_app-confirm-ok" style="flex:1;background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;font-family:\'Noto Serif JP\',serif;font-size:.85rem;font-weight:900;padding:10px;border-radius:9px;cursor:pointer;">OK</button>'+
+      '</div></div>';
+    document.body.appendChild(ov);
+  }
+  document.getElementById('_app-confirm-msg').textContent=msg;
+  ov.style.display='flex';
+  const ok=document.getElementById('_app-confirm-ok');
+  const ca=document.getElementById('_app-confirm-cancel');
+  const close=()=>{ ov.style.display='none'; };
+  ok.onclick=()=>{ close(); if(onOk) onOk(); };
+  ca.onclick=()=>{ close(); if(onCancel) onCancel(); };
+}
+
 function showCoachToast(text){
   let t=document.getElementById('coach-toast');
   if(!t){
@@ -5952,16 +5993,17 @@ function updatePresetVisibility(){
 }
 
 function resetCoachConversation(){
-  if(!confirm('ルナとの会話を最初からやり直しますか？\n（過去の会話履歴はこの端末から削除されます）')) return;
-  _coachState.history=[];
-  _coachState.step='G';
-  try{
-    localStorage.removeItem(COACH_HIST_KEY());
-    localStorage.removeItem(COACH_STEP_KEY());
-  }catch(e){}
-  renderAllHistory();
-  renderCoachStep();
-  updatePresetVisibility();
+  showConfirm('ルナとの会話を最初からやり直しますか？\n（過去の会話履歴はこの端末から削除されます）', ()=>{
+    _coachState.history=[];
+    _coachState.step='G';
+    try{
+      localStorage.removeItem(COACH_HIST_KEY());
+      localStorage.removeItem(COACH_STEP_KEY());
+    }catch(e){}
+    renderAllHistory();
+    renderCoachStep();
+    updatePresetVisibility();
+  });
 }
 
 function openCoach(){
@@ -6191,7 +6233,7 @@ onAuthStateChanged(auth, async user=>{
           }
           localStorage.removeItem('vitalia_uid_hint');
         }catch(e){}
-        alert('✓ 削除リクエストを送信しました。\n\n72時間以内にクラウド側のデータも削除されます。\nご協力ありがとうございました。');
+        showToast('✓ 削除リクエストを送信しました。72時間以内にデータ削除されます。', 5000);
         await signOut(auth);
         location.href='./homepage.html';
         return;
@@ -6787,10 +6829,10 @@ function renderSleep(){
   }catch(e){}
 }
 document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
-  if(!uid||uid==='guest'){ alert('ログイン後にご利用ください'); return; }
+  if(!uid||uid==='guest'){ showToast('ログイン後にご利用ください'); return; }
   const h = parseFloat(document.getElementById('sleep-hours').value);
   const q = parseInt(document.getElementById('sleep-quality').value, 10);
-  if(!h || h<=0 || h>24){ alert('睡眠時間を0〜24で入力してください'); return; }
+  if(!h || h<=0 || h>24){ showToast('睡眠時間を0〜24で入力してください'); return; }
   const data = { hours: h, quality: q||null, ts: Date.now() };
   localStorage.setItem(sleepKey(), JSON.stringify(data));
   // Firestore にも（オフラインキュー対応）
@@ -7056,8 +7098,13 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   const safeUid = (typeof uid !== 'undefined' && uid) ? uid : 'guest';
   const key = `vt_qol_${safeUid}_${today}`;
   if(localStorage.getItem(key)){
-    if(!confirm('今日は既に記録済みです✓\nもう一度書き直しますか？')) return;
-    try{ localStorage.removeItem(key); }catch(e){}
+    showConfirm('今日は既に記録済みです✓\nもう一度書き直しますか？', ()=>{
+      try{ localStorage.removeItem(key); }catch(e){}
+      try{ localStorage.removeItem(`vt_qol_skip_${safeUid}_${today}`); }catch(e){}
+      try{ if(typeof buildQolScales === 'function') buildQolScales(); }catch(e){}
+      const m=document.getElementById('qol-modal'); if(m) m.classList.add('open');
+    });
+    return;
   }
   try{ localStorage.removeItem(`vt_qol_skip_${safeUid}_${today}`); }catch(e){}
   // モーダルを直接表示（maybeShowQolTracker は早期returnで詰まるので使わない）
@@ -7080,7 +7127,7 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   if(modal){
     modal.style.display = 'flex';
   } else {
-    alert('QOLトラッカーが見つかりませんでした。ページを再読込してみてください。');
+    showToast('QOLトラッカーが見つかりませんでした。ページを再読込してください。');
   }
 });
 document.getElementById('sh-m-done')?.addEventListener('click', ()=>{
@@ -7720,7 +7767,7 @@ document.getElementById('qol-trend-record')?.addEventListener('click',()=>{
   const today=new Date().toISOString().slice(0,10);
   const k=`vt_qol_${uid}_${today}`;
   if(localStorage.getItem(k)){
-    alert('今日はすでに記録済みです✓');
+    showToast('今日はすでに記録済みです ✓');
     return;
   }
   // skip フラグを消して表示
@@ -7785,8 +7832,8 @@ let _qolPhotoData = null;
 document.getElementById('qol-photo-input')?.addEventListener('change', async (e)=>{
   const file = e.target.files?.[0];
   if(!file) return;
-  if(!file.type.startsWith('image/')){ alert('画像ファイルを選んでください'); return; }
-  if(file.size > 10*1024*1024){ alert('10MB以下の画像を選んでください'); return; }
+  if(!file.type.startsWith('image/')){ showToast('画像ファイルを選んでください'); return; }
+  if(file.size > 10*1024*1024){ showToast('10MB以下の画像を選んでください'); return; }
   try{
     const resized = await resizeImage(file, 800, 800, 0.7);
     _qolPhotoData = resized;
@@ -7796,7 +7843,7 @@ document.getElementById('qol-photo-input')?.addEventListener('change', async (e)
     document.getElementById('qol-photo-status').textContent = `✓ ${(resized.length/1024).toFixed(0)}KB`;
     document.getElementById('qol-photo-clear').style.display = 'inline-block';
   }catch(err){
-    alert('画像の処理に失敗しました: '+err.message);
+    showToast('画像の処理に失敗しました');
   }
 });
 document.getElementById('qol-photo-clear')?.addEventListener('click', ()=>{
@@ -8125,7 +8172,7 @@ function maybeShowPwaBanner(){
     document.getElementById('pwa-banner-sub').textContent='共有ボタン → "ホーム画面に追加" でアプリ化できます';
     const btn=document.getElementById('pwa-install-btn');
     btn.textContent='方法';
-    btn.onclick=()=>alert('iOSの場合：\n1. Safariの共有ボタン（□↑）をタップ\n2. 「ホーム画面に追加」を選択\n3. ホーム画面のアイコンから起動できます');
+    btn.onclick=()=>showToast('Safari → 共有ボタン（□↑）→「ホーム画面に追加」でアプリ化できます', 5000);
   } else if(_deferredPrompt){
     document.getElementById('pwa-install-btn').onclick=async ()=>{
       _deferredPrompt.prompt();
@@ -8210,9 +8257,8 @@ function maybeWeeklySurveyReminder(){
   if(Date.now() - last < 24*3600*1000) return;
   localStorage.setItem(lastNudgeKey, String(Date.now()));
   // 軽いトースト＋誘導
-  if(confirm(`📋 第${weekNum}週の週次アンケート（約1分・+30XP）\n\n研究データとして大切な情報です。今すぐ回答しますか？`)){
-    location.href = './weekly-survey.html';
-  }
+  showConfirm(`📋 第${weekNum}週の週次アンケート\n約1分・+30XP\n\n研究データとして大切な情報です。今すぐ回答しますか？`,
+    ()=>{ location.href='./weekly-survey.html'; });
 }
 
 // ===== マイルストーン調査催促（6週・12週） =====
@@ -8237,9 +8283,8 @@ function maybeMilestoneReminder(){
   localStorage.setItem(`vt_milestone_nudge_${uid}_${type}`, String(Date.now()));
 
   const isMid = type === 'midpoint';
-  if(confirm(`${isMid?'🌗 6週時点の中間評価':'🎓 12週後の最終評価'}（${isMid?'約2分・+80XP':'約3-5分・+150XP'}）\n\nベースラインからの変化を測る、研究にとって最も大切な調査です。今すぐ回答しますか？`)){
-    location.href = `./milestone-survey.html?type=${type}`;
-  }
+  showConfirm(`${isMid?'🌗 6週時点の中間評価':'🎓 12週後の最終評価'}\n${isMid?'約2分・+80XP':'約3-5分・+150XP'}\n\nベースラインからの変化を測る最も大切な調査です。今すぐ回答しますか？`,
+    ()=>{ location.href=`./milestone-survey.html?type=${type}`; });
 }
 
 // ===== ドロップアウトリスク介入（無効化） =====

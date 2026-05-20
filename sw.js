@@ -20,7 +20,6 @@ const PRECACHE_URLS = [
   './account.html',
   './journal.html',
   './party.html',
-  './class-select.html',
   './baseline.html',
   './weekly-survey.html',
   './milestone-survey.html',
