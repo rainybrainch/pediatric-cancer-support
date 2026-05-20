@@ -80,14 +80,10 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
 <div id="login-screen">
   <div class="login-card">
     <h1>管理者ダッシュボード</h1>
-    <p>研究責任者専用。登録済みアカウントでログインしてください。</p>
-    <div class="form-group">
-      <label>メールアドレス</label>
-      <input type="email" id="email" class="form-input" placeholder="管理者メールアドレス">
-    </div>
+    <p>研究責任者専用。管理者パスワードを入力してください。</p>
     <div class="form-group">
       <label>パスワード</label>
-      <input type="password" id="password" class="form-input" placeholder="パスワード">
+      <input type="password" id="admin-password" class="form-input" placeholder="管理者パスワード" autofocus>
     </div>
     <div id="login-error" style="font-size:.72rem;color:var(--red);margin-top:8px;display:none;"></div>
     <button class="btn-gold" id="login-btn">ログイン</button>
@@ -98,7 +94,6 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
   <header>
     <h1>⚙ 研究管理ダッシュボード ｜ ヴィタリア転生録</h1>
     <div class="h-right">
-      <span id="user-display"></span>
       <button class="btn-sm" id="refresh-btn">↻ 更新</button>
       <button class="btn-sm" id="logout-btn">ログアウト</button>
     </div>
@@ -469,10 +464,11 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
 
 <script type="module">
 import { initializeApp }    from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
-  from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
 import { getFirestore, collection, getDocs, orderBy, query }
   from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+const ADMIN_PW = 'snign100';
+const SESSION_KEY = 'admin_auth_v1';
 
 const firebaseConfig={
   apiKey:"AIzaSyBRDHZbWo_A6rGZNkI1LL8GN1Nx8FTXY4E",
@@ -483,9 +479,40 @@ const firebaseConfig={
   appId:"1:854133989955:web:0924f550562f2035596af6"
 };
 
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+function showMain(){
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('main-screen').style.cssText='display:flex;flex-direction:column;';
+  loadData();
+}
+function showLogin(msg){
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('main-screen').style.display='none';
+  if(msg){ const e=document.getElementById('login-error'); e.textContent=msg; e.style.display='block'; }
+}
+
+// セッション維持（タブを閉じるまで）
+if(sessionStorage.getItem(SESSION_KEY)==='ok') showMain();
+else showLogin();
+
+// ログイン
+document.getElementById('login-btn').addEventListener('click',()=>{
+  const pw=(document.getElementById('admin-password').value||'').trim();
+  if(pw===ADMIN_PW){
+    sessionStorage.setItem(SESSION_KEY,'ok');
+    showMain();
+  } else {
+    showLogin('パスワードが正しくありません。');
+  }
+});
+document.getElementById('admin-password').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('login-btn').click(); });
+
+// ログアウト
+document.getElementById('logout-btn').addEventListener('click',()=>{ sessionStorage.removeItem(SESSION_KEY); showLogin(); });
+document.getElementById('refresh-btn').addEventListener('click',()=>loadData());
 
 // タブ切り替え
 document.querySelectorAll('.tab').forEach(t=>{
@@ -497,40 +524,6 @@ document.querySelectorAll('.tab').forEach(t=>{
       if(el) el.classList.toggle('hidden', id!==t.dataset.tab);
     });
   });
-});
-
-// ログイン
-document.getElementById('login-btn').addEventListener('click',()=>{
-  const email=document.getElementById('email').value;
-  const pass=document.getElementById('password').value;
-  const errEl=document.getElementById('login-error');
-  const errMap={'auth/user-not-found':'メールアドレスが登録されていません。','auth/wrong-password':'パスワードが正しくありません。','auth/invalid-credential':'メールアドレスまたはパスワードが正しくありません。','auth/too-many-requests':'試行回数が多すぎます。しばらく後に。'};
-  signInWithEmailAndPassword(auth,email,pass)
-    .catch(e=>{ errEl.textContent=errMap[e.code]||'ログインに失敗しました。'; errEl.style.display='block'; });
-});
-
-// ログアウト
-document.getElementById('logout-btn').addEventListener('click',()=>signOut(auth));
-document.getElementById('refresh-btn').addEventListener('click',()=>loadData());
-
-// 認証状態
-const _to=setTimeout(()=>{
-  document.getElementById('login-screen').style.display='flex';
-},2000);
-
-onAuthStateChanged(auth, user=>{
-  clearTimeout(_to);
-  if(user){
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('main-screen').style.display='flex';
-    document.getElementById('main-screen').style.flexDirection='column';
-    document.getElementById('user-display').textContent=user.email;
-    loadData();
-  } else {
-    document.getElementById('login-screen').classList.remove('hidden');
-    document.getElementById('login-screen').style.display='flex';
-    document.getElementById('main-screen').style.display='none';
-  }
 });
 
 async function loadData(){
