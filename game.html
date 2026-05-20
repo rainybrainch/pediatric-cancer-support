@@ -6220,11 +6220,8 @@ onAuthStateChanged(auth, async user=>{
               }
             }catch(e){}
             setTimeout(()=>{
-              // 同意完了後、ベースライン未回答なら baseline.html → class-select の順
               if(!localStorage.getItem(`vt_baseline_${uid}`)){
                 location.href='./baseline.html';
-              } else if(!localStorage.getItem('vt_class')){
-                location.href='./class-select.html';
               } else {
                 showTutorial();
               }
@@ -6236,18 +6233,11 @@ onAuthStateChanged(auth, async user=>{
       }, 400);
     } else {
       // クラス未選択でも、ログイン済みなら選択を促す（初回のみ）
-      if(!localStorage.getItem('vt_class') && !localStorage.getItem('vt_class_skipped')){
-        setTimeout(()=>{
-          if(confirm('🎮 まだクラス（職業）を選んでいません。\n選択しますか？（あとからでも変更可能）')){
-            location.href='./class-select.html';
-          } else {
-            localStorage.setItem('vt_class_skipped', '1');
-            showTutorial();
-          }
-        }, 800);
-      } else {
-        setTimeout(showTutorial, 800);
+      // クラスが未設定ならデフォルトで hero を設定
+      if(!localStorage.getItem('vt_class')){
+        localStorage.setItem('vt_class', 'hero');
       }
+      setTimeout(showTutorial, 800);
     }
 
     // QOL連続低下による危機介入チェック
