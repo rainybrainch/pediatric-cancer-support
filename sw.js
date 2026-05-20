@@ -36,6 +36,8 @@ const PRECACHE_URLS = [
   './quest-enhance.js',
   './manifest.json',
   './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
 ];
 
 // インストール時：プリキャッシュ
