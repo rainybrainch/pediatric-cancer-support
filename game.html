@@ -3442,9 +3442,9 @@ body::after{ animation: vg-aurora-drift 18s ease-in-out infinite !important; }
 .shooting-star::before{
   content: '';
   position: absolute;
-  top: 50%; right: 0;
+  top: 50%; left: 2px;
   width: 200px; height: 2px;
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(180,235,255,1), rgba(255,255,255,1));
+  background: linear-gradient(90deg, rgba(255,255,255,1), rgba(180,235,255,.7), rgba(255,255,255,0));
   transform: translateY(-50%);
   filter: blur(.3px);
   box-shadow: 0 0 8px rgba(180,235,255,.8);
@@ -4499,7 +4499,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <!-- 新規登録モード: ユーザー名（必須） -->
       <div class="login-field" id="username-field" style="display:none;">
         <label>ユーザー名 <span class="lbl-req">必須</span></label>
-        <input type="text" id="username" placeholder="username（半角英数3〜20文字）" autocomplete="off" maxlength="20">
+        <input type="text" id="username" placeholder="ニックネーム（2〜20文字、日本語OK）" autocomplete="off" maxlength="20">
         <div class="login-hint">ログインに使えるニックネーム。後から変更できません。</div>
       </div>
 
@@ -6099,7 +6099,8 @@ document.getElementById('register-btn').addEventListener('click', async ()=>{
 
   // バリデーション
   if(!username){ showErr('ユーザー名は必須です。'); return; }
-  if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)){ showErr('ユーザー名は半角英数・アンダースコア3〜20文字です。'); return; }
+  if(username.length < 2 || username.length > 20){ showErr('ユーザー名は2〜20文字にしてください。'); return; }
+  if(/[\s@#%&<>"]/.test(username)){ showErr('ユーザー名に使えない文字が含まれています。'); return; }
   if(!p){ showErr('パスワードを入力してください。'); return; }
   if(p.length<6){ showErr('パスワードは6文字以上にしてください。'); return; }
   if(emailOptional){
@@ -6114,8 +6115,9 @@ document.getElementById('register-btn').addEventListener('click', async ()=>{
     if(snap.exists()){ showErr('そのユーザー名は既に使われています。'); return; }
   }catch(_){}
 
-  // メールアドレスが空ならローカル擬似メールを生成
-  const emailForAuth = emailOptional || (username.toLowerCase() + '@vitalia.local');
+  // メールアドレスが空ならランダム擬似メールを生成（日本語ユーザー名対応）
+  const _randId = Math.random().toString(36).slice(2,10);
+  const emailForAuth = emailOptional || ('u_' + _randId + '@vitalia.local');
 
   try{
     const cred = await createUserWithEmailAndPassword(auth, emailForAuth, p);
