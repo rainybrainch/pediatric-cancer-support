@@ -1976,14 +1976,15 @@ body.detail-mode #compact-home{display:none !important;}
   position: fixed !important;
   bottom: 0 !important;
   left: 0 !important; right: 0 !important;
-  height: 64px !important;
-  background: #ffffff !important;
-  border-top: 2px solid #b0cfdf !important;
+  height: 72px !important;
+  background: rgba(248,252,255,.98) !important;
+  border-top: 1px solid rgba(30,127,164,.15) !important;
   display: flex !important;
   align-items: stretch !important;
   z-index: 95 !important;
-  box-shadow: 0 -4px 14px rgba(30,80,110,.10);
+  box-shadow: 0 -6px 24px rgba(30,80,110,.12), 0 -1px 0 rgba(30,127,164,.08);
   padding-bottom: env(safe-area-inset-bottom, 0);
+  backdrop-filter: blur(16px);
 }
 .bottom-nav .bn-tab{
   flex: 1;
@@ -1991,44 +1992,47 @@ body.detail-mode #compact-home{display:none !important;}
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
   text-decoration: none;
-  color: #355773 !important;
-  -webkit-text-fill-color: #355773 !important;
+  color: rgba(53,87,115,.45) !important;
+  -webkit-text-fill-color: rgba(53,87,115,.45) !important;
   font-weight: 700;
-  transition: color .15s, transform .1s;
+  transition: color .18s, transform .15s;
   position: relative;
-  padding: 6px 2px;
+  padding: 8px 2px 6px;
+  -webkit-tap-highlight-color: transparent;
 }
-.bottom-nav .bn-tab:hover{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+.bottom-nav .bn-tab:active{ transform: scale(.92); }
 .bottom-nav .bn-tab.active{
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
 }
-.bottom-nav .bn-tab.active::before{
+.bottom-nav .bn-tab.active::after{
   content: '';
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 36px; height: 3px;
+  width: 44px; height: 3px;
   background: linear-gradient(90deg, #1e7fa4, #4ab0d4);
-  border-radius: 0 0 99px 99px;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 8px rgba(30,127,164,.4);
 }
 .bottom-nav .bn-icon{
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   line-height: 1;
   filter: none !important;
   -webkit-text-fill-color: initial !important;
   color: initial !important;
-}
-.bottom-nav .bn-tab.active .bn-icon{
-  transform: scale(1.1) translateY(-1px);
   transition: transform .2s cubic-bezier(.34,1.56,.64,1);
 }
+.bottom-nav .bn-tab.active .bn-icon{
+  transform: scale(1.18) translateY(-2px);
+}
 .bottom-nav .bn-label{
-  font-size: .58rem;
+  font-size: .62rem;
   font-weight: 900;
-  letter-spacing: .04em;
+  letter-spacing: .03em;
+  line-height: 1;
 }
 
 /* メインコンテンツが下部ナビに被らないように余白確保 */

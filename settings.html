@@ -219,11 +219,14 @@ header a, .back-btn{
 .btn-export{ background:rgba(31,125,77,.12) !important; border-color:rgba(31,125,77,.4) !important; color:#1f7d4d !important; -webkit-text-fill-color:#1f7d4d !important; }
 .btn-danger{ background:rgba(176,30,30,.08) !important; border-color:rgba(176,30,30,.4) !important; color:#b01e1e !important; -webkit-text-fill-color:#b01e1e !important; }
 /* bottom nav */
-.bottom-nav{ background:rgba(220,240,248,.97) !important; border-top:2px solid #b0cfdf !important; box-shadow:0 -4px 14px rgba(30,80,110,.10); position:fixed !important; bottom:0 !important; left:0 !important; right:0 !important; height:64px !important; display:flex !important; align-items:stretch !important; z-index:95 !important; padding-bottom:env(safe-area-inset-bottom,0); }
-.bn-tab{ flex:1; display:flex !important; flex-direction:column; align-items:center; justify-content:center; gap:2px; text-decoration:none; color:#355773 !important; -webkit-text-fill-color:#355773 !important; font-weight:700; padding:6px 2px; }
-.bn-tab.active{ color:#0a4870 !important; -webkit-text-fill-color:#0a4870 !important; font-weight:900; }
-.bn-icon{ font-size:1.35rem; line-height:1; color:initial !important; -webkit-text-fill-color:initial !important; }
-.bn-label{ font-size:.58rem; font-weight:900; letter-spacing:.04em; }
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 </style>
 <script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>
@@ -1410,4 +1413,5 @@ onAuthStateChanged(auth, user => {
 </nav>
 </body>
 </html>
+
 
