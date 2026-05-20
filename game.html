@@ -6082,6 +6082,9 @@ function toggleRegMode(on){
   }
 }
 
+// URL hash #register で新規登録モードを自動起動
+if(location.hash === '#register') toggleRegMode(true);
+
 document.getElementById('register-btn').addEventListener('click', async ()=>{
   clearErr();
   if(!_regMode){
