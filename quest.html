@@ -709,6 +709,14 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 <style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
 /* ============================================
    水色スキン v1 ── 2026-05-11
    創造主指示「ゲームのデザインを水色に。文字見やすく」
@@ -951,12 +959,63 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 .ex-card.counted{ background: rgba(30,127,164,.08) !important; border-color: #1e7fa4 !important; }
 /* サイドパネル */
 .side-panel, .linked-panel{ background: #ffffff !important; border-color: #b0cfdf !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
 </style>
 </head>
 <body>
 
 <!-- ローディング -->
 <script>
+function showToast(msg,duration=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center',boxShadow:'0 4px 16px rgba(0,0,0,.25)',border:'1px solid rgba(30,127,164,.4)'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},duration);}
+function showConfirm(msg,onOk,onCancel){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button><button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};}
 setTimeout(function(){
   var ls=document.getElementById('loading-screen');
   var lg=document.getElementById('login-screen');
@@ -2464,15 +2523,15 @@ async function startStepCounter(){
     try{
       const r = await DeviceMotionEvent.requestPermission();
       if(r !== 'granted'){
-        alert('モーションセンサーの許可が必要です。設定 → Safari → モーションとジャイロ から許可してください。');
+        showToast('モーションセンサーの許可が必要です。設定 → Safari → モーションとジャイロ から許可してください。',5000);
         return false;
       }
     }catch(e){
-      alert('モーションセンサー利用エラー: '+e.message);
+      showToast('モーションセンサー利用エラー: '+e.message);
       return false;
     }
   } else if(!('DeviceMotionEvent' in window)){
-    alert('このブラウザはモーションセンサーに対応していません。スマートフォンでお試しください。');
+    showToast('このブラウザはモーションセンサーに対応していません。スマートフォンでお試しください。',4500);
     return false;
   }
   window.addEventListener('devicemotion', onMotion);
@@ -2504,29 +2563,30 @@ document.getElementById('step-toggle').addEventListener('click', async ()=>{
 });
 
 document.getElementById('step-import').addEventListener('click', ()=>{
-  if(_stepCount < 100){ alert('100歩以上で変換できます'); return; }
-  const minutes = Math.round(_stepCount / 100); // 1000歩=10分
-  if(!confirm(`${_stepCount}歩を「ウォーキング ${minutes}分（中強度）」として記録に追加しますか？`)) return;
-  // セッションに直接追加（addSessionは10分単位なのでminutesを渡せる版を使う）
-  addSession('ウォーキング（自動計測）', '👟', 3.5, 'mod', minutes);
-  _stepCount = 0;
-  document.getElementById('step-count').textContent = '0';
-  document.getElementById('step-status').textContent = '✓ 記録に追加されました';
-  stopStepCounter();
-  document.getElementById('step-toggle').textContent = '▶ スタート';
-  document.getElementById('step-import').style.display = 'none';
+  if(_stepCount < 100){ showToast('100歩以上で変換できます'); return; }
+  const minutes = Math.round(_stepCount / 100);
+  showConfirm(`${_stepCount}歩を「ウォーキング ${minutes}分（中強度）」として記録に追加しますか？`, ()=>{
+    addSession('ウォーキング（自動計測）', '👟', 3.5, 'mod', minutes);
+    _stepCount = 0;
+    document.getElementById('step-count').textContent = '0';
+    document.getElementById('step-status').textContent = '✓ 記録に追加されました';
+    stopStepCounter();
+    document.getElementById('step-toggle').textContent = '▶ スタート';
+    document.getElementById('step-import').style.display = 'none';
+  });
 });
 document.getElementById('reset-btn').addEventListener('click',()=>{
-  if(!confirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）')) return;
-  sessions=[]; modMin=0; highMin=0;
-  localStorage.removeItem(storeKey());
-  buildBoard('mod-board',EXERCISES.moderate,'moderate');
-  buildBoard('high-board',EXERCISES.high,'high');
-  document.getElementById('bmi-val').value='';
-  document.getElementById('steps-val').value='';
-  updateUI();
-  document.getElementById('save-msg').textContent='リセットしました';
-  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
+  showConfirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）', ()=>{
+    sessions=[]; modMin=0; highMin=0;
+    localStorage.removeItem(storeKey());
+    buildBoard('mod-board',EXERCISES.moderate,'moderate');
+    buildBoard('high-board',EXERCISES.high,'high');
+    document.getElementById('bmi-val').value='';
+    document.getElementById('steps-val').value='';
+    updateUI();
+    document.getElementById('save-msg').textContent='リセットしました';
+    setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
+  });
 });
 document.getElementById('guest-btn').addEventListener('click',()=>{
   uid='guest';
@@ -2641,6 +2701,8 @@ onAuthStateChanged(auth,user=>{
 
 </body>
 </html>
+
+
 
 
 

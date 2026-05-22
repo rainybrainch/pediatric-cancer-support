@@ -919,6 +919,14 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 <style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
 /* ============================================
    水色スキン v1 ── 2026-05-11
    創造主指示「ゲームのデザインを水色に。文字見やすく」
@@ -1136,12 +1144,63 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 /* セクション */
 .board-section, .nu-section{ background: #ffffff !important; border-color: #b0cfdf !important; }
 .section-label, .nu-label{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
 </style>
 </head>
 <body>
 
 <!-- ローディング -->
 <script>
+function showToast(msg,duration=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center',boxShadow:'0 4px 16px rgba(0,0,0,.25)',border:'1px solid rgba(30,127,164,.4)'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},duration);}
+function showConfirm(msg,onOk,onCancel){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button><button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};}
 setTimeout(function(){
   var ls=document.getElementById('loading-screen');
   var lg=document.getElementById('login-screen');
@@ -2594,31 +2653,34 @@ function buildBoard(id, items, cat, cls){
       <span class="f-count">0</span>
       <button class="f-dec">−</button>`;
     c.addEventListener('click',(e)=>{
-      // 臨床相互作用チェック
+      const doRecord=()=>{
+        const portion = currentPortion();
+        const mult = PORTION_MULTIPLIERS[portion] || 1;
+        sessions.push({
+          name:f.name, icon:f.icon, cat, xp:f.xp, subtype:f.subtype||null,
+          kcal: Math.round((f.kcal||0)*mult),
+          prot: +((f.prot||0)*mult).toFixed(1),
+          fib: +((f.fib||0)*mult).toFixed(1),
+          tags: f.tags||[],
+          portion,
+          mealTime: currentMealTime(),
+        });
+        const color=catColor[cat] || 'var(--gold)';
+        const label=f.xp>=0 ? `+${Math.round(f.xp*mult)}XP` : `${Math.round(f.xp*mult)}XP`;
+        spawnPlus(e, label, color);
+        renderLog(); updateUI();
+        if(window.AppEnhance) window.AppEnhance.onFoodRecord(cat, f.subtype, f.xp);
+      };
       try{
         const profile = window.AppSafety?.getClinicalProfile();
         const warnings = window.AppSafety?.getFoodInteractionWarnings(profile, f.name) || [];
         if(warnings.length > 0){
           const msg = warnings.map(w => (w.level==='warn'?'⚠ ':'ℹ ')+w.text).join('\n\n');
-          if(!confirm(`${f.name} について：\n\n${msg}\n\nこのまま記録しますか？`)) return;
+          showConfirm(`${f.name} について：\n\n${msg}\n\nこのまま記録しますか？`, doRecord);
+          return;
         }
       }catch(err){}
-      const portion = currentPortion();
-      const mult = PORTION_MULTIPLIERS[portion] || 1;
-      sessions.push({
-        name:f.name, icon:f.icon, cat, xp:f.xp, subtype:f.subtype||null,
-        kcal: Math.round((f.kcal||0)*mult),
-        prot: +((f.prot||0)*mult).toFixed(1),
-        fib: +((f.fib||0)*mult).toFixed(1),
-        tags: f.tags||[],
-        portion,
-        mealTime: currentMealTime(),
-      });
-      const color=catColor[cat] || 'var(--gold)';
-      const label=f.xp>=0 ? `+${Math.round(f.xp*mult)}XP` : `${Math.round(f.xp*mult)}XP`;
-      spawnPlus(e, label, color);
-      renderLog(); updateUI();
-      if(window.AppEnhance) window.AppEnhance.onFoodRecord(cat, f.subtype, f.xp);
+      doRecord();
     });
     c.querySelector('.f-dec').addEventListener('click',e=>{
       e.stopPropagation();
@@ -2734,17 +2796,32 @@ function renderSearchResults(q){
 // カスタム食材追加
 function openCustomAdd(prefill){
   const name=prefill||'';
-  const cat=prompt(`「${name}」のカテゴリを選んでください:\n1 野菜\n2 果物\n3 たんぱく質\n4 穀物\n5 制限食品\n番号を入力:`);
-  const catMap={'1':'veg','2':'fruit','3':'protein','4':'grain','5':'limit'};
   const icons={'veg':'🥬','fruit':'🍎','protein':'🍗','grain':'🍚','limit':'⚠️'};
   const xpDef={'veg':12,'fruit':12,'protein':15,'grain':12,'limit':-5};
-  if(!cat||!catMap[cat]) return;
-  const c=catMap[cat];
-  sessions.push({name,icon:icons[c],cat:c,xp:xpDef[c]});
-  renderLog(); updateUI(); updateCardCounts();
-  document.getElementById('food-search').value='';
-  document.getElementById('search-clear').classList.remove('visible');
-  document.getElementById('search-results').classList.remove('open');
+  const ov=document.createElement('div');
+  Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});
+  ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;">
+    <p style="color:#0a2a40;font-size:.88rem;font-weight:700;margin-bottom:14px;">「${name}」のカテゴリ</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
+      ${[['veg','🥬 野菜'],['fruit','🍎 果物'],['protein','🍗 たんぱく質'],['grain','🍚 穀物'],['limit','⚠️ 制限食品']].map(([v,l])=>`<label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #b0cfdf;border-radius:8px;cursor:pointer;font-size:.85rem;color:#0a2a40;"><input type="radio" name="_cat" value="${v}" style="accent-color:#1e7fa4;"> ${l}</label>`).join('')}
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button id="_catCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button>
+      <button id="_catOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">追加</button>
+    </div></div>`;
+  document.body.appendChild(ov);
+  ov.querySelector('#_catCancel').onclick=()=>ov.remove();
+  ov.querySelector('#_catOk').onclick=()=>{
+    const sel=ov.querySelector('input[name="_cat"]:checked');
+    if(!sel){showToast('カテゴリを選んでください');return;}
+    const c=sel.value;
+    ov.remove();
+    sessions.push({name,icon:icons[c],cat:c,xp:xpDef[c]});
+    renderLog(); updateUI(); updateCardCounts();
+    document.getElementById('food-search').value='';
+    document.getElementById('search-clear').classList.remove('visible');
+    document.getElementById('search-results').classList.remove('open');
+  };
 }
 
 document.getElementById('food-search').addEventListener('input',e=>{
@@ -3153,16 +3230,17 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
 });
 document.getElementById('save-btn').addEventListener('click',saveWeek);
 document.getElementById('reset-btn').addEventListener('click',()=>{
-  if(!confirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）')) return;
-  sessions=[];
-  localStorage.removeItem(storeKey());
-  document.querySelectorAll('.food-card').forEach(c=>{
-    c.dataset.count='0'; c.classList.remove('counted');
-    const el=c.querySelector('.f-count'); if(el) el.textContent='';
+  showConfirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）', ()=>{
+    sessions=[];
+    localStorage.removeItem(storeKey());
+    document.querySelectorAll('.food-card').forEach(c=>{
+      c.dataset.count='0'; c.classList.remove('counted');
+      const el=c.querySelector('.f-count'); if(el) el.textContent='';
+    });
+    updateUI();
+    document.getElementById('save-msg').textContent='リセットしました';
+    setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
   });
-  updateUI();
-  document.getElementById('save-msg').textContent='リセットしました';
-  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
 });
 document.getElementById('guest-btn').addEventListener('click',()=>{
   uid='guest';
@@ -3437,6 +3515,8 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
 </div>
 </body>
 </html>
+
+
 
 
 

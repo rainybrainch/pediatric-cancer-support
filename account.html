@@ -179,6 +179,75 @@ body::before{
 [style*="color:#c9a84c"],[style*="color:#f0d48a"],[style*="color:#e8c870"]{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;}
 [style*="color:#4ec98a"],[style*="color:#a8e8c0"],[style*="color:#7ee8b0"]{color:#0e7040 !important;-webkit-text-fill-color:#0e7040 !important;}
 </style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{background:radial-gradient(ellipse at 20% 10%,rgba(255,255,255,.7),transparent 55%),radial-gradient(ellipse at 80% 25%,rgba(255,255,255,.5),transparent 60%),radial-gradient(ellipse at 50% 70%,rgba(255,255,255,.55),transparent 60%) !important;opacity:.85 !important;}
+#loading-screen,#login-screen{background:#c8e4f4 !important;}
+header{background:rgba(200,228,244,.97) !important;border-bottom:1px solid #b0cfdf !important;}
+header a{color:#0a4870 !important;}
+.card,.section,.intro-card,.section-card,.stat-card,.info-card{background:#ffffff !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+h1,h2,h3,.section-title,.gold-text{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;}
+.bottom-nav{background:rgba(248,252,255,.98) !important;border-top:1px solid rgba(30,127,164,.15) !important;}
+.bn-tab{color:rgba(53,87,115,.45) !important;-webkit-text-fill-color:rgba(53,87,115,.45) !important;}
+.bn-tab.active{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+</style>
 <script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>
 </head>
@@ -780,6 +849,8 @@ if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </nav>
 </body>
 </html>
+
+
 
 
 

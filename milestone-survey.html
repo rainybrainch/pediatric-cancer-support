@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -37,6 +37,14 @@ textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,1
 .cmp-badge{font-size:.62rem;color:rgba(168,232,192,.85);background:rgba(78,201,138,.1);border:1px solid rgba(78,201,138,.3);border-radius:99px;padding:2px 9px;margin-left:6px;}
 </style>
 <style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
 body{background:#c8e4f4 !important;color:#0a2a40 !important;}
 header{background:rgba(200,228,244,.97) !important;border-bottom:1px solid #b0cfdf !important;}
 header a{color:#1e7fa4 !important;}
@@ -52,6 +60,55 @@ input:focus,select:focus,textarea:focus{border-color:#1e7fa4 !important;outline:
 .bottom-bar{background:rgba(200,228,244,.97) !important;border-top:1px solid #b0cfdf !important;}
 .btn-submit{background:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;color:#fff !important;}
 .cmp-badge{background:rgba(30,127,164,.1) !important;border-color:rgba(30,127,164,.3) !important;color:#1e7fa4 !important;}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
 </style>
 <script src="./app-safety.js"></script>
 </head>
@@ -237,6 +294,7 @@ input:focus,select:focus,textarea:focus{border-color:#1e7fa4 !important;outline:
 </div>
 
 <script>
+function showToast(msg,d=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},d);}
 // URL ?type=midpoint or ?type=endpoint
 const params = new URLSearchParams(location.search);
 const type = params.get('type') || 'midpoint';
@@ -291,8 +349,8 @@ document.getElementById('submit').addEventListener('click', async ()=>{
     if(window.AppSafety) window.AppSafety.queueRecord('milestone_assessments', data);
   }catch(e){}
 
-  alert(`✓ ${isEnd?'12週':'6週'}時点の調査を保存しました。\n+${isEnd?150:80}XP獲得しました！`);
-  location.href = './game.html';
+  showToast(`✓ ${isEnd?'12週':'6週'}時点の調査を保存しました。+${isEnd?150:80}XP獲得しました！`);
+  setTimeout(()=>{ location.href = './game.html'; }, 1500);
 });
 
 function weekKey(){
@@ -303,3 +361,5 @@ function weekKey(){
 </script>
 </body>
 </html>
+
+

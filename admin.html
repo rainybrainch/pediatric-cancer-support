@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -462,6 +462,9 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
   </div>
 </div>
 
+<script>
+function showToast(msg,d=3500){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'20px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},d);}
+</script>
 <script type="module">
 import { initializeApp }    from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
 import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
@@ -991,7 +994,7 @@ document.getElementById('kanon-export-btn')?.addEventListener('click', ()=>{
   const status = document.getElementById('kanon-status');
   const dataMap = { baseline:_baselineData, weekly:_weeklyData, milestone:_milestoneData, qol:_qolDailyData };
   const data = dataMap[target] || [];
-  if(data.length === 0){ alert('対象データがありません'); return; }
+  if(data.length === 0){ showToast('対象データがありません'); return; }
 
   // 行を平坦化
   let rows = [];
@@ -1058,7 +1061,7 @@ document.getElementById('kanon-export-btn')?.addEventListener('click', ()=>{
   const removed = rows.length - filtered.length;
 
   if(filtered.length === 0){
-    alert(`k=${k}を満たすレコードがありません（全${rows.length}件除外）。\nkを下げるか、データを増やしてください。`);
+    showToast('k=${k}を満たすレコードがありません（全${rows.length}件除外）。\nkを下げるか、データを増やしてください。');
     return;
   }
 
@@ -1106,7 +1109,7 @@ document.getElementById('ppi-save-btn')?.addEventListener('click', ()=>{
   const type = document.getElementById('ppi-type').value;
   const participants = document.getElementById('ppi-participants').value.trim();
   const notes = document.getElementById('ppi-notes').value.trim();
-  if(!date || !type || !notes){ alert('日付・種別・記録は必須です'); return; }
+  if(!date || !type || !notes){ showToast('日付・種別・記録は必須です'); return; }
   const logs = loadPPILogs();
   logs.unshift({ date, type, participants, notes, savedAt: new Date().toISOString() });
   savePPILogs(logs);
@@ -1116,7 +1119,7 @@ document.getElementById('ppi-save-btn')?.addEventListener('click', ()=>{
 });
 document.getElementById('ppi-export-btn')?.addEventListener('click', ()=>{
   const logs = loadPPILogs();
-  if(logs.length === 0){ alert('PPIログがありません'); return; }
+  if(logs.length === 0){ showToast('PPIログがありません'); return; }
   const rows = [['date','type','participants','notes','saved_at']];
   logs.forEach(l=>rows.push([l.date,l.type,l.participants,(l.notes||'').replace(/[\r\n]/g,' '),l.savedAt]));
   const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
@@ -1301,7 +1304,7 @@ function renderResearchTabs(baseline, weekly, milestone, profiles){
 
 // CSVエクスポート - 研究タブ
 function exportTabAsCsv(rows, filename){
-  if(rows.length===0){ alert('データがありません'); return; }
+  if(rows.length===0){ showToast('データがありません'); return; }
   const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
   const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
@@ -1349,32 +1352,32 @@ document.getElementById('export-milestone-btn')?.addEventListener('click',()=>{
 });
 
 document.getElementById('export-quest-btn').addEventListener('click',()=>{
-  if(!_questData.length){ alert('データがありません'); return; }
+  if(!_questData.length){ showToast('データがありません'); return; }
   const headers=['メール','週','中強度(分)','高強度(分)','合計スコア','目標達成','XP','Lv','歩数','BMI','QOL①体調','QOL②気分','QOL③活力','QOL合計','保存日時'];
   const rows=_questData.map(d=>[d.email,d.weekLabel||d.weekKey,d.modMin,d.highMin,d.totalScore,d.goalAchieved?'達成':'未達成',d.xp,d.lv,d.steps,d.bmi,d.qol1??'',d.qol2??'',d.qol3??'',d.qolTotal??'',d.savedAt]);
   downloadCSV(`quest_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 document.getElementById('export-nutr-btn').addEventListener('click',()=>{
-  if(!_nutrData.length){ alert('データがありません'); return; }
+  if(!_nutrData.length){ showToast('データがありません'); return; }
   const headers=['メール','週','野菜(皿)','果物(皿)','たんぱく質(食)','穀物(食)','制限食品','XP','Lv','保存日時'];
   const rows=_nutrData.map(d=>[d.email,d.weekLabel||d.weekKey,d.veg,d.fruit,d.protein,d.grain,d.limit,d.xp,d.lv,d.savedAt]);
   downloadCSV(`nutrition_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 document.getElementById('export-body-btn').addEventListener('click',()=>{
-  if(!_bodyData.length){ alert('データがありません'); return; }
+  if(!_bodyData.length){ showToast('データがありません'); return; }
   const headers=['メール','週','身長(cm)','体重(kg)','体脂肪率(%)','BMI','除脂肪体重(kg)','脂肪量(kg)','保存日時'];
   const rows=_bodyData.map(d=>[d.email,d.weekLabel||d.weekKey,d.height,d.weight,d.bodyFat??'',d.bmi??'',d.leanMass??'',d.fatMass??'',d.savedAt]);
   downloadCSV(`body_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 document.getElementById('export-qol-btn').addEventListener('click',()=>{
   const qolDocs=_questData.filter(d=>d.qol1!=null||d.qol2!=null||d.qol3!=null);
-  if(!qolDocs.length){ alert('QOL回答データがありません'); return; }
+  if(!qolDocs.length){ showToast('QOL回答データがありません'); return; }
   const headers=['メール','週','QOL①体調(1-5)','QOL②気分(1-5)','QOL③活力(1-5)','QOL合計(3-15)','運動達成','運動スコア(分)','保存日時'];
   const rows=qolDocs.map(d=>[d.email,d.weekLabel||d.weekKey,d.qol1??'',d.qol2??'',d.qol3??'',d.qolTotal??'',d.goalAchieved?'達成':'未達成',d.totalScore??'',d.savedAt]);
   downloadCSV(`qol_data_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 document.getElementById('export-qol-daily-btn')?.addEventListener('click',()=>{
-  if(!_qolDailyData.length){ alert('毎日QOLデータがありません'); return; }
+  if(!_qolDailyData.length){ showToast('毎日QOLデータがありません'); return; }
   const headers=['UID','日付','週','体調','気分','活力','合計','保存日時(ISO)'];
   const fmtTs=t=>{
     if(!t) return '';
@@ -1387,7 +1390,7 @@ document.getElementById('export-qol-daily-btn')?.addEventListener('click',()=>{
   downloadCSV(`qol_daily_${new Date().toISOString().slice(0,10)}.csv`, toCSV(headers,rows));
 });
 document.getElementById('export-coach-btn').addEventListener('click',()=>{
-  if(!_coachData.length){ alert('AIコーチ会話データがありません'); return; }
+  if(!_coachData.length){ showToast('AIコーチ会話データがありません'); return; }
   const fmtTs=t=>{
     if(!t) return '';
     try{
@@ -1402,3 +1405,5 @@ document.getElementById('export-coach-btn').addEventListener('click',()=>{
 </script>
 </body>
 </html>
+
+

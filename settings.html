@@ -147,6 +147,14 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 }
 </style>
 <style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
 /* ── settings.html watercolor skin ── */
 body,html{ background:#c8e4f4 !important; color:#0a2a40 !important; }
 body::before{ display:none !important; }
@@ -227,6 +235,55 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
 .bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
 </style>
 <script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>
@@ -594,6 +651,47 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 </div>
 
 <script>
+/* ── UI utilities (no native alert/confirm) ── */
+function showToast(msg, duration=3000){
+  let t=document.getElementById('_toast');
+  if(!t){t=document.createElement('div');t.id='_toast';
+    Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',
+      background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',
+      fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center',
+      boxShadow:'0 4px 16px rgba(0,0,0,.25)',border:'1px solid rgba(30,127,164,.4)'});
+    document.body.appendChild(t);}
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(t._tid); t._tid=setTimeout(()=>{t.style.opacity='0';},duration);
+}
+function showConfirm(msg, onOk, onCancel){
+  const ov=document.createElement('div');
+  Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',
+    display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});
+  ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;">
+    <p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button>
+      <button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button>
+    </div></div>`;
+  document.body.appendChild(ov);
+  ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};
+  ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};
+}
+function showPromptModal(msg, onOk){
+  const ov=document.createElement('div');
+  Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',
+    display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});
+  ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:340px;width:100%;text-align:center;">
+    <p style="color:#0a2a40;font-size:.85rem;line-height:1.7;margin-bottom:14px;">${msg.replace(/\n/g,'<br>')}</p>
+    <textarea id="_pInput" rows="3" style="width:100%;padding:8px;border:1px solid #b0cfdf;border-radius:8px;font-size:.82rem;color:#0a2a40;resize:none;"></textarea>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:14px;">
+      <button id="_pCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button>
+      <button id="_pOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">送信</button>
+    </div></div>`;
+  document.body.appendChild(ov);
+  ov.querySelector('#_pOk').onclick=()=>{const v=ov.querySelector('#_pInput').value;ov.remove();if(onOk)onOk(v);};
+  ov.querySelector('#_pCancel').onclick=()=>{ov.remove();};
+}
 const SETTINGS_KEY = 'vitalia_settings';
 
 function weekKey(){
@@ -1085,8 +1183,7 @@ document.getElementById('btn-share-summary').addEventListener('click', ()=>{
   let nuScore = 0;
   try{ const n = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}'); nuScore = n.score||0; }catch(e){}
 
-  const userMsg = prompt('ご家族・主治医に伝えたいメッセージがあればどうぞ（任意）:', '今週はこれだけ頑張れました。応援ありがとう。') || '';
-
+  const _shareWithMsg = (userMsg)=>{
   const payload = {
     name: '冒険者',
     weekLabel: weekLabel(wk),
@@ -1111,9 +1208,13 @@ document.getElementById('btn-share-summary').addEventListener('click', ()=>{
     navigator.share({ title:'ヴィタリア転生録 — 週次レポート', url }).catch(()=>{});
   } else {
     navigator.clipboard.writeText(url).then(()=>{
-      alert('✓ 共有リンクをコピーしました。\nLINE・メールなどに貼り付けて送信してください。\n\n' + url);
+      showToast('✓ 共有リンクをコピーしました。LINEやメールに貼り付けて送信してください。');
     });
   }
+  }; // end _shareWithMsg
+  showPromptModal('ご家族・主治医に伝えたいメッセージがあればどうぞ（任意）', (msg)=>{
+    _shareWithMsg(msg || '今週はこれだけ頑張れました。応援ありがとう。');
+  });
 });
 
 function weekLabel(wk){
@@ -1186,11 +1287,11 @@ notifyToggle.addEventListener('click', async ()=>{
   if(!('Notification' in window)) return;
   if(Notification.permission==='granted'){
     // 通知をOFFにはブラウザ設定で。ここでは案内のみ
-    alert('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。');
+    showToast('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。', 4500);
     return;
   }
   if(Notification.permission==='denied'){
-    alert('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。');
+    showToast('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。', 4500);
     return;
   }
   const result=await Notification.requestPermission();
@@ -1222,7 +1323,7 @@ reminderToggle.addEventListener('click',()=>{
   const on=reminderToggle.classList.toggle('on');
   reminderTimeRow.style.display=on?'flex':'none';
   if(on && Notification.permission!=='granted'){
-    alert('通知を先に許可してください（上のトグル）。');
+    showToast('通知を先に許可してください（上のトグル）。');
     reminderToggle.classList.remove('on');
     reminderTimeRow.style.display='none';
     return;
@@ -1240,12 +1341,9 @@ function saveReminder(){
 
 // ===== 研究離脱・アカウント削除 =====
 document.getElementById('btn-revoke-consent').addEventListener('click', ()=>{
-  const reason = prompt('差し支えなければ、離脱の理由を教えてください（任意・研究改善のため）：\n\n（空欄でも進めます）');
-  if(reason === null) return; // キャンセル
-
-  if(!confirm('本当に研究離脱・アカウント削除を申請しますか？\n\nこの端末のデータは即座に削除されます。\nクラウド側のデータは72時間以内に完全削除されます。')) return;
-  if(!confirm('最終確認：本当によろしいですか？\nこの操作は取り消せません。')) return;
-
+  showPromptModal('差し支えなければ、離脱の理由を教えてください（任意・研究改善のため）\n空欄でも進めます', (reason)=>{
+    showConfirm('本当に研究離脱・アカウント削除を申請しますか？\n\nこの端末のデータは即座に削除されます。\nクラウド側のデータは72時間以内に完全削除されます。', ()=>{
+      showConfirm('最終確認：本当によろしいですか？\nこの操作は取り消せません。', ()=>{
   try{
     // 削除リクエストフラグをセット → game.htmlで処理
     const uid = localStorage.getItem('vitalia_uid_hint') || '';
@@ -1267,11 +1365,14 @@ document.getElementById('btn-revoke-consent').addEventListener('click', ()=>{
     document.getElementById('revoke-msg').textContent='エラー: '+e.message;
     document.getElementById('revoke-msg').style.color='#f0a0a0';
   }
+      });
+    });
+  });
 });
 
 document.getElementById('btn-clear-all').addEventListener('click',()=>{
-  if(!confirm('本当にローカルデータを全削除しますか？\nゲーム進行・記録がリセットされます。\n（Firebase上のデータは別途研究事務局へ削除依頼が必要です）')) return;
-  if(!confirm('もう一度確認：本当にすべて削除しますか？')) return;
+  showConfirm('本当にローカルデータを全削除しますか？\nゲーム進行・記録がリセットされます。\n（Firebase上のデータは別途研究事務局へ削除依頼が必要です）', ()=>{
+    showConfirm('もう一度確認：本当にすべて削除しますか？', ()=>{
   // 自分のキーだけ削除
   const keysToDelete=[];
   for(let i=0;i<localStorage.length;i++){
@@ -1279,8 +1380,10 @@ document.getElementById('btn-clear-all').addEventListener('click',()=>{
     if(k && /^v[abchnqtw]_/.test(k)) keysToDelete.push(k);
   }
   keysToDelete.forEach(k=>localStorage.removeItem(k));
-  alert(`${keysToDelete.length}件のローカルデータを削除しました。`);
-  location.href='./index.html';
+  showToast(`${keysToDelete.length}件のローカルデータを削除しました。`);
+  setTimeout(()=>{ location.href='./index.html'; }, 1500);
+    });
+  });
 });
 </script>
 
@@ -1412,6 +1515,8 @@ onAuthStateChanged(auth, user => {
 </nav>
 </body>
 </html>
+
+
 
 
 

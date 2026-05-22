@@ -90,6 +90,14 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 <script src="./app-safety.js"></script>
 <script src="./gamification.js"></script>
 <style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
 /* ============================================
    水色スキン v1 ── 2026-05-11
    創造主指示「ゲームのデザインを水色に。文字見やすく」
@@ -166,6 +174,55 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 header{ background: rgba(220,240,248,.97) !important; border-bottom: 1px solid rgba(30,127,164,.22); }
 header a{ color: #0a4870 !important; }
 .back-btn{ color: #1e7fa4 !important; border-color: rgba(30,127,164,.35) !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
 </style>
 </head>
 <body>
@@ -204,6 +261,8 @@ header a{ color: #0a4870 !important; }
 </main>
 
 <script>
+function showToast(msg,d=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},d);}
+function showConfirm(msg,onOk){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cC" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button><button id="_cO" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cO').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cC').onclick=()=>ov.remove();}
 let _filter = 'all';
 function render(){
   if(!window.Gamification){
@@ -252,21 +311,22 @@ function render(){
         if(window.Gamification.equipItem(id)){
           render();
         } else {
-          alert('装備失敗（スロット満杯 or 未所持）');
+          showToast('装備失敗（スロット満杯 or 未所持）');
         }
       } else if(action === 'unequip'){
         window.Gamification.unequipItem(id);
         render();
       } else if(action === 'use'){
-        if(!confirm('このアイテムを使用しますか？（消費されます）')) return;
-        const r = window.Gamification.useItem(id);
-        if(r.ok){
-          alert('✓ ' + r.msg);
-          try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:30}); }catch(e){}
-          render();
-        } else {
-          alert(r.msg);
-        }
+        showConfirm('このアイテムを使用しますか？（消費されます）', ()=>{
+          const r = window.Gamification.useItem(id);
+          if(r.ok){
+            showToast('✓ ' + r.msg);
+            try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:30}); }catch(e){}
+            render();
+          } else {
+            showToast(r.msg);
+          }
+        });
       }
     });
   });
@@ -325,6 +385,8 @@ render();
 </nav>
 </body>
 </html>
+
+
 
 
 
