@@ -872,6 +872,18 @@ setTimeout(function(){
     const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    function showMsg(text, isError){
+      const el = document.getElementById('auth-msg') || (() => {
+        const d = document.createElement('p');
+        d.id = 'auth-msg';
+        d.style.cssText = 'margin:8px 0 0;font-size:.82rem;text-align:center;';
+        document.getElementById('login-btn')?.after(d);
+        return d;
+      })();
+      el.textContent = text;
+      el.style.color = isError ? '#c04040' : '#1f8a66';
+    }
+
     const loadingScreen = document.getElementById('loading-screen');
     const loginScreen   = document.getElementById('login-screen');
     const mainScreen    = document.getElementById('main-screen');
@@ -882,15 +894,15 @@ setTimeout(function(){
         const email    = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         createUserWithEmailAndPassword(auth, email, password)
-            .then(() => alert("アカウントが作成されました！"))
-            .catch(err => alert("エラー: " + err.message + "\n（パスワードは6文字以上必要です）"));
+            .then(() => showMsg("アカウントが作成されました！", false))
+            .catch(err => showMsg("エラー: " + err.message + "（パスワードは6文字以上必要です）", true));
     });
 
     document.getElementById('login-btn').addEventListener('click', () => {
         const email    = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         signInWithEmailAndPassword(auth, email, password)
-            .catch(() => alert("ログインに失敗しました。メールアドレスかパスワードが間違っています。"));
+            .catch(() => showMsg("ログインに失敗しました。メールアドレスかパスワードが間違っています。", true));
     });
 
     document.getElementById('logout-btn').addEventListener('click', () => {

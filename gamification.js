@@ -124,7 +124,8 @@
   }
   function showGachaModal(){
     if(!canRollDailyGacha()){
-      alert('今日のガチャは引き済みです。明日また！');
+      if(typeof showToast==='function') showToast('今日のガチャは引き済みです。明日また！');
+      else window.alert('今日のガチャは引き済みです。明日また！');
       return;
     }
     const overlay = document.createElement('div');
@@ -169,7 +170,8 @@
   }
   function showBossMiniGame(boss){
     if(!canPlayBossMini()){
-      alert('今日のミニゲームはプレイ済みです。明日また挑戦できます！');
+      if(typeof showToast==='function') showToast('今日のミニゲームはプレイ済みです。明日また挑戦できます！');
+      else window.alert('今日のミニゲームはプレイ済みです。明日また挑戦できます！');
       return;
     }
     const overlay = document.createElement('div');
