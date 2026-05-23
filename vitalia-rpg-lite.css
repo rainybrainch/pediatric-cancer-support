@@ -1,0 +1,104 @@
+/* ============================================================
+   Vitalia RPG — Lite Theme
+   ボトムナビ刷新 + テーマトークンだけの軽量版（~3KB）
+   FX/Battle/Tweaks は読み込まない。
+   ============================================================ */
+:root{
+  --vrpg-ink:        #0a2a40;
+  --vrpg-ink-soft:   #1a4860;
+  --vrpg-ink-mute:   #547690;
+  --vrpg-cyan:       #1e7fa4;
+  --vrpg-cyan-2:     #5fd0e8;
+  --vrpg-cyan-deep:  #0a4870;
+  --vrpg-gold:       #c8941a;
+  --vrpg-gold-2:     #f0c548;
+}
+
+/* =========================================================
+   Bottom Nav — floating pill
+   ========================================================= */
+body.vrpg-on .bottom-nav{
+  position:fixed !important;
+  bottom: calc(10px + env(safe-area-inset-bottom,0)) !important;
+  left:10px !important;
+  right:10px !important;
+  height:auto !important;
+  padding:6px !important;
+  background: rgba(252,254,255,.92) !important;
+  border:1px solid rgba(30,80,110,.18) !important;
+  border-radius:18px !important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 0 0 1px rgba(255,255,255,.45) inset,
+    0 14px 32px -10px rgba(20,50,80,.30),
+    0 0 0 1px rgba(95,208,232,.18);
+  display:flex !important;
+  gap:2px !important;
+  z-index:90 !important;
+}
+body.vrpg-on .bottom-nav .bn-tab{
+  flex:1 1 0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:2px !important;
+  padding:7px 4px !important;
+  border-radius:13px !important;
+  color: rgba(30,80,110,.55) !important;
+  -webkit-text-fill-color: rgba(30,80,110,.55) !important;
+  text-decoration:none !important;
+  position:relative;
+  transition: background .18s, color .15s, transform .12s;
+}
+body.vrpg-on .bottom-nav .bn-tab:active{
+  transform: scale(.94);
+}
+body.vrpg-on .bottom-nav .bn-tab .bn-icon{
+  font-size:1.3rem !important;
+  line-height:1 !important;
+  filter: grayscale(.4) brightness(.92);
+  transition: filter .15s, transform .15s;
+  -webkit-text-fill-color: initial !important;
+  color: initial !important;
+}
+body.vrpg-on .bottom-nav .bn-tab .bn-label{
+  font-size:.58rem !important;
+  font-weight:800 !important;
+  letter-spacing:.04em !important;
+  line-height:1 !important;
+  font-family:'Zen Kaku Gothic New',sans-serif !important;
+}
+/* Active tab — floating pill */
+body.vrpg-on .bottom-nav .bn-tab.active{
+  background:
+    linear-gradient(180deg, var(--vrpg-cyan-2), var(--vrpg-cyan)) !important;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.45),
+    0 4px 12px -4px rgba(30,127,164,.55),
+    0 0 0 1px rgba(10,72,112,.18);
+}
+body.vrpg-on .bottom-nav .bn-tab.active .bn-icon{
+  filter:none;
+  transform: translateY(-1px) scale(1.08);
+}
+body.vrpg-on .bottom-nav .bn-tab.active::before{
+  content:"";
+  position:absolute; top:-2px; left:50%; transform:translateX(-50%);
+  width:18px; height:3px; border-radius:99px;
+  background:linear-gradient(90deg, var(--vrpg-gold-2), var(--vrpg-gold));
+  box-shadow:0 0 8px rgba(240,197,72,.6);
+}
+
+/* Body bottom padding so floating nav doesn't cover content */
+body.vrpg-on{
+  padding-bottom: calc(82px + env(safe-area-inset-bottom,0)) !important;
+}
+
+@media (prefers-reduced-motion: reduce){
+  body.vrpg-on .bottom-nav .bn-tab{transition:none !important;}
+}

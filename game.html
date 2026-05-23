@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ヴィタリア転生録 ― ゲームホーム</title>
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/svg+xml" href="./icon.svg">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
 <meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -188,9 +188,9 @@ body::before{
 }
 .login-box{
   background:rgba(13,18,37,.95);
-  border:1px solid rgba(201,168,76,.25);border-radius:20px;
-  padding:24px 24px 26px;
-  box-shadow:0 0 60px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.08),inset 0 1px 0 rgba(255,255,255,.03);
+  border:1px solid rgba(201,168,76,.2);border-radius:20px;
+  padding:28px 24px 24px;
+  box-shadow:0 0 60px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.05);
 }
 .login-box-title{
   font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;
@@ -207,49 +207,24 @@ body::before{
 #login-screen .login-field input:focus{outline:none;border-color:rgba(201,168,76,.45);}
 .btn-login{
   width:100%;
-  background:linear-gradient(135deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;
-  border:none;border-radius:999px;
-  color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;
-  padding:13px;cursor:pointer;margin-top:6px;letter-spacing:.08em;
-  transition:background-position .4s,transform .2s,box-shadow .2s;
-  box-shadow:0 4px 18px rgba(201,168,76,.35);
+  background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.15));
+  border:1px solid rgba(201,168,76,.45);border-radius:10px;
+  color:var(--gold2);font-family:inherit;font-size:.9rem;font-weight:700;
+  padding:12px;cursor:pointer;margin-top:6px;transition:background .2s;
 }
-#login-screen .btn-login:hover{background-position:right center;transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.45);}
-#login-screen .btn-login:active{transform:translateY(0);}
+#login-screen .btn-login:hover{background:linear-gradient(135deg,rgba(201,168,76,.42),rgba(201,168,76,.22));}
 .btn-register{
-  width:100%;background:transparent;border:1.5px solid rgba(201,168,76,.4);border-radius:999px;
-  color:rgba(240,212,138,.75);font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;
-  padding:11px;cursor:pointer;margin-top:8px;letter-spacing:.06em;
-  transition:border-color .2s,color .2s,background .2s;
+  width:100%;background:none;border:1px solid rgba(100,120,200,.28);border-radius:10px;
+  color:rgba(160,180,240,.65);font-family:inherit;font-size:.85rem;font-weight:700;
+  padding:10px;cursor:pointer;margin-top:6px;transition:border-color .2s;
 }
-#login-screen .btn-register:hover{border-color:rgba(201,168,76,.7);color:var(--gold2);background:rgba(201,168,76,.06);}
+#login-screen .btn-register:hover{border-color:rgba(100,120,200,.55);}
 .login-err{font-size:.76rem;color:var(--red);margin-top:10px;display:none;line-height:1.6;}
 .login-guest{
-  text-align:center;margin-top:16px;
-  font-size:.7rem;color:rgba(170,188,216,.45);cursor:pointer;
+  text-align:center;margin-top:14px;
+  font-size:.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;
 }
-.login-guest span{text-decoration:underline;}
 #login-screen .login-guest:hover{color:var(--silver);}
-/* ログインカード内のルナキャラ */
-.login-char-wrap{display:flex;justify-content:center;margin-bottom:18px;}
-.login-char-wrap img{
-  width:110px;height:140px;object-fit:cover;object-position:top 5%;
-  filter:drop-shadow(0 0 16px rgba(201,168,76,.3));
-  animation:float 3.5s ease-in-out infinite;
-}
-/* ルナの吹き出し */
-.luna-bubble{
-  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);
-  border-radius:12px;padding:9px 13px;margin-bottom:16px;
-  font-size:.77rem;line-height:1.7;color:rgba(240,212,138,.85);
-  position:relative;
-}
-.luna-bubble::before{
-  content:'ルナ';position:absolute;top:-10px;left:12px;
-  font-size:.6rem;font-weight:900;letter-spacing:.08em;
-  background:rgba(201,168,76,.85);color:#1a1200;
-  padding:1px 8px;border-radius:99px;
-}
 .lp-research-link{
   text-align:center;margin-top:16px;
   font-size:.64rem;color:rgba(170,188,216,.3);
@@ -292,13 +267,13 @@ body::before{
 
 /* 今週の進捗 */
 .sh-summary{
-  background:rgba(255,255,255,.75);border:1px solid rgba(30,127,164,.25);
+  background:rgba(14,18,32,.7);border:1px solid rgba(201,168,76,.2);
   border-radius:11px;padding:11px 14px;display:flex;flex-direction:column;gap:8px;
 }
-.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:rgba(10,42,64,.85);}
-.sh-sum-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
-.sh-sum-val{flex:1;font-weight:700;color:#0a2a40;}
-.sh-sum-bar{flex:1;height:6px;background:rgba(10,42,64,.12);border-radius:99px;overflow:hidden;}
+.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:rgba(220,225,245,.85);}
+.sh-sum-lbl{color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
+.sh-sum-val{flex:1;font-weight:700;color:#f0e4d4;}
+.sh-sum-bar{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
 .sh-sum-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a);border-radius:99px;transition:width .5s;}
 .sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:var(--gold2);font-size:.78rem;min-width:40px;text-align:right;}
 
@@ -331,8 +306,8 @@ body::before{
 /* フッター行（メニュー・詳細・相談） */
 .sh-foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:4px;}
 .sh-foot-btn{
-  background:rgba(255,255,255,.7);border:1px solid rgba(30,127,164,.25);
-  color:rgba(10,42,64,.85);font-family:inherit;font-size:.65rem;font-weight:700;
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
+  color:rgba(220,225,245,.75);font-family:inherit;font-size:.65rem;font-weight:700;
   padding:8px 4px;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;
   letter-spacing:.04em;
 }
@@ -342,8 +317,8 @@ body::before{
 .compact-home{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
 .ch-toprow{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
 .ch-tbtn{
-  background:rgba(255,255,255,.7);border:1px solid rgba(30,127,164,.25);
-  color:rgba(10,42,64,.9);font-family:inherit;font-size:.6rem;font-weight:700;
+  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.22);
+  color:rgba(220,225,245,.85);font-family:inherit;font-size:.6rem;font-weight:700;
   padding:7px 4px;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em;
 }
@@ -442,7 +417,7 @@ body::before{
 .ch-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid rgba(201,168,76,.18);padding-bottom:11px;}
 .ch-menu-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);letter-spacing:.04em;}
 .ch-menu-close{
-  background:rgba(255,255,255,.7);border:1px solid rgba(30,127,164,.3);color:#0a2a40;
+  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);color:rgba(220,225,245,.8);
   font-size:1.3rem;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;
   display:flex;align-items:center;justify-content:center;font-family:inherit;
 }
@@ -513,8 +488,8 @@ body::before{
 
 .ch-sub{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
 .ch-sub-btn{
-  flex:1;background:rgba(255,255,255,.65);border:1px solid rgba(30,127,164,.2);
-  color:rgba(10,42,64,.8);font-family:inherit;font-size:.65rem;font-weight:700;
+  flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);
+  color:rgba(220,225,245,.7);font-family:inherit;font-size:.65rem;font-weight:700;
   padding:6px 4px;border-radius:7px;text-decoration:none;text-align:center;letter-spacing:.04em;
   white-space:nowrap;
 }
@@ -849,11 +824,11 @@ body.detail-mode #compact-home{display:none !important;}
   color:var(--gold2);margin-bottom:8px;
 }
 .ios-step{
-  text-align:left;font-size:.78rem;color:rgba(10,42,64,.85);
+  text-align:left;font-size:.78rem;color:rgba(220,225,245,.85);
   line-height:1.85;margin:12px 0;padding:10px 14px;
-  background:rgba(255,255,255,.65);border-radius:8px;
+  background:rgba(255,255,255,.04);border-radius:8px;
 }
-.ios-step b{color:#1e7fa4;}
+.ios-step b{color:#90b8ff;}
 .ios-close{
   background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));
   border:1px solid rgba(201,168,76,.5);border-radius:10px;
@@ -937,8 +912,8 @@ body.detail-mode #compact-home{display:none !important;}
 .ctx-greeting.celebrate{background:linear-gradient(135deg,rgba(78,201,138,.1),rgba(78,201,138,.03));border-color:rgba(78,201,138,.4);}
 .ctx-greeting.gentle{background:linear-gradient(135deg,rgba(168,200,240,.1),rgba(168,200,240,.03));border-color:rgba(168,200,240,.4);}
 .ctx-greet-icon{font-size:1.3rem;flex-shrink:0;line-height:1;}
-.ctx-greet-text{flex:1;min-width:0;font-size:.78rem;line-height:1.7;color:rgba(10,42,64,.9);}
-.ctx-greet-text strong{color:#0a4870;}
+.ctx-greet-text{flex:1;min-width:0;font-size:.78rem;line-height:1.7;color:rgba(220,225,245,.92);}
+.ctx-greet-text strong{color:#f0d48a;}
 
 /* ========== Habit Stacking 提案 ========== */
 .habit-stack-card{
@@ -1187,7 +1162,7 @@ body.detail-mode #compact-home{display:none !important;}
 .affinity-cell.sera .affinity-bar-fill{background:linear-gradient(90deg,#4ec98a,#a8e8c0);}
 .affinity-cell.luna .affinity-bar-fill{background:linear-gradient(90deg,#9c72e0,#c0a0f0);}
 .affinity-cell.pixe .affinity-bar-fill{background:linear-gradient(90deg,#f0c060,#f0d48a);}
-.affinity-quote{font-size:.58rem;color:rgba(10,42,64,.55);margin-top:3px;font-style:italic;line-height:1.3;}
+.affinity-quote{font-size:.58rem;color:rgba(220,225,245,.5);margin-top:3px;font-style:italic;line-height:1.3;}
 .affinity-side{margin-top:5px;}
 .affinity-side-btn{
   background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(201,168,76,.08));
@@ -1846,14 +1821,6 @@ body.detail-mode #compact-home{display:none !important;}
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
 <style id="watercolor-skin">
-:root{
-  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
-  --gold:#1e7fa4;--gold2:#0a4870;
-  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
-  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
-}
-html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
-body::before{opacity:0 !important;}
 /* ============================================
    ホームUI再編成 v7 ── 2026-05-13
    創造主指示：物語・実績はホームに不要。キャラを圧迫しない配置。
@@ -1984,15 +1951,14 @@ body::before{opacity:0 !important;}
   position: fixed !important;
   bottom: 0 !important;
   left: 0 !important; right: 0 !important;
-  height: 72px !important;
-  background: rgba(248,252,255,.98) !important;
-  border-top: 1px solid rgba(30,127,164,.15) !important;
+  height: 64px !important;
+  background: #ffffff !important;
+  border-top: 2px solid #b0cfdf !important;
   display: flex !important;
   align-items: stretch !important;
   z-index: 95 !important;
-  box-shadow: 0 -6px 24px rgba(30,80,110,.12), 0 -1px 0 rgba(30,127,164,.08);
+  box-shadow: 0 -4px 14px rgba(30,80,110,.10);
   padding-bottom: env(safe-area-inset-bottom, 0);
-  backdrop-filter: blur(16px);
 }
 .bottom-nav .bn-tab{
   flex: 1;
@@ -2000,47 +1966,44 @@ body::before{opacity:0 !important;}
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
   text-decoration: none;
-  color: rgba(53,87,115,.45) !important;
-  -webkit-text-fill-color: rgba(53,87,115,.45) !important;
+  color: #355773 !important;
+  -webkit-text-fill-color: #355773 !important;
   font-weight: 700;
-  transition: color .18s, transform .15s;
+  transition: color .15s, transform .1s;
   position: relative;
-  padding: 8px 2px 6px;
-  -webkit-tap-highlight-color: transparent;
+  padding: 6px 2px;
 }
-.bottom-nav .bn-tab:active{ transform: scale(.92); }
+.bottom-nav .bn-tab:hover{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 .bottom-nav .bn-tab.active{
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
 }
-.bottom-nav .bn-tab.active::after{
+.bottom-nav .bn-tab.active::before{
   content: '';
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 44px; height: 3px;
+  width: 36px; height: 3px;
   background: linear-gradient(90deg, #1e7fa4, #4ab0d4);
-  border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 8px rgba(30,127,164,.4);
+  border-radius: 0 0 99px 99px;
 }
 .bottom-nav .bn-icon{
-  font-size: 1.55rem;
+  font-size: 1.35rem;
   line-height: 1;
   filter: none !important;
   -webkit-text-fill-color: initial !important;
   color: initial !important;
-  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
 }
 .bottom-nav .bn-tab.active .bn-icon{
-  transform: scale(1.18) translateY(-2px);
+  transform: scale(1.1) translateY(-1px);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
 }
 .bottom-nav .bn-label{
-  font-size: .62rem;
+  font-size: .58rem;
   font-weight: 900;
-  letter-spacing: .03em;
-  line-height: 1;
+  letter-spacing: .04em;
 }
 
 /* メインコンテンツが下部ナビに被らないように余白確保 */
@@ -2386,311 +2349,6 @@ body::after{
 @media (prefers-reduced-motion: reduce){
   body::after{ animation: none !important; }
   .bg-particle{ animation: none !important; opacity: .3; }
-}
-
-/* ============================================
-   Phase 6 追加 v10 ── プレイヤーカード・クエストカード・各種カードの水彩化
-   ============================================ */
-
-/* ── ヘッダー ── */
-#main-screen .g-header{
-  background: rgba(255,255,255,.88) !important;
-  border-bottom: 1.5px solid #b0cfdf !important;
-  backdrop-filter: blur(10px) !important;
-}
-#main-screen .g-logo .gold-text{
-  background: linear-gradient(135deg,#0a4870,#1e7fa4) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-#main-screen .g-logo-icon{
-  border-color: #1e7fa4 !important;
-  color: #1e7fa4 !important;
-}
-#main-screen .g-user{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .g-btn{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 700 !important;
-  border-radius: 10px !important;
-}
-#main-screen .g-btn:hover{ border-color: #1e7fa4 !important; }
-
-/* ── プレイヤーカード ── */
-#main-screen .player-card{
-  background: #ffffff !important;
-  background-image: none !important;
-  border: 2px solid #b0cfdf !important;
-  box-shadow: 0 6px 0 rgba(30,80,110,.10), 0 3px 18px rgba(30,80,110,.10) !important;
-}
-#main-screen .player-card::before{ display:none !important; }
-#main-screen .player-card-bar{ background: rgba(30,127,164,.12) !important; }
-#main-screen .player-card-bar-fill{
-  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
-  background-size: initial !important;
-  animation: none !important;
-  box-shadow: none !important;
-}
-#main-screen .player-avatar{
-  border-color: #1e7fa4 !important;
-  box-shadow: 0 0 18px rgba(30,127,164,.25) !important;
-}
-#main-screen .player-name{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .lv-badge{
-  background: linear-gradient(135deg, rgba(30,127,164,.12), rgba(74,176,212,.08)) !important;
-  border-color: rgba(30,127,164,.4) !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  box-shadow: none !important;
-}
-#main-screen .lv-title{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .xp-bar{ background: rgba(30,127,164,.1) !important; }
-#main-screen .xp-fill{
-  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
-  box-shadow: 0 0 6px rgba(30,127,164,.4) !important;
-}
-#main-screen .xp-note{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .xp-note strong{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-#main-screen .pstat-num{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
-#main-screen .pstat-label{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .pstat-div{ background: rgba(30,127,164,.2) !important; }
-#main-screen .psm-badge{
-  background: rgba(30,127,164,.1) !important;
-  border-color: rgba(30,127,164,.3) !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-}
-
-/* ── QOLトレンドカード ── */
-#main-screen .qol-trend-card{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
-}
-#main-screen .qol-trend-head{
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  border-bottom-color: rgba(30,127,164,.15) !important;
-}
-#main-screen .qol-trend-action{
-  background: rgba(30,127,164,.1) !important;
-  border: 1px solid rgba(30,127,164,.3) !important;
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
-}
-#main-screen .qol-trend-empty{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .qol-trend-num{ color: #1f8a66 !important; -webkit-text-fill-color: #1f8a66 !important; }
-#main-screen .qol-trend-lbl{ color: rgba(10,42,64,.55) !important; -webkit-text-fill-color: rgba(10,42,64,.55) !important; }
-#main-screen .qol-trend-streak{ color: rgba(10,42,64,.5) !important; -webkit-text-fill-color: rgba(10,42,64,.5) !important; }
-
-/* ── クエストカード（qcard）── */
-#main-screen .qcard{
-  background: #ffffff !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
-}
-#main-screen .qcard-ex{ border: 2px solid #b53a3a !important; }
-#main-screen .qcard-nu{ border: 2px solid #1f7d4d !important; }
-#main-screen .qcard-co{ border: 2px solid #5b4ea8 !important; }
-#main-screen .qc-hero-ex{ background: linear-gradient(135deg, rgba(181,58,58,.06), transparent) !important; }
-#main-screen .qc-hero-nu{ background: linear-gradient(135deg, rgba(31,125,77,.06), transparent) !important; }
-#main-screen .qc-hero-co{ background: linear-gradient(135deg, rgba(91,78,168,.06), transparent) !important; }
-#main-screen .qc-name-ex{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
-#main-screen .qc-name-nu{ color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; }
-#main-screen .qc-name-co{ color: #5b4ea8 !important; -webkit-text-fill-color: #5b4ea8 !important; }
-#main-screen .qc-sub{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .qc-bar{ background: rgba(30,127,164,.1) !important; }
-#main-screen .qc-note{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .qc-sec{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .qc-row-lbl{ color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important; }
-#main-screen .qc-row-bar{ background: rgba(30,127,164,.1) !important; }
-#main-screen .qc-row-val{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .qc-row-xp{ color: rgba(176,122,26,.7) !important; -webkit-text-fill-color: rgba(176,122,26,.7) !important; }
-#main-screen .qc-xp{
-  background: linear-gradient(135deg, rgba(176,122,26,.08), rgba(176,122,26,.04)) !important;
-  border-color: rgba(176,122,26,.3) !important;
-}
-#main-screen .qc-xp-num{ color: #8a5e10 !important; -webkit-text-fill-color: #8a5e10 !important; }
-#main-screen .qc-xp-lbl{ color: #a07228 !important; -webkit-text-fill-color: #a07228 !important; }
-#main-screen .qc-msg{
-  background: rgba(30,127,164,.04) !important;
-  border-color: rgba(30,127,164,.12) !important;
-}
-#main-screen .qc-msg-text{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .qc-footer{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; border-top-color: rgba(30,127,164,.12) !important; }
-#main-screen .qc-bubble{
-  background: rgba(91,78,168,.06) !important;
-  border-color: rgba(91,78,168,.2) !important;
-}
-#main-screen .qc-bubble-lbl{ color: rgba(91,78,168,.6) !important; -webkit-text-fill-color: rgba(91,78,168,.6) !important; }
-#main-screen .qc-bubble-txt{ color: #4a3880 !important; -webkit-text-fill-color: #4a3880 !important; }
-#main-screen .qc-grow-step{
-  background: rgba(91,78,168,.08) !important;
-  border-color: rgba(91,78,168,.2) !important;
-  color: #4a3880 !important;
-  -webkit-text-fill-color: #4a3880 !important;
-}
-#main-screen .qc-grow-sub{ color: rgba(91,78,168,.6) !important; -webkit-text-fill-color: rgba(91,78,168,.6) !important; }
-
-/* ── Tiny Habit / Habit Stack カード ── */
-#main-screen .tiny-habit-card,
-#main-screen .habit-stack-card{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .th-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
-#main-screen .th-streak{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-#main-screen .th-mission{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; font-weight: 900 !important; }
-#main-screen .th-why{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .th-done{
-  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  border: none !important;
-  box-shadow: 0 3px 0 #0a4870 !important;
-}
-#main-screen .th-skip{
-  background: rgba(30,127,164,.08) !important;
-  border: 1px solid rgba(30,127,164,.25) !important;
-  color: #355773 !important;
-  -webkit-text-fill-color: #355773 !important;
-}
-#main-screen .hs-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
-#main-screen .hs-suggestion{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; font-weight: 800 !important; }
-#main-screen .hs-rationale{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-
-/* ── 水分・睡眠カード ── */
-#main-screen .hyd-card,
-#main-screen .sleep-card{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .hyd-head,
-#main-screen .sleep-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
-#main-screen .hyd-btn{
-  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  border: none !important;
-  box-shadow: 0 3px 0 #0a4870 !important;
-}
-#main-screen .hyd-btn.alt{
-  background: rgba(30,127,164,.08) !important;
-  border: 1px solid rgba(30,127,164,.3) !important;
-  color: #355773 !important;
-  -webkit-text-fill-color: #355773 !important;
-  box-shadow: none !important;
-}
-#main-screen .sleep-save{
-  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  border: none !important;
-  box-shadow: 0 2px 0 #0a4870 !important;
-}
-#main-screen .sleep-meta{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .sleep-streak{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-#main-screen #sleep-hours,
-#main-screen #sleep-quality{
-  background: #f4faff !important;
-  border: 1.5px solid #b0cfdf !important;
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-}
-
-/* ── ストリークカレンダー ── */
-#main-screen .streak-cal-card{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .streak-cal-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
-#main-screen .streak-cal-foot{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-
-/* ── 12週間の足跡カード ── */
-#main-screen .footprint-card{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .footprint-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
-#main-screen .footprint-counter{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-#main-screen .footprint-foot{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-
-/* ── 仲間との絆カード ── */
-#main-screen .affinity-card{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .affinity-head{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; border-bottom-color: rgba(30,127,164,.15) !important; }
-#main-screen .affinity-foot{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
-#main-screen .affinity-cell{ background: rgba(30,127,164,.07) !important; }
-#main-screen .affinity-name{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
-#main-screen .affinity-lv{ color: rgba(10,42,64,.55) !important; -webkit-text-fill-color: rgba(10,42,64,.55) !important; }
-
-/* ── インサイトカード ── */
-#main-screen .insight-card{
-  background: #ffffff !important;
-  border: 1.5px solid rgba(91,78,168,.3) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(91,78,168,.12) !important;
-}
-#main-screen .insight-head{ color: #4a3880 !important; -webkit-text-fill-color: #4a3880 !important; border-bottom-color: rgba(91,78,168,.15) !important; }
-
-/* ── 週次サマリ（sh-summary）── */
-#main-screen .sh-summary{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .sh-sum-lbl{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-#main-screen .sh-sum-val{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
-#main-screen .sh-sum-bar{ background: rgba(30,127,164,.1) !important; }
-#main-screen .sh-sum-fill{ background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important; }
-#main-screen .sh-sum-pct{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
-
-/* ── compact-home上部ボタン行 ── */
-#main-screen .ch-tbtn{
-  background: #ffffff !important;
-  border: 1.5px solid #b0cfdf !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-  font-weight: 800 !important;
-  box-shadow: 0 2px 0 rgba(30,80,110,.08) !important;
-}
-#main-screen .ch-tbtn:hover{ background: rgba(30,127,164,.08) !important; border-color: #1e7fa4 !important; }
-
-/* ── コンパクトホーム メインボタン ── */
-#main-screen .ch-main-btn{
-  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
-  background-image: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
-  border-color: #0a4870 !important;
-  box-shadow: 0 5px 0 #0a4870, 0 8px 20px rgba(30,80,110,.22) !important;
-}
-#main-screen .ch-mb-title{ color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
-#main-screen .ch-mb-sub{ color: rgba(255,255,255,.8) !important; -webkit-text-fill-color: rgba(255,255,255,.8) !important; }
-#main-screen .ch-mb-arrow{ color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
-
-/* ── ctx-greeting ── */
-#main-screen .ctx-greeting{
-  background: linear-gradient(135deg, rgba(30,127,164,.1), rgba(74,176,212,.06)) !important;
-  border: 1.5px solid rgba(30,127,164,.25) !important;
-  border-radius: 14px !important;
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
 }
 
 /* ============================================
@@ -3228,7 +2886,7 @@ a:focus-visible, button:focus-visible{
   border-radius: 12px !important;
   backdrop-filter: blur(8px);
 }
-.sh-m-text{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
+.sh-m-text{ color: #d4e4f4 !important; -webkit-text-fill-color: #d4e4f4 !important; }
 .sh-m-done{
   background: linear-gradient(135deg, #4ec98a, #2ea36a) !important;
   border: 1px solid rgba(78,201,138,.6) !important;
@@ -3301,7 +2959,7 @@ a:focus-visible, button:focus-visible{
 }
 
 /* ---------- ランディング・ログイン ---------- */
-.lp-rune{ color: rgba(30,95,130,.65) !important; -webkit-text-fill-color: rgba(30,95,130,.65) !important; letter-spacing: .25em; }
+.lp-rune{ color: rgba(95,208,232,.7) !important; -webkit-text-fill-color: rgba(95,208,232,.7) !important; letter-spacing: .25em; }
 #login-screen .lp-title, #loading-screen .ls-title{
   background: linear-gradient(135deg, #f0d48a 0%, #5fd0e8 50%, #f0d48a 100%) !important;
   background-size: 200% auto !important;
@@ -3445,32 +3103,33 @@ body::after{ animation: vg-aurora-drift 18s ease-in-out infinite !important; }
   50%    { opacity: 1;  transform: scale(1.15); }
 }
 
-/* === 流れ星（右上→左下） === */
+/* === 流れ星 === */
 .shooting-stars{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .shooting-star{
   position: absolute;
-  width: 3px; height: 3px;
+  width: 2px; height: 2px;
   background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(180,235,255,.7);
+  box-shadow: 0 0 8px rgba(255,255,255,.9);
   opacity: 0;
   animation: vg-shooting 18s linear infinite;
 }
+.shooting-star{ width: 3px !important; height: 3px !important; box-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(180,235,255,.7) !important; }
 .shooting-star::before{
   content: '';
   position: absolute;
-  left: 3px; top: 50%;
-  width: 180px; height: 2px;
-  background: linear-gradient(90deg, rgba(255,255,255,.9), rgba(180,235,255,.5), transparent);
-  transform: translateY(-50%) rotate(-36deg);
-  transform-origin: left center;
-  filter: blur(.4px);
+  top: 50%; right: 0;
+  width: 200px; height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(180,235,255,1), rgba(255,255,255,1));
+  transform: translateY(-50%);
+  filter: blur(.3px);
+  box-shadow: 0 0 8px rgba(180,235,255,.8);
 }
 @keyframes vg-shooting{
-  0%       { opacity: 0; transform: translate(0, 0); }
+  0%       { opacity: 0; transform: translate(0, 0) rotate(18deg); }
   4%       { opacity: 1; }
-  18%      { opacity: 1; transform: translate(-380px, 275px); }
-  20%, 100%{ opacity: 0; transform: translate(-380px, 275px); }
+  18%      { opacity: 1; transform: translate(-500px, 150px) rotate(18deg); }
+  20%, 100%{ opacity: 0; transform: translate(-500px, 150px) rotate(18deg); }
 }
 
 /* === 浮遊するきらめき（火花パーティクル）=== */
@@ -3597,9 +3256,9 @@ body:not(.app-active) .defeated-foes{ display: none !important; }
 #login-screen .btn-login{ position: relative; overflow: hidden; }
 #login-screen .btn-login:hover::before{ background-position: -200% 0; }
 
-.lp-subtitle{ color: #1a5870 !important; -webkit-text-fill-color: #1a5870 !important; }
-.lp-tagline{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
-.lp-tagline strong{ color: #8a5c00 !important; -webkit-text-fill-color: #8a5c00 !important; }
+.lp-subtitle{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+.lp-tagline{ color: #d4e4f4 !important; -webkit-text-fill-color: #d4e4f4 !important; }
+.lp-tagline strong{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; }
 .lp-char img{ filter: drop-shadow(0 0 32px rgba(95,208,232,.4)) drop-shadow(0 16px 32px rgba(0,12,30,.6)); }
 .lp-ch{
   background: rgba(14,30,60,.55) !important;
@@ -3612,20 +3271,18 @@ body:not(.app-active) .defeated-foes{ display: none !important; }
   border: 2px solid rgba(95,208,232,.4) !important;
   box-shadow: 0 0 18px -4px rgba(95,208,232,.4);
 }
-.lp-ch-name{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; font-family: 'Noto Serif JP', serif; }
-.lp-ch.ch-kaito .lp-ch-name{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
-.lp-ch.ch-sera .lp-ch-name{ color: #1f8a66 !important; -webkit-text-fill-color: #1f8a66 !important; }
-.lp-ch-role{ color: rgba(10,42,64,.6) !important; -webkit-text-fill-color: rgba(10,42,64,.6) !important; }
+.lp-ch-name{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; font-family: 'Noto Serif JP', serif; }
+.lp-ch-role{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
 .lp-ch-sep{
-  color: rgba(30,127,164,.4) !important;
-  -webkit-text-fill-color: rgba(30,127,164,.4) !important;
-  filter: none;
+  color: rgba(95,208,232,.5) !important;
+  -webkit-text-fill-color: rgba(95,208,232,.5) !important;
+  filter: drop-shadow(0 0 8px rgba(95,208,232,.6));
 }
 #login-screen .lp-badge{
-  background: rgba(255,255,255,.7) !important;
-  border: 1px solid rgba(30,127,164,.35) !important;
-  color: #1e7fa4 !important;
-  -webkit-text-fill-color: #1e7fa4 !important;
+  background: rgba(20,40,70,.5) !important;
+  border: 1px solid rgba(95,208,232,.28) !important;
+  color: #7ae0f0 !important;
+  -webkit-text-fill-color: #7ae0f0 !important;
   backdrop-filter: blur(8px);
   font-weight: 700;
 }
@@ -3700,13 +3357,11 @@ body:not(.app-active) .defeated-foes{ display: none !important; }
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
-#login-screen .login-err{ color: #b53a3a !important; -webkit-text-fill-color: #b53a3a !important; }
-#login-screen .login-guest{ color: rgba(30,90,120,.65) !important; -webkit-text-fill-color: rgba(30,90,120,.65) !important; }
-.login-guest:hover{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-#login-screen .lp-research-link{ color: rgba(30,90,120,.65) !important; -webkit-text-fill-color: rgba(30,90,120,.65) !important; }
-.lp-research-link a{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-.login-box-title{ color: #8a5c00 !important; -webkit-text-fill-color: #8a5c00 !important; }
-.btn-register{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; border-color: rgba(30,127,164,.45) !important; }
+#login-screen .login-err{ color: #ff9090 !important; -webkit-text-fill-color: #ff9090 !important; }
+#login-screen .login-guest{ color: #5a7090 !important; -webkit-text-fill-color: #5a7090 !important; }
+.login-guest:hover{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
+#login-screen .lp-research-link{ color: #5a7090 !important; -webkit-text-fill-color: #5a7090 !important; }
+.lp-research-link a{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
 
 /* ---------- ローディング ---------- */
 #loading-screen{
@@ -3722,10 +3377,10 @@ body:not(.app-active) .defeated-foes{ display: none !important; }
   -webkit-text-fill-color: transparent;
   color: transparent !important;
 }
-.ls-sub{ color: #1a5870 !important; -webkit-text-fill-color: #1a5870 !important; letter-spacing: .15em; }
-.ls-bar{ background: rgba(30,127,164,.1) !important; border: 1px solid rgba(30,127,164,.25) !important; }
-.ls-bar-fill{ background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important; box-shadow: 0 0 12px rgba(30,127,164,.3); }
-.ls-msg{ color: #1a5870 !important; -webkit-text-fill-color: #1a5870 !important; }
+.ls-sub{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; letter-spacing: .15em; }
+.ls-bar{ background: rgba(95,208,232,.08) !important; border: 1px solid rgba(95,208,232,.22) !important; }
+.ls-bar-fill{ background: linear-gradient(90deg, #5fd0e8, #f0d48a) !important; box-shadow: 0 0 12px rgba(95,208,232,.5); }
+.ls-msg{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; }
 .ls-char img{ filter: drop-shadow(0 0 40px rgba(95,208,232,.5)); }
 
 /* ---------- PWA バナー ---------- */
@@ -3754,14 +3409,103 @@ body:not(.app-active) .defeated-foes{ display: none !important; }
 @media (min-width: 901px) and (max-width: 1100px){
   .g-main{ padding: 18px 16px !important; }
 }
+/* 横並び（モバイル）時の info カラムを縦スタックに */
 @media (max-width: 900px){
-  .g-header{ padding: 10px 16px !important; }
-  .home-char-trio{ grid-template-columns: 1fr !important; gap: 12px !important; }
-  .hc-card{ flex-direction: row !important; align-items: center !important; padding: 12px 14px !important; gap: 14px !important; }
-  .hc-portrait{ width: 56px !important; height: 56px !important; flex-shrink: 0 !important; }
-  .hc-portrait img{ width: 100% !important; height: 100% !important; object-fit: cover !important; }
-  .hc-cta{ display: none !important; }
+  body.app-active .hc-card{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 14px 16px !important;
+    gap: 14px !important;
+    text-align: left !important;
+  }
+  body.app-active .hc-card > .hc-portrait{
+    width: 64px !important;
+    height: 64px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    border-radius: 14px !important;
+  }
+  body.app-active .hc-card > .hc-portrait img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 18% !important;
+  }
+  /* portrait と bar の間に縦スタックされる「インフォ列」を作る */
+  body.app-active .hc-card{
+    /* portrait はそのまま、name/role/stat を縦に積む */
+    align-items: stretch !important;
+  }
+  body.app-active .hc-name,
+  body.app-active .hc-role,
+  body.app-active .hc-stat{
+    text-align: left !important;
+    writing-mode: horizontal-tb !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+    flex-shrink: 1 !important;
+    min-width: 0 !important;
+  }
+  body.app-active .hc-name{
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 2px !important;
+    font-weight: 900 !important;
+  }
+  body.app-active .hc-role{
+    font-size: .72rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+    font-weight: 700 !important;
+  }
+  body.app-active .hc-stat{
+    font-size: .68rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 4px !important;
+  }
+  body.app-active .hc-bar{
+    width: 100% !important;
+    height: 6px !important;
+    margin: 0 !important;
+  }
+  /* hc-card の中身を flex の wrapper で囲む（既存DOM想定で flex 子要素を 1 列に） */
+  body.app-active .hc-card{
+    /* 既存DOM: <a class="hc-card"><div class="hc-portrait"><img></div><div class="hc-name"></div><div class="hc-role"></div><div class="hc-stat"></div><div class="hc-bar"></div><div class="hc-cta"></div></a> */
+    flex-wrap: nowrap !important;
+  }
+  /* portrait 以外を flex:1 column にまとめる擬似カラムを作るのは難しいので、
+     name/role/stat/bar に同じ "flex:1" を与え、行で並べず column-grouping を CSS Grid に置換 */
+  body.app-active .home-char-trio > .hc-card{
+    display: grid !important;
+    grid-template-columns: 64px 1fr !important;
+    grid-template-rows: auto auto auto auto !important;
+    grid-template-areas:
+      "portrait name"
+      "portrait role"
+      "portrait stat"
+      "portrait bar" !important;
+    column-gap: 14px !important;
+    row-gap: 2px !important;
+    align-items: center !important;
+    padding: 14px 16px !important;
+  }
+  body.app-active .home-char-trio > .hc-card > .hc-portrait{ grid-area: portrait !important; align-self: center !important; }
+  body.app-active .home-char-trio > .hc-card > .hc-name{    grid-area: name !important;    align-self: end !important; }
+  body.app-active .home-char-trio > .hc-card > .hc-role{    grid-area: role !important;    align-self: center !important; }
+  body.app-active .home-char-trio > .hc-card > .hc-stat{    grid-area: stat !important;    align-self: center !important; }
+  body.app-active .home-char-trio > .hc-card > .hc-bar{     grid-area: bar !important;     align-self: start !important; margin-top: 4px !important; }
+  body.app-active .home-char-trio > .hc-card > .hc-cta{     display: none !important; }
 }
+
+/* === Lv バッジ 内側を読みやすく === */
+body.app-active .lv-badge{
+  white-space: nowrap !important;
+  min-width: auto !important;
+}
+body.app-active .lv-badge > span{ margin: 0 2px !important; }
 @media (max-width: 600px){
   .g-header{ padding: 8px 12px !important; flex-wrap: wrap; gap: 8px !important; }
   .g-btn{ padding: 6px 10px !important; font-size: .68rem !important; }
@@ -4178,304 +3922,11 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
 /* メイン画面も透明にしてオーロラが透けるように（弱めに） */
 #main-screen{ background: transparent !important; }
-
-/* =====================================================================
-   COMPACT HOME REDESIGN + 流れ星エフェクト
-   ===================================================================== */
-
-/* --- 流れ星レイヤー --- */
-#shooting-stars-layer{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
-.ss-star{
-  position:absolute;width:2px;height:2px;border-radius:50%;
-  background:rgba(201,168,76,.95);
-  box-shadow:0 0 4px 1px rgba(201,168,76,.5);
-  animation:ss-fly 1.1s ease-out forwards;
-}
-.ss-star::after{
-  content:'';position:absolute;top:50%;
-  left:-72px;width:72px;height:1.5px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.6));
-  transform:translateY(-50%);
-}
-@keyframes ss-fly{
-  0%  {transform:translate(0,0) rotate(35deg);opacity:1;}
-  70% {opacity:.7;}
-  100%{transform:translate(140px,100px) rotate(35deg);opacity:0;}
-}
-
-/* --- 不要セクション非表示 --- */
-#main-screen #home-char-trio,
-#main-screen #game-actions,
-#main-screen .habit-stack-card,
-#main-screen .qol-trend-card,
-#main-screen #ctx-greeting,
-#main-screen #affinity-card,
-#main-screen #footprint-card
-{ display:none !important; }
-
-/* --- プレイヤーカード: コンパクト1ストリップ --- */
-#main-screen .player-card{
-  padding:10px 14px 8px !important;
-  margin-bottom:10px !important;
-  border-radius:16px !important;
-}
-#main-screen .player-card-inner{gap:10px !important;}
-#main-screen .player-avatar{width:44px !important;height:44px !important;flex-shrink:0;}
-#main-screen .player-avatar img{border-radius:50% !important;object-position:center 10% !important;}
-#main-screen .player-name{font-size:.62rem !important;margin-bottom:1px !important;color:#355773 !important;-webkit-text-fill-color:#355773 !important;}
-#main-screen .player-lv{align-items:center !important;flex-wrap:wrap !important;gap:4px !important;}
-#main-screen .lv-badge{font-size:.78rem !important;padding:2px 8px !important;}
-#main-screen .xp-bar{height:5px !important;margin:4px 0 2px !important;border-radius:99px !important;}
-#main-screen .xp-fill{border-radius:99px !important;}
-#main-screen .xp-note{font-size:.6rem !important;color:#4a7090 !important;}
-#main-screen .player-stats{display:none !important;}
-#main-screen .player-stats-mobile{display:flex !important;gap:5px !important;flex-wrap:wrap !important;margin-top:3px !important;}
-#main-screen .psm-badge{font-size:.58rem !important;padding:2px 8px !important;}
-
-/* --- 記録ボタン: 2カラムグリッドで大きく鮮明に --- */
-#main-screen .sh-record{
-  display:grid !important;
-  grid-template-columns:1fr 1fr !important;
-  gap:10px !important;
-  margin-bottom:12px !important;
-}
-#main-screen .sh-rec-btn{
-  flex-direction:column !important;
-  align-items:flex-start !important;
-  padding:16px 14px 12px !important;
-  border-radius:18px !important;
-  gap:4px !important;
-  min-height:88px !important;
-  position:relative !important;
-  border-width:2px !important;
-  transition:transform .15s, box-shadow .15s !important;
-}
-#main-screen .sh-rec-btn:active{transform:scale(.97) !important;}
-#main-screen .rec-ex{
-  border-color:#1e7fa4 !important;
-  background:linear-gradient(135deg,rgba(30,127,164,.08),rgba(74,176,212,.04)) !important;
-}
-#main-screen .rec-nu{
-  border-color:#1f7d4d !important;
-  background:linear-gradient(135deg,rgba(31,125,77,.08),rgba(78,201,138,.04)) !important;
-}
-/* QOL: full width */
-#main-screen .rec-qol{
-  grid-column:1 / -1 !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  min-height:unset !important;
-  padding:11px 16px !important;
-  border-color:#9c72e0 !important;
-  background:linear-gradient(135deg,rgba(156,114,224,.07),rgba(156,114,224,.02)) !important;
-}
-#main-screen .rec-qol .sh-rec-body{flex:1;}
-#main-screen .rec-qol .sh-rec-arrow{position:static !important;margin-left:auto;}
-#main-screen .sh-rec-icon{font-size:1.5rem !important;line-height:1.1 !important;}
-#main-screen .sh-rec-name{
-  font-size:.9rem !important;font-weight:900 !important;
-  color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;
-  margin-bottom:2px !important;
-}
-#main-screen .sh-rec-meta{
-  font-size:.67rem !important;
-  color:#4a7090 !important;-webkit-text-fill-color:#4a7090 !important;
-}
-#main-screen .sh-rec-arrow{
-  position:absolute;bottom:10px;right:12px;
-  font-size:.85rem;font-weight:900;
-  color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;
-}
-/* 記録済みバッジ（JS付与用） */
-#main-screen .sh-rec-btn.done-today::before{
-  content:'✓';position:absolute;top:8px;right:10px;
-  font-size:.62rem;font-weight:900;
-  background:rgba(30,127,164,.15);color:#0a4870;
-  padding:1px 7px;border-radius:99px;
-}
-
-/* --- 今週サマリー: コンパクト --- */
-#main-screen .sh-summary{
-  padding:10px 14px !important;
-  border-radius:14px !important;
-  margin-bottom:10px !important;
-}
-#main-screen .sh-sum-lbl{font-size:.65rem !important;font-weight:900 !important;color:#355773 !important;-webkit-text-fill-color:#355773 !important;}
-#main-screen .sh-sum-val{font-size:.72rem !important;color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
-
-/* --- 冒険バナー: 目立たせる --- */
-#main-screen .sh-adv{
-  display:flex !important;
-  padding:10px 16px !important;
-  border-radius:14px !important;
-  margin-bottom:10px !important;
-  background:linear-gradient(135deg,rgba(156,114,224,.1),rgba(201,168,76,.06)) !important;
-  border:1.5px solid rgba(156,114,224,.3) !important;
-  color:#0a2a40 !important;
-}
-#main-screen .sh-adv-text{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;font-weight:700 !important;}
-#main-screen .sh-adv-arrow{color:#9c72e0 !important;-webkit-text-fill-color:#9c72e0 !important;font-weight:900 !important;}
-
-/* --- タイニーハビット: スリム --- */
-#main-screen .tiny-habit-card{
-  padding:12px 14px !important;
-  border-radius:14px !important;
-  margin-bottom:10px !important;
-}
-#main-screen .th-why{display:none !important;}
-#main-screen .th-head{font-size:.7rem !important;}
-#main-screen .th-mission{
-  font-size:.9rem !important;font-weight:700 !important;
-  padding:5px 0 6px !important;
-  color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;
-}
-#main-screen .th-actions{gap:6px !important;margin-top:2px !important;}
-#main-screen .th-done{padding:7px 18px !important;font-size:.78rem !important;}
-#main-screen .th-skip{padding:7px 12px !important;font-size:.7rem !important;}
-
-/* --- 水分・睡眠: コンパクト --- */
-#main-screen .hyd-card,
-#main-screen .sleep-card{padding:12px 14px !important;border-radius:14px !important;}
-#main-screen .hyd-head,
-#main-screen .sleep-head{font-size:.7rem !important;margin-bottom:7px !important;}
-#main-screen .hyd-cups{gap:3px !important;}
-#main-screen .hyd-cup{width:14px !important;height:14px !important;}
-
-/* --- クイズ: コンパクト --- */
-#main-screen .quiz-banner{
-  padding:12px 14px !important;border-radius:14px !important;margin-bottom:10px !important;
-}
-#main-screen .qb-head{font-size:.7rem !important;}
-#main-screen .qb-q{font-size:.82rem !important;}
-
-/* --- ストリークカレンダー: タイトに --- */
-#main-screen .streak-cal-card{
-  padding:12px 14px !important;border-radius:14px !important;margin-bottom:10px !important;
-}
-
-/* --- インサイトカード --- */
-#main-screen .insight-card{
-  padding:12px 14px !important;border-radius:14px !important;margin-bottom:10px !important;
-}
-
-/* --- フッターボタン: 横並び見やすく --- */
-#main-screen .sh-foot{
-  display:flex !important;gap:8px !important;flex-wrap:wrap !important;
-  margin-bottom:16px !important;
-}
-#main-screen .sh-foot-btn{
-  flex:1 !important;min-width:90px !important;
-  padding:9px 10px !important;font-size:.72rem !important;
-  border-radius:12px !important;font-weight:900 !important;
-  background:#ffffff !important;border:1.5px solid #b0cfdf !important;
-  color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;
-  text-align:center !important;text-decoration:none !important;
-  box-shadow:0 2px 0 rgba(30,80,110,.08) !important;
-}
-
-/* --- g-main パディング調整 --- */
-#main-screen .g-main{padding-top:10px !important;padding-bottom:80px !important;}
-
-/* ── ダーク前提の半透明背景を白ベースに反転 ── */
-[style*="rgba(255,255,255,.04)"],
-[style*="rgba(255,255,255,.05)"],
-[style*="rgba(255,255,255,.06)"],
-[style*="rgba(255,255,255,.07)"],
-[style*="rgba(255,255,255,.08)"],
-[style*="rgba(255,255,255,.1)"],
-[style*="rgba(14,18,32"],
-[style*="rgba(8,6,20"],
-[style*="rgba(20,16,40"]{
-  background: rgba(255,255,255,.85) !important;
-  border-color: rgba(30,127,164,.25) !important;
-  color: #0a2a40 !important;
-}
-/* ── ダーク前提の白テキストを暗くする ── */
-[style*="color:rgba(220,225,245"],
-[style*="color:rgba(170,188,216"],
-[style*="color:#d4dcf0"],
-[style*="color:#aabcd8"],
-[style*="color:#e8e4d4"],
-[style*="color:#e8d4ff"],
-[style*="color:white"],
-[style*="color:#fff"]{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-}
-/* ── カード・パネル系クラス共通 ── */
-.card, .panel, .section, .q-card, .stat-card,
-.info-card, .intro-card, .section-card, .week-card,
-.mission-card, .achievement-card, .skill, .entry,
-.stat-cell, .shop-item, .collection-item{
-  background: rgba(255,255,255,.92) !important;
-  border-color: rgba(30,127,164,.22) !important;
-  color: #0a2a40 !important;
-}
-/* ── ヘッダー・ナビ ── */
-header, nav:not(.bottom-nav){
-  background: rgba(200,228,244,.97) !important;
-  border-bottom-color: #b0cfdf !important;
-}
-header a, nav a:not(.bn-tab){
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-}
-/* ── テキスト可読性の底上げ ── */
-p, span, div, label, li, td, th, h1, h2, h3, h4{
-  color: inherit;
-}
-/* ── game.html 固有の薄緑/薄紫ページ要素修正 ── */
-.rec-qol.done .sh-rec-meta::after{color:#1f8a66 !important;}
-.sh-m-text{color:#1f8a66 !important;}
-.ch-m-text{color:#1f8a66 !important;}
-.hs-suggestion strong{color:#1f8a66 !important;}
-.th-mission{color:#1f8a66 !important;}
-.qb-opt.correct{background:rgba(31,138,102,.15) !important;border-color:rgba(31,138,102,.55) !important;color:#1f8a66 !important;}
-.qc-name-co{color:#5b4ea8 !important;}
-.affinity-side-btn{color:#8a5c00 !important;background:linear-gradient(135deg,rgba(138,92,0,.1),rgba(138,92,0,.05)) !important;border-color:rgba(138,92,0,.3) !important;}
-.affinity-locked{color:rgba(10,42,64,.4) !important;}
-.ch-card-meta{color:rgba(10,42,64,.55) !important;}
-.ga-meta{color:rgba(10,42,64,.65) !important;}
-.ga-btn.has-action .ga-meta{color:#1e7fa4 !important;}
-.sh-rec-meta{color:rgba(10,42,64,.65) !important;}
-#main-screen .qb-q{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
-#main-screen .ch-hero-name{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
-.ch-card-name{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
-.lp-ch .lp-ch-name{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
-#main-screen .sh-rec-name{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
-.qb-opt.wrong{background:rgba(181,58,58,.1) !important;border-color:rgba(181,58,58,.45) !important;color:#b53a3a !important;}
-.qb-opt{background:rgba(255,255,255,.75) !important;border-color:rgba(30,127,164,.2) !important;color:#0a2a40 !important;}
-#main-screen .ch-hero-sub{color:rgba(10,42,64,.65) !important;-webkit-text-fill-color:rgba(10,42,64,.65) !important;}
-.xp-bar{background:rgba(30,127,164,.12) !important;}
-.xp-fill{box-shadow:none !important;}
-.xp-note{color:rgba(10,42,64,.6) !important;}
-.xp-note strong{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;}
-/* スリープ・ストーリー薄紫 → 濃紺系 */
-#main-screen .sleep-unit{color:#355773 !important;-webkit-text-fill-color:#355773 !important;}
-#main-screen .story-chapter.unlocked .story-meta{color:rgba(10,42,64,.55) !important;-webkit-text-fill-color:rgba(10,42,64,.55) !important;}
-#main-screen .story-chapter.unlocked .story-arrow{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;}
-#main-screen .qb-head{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
-/* 全体：インライン薄緑テキスト（冒険バナー・if-then・QOLチェックイン） */
-[style*="color:rgba(168,232,192"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
-[style*="color:#a8e8c0"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
-/* 全体：インライン薄紫テキスト（クラスバッジ・冒険バナー・連続週・サイドストーリー） */
-[style*="color:rgba(200,180,255"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
-[style*="color:#c0a0f0"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
-[style*="color:rgba(192,160,240"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
-/* 全体：インライン薄金テキスト（ストリーク・XP・希望テキスト・週サマリー） */
-[style*="color:#f0d48a"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:#f0c060"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:#c9a84c"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:rgba(240,212,138"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:rgba(201,168,76"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-/* 全体：インライン薄赤テキスト（運動ラベル・週間運動サマリー） */
-[style*="color:#f0a0a0"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-[style*="color:rgba(240,160,160"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-[style*="color:rgba(240,180,220"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-[style*="color:#a8c8f0"]{color:#1e5a8a !important;-webkit-text-fill-color:#1e5a8a !important;}
-[style*="color:#f0a0c8"]{color:#a03060 !important;-webkit-text-fill-color:#a03060 !important;}
-[style*="color:#d8a878"]{color:#7a4a10 !important;-webkit-text-fill-color:#7a4a10 !important;}
 </style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
 </head>
 <body>
 
@@ -4514,15 +3965,15 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
     <span class="aurora-star big" style="top:35%; left:55%; animation-delay:1s;"></span>
   </div>
 
-  <!-- 流れ星（右上エリアから左下へ） -->
+  <!-- 流れ星（増量） -->
   <div class="shooting-stars">
-    <span class="shooting-star" style="top:4%;  left:90%; animation-delay:0s;"></span>
-    <span class="shooting-star" style="top:8%;  left:72%; animation-delay:2.5s;"></span>
-    <span class="shooting-star" style="top:2%;  left:82%; animation-delay:5s;"></span>
-    <span class="shooting-star" style="top:12%; left:95%; animation-delay:7.5s;"></span>
-    <span class="shooting-star" style="top:6%;  left:65%; animation-delay:10s;"></span>
-    <span class="shooting-star" style="top:1%;  left:78%; animation-delay:12.5s;"></span>
-    <span class="shooting-star" style="top:10%; left:88%; animation-delay:15s;"></span>
+    <span class="shooting-star" style="top:6%;  left:85%; animation-delay:0s;"></span>
+    <span class="shooting-star" style="top:18%; left:60%; animation-delay:2.5s;"></span>
+    <span class="shooting-star" style="top:30%; left:90%; animation-delay:5s;"></span>
+    <span class="shooting-star" style="top:42%; left:70%; animation-delay:7.5s;"></span>
+    <span class="shooting-star" style="top:54%; left:88%; animation-delay:10s;"></span>
+    <span class="shooting-star" style="top:14%; left:40%; animation-delay:12.5s;"></span>
+    <span class="shooting-star" style="top:38%; left:50%; animation-delay:15s;"></span>
   </div>
 
   <!-- 浮遊する火花パーティクル -->
@@ -4601,14 +4052,6 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
   <!-- ログインフォーム -->
   <div class="lp-form">
     <div class="login-box">
-      <!-- ルナ -->
-      <div class="login-char-wrap">
-        <img src="./image/runa-sabun%20(2).png" alt="ルナ">
-      </div>
-      <!-- ルナの一言 -->
-      <div class="luna-bubble">
-        ようこそ、勇者よ。<br>あなたの12週間の旅を、ルナが一緒に歩みます。✨
-      </div>
       <div class="login-box-title" id="login-box-title">✦ 冒険者ログイン</div>
 
       <!-- ログインモード: メール or ユーザー名 -->
@@ -4620,7 +4063,7 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
       <!-- 新規登録モード: ユーザー名（必須） -->
       <div class="login-field" id="username-field" style="display:none;">
         <label>ユーザー名 <span class="lbl-req">必須</span></label>
-        <input type="text" id="username" placeholder="ニックネーム（2〜20文字、日本語OK）" autocomplete="off" maxlength="20">
+        <input type="text" id="username" placeholder="username（半角英数3〜20文字）" autocomplete="off" maxlength="20">
         <div class="login-hint">ログインに使えるニックネーム。後から変更できません。</div>
       </div>
 
@@ -4638,12 +4081,11 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
       <div id="auth-error" class="login-err"></div>
       <button class="btn-login" id="login-btn">⚔ ログインして冒険を続ける</button>
       <button class="btn-register" id="register-btn">✨ 新規登録（研究参加・無料）</button>
-      <button class="btn-register" id="reset-pw-btn" style="font-size:.65rem;opacity:.4;border-color:transparent;border-radius:999px;margin-top:4px;">パスワードを忘れた方</button>
-      <div class="login-guest" id="guest-btn"><span>ゲスト（デモ）として試す →</span></div>
+      <button class="btn-register" id="reset-pw-btn" style="font-size:.7rem;opacity:.5;border-color:transparent;">パスワードを忘れた方</button>
+      <div class="login-guest" id="guest-btn">ゲスト（デモ）として試す →</div>
     </div>
-    <div class="lp-research-link" style="margin-top:18px;padding-bottom:32px;">
-      <div>完全無料・匿名参加可 · <a href="./index.html">研究の詳細・倫理情報 →</a></div>
-      <div style="margin-top:4px;font-size:.58rem;color:rgba(170,188,216,.2);">AYA世代がん研究支援プロジェクト</div>
+    <div class="lp-research-link">
+      研究の詳細・倫理情報は <a href="./index.html">研究HP →</a>
     </div>
   </div>
 
@@ -5373,13 +4815,11 @@ function loadData(){
     if(raw){ const d=JSON.parse(raw); nScore=d.score||0; nXp=d.xp||0; nCounts=d.counts||nCounts; }
   }catch(e){}
 
-  // 総合XP（運動 + 栄養 + AIコーチ + ログインボーナス）
-  // 履歴はセッションXPのみ（ボーナスは vq/vn_bonus_uid から1回だけ加算）
+  // 総合XP（運動 + 栄養 + AIコーチの週間XP合算）
   let totalQXp=0, totalNXp=0, coachWeekXp=0, coachTotalXp=0;
-  const _wk=weekKey();
-  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.filter(x=>x.wkKey!==_wk).reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.filter(x=>x.wkKey!==_wk).reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
-  try{ coachWeekXp=parseInt(localStorage.getItem(`vc_xp_${uid}_${_wk}`)||'0',10); }catch(e){}
+  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ coachWeekXp=parseInt(localStorage.getItem(`vc_xp_${uid}_${weekKey()}`)||'0',10); }catch(e){}
   // 過去のコーチXP累計（vc_xp_uid_W*** をすべてスキャン）
   try{
     for(let i=0;i<localStorage.length;i++){
@@ -5389,10 +4829,7 @@ function loadData(){
       }
     }
   }catch(e){}
-  // ログインボーナスXPを直接1回だけ加算
-  const questBonusXp=parseInt(localStorage.getItem(`vq_bonus_${uid}`)||'0',10);
-  const nutrBonusXp =parseInt(localStorage.getItem(`vn_bonus_${uid}`)||'0',10);
-  const totalXp=totalQXp+totalNXp+qXp+nXp+coachTotalXp+questBonusXp+nutrBonusXp;
+  const totalXp=totalQXp+totalNXp+qXp+nXp+coachTotalXp;
 
   // 今週ルナと決めた目標
   let weekGoal=null;
@@ -5435,14 +4872,6 @@ function updateUI(){
   if(wkLblEl) wkLblEl.textContent=weekLabel();
   const wkLblTxtEl=document.getElementById('week-label-txt');
   if(wkLblTxtEl) wkLblTxtEl.textContent=weekLabel()+'の記録';
-
-  // レベル実績チェック（コーチXP経由でレベルアップした場合も確実に解放）
-  if(d.totalXp>=LEVELS[2].xp && !d.allAch.lv3){
-    try{ const a=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); if(!a.lv3){a.lv3=true;localStorage.setItem(`vq_ach_${uid}`,JSON.stringify(a));} }catch(e){}
-  }
-  if(d.totalXp>=LEVELS[4].xp && !d.allAch.lv5){
-    try{ const a=JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}'); if(!a.lv5){a.lv5=true;localStorage.setItem(`vq_ach_${uid}`,JSON.stringify(a));} }catch(e){}
-  }
 
   // レベル・XP
   const lv=getLv(d.totalXp);
@@ -5659,18 +5088,12 @@ function updateUI(){
 // ===== 実績レンダリング =====
 const ALL_ACHV=[
   // 基本系
-  {id:'first',    icon:'⚔',  name:'初陣'},
-  {id:'goal',     icon:'🎯', name:'目標達成'},
-  {id:'streak3',  icon:'📅', name:'3週連続'},
-  {id:'streak8',  icon:'🔥', name:'8週連続'},
-  {id:'season12', icon:'🏆', name:'12週完走'},
-  {id:'lv3',      icon:'⭐', name:'Lv3'},
-  {id:'lv5',      icon:'👑', name:'覚醒'},
-  {id:'veg_goal', icon:'💚', name:'野菜の達人'},
-  {id:'high',       icon:'⚡', name:'高強度突破'},
-  {id:'steps',      icon:'👟', name:'歩行の達人'},
-  {id:'tiny7',      icon:'🌱', name:'7日連続ミニ習慣'},
-  {id:'hydration',  icon:'💧', name:'水分補給達成'},
+  {id:'first',   icon:'⚔', name:'初陣'},
+  {id:'goal',    icon:'🎯', name:'目標達成'},
+  {id:'streak3', icon:'📅', name:'3週連続'},
+  {id:'lv3',     icon:'⭐', name:'Lv3'},
+  {id:'lv5',     icon:'👑', name:'覚醒'},
+  {id:'veg_goal',icon:'💚', name:'野菜の達人'},
   // コーチ系
   {id:'coach_first', icon:'💬', name:'初対話'},
   {id:'coach_3',     icon:'🗣️', name:'相談3回'},
@@ -5713,10 +5136,8 @@ function renderAchv(ach){
   }).join('');
 }
 
-// ===== AI Coach (Gemini API 直結) =====
-const GEMINI_MODEL='gemini-2.0-flash';
-const GEMINI_ENDPOINT=`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-function getGeminiKey(){ return localStorage.getItem('vt_gemini_api_key')||''; }
+// ===== AI Coach (Netlify Functions プロキシ経由 RPG チャット) =====
+const COACH_PROXY_URL='/api/gemini-coach';
 const COACH_HIST_KEY=()=>`vc_hist_${uid||'guest'}`;
 const COACH_STEP_KEY=()=>`vc_step_${uid||'guest'}`;
 
@@ -5824,47 +5245,6 @@ function awardCoachAchievements(){
   }
 }
 
-/* ===== アプリ内通知ユーティリティ ===== */
-function showToast(text, duration=3000){
-  let el=document.getElementById('_app-toast');
-  if(!el){
-    el=document.createElement('div');
-    el.id='_app-toast';
-    el.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);'+
-      'background:rgba(20,26,48,.97);border:1px solid rgba(201,168,76,.4);color:#f0e4d4;'+
-      'font-family:inherit;font-size:.82rem;padding:11px 20px;border-radius:12px;z-index:99999;'+
-      'box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:opacity .25s,transform .25s;'+
-      'max-width:88vw;text-align:center;pointer-events:none;';
-    document.body.appendChild(el);
-  }
-  el.textContent=text;
-  el.style.opacity='1';el.style.transform='translateX(-50%) translateY(0)';
-  clearTimeout(showToast._tid);
-  showToast._tid=setTimeout(()=>{
-    el.style.opacity='0';el.style.transform='translateX(-50%) translateY(20px)';
-  },duration);
-}
-function showConfirm(msg, onOk, onCancel){
-  let ov=document.getElementById('_app-confirm');
-  if(!ov){ ov=document.createElement('div'); ov.id='_app-confirm';
-    ov.style.cssText='position:fixed;inset:0;z-index:99998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);';
-    ov.innerHTML='<div style="background:linear-gradient(160deg,#0d1225,#101830);border:1px solid rgba(201,168,76,.35);border-radius:16px;padding:24px 24px 20px;max-width:340px;width:90vw;box-shadow:0 24px 64px rgba(0,0,0,.7);">'+
-      '<div id="_app-confirm-msg" style="font-family:\'Zen Kaku Gothic New\',sans-serif;font-size:.88rem;color:#d4dcf0;line-height:1.75;margin-bottom:18px;white-space:pre-line;"></div>'+
-      '<div style="display:flex;gap:8px;">'+
-      '<button id="_app-confirm-cancel" style="flex:1;background:transparent;border:1px solid rgba(170,188,216,.3);color:rgba(170,188,216,.8);font-family:inherit;font-size:.82rem;padding:10px;border-radius:9px;cursor:pointer;">キャンセル</button>'+
-      '<button id="_app-confirm-ok" style="flex:1;background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;font-family:\'Noto Serif JP\',serif;font-size:.85rem;font-weight:900;padding:10px;border-radius:9px;cursor:pointer;">OK</button>'+
-      '</div></div>';
-    document.body.appendChild(ov);
-  }
-  document.getElementById('_app-confirm-msg').textContent=msg;
-  ov.style.display='flex';
-  const ok=document.getElementById('_app-confirm-ok');
-  const ca=document.getElementById('_app-confirm-cancel');
-  const close=()=>{ ov.style.display='none'; };
-  ok.onclick=()=>{ close(); if(onOk) onOk(); };
-  ca.onclick=()=>{ close(); if(onCancel) onCancel(); };
-}
-
 function showCoachToast(text){
   let t=document.getElementById('coach-toast');
   if(!t){
@@ -5960,64 +5340,24 @@ function buildCoachContext(){
   return ctx;
 }
 
-function buildSystemPrompt(ctx){
-  const ctxLines=[];
-  if(ctx.weekNum) ctxLines.push(`参加${ctx.weekNum}週目`);
-  if(ctx.cls) ctxLines.push(`クラス:${ctx.cls}`);
-  if(ctx.streak) ctxLines.push(`ログイン連続${ctx.streak}日`);
-  if(ctx.recentExMin) ctxLines.push(`直近7日の運動${ctx.recentExMin}分`);
-  if(ctx.recentVeg) ctxLines.push(`野菜${ctx.recentVeg}回`);
-  if(ctx.qolAvg!=null) ctxLines.push(`QOL平均${ctx.qolAvg.toFixed(1)}/5`);
-  if(ctx.weekGoal) ctxLines.push(`今週の目標:${ctx.weekGoal}`);
-  if(ctx.hope) ctxLines.push(`希望:${ctx.hope}`);
-  return `あなたはルナ。小児がん経験者（AYA世代）向け健康行動支援ゲーム「ヴィタリア転生録」のAIコーチ。
-GROWモデル（G=Goal/R=Reality/O=Options/W=Will）で会話を進める。
-現ステップ:[STEP:${_coachState.step}]タグを返答末尾に必ず含める。
-目標が決まったら[GOAL:目標文]タグも含める。
-${ctxLines.length?`【ユーザー状況】${ctxLines.join('、')}`:''  }
-【制約】診断・治療助言禁止。1返答150字以内。温かく励ます口調。`;
-}
-
 async function callCoachProxy(userText){
-  const apiKey=getGeminiKey();
-  if(!apiKey) throw new Error('Gemini APIキーが設定されていません。管理者ページで設定してください。');
-
-  const ctx=buildCoachContext();
-  const systemPrompt=buildSystemPrompt(ctx);
-
-  // 直近20ターンのみ送信（トークン節約）
-  const recentHist=_coachState.history.slice(-20);
-
-  // Gemini contents 形式に変換
-  const contents=recentHist.map(m=>({
-    role: m.role==='user'?'user':'model',
-    parts:[{text:m.text}]
-  }));
-  // 最後にユーザーの今回発言を追加
-  contents.push({role:'user',parts:[{text:userText}]});
-
-  const body={
-    system_instruction:{parts:[{text:systemPrompt}]},
-    contents,
-    generationConfig:{
-      temperature:0.75,
-      maxOutputTokens:350,
-      topP:0.9
-    }
-  };
-
-  const res=await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`,{
+  const res=await fetch(COACH_PROXY_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(body)
+    body:JSON.stringify({
+      history:_coachState.history,
+      userText,
+      context: buildCoachContext()
+    })
   });
   if(!res.ok){
     const err=await res.json().catch(()=>({}));
-    const msg=err.error?.message||`HTTP ${res.status}`;
-    throw new Error(msg);
+    const msg=err.error||`HTTP ${res.status}`;
+    const detail=err.detail?` (${String(err.detail).slice(0,200)})`:'';
+    throw new Error(msg+detail);
   }
   const data=await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+  return data.text||'';
 }
 
 function parseStepTag(text){
@@ -6139,11 +5479,7 @@ async function sendCoachMessage(){
     if(typeof updateUI==='function') updateUI();
   }catch(err){
     removeTyping();
-    const isKeyErr=err.message.includes('APIキー');
-    const errMsg=isKeyErr
-      ? `Gemini APIキーが設定されていません。\n管理者ページ（admin.html）でAPIキーを設定してください。`
-      : `（応答に失敗しました：${err.message}）\n\n少し時間をおいてから再度お試しください。`;
-    appendBubble('luna', errMsg);
+    appendBubble('luna',`（呼び出しに失敗しました：${err.message}）\n\n少し時間をおいて、もう一度お試しください。継続する場合は研究事務局までご連絡を。`);
   }finally{
     _coachState.busy=false;
     document.getElementById('coach-send').disabled=false;
@@ -6161,17 +5497,16 @@ function updatePresetVisibility(){
 }
 
 function resetCoachConversation(){
-  showConfirm('ルナとの会話を最初からやり直しますか？\n（過去の会話履歴はこの端末から削除されます）', ()=>{
-    _coachState.history=[];
-    _coachState.step='G';
-    try{
-      localStorage.removeItem(COACH_HIST_KEY());
-      localStorage.removeItem(COACH_STEP_KEY());
-    }catch(e){}
-    renderAllHistory();
-    renderCoachStep();
-    updatePresetVisibility();
-  });
+  if(!confirm('ルナとの会話を最初からやり直しますか？\n（過去の会話履歴はこの端末から削除されます）')) return;
+  _coachState.history=[];
+  _coachState.step='G';
+  try{
+    localStorage.removeItem(COACH_HIST_KEY());
+    localStorage.removeItem(COACH_STEP_KEY());
+  }catch(e){}
+  renderAllHistory();
+  renderCoachStep();
+  updatePresetVisibility();
 }
 
 function openCoach(){
@@ -6291,9 +5626,6 @@ function toggleRegMode(on){
   }
 }
 
-// URL hash #register で新規登録モードを自動起動
-if(location.hash === '#register') toggleRegMode(true);
-
 document.getElementById('register-btn').addEventListener('click', async ()=>{
   clearErr();
   if(!_regMode){
@@ -6308,8 +5640,7 @@ document.getElementById('register-btn').addEventListener('click', async ()=>{
 
   // バリデーション
   if(!username){ showErr('ユーザー名は必須です。'); return; }
-  if(username.length < 2 || username.length > 20){ showErr('ユーザー名は2〜20文字にしてください。'); return; }
-  if(/[\s@#%&<>"]/.test(username)){ showErr('ユーザー名に使えない文字が含まれています。'); return; }
+  if(!/^[a-zA-Z0-9_]{3,20}$/.test(username)){ showErr('ユーザー名は半角英数・アンダースコア3〜20文字です。'); return; }
   if(!p){ showErr('パスワードを入力してください。'); return; }
   if(p.length<6){ showErr('パスワードは6文字以上にしてください。'); return; }
   if(emailOptional){
@@ -6324,9 +5655,8 @@ document.getElementById('register-btn').addEventListener('click', async ()=>{
     if(snap.exists()){ showErr('そのユーザー名は既に使われています。'); return; }
   }catch(_){}
 
-  // メールアドレスが空ならランダム擬似メールを生成（日本語ユーザー名対応）
-  const _randId = Math.random().toString(36).slice(2,10);
-  const emailForAuth = emailOptional || ('u_' + _randId + '@vitalia.local');
+  // メールアドレスが空ならローカル擬似メールを生成
+  const emailForAuth = emailOptional || (username.toLowerCase() + '@vitalia.local');
 
   try{
     const cred = await createUserWithEmailAndPassword(auth, emailForAuth, p);
@@ -6401,9 +5731,9 @@ onAuthStateChanged(auth, async user=>{
           }
           localStorage.removeItem('vitalia_uid_hint');
         }catch(e){}
-        showToast('✓ 削除リクエストを送信しました。72時間以内にデータ削除されます。', 5000);
+        alert('✓ 削除リクエストを送信しました。\n\n72時間以内にクラウド側のデータも削除されます。\nご協力ありがとうございました。');
         await signOut(auth);
-        location.href='./index.html';
+        location.href='./homepage.html';
         return;
       }
     }catch(e){ console.warn('deletion request:', e); }
@@ -6430,24 +5760,34 @@ onAuthStateChanged(auth, async user=>{
               }
             }catch(e){}
             setTimeout(()=>{
+              // 同意完了後、ベースライン未回答なら baseline.html → class-select の順
               if(!localStorage.getItem(`vt_baseline_${uid}`)){
                 location.href='./baseline.html';
+              } else if(!localStorage.getItem('vt_class')){
+                location.href='./class-select.html';
               } else {
                 showTutorial();
               }
             }, 400);
           },
           // 同意しない場合：ログアウト
-          ()=>{ try{ signOut(auth); }catch(e){} location.href='./index.html'; }
+          ()=>{ try{ signOut(auth); }catch(e){} location.href='./homepage.html'; }
         );
       }, 400);
     } else {
       // クラス未選択でも、ログイン済みなら選択を促す（初回のみ）
-      // クラスが未設定ならデフォルトで hero を設定
-      if(!localStorage.getItem('vt_class')){
-        localStorage.setItem('vt_class', 'hero');
+      if(!localStorage.getItem('vt_class') && !localStorage.getItem('vt_class_skipped')){
+        setTimeout(()=>{
+          if(confirm('🎮 まだクラス（職業）を選んでいません。\n選択しますか？（あとからでも変更可能）')){
+            location.href='./class-select.html';
+          } else {
+            localStorage.setItem('vt_class_skipped', '1');
+            showTutorial();
+          }
+        }, 800);
+      } else {
+        setTimeout(showTutorial, 800);
       }
-      setTimeout(showTutorial, 800);
     }
 
     // QOL連続低下による危機介入チェック
@@ -6504,7 +5844,7 @@ onAuthStateChanged(auth, async user=>{
 });
 
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{ /* preview */ });
+  navigator.serviceWorker.register('/sw.js').catch(()=>{ /* preview */ });
 }
 
 // ===== PWAインストール促進 =====
@@ -6632,7 +5972,14 @@ const CHAPTERS=[
 ];
 
 function getCurrentLevel(){
-  return getLv(loadData().totalXp).lv;
+  // updateUI と同じロジックで現在のレベルを取得
+  let totalQXp=0,totalNXp=0,qXp=0,nXp=0;
+  try{ const h=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]'); totalQXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const h=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]'); totalNXp=h.reduce((s,x)=>s+(x.xp||0),0); }catch(e){}
+  try{ const r=localStorage.getItem(`vq_${uid}_${weekKey()}`); if(r) qXp=(JSON.parse(r).xp||0); }catch(e){}
+  try{ const r=localStorage.getItem(`vn_${uid}_${weekKey()}`); if(r) nXp=(JSON.parse(r).xp||0); }catch(e){}
+  const totalXp=totalQXp+totalNXp+qXp+nXp;
+  return getLv(totalXp).lv;
 }
 
 function renderStoryList(){
@@ -6928,23 +6275,12 @@ function renderHydration(){
     c.className = 'hyd-cup' + (i < n ? ' full' : '');
     cups.appendChild(c);
   }
-  // 達成で実績 + XP +10（1日1回）
+  // 達成で実績
   if(n === HYDRATION_GOAL){
-    const today=new Date().toISOString().slice(0,10);
-    const seen = `vt_hyd_ach_${uid}_${today}`;
+    const seen = `vt_hyd_ach_${uid}_${new Date().toISOString().slice(0,10)}`;
     if(!localStorage.getItem(seen)){
       localStorage.setItem(seen, '1');
       window.AppEnhance?.achievement?.('💧 水分補給達成！', '💧');
-      try{
-        const k=`vc_xp_${uid}_${weekKey()}`;
-        localStorage.setItem(k, String(parseInt(localStorage.getItem(k)||'0',10)+10));
-        if(typeof updateUI==='function') setTimeout(updateUI,400);
-      }catch(e){}
-      // 実績フラグ
-      try{
-        const a=JSON.parse(localStorage.getItem(`va_ach_${uid}`)||'{}');
-        if(!a.hydration){ a.hydration=true; localStorage.setItem(`va_ach_${uid}`,JSON.stringify(a)); }
-      }catch(e){}
     }
   }
 }
@@ -6997,10 +6333,10 @@ function renderSleep(){
   }catch(e){}
 }
 document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
-  if(!uid||uid==='guest'){ showToast('ログイン後にご利用ください'); return; }
+  if(!uid||uid==='guest'){ alert('ログイン後にご利用ください'); return; }
   const h = parseFloat(document.getElementById('sleep-hours').value);
   const q = parseInt(document.getElementById('sleep-quality').value, 10);
-  if(!h || h<=0 || h>24){ showToast('睡眠時間を0〜24で入力してください'); return; }
+  if(!h || h<=0 || h>24){ alert('睡眠時間を0〜24で入力してください'); return; }
   const data = { hours: h, quality: q||null, ts: Date.now() };
   localStorage.setItem(sleepKey(), JSON.stringify(data));
   // Firestore にも（オフラインキュー対応）
@@ -7011,22 +6347,12 @@ document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
       window.AppSafety?.queueRecord('sleep_records', { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10) });
     }
   }catch(e){ window.AppSafety?.queueRecord('sleep_records', { uid, ...data, date: new Date(Date.now()-86400000).toISOString().slice(0,10) }); }
-  // XP +5（1日1回）
-  try{
-    const sleepXpKey=`vt_sleep_xp_${uid}_${new Date(Date.now()-86400000).toISOString().slice(0,10)}`;
-    if(!localStorage.getItem(sleepXpKey)){
-      localStorage.setItem(sleepXpKey,'1');
-      const k=`vc_xp_${uid}_${weekKey()}`;
-      localStorage.setItem(k, String(parseInt(localStorage.getItem(k)||'0',10)+5));
-      if(typeof updateUI==='function') setTimeout(updateUI,400);
-    }
-  }catch(e){}
   // フィードバック
   const btn = document.getElementById('sleep-save');
   const orig = btn.textContent;
-  btn.textContent = '✓ 保存 +5XP';
+  btn.textContent = '✓ 保存';
   btn.style.background = 'rgba(78,201,138,.4)';
-  setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; }, 1800);
+  setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; }, 1500);
   renderSleep();
 });
 
@@ -7266,13 +6592,8 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   const safeUid = (typeof uid !== 'undefined' && uid) ? uid : 'guest';
   const key = `vt_qol_${safeUid}_${today}`;
   if(localStorage.getItem(key)){
-    showConfirm('今日は既に記録済みです✓\nもう一度書き直しますか？', ()=>{
-      try{ localStorage.removeItem(key); }catch(e){}
-      try{ localStorage.removeItem(`vt_qol_skip_${safeUid}_${today}`); }catch(e){}
-      try{ if(typeof buildQolScales === 'function') buildQolScales(); }catch(e){}
-      const m=document.getElementById('qol-modal'); if(m) m.classList.add('open');
-    });
-    return;
+    if(!confirm('今日は既に記録済みです✓\nもう一度書き直しますか？')) return;
+    try{ localStorage.removeItem(key); }catch(e){}
   }
   try{ localStorage.removeItem(`vt_qol_skip_${safeUid}_${today}`); }catch(e){}
   // モーダルを直接表示（maybeShowQolTracker は早期returnで詰まるので使わない）
@@ -7295,7 +6616,7 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   if(modal){
     modal.style.display = 'flex';
   } else {
-    showToast('QOLトラッカーが見つかりませんでした。ページを再読込してください。');
+    alert('QOLトラッカーが見つかりませんでした。ページを再読込してみてください。');
   }
 });
 document.getElementById('sh-m-done')?.addEventListener('click', ()=>{
@@ -7360,8 +6681,8 @@ function renderGameActions(){
       <div style="background:linear-gradient(135deg,rgba(240,180,80,.18),rgba(240,180,80,.06));border:1.5px solid rgba(240,180,80,.5);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;animation:fadeIn .5s ease both;">
         <div style="font-size:1.6rem;line-height:1;">${ev.icon}</div>
         <div>
-          <div style="font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;color:#8a5c00;">${ev.name}</div>
-          <div style="font-size:.66rem;color:rgba(10,42,64,.75);margin-top:2px;">${ev.desc}</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;color:#f0d048;">${ev.name}</div>
+          <div style="font-size:.66rem;color:rgba(220,225,245,.85);margin-top:2px;">${ev.desc}</div>
         </div>
       </div>
     `;
@@ -7580,13 +6901,6 @@ document.getElementById('th-done')?.addEventListener('click', ()=>{
   let streak = parseInt(localStorage.getItem(tinyStreakKey())||'0',10);
   if(yObj && yObj.done) streak += 1; else streak = 1;
   localStorage.setItem(tinyStreakKey(), String(streak));
-  // 7日連続実績
-  if(streak>=7){
-    try{
-      const a=JSON.parse(localStorage.getItem(`va_ach_${uid}`)||'{}');
-      if(!a.tiny7){ a.tiny7=true; localStorage.setItem(`va_ach_${uid}`,JSON.stringify(a)); }
-    }catch(e){}
-  }
   // 軽いXP（祝い・小さく）
   try{
     const k = `vc_xp_${uid}_${weekKey()}`;
@@ -7935,7 +7249,7 @@ document.getElementById('qol-trend-record')?.addEventListener('click',()=>{
   const today=new Date().toISOString().slice(0,10);
   const k=`vt_qol_${uid}_${today}`;
   if(localStorage.getItem(k)){
-    showToast('今日はすでに記録済みです ✓');
+    alert('今日はすでに記録済みです✓');
     return;
   }
   // skip フラグを消して表示
@@ -8000,8 +7314,8 @@ let _qolPhotoData = null;
 document.getElementById('qol-photo-input')?.addEventListener('change', async (e)=>{
   const file = e.target.files?.[0];
   if(!file) return;
-  if(!file.type.startsWith('image/')){ showToast('画像ファイルを選んでください'); return; }
-  if(file.size > 10*1024*1024){ showToast('10MB以下の画像を選んでください'); return; }
+  if(!file.type.startsWith('image/')){ alert('画像ファイルを選んでください'); return; }
+  if(file.size > 10*1024*1024){ alert('10MB以下の画像を選んでください'); return; }
   try{
     const resized = await resizeImage(file, 800, 800, 0.7);
     _qolPhotoData = resized;
@@ -8011,7 +7325,7 @@ document.getElementById('qol-photo-input')?.addEventListener('change', async (e)
     document.getElementById('qol-photo-status').textContent = `✓ ${(resized.length/1024).toFixed(0)}KB`;
     document.getElementById('qol-photo-clear').style.display = 'inline-block';
   }catch(err){
-    showToast('画像の処理に失敗しました');
+    alert('画像の処理に失敗しました: '+err.message);
   }
 });
 document.getElementById('qol-photo-clear')?.addEventListener('click', ()=>{
@@ -8340,7 +7654,7 @@ function maybeShowPwaBanner(){
     document.getElementById('pwa-banner-sub').textContent='共有ボタン → "ホーム画面に追加" でアプリ化できます';
     const btn=document.getElementById('pwa-install-btn');
     btn.textContent='方法';
-    btn.onclick=()=>showToast('Safari → 共有ボタン（□↑）→「ホーム画面に追加」でアプリ化できます', 5000);
+    btn.onclick=()=>alert('iOSの場合：\n1. Safariの共有ボタン（□↑）をタップ\n2. 「ホーム画面に追加」を選択\n3. ホーム画面のアイコンから起動できます');
   } else if(_deferredPrompt){
     document.getElementById('pwa-install-btn').onclick=async ()=>{
       _deferredPrompt.prompt();
@@ -8425,8 +7739,9 @@ function maybeWeeklySurveyReminder(){
   if(Date.now() - last < 24*3600*1000) return;
   localStorage.setItem(lastNudgeKey, String(Date.now()));
   // 軽いトースト＋誘導
-  showConfirm(`📋 第${weekNum}週の週次アンケート\n約1分・+30XP\n\n研究データとして大切な情報です。今すぐ回答しますか？`,
-    ()=>{ location.href='./weekly-survey.html'; });
+  if(confirm(`📋 第${weekNum}週の週次アンケート（約1分・+30XP）\n\n研究データとして大切な情報です。今すぐ回答しますか？`)){
+    location.href = './weekly-survey.html';
+  }
 }
 
 // ===== マイルストーン調査催促（6週・12週） =====
@@ -8451,13 +7766,38 @@ function maybeMilestoneReminder(){
   localStorage.setItem(`vt_milestone_nudge_${uid}_${type}`, String(Date.now()));
 
   const isMid = type === 'midpoint';
-  showConfirm(`${isMid?'🌗 6週時点の中間評価':'🎓 12週後の最終評価'}\n${isMid?'約2分・+80XP':'約3-5分・+150XP'}\n\nベースラインからの変化を測る最も大切な調査です。今すぐ回答しますか？`,
-    ()=>{ location.href=`./milestone-survey.html?type=${type}`; });
+  if(confirm(`${isMid?'🌗 6週時点の中間評価':'🎓 12週後の最終評価'}（${isMid?'約2分・+80XP':'約3-5分・+150XP'}）\n\nベースラインからの変化を測る、研究にとって最も大切な調査です。今すぐ回答しますか？`)){
+    location.href = `./milestone-survey.html?type=${type}`;
+  }
 }
 
-// ===== ドロップアウトリスク介入（無効化） =====
+// ===== ドロップアウトリスク介入 =====
 function maybeDropoutIntervention(){
-  // confirm ダイアログによる割り込みは廃止
+  if(!uid || uid==='guest') return;
+  if(!window.AppSafety) return;
+  if(window.AppSafety.isAnyModalOpen()) return;
+  const risk = window.AppSafety.calcDropoutRisk();
+  if(risk < 60) return; // 中リスク以上のみ介入
+  // 24時間に1回
+  const lastK = `vt_dropout_intervention_${uid}`;
+  const last = parseInt(localStorage.getItem(lastK)||'0',10);
+  if(Date.now() - last < 24*3600*1000) return;
+  localStorage.setItem(lastK, String(Date.now()));
+  // クラスに応じたメッセージ
+  const cls = localStorage.getItem('vt_class') || 'hero';
+  const msgs = {
+    villainess: '👑 悪役令嬢、お帰りなさい！\n\n3日空けても大丈夫、復帰でXP×2のボーナスが発動中。\n断罪エンドを回避するには、いま1つでも記録しましょう？',
+    knight: '🛡 騎士よ、守るべきは「習慣」そのもの。\n\n今日1分の散歩、または野菜1皿でも記録すれば、ストリークは続きます。',
+    saint: '⛪ 聖女よ、お疲れの様子。\n\nQOLを1つだけ、記録してみませんか？それだけでも今日のあなたを大切にできます。',
+    hero: '⚔ 勇者よ、冒険を中断しているようです。\n\n小さな一歩でも、また始めれば道は続きます。',
+    witch: '🧙‍♀️ 魔女っ子、しばらく見ないわね。\n\n野菜1皿の魔法から、また始めてみない？',
+    prince: '🤴 王子、仲間が待っています。\n\nパーティに近況を一言投稿するだけで、絆は途切れません。',
+  };
+  const msg = msgs[cls] || msgs.hero;
+  const action = confirm(msg + '\n\n今すぐ何か記録しますか？');
+  if(action){
+    location.href = './quest.html';
+  }
 }
 
 // ===== ユーザー設定の双方向同期（Firestore <-> localStorage） =====
@@ -8927,14 +8267,13 @@ window.addEventListener('load', ()=>{
   }
 });
 </script>
-<div id="shooting-stars-layer" aria-hidden="true"></div>
-
 <nav class="bottom-nav" id="bottom-nav">
-  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
   <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
-  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+  <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
+  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
 
 <!-- QOL（今日の調子）トラッカーモーダル -->
@@ -9356,25 +8695,5 @@ window.addEventListener('load', ()=>{
   };
 })();
 </script>
-<script>
-(function(){
-  const layer=document.getElementById('shooting-stars-layer');
-  if(!layer)return;
-  function spawnStar(){
-    const s=document.createElement('div');
-    s.className='ss-star';
-    s.style.cssText=`left:${Math.random()*80}%;top:${Math.random()*60}%;animation-duration:${0.9+Math.random()*.5}s;`;
-    layer.appendChild(s);
-    setTimeout(()=>s.remove(),1400);
-  }
-  setInterval(()=>{ if(Math.random()<0.45) spawnStar(); },2200);
-  window.ShootingStar={burst:function(n){ for(let i=0;i<(n||5);i++) setTimeout(spawnStar,i*150); }};
-})();
-</script>
 </body>
 </html>
-
-
-
-
-

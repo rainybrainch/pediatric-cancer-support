@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>スマホで見る — ヴィタリア RPG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-1:#0a1a30; --bg-2:#15264a;
+  --ink:#e4f0fc; --ink-soft:#b8c8e0; --ink-mute:#7d92b0;
+  --cyan:#5fd0e8; --cyan-2:#a3e8f5; --cyan-deep:#0a4870;
+  --gold:#f0c548; --gold-2:#f0d48a; --gold-deep:#8e6510;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;width:100%;overflow:hidden;}
+body{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  background:radial-gradient(ellipse 70% 50% at 20% 0%, rgba(95,208,232,.12), transparent 65%),
+             radial-gradient(ellipse 60% 50% at 80% 100%, rgba(240,197,72,.10), transparent 65%),
+             linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color:var(--ink);
+  display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,.5), transparent 100%),
+    radial-gradient(1px 1px at 48% 8%, rgba(255,255,255,.4), transparent 100%),
+    radial-gradient(1px 1px at 72% 22%, rgba(255,255,255,.35), transparent 100%),
+    radial-gradient(1px 1px at 22% 70%, rgba(255,255,255,.4), transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 80%, rgba(255,255,255,.5), transparent 100%);
+}
+
+/* ===== Top bar — compact ===== */
+.topbar{
+  position:relative;z-index:5;
+  padding:8px 12px 6px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(95,208,232,.18);
+  background:rgba(8,18,38,.55);
+  backdrop-filter:blur(12px);
+  flex-shrink:0;
+}
+.tb-title{
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.92rem;
+  background:linear-gradient(135deg, var(--gold-2), var(--cyan-2), var(--gold-2));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 6s linear infinite;
+  white-space:nowrap;letter-spacing:.04em;
+}
+@keyframes shimmer{0%{background-position:0% 50%;}100%{background-position:200% 50%;}}
+.tb-spacer{flex:1;}
+.tb-btn{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(95,208,232,.28);
+  color:var(--ink-soft);
+  font-size:.7rem;font-weight:800;letter-spacing:.04em;
+  padding:5px 10px;border-radius:8px;cursor:pointer;
+  font-family:inherit;
+}
+.tb-btn:hover{background:rgba(95,208,232,.12);color:#fff;}
+.tb-btn.primary{
+  background:linear-gradient(180deg, var(--gold-2), var(--gold));
+  border-color:var(--gold-deep);color:#1a0e02;
+}
+
+/* ===== Tabs — compact horizontal ===== */
+.tabs{
+  position:relative;z-index:4;flex-shrink:0;
+  display:flex;gap:0;
+  border-bottom:1px solid rgba(95,208,232,.18);
+  background:rgba(8,18,38,.4);
+  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  flex:1 1 auto;min-width:0;
+  background:none;border:none;
+  color:var(--ink-mute);
+  font-family:inherit;font-size:.7rem;font-weight:800;letter-spacing:.02em;
+  padding:8px 6px;cursor:pointer;
+  white-space:nowrap;
+  display:flex;flex-direction:row;align-items:center;justify-content:center;gap:5px;
+  border-bottom:2px solid transparent;
+  transition:.15s;
+}
+.tab .ic{font-size:.95rem;line-height:1;}
+.tab.active{
+  color:var(--gold-2);
+  border-bottom-color:var(--gold);
+  background:linear-gradient(180deg, transparent 0%, rgba(240,197,72,.08) 100%);
+}
+
+/* ===== Stage / phone ===== */
+.stage{
+  position:relative;z-index:1;
+  flex:1;min-height:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:10px;
+}
+.phone{
+  position:relative;
+  height:100%;
+  aspect-ratio: 390 / 810;
+  max-width:100%;
+  border-radius:38px;overflow:hidden;
+  background:#000;
+  box-shadow:
+    0 0 0 6px #0e1a2e,
+    0 0 0 7px #2a3e62,
+    0 0 0 8px #1a2540,
+    0 20px 40px -16px rgba(0,0,0,.55),
+    0 0 60px -16px rgba(95,208,232,.18);
+}
+.phone::before{
+  content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  width:88px;height:18px;border-radius:12px;background:#000;z-index:3;
+}
+.phone iframe{
+  position:absolute;inset:0;width:100%;height:100%;border:none;
+  background:#c8e4f4;
+}
+.phone-load{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(180deg,#dcedf6,#c8e4f4 70%,#b8d8ef);
+  color:#0a4870;
+  pointer-events:none;
+}
+.phone-load.hide{display:none;}
+.phone-load .dot{
+  width:28px;height:28px;border-radius:50%;
+  border:3px solid rgba(30,127,164,.22);border-top-color:#1e7fa4;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.phone-load .label{
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.78rem;
+}
+
+/* Below SM: drop bezel and fill */
+@media (max-width: 560px){
+  .stage{padding:0;}
+  .phone{
+    height:100%;width:100%;max-width:100%;
+    aspect-ratio:auto;border-radius:0;
+    box-shadow:none;
+  }
+  .phone::before{display:none;}
+}
+
+/* Toolbar overlay pop-up (▾ メニュー) */
+.menu{
+  position:absolute;top:46px;right:8px;
+  background:rgba(14,26,46,.96);
+  border:1px solid rgba(95,208,232,.3);
+  border-radius:10px;
+  padding:6px;
+  display:none;flex-direction:column;gap:2px;
+  z-index:20;
+  min-width:160px;
+  box-shadow:0 12px 28px -8px rgba(0,0,0,.6);
+}
+.menu.open{display:flex;}
+.menu button{
+  background:none;border:none;
+  color:var(--ink-soft);text-align:left;
+  font-family:inherit;font-size:.74rem;font-weight:700;
+  padding:8px 10px;border-radius:6px;cursor:pointer;
+  display:flex;align-items:center;gap:7px;
+}
+.menu button:hover{background:rgba(95,208,232,.12);color:#fff;}
+.menu button .ic{font-size:.95rem;width:18px;text-align:center;}
+.menu hr{border:none;border-top:1px solid rgba(95,208,232,.12);margin:3px 0;}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="tb-title">✦ ヴィタリア RPG</div>
+  <div class="tb-spacer"></div>
+  <button class="tb-btn" id="menu-btn" type="button" aria-haspopup="true" aria-expanded="false">⋯</button>
+  <button class="tb-btn primary" id="open-btn" type="button">↗ 全画面</button>
+  <div class="menu" id="menu" role="menu">
+    <button type="button" id="reload-btn"><span class="ic">↻</span>リロード</button>
+    <button type="button" id="reset-btn"><span class="ic">⌫</span>初期化</button>
+    <hr>
+    <button type="button" id="demo-btn"><span class="ic">✦</span>演出デモ＆仕様</button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" id="tabs">
+  <button class="tab active" data-src="./quest.html" type="button">
+    <span class="ic">⚔</span>運動
+  </button>
+  <button class="tab" data-src="./nutrition.html" type="button">
+    <span class="ic">🍱</span>栄養
+  </button>
+  <button class="tab" data-src="./adventure.html" type="button">
+    <span class="ic">📜</span>冒険
+  </button>
+  <button class="tab" data-src="./adventure-map.html" type="button">
+    <span class="ic">🗺</span>マップ
+  </button>
+</nav>
+
+<div class="stage">
+  <div class="phone">
+    <div class="phone-load" id="phone-load">
+      <div class="dot"></div>
+      <div class="label">ヴィタリアに転生中...</div>
+    </div>
+    <iframe id="phone-iframe" src="about:blank" title="プレビュー"></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ===== Seed localStorage so iframes bypass consent / login =====
+  try{
+    localStorage.setItem('vq_consent_done','1');
+    localStorage.setItem('vq_profile_done','1');
+    localStorage.setItem('vn_consent_done','1');
+    localStorage.setItem('vn_profile_done','1');
+    localStorage.setItem('vitalia_consent','1');
+    localStorage.setItem('vt_consent_v1','1');
+    localStorage.setItem('vt_profile_v1','1');
+    localStorage.setItem('vitalia_profile', JSON.stringify({birth:2005,sex:'female',diagnosis:'',years:'1to3'}));
+    localStorage.setItem('vitalia_uid_hint','demo');
+    localStorage.setItem('vitaliaUid','demo');
+    localStorage.setItem('vt_class','warrior');
+    localStorage.setItem('vitalia_class','kaito');
+    localStorage.setItem('vt_xp','420');
+    localStorage.setItem('vt_level','3');
+  }catch(e){}
+
+  (async ()=>{
+    try{
+      if(navigator.serviceWorker){
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for(const r of regs) await r.unregister();
+      }
+      if(window.caches){
+        const cs = await caches.keys();
+        for(const c of cs) await caches.delete(c);
+      }
+    }catch(e){}
+  })();
+
+  const iframe = document.getElementById('phone-iframe');
+  const load   = document.getElementById('phone-load');
+  const tabs   = document.querySelectorAll('.tab');
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+  const reloadBtn = document.getElementById('reload-btn');
+  const resetBtn  = document.getElementById('reset-btn');
+  const openBtn   = document.getElementById('open-btn');
+  const demoBtn   = document.getElementById('demo-btn');
+
+  let currentSrc = './quest.html';
+
+  function load_(src){
+    currentSrc = src;
+    load.classList.remove('hide');
+    iframe.src = src;
+    tabs.forEach(t=>t.classList.toggle('active', t.getAttribute('data-src')===src));
+    menu.classList.remove('open');
+  }
+
+  iframe.addEventListener('load', ()=>{
+    try{
+      const d = iframe.contentDocument;
+      if(!d) return;
+      const tryFix = (n=0)=>{
+        if(!d.body || !d.body.children.length){
+          if(n<25) return setTimeout(()=>tryFix(n+1), 200);
+          return;
+        }
+        ['consent-modal','profile-modal','loading-screen','login-screen','onboarding-overlay'].forEach(id=>{
+          const e = d.getElementById(id);
+          if(e){
+            e.style.setProperty('display','none','important');
+            e.classList.add('hidden');
+          }
+        });
+        const ms = d.getElementById('main-screen');
+        if(ms){
+          ms.classList.remove('hidden');
+          ms.style.removeProperty('display');
+        }
+        setTimeout(()=>load.classList.add('hide'), 250);
+      };
+      tryFix();
+    }catch(e){
+      setTimeout(()=>load.classList.add('hide'), 1200);
+    }
+  });
+
+  tabs.forEach(t=>{
+    t.addEventListener('click', ()=>{
+      load_(t.getAttribute('data-src'));
+    });
+  });
+
+  menuBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+  document.addEventListener('click', ()=> menu.classList.remove('open'));
+  menu.addEventListener('click', (e)=> e.stopPropagation());
+
+  reloadBtn.addEventListener('click', ()=>{
+    load.classList.remove('hide');
+    iframe.src = currentSrc + (currentSrc.includes('?')?'&':'?') + 't=' + Date.now();
+    menu.classList.remove('open');
+  });
+  resetBtn.addEventListener('click', ()=>{
+    if(confirm('保存されたXPや撃破リストなどをリセットしますか？')){
+      try{
+        const keep = {};
+        ['vq_consent_done','vq_profile_done','vn_consent_done','vn_profile_done','vitalia_consent','vt_consent_v1','vt_profile_v1','vitalia_profile','vitalia_uid_hint','vitaliaUid','vt_class','vitalia_class'].forEach(k=>{ keep[k]=localStorage.getItem(k); });
+        localStorage.clear();
+        Object.keys(keep).forEach(k=>{ if(keep[k]!==null) localStorage.setItem(k, keep[k]); });
+      }catch(e){}
+      load_(currentSrc);
+    }
+  });
+  openBtn.addEventListener('click', ()=>{
+    window.open(currentSrc, '_blank');
+  });
+  demoBtn.addEventListener('click', ()=>{
+    window.open('./RPG UI Demo.html', '_blank');
+    menu.classList.remove('open');
+  });
+
+  load_('./quest.html');
+})();
+</script>
+
+</body>
+</html>

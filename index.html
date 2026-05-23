@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -18,10 +18,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ヴィタリア転生録 | 健康行動支援研究">
 <meta name="twitter:description" content="小児がん経験者のための研究参加型ウェルネスRPG">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/svg+xml" href="./icon.svg">
-<link rel="apple-touch-icon" href="./icon-192.png">
-<meta name="theme-color" content="#1e7fa4">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="theme-color" content="#c9a84c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ヴィタリア">
@@ -3331,24 +3331,6 @@ footer{
 /* ---------- 共通：text-wrap pretty for long Japanese lines ---------- */
 .trial-title, .study-card-title, .str-title, .char-name, .cta-title{ text-wrap: pretty; }
 
-/* ── 水色スキン追加：完了済みアイテム名・警告アイコン薄色修正 ── */
-.phone-screen .pmock-act-item.done .pmock-act-name{color:#1f7d4d !important;-webkit-text-fill-color:#1f7d4d !important;}
-.appshow-screen .as-grid-item.done .as-gi-name{color:#1f7d4d !important;-webkit-text-fill-color:#1f7d4d !important;}
-.warning-icon{color:#8a5c00 !important;}
-
-/* ── グローバル：本文内インライン薄色テキスト全体対応 ── */
-/* 薄金（研究者名・CTAボタン・ボス名） */
-[style*="color:#f0d48a"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:#c9a84c"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:rgba(201,168,76"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:rgba(240,212,138"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-/* 薄赤（運動ラベル・カイトセクション） */
-[style*="color:#f0a0a0"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-[style*="color:rgba(240,160,160"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-/* 薄紫（ルナ名前ラベル・GROWボタン） */
-[style*="color:#c0a0f0"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
-[style*="color:rgba(200,180,255"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
-
 </style>
 </head>
 <body>
@@ -3384,7 +3366,7 @@ footer{
     <a href="#grow">AIコーチング</a>
     <a href="#faq">FAQ</a>
     <a href="./research.html">詳細資料</a>
-    <a href="./game.html" class="btn-nav" style="background:linear-gradient(135deg,#1e7fa4,#4ab0d4);border-color:#1e7fa4;color:#fff;">⚔ 参加者ゲーム入口 →</a>
+    <a href="./game.html" class="btn-nav" style="background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.1));border-color:rgba(201,168,76,.5);color:#f0d48a;">⚔ 参加者ゲーム入口 →</a>
   </div>
   <!-- #23 aria-label でアクセシビリティ向上 -->
   <button id="menu-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu">☰</button>
@@ -3398,7 +3380,7 @@ footer{
   <a href="#grow"            onclick="closeMobile()">AIコーチング</a>
   <a href="#faq"             onclick="closeMobile()">FAQ</a>
   <a href="./research.html"  onclick="closeMobile()">詳細資料</a>
-  <a href="./game.html" style="border-color:#1e7fa4;color:#1e7fa4;background:rgba(30,127,164,.08);" onclick="closeMobile()">⚔ 参加者ゲーム入口 →</a>
+  <a href="./game.html" style="border-color:rgba(201,168,76,.5);color:#f0d48a;background:rgba(201,168,76,.08);" onclick="closeMobile()">⚔ 参加者ゲーム入口 →</a>
 </div>
 
 
@@ -3421,7 +3403,7 @@ footer{
     </p>
     <div class="hero-buttons">
       <a href="#study" class="btn-primary">🔬 研究概要・倫理情報を見る</a>
-      <a href="./game.html#register" class="btn-ghost" style="border-color:rgba(201,168,76,.4);color:#c9a84c;">✨ 新規登録して始める →</a>
+      <a href="./game.html" class="btn-ghost" style="border-color:rgba(201,168,76,.4);color:#c9a84c;">⚔ 参加者はゲームへ →</a>
     </div>
     <div class="hero-stats" style="border-top:1px solid #d0daf0;">
       <div class="hero-stat">
@@ -3900,9 +3882,8 @@ footer{
 
     <!-- #34 研究参加CTAボタン -->
     <div style="text-align:center;margin-top:36px;" class="reveal">
-      <a href="./game.html#register" class="btn-study-cta">🔬 新規登録する（無料・3分）</a>
+      <a href="./game.html" class="btn-study-cta">🔬 研究に参加する（無料・登録3分）</a>
       <p style="font-size:.7rem;color:var(--muted);margin-top:10px;">参加登録はメールアドレスのみ。いつでも退会可。</p>
-      <p style="font-size:.7rem;color:var(--muted);margin-top:4px;">すでに登録済みの方は → <a href="./game.html" style="color:var(--gold);text-decoration:underline;">ログイン</a></p>
     </div>
   </div>
 </section>
@@ -4110,7 +4091,7 @@ footer{
           </div>
           <div class="char-quote">「あなたの前世の勇気は、ここでも確かに輝いています」</div>
           <div class="char-hover-quote" data-char="luna"></div>
-          <a href="./game.html" class="char-link">✦ コーチングを受ける →</a>
+          <a href="./ai-coach/index.html" class="char-link">✦ コーチングを受ける →</a>
         </div>
       </div>
 
@@ -4218,8 +4199,9 @@ footer{
   </div>
 </section>
 
-<!-- seven-sins section removed (spoiler) -->
-<section class="seven-sins" id="seven-sins" style="display:none;">
+
+<!-- ========== 七大罪（敵キャラ・健康行動の障害） ========== -->
+<section class="seven-sins" id="seven-sins" style="padding:80px 0;background:#070612;color:#d8d4f0;border-top:1px solid #1a1530;border-bottom:1px solid #1a1530;position:relative;overflow:hidden;">
   <!-- 星空背景 -->
   <div style="position:absolute;inset:0;pointer-events:none;background:
     radial-gradient(ellipse 60% 50% at 20% 20%,rgba(120,60,180,.15) 0%,transparent 60%),
@@ -4387,6 +4369,15 @@ footer{
 
   </div>
 </section>
+
+<style>
+.sin-card:hover img{transform:scale(1.05);transition:transform .35s;}
+.sin-card img{transition:transform .35s;}
+@media(max-width:600px){
+  .seven-sins{padding:48px 0!important;}
+  .sins-grid{grid-template-columns:1fr!important;}
+}
+</style>
 
 <!-- ========== なぜルナと話すと続くのか ========== -->
 <section class="why-luna" id="why-luna" style="padding:64px 0;background:linear-gradient(135deg,#f0eef8 0%,#fff8f0 100%);border-top:1px solid #d4ddf4;">
@@ -4585,11 +4576,11 @@ footer{
       あなたの記録が、未来の小児がん経験者を支えるエビデンスになります。
     </p>
     <div class="cta-btns reveal">
-      <a href="./game.html#register" class="btn-primary" style="background:linear-gradient(135deg,rgba(201,168,76,.28),rgba(201,168,76,.12));border-color:rgba(201,168,76,.5);color:#f0d48a;">✨ 新規登録して冒険を始める →</a>
-      <a href="./game.html" class="btn-ghost">⚔ ログイン（登録済みの方）</a>
+      <a href="./game.html" class="btn-primary" style="background:linear-gradient(135deg,rgba(201,168,76,.28),rgba(201,168,76,.12));border-color:rgba(201,168,76,.5);color:#f0d48a;">⚔ 参加者はゲームへ →</a>
+      <a href="./research.html" class="btn-ghost">📄 研究者向け詳細資料 →</a>
     </div>
-    <div class="reveal" style="margin-top:12px;text-align:center;">
-      <a href="./research.html" style="font-size:.74rem;color:var(--muted);text-decoration:underline;">📄 研究者向け詳細資料 →</a>
+    <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px;">
+      <span class="cta-entry cta-entry-purple" style="opacity:.5;">📧 研究者・共同研究のお問い合わせ（連絡先準備中）</span>
     </div>
   </div>
   <div class="warning">
@@ -4611,18 +4602,22 @@ footer{
   <p style="color:var(--muted);font-size:.8rem;margin-bottom:4px;">小児がん経験者のための健康行動継続支援 研究プロジェクト</p>
   <div class="footer-links">
     <a href="#top">トップ</a>
-    <a href="#study">研究概要</a>
-    <a href="#characters">仲間たち</a>
     <a href="#trials">3つの試練</a>
+    <a href="#characters">仲間たち</a>
     <a href="#grow">冒険の手引き</a>
-    <a href="#faq">FAQ</a>
-    <a href="./research.html">研究者向け資料</a>
-    <a href="./faq.html">よくある質問</a>
-    <a href="./game.html">ゲームへ</a>
+    <a href="#study">研究概要</a>
+    <a href="./research.html">研究について</a>
+    <a href="./quest.html">健康クエスト</a>
+    <a href="./nutrition.html">栄養クエスト</a>
+    <a href="./game.html">ゲームを始める</a>
+    <!-- 管理者リンク（研究者用） -->
+    <a href="./admin.html" style="opacity:.4;font-size:.68rem;">管理者</a>
   </div>
   <p class="footer-note">
-    研究代表者：福井 郁子（看護学 ／ 大学教員）<br>
-    ⚠️ このサービスは医療診断・治療を行いません。体調の変化は必ず主治医にご相談ください。<br>
+    研究代表者：福井 郁子（看護学 ／ 大学教員） ／ 連絡先：準備中<br>
+    ⚠️ このサービスはAIによるコーチングです。医療診断・治療は行いません。<br>
+    キャラクターはAI技術（Google Gemini）により生成されています。<br>
+    <!-- 著作権年修正 2025→2025-2026 -->
     © 2025–2026 小児がん経験者健康行動継続支援研究プロジェクト. All Rights Reserved.
   </p>
 </footer>
@@ -4905,9 +4900,7 @@ footer{
   });
 </script>
 <script>if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{ /* preview env may not have sw.js */ });
+  navigator.serviceWorker.register('/sw.js').catch(()=>{ /* preview env may not have sw.js */ });
 }</script>
 </body>
 </html>
-
-

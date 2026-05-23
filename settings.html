@@ -1,16 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>冒険者ステータス設定 ｜ ヴィタリア転生録</title>
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/svg+xml" href="./icon.svg">
-<link rel="apple-touch-icon" href="./icon-192.png">
-<meta name="theme-color" content="#1e7fa4">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -23,7 +16,7 @@ header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15
 header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
 .back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
 
-.page{max-width:680px;margin:0 auto;padding:32px 20px 100px;}
+.page{max-width:680px;margin:0 auto;padding:32px 20px 80px;}
 .page-title{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;margin-bottom:6px;}
 .page-sub{font-size:.75rem;color:rgba(170,188,216,.5);margin-bottom:32px;}
 
@@ -146,181 +139,12 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
   margin-top:8px;
 }
 </style>
-<style id="watercolor-skin">
-:root{
-  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
-  --gold:#1e7fa4;--gold2:#0a4870;
-  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
-  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
-}
-html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
-body::before{opacity:0 !important;}
-/* ── settings.html watercolor skin ── */
-body,html{ background:#c8e4f4 !important; color:#0a2a40 !important; }
-body::before{ display:none !important; }
-header{
-  background:rgba(255,255,255,.9) !important;
-  border-bottom:1.5px solid #b0cfdf !important;
-  backdrop-filter:blur(8px);
-}
-header a, .back-btn{
-  color:#0a4870 !important; -webkit-text-fill-color:#0a4870 !important;
-  border-color:#b0cfdf !important;
-}
-.page-title{
-  color:#0a2a40 !important; -webkit-text-fill-color:#0a2a40 !important;
-  font-weight:900 !important;
-}
-.page-sub{ color:#1a4860 !important; -webkit-text-fill-color:#1a4860 !important; }
-.section{
-  background:#ffffff !important;
-  border:1.5px solid #b0cfdf !important;
-  border-radius:14px !important;
-  box-shadow:0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
-  color:#0a2a40 !important;
-}
-.section-title{
-  color:#0a4870 !important; -webkit-text-fill-color:#0a4870 !important;
-  font-weight:900 !important; font-family:'Noto Serif JP',serif !important;
-}
-.form-group label{ color:#1a4860 !important; -webkit-text-fill-color:#1a4860 !important; font-weight:700 !important; }
-.form-input{
-  background:#f4faff !important;
-  border:1.5px solid #b0cfdf !important;
-  color:#0a2a40 !important; -webkit-text-fill-color:#0a2a40 !important;
-  font-weight:600 !important;
-}
-.form-input:focus{ border-color:#1e7fa4 !important; box-shadow:0 0 0 3px rgba(30,127,164,.18) !important; }
-.form-hint{ color:#355773 !important; -webkit-text-fill-color:#355773 !important; }
-.acct-lbl{ color:#1a4860 !important; -webkit-text-fill-color:#1a4860 !important; font-weight:700 !important; }
-.acct-val{ color:#0a2a40 !important; -webkit-text-fill-color:#0a2a40 !important; font-weight:700 !important; }
-.acct-val.acct-uid{ color:#355773 !important; -webkit-text-fill-color:#355773 !important; }
-.acct-val.acct-email-unset{ color:#a06020 !important; -webkit-text-fill-color:#a06020 !important; }
-.acct-val.acct-email-set{ color:#1f7d4d !important; -webkit-text-fill-color:#1f7d4d !important; }
-.acct-row{ border-bottom-color:rgba(30,127,164,.15) !important; }
-.toggle-label{ color:#0a2a40 !important; -webkit-text-fill-color:#0a2a40 !important; font-weight:700 !important; }
-.toggle-desc{ color:#355773 !important; -webkit-text-fill-color:#355773 !important; }
-.toggle-row{ border-bottom-color:rgba(30,127,164,.15) !important; }
-.bmi-card{ background:#f4faff !important; border:1px solid #b0cfdf !important; border-radius:12px !important; }
-.bmi-value{ color:#0a4870 !important; -webkit-text-fill-color:#0a4870 !important; }
-.bmi-label{ color:#1a4860 !important; -webkit-text-fill-color:#1a4860 !important; }
-.bmi-scale span{ color:#355773 !important; -webkit-text-fill-color:#355773 !important; }
-.bmi-guidance{ background:rgba(30,127,164,.06) !important; color:#1a4860 !important; -webkit-text-fill-color:#1a4860 !important; border:1px solid rgba(30,127,164,.15) !important; }
-.bmi-guidance strong{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
-.goal-card{ background:#f4faff !important; border:1px solid rgba(30,127,164,.3) !important; }
-.goal-title{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
-.goal-num{ color:#0a4870 !important; -webkit-text-fill-color:#0a4870 !important; }
-.goal-desc{ color:#1a4860 !important; -webkit-text-fill-color:#1a4860 !important; }
-.btn-save-main{
-  background:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;
-  background-image:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;
-  color:#ffffff !important; -webkit-text-fill-color:#ffffff !important;
-  border:none !important;
-  box-shadow:0 4px 0 #0a4870, 0 6px 14px rgba(30,80,110,.2) !important;
-}
-.save-msg{ color:#1f7d4d !important; -webkit-text-fill-color:#1f7d4d !important; }
-.nutrition-link{ background:rgba(31,125,77,.06) !important; border:1.5px solid rgba(31,125,77,.3) !important; }
-.nutr-label{ color:#1f7d4d !important; -webkit-text-fill-color:#1f7d4d !important; }
-.nutr-bonus{ color:#1f7d4d !important; -webkit-text-fill-color:#1f7d4d !important; }
-.theme-opt{ background:#f4faff !important; border:1px solid #b0cfdf !important; color:#355773 !important; -webkit-text-fill-color:#355773 !important; }
-.theme-opt.selected{ border-color:#1e7fa4 !important; color:#0a4870 !important; -webkit-text-fill-color:#0a4870 !important; background:rgba(30,127,164,.08) !important; }
-.btn-export{ background:rgba(31,125,77,.12) !important; border-color:rgba(31,125,77,.4) !important; color:#1f7d4d !important; -webkit-text-fill-color:#1f7d4d !important; }
-.btn-danger{ background:rgba(176,30,30,.08) !important; border-color:rgba(176,30,30,.4) !important; color:#b01e1e !important; -webkit-text-fill-color:#b01e1e !important; }
-/* bottom nav */
-.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
-.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
-.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
-.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
-body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
-.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
-.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
-.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
-
-/* ── ダーク前提の半透明背景を白ベースに反転 ── */
-[style*="rgba(255,255,255,.04)"],
-[style*="rgba(255,255,255,.05)"],
-[style*="rgba(255,255,255,.06)"],
-[style*="rgba(255,255,255,.07)"],
-[style*="rgba(255,255,255,.08)"],
-[style*="rgba(255,255,255,.1)"],
-[style*="rgba(14,18,32"],
-[style*="rgba(8,6,20"],
-[style*="rgba(20,16,40"]{
-  background: rgba(255,255,255,.85) !important;
-  border-color: rgba(30,127,164,.25) !important;
-  color: #0a2a40 !important;
-}
-/* ── ダーク前提の白テキストを暗くする ── */
-[style*="color:rgba(220,225,245"],
-[style*="color:rgba(170,188,216"],
-[style*="color:#d4dcf0"],
-[style*="color:#aabcd8"],
-[style*="color:#e8e4d4"],
-[style*="color:#e8d4ff"],
-[style*="color:white"],
-[style*="color:#fff"]{
-  color: #0a2a40 !important;
-  -webkit-text-fill-color: #0a2a40 !important;
-}
-/* ── カード・パネル系クラス共通 ── */
-.card, .panel, .section, .q-card, .stat-card,
-.info-card, .intro-card, .section-card, .week-card,
-.mission-card, .achievement-card, .skill, .entry,
-.stat-cell, .shop-item, .collection-item{
-  background: rgba(255,255,255,.92) !important;
-  border-color: rgba(30,127,164,.22) !important;
-  color: #0a2a40 !important;
-}
-/* ── ヘッダー・ナビ ── */
-header, nav:not(.bottom-nav){
-  background: rgba(200,228,244,.97) !important;
-  border-bottom-color: #b0cfdf !important;
-}
-header a, nav a:not(.bn-tab){
-  color: #0a4870 !important;
-  -webkit-text-fill-color: #0a4870 !important;
-}
-/* ── テキスト可読性の底上げ ── */
-p, span, div, label, li, td, th, h1, h2, h3, h4{
-  color: inherit;
-}
-/* ── settings.html 固有の暗色クラスを上書き ── */
-.section{background:rgba(255,255,255,.88) !important;border-color:rgba(30,127,164,.2) !important;}
-.bmi-card{background:rgba(255,255,255,.75) !important;}
-.bmi-guidance{background:rgba(255,255,255,.75) !important;color:#0a2a40 !important;}
-.tab-btn{background:rgba(255,255,255,.7) !important;color:#0a2a40 !important;border-color:rgba(30,127,164,.2) !important;}
-.tab-btn.active{background:#1e7fa4 !important;color:#fff !important;}
-.page-sub{color:rgba(10,42,64,.55) !important;}
-.form-group label{color:rgba(10,42,64,.65) !important;}
-.form-hint{color:rgba(10,42,64,.45) !important;}
-.bmi-scale{color:rgba(10,42,64,.45) !important;}
-.goal-unit{color:rgba(10,42,64,.5) !important;}
-.nutr-detail{color:rgba(10,42,64,.5) !important;}
-.acct-lbl{color:rgba(10,42,64,.6) !important;}
-.acct-val.acct-uid{color:rgba(10,42,64,.5) !important;}
-.acct-val.acct-email-set{color:#1f8a66 !important;}
-.save-msg.success{color:#1f8a66 !important;}
-.theme-opt{background:rgba(255,255,255,.7) !important;border-color:rgba(30,127,164,.2) !important;color:#0a2a40 !important;}
-.theme-opt.selected{background:rgba(30,127,164,.1) !important;border-color:#1e7fa4 !important;color:#1e7fa4 !important;}
-.btn-export{background:rgba(31,138,102,.1) !important;border-color:rgba(31,138,102,.4) !important;color:#1f8a66 !important;}
-.goal-desc{color:rgba(10,42,64,.7) !important;}
-.acct-val{color:#0a2a40 !important;}
-.acct-val.acct-email-unset{color:#a06020 !important;}
-.toggle-label{color:#0a2a40 !important;}
-.btn-danger{color:#b53a3a !important;background:rgba(181,58,58,.07) !important;border-color:rgba(181,58,58,.35) !important;}
-.save-msg.error{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-/* 招待コード・if-then プレビュー薄緑 → 濃緑 */
-[style*="color:rgba(168,232,192"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
-[style*="color:#a8e8c0"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
-#ii-preview{background:rgba(31,138,102,.06) !important;border-left-color:rgba(31,138,102,.5) !important;}
-[style*="color:#f0a0a0"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
-[style*="color:#f0d48a"],[style*="color:#c9a84c"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:rgba(201,168,76"],[style*="color:rgba(240,212,138"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
-[style*="color:#c0a0f0"],[style*="color:rgba(200,180,255"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
-[style*="color:#a8c8f0"]{color:#1e5a8a !important;-webkit-text-fill-color:#1e5a8a !important;}
-</style>
 <script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
 </head>
 <body>
 
@@ -685,47 +509,6 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 </div>
 
 <script>
-/* ── UI utilities (no native alert/confirm) ── */
-function showToast(msg, duration=3000){
-  let t=document.getElementById('_toast');
-  if(!t){t=document.createElement('div');t.id='_toast';
-    Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',
-      background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',
-      fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center',
-      boxShadow:'0 4px 16px rgba(0,0,0,.25)',border:'1px solid rgba(30,127,164,.4)'});
-    document.body.appendChild(t);}
-  t.textContent=msg; t.style.opacity='1';
-  clearTimeout(t._tid); t._tid=setTimeout(()=>{t.style.opacity='0';},duration);
-}
-function showConfirm(msg, onOk, onCancel){
-  const ov=document.createElement('div');
-  Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',
-    display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});
-  ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;">
-    <p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p>
-    <div style="display:flex;gap:10px;justify-content:center;">
-      <button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button>
-      <button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button>
-    </div></div>`;
-  document.body.appendChild(ov);
-  ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};
-  ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};
-}
-function showPromptModal(msg, onOk){
-  const ov=document.createElement('div');
-  Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',
-    display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});
-  ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:340px;width:100%;text-align:center;">
-    <p style="color:#0a2a40;font-size:.85rem;line-height:1.7;margin-bottom:14px;">${msg.replace(/\n/g,'<br>')}</p>
-    <textarea id="_pInput" rows="3" style="width:100%;padding:8px;border:1px solid #b0cfdf;border-radius:8px;font-size:.82rem;color:#0a2a40;resize:none;"></textarea>
-    <div style="display:flex;gap:10px;justify-content:center;margin-top:14px;">
-      <button id="_pCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button>
-      <button id="_pOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">送信</button>
-    </div></div>`;
-  document.body.appendChild(ov);
-  ov.querySelector('#_pOk').onclick=()=>{const v=ov.querySelector('#_pInput').value;ov.remove();if(onOk)onOk(v);};
-  ov.querySelector('#_pCancel').onclick=()=>{ov.remove();};
-}
 const SETTINGS_KEY = 'vitalia_settings';
 
 function weekKey(){
@@ -1217,7 +1000,8 @@ document.getElementById('btn-share-summary').addEventListener('click', ()=>{
   let nuScore = 0;
   try{ const n = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}'); nuScore = n.score||0; }catch(e){}
 
-  const _shareWithMsg = (userMsg)=>{
+  const userMsg = prompt('ご家族・主治医に伝えたいメッセージがあればどうぞ（任意）:', '今週はこれだけ頑張れました。応援ありがとう。') || '';
+
   const payload = {
     name: '冒険者',
     weekLabel: weekLabel(wk),
@@ -1242,13 +1026,9 @@ document.getElementById('btn-share-summary').addEventListener('click', ()=>{
     navigator.share({ title:'ヴィタリア転生録 — 週次レポート', url }).catch(()=>{});
   } else {
     navigator.clipboard.writeText(url).then(()=>{
-      showToast('✓ 共有リンクをコピーしました。LINEやメールに貼り付けて送信してください。');
+      alert('✓ 共有リンクをコピーしました。\nLINE・メールなどに貼り付けて送信してください。\n\n' + url);
     });
   }
-  }; // end _shareWithMsg
-  showPromptModal('ご家族・主治医に伝えたいメッセージがあればどうぞ（任意）', (msg)=>{
-    _shareWithMsg(msg || '今週はこれだけ頑張れました。応援ありがとう。');
-  });
 });
 
 function weekLabel(wk){
@@ -1321,11 +1101,11 @@ notifyToggle.addEventListener('click', async ()=>{
   if(!('Notification' in window)) return;
   if(Notification.permission==='granted'){
     // 通知をOFFにはブラウザ設定で。ここでは案内のみ
-    showToast('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。', 4500);
+    alert('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。');
     return;
   }
   if(Notification.permission==='denied'){
-    showToast('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。', 4500);
+    alert('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。');
     return;
   }
   const result=await Notification.requestPermission();
@@ -1357,7 +1137,7 @@ reminderToggle.addEventListener('click',()=>{
   const on=reminderToggle.classList.toggle('on');
   reminderTimeRow.style.display=on?'flex':'none';
   if(on && Notification.permission!=='granted'){
-    showToast('通知を先に許可してください（上のトグル）。');
+    alert('通知を先に許可してください（上のトグル）。');
     reminderToggle.classList.remove('on');
     reminderTimeRow.style.display='none';
     return;
@@ -1375,9 +1155,12 @@ function saveReminder(){
 
 // ===== 研究離脱・アカウント削除 =====
 document.getElementById('btn-revoke-consent').addEventListener('click', ()=>{
-  showPromptModal('差し支えなければ、離脱の理由を教えてください（任意・研究改善のため）\n空欄でも進めます', (reason)=>{
-    showConfirm('本当に研究離脱・アカウント削除を申請しますか？\n\nこの端末のデータは即座に削除されます。\nクラウド側のデータは72時間以内に完全削除されます。', ()=>{
-      showConfirm('最終確認：本当によろしいですか？\nこの操作は取り消せません。', ()=>{
+  const reason = prompt('差し支えなければ、離脱の理由を教えてください（任意・研究改善のため）：\n\n（空欄でも進めます）');
+  if(reason === null) return; // キャンセル
+
+  if(!confirm('本当に研究離脱・アカウント削除を申請しますか？\n\nこの端末のデータは即座に削除されます。\nクラウド側のデータは72時間以内に完全削除されます。')) return;
+  if(!confirm('最終確認：本当によろしいですか？\nこの操作は取り消せません。')) return;
+
   try{
     // 削除リクエストフラグをセット → game.htmlで処理
     const uid = localStorage.getItem('vitalia_uid_hint') || '';
@@ -1399,14 +1182,11 @@ document.getElementById('btn-revoke-consent').addEventListener('click', ()=>{
     document.getElementById('revoke-msg').textContent='エラー: '+e.message;
     document.getElementById('revoke-msg').style.color='#f0a0a0';
   }
-      });
-    });
-  });
 });
 
 document.getElementById('btn-clear-all').addEventListener('click',()=>{
-  showConfirm('本当にローカルデータを全削除しますか？\nゲーム進行・記録がリセットされます。\n（Firebase上のデータは別途研究事務局へ削除依頼が必要です）', ()=>{
-    showConfirm('もう一度確認：本当にすべて削除しますか？', ()=>{
+  if(!confirm('本当にローカルデータを全削除しますか？\nゲーム進行・記録がリセットされます。\n（Firebase上のデータは別途研究事務局へ削除依頼が必要です）')) return;
+  if(!confirm('もう一度確認：本当にすべて削除しますか？')) return;
   // 自分のキーだけ削除
   const keysToDelete=[];
   for(let i=0;i<localStorage.length;i++){
@@ -1414,10 +1194,8 @@ document.getElementById('btn-clear-all').addEventListener('click',()=>{
     if(k && /^v[abchnqtw]_/.test(k)) keysToDelete.push(k);
   }
   keysToDelete.forEach(k=>localStorage.removeItem(k));
-  showToast(`${keysToDelete.length}件のローカルデータを削除しました。`);
-  setTimeout(()=>{ location.href='./index.html'; }, 1500);
-    });
-  });
+  alert(`${keysToDelete.length}件のローカルデータを削除しました。`);
+  location.href='./index.html';
 });
 </script>
 
@@ -1540,18 +1318,5 @@ onAuthStateChanged(auth, user => {
 });
 </script>
 
-<nav class="bottom-nav" id="bottom-nav">
-  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
-  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
-</nav>
 </body>
 </html>
-
-
-
-
-
-

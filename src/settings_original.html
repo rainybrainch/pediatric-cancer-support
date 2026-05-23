@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冒険者ステータス設定 ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+.hidden{display:none!important;}
+
+header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:32px 20px 80px;}
+.page-title{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;margin-bottom:6px;}
+.page-sub{font-size:.75rem;color:rgba(170,188,216,.5);margin-bottom:32px;}
+
+.section{background:rgba(14,18,32,.9);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:22px;margin-bottom:20px;}
+.section-title{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:var(--gold2);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group label{font-size:.7rem;color:rgba(170,188,216,.6);}
+.form-input{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.88rem;outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:rgba(201,168,76,.5);}
+.form-hint{font-size:.62rem;color:rgba(170,188,216,.4);margin-top:2px;}
+
+/* BMIカード */
+.bmi-card{background:rgba(255,255,255,.04);border-radius:12px;padding:18px;margin-top:16px;text-align:center;}
+.bmi-value{font-family:'Noto Serif JP',serif;font-size:2.8rem;font-weight:900;line-height:1;}
+.bmi-label{font-size:.8rem;margin-top:6px;font-weight:700;}
+.bmi-bar-wrap{margin:14px 0 10px;}
+.bmi-bar-bg{height:8px;border-radius:99px;background:linear-gradient(90deg,#5a9fd4 0%,#4ec98a 27%,#e0c03c 54%,#e05c5c 100%);position:relative;overflow:visible;}
+.bmi-marker{position:absolute;top:-4px;width:16px;height:16px;background:white;border-radius:50%;border:2px solid var(--bg);transform:translateX(-50%);transition:left .4s ease;box-shadow:0 0 8px rgba(255,255,255,.4);}
+.bmi-scale{display:flex;justify-content:space-between;font-size:.58rem;color:rgba(170,188,216,.4);margin-top:4px;}
+.bmi-guidance{font-size:.74rem;line-height:1.7;color:rgba(200,215,235,.8);text-align:left;margin-top:12px;padding:12px;background:rgba(255,255,255,.04);border-radius:8px;}
+.bmi-guidance strong{color:var(--gold2);}
+
+/* 目標設定 */
+.goal-card{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;margin-top:16px;}
+.goal-title{font-size:.72rem;color:rgba(201,168,76,.7);font-weight:700;margin-bottom:10px;letter-spacing:.08em;}
+.goal-range{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.goal-num{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:900;color:var(--gold2);}
+.goal-unit{font-size:.72rem;color:rgba(170,188,216,.5);}
+.goal-desc{font-size:.72rem;line-height:1.7;color:rgba(200,215,235,.7);}
+.goal-desc strong{color:var(--green);}
+.goal-slider{width:100%;accent-color:var(--gold);margin:10px 0;}
+
+/* 栄養連動 */
+.nutrition-link{background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.2);border-radius:12px;padding:16px;margin-top:16px;}
+.nutrition-status{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.nutr-icon{font-size:1.4rem;}
+.nutr-label{font-size:.78rem;font-weight:700;color:#7ee8b0;}
+.nutr-detail{font-size:.68rem;color:rgba(170,188,216,.5);margin-top:2px;}
+.nutr-bonus{display:inline-block;background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.3);color:var(--green);font-size:.65rem;font-weight:700;padding:2px 10px;border-radius:999px;}
+
+/* 保存ボタン */
+.btn-save-main{display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:12px;padding:14px;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:700;color:#1a1200;cursor:pointer;margin-top:24px;transition:opacity .15s;}
+.btn-save-main:hover{opacity:.88;}
+.save-msg{text-align:center;font-size:.72rem;color:var(--green);margin-top:10px;min-height:18px;}
+
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+
+/* テーマ・アクセシビリティ */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-info{flex:1;min-width:0;}
+.toggle-label{font-size:.8rem;color:#e8edff;font-weight:700;}
+.toggle-desc{font-size:.65rem;color:rgba(170,188,216,.5);margin-top:2px;line-height:1.5;}
+.toggle-switch{
+  width:44px;height:24px;border-radius:99px;
+  background:rgba(100,120,200,.2);border:1px solid rgba(255,255,255,.1);
+  position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;
+}
+.toggle-switch::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:18px;height:18px;border-radius:50%;background:#aabcd8;
+  transition:left .2s,background .2s;
+}
+.toggle-switch.on{background:rgba(78,201,138,.35);border-color:rgba(78,201,138,.5);}
+.toggle-switch.on::after{left:22px;background:#a8e8c0;}
+
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.theme-opt{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;
+  font-size:.7rem;font-weight:700;color:rgba(220,225,245,.7);
+  transition:all .2s;
+}
+.theme-opt.selected{border-color:rgba(201,168,76,.5);color:var(--gold2);background:rgba(201,168,76,.08);}
+.theme-opt-circle{width:36px;height:36px;margin:0 auto 6px;border-radius:50%;}
+.theme-opt-gold .theme-opt-circle{background:linear-gradient(135deg,#c9a84c,#f0d48a);}
+.theme-opt-purple .theme-opt-circle{background:linear-gradient(135deg,#9c72e0,#c0a0f0);}
+.theme-opt-green .theme-opt-circle{background:linear-gradient(135deg,#4ec98a,#a8e8c0);}
+
+.btn-export{
+  display:block;width:100%;background:linear-gradient(135deg,rgba(78,201,138,.3),rgba(78,201,138,.15));
+  border:1px solid rgba(78,201,138,.5);border-radius:10px;padding:11px;
+  color:#a8e8c0;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+  margin-top:8px;
+}
+.btn-danger{
+  display:block;width:100%;background:linear-gradient(135deg,rgba(224,92,92,.2),rgba(224,92,92,.1));
+  border:1px solid rgba(224,92,92,.4);border-radius:10px;padding:11px;
+  color:#f0a0a0;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;
+  margin-top:8px;
+}
+</style>
+<script src="./app-safety.js"></script>
+<script src="./quest-enhance.js" defer></script>
+</head>
+<body>
+
+<header>
+  <a href="./index.html">⚔ ヴィタリア転生録</a>
+  <div style="display:flex;gap:8px;">
+    <a href="./quest.html" class="back-btn">⚔ 健康クエスト</a>
+    <a href="./nutrition.html" class="back-btn" style="border-color:rgba(78,201,138,.3);color:rgba(78,201,138,.7);">🥗 栄養クエスト</a>
+  </div>
+</header>
+
+<div class="page">
+  <h1 class="page-title">冒険者ステータス設定</h1>
+  <p class="page-sub">あなたの体の情報を登録すると、個人に合った運動目標が設定されます。</p>
+
+  <!-- 身体情報 -->
+  <div class="section">
+    <div class="section-title">⚔ 身体情報</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>身長 (cm)</label>
+        <input type="number" id="height" class="form-input" placeholder="例: 165" min="100" max="220" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>体重 (kg)</label>
+        <input type="number" id="weight" class="form-input" placeholder="例: 58.0" min="20" max="200" step="0.1">
+      </div>
+    </div>
+    <div class="form-hint">※ 体重は毎週更新することをおすすめします。クエストの記録にも反映されます。</div>
+
+    <!-- BMIカード -->
+    <div class="bmi-card" id="bmi-card" style="display:none;">
+      <div style="font-size:.65rem;color:rgba(170,188,216,.4);margin-bottom:6px;letter-spacing:.1em;">あなたのBMI</div>
+      <div class="bmi-value" id="bmi-display">—</div>
+      <div class="bmi-label" id="bmi-category">—</div>
+      <div class="bmi-bar-wrap">
+        <div class="bmi-bar-bg">
+          <div class="bmi-marker" id="bmi-marker" style="left:50%;"></div>
+        </div>
+        <div class="bmi-scale">
+          <span>痩せ<br>&lt;18.5</span>
+          <span>標準<br>18.5-25</span>
+          <span>肥満①<br>25-30</span>
+          <span>肥満②<br>&gt;30</span>
+        </div>
+      </div>
+      <div class="bmi-guidance" id="bmi-guidance"></div>
+    </div>
+  </div>
+
+  <!-- 運動目標 -->
+  <div class="section">
+    <div class="section-title">🎯 個人運動目標</div>
+    <div class="goal-card">
+      <div class="goal-title">週間目標（中強度換算）</div>
+      <div class="goal-range">
+        <span class="goal-num" id="goal-display">150</span>
+        <span class="goal-unit">分 / 週</span>
+      </div>
+      <input type="range" id="goal-slider" class="goal-slider" min="60" max="300" step="10" value="150">
+      <div style="display:flex;justify-content:space-between;font-size:.6rem;color:rgba(170,188,216,.3);margin-bottom:10px;">
+        <span>60分</span><span>150分（推奨最低）</span><span>300分</span>
+      </div>
+      <div class="goal-desc" id="goal-desc">
+        中強度運動を週<strong id="goal-mod">150</strong>分以上を目標にしましょう。<br>
+        高強度運動は中強度の<strong>2倍換算</strong>です（10分 = 中強度20分相当）。
+      </div>
+    </div>
+
+    <div style="margin-top:14px;background:rgba(255,255,255,.04);border-radius:10px;padding:14px;font-size:.74rem;line-height:1.75;color:rgba(200,215,235,.75);">
+      <strong style="color:var(--gold2);">運動量の換算式</strong><br>
+      合計スコア ＝ 中強度の分数 ＋ 高強度の分数 × 2<br>
+      <span style="color:rgba(170,188,216,.45);font-size:.68rem;">例）中強度100分 ＋ 高強度25分 → 100 + 50 = 150点（目標達成）</span>
+    </div>
+
+    <!-- Implementation Intentions（if-thenプラン） -->
+    <div style="margin-top:14px;background:linear-gradient(135deg,rgba(78,201,138,.07),rgba(78,201,138,.02));border:1px solid rgba(78,201,138,.3);border-radius:10px;padding:14px;">
+      <div style="font-size:.7rem;color:#a8e8c0;font-weight:700;letter-spacing:.06em;margin-bottom:8px;">📐 実行プラン（if-then）</div>
+      <div style="font-size:.66rem;color:rgba(170,188,216,.55);margin-bottom:10px;line-height:1.7;">
+        Gollwitzer研究：「いつ・どこで」を決めるだけで習慣化率が <strong style="color:#a8e8c0;">2〜3倍</strong>になります。
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div>
+          <div style="font-size:.68rem;color:rgba(170,188,216,.6);margin-bottom:4px;">いつ？（曜日・時間帯）</div>
+          <input type="text" class="form-input" id="ii-when" placeholder="例: 火・木の朝7:30" style="font-size:.85rem;">
+        </div>
+        <div>
+          <div style="font-size:.68rem;color:rgba(170,188,216,.6);margin-bottom:4px;">どこで？（場所）</div>
+          <input type="text" class="form-input" id="ii-where" placeholder="例: 自宅近くの公園" style="font-size:.85rem;">
+        </div>
+        <div>
+          <div style="font-size:.68rem;color:rgba(170,188,216,.6);margin-bottom:4px;">何分？</div>
+          <input type="number" class="form-input" id="ii-howlong" min="1" max="120" placeholder="例: 20" style="font-size:.85rem;">
+        </div>
+      </div>
+      <div id="ii-preview" style="margin-top:10px;padding:10px;background:rgba(0,0,0,.25);border-left:2.5px solid rgba(78,201,138,.6);border-radius:6px;font-size:.78rem;color:rgba(168,232,192,.85);font-style:italic;line-height:1.7;">
+        プランを入力すると、ここに「もし〇〇なら〜」の形で表示されます
+      </div>
+    </div>
+  </div>
+
+  <!-- 栄養連動 -->
+  <div class="section">
+    <div class="section-title">🍃 今週の栄養ステータス</div>
+    <div id="nutr-link-area">
+      <div class="nutrition-link" id="nutr-status-card">
+        <div class="nutrition-status">
+          <div class="nutr-icon" id="nutr-icon">🍽</div>
+          <div>
+            <div class="nutr-label" id="nutr-label">今週の食事記録</div>
+            <div class="nutr-detail" id="nutr-detail">栄養クエストで記録を入力してください</div>
+          </div>
+        </div>
+        <div id="nutr-bonus-display"></div>
+      </div>
+      <div style="margin-top:12px;font-size:.72rem;line-height:1.75;color:rgba(170,188,216,.5);">
+        <strong style="color:rgba(201,168,76,.7);">栄養と運動の関係</strong><br>
+        良好な食事バランスは、運動の効果を高めます。両方のクエストを継続することで、XPボーナスが発生します。<br>
+        <span style="color:rgba(170,188,216,.35);">※ 同じ週に栄養クエストも保存すると +15% XPボーナス</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今週の進捗サマリー -->
+  <div class="section">
+    <div class="section-title">📊 今週の進捗サマリー</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+      <!-- 運動スコア -->
+      <div style="background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.2);border-radius:12px;padding:14px;">
+        <div style="font-size:.6rem;color:rgba(78,201,138,.6);font-weight:700;letter-spacing:.1em;margin-bottom:6px;">🏃 健康クエスト</div>
+        <div id="qs-score" style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#7ee8b0;line-height:1;">—</div>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;" id="qs-goal-label">分 / 週</div>
+        <div style="height:4px;background:rgba(255,255,255,.07);border-radius:99px;margin:8px 0 6px;overflow:hidden;">
+          <div id="qs-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#4ec98a,#f0d48a);border-radius:99px;transition:width .4s;"></div>
+        </div>
+        <a href="./quest.html" style="font-size:.62rem;color:rgba(78,201,138,.6);text-decoration:none;">クエストへ →</a>
+      </div>
+
+      <!-- 栄養スコア -->
+      <div style="background:rgba(156,114,224,.06);border:1px solid rgba(156,114,224,.2);border-radius:12px;padding:14px;">
+        <div style="font-size:.6rem;color:rgba(156,114,224,.6);font-weight:700;letter-spacing:.1em;margin-bottom:6px;">🥗 栄養クエスト</div>
+        <div id="ns-score" style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#c5a5f0;line-height:1;">—</div>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;">/ 25点</div>
+        <div style="height:4px;background:rgba(255,255,255,.07);border-radius:99px;margin:8px 0 6px;overflow:hidden;">
+          <div id="ns-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#9c72e0,#c5a5f0);border-radius:99px;transition:width .4s;"></div>
+        </div>
+        <a href="./nutrition.html" style="font-size:.62rem;color:rgba(156,114,224,.6);text-decoration:none;">クエストへ →</a>
+      </div>
+    </div>
+    <div id="progress-msg" style="margin-top:12px;font-size:.7rem;color:rgba(200,215,235,.5);text-align:center;min-height:16px;"></div>
+  </div>
+
+  <button class="btn-save-main" id="save-btn">設定を保存する ✦</button>
+  <div class="save-msg" id="save-msg"></div>
+
+  <!-- アクセシビリティ＆体験設定 -->
+  <div class="section">
+    <div class="section-title">⚙ 体験・アクセシビリティ設定</div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🔊 効果音</div>
+        <div class="toggle-desc">記録時のコイン音・コンボ音・実績ファンファーレ</div>
+      </div>
+      <div class="toggle-switch on" id="t-sound" data-key="vt_sound_off"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">📳 振動フィードバック</div>
+        <div class="toggle-desc">記録時・コンボ時に手元が震える（モバイル）</div>
+      </div>
+      <div class="toggle-switch on" id="t-vibrate" data-key="vt_vibrate_off"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">✨ アニメーション軽量化</div>
+        <div class="toggle-desc">画面の動き・キラキラ演出を抑える</div>
+      </div>
+      <div class="toggle-switch" id="t-reduced-motion" data-key="vt_reduced_motion"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🔠 文字大きめ</div>
+        <div class="toggle-desc">本文サイズを 110% に拡大</div>
+      </div>
+      <div class="toggle-switch" id="t-large-text" data-key="vt_large_text"></div>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="toggle-label" style="margin-bottom:6px;">🎨 アクセントテーマ</div>
+      <div class="theme-grid">
+        <div class="theme-opt theme-opt-gold selected" data-theme="gold">
+          <div class="theme-opt-circle"></div>金（標準）
+        </div>
+        <div class="theme-opt theme-opt-purple" data-theme="purple">
+          <div class="theme-opt-circle"></div>紫
+        </div>
+        <div class="theme-opt theme-opt-green" data-theme="green">
+          <div class="theme-opt-circle"></div>緑
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知設定 -->
+  <div class="section">
+    <div class="section-title">🔔 通知設定</div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">📱 ブラウザ通知を許可</div>
+        <div class="toggle-desc">記録のリマインダーや実績解放を通知</div>
+      </div>
+      <div class="toggle-switch" id="t-notify"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">📺 コンパクトホーム</div>
+        <div class="toggle-desc">ホームのカードを最小限に（情報量を絞る）</div>
+      </div>
+      <div class="toggle-switch" id="t-compact" data-key="vt_compact_home"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">🚫 自動ログアウトを無効化</div>
+        <div class="toggle-desc">30分非アクティブでの確認をオフ</div>
+      </div>
+      <div class="toggle-switch" id="t-no-autologout" data-key="vt_no_auto_logout"></div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">⏰ 毎日のリマインダー</div>
+        <div class="toggle-desc">指定時刻に未記録なら通知（タブ開いている時のみ）</div>
+      </div>
+      <div class="toggle-switch" id="t-reminder"></div>
+    </div>
+    <div id="reminder-time-row" style="display:none;align-items:center;gap:10px;margin-top:6px;padding:10px 0;">
+      <label style="font-size:.72rem;color:rgba(170,188,216,.7);">通知時刻</label>
+      <input type="time" id="reminder-time" value="20:00" style="background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.3);border-radius:8px;padding:6px 10px;color:var(--silver);font-family:inherit;font-size:.85rem;">
+      <span id="reminder-saved" style="font-size:.65rem;color:var(--green);min-height:14px;"></span>
+    </div>
+    <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:8px;line-height:1.6;">
+      通知は端末/ブラウザ側でも設定が必要です。許可後は研究のリマインドが届くことがあります。
+    </p>
+  </div>
+
+  <!-- 招待コード -->
+  <div class="section">
+    <div class="section-title">🎁 友達招待</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:12px;line-height:1.7;">
+      研究プロジェクトを一緒に体験する仲間を招待しよう！招待した人・された人どちらにも <strong style="color:#a8e8c0;">+100XP</strong> ボーナス。
+    </p>
+    <div style="background:rgba(78,201,138,.08);border:1px dashed rgba(78,201,138,.4);border-radius:12px;padding:14px;text-align:center;margin-bottom:10px;">
+      <div style="font-size:.6rem;color:rgba(168,232,192,.6);letter-spacing:.1em;font-weight:700;margin-bottom:5px;">あなたの招待コード</div>
+      <div id="my-invite-code" style="font-family:monospace;font-size:1.5rem;font-weight:900;color:#a8e8c0;letter-spacing:.2em;margin-bottom:8px;">—</div>
+      <button class="btn-export" id="btn-copy-code" style="margin-top:0;">📋 コピー</button>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="toggle-label" style="margin-bottom:6px;">招待コードを入力</div>
+      <p style="font-size:.65rem;color:rgba(170,188,216,.4);margin-bottom:8px;">仲間からもらったコードを入れると、両方に +100XP</p>
+      <input type="text" class="form-input" id="invite-code-input" placeholder="例: ABCD12" maxlength="6" style="letter-spacing:.15em;text-align:center;font-family:monospace;font-size:1.1rem;text-transform:uppercase;">
+      <button class="btn-export" id="btn-redeem-code" style="margin-top:8px;">招待コードを使う</button>
+      <div id="invite-msg" style="font-size:.7rem;margin-top:8px;text-align:center;min-height:18px;"></div>
+    </div>
+  </div>
+
+  <!-- ヘルプ・規約 -->
+  <div class="section">
+    <div class="section-title">📖 ヘルプ・規約</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:12px;line-height:1.7;">
+      使い方や研究参加に関する詳細は、以下のページをご覧ください。
+    </p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <a href="./game.html?tut=1" class="btn-export" style="text-decoration:none;display:block;text-align:left;">🎓 チュートリアルをもう一度見る <span style="float:right;color:rgba(201,168,76,.6);">→</span></a>
+      <a href="./rulebook.html" class="btn-export" style="text-decoration:none;display:block;text-align:left;">📖 ルールブック（取扱説明書） <span style="float:right;color:rgba(201,168,76,.6);">→</span></a>
+      <a href="./faq.html" class="btn-export" style="text-decoration:none;display:block;text-align:left;">❓ ヘルプ・FAQ <span style="float:right;color:rgba(201,168,76,.6);">→</span></a>
+      <a href="./privacy.html" class="btn-export" style="text-decoration:none;display:block;text-align:left;">🛡 プライバシーポリシー <span style="float:right;color:rgba(201,168,76,.6);">→</span></a>
+    </div>
+  </div>
+
+  <!-- データ管理 -->
+  <div class="section">
+    <div class="section-title">💾 データ管理</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:10px;line-height:1.7;">
+      自分の記録データをCSVファイルでダウンロードできます。研究撤回時の参考や、自己管理にご利用ください。
+    </p>
+    <button class="btn-export" id="btn-export-mydata">⬇ 自分のデータをCSVダウンロード</button>
+    <button class="btn-export" id="btn-export-research" style="background:linear-gradient(135deg,rgba(78,201,138,.2),rgba(78,201,138,.1));border-color:rgba(78,201,138,.4);color:#a8e8c0;">📊 研究用データセット（ロング形式CSV）</button>
+    <button class="btn-export" id="btn-share-summary" style="background:linear-gradient(135deg,rgba(156,114,224,.2),rgba(156,114,224,.1));border-color:rgba(156,114,224,.4);color:#c0a0f0;">📤 ご家族・主治医に週次レポートを共有</button>
+    <button class="btn-export" id="btn-export-json" style="background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.12));border-color:rgba(92,140,212,.45);color:#a8c8f0;">⬇ JSON形式でバックアップ</button>
+    <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:14px;line-height:1.7;">
+      ⚠️ 「全データ削除」はこの端末上のゲーム進行・記録をリセットします（クラウド側はそのまま）。
+    </p>
+    <button class="btn-danger" id="btn-clear-all">🗑 ローカルデータを全削除</button>
+  </div>
+
+  <!-- 研究離脱・アカウント削除 -->
+  <div class="section" style="border-color:rgba(224,92,92,.2);">
+    <div class="section-title" style="color:#f0a0a0;">🚪 研究離脱・アカウント削除</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.65);margin-bottom:10px;line-height:1.75;">
+      研究参加を中止する／アカウントを削除する場合、下記から申請できます。<br>
+      <strong style="color:#f0a0a0;">削除後、ご自身のすべての記録（運動・食事・QOL・コーチ会話・ジャーナル）が研究データから除外され、72時間以内に完全に削除されます。</strong>
+    </p>
+    <p style="font-size:.65rem;color:rgba(170,188,216,.5);margin-bottom:12px;line-height:1.7;">
+      ⚠ いったん削除すると元に戻せません。記録のバックアップが必要な場合は、先に上の「データ管理」からエクスポートしてください。
+    </p>
+    <button class="btn-danger" id="btn-revoke-consent" style="background:linear-gradient(135deg,rgba(224,92,92,.3),rgba(224,92,92,.18));border-color:rgba(224,92,92,.55);color:#f0a0a0;">
+      🚪 研究離脱・アカウント削除を申請
+    </button>
+    <div id="revoke-msg" style="font-size:.72rem;color:rgba(168,232,192,.85);margin-top:10px;min-height:18px;"></div>
+  </div>
+
+  <!-- ヘルプ・サポート -->
+  <div class="section">
+    <div class="section-title">🛟 困ったとき</div>
+    <p style="font-size:.72rem;color:rgba(170,188,216,.55);margin-bottom:12px;line-height:1.7;">
+      不安・つらさ・困りごとを感じたら、ひとりで抱え込まずに専門窓口へ。
+    </p>
+    <a href="./support.html" class="btn-export" style="text-decoration:none;display:block;text-align:center;background:linear-gradient(135deg,rgba(78,201,138,.18),rgba(78,201,138,.08));border-color:rgba(78,201,138,.4);color:#a8e8c0;">
+      🛟 相談・サポート窓口を見る
+    </a>
+  </div>
+</div>
+
+<script>
+const SETTINGS_KEY = 'vitalia_settings';
+
+function weekKey(){
+  const d=new Date();
+  const jan1=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+
+function calcBMI(h, w){
+  if(!h || !w || h<=0 || w<=0) return 0;
+  return w / ((h/100) ** 2);
+}
+
+function getBMIInfo(bmi){
+  if(bmi <= 0) return null;
+  if(bmi < 18.5) return {
+    label:'痩せ（低体重）', color:'#5a9fd4', markerPct:10,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「痩せ」の範囲です。<br>
+    無理な減量は避け、<strong>適切な栄養摂取</strong>を心がけましょう。
+    がん治療後は体重が低下しやすいため、<strong>週150分程度の運動</strong>で筋肉量の維持を目指しましょう。`,
+    goalSuggestion: 150
+  };
+  if(bmi < 25) return {
+    label:'標準体重', color:'#4ec98a', markerPct:35,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「標準」の範囲です。<br>
+    <strong>週150〜300分の中強度運動</strong>を目標に、この体重を維持しましょう。
+    がん経験者の研究では、標準体重での継続的な運動がQOL改善に最も効果的とされています。`,
+    goalSuggestion: 150
+  };
+  if(bmi < 30) return {
+    label:'肥満（1度）', color:'#e0c03c', markerPct:65,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「肥満1度」の範囲です。<br>
+    メタボリックシンドロームのリスクが上昇します。<strong>週200分以上の運動</strong>を目標に取り組みましょう。
+    急激な体重減少は避け、<strong>食事と運動のバランス</strong>を意識してください。`,
+    goalSuggestion: 200
+  };
+  return {
+    label:'肥満（2度以上）', color:'#e05c5c', markerPct:88,
+    guidance:`BMI <strong>${bmi.toFixed(1)}</strong> は「肥満2度以上」の範囲です。<br>
+    がんの再発リスクが上昇するとされています。<strong>週250〜300分の運動</strong>を目標に、
+    <strong>医師・管理栄養士に相談しながら</strong>無理のない範囲で取り組みましょう。`,
+    goalSuggestion: 250
+  };
+}
+
+function updateBMIDisplay(){
+  const h = parseFloat(document.getElementById('height').value);
+  const w = parseFloat(document.getElementById('weight').value);
+  const bmi = calcBMI(h, w);
+  const card = document.getElementById('bmi-card');
+  if(!bmi){ card.style.display='none'; return; }
+  card.style.display='block';
+  const info = getBMIInfo(bmi);
+  document.getElementById('bmi-display').textContent = bmi.toFixed(1);
+  document.getElementById('bmi-display').style.color = info.color;
+  document.getElementById('bmi-category').textContent = info.label;
+  document.getElementById('bmi-category').style.color = info.color;
+  document.getElementById('bmi-marker').style.left = info.markerPct + '%';
+  document.getElementById('bmi-guidance').innerHTML = info.guidance;
+  // 目標値を自動提案
+  const slider = document.getElementById('goal-slider');
+  slider.value = info.goalSuggestion;
+  updateGoalDisplay(info.goalSuggestion);
+}
+
+function updateGoalDisplay(val){
+  document.getElementById('goal-display').textContent = val;
+  document.getElementById('goal-mod').textContent = val;
+  const desc = document.getElementById('goal-desc');
+  if(val <= 150){
+    desc.innerHTML = `中強度運動を週<strong id="goal-mod">${val}</strong>分以上を目標にしましょう。<br>高強度運動は中強度の<strong>2倍換算</strong>です。`;
+  } else if(val <= 200){
+    desc.innerHTML = `中強度運動を週<strong id="goal-mod">${val}</strong>分を目標に。<br>継続することが最も重要です。<strong>無理のない範囲</strong>で始めましょう。`;
+  } else {
+    desc.innerHTML = `週<strong id="goal-mod">${val}</strong>分は高めの目標です。<br><strong>段階的に増やす</strong>ことをおすすめします。まずは150分から始めて少しずつ伸ばしましょう。`;
+  }
+}
+
+function loadNutritionStatus(){
+  const wk = weekKey();
+  // 全UID分を検索（ゲスト含む）
+  let found = null;
+  for(let i=0; i<localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith('vn_') && k.includes(wk) && !k.includes('hist') && !k.includes('bonus') && !k.includes('ach') && !k.includes('streak') && !k.includes('firstsave') && !k.includes('consent')){
+      try{ found = JSON.parse(localStorage.getItem(k)); }catch(e){}
+      break;
+    }
+  }
+  const icon = document.getElementById('nutr-icon');
+  const label = document.getElementById('nutr-label');
+  const detail = document.getElementById('nutr-detail');
+  const bonus = document.getElementById('nutr-bonus-display');
+  if(!found){
+    icon.textContent = '🍽';
+    label.textContent = '今週の食事記録なし';
+    detail.textContent = '栄養クエストで記録すると運動XPボーナスが発生します';
+    bonus.innerHTML = '';
+  } else {
+    const veg = found.veg||0, fruit = found.fruit||0, protein = found.protein||0, grain = found.grain||0, limit = found.limit||0;
+    const score = Math.round((veg/21+fruit/10+protein/14+grain/14)*25);
+    const bonusPct = score >= 20 ? 15 : score >= 10 ? 8 : 0;
+    icon.textContent = score >= 20 ? '✨' : score >= 10 ? '🍃' : '🥗';
+    label.textContent = `今週の栄養スコア: ${score}/25`;
+    detail.textContent = `野菜${veg}皿 / 果物${fruit}皿 / たんぱく質${protein}食 / 穀物${grain}食`;
+    if(bonusPct > 0){
+      bonus.innerHTML = `<span class="nutr-bonus">✦ 運動XP +${bonusPct}% ボーナス中</span>`;
+    } else {
+      bonus.innerHTML = `<span style="font-size:.65rem;color:rgba(170,188,216,.4);">スコア20以上で+15%ボーナス</span>`;
+    }
+  }
+}
+
+// イベント
+document.getElementById('height').addEventListener('input', updateBMIDisplay);
+document.getElementById('weight').addEventListener('input', updateBMIDisplay);
+document.getElementById('goal-slider').addEventListener('input', e=>{
+  updateGoalDisplay(parseInt(e.target.value));
+});
+
+// Implementation Intentions
+function updateIIPreview(){
+  const w = document.getElementById('ii-when').value.trim();
+  const p = document.getElementById('ii-where').value.trim();
+  const m = document.getElementById('ii-howlong').value.trim();
+  const out = document.getElementById('ii-preview');
+  if(w && p && m){
+    out.innerHTML = `「もし ${escapeHtml(w)} になったら、${escapeHtml(p)} で ${escapeHtml(m)}分 動く」`;
+    out.style.color = '#a8e8c0';
+  } else {
+    out.textContent = 'プランを入力すると、ここに「もし〇〇なら〜」の形で表示されます';
+    out.style.color = 'rgba(170,188,216,.5)';
+  }
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+['ii-when','ii-where','ii-howlong'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', updateIIPreview);
+});
+// 既存値読み込み
+try{
+  const ii = JSON.parse(localStorage.getItem('vt_implementation_intention')||'null');
+  if(ii){
+    document.getElementById('ii-when').value = ii.when||'';
+    document.getElementById('ii-where').value = ii.where||'';
+    document.getElementById('ii-howlong').value = ii.howlong||'';
+    updateIIPreview();
+  }
+}catch(e){}
+
+// 保存
+document.getElementById('save-btn').addEventListener('click',()=>{
+  const h = parseFloat(document.getElementById('height').value)||0;
+  const w = parseFloat(document.getElementById('weight').value)||0;
+  const goal = parseInt(document.getElementById('goal-slider').value)||150;
+  const bmi = calcBMI(h, w);
+  const settings = { height:h, weight:w, bmi:parseFloat(bmi.toFixed(1))||0, weeklyGoal:goal, updatedAt:new Date().toISOString() };
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  // Implementation Intention 保存
+  const iiW = document.getElementById('ii-when').value.trim();
+  const iiP = document.getElementById('ii-where').value.trim();
+  const iiM = document.getElementById('ii-howlong').value.trim();
+  if(iiW || iiP || iiM){
+    localStorage.setItem('vt_implementation_intention', JSON.stringify({
+      when: iiW, where: iiP, howlong: iiM, updatedAt: Date.now()
+    }));
+  }
+  document.getElementById('save-msg').textContent = '✓ 設定を保存しました';
+  setTimeout(()=>{ document.getElementById('save-msg').textContent=''; }, 3000);
+});
+
+function loadQuestStatus(){
+  const wk = weekKey();
+  const goal = parseInt((JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}')).weeklyGoal)||150;
+  let found = null;
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && k.startsWith('vq_') && k.includes(wk) && !k.includes('hist') && !k.includes('bonus') && !k.includes('ach') && !k.includes('streak') && !k.includes('firstsave') && !k.includes('consent') && !k.includes('day')){
+      try{ found=JSON.parse(localStorage.getItem(k)); }catch(e){}
+      break;
+    }
+  }
+  const scoreEl=document.getElementById('qs-score');
+  const barEl=document.getElementById('qs-bar');
+  const goalLbl=document.getElementById('qs-goal-label');
+  const msgEl=document.getElementById('progress-msg');
+  if(found && found.score!=null){
+    const sc=found.score;
+    scoreEl.textContent=sc;
+    goalLbl.textContent=`分 / 目標${goal}分`;
+    barEl.style.width=Math.min(100,Math.round(sc/goal*100))+'%';
+  } else {
+    scoreEl.textContent='未記録';
+    goalLbl.textContent=`目標 ${goal}分`;
+    barEl.style.width='0%';
+  }
+  // 栄養スコアもここで更新
+  let nf=null;
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && k.startsWith('vn_') && k.includes(wk) && !k.includes('hist') && !k.includes('bonus') && !k.includes('ach') && !k.includes('streak') && !k.includes('firstsave') && !k.includes('consent')){
+      try{ nf=JSON.parse(localStorage.getItem(k)); }catch(e){}
+      break;
+    }
+  }
+  const nsEl=document.getElementById('ns-score');
+  const nsBar=document.getElementById('ns-bar');
+  if(nf && nf.score!=null){
+    nsEl.textContent=nf.score;
+    nsBar.style.width=Math.min(100,Math.round(nf.score/25*100))+'%';
+  } else {
+    nsEl.textContent='未記録';
+    nsBar.style.width='0%';
+  }
+  // メッセージ
+  const qDone = found && found.score>=goal;
+  const nDone = nf && nf.score>=20;
+  if(qDone && nDone)      msgEl.textContent='✦ 今週は運動も栄養も完璧！+15% XPボーナス獲得中';
+  else if(qDone)          msgEl.textContent='運動目標達成！栄養クエストも記録するとボーナスアップ。';
+  else if(nDone)          msgEl.textContent='栄養記録が充実しています。運動クエストも頑張ろう！';
+  else if(found || nf)    msgEl.textContent='記録を積み重ねると両方のボーナスが合わさります。';
+  else                    msgEl.textContent='今週はまだ記録がありません。クエストを始めよう！';
+}
+
+// 読み込み
+const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');
+if(saved.height) document.getElementById('height').value = saved.height;
+if(saved.weight) document.getElementById('weight').value = saved.weight;
+if(saved.weeklyGoal){
+  document.getElementById('goal-slider').value = saved.weeklyGoal;
+  updateGoalDisplay(saved.weeklyGoal);
+}
+updateBMIDisplay();
+loadNutritionStatus();
+loadQuestStatus();
+
+// ===== トグル設定 =====
+function loadToggles(){
+  document.querySelectorAll('.toggle-switch').forEach(t=>{
+    const key=t.dataset.key;
+    if(!key) return;
+    // _off 系：保存値が '1' なら OFF（toggle off）
+    // 通常系：保存値が '1' なら ON
+    const isOffKey=key.endsWith('_off');
+    const stored=localStorage.getItem(key);
+    if(isOffKey){
+      // OFF系：'1' なら off表示、それ以外は on
+      if(stored==='1') t.classList.remove('on'); else t.classList.add('on');
+    } else {
+      if(stored==='1') t.classList.add('on'); else t.classList.remove('on');
+    }
+    t.addEventListener('click',()=>{
+      const isOn=t.classList.toggle('on');
+      const willStore = isOffKey ? (isOn ? null : '1') : (isOn ? '1' : null);
+      if(willStore===null) localStorage.removeItem(key);
+      else localStorage.setItem(key, willStore);
+      localStorage.setItem('vt_settings_updated', String(Date.now()));
+      // アニメーション軽減を即適用
+      if(key==='vt_reduced_motion') document.documentElement.style.setProperty('--anim-speed', isOn?'0':'1');
+      if(key==='vt_large_text') document.documentElement.style.fontSize = isOn ? '110%' : '';
+    });
+  });
+  // 初期適用
+  if(localStorage.getItem('vt_large_text')==='1') document.documentElement.style.fontSize='110%';
+}
+loadToggles();
+
+// ===== テーマ選択 =====
+function loadTheme(){
+  const saved=localStorage.getItem('vt_theme')||'gold';
+  document.querySelectorAll('.theme-opt').forEach(o=>{
+    o.classList.toggle('selected', o.dataset.theme===saved);
+    o.addEventListener('click',()=>{
+      document.querySelectorAll('.theme-opt').forEach(x=>x.classList.remove('selected'));
+      o.classList.add('selected');
+      localStorage.setItem('vt_theme', o.dataset.theme);
+      localStorage.setItem('vt_settings_updated', String(Date.now()));
+      document.documentElement.dataset.theme=o.dataset.theme;
+    });
+  });
+  document.documentElement.dataset.theme=saved;
+}
+loadTheme();
+
+// ===== データエクスポート =====
+function getAllUserData(){
+  const data={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(!k) continue;
+    // 自分のキー（vq_, vn_, vc_, vt_, vb_, va_, vh_）のみ
+    if(/^v[abchnqtw]_/.test(k)){
+      data[k]=localStorage.getItem(k);
+    }
+  }
+  data._exported_at=new Date().toISOString();
+  return data;
+}
+
+function downloadFile(filename, content, mime){
+  const bom='﻿';
+  const blob=new Blob([bom+content],{type:mime});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+
+document.getElementById('btn-export-mydata').addEventListener('click',()=>{
+  const data=getAllUserData();
+  // CSV化（フラットなkey-valueとして）
+  const rows=[['key','value']];
+  Object.keys(data).sort().forEach(k=>{
+    const v=String(data[k]||'').replace(/"/g,'""');
+    rows.push([k, v]);
+  });
+  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const date=new Date().toISOString().slice(0,10);
+  downloadFile(`vitalia_mydata_${date}.csv`, csv, 'text/csv;charset=utf-8;');
+});
+
+document.getElementById('btn-export-json').addEventListener('click',()=>{
+  const data=getAllUserData();
+  const json=JSON.stringify(data,null,2);
+  const date=new Date().toISOString().slice(0,10);
+  downloadFile(`vitalia_backup_${date}.json`, json, 'application/json;charset=utf-8;');
+});
+
+// ===== 研究用ロング形式CSVエクスポート（R/SPSS分析対応） =====
+document.getElementById('btn-export-research').addEventListener('click', ()=>{
+  const uid = localStorage.getItem('vitalia_uid_hint') || 'anonymous';
+  const rows = [['uid','category','timepoint','variable','value','unit','timestamp']];
+
+  // ベースライン
+  try{
+    const bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null');
+    if(bl){
+      const ts = bl.completedAt;
+      Object.entries(bl.step1||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`demo_${k}`,Array.isArray(v)?v.join(';'):v,'',ts]));
+      Object.entries(bl.step2||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`activity_${k}`,v,'',ts]));
+      Object.entries(bl.step3||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`diet_${k}`,v,'',ts]));
+      Object.entries(bl.step4||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`promis_${k}`,v,'1-5',ts]));
+      Object.entries(bl.step5||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`selfeff_${k}`,v,'1-5',ts]));
+      Object.entries(bl.step6||{}).forEach(([k,v])=>v!=null && rows.push([uid,'baseline','T0',`motiv_${k}`,String(v).slice(0,100),'',ts]));
+    }
+  }catch(e){}
+
+  // 週次サーベイ（複数）
+  try{
+    const arr = JSON.parse(localStorage.getItem(`vt_weekly_survey_${uid}`)||'[]');
+    arr.forEach(s=>{
+      const tp = `W${s.weekNum}`;
+      ['fatigue','sleep','depression','anxiety','self-eff','global'].forEach(f=>{
+        if(s[f]!=null) rows.push([uid,'weekly',tp,`promis_${f}`,s[f],'1-5',s.completedAt]);
+      });
+    });
+  }catch(e){}
+
+  // QOLデイリー
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vt_qol_${uid}_`)){
+        const date = k.slice(`vt_qol_${uid}_`.length);
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          ['condition','mood','energy'].forEach(f=>{
+            if(v[f]!=null) rows.push([uid,'daily_qol',date,f,v[f],'1-5',v.ts?new Date(v.ts).toISOString():'']);
+          });
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 週次運動
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vq_${uid}_`) && !k.includes('_hist_') && !k.includes('_ach_') && !k.includes('_streak') && !k.includes('_bonus')){
+        const wk = k.replace(`vq_${uid}_`,'');
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          if(v.score!=null) rows.push([uid,'weekly_exercise',wk,'mod_high_min',v.score,'min','']);
+          if(v.xp!=null) rows.push([uid,'weekly_exercise',wk,'xp',v.xp,'','']);
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 週次栄養
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vn_${uid}_`) && !k.includes('_hist_') && !k.includes('_ach_') && !k.includes('_bonus')){
+        const wk = k.replace(`vn_${uid}_`,'');
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          ['veg','fruit','protein','grain','limit','drink','snack'].forEach(c=>{
+            if(v.counts && v.counts[c]!=null) rows.push([uid,'weekly_nutrition',wk,`count_${c}`,v.counts[c],'servings','']);
+          });
+          if(v.xp!=null) rows.push([uid,'weekly_nutrition',wk,'xp',v.xp,'','']);
+          if(v.score!=null) rows.push([uid,'weekly_nutrition',wk,'nut_score',v.score,'','']);
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 睡眠
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vt_sleep_${uid}_`)){
+        const date = k.slice(`vt_sleep_${uid}_`.length);
+        try{
+          const v = JSON.parse(localStorage.getItem(k));
+          if(v.hours) rows.push([uid,'sleep',date,'hours',v.hours,'h','']);
+          if(v.quality) rows.push([uid,'sleep',date,'quality',v.quality,'1-5','']);
+        }catch(e){}
+      }
+    }
+  }catch(e){}
+
+  // 水分
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.startsWith(`vt_hyd_${uid}_`)){
+        const date = k.slice(`vt_hyd_${uid}_`.length);
+        const v = parseInt(localStorage.getItem(k)||'0',10);
+        if(v>0) rows.push([uid,'hydration',date,'cups',v,'cups','']);
+      }
+    }
+  }catch(e){}
+
+  // 冒険進捗
+  try{
+    const adv = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'null');
+    if(adv){
+      rows.push([uid,'adventure','current','chapter_idx',adv.chapterIdx,'','']);
+      rows.push([uid,'adventure','current','defeated_count',(adv.defeated||[]).length,'','']);
+    }
+  }catch(e){}
+
+  // メタ情報
+  rows.push([uid,'meta','-','class',localStorage.getItem('vt_class')||'','','']);
+  rows.push([uid,'meta','-','story_mode',localStorage.getItem('vt_story_mode')||'','','']);
+  rows.push([uid,'meta','-','consent_version',localStorage.getItem(`vt_consent_${uid}`)||'','','']);
+  rows.push([uid,'meta','-','start_date',localStorage.getItem(`vt_start_date_${uid}`)||'','','']);
+  rows.push([uid,'meta','-','export_date',new Date().toISOString(),'','']);
+
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const date = new Date().toISOString().slice(0,10);
+  downloadFile(`vitalia_research_${date}.csv`, csv, 'text/csv;charset=utf-8;');
+});
+
+// ===== 週次レポート共有 =====
+document.getElementById('btn-share-summary').addEventListener('click', ()=>{
+  const uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+  const wk = weekKey();
+  const today = new Date().toISOString().slice(0,10);
+
+  // データ集計
+  let exMin = 0, vegC=0, fishC=0, soyC=0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const s = JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      exMin += s.exMinToday||0;
+      vegC += s.vegToday||0;
+      fishC += s.fishToday||0;
+      soyC += s.soyToday||0;
+    }catch(e){}
+  }
+  let qolTotal=0, qolDays=0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r = localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(r){
+        const v = JSON.parse(r);
+        const avg = ((v.condition||0)+(v.mood||0)+(v.energy||0))/3;
+        qolTotal += avg; qolDays++;
+      }
+    }catch(e){}
+  }
+  let advState = {chapterIdx:0, defeated:[]};
+  try{ advState = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}'); }catch(e){}
+  let nuScore = 0;
+  try{ const n = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}'); nuScore = n.score||0; }catch(e){}
+
+  const userMsg = prompt('ご家族・主治医に伝えたいメッセージがあればどうぞ（任意）:', '今週はこれだけ頑張れました。応援ありがとう。') || '';
+
+  const payload = {
+    name: '冒険者',
+    weekLabel: weekLabel(wk),
+    generatedAt: today,
+    exMin, exGoal: 150,
+    nuScore,
+    veg: vegC, fish: fishC, soy: soyC,
+    qolAvg: qolDays>0 ? qolTotal/qolDays : null,
+    qolDays,
+    advDefeated: (advState.defeated||[]).length,
+    advCurrent: advState.chapterIdx||0,
+    userMsg: userMsg.slice(0,300),
+    heroMsg: '今週の歩みをお届けします',
+  };
+
+  const json = JSON.stringify(payload);
+  const b64 = btoa(unescape(encodeURIComponent(json)));
+  const url = `${location.origin}/share.html#${b64}`;
+
+  // 共有モーダル風にコピー
+  if(navigator.share){
+    navigator.share({ title:'ヴィタリア転生録 — 週次レポート', url }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(url).then(()=>{
+      alert('✓ 共有リンクをコピーしました。\nLINE・メールなどに貼り付けて送信してください。\n\n' + url);
+    });
+  }
+});
+
+function weekLabel(wk){
+  return wk.replace(/_W/, '年 第') + '週';
+}
+
+// ===== 招待コード =====
+function getOrCreateInviteCode(){
+  let code=localStorage.getItem('vt_invite_code');
+  if(!code){
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    code='';
+    for(let i=0;i<6;i++) code+=chars[Math.floor(Math.random()*chars.length)];
+    localStorage.setItem('vt_invite_code', code);
+  }
+  return code;
+}
+function awardInviteBonus(reason){
+  // コーチXPに +100XP
+  try{
+    const d=new Date(), j=new Date(d.getFullYear(),0,1);
+    const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+    const wk=`${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+    // とりあえずlocalStorageへ。uidはsettings.htmlでは取得困難なため簡易記録
+    const k=`vt_invite_xp_${reason}_${Date.now()}`;
+    localStorage.setItem(k, '100');
+  }catch(e){}
+}
+document.getElementById('my-invite-code').textContent=getOrCreateInviteCode();
+document.getElementById('btn-copy-code').addEventListener('click',()=>{
+  const code=getOrCreateInviteCode();
+  navigator.clipboard?.writeText(code).then(()=>{
+    document.getElementById('btn-copy-code').textContent='✓ コピーしました！';
+    setTimeout(()=>{ document.getElementById('btn-copy-code').textContent='📋 コピー'; }, 2000);
+  });
+});
+document.getElementById('btn-redeem-code').addEventListener('click',()=>{
+  const input=document.getElementById('invite-code-input');
+  const msg=document.getElementById('invite-msg');
+  const code=(input.value||'').toUpperCase().trim();
+  if(!/^[A-Z0-9]{6}$/.test(code)){
+    msg.textContent='⚠ 6文字のコードを入力してください'; msg.style.color='var(--red)'; return;
+  }
+  if(code===getOrCreateInviteCode()){
+    msg.textContent='⚠ 自分のコードは使えません'; msg.style.color='var(--red)'; return;
+  }
+  if(localStorage.getItem('vt_invite_redeemed')){
+    msg.textContent='⚠ すでに招待コードを使用済みです'; msg.style.color='var(--red)'; return;
+  }
+  localStorage.setItem('vt_invite_redeemed', code);
+  awardInviteBonus('redeemed');
+  msg.textContent='✨ +100XPボーナス！招待ありがとう'; msg.style.color='#a8e8c0';
+  input.value='';
+});
+
+// ===== 通知オプトイン =====
+const notifyToggle=document.getElementById('t-notify');
+function refreshNotifyState(){
+  if(!('Notification' in window)){
+    notifyToggle.classList.remove('on');
+    notifyToggle.style.opacity='.4';
+    notifyToggle.title='このブラウザは通知に対応していません';
+    return;
+  }
+  if(Notification.permission==='granted') notifyToggle.classList.add('on');
+  else notifyToggle.classList.remove('on');
+}
+refreshNotifyState();
+notifyToggle.addEventListener('click', async ()=>{
+  if(!('Notification' in window)) return;
+  if(Notification.permission==='granted'){
+    // 通知をOFFにはブラウザ設定で。ここでは案内のみ
+    alert('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。');
+    return;
+  }
+  if(Notification.permission==='denied'){
+    alert('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。');
+    return;
+  }
+  const result=await Notification.requestPermission();
+  if(result==='granted'){
+    new Notification('ヴィタリア転生録', {
+      body: '通知が有効になりました！ピクセからリマインドが届きます ♪',
+      icon: './icon.svg',
+    });
+  }
+  refreshNotifyState();
+});
+
+// ===== デイリーリマインダー =====
+const reminderToggle=document.getElementById('t-reminder');
+const reminderTimeRow=document.getElementById('reminder-time-row');
+const reminderTimeInput=document.getElementById('reminder-time');
+const reminderSaved=document.getElementById('reminder-saved');
+function loadReminder(){
+  let cfg={};
+  try{ cfg=JSON.parse(localStorage.getItem('vt_reminder')||'{}'); }catch(e){}
+  if(cfg.enabled){
+    reminderToggle.classList.add('on');
+    reminderTimeRow.style.display='flex';
+  }
+  if(cfg.time) reminderTimeInput.value=cfg.time;
+}
+loadReminder();
+reminderToggle.addEventListener('click',()=>{
+  const on=reminderToggle.classList.toggle('on');
+  reminderTimeRow.style.display=on?'flex':'none';
+  if(on && Notification.permission!=='granted'){
+    alert('通知を先に許可してください（上のトグル）。');
+    reminderToggle.classList.remove('on');
+    reminderTimeRow.style.display='none';
+    return;
+  }
+  saveReminder();
+});
+reminderTimeInput.addEventListener('change', saveReminder);
+function saveReminder(){
+  const cfg={ enabled: reminderToggle.classList.contains('on'), time: reminderTimeInput.value };
+  localStorage.setItem('vt_reminder', JSON.stringify(cfg));
+  localStorage.setItem('vt_settings_updated', String(Date.now()));
+  reminderSaved.textContent='✓ 保存しました';
+  setTimeout(()=>{ reminderSaved.textContent=''; }, 1800);
+}
+
+// ===== 研究離脱・アカウント削除 =====
+document.getElementById('btn-revoke-consent').addEventListener('click', ()=>{
+  const reason = prompt('差し支えなければ、離脱の理由を教えてください（任意・研究改善のため）：\n\n（空欄でも進めます）');
+  if(reason === null) return; // キャンセル
+
+  if(!confirm('本当に研究離脱・アカウント削除を申請しますか？\n\nこの端末のデータは即座に削除されます。\nクラウド側のデータは72時間以内に完全削除されます。')) return;
+  if(!confirm('最終確認：本当によろしいですか？\nこの操作は取り消せません。')) return;
+
+  try{
+    // 削除リクエストフラグをセット → game.htmlで処理
+    const uid = localStorage.getItem('vitalia_uid_hint') || '';
+    localStorage.setItem('vt_deletion_request', JSON.stringify({
+      uid, reason: (reason||'').slice(0,500), ts: Date.now()
+    }));
+    // ローカルクリア（自分のキーだけ）
+    const keysToDelete=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && /^v[abchnqtw]_/.test(k) && !k.startsWith('vt_deletion_request') && k!=='vitalia_uid_hint') keysToDelete.push(k);
+    }
+    keysToDelete.forEach(k=>localStorage.removeItem(k));
+
+    document.getElementById('revoke-msg').innerHTML='✓ 申請を受け付けました。ホームに戻り、サーバへ削除リクエストを送信します…';
+    document.getElementById('revoke-msg').style.color='#a8e8c0';
+    setTimeout(()=>{ location.href='./game.html?deletion=1'; }, 1800);
+  }catch(e){
+    document.getElementById('revoke-msg').textContent='エラー: '+e.message;
+    document.getElementById('revoke-msg').style.color='#f0a0a0';
+  }
+});
+
+document.getElementById('btn-clear-all').addEventListener('click',()=>{
+  if(!confirm('本当にローカルデータを全削除しますか？\nゲーム進行・記録がリセットされます。\n（Firebase上のデータは別途研究事務局へ削除依頼が必要です）')) return;
+  if(!confirm('もう一度確認：本当にすべて削除しますか？')) return;
+  // 自分のキーだけ削除
+  const keysToDelete=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k && /^v[abchnqtw]_/.test(k)) keysToDelete.push(k);
+  }
+  keysToDelete.forEach(k=>localStorage.removeItem(k));
+  alert(`${keysToDelete.length}件のローカルデータを削除しました。`);
+  location.href='./index.html';
+});
+</script>
+</body>
+</html>
