@@ -5,13 +5,15 @@
 //   - Firebase / Gemini：network-first with offline fallback
 //   - 同期キュー：Background Sync で再送
 
-const CACHE_VERSION = 'vitalia-v9';
-const RUNTIME_CACHE = 'vitalia-runtime-v9';
+const CACHE_VERSION = 'vitalia-v10';
+const RUNTIME_CACHE = 'vitalia-runtime-v10';
 
 // 必須プリキャッシュ（最低限の起動アセット）
 const PRECACHE_URLS = [
   './',
+  './index.html',
   './game.html',
+  './research.html',
   './quest.html',
   './nutrition.html',
   './adventure.html',
