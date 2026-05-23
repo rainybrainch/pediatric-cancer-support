@@ -292,13 +292,13 @@ body::before{
 
 /* 今週の進捗 */
 .sh-summary{
-  background:rgba(14,18,32,.7);border:1px solid rgba(201,168,76,.2);
+  background:rgba(255,255,255,.75);border:1px solid rgba(30,127,164,.25);
   border-radius:11px;padding:11px 14px;display:flex;flex-direction:column;gap:8px;
 }
-.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:rgba(220,225,245,.85);}
-.sh-sum-lbl{color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
-.sh-sum-val{flex:1;font-weight:700;color:#f0e4d4;}
-.sh-sum-bar{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:rgba(10,42,64,.85);}
+.sh-sum-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
+.sh-sum-val{flex:1;font-weight:700;color:#0a2a40;}
+.sh-sum-bar{flex:1;height:6px;background:rgba(10,42,64,.12);border-radius:99px;overflow:hidden;}
 .sh-sum-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a);border-radius:99px;transition:width .5s;}
 .sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:var(--gold2);font-size:.78rem;min-width:40px;text-align:right;}
 
@@ -331,8 +331,8 @@ body::before{
 /* フッター行（メニュー・詳細・相談） */
 .sh-foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:4px;}
 .sh-foot-btn{
-  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
-  color:rgba(220,225,245,.75);font-family:inherit;font-size:.65rem;font-weight:700;
+  background:rgba(255,255,255,.7);border:1px solid rgba(30,127,164,.25);
+  color:rgba(10,42,64,.85);font-family:inherit;font-size:.65rem;font-weight:700;
   padding:8px 4px;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;
   letter-spacing:.04em;
 }
@@ -342,8 +342,8 @@ body::before{
 .compact-home{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
 .ch-toprow{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
 .ch-tbtn{
-  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.22);
-  color:rgba(220,225,245,.85);font-family:inherit;font-size:.6rem;font-weight:700;
+  background:rgba(255,255,255,.7);border:1px solid rgba(30,127,164,.25);
+  color:rgba(10,42,64,.9);font-family:inherit;font-size:.6rem;font-weight:700;
   padding:7px 4px;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em;
 }
@@ -442,7 +442,7 @@ body::before{
 .ch-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid rgba(201,168,76,.18);padding-bottom:11px;}
 .ch-menu-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:var(--gold2);letter-spacing:.04em;}
 .ch-menu-close{
-  background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);color:rgba(220,225,245,.8);
+  background:rgba(255,255,255,.7);border:1px solid rgba(30,127,164,.3);color:#0a2a40;
   font-size:1.3rem;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;
   display:flex;align-items:center;justify-content:center;font-family:inherit;
 }
@@ -513,8 +513,8 @@ body::before{
 
 .ch-sub{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
 .ch-sub-btn{
-  flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);
-  color:rgba(220,225,245,.7);font-family:inherit;font-size:.65rem;font-weight:700;
+  flex:1;background:rgba(255,255,255,.65);border:1px solid rgba(30,127,164,.2);
+  color:rgba(10,42,64,.8);font-family:inherit;font-size:.65rem;font-weight:700;
   padding:6px 4px;border-radius:7px;text-decoration:none;text-align:center;letter-spacing:.04em;
   white-space:nowrap;
 }
@@ -849,11 +849,11 @@ body.detail-mode #compact-home{display:none !important;}
   color:var(--gold2);margin-bottom:8px;
 }
 .ios-step{
-  text-align:left;font-size:.78rem;color:rgba(220,225,245,.85);
+  text-align:left;font-size:.78rem;color:rgba(10,42,64,.85);
   line-height:1.85;margin:12px 0;padding:10px 14px;
-  background:rgba(255,255,255,.04);border-radius:8px;
+  background:rgba(255,255,255,.65);border-radius:8px;
 }
-.ios-step b{color:#90b8ff;}
+.ios-step b{color:#1e7fa4;}
 .ios-close{
   background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));
   border:1px solid rgba(201,168,76,.5);border-radius:10px;
@@ -937,8 +937,8 @@ body.detail-mode #compact-home{display:none !important;}
 .ctx-greeting.celebrate{background:linear-gradient(135deg,rgba(78,201,138,.1),rgba(78,201,138,.03));border-color:rgba(78,201,138,.4);}
 .ctx-greeting.gentle{background:linear-gradient(135deg,rgba(168,200,240,.1),rgba(168,200,240,.03));border-color:rgba(168,200,240,.4);}
 .ctx-greet-icon{font-size:1.3rem;flex-shrink:0;line-height:1;}
-.ctx-greet-text{flex:1;min-width:0;font-size:.78rem;line-height:1.7;color:rgba(220,225,245,.92);}
-.ctx-greet-text strong{color:#f0d48a;}
+.ctx-greet-text{flex:1;min-width:0;font-size:.78rem;line-height:1.7;color:rgba(10,42,64,.9);}
+.ctx-greet-text strong{color:#0a4870;}
 
 /* ========== Habit Stacking 提案 ========== */
 .habit-stack-card{
@@ -1187,7 +1187,7 @@ body.detail-mode #compact-home{display:none !important;}
 .affinity-cell.sera .affinity-bar-fill{background:linear-gradient(90deg,#4ec98a,#a8e8c0);}
 .affinity-cell.luna .affinity-bar-fill{background:linear-gradient(90deg,#9c72e0,#c0a0f0);}
 .affinity-cell.pixe .affinity-bar-fill{background:linear-gradient(90deg,#f0c060,#f0d48a);}
-.affinity-quote{font-size:.58rem;color:rgba(220,225,245,.5);margin-top:3px;font-style:italic;line-height:1.3;}
+.affinity-quote{font-size:.58rem;color:rgba(10,42,64,.55);margin-top:3px;font-style:italic;line-height:1.3;}
 .affinity-side{margin-top:5px;}
 .affinity-side-btn{
   background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(201,168,76,.08));
