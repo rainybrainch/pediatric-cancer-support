@@ -663,6 +663,24 @@
     });
   }
 
+  // ========== 汎用確認モーダル（showConfirm 未定義ページ向けフォールバック） ==========
+  function _showIdleConfirm(msg, onOk, onCancel){
+    if(document.getElementById('_as-idle-confirm')) return;
+    const ov = document.createElement('div');
+    ov.id = '_as-idle-confirm';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(4,6,12,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    ov.innerHTML = `<div style="background:linear-gradient(160deg,#12162a,#0a0d1c);border:1.5px solid rgba(74,176,212,.35);border-radius:18px;max-width:340px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+      <p style="font-family:'Noto Serif JP',serif;font-size:.92rem;color:rgba(220,235,255,.9);line-height:1.65;margin:0 0 22px;white-space:pre-line;">${msg.replace(/</g,'&lt;')}</p>
+      <div style="display:flex;gap:10px;">
+        <button id="_as-ic-cancel" style="flex:1;padding:11px;border-radius:10px;border:1.5px solid rgba(74,176,212,.4);background:transparent;color:rgba(180,210,230,.85);font-size:.85rem;cursor:pointer;">キャンセル</button>
+        <button id="_as-ic-ok" style="flex:1;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;">ログアウト</button>
+      </div>
+    </div>`;
+    document.body.appendChild(ov);
+    document.getElementById('_as-ic-ok').onclick = ()=>{ ov.remove(); onOk && onOk(); };
+    document.getElementById('_as-ic-cancel').onclick = ()=>{ ov.remove(); onCancel && onCancel(); };
+  }
+
   // ========== 自動ログアウト（30分の非アクティブで） ==========
   let _idleTimer = null;
   const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30分
@@ -678,10 +696,12 @@
           ()=>{ location.href = './game.html?logout=1'; },
           ()=>{ resetIdleTimer(); }
         );
-      } else if(window.confirm('30分間操作がありませんでした。セキュリティのためログアウトしますか？')){
-        location.href = './game.html?logout=1';
       } else {
-        resetIdleTimer();
+        _showIdleConfirm(
+          '30分間操作がありませんでした。\nセキュリティのためログアウトしますか？',
+          ()=>{ location.href = './game.html?logout=1'; },
+          ()=>{ resetIdleTimer(); }
+        );
       }
     }, IDLE_TIMEOUT_MS);
   }
