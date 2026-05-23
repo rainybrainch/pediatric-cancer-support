@@ -2,7 +2,8 @@
   "name": "ヴィタリア転生録",
   "short_name": "ヴィタリア",
   "description": "小児がん経験者の健康習慣を支援するファンタジーRPGアプリ",
-  "start_url": "/",
+  "start_url": "/pediatric-cancer-support/game.html",
+  "scope": "/pediatric-cancer-support/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#c8e4f4",
@@ -15,8 +16,8 @@
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
   "shortcuts": [
-    { "name": "健康クエスト", "short_name": "クエスト", "url": "/quest.html", "description": "運動記録" },
-    { "name": "栄養クエスト", "short_name": "栄養", "url": "/nutrition.html", "description": "食事記録" },
-    { "name": "AIコーチ・ルナ", "short_name": "ルナ", "url": "/game.html", "description": "AI健康コーチ" }
+    { "name": "健康クエスト", "short_name": "クエスト", "url": "/pediatric-cancer-support/quest.html", "description": "運動記録" },
+    { "name": "栄養クエスト", "short_name": "栄養", "url": "/pediatric-cancer-support/nutrition.html", "description": "食事記録" },
+    { "name": "AIコーチ・ルナ", "short_name": "ルナ", "url": "/pediatric-cancer-support/game.html", "description": "AI健康コーチ" }
   ]
 }
