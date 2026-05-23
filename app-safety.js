@@ -673,7 +673,12 @@
       if(localStorage.getItem('vt_no_auto_logout') === '1') return;
       const uid = localStorage.getItem('vitalia_uid_hint');
       if(!uid || uid === 'guest') return;
-      if(confirm('30分間操作がありませんでした。セキュリティのためログアウトしますか？')){
+      if(typeof showConfirm === 'function'){
+        showConfirm('30分間操作がありませんでした。\nセキュリティのためログアウトしますか？',
+          ()=>{ location.href = './game.html?logout=1'; },
+          ()=>{ resetIdleTimer(); }
+        );
+      } else if(window.confirm('30分間操作がありませんでした。セキュリティのためログアウトしますか？')){
         location.href = './game.html?logout=1';
       } else {
         resetIdleTimer();
