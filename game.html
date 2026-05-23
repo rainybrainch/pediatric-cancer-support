@@ -6366,7 +6366,7 @@ onAuthStateChanged(auth, async user=>{
         }catch(e){}
         showToast('✓ 削除リクエストを送信しました。72時間以内にデータ削除されます。', 5000);
         await signOut(auth);
-        location.href='./homepage.html';
+        location.href='./index.html';
         return;
       }
     }catch(e){ console.warn('deletion request:', e); }
@@ -6401,7 +6401,7 @@ onAuthStateChanged(auth, async user=>{
             }, 400);
           },
           // 同意しない場合：ログアウト
-          ()=>{ try{ signOut(auth); }catch(e){} location.href='./homepage.html'; }
+          ()=>{ try{ signOut(auth); }catch(e){} location.href='./index.html'; }
         );
       }, 400);
     } else {
