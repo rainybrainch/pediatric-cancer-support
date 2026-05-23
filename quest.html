@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080b14; --bg2:#0e1220; --bg3:#141929;
+  --bg:#c8e4f4; --bg2:#c8e4f4; --bg3:#141929;
   --gold:#c9a84c; --gold2:#f0d48a;
   --silver:#aabcd8; --text:#d4dcf0; --muted:#6070a0;
   --green:#4ec98a; --purple:#9c72e0; --red:#e05c5c; --orange:#e08a3c;
@@ -93,11 +93,11 @@ body::before{
 .an-body{}
 .an-label{font-size:.58rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
 .an-name{font-size:.85rem;font-weight:700;color:var(--gold2);font-family:'Noto Serif JP',serif;margin-top:2px;}
-.an-cond{font-size:.62rem;color:rgba(170,188,216,.45);margin-top:2px;}
+.an-cond{font-size:.62rem;color:rgba(30,80,110,.7);margin-top:2px;}
 /* 保存トースト */
 #save-toast{
   position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:rgba(14,18,32,.97);border:1px solid rgba(78,201,138,.4);border-radius:12px;
+  background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.4);border-radius:12px;
   padding:10px 24px;text-align:center;opacity:0;pointer-events:none;
   transition:opacity .3s,transform .3s;z-index:250;white-space:nowrap;
 }
@@ -132,7 +132,7 @@ body::before{
   font-weight:900;margin-bottom:4px;
 }
 .km-subtitle{
-  text-align:center;font-size:.75rem;color:rgba(170,188,216,.5);
+  text-align:center;font-size:.75rem;color:rgba(30,80,110,.7);
   margin-bottom:22px;letter-spacing:.05em;
 }
 .km-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);margin-bottom:20px;}
@@ -146,7 +146,7 @@ body::before{
 }
 .km-body strong{color:var(--gold2);}
 .km-source{
-  font-size:.63rem;color:rgba(170,188,216,.35);border-top:1px solid rgba(255,255,255,.06);
+  font-size:.63rem;color:rgba(30,80,110,.7);border-top:1px solid rgba(255,255,255,.06);
   padding-top:10px;margin-top:4px;
 }
 .km-close{
@@ -198,7 +198,7 @@ body::before{
   animation:shimmer 3s linear infinite;
   margin-bottom:5px;position:relative;z-index:1;
 }
-.ls-sub{font-size:.58rem;color:rgba(170,188,216,.3);letter-spacing:.18em;margin-bottom:22px;position:relative;z-index:1;text-transform:uppercase;}
+.ls-sub{font-size:.58rem;color:rgba(30,80,110,.7);letter-spacing:.18em;margin-bottom:22px;position:relative;z-index:1;text-transform:uppercase;}
 .ls-bar{width:160px;height:3px;background:rgba(201,168,76,.1);border-radius:99px;overflow:hidden;position:relative;z-index:1;}
 .ls-bar-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;border-radius:99px;animation:shimmer 1.5s linear infinite;}
 .ls-msg{font-size:.6rem;color:rgba(201,168,76,.35);font-family:'Noto Serif JP',serif;letter-spacing:.1em;margin-top:12px;position:relative;z-index:1;}
@@ -213,7 +213,7 @@ body::before{
   display:flex;align-items:center;justify-content:center;padding:40px 16px;
 }
 .login-card{
-  background:rgba(14,18,32,.96);border:1px solid rgba(201,168,76,.3);
+  background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.3);
   border-radius:20px;box-shadow:0 0 60px rgba(201,168,76,.07),0 20px 50px rgba(0,0,0,.6);
   padding:40px 36px;width:100%;max-width:420px;animation:fadeIn .6s ease;
 }
@@ -222,7 +222,7 @@ body::before{
 .login-title{text-align:center;margin-bottom:20px;}
 .login-title h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;margin-bottom:5px;}
 .login-title .sub{color:var(--gold);font-size:.7rem;letter-spacing:.2em;font-weight:700;}
-.login-title .note{color:rgba(170,188,216,.55);font-size:.72rem;margin-top:5px;}
+.login-title .note{color:rgba(30,80,110,.7);font-size:.72rem;margin-top:5px;}
 .kaito-bubble{
   background:rgba(224,138,60,.09);border:1px solid rgba(224,138,60,.28);border-radius:10px;
   padding:10px 14px;font-size:.8rem;color:#f0c890;line-height:1.65;margin-bottom:20px;position:relative;
@@ -239,7 +239,7 @@ body::before{
   font-family:'Zen Kaku Gothic New',sans-serif;outline:none;
   transition:border-color .2s,box-shadow .2s;
 }
-.form-input::placeholder{color:rgba(170,188,216,.32);}
+.form-input::placeholder{color:rgba(30,80,110,.7);}
 .form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.12);background:rgba(255,255,255,.06);}
 .btn-gold{
   width:100%;background:linear-gradient(135deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;
@@ -258,7 +258,7 @@ body::before{
 .btn-outline:hover{background:rgba(201,168,76,.07);}
 .btn-row{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
 .login-footer{text-align:center;margin-top:18px;}
-.login-footer p{font-size:.7rem;color:rgba(170,188,216,.45);line-height:1.6;}
+.login-footer p{font-size:.7rem;color:rgba(30,80,110,.7);line-height:1.6;}
 .login-footer a{color:var(--gold);font-size:.75rem;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;}
 .login-footer a:hover{text-decoration:underline;}
 
@@ -267,7 +267,7 @@ body::before{
 
 /* ヘッダー */
 .main-header{
-  background:rgba(8,11,20,.96);backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(201,168,76,.18);
   padding:9px 20px;display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:40;flex-shrink:0;
@@ -277,9 +277,9 @@ body::before{
 .h-left .pipe{color:rgba(201,168,76,.3);margin:0 4px;}
 .h-title{font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;color:var(--silver);}
 .h-right{display:flex;align-items:center;gap:10px;}
-#user-display{font-size:.72rem;color:rgba(170,188,216,.6);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#user-display{font-size:.72rem;color:rgba(30,80,110,.7);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #logout-btn{
-  font-size:.75rem;font-weight:700;color:rgba(170,188,216,.6);
+  font-size:.75rem;font-weight:700;color:rgba(30,80,110,.7);
   border:1px solid rgba(170,188,216,.22);border-radius:999px;
   padding:5px 14px;background:transparent;cursor:pointer;
   font-family:'Zen Kaku Gothic New',sans-serif;
@@ -330,7 +330,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .qh-bar{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
 .qh-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#e05c5c,#e08a3c);transition:width .8s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(224,92,92,.35);}
 .qh-bar-val{font-size:.58rem;color:rgba(240,160,160,.65);font-weight:700;flex-shrink:0;min-width:28px;text-align:right;}
-.qh-week-lbl{font-size:.52rem;color:rgba(170,188,216,.3);margin-top:4px;}
+.qh-week-lbl{font-size:.52rem;color:rgba(30,80,110,.7);margin-top:4px;}
 .qh-stats{
   display:flex;flex-direction:column;gap:6px;
   flex-shrink:0;text-align:center;padding-left:4px;
@@ -338,7 +338,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .qh-stat{display:flex;flex-direction:column;align-items:center;}
 .qh-stat-num{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#f0a0a0;line-height:1;}
-.qh-stat-lbl{font-size:.48rem;color:rgba(170,188,216,.3);margin-top:2px;letter-spacing:.04em;}
+.qh-stat-lbl{font-size:.48rem;color:rgba(30,80,110,.7);margin-top:2px;letter-spacing:.04em;}
 .qh-stat-div{height:1px;width:28px;background:rgba(224,92,92,.12);}
 
 /* ===== 左：クエストボード ===== */
@@ -382,7 +382,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .section-label{
   font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);
 }
-.section-note{font-size:.7rem;color:rgba(170,188,216,.5);margin-top:2px;}
+.section-note{font-size:.7rem;color:rgba(30,80,110,.7);margin-top:2px;}
 .mets-group{margin-bottom:16px;}
 .mets-tag{
   font-size:.66rem;font-weight:700;letter-spacing:.1em;
@@ -393,7 +393,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .mets-tag::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.1);}
 .card-grid{display:flex;flex-wrap:wrap;gap:8px;}
 .ex-card{
-  background:rgba(14,18,32,.85);border:1px solid rgba(78,201,138,.18);
+  background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.18);
   border-radius:10px;padding:9px 12px;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;gap:3px;min-width:72px;
   transition:transform .13s,border-color .13s,background .13s,box-shadow .13s;
@@ -430,7 +430,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 
 /* パネル共通 */
 .side-panel{
-  background:rgba(14,18,32,.9);border:1px solid rgba(201,168,76,.2);
+  background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);
   border-radius:14px;padding:16px;
 }
 .panel-head{
@@ -453,7 +453,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .lv-badge .lv-n{font-size:1rem;}
 .xp-wrap{background:rgba(255,255,255,.05);border-radius:999px;height:10px;overflow:hidden;margin-bottom:4px;}
 .xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 6px rgba(201,168,76,.4);}
-.xp-note{font-size:.65rem;color:rgba(170,188,216,.5);display:flex;justify-content:space-between;}
+.xp-note{font-size:.65rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;}
 .xp-note strong{color:var(--gold);}
 
 /* 研究指標 */
@@ -464,8 +464,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.2);
   padding:3px 0;font-size:.9rem;color:#e8e8e8;font-family:'Zen Kaku Gothic New',sans-serif;outline:none;
 }
-.metric-card .unit{font-size:.65rem;color:rgba(170,188,216,.5);}
-.metric-card .hint{font-size:.6rem;color:rgba(170,188,216,.4);margin-top:3px;line-height:1.4;}
+.metric-card .unit{font-size:.65rem;color:rgba(30,80,110,.7);}
+.metric-card .hint{font-size:.6rem;color:rgba(30,80,110,.7);margin-top:3px;line-height:1.4;}
 .metric-card .bmi-ok{color:var(--green);}
 .metric-card .bmi-ng{color:var(--orange);}
 
@@ -473,7 +473,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .score-block{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
 .score-row{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;margin-bottom:4px;}
 .score-row:last-child{margin-bottom:0;}
-.score-row .sl{color:rgba(170,188,216,.65);}
+.score-row .sl{color:rgba(30,80,110,.7);}
 .score-row .sv{font-weight:700;font-size:.9rem;}
 .sv.mod{color:var(--green);}
 .sv.high{color:var(--orange);}
@@ -481,7 +481,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .goal-bar-wrap{height:8px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;margin:8px 0 4px;}
 .goal-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--gold2));transition:width .5s ease;box-shadow:0 0 6px rgba(78,201,138,.3);}
 .goal-note{font-size:.65rem;display:flex;justify-content:space-between;}
-.goal-note .gn-label{color:rgba(170,188,216,.5);}
+.goal-note .gn-label{color:rgba(30,80,110,.7);}
 .goal-note .gn-val{color:var(--gold);font-weight:700;}
 .goal-achieved{
   text-align:center;font-family:'Noto Serif JP',serif;font-size:.8rem;font-weight:900;
@@ -493,7 +493,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #log-list{list-style:none;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;}
 #log-list:empty::after{
   content:'クエストカードをタップして記録しよう';display:block;
-  font-size:.72rem;color:rgba(170,188,216,.3);text-align:center;padding:14px 0;
+  font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:14px 0;
 }
 .log-item{
   display:flex;align-items:center;gap:7px;
@@ -502,10 +502,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .li-icon{font-size:.85rem;flex-shrink:0;}
 .li-name{flex:1;font-size:.72rem;color:var(--silver);line-height:1.3;}
-.li-sub{font-size:.6rem;color:rgba(170,188,216,.45);}
+.li-sub{font-size:.6rem;color:rgba(30,80,110,.7);}
 .li-xp{font-size:.68rem;font-weight:700;color:var(--gold);flex-shrink:0;}
 .li-del{
-  background:none;border:none;cursor:pointer;color:rgba(170,188,216,.28);
+  background:none;border:none;cursor:pointer;color:rgba(30,80,110,.7);
   font-size:.75rem;padding:2px 4px;transition:color .15s;flex-shrink:0;
 }
 .li-del:hover{color:var(--red);}
@@ -521,7 +521,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   box-shadow:0 4px 18px rgba(201,168,76,.22);
 }
 .btn-save:hover{background-position:right center;transform:translateY(-2px);box-shadow:0 7px 24px rgba(201,168,76,.35);}
-.save-msg{font-size:.68rem;color:rgba(170,188,216,.5);text-align:center;}
+.save-msg{font-size:.68rem;color:rgba(30,80,110,.7);text-align:center;}
 
 /* 過去の記録 */
 .history-list{display:flex;flex-direction:column;gap:7px;}
@@ -530,11 +530,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   border-radius:8px;padding:8px 10px;
   display:flex;align-items:center;gap:8px;
 }
-.hist-week{font-size:.68rem;color:rgba(170,188,216,.5);flex-shrink:0;min-width:60px;}
+.hist-week{font-size:.68rem;color:rgba(30,80,110,.7);flex-shrink:0;min-width:60px;}
 .hist-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;}
 .hist-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--gold2));transition:width .4s;}
 .hist-score{font-size:.7rem;font-weight:700;color:var(--gold);flex-shrink:0;}
-.hist-empty{font-size:.72rem;color:rgba(170,188,216,.3);text-align:center;padding:8px 0;}
+.hist-empty{font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:8px 0;}
 
 /* ===== ストリーク ===== */
 .streak-row{display:flex;align-items:center;gap:12px;}
@@ -542,7 +542,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .streak-info{flex:1;}
 .streak-num{font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;color:var(--gold2);line-height:1;display:flex;align-items:baseline;gap:4px;}
 .streak-unit{font-size:.65rem;font-weight:400;color:rgba(201,168,76,.6);}
-.streak-sub{font-size:.6rem;color:rgba(170,188,216,.4);margin-top:3px;}
+.streak-sub{font-size:.6rem;color:rgba(30,80,110,.7);margin-top:3px;}
 .streak-best{font-size:.58rem;color:rgba(201,168,76,.45);text-align:right;flex-shrink:0;line-height:1.5;}
 
 /* ===== 実績バッジ ===== */
@@ -550,7 +550,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ach-badge{
   display:flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-  border-radius:10px;padding:6px 10px;font-size:.62rem;color:rgba(170,188,216,.35);
+  border-radius:10px;padding:6px 10px;font-size:.62rem;color:rgba(30,80,110,.7);
   transition:background .2s,border-color .2s,color .2s;
 }
 .ach-badge.unlocked{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.32);color:var(--gold2);}
@@ -563,7 +563,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 @keyframes bonusPop{0%{opacity:0;transform:translateX(-50%) translateY(-14px);}12%{opacity:1;transform:translateX(-50%) translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-8px);}}
 .bonus-toast{
   position:fixed;top:70px;left:50%;
-  background:rgba(8,11,20,.97);border:1px solid var(--gold);border-radius:14px;
+  background:rgba(255,255,255,.92);border:1px solid var(--gold);border-radius:14px;
   padding:14px 30px;text-align:center;
   box-shadow:0 0 44px rgba(201,168,76,.25);z-index:202;pointer-events:none;
   animation:bonusPop 3.6s ease forwards;
@@ -574,7 +574,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 /* レベルアップトースト */
 #lv-toast{
   position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-14px);
-  background:rgba(14,18,32,.97);border:1px solid var(--gold);border-radius:14px;
+  background:rgba(255,255,255,.92);border:1px solid var(--gold);border-radius:14px;
   padding:14px 28px;text-align:center;box-shadow:0 0 36px rgba(201,168,76,.25);
   opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:200;
 }
@@ -638,7 +638,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   width:36px;height:36px;border-radius:8px;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
   display:flex;align-items:center;justify-content:center;
-  font-size:.82rem;font-weight:700;color:rgba(170,188,216,.4);
+  font-size:.82rem;font-weight:700;color:rgba(30,80,110,.7);
   cursor:pointer;transition:all .15s;user-select:none;
 }
 .qol-scale input[type=radio]:checked+label{
@@ -646,18 +646,18 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   color:var(--gold2);font-weight:900;
 }
 .qol-scale label:hover{border-color:rgba(201,168,76,.3);color:var(--silver);}
-.qol-note{font-size:.58rem;color:rgba(170,188,216,.3);display:flex;justify-content:space-between;margin-top:3px;}
+.qol-note{font-size:.58rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;margin-top:3px;}
 
 /* ===== 連動ステータス ===== */
 .linked-panel{background:rgba(20,25,41,.9);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:12px 14px;}
 .linked-head{font-size:.58rem;letter-spacing:.14em;color:rgba(201,168,76,.5);text-transform:uppercase;margin-bottom:10px;}
 .ls-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.ls-label{font-size:.62rem;color:rgba(170,188,216,.55);width:40px;flex-shrink:0;}
+.ls-label{font-size:.62rem;color:rgba(30,80,110,.7);width:40px;flex-shrink:0;}
 .ls-bar{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
 .ls-fill{height:100%;border-radius:99px;transition:width .5s ease;}
 .ls-fill-q{background:linear-gradient(90deg,#e05c5c,#e08c3c);}
 .ls-fill-n{background:linear-gradient(90deg,#4ec98a,#2a9060);}
-.ls-val{font-size:.6rem;color:rgba(170,188,216,.55);width:40px;text-align:right;flex-shrink:0;}
+.ls-val{font-size:.6rem;color:rgba(30,80,110,.7);width:40px;text-align:right;flex-shrink:0;}
 .ls-link{font-size:.6rem;color:rgba(156,114,224,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
 .ls-link:hover{color:rgba(156,114,224,.9);}
 
@@ -687,7 +687,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .coach-panel{
   width:400px;max-width:calc(100vw - 32px);
   height:600px;max-height:calc(100vh - 32px);
-  background:#080b14;
+  background:#c8e4f4;
   border:1px solid rgba(156,114,224,.4);border-radius:20px;
   overflow:hidden;display:flex;flex-direction:column;
   box-shadow:0 24px 64px rgba(0,0,0,.8);
@@ -701,9 +701,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(201,168,76,.4);}
 .coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(201,168,76,.95);}
 .coach-ph-sub{font-size:.6rem;color:rgba(156,114,224,.7);letter-spacing:.06em;}
-#coach-close{background:none;border:none;color:rgba(170,188,216,.4);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
-#coach-close:hover{color:rgba(170,188,216,.8);}
-.coach-iframe{flex:1;border:none;width:100%;background:#080b14;}
+#coach-close{background:none;border:none;color:rgba(30,80,110,.7);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
+#coach-close:hover{color:rgba(30,80,110,.7);}
+.coach-iframe{flex:1;border:none;width:100%;background:#c8e4f4;}
 </style>
 <script src="./app-safety.js"></script>
 <script src="./gamification.js"></script>
@@ -916,7 +916,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
    quest.html 追加 v10 ── 残存ライト色の一括上書き
    ============================================ */
 /* 暗背景前提の薄いシアン・白系テキスト → 濃紺に */
-[style*="color:#e8f0ff"],[style*="color:#e8e4d4"],[style*="color:#d4dcf0"],
+[style*="color:#e8f0ff"],[style*="color:#0a2a40"],[style*="color:#0a2a40"],
 [style*="color:#9ee0ee"],[style*="color:#7dd8e8"],[style*="color:#7ee8b0"],
 [style*="color:#a8e8c0"],[style*="color:#a0f0c0"],[style*="color:#b0e8ff"]{
   color: #0a3050 !important;
@@ -977,9 +977,9 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 /* ── ダーク前提の白テキストを暗くする ── */
 [style*="color:rgba(220,225,245"],
 [style*="color:rgba(170,188,216"],
-[style*="color:#d4dcf0"],
-[style*="color:#aabcd8"],
-[style*="color:#e8e4d4"],
+[style*="color:#0a2a40"],
+[style*="color:#3a6f8a"],
+[style*="color:#0a2a40"],
 [style*="color:#e8d4ff"],
 [style*="color:white"],
 [style*="color:#fff"]{
@@ -1069,8 +1069,8 @@ setTimeout(function(){
     </div>
     <div id="auth-error" style="display:none;margin-top:10px;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.25);border-radius:8px;padding:8px 12px;font-size:.73rem;color:#f08080;text-align:center;"></div>
     <div style="text-align:center;margin-top:8px;display:flex;gap:10px;justify-content:center;">
-      <button id="guest-btn" style="background:none;border:1px dashed rgba(201,168,76,0.35);color:rgba(170,188,216,0.55);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">デモ入場（ログイン不要）</button>
-      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(170,188,216,0.38);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">パスワードを忘れた方</button>
+      <button id="guest-btn" style="background:none;border:1px dashed rgba(201,168,76,0.35);color:rgba(30,80,110,.7);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">デモ入場（ログイン不要）</button>
+      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(30,80,110,.7);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">パスワードを忘れた方</button>
     </div>
     <div class="login-footer">
       <p>このサービスは研究目的です。<br>医療診断は行いません。</p>
@@ -1084,7 +1084,7 @@ setTimeout(function(){
 <div id="consent-modal" style="position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
   <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:32px 28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(201,168,76,.1),0 24px 60px rgba(0,0,0,.8);">
     <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:10px;">研究参加への同意</div>
-    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">ヴィタリア転生録<br><span style="font-size:.8rem;font-weight:400;color:rgba(170,188,216,.6);">研究参加同意書</span></h2>
+    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">ヴィタリア転生録<br><span style="font-size:.8rem;font-weight:400;color:rgba(30,80,110,.7);">研究参加同意書</span></h2>
     <div style="font-size:.78rem;line-height:1.85;color:rgba(200,215,235,.8);margin-bottom:20px;">
       <p style="margin-bottom:12px;">本アプリは、<strong style="color:var(--gold2);">小児がん経験者の健康行動継続</strong>を支援することを目的とした研究プロジェクトです。</p>
       <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
@@ -1114,7 +1114,7 @@ setTimeout(function(){
           <li>・ 中止の場合はデータ削除を申請できます</li>
         </ul>
       </div>
-      <p style="font-size:.72rem;color:rgba(170,188,216,.5);">研究責任者：福井郁子（連絡先は担当者にお問い合わせください）</p>
+      <p style="font-size:.72rem;color:rgba(30,80,110,.7);">研究責任者：福井郁子（連絡先は担当者にお問い合わせください）</p>
     </div>
     <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px;font-size:.8rem;color:rgba(200,215,235,.8);">
       <input type="checkbox" id="consent-check" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;">
@@ -1129,15 +1129,15 @@ setTimeout(function(){
   <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:32px 28px;max-width:460px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(201,168,76,.1),0 24px 60px rgba(0,0,0,.8);">
     <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:8px;">はじめに</div>
     <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;margin-bottom:6px;">冒険者プロフィール</h2>
-    <p style="text-align:center;font-size:.72rem;color:rgba(170,188,216,.5);margin-bottom:24px;">研究データとして使用します。後から変更できます。</p>
+    <p style="text-align:center;font-size:.72rem;color:rgba(30,80,110,.7);margin-bottom:24px;">研究データとして使用します。後から変更できます。</p>
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
       <div>
-        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">生年（西暦）</label>
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">生年（西暦）</label>
         <input type="number" id="pf-birth" placeholder="例: 2005" min="1970" max="2020" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
       </div>
       <div>
-        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">性別</label>
-        <select id="pf-sex" style="width:100%;background:rgba(14,18,32,.95);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">性別</label>
+        <select id="pf-sex" style="width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
           <option value="">選択してください</option>
           <option value="male">男性</option>
           <option value="female">女性</option>
@@ -1145,12 +1145,12 @@ setTimeout(function(){
         </select>
       </div>
       <div>
-        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">がんの診断（任意）</label>
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">がんの診断（任意）</label>
         <input type="text" id="pf-diagnosis" placeholder="例: 急性リンパ性白血病" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
       </div>
       <div>
-        <label style="font-size:.72rem;color:rgba(170,188,216,.6);display:block;margin-bottom:5px;">治療終了からの年数（任意）</label>
-        <select id="pf-years" style="width:100%;background:rgba(14,18,32,.95);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">治療終了からの年数（任意）</label>
+        <select id="pf-years" style="width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
           <option value="">選択してください</option>
           <option value="lt1">1年未満</option>
           <option value="1to3">1〜3年</option>
@@ -1161,7 +1161,7 @@ setTimeout(function(){
       </div>
     </div>
     <button id="profile-btn" style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;">冒険を始める ✦</button>
-    <button id="profile-skip" style="display:block;width:100%;margin-top:10px;background:none;border:none;font-size:.7rem;color:rgba(170,188,216,.35);cursor:pointer;font-family:inherit;">スキップ（後で入力する）</button>
+    <button id="profile-skip" style="display:block;width:100%;margin-top:10px;background:none;border:none;font-size:.7rem;color:rgba(30,80,110,.7);cursor:pointer;font-family:inherit;">スキップ（後で入力する）</button>
   </div>
 </div>
 
@@ -1206,8 +1206,8 @@ setTimeout(function(){
     </div>
     <div class="h-right">
       <span id="user-display"></span>
-      <a href="./account.html" style="font-size:.72rem;font-weight:700;color:rgba(170,188,216,.6);border:1px solid rgba(170,188,216,.22);border-radius:999px;padding:5px 12px;text-decoration:none;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)';" onmouseout="this.style.color='rgba(170,188,216,.6)';this.style.borderColor='rgba(170,188,216,.22)';">👤 マイページ</a>
-      <a href="./settings.html" style="font-size:.72rem;font-weight:700;color:rgba(170,188,216,.6);border:1px solid rgba(170,188,216,.22);border-radius:999px;padding:5px 12px;text-decoration:none;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)';" onmouseout="this.style.color='rgba(170,188,216,.6)';this.style.borderColor='rgba(170,188,216,.22)';">⚙ 設定</a>
+      <a href="./account.html" style="font-size:.72rem;font-weight:700;color:rgba(30,80,110,.7);border:1px solid rgba(170,188,216,.22);border-radius:999px;padding:5px 12px;text-decoration:none;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)';" onmouseout="this.style.color='rgba(170,188,216,.6)';this.style.borderColor='rgba(170,188,216,.22)';">👤 マイページ</a>
+      <a href="./settings.html" style="font-size:.72rem;font-weight:700;color:rgba(30,80,110,.7);border:1px solid rgba(170,188,216,.22);border-radius:999px;padding:5px 12px;text-decoration:none;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)';" onmouseout="this.style.color='rgba(170,188,216,.6)';this.style.borderColor='rgba(170,188,216,.22)';">⚙ 設定</a>
       <button id="logout-btn">退場</button>
     </div>
   </header>
@@ -1288,14 +1288,14 @@ setTimeout(function(){
       </div>
 
       <!-- METs 簡易計算 -->
-      <div style="background:rgba(14,18,32,.65);border:1px solid rgba(125,216,232,.22);border-radius:12px;padding:14px 14px 12px;margin-top:6px;">
+      <div style="background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.22);border-radius:12px;padding:14px 14px 12px;margin-top:6px;">
         <div style="font-size:.74rem;font-weight:700;color:#9ee0ee;letter-spacing:.04em;margin-bottom:8px;">🧮 METs から消費kcalを計算</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end;">
-          <label style="font-size:.6rem;color:rgba(170,188,216,.7);line-height:1.5;">体重(kg)
-            <input id="mc-w" type="number" inputmode="decimal" min="20" max="200" step="0.1" placeholder="例 55" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(14,18,32,.85);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#e8f0ff;font-size:.78rem;">
+          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">体重(kg)
+            <input id="mc-w" type="number" inputmode="decimal" min="20" max="200" step="0.1" placeholder="例 55" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#e8f0ff;font-size:.78rem;">
           </label>
-          <label style="font-size:.6rem;color:rgba(170,188,216,.7);line-height:1.5;">METs
-            <select id="mc-mets" style="width:100%;margin-top:3px;padding:7px 6px;background:rgba(14,18,32,.85);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#e8f0ff;font-size:.72rem;">
+          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">METs
+            <select id="mc-mets" style="width:100%;margin-top:3px;padding:7px 6px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#e8f0ff;font-size:.72rem;">
               <option value="1.3">1.3 ゆっくりTV</option>
               <option value="1.8">1.8 立ち話</option>
               <option value="2.5">2.5 デスクワーク</option>
@@ -1310,15 +1310,15 @@ setTimeout(function(){
               <option value="8.0">8.0 ランニング</option>
             </select>
           </label>
-          <label style="font-size:.6rem;color:rgba(170,188,216,.7);line-height:1.5;">時間(分)
-            <input id="mc-min" type="number" inputmode="numeric" min="1" max="600" step="5" value="30" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(14,18,32,.85);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#e8f0ff;font-size:.78rem;">
+          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">時間(分)
+            <input id="mc-min" type="number" inputmode="numeric" min="1" max="600" step="5" value="30" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#e8f0ff;font-size:.78rem;">
           </label>
         </div>
         <div id="mc-out" style="margin-top:10px;font-size:.82rem;color:#ffe28a;font-weight:700;text-align:center;letter-spacing:.04em;">体重を入れると消費kcalが出ます</div>
-        <div style="font-size:.55rem;color:rgba(170,188,216,.42);text-align:center;padding:10px 4px 0;line-height:1.7;">
+        <div style="font-size:.55rem;color:rgba(30,80,110,.7);text-align:center;padding:10px 4px 0;line-height:1.7;">
           消費kcal = METs × 体重(kg) × 時間(h) × 1.05<br>
           ※ 数値は目安。METs値は <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.7);">厚労省「身体活動のメッツ表」改訂版</a>（国立健康・栄養研究所）に準拠。<br>
-          参考: <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(170,188,216,.55);">ダノン健康栄養財団</a> / <a href="https://www.jhei.net/exer/setumei04.html" target="_blank" rel="noopener" style="color:rgba(170,188,216,.55);">JHEI</a> / <a href="https://wellnex.kyowahakko-bio-healthcare.jp/health-energy/calorie-consumption-mets" target="_blank" rel="noopener" style="color:rgba(170,188,216,.55);">WellNex</a>
+          参考: <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">ダノン健康栄養財団</a> / <a href="https://www.jhei.net/exer/setumei04.html" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">JHEI</a> / <a href="https://wellnex.kyowahakko-bio-healthcare.jp/health-energy/calorie-consumption-mets" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">WellNex</a>
         </div>
       </div>
       <script>
@@ -1338,7 +1338,7 @@ setTimeout(function(){
     <div class="quest-side">
 
       <!-- カイトのセリフ -->
-      <div style="background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;">
+      <div style="background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;">
         <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid rgba(201,168,76,.25);background:rgba(201,168,76,.06);">
           <img id="kaito-face" src="./image/kaito-sabun%20(1).png" alt="カイト" style="width:100%;height:100%;object-fit:cover;object-position:center 12%;">
         </div>
@@ -1388,11 +1388,11 @@ setTimeout(function(){
             <div id="boss-icon" style="font-size:2rem;line-height:1;">👾</div>
             <div>
               <div id="boss-name" style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);"></div>
-              <div id="boss-type" style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;"></div>
+              <div id="boss-type" style="font-size:.6rem;color:rgba(30,80,110,.7);margin-top:2px;"></div>
             </div>
           </div>
           <div style="margin-bottom:6px;">
-            <div style="display:flex;justify-content:space-between;font-size:.62rem;color:rgba(170,188,216,.5);margin-bottom:4px;">
+            <div style="display:flex;justify-content:space-between;font-size:.62rem;color:rgba(30,80,110,.7);margin-bottom:4px;">
               <span>👾 敵HP</span>
               <span><span id="boss-hp-now">150</span> / <span id="boss-hp-max">150</span></span>
             </div>
@@ -1523,7 +1523,7 @@ setTimeout(function(){
       <div style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:12px;padding:14px 16px;margin-top:10px;display:flex;flex-direction:column;gap:10px;">
         <div style="font-size:.68rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.08em;">📝 週の記録メモ</div>
         <div>
-          <div style="font-size:.64rem;color:rgba(170,188,216,.5);margin-bottom:6px;">主な運動時間帯</div>
+          <div style="font-size:.64rem;color:rgba(30,80,110,.7);margin-bottom:6px;">主な運動時間帯</div>
           <div style="display:flex;gap:8px;">
             <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="morning" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">🌅 朝</span></label>
             <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="afternoon" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">☀️ 昼</span></label>
@@ -1532,7 +1532,7 @@ setTimeout(function(){
           </div>
         </div>
         <div>
-          <div style="font-size:.64rem;color:rgba(170,188,216,.5);margin-bottom:6px;">今週の一言（任意・研究データとして活用）</div>
+          <div style="font-size:.64rem;color:rgba(30,80,110,.7);margin-bottom:6px;">今週の一言（任意・研究データとして活用）</div>
           <textarea id="week-memo" rows="3" placeholder="例：仕事が忙しかったけど朝10分ずつ継続できた" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
         </div>
       </div>
@@ -1541,7 +1541,7 @@ setTimeout(function(){
       <div id="step-counter-card" style="background:linear-gradient(135deg,rgba(78,201,138,.08),rgba(78,201,138,.03));border:1px solid rgba(78,201,138,.22);border-radius:12px;padding:14px 16px;margin-top:10px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
           <div style="font-size:.7rem;color:rgba(168,232,192,.85);font-weight:700;letter-spacing:.06em;">👟 リアルタイム歩数計</div>
-          <div id="step-status" style="font-size:.6rem;color:rgba(170,188,216,.55);">未計測</div>
+          <div id="step-status" style="font-size:.6rem;color:rgba(30,80,110,.7);">未計測</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#a8e8c0;line-height:1;flex:1;text-align:center;">
@@ -1550,7 +1550,7 @@ setTimeout(function(){
           <button id="step-toggle" style="background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);color:#a8e8c0;font-family:inherit;font-size:.78rem;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;">▶ スタート</button>
           <button id="step-import" style="display:none;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#f0d48a;font-family:inherit;font-size:.7rem;font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer;">分に変換</button>
         </div>
-        <div style="font-size:.58rem;color:rgba(170,188,216,.45);margin-top:6px;line-height:1.5;">スマホをポケットに入れて歩くと自動カウント。1000歩 ≈ 10分換算で運動セッションに追加できます。</div>
+        <div style="font-size:.58rem;color:rgba(30,80,110,.7);margin-top:6px;line-height:1.5;">スマホをポケットに入れて歩くと自動カウント。1000歩 ≈ 10分換算で運動セッションに追加できます。</div>
       </div>
 
       <!-- 保存 -->
@@ -2701,6 +2701,7 @@ onAuthStateChanged(auth,user=>{
 
 </body>
 </html>
+
 
 
 
