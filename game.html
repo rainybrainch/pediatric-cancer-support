@@ -5652,8 +5652,10 @@ function renderAchv(ach){
   }).join('');
 }
 
-// ===== AI Coach (Netlify Functions プロキシ経由 RPG チャット) =====
-const COACH_PROXY_URL='/api/claude-chat';
+// ===== AI Coach (Gemini API 直結) =====
+const GEMINI_MODEL='gemini-2.0-flash';
+const GEMINI_ENDPOINT=`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+function getGeminiKey(){ return localStorage.getItem('vt_gemini_api_key')||''; }
 const COACH_HIST_KEY=()=>`vc_hist_${uid||'guest'}`;
 const COACH_STEP_KEY=()=>`vc_step_${uid||'guest'}`;
 
@@ -5897,24 +5899,64 @@ function buildCoachContext(){
   return ctx;
 }
 
+function buildSystemPrompt(ctx){
+  const ctxLines=[];
+  if(ctx.weekNum) ctxLines.push(`参加${ctx.weekNum}週目`);
+  if(ctx.cls) ctxLines.push(`クラス:${ctx.cls}`);
+  if(ctx.streak) ctxLines.push(`ログイン連続${ctx.streak}日`);
+  if(ctx.recentExMin) ctxLines.push(`直近7日の運動${ctx.recentExMin}分`);
+  if(ctx.recentVeg) ctxLines.push(`野菜${ctx.recentVeg}回`);
+  if(ctx.qolAvg!=null) ctxLines.push(`QOL平均${ctx.qolAvg.toFixed(1)}/5`);
+  if(ctx.weekGoal) ctxLines.push(`今週の目標:${ctx.weekGoal}`);
+  if(ctx.hope) ctxLines.push(`希望:${ctx.hope}`);
+  return `あなたはルナ。小児がん経験者（AYA世代）向け健康行動支援ゲーム「ヴィタリア転生録」のAIコーチ。
+GROWモデル（G=Goal/R=Reality/O=Options/W=Will）で会話を進める。
+現ステップ:[STEP:${_coachState.step}]タグを返答末尾に必ず含める。
+目標が決まったら[GOAL:目標文]タグも含める。
+${ctxLines.length?`【ユーザー状況】${ctxLines.join('、')}`:''  }
+【制約】診断・治療助言禁止。1返答150字以内。温かく励ます口調。`;
+}
+
 async function callCoachProxy(userText){
-  const res=await fetch(COACH_PROXY_URL,{
+  const apiKey=getGeminiKey();
+  if(!apiKey) throw new Error('Gemini APIキーが設定されていません。管理者ページで設定してください。');
+
+  const ctx=buildCoachContext();
+  const systemPrompt=buildSystemPrompt(ctx);
+
+  // 直近20ターンのみ送信（トークン節約）
+  const recentHist=_coachState.history.slice(-20);
+
+  // Gemini contents 形式に変換
+  const contents=recentHist.map(m=>({
+    role: m.role==='user'?'user':'model',
+    parts:[{text:m.text}]
+  }));
+  // 最後にユーザーの今回発言を追加
+  contents.push({role:'user',parts:[{text:userText}]});
+
+  const body={
+    system_instruction:{parts:[{text:systemPrompt}]},
+    contents,
+    generationConfig:{
+      temperature:0.75,
+      maxOutputTokens:350,
+      topP:0.9
+    }
+  };
+
+  const res=await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      history:_coachState.history,
-      userText,
-      context: buildCoachContext()
-    })
+    body:JSON.stringify(body)
   });
   if(!res.ok){
     const err=await res.json().catch(()=>({}));
-    const msg=err.error||`HTTP ${res.status}`;
-    const detail=err.detail?` (${String(err.detail).slice(0,200)})`:'';
-    throw new Error(msg+detail);
+    const msg=err.error?.message||`HTTP ${res.status}`;
+    throw new Error(msg);
   }
   const data=await res.json();
-  return data.text||'';
+  return data.candidates?.[0]?.content?.parts?.[0]?.text||'';
 }
 
 function parseStepTag(text){
@@ -6036,7 +6078,11 @@ async function sendCoachMessage(){
     if(typeof updateUI==='function') updateUI();
   }catch(err){
     removeTyping();
-    appendBubble('luna',`（呼び出しに失敗しました：${err.message}）\n\n少し時間をおいて、もう一度お試しください。継続する場合は研究事務局までご連絡を。`);
+    const isKeyErr=err.message.includes('APIキー');
+    const errMsg=isKeyErr
+      ? `Gemini APIキーが設定されていません。\n管理者ページ（admin.html）でAPIキーを設定してください。`
+      : `（応答に失敗しました：${err.message}）\n\n少し時間をおいてから再度お試しください。`;
+    appendBubble('luna', errMsg);
   }finally{
     _coachState.busy=false;
     document.getElementById('coach-send').disabled=false;

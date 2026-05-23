@@ -240,6 +240,20 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       </div>
     </div>
 
+    <!-- Gemini API キー設定 -->
+    <div style="background:linear-gradient(135deg,rgba(74,176,212,.08),rgba(30,127,164,.04));border:1px solid rgba(74,176,212,.3);border-radius:14px;padding:16px 18px;margin-bottom:18px;">
+      <div style="font-family:'Noto Serif JP',serif;font-size:1rem;color:#4ab0d4;margin-bottom:10px;">🤖 Gemini API 設定（AIコーチ）</div>
+      <div style="font-size:.7rem;color:rgba(170,188,216,.6);margin-bottom:12px;line-height:1.7;">
+        Google AI Studio で取得した API キーを設定します。このデバイスの localStorage にのみ保存されます。
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input type="password" id="gemini-key-input" placeholder="AIza..." style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(74,176,212,.3);color:#e8e4d4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:.82rem;outline:none;">
+        <button id="gemini-key-save" style="background:linear-gradient(135deg,#1e7fa4,#4ab0d4);border:none;color:#fff;font-family:'Noto Serif JP',serif;font-size:.8rem;font-weight:700;padding:9px 18px;border-radius:8px;cursor:pointer;white-space:nowrap;">保存</button>
+        <button id="gemini-key-clear" style="background:rgba(180,60,60,.15);border:1px solid rgba(180,60,60,.3);color:#f0a0a0;font-family:inherit;font-size:.78rem;padding:9px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;">削除</button>
+      </div>
+      <div id="gemini-key-status" style="font-size:.7rem;margin-top:8px;color:rgba(170,188,216,.6);"></div>
+    </div>
+
     <!-- PPI（経験者参加デザイン）記録 -->
     <div id="ppi-section" style="background:linear-gradient(135deg,rgba(240,160,200,.06),rgba(156,114,224,.04));border:1px solid rgba(240,160,200,.25);border-radius:14px;padding:16px 18px;margin-bottom:18px;">
       <div style="font-family:'Noto Serif JP',serif;font-size:1rem;color:#f0a0c8;margin-bottom:10px;">👥 PPI（Patient and Public Involvement）記録</div>
@@ -517,6 +531,30 @@ document.getElementById('login-btn').addEventListener('click',()=>{
   }
 });
 document.getElementById('admin-password').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('login-btn').click(); });
+
+// ===== Gemini API キー管理 =====
+(function(){
+  const GEMINI_KEY='vt_gemini_api_key';
+  const inp=document.getElementById('gemini-key-input');
+  const status=document.getElementById('gemini-key-status');
+  const current=localStorage.getItem(GEMINI_KEY)||'';
+  if(current) status.textContent=`✓ 設定済み（先頭: ${current.slice(0,8)}…）`;
+  else status.textContent='未設定';
+
+  document.getElementById('gemini-key-save').addEventListener('click',()=>{
+    const v=(inp.value||'').trim();
+    if(!v){ status.textContent='⚠ キーを入力してください'; return; }
+    localStorage.setItem(GEMINI_KEY,v);
+    inp.value='';
+    status.textContent=`✓ 保存しました（先頭: ${v.slice(0,8)}…）`;
+    status.style.color='#a8e8c0';
+  });
+  document.getElementById('gemini-key-clear').addEventListener('click',()=>{
+    localStorage.removeItem(GEMINI_KEY);
+    status.textContent='削除しました';
+    status.style.color='#f0a0a0';
+  });
+})();
 
 // ログアウト
 document.getElementById('logout-btn').addEventListener('click',()=>{ sessionStorage.removeItem(SESSION_KEY); showLogin(); });
