@@ -5331,10 +5331,17 @@ function buildCoachContext(){
       const wkGoal = JSON.parse(localStorage.getItem(`vc_goal_${uid}_${weekKey()}`)||'null');
       if(wkGoal && wkGoal.text) ctx.weekGoal = String(wkGoal.text).slice(0,100);
     }catch(e){}
-    // hope
+    // hope・stage・臨床背景（ベースラインから取得）
     try{
       const bl = JSON.parse(localStorage.getItem(`vt_baseline_${uid}`)||'null');
       if(bl?.step6?.hope) ctx.hope = bl.step6.hope;
+      // 行動変容ステージ
+      if(bl?.step1?.stage) ctx.stage = bl.step1.stage;
+      // 臨床背景（安全性判断のため渡す）
+      if(bl?.step1?.chemoClass?.length) ctx.chemoClass = bl.step1.chemoClass;
+      if(bl?.step1?.tx?.length)         ctx.tx = bl.step1.tx;
+      if(bl?.step1?.meds?.length)       ctx.meds = bl.step1.meds;
+      if(bl?.step1?.hist?.length)       ctx.hist = bl.step1.hist;
     }catch(e){}
   }catch(e){}
   return ctx;
