@@ -182,6 +182,7 @@ async function notifyClientsToFlush(){
 
 // ========== Push 通知 ==========
 self.addEventListener('push', (event) => {
+  return;
   let payload = { title: 'ヴィタリア転生録', body: 'お知らせがあります', icon: './icon.svg' };
   try { if(event.data) payload = { ...payload, ...event.data.json() }; } catch(e){}
   event.waitUntil(

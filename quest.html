@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>健康クエスト ｜ ヴィタリア転生録</title>
+<title>蛛･蠎ｷ繧ｯ繧ｨ繧ｹ繝・・・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<meta name="apple-mobile-web-app-title" content="繝ｴ繧｣繧ｿ繝ｪ繧｢">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -36,7 +36,7 @@ body::before{
     radial-gradient(1px 1px at 4%  78%,rgba(255,255,255,.6) 0%,transparent 100%);
 }
 
-/* ===== アニメーション ===== */
+/* ===== 繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ ===== */
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
@@ -44,7 +44,7 @@ body::before{
 @keyframes levelup{0%{transform:scale(1);}40%{transform:scale(1.2);}70%{transform:scale(.97);}100%{transform:scale(1);}}
 @keyframes modalIn{from{opacity:0;transform:translateY(30px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
 
-/* ===== 知識カードモーダル ===== */
+/* ===== 遏･隴倥き繝ｼ繝峨Δ繝ｼ繝繝ｫ ===== */
 #knowledge-modal{
   position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:200;
   display:none;align-items:center;justify-content:center;padding:20px;
@@ -67,7 +67,7 @@ body::before{
   margin:0 auto 14px;
 }
 .km-char-face img{width:100%;height:100%;object-fit:cover;object-position:center 12%;}
-/* パーティクル */
+/* 繝代・繝・ぅ繧ｯ繝ｫ */
 .lv-particle{
   position:fixed;top:50%;left:50%;
   width:7px;height:7px;border-radius:50%;
@@ -78,7 +78,7 @@ body::before{
   from{transform:translate(-50%,-50%) scale(1);opacity:1;}
   to{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(0);opacity:0;}
 }
-/* 実績スライドイン */
+/* 螳溽ｸｾ繧ｹ繝ｩ繧､繝峨う繝ｳ */
 #ach-notify{
   position:fixed;top:72px;right:-320px;z-index:300;
   background:linear-gradient(135deg,#0e1428,#131c38);
@@ -94,7 +94,7 @@ body::before{
 .an-label{font-size:.58rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.12em;text-transform:uppercase;}
 .an-name{font-size:.85rem;font-weight:700;color:var(--gold2);font-family:'Noto Serif JP',serif;margin-top:2px;}
 .an-cond{font-size:.62rem;color:rgba(30,80,110,.7);margin-top:2px;}
-/* 保存トースト */
+/* 菫晏ｭ倥ヨ繝ｼ繧ｹ繝・*/
 #save-toast{
   position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
   background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.4);border-radius:12px;
@@ -104,7 +104,7 @@ body::before{
 #save-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #save-toast .st-icon{font-size:1rem;margin-right:6px;}
 #save-toast .st-text{font-size:.8rem;color:var(--green);font-weight:700;}
-/* 目標達成バナー */
+/* 逶ｮ讓咎＃謌舌ヰ繝翫・ */
 #goal-banner{
   position:fixed;top:0;left:0;right:0;z-index:350;
   background:linear-gradient(90deg,rgba(201,168,76,.9),rgba(240,212,138,.95),rgba(201,168,76,.9));
@@ -166,7 +166,7 @@ body::before{
   background-clip:text;animation:shimmer 4s linear infinite;
 }
 
-/* ===== ローディング ===== */
+/* ===== 繝ｭ繝ｼ繝・ぅ繝ｳ繧ｰ ===== */
 .hidden{display:none!important;}
 #loading-screen{
   position:fixed;inset:0;background:var(--bg);z-index:500;
@@ -207,7 +207,7 @@ body::before{
 .ls-dot:nth-child(3){animation-delay:.4s;}
 @keyframes ls-fade{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
 
-/* ===== ログイン画面 ===== */
+/* ===== 繝ｭ繧ｰ繧､繝ｳ逕ｻ髱｢ ===== */
 #login-screen{
   position:relative;z-index:1;min-height:100vh;
   display:flex;align-items:center;justify-content:center;padding:40px 16px;
@@ -228,7 +228,7 @@ body::before{
   padding:10px 14px;font-size:.8rem;color:#f0c890;line-height:1.65;margin-bottom:20px;position:relative;
 }
 .kaito-bubble::before{
-  content:'カイト';position:absolute;top:-9px;left:12px;
+  content:'繧ｫ繧､繝・;position:absolute;top:-9px;left:12px;
   background:var(--bg2);padding:0 6px;font-size:.66rem;color:var(--orange);font-weight:700;
 }
 .form-group{margin-bottom:14px;}
@@ -262,10 +262,10 @@ body::before{
 .login-footer a{color:var(--gold);font-size:.75rem;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;}
 .login-footer a:hover{text-decoration:underline;}
 
-/* ===== メイン画面 ===== */
+/* ===== 繝｡繧､繝ｳ逕ｻ髱｢ ===== */
 #main-screen{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
 
-/* ヘッダー */
+/* 繝倥ャ繝繝ｼ */
 .main-header{
   background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(201,168,76,.18);
@@ -289,12 +289,12 @@ body::before{
 }
 #logout-btn:hover{color:var(--red);border-color:var(--red);}
 
-/* コンテンツ */
+/* 繧ｳ繝ｳ繝・Φ繝・*/
 .main-content{
   display:grid;grid-template-columns:1fr 320px;
   gap:18px;padding:18px 20px 80px;max-width:1200px;margin:0 auto;width:100%;
 }
-/* ========== ボトムナビ ========== */
+/* ========== 繝懊ヨ繝繝翫ン ========== */
 .bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
 .bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
 .bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
@@ -304,7 +304,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 
-/* ===== クエストヒーローバナー ===== */
+/* ===== 繧ｯ繧ｨ繧ｹ繝医ヲ繝ｼ繝ｭ繝ｼ繝舌リ繝ｼ ===== */
 .quest-hero{
   background:linear-gradient(145deg,rgba(20,8,8,.98),rgba(28,14,14,.92));
   border:1px solid rgba(224,92,92,.25);
@@ -343,7 +343,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .qh-stat-lbl{font-size:.48rem;color:rgba(30,80,110,.7);margin-top:2px;letter-spacing:.04em;}
 .qh-stat-div{height:1px;width:28px;background:rgba(224,92,92,.12);}
 
-/* ===== 左：クエストボード ===== */
+/* ===== 蟾ｦ・壹け繧ｨ繧ｹ繝医・繝ｼ繝・===== */
 .quest-board{display:flex;flex-direction:column;gap:0;}
 .board-section{
   background:rgba(12,16,28,.7);
@@ -427,10 +427,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .ex-card.counted .ex-dec{display:flex;}
 
-/* ===== 右：ステータス ===== */
+/* ===== 蜿ｳ・壹せ繝・・繧ｿ繧ｹ ===== */
 .quest-side{display:flex;flex-direction:column;gap:14px;}
 
-/* パネル共通 */
+/* 繝代ロ繝ｫ蜈ｱ騾・*/
 .side-panel{
   background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);
   border-radius:14px;padding:16px;
@@ -440,10 +440,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   color:var(--gold2);margin-bottom:12px;display:flex;align-items:center;gap:6px;
 }
 
-/* 週表示 */
+/* 騾ｱ陦ｨ遉ｺ */
 .week-label{font-size:.68rem;color:rgba(201,168,76,.65);letter-spacing:.1em;font-weight:700;margin-bottom:8px;}
 
-/* レベル */
+/* 繝ｬ繝吶Ν */
 .level-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .lv-badge{
   display:inline-flex;align-items:center;gap:4px;
@@ -458,7 +458,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .xp-note{font-size:.65rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;}
 .xp-note strong{color:var(--gold);}
 
-/* 研究指標 */
+/* 遐皮ｩｶ謖・ｨ・*/
 .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
 .metric-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px 10px;}
 .metric-card label{display:block;font-size:.62rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.06em;margin-bottom:4px;}
@@ -471,7 +471,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .metric-card .bmi-ok{color:var(--green);}
 .metric-card .bmi-ng{color:var(--orange);}
 
-/* 運動量集計 */
+/* 驕句虚驥城寔險・*/
 .score-block{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
 .score-row{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;margin-bottom:4px;}
 .score-row:last-child{margin-bottom:0;}
@@ -491,10 +491,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   border:1px solid rgba(78,201,138,.3);border-radius:8px;margin-top:6px;display:none;
 }
 
-/* ログリスト */
+/* 繝ｭ繧ｰ繝ｪ繧ｹ繝・*/
 #log-list{list-style:none;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;}
 #log-list:empty::after{
-  content:'クエストカードをタップして記録しよう';display:block;
+  content:'繧ｯ繧ｨ繧ｹ繝医き繝ｼ繝峨ｒ繧ｿ繝・・縺励※險倬鹸縺励ｈ縺・;display:block;
   font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:14px 0;
 }
 .log-item{
@@ -512,7 +512,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .li-del:hover{color:var(--red);}
 
-/* 保存 */
+/* 菫晏ｭ・*/
 .save-area{display:flex;flex-direction:column;gap:6px;}
 .btn-save{
   width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));
@@ -525,7 +525,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .btn-save:hover{background-position:right center;transform:translateY(-2px);box-shadow:0 7px 24px rgba(201,168,76,.35);}
 .save-msg{font-size:.68rem;color:rgba(30,80,110,.7);text-align:center;}
 
-/* 過去の記録 */
+/* 驕主悉縺ｮ險倬鹸 */
 .history-list{display:flex;flex-direction:column;gap:7px;}
 .hist-item{
   background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
@@ -538,7 +538,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .hist-score{font-size:.7rem;font-weight:700;color:var(--gold);flex-shrink:0;}
 .hist-empty{font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:8px 0;}
 
-/* ===== ストリーク ===== */
+/* ===== 繧ｹ繝医Μ繝ｼ繧ｯ ===== */
 .streak-row{display:flex;align-items:center;gap:12px;}
 .streak-fire{font-size:1.8rem;flex-shrink:0;line-height:1;}
 .streak-info{flex:1;}
@@ -547,7 +547,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .streak-sub{font-size:.6rem;color:rgba(30,80,110,.7);margin-top:3px;}
 .streak-best{font-size:.58rem;color:rgba(201,168,76,.45);text-align:right;flex-shrink:0;line-height:1.5;}
 
-/* ===== 実績バッジ ===== */
+/* ===== 螳溽ｸｾ繝舌ャ繧ｸ ===== */
 .ach-grid{display:flex;flex-wrap:wrap;gap:5px;}
 .ach-badge{
   display:flex;align-items:center;gap:6px;
@@ -561,7 +561,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ach-name{font-weight:700;font-size:.64rem;}
 .ach-cond{font-size:.58rem;opacity:.7;}
 
-/* ===== ボーナストースト ===== */
+/* ===== 繝懊・繝翫せ繝医・繧ｹ繝・===== */
 @keyframes bonusPop{0%{opacity:0;transform:translateX(-50%) translateY(-14px);}12%{opacity:1;transform:translateX(-50%) translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-8px);}}
 .bonus-toast{
   position:fixed;top:70px;left:50%;
@@ -573,7 +573,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bt-head{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:var(--gold2);margin-bottom:3px;}
 .bt-body{font-size:.72rem;color:var(--silver);}
 
-/* レベルアップトースト */
+/* 繝ｬ繝吶Ν繧｢繝・・繝医・繧ｹ繝・*/
 #lv-toast{
   position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-14px);
   background:rgba(255,255,255,.92);border:1px solid var(--gold);border-radius:14px;
@@ -584,7 +584,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #lv-toast .lt-head{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);margin-bottom:3px;}
 #lv-toast .lt-body{font-size:.75rem;color:var(--silver);}
 
-/* ===== レスポンシブ ===== */
+/* ===== 繝ｬ繧ｹ繝昴Φ繧ｷ繝・===== */
 @media(max-width:900px){
   .main-content{grid-template-columns:1fr 280px;}
 }
@@ -629,7 +629,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   .main-header{padding:7px 12px;}
 }
 
-/* ===== QOL入力 ===== */
+/* ===== QOL蜈･蜉・===== */
 .qol-section{margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,.12);}
 .qol-head{font-size:.62rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
 .qol-item{margin-bottom:10px;}
@@ -650,7 +650,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .qol-scale label:hover{border-color:rgba(201,168,76,.3);color:var(--silver);}
 .qol-note{font-size:.58rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;margin-top:3px;}
 
-/* ===== 連動ステータス ===== */
+/* ===== 騾｣蜍輔せ繝・・繧ｿ繧ｹ ===== */
 .linked-panel{background:rgba(20,25,41,.9);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:12px 14px;}
 .linked-head{font-size:.58rem;letter-spacing:.14em;color:rgba(201,168,76,.5);text-transform:uppercase;margin-bottom:10px;}
 .ls-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
@@ -679,7 +679,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #coach-fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(60,20,120,.65);}
 #coach-fab img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:center 14%;flex-shrink:0;}
 
-/* ===== AI Coach モーダル ===== */
+/* ===== AI Coach 繝｢繝ｼ繝繝ｫ ===== */
 #coach-modal{
   position:fixed;inset:0;background:rgba(4,6,12,.7);z-index:200;
   display:none;align-items:flex-end;justify-content:flex-end;
@@ -720,9 +720,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
 body::before{opacity:0 !important;}
 /* ============================================
-   水色スキン v1 ── 2026-05-11
-   創造主指示「ゲームのデザインを水色に。文字見やすく」
-   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   豌ｴ濶ｲ繧ｹ繧ｭ繝ｳ v1 笏笏 2026-05-11
+   蜑ｵ騾荳ｻ謖・､ｺ縲後ご繝ｼ繝縺ｮ繝・じ繧､繝ｳ繧呈ｰｴ濶ｲ縺ｫ縲よ枚蟄苓ｦ九ｄ縺吶￥縲・
+   譌｢蟄倥・ dark-fantasy CSS 繧剃ｸ頑嶌縺阪☆繧区怙蠕悟ｰｾ繝ｬ繧､繝､繝ｼ
    ============================================ */
 :root{
   --bg:    #e8f4fb;
@@ -761,7 +761,7 @@ body::before{
   border-color: rgba(30,127,164,.4) !important;
   box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
 }
-/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+/* 繧､繝ｳ繝ｩ繧､繝ｳ style 縺ｮ證苓レ譎ｯ蜑肴署逋ｽ繧ｪ繝ｼ繝舌・繝ｬ繧､ 竊・證怜・蜊企乗・縺ｫ蜿崎ｻ｢ */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.06)"],
 [style*="rgba(255,255,255,.07)"],
@@ -780,18 +780,18 @@ input[type="password"], input[type="tel"], input[type="search"], select, textare
 ::placeholder{ color: rgba(20,60,80,.45) !important; }
 a{ color: #1e7fa4; }
 a:hover{ color: #4ab0d4; }
-/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+/* 隕句・縺励・蜿ｯ隱ｭ諤ｧ・夐乗・譁・ｭ励ヵ繧ｩ繝ｼ繝ｫ繝舌ャ繧ｯ・・radient 螟ｱ謨玲凾縺ｫ鮟偵￥蜃ｺ繧句ｯｾ遲厄ｼ・*/
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
 
 /* ============================================
-   quest.html v8 強コントラスト白カード（2026-05-13）
+   quest.html v8 蠑ｷ繧ｳ繝ｳ繝医Λ繧ｹ繝育區繧ｫ繝ｼ繝会ｼ・026-05-13・・
    ============================================ */
 body, html{ background: #c8e4f4 !important; color: #0a2a40 !important; }
 body *{ text-shadow: none !important; }
 
-/* セクション・パネル系 */
+/* 繧ｻ繧ｯ繧ｷ繝ｧ繝ｳ繝ｻ繝代ロ繝ｫ邉ｻ */
 .board-section, .side-panel, .linked-panel, .quest-card, .info-card,
 [style*="background:rgba(14,18,32"], [style*="background:rgba(10,14,24"]{
   background: #ffffff !important;
@@ -802,7 +802,7 @@ body *{ text-shadow: none !important; }
   color: #0a2a40 !important;
 }
 
-/* 個別クエストアイテム（散歩・買い物・ヨガ等）の暗背景タイル */
+/* 蛟句挨繧ｯ繧ｨ繧ｹ繝医い繧､繝・Β・域淵豁ｩ繝ｻ雋ｷ縺・黄繝ｻ繝ｨ繧ｬ遲会ｼ峨・證苓レ譎ｯ繧ｿ繧､繝ｫ */
 .daily-quest-card, .quest-item, .mod-quest-card, .high-quest-card,
 [class*="qe-item"], [class*="quest-tile"]{
   background: #ffffff !important;
@@ -813,7 +813,7 @@ body *{ text-shadow: none !important; }
   color: #0a2a40 !important;
 }
 
-/* 見出し */
+/* 隕句・縺・*/
 .section-label, .section-head, .panel-head, .linked-head, .section-title{
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
@@ -831,7 +831,7 @@ body *{ text-shadow: none !important; }
   font-weight: 600 !important;
 }
 
-/* 透けた色付き文字を濃く */
+/* 騾上￠縺溯牡莉倥″譁・ｭ励ｒ豼・￥ */
 [style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
 [style*="color:rgba(212,220,240"], [style*="color:rgba(170,190,240"],
 [style*="color:rgba(200,180,255"], [style*="color:rgba(200,188,240"],
@@ -851,7 +851,7 @@ body *{ text-shadow: none !important; }
   color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; font-weight: 800 !important;
 }
 
-/* 下部ナビ＆floating ボタンの白カード水色化（既存はダーク） */
+/* 荳矩Κ繝翫ン・・loating 繝懊ち繝ｳ縺ｮ逋ｽ繧ｫ繝ｼ繝画ｰｴ濶ｲ蛹厄ｼ域里蟄倥・繝繝ｼ繧ｯ・・*/
 .bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
 .bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
 .bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
@@ -862,7 +862,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 
-/* 暗背景の戦闘パネル（vs 迷いの霧）等を白カードに */
+/* 證苓レ譎ｯ縺ｮ謌ｦ髣倥ヱ繝阪Ν・・s 霑ｷ縺・・髴ｧ・臥ｭ峨ｒ逋ｽ繧ｫ繝ｼ繝峨↓ */
 [style*="background:linear-gradient(135deg,rgba(14"],
 [style*="background:linear-gradient(135deg,rgba(8,11"]{
   background: #ffffff !important;
@@ -871,7 +871,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 }
 
 /* ============================================
-   quest.html 追加 v9 ── consent-modal 水彩化
+   quest.html 霑ｽ蜉 v9 笏笏 consent-modal 豌ｴ蠖ｩ蛹・
    ============================================ */
 #consent-modal{
   background: rgba(10,42,64,.75) !important;
@@ -915,54 +915,54 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 }
 
 /* ============================================
-   quest.html 追加 v10 ── 残存ライト色の一括上書き
+   quest.html 霑ｽ蜉 v10 笏笏 谿句ｭ倥Λ繧､繝郁牡縺ｮ荳諡ｬ荳頑嶌縺・
    ============================================ */
-/* 暗背景前提の薄いシアン・白系テキスト → 濃紺に */
+/* 證苓レ譎ｯ蜑肴署縺ｮ阮・＞繧ｷ繧｢繝ｳ繝ｻ逋ｽ邉ｻ繝・く繧ｹ繝・竊・豼・ｴｺ縺ｫ */
 [style*="color:#e8f0ff"],[style*="color:#0a2a40"],[style*="color:#0a2a40"],
 [style*="color:#9ee0ee"],[style*="color:#7dd8e8"],[style*="color:#7ee8b0"],
 [style*="color:#a8e8c0"],[style*="color:#a0f0c0"],[style*="color:#b0e8ff"],[style*="color:#c0a0f0"]{
   color: #0a3050 !important;
   -webkit-text-fill-color: #0a3050 !important;
 }
-/* シアン系ボーダー → 水色ボーダーに */
+/* 繧ｷ繧｢繝ｳ邉ｻ繝懊・繝繝ｼ 竊・豌ｴ濶ｲ繝懊・繝繝ｼ縺ｫ */
 [style*="border:1px solid rgba(125,216,232"],
 [style*="border:1px solid rgba(78,201,138"],
 [style*="border:1.5px solid rgba(78,201,138"]{
   border-color: #b0cfdf !important;
 }
-/* 暗背景のままのdivを白に */
+/* 證苓レ譎ｯ縺ｮ縺ｾ縺ｾ縺ｮdiv繧堤區縺ｫ */
 [style*="background:rgba(14,18,32"],
 [style*="background:rgba(10,14,24"],
 [style*="background:rgba(8,11,20"]{
   background: #ffffff !important;
   color: #0a2a40 !important;
 }
-/* METs計算機 */
+/* METs險育ｮ玲ｩ・*/
 #mc-out{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
-/* 全ヘッダー・パネルヘッド */
+/* 蜈ｨ繝倥ャ繝繝ｼ繝ｻ繝代ロ繝ｫ繝倥ャ繝・*/
 .main-header{ background: rgba(200,228,244,.97) !important; border-bottom: 1px solid #b0cfdf !important; }
 .main-header a, .main-header span{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
 #logout-btn{ background: none !important; border-color: #b0cfdf !important; color: #1e7fa4 !important; }
-/* クエストヒーローバナー */
+/* 繧ｯ繧ｨ繧ｹ繝医ヲ繝ｼ繝ｭ繝ｼ繝舌リ繝ｼ */
 .quest-hero{ background: linear-gradient(135deg,#e0f4fc,#c8e4f4) !important; border: 1.5px solid #b0cfdf !important; }
 .qh-role,.qh-week-lbl,.qh-stat-lbl{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
 .qh-name{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
 .qh-stat-num{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-/* ログアイテム */
+/* 繝ｭ繧ｰ繧｢繧､繝・Β */
 .log-item{ background: #f0f8fc !important; border-color: #b0cfdf !important; color: #0a2a40 !important; }
-/* 保存ボタン */
+/* 菫晏ｭ倥・繧ｿ繝ｳ */
 .btn-save{ background: linear-gradient(135deg,#1e7fa4,#4ab0d4) !important; color: #fff !important; }
 /* daily-note */
 .daily-note{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; background: rgba(30,127,164,.06) !important; border-color: #b0cfdf !important; }
-/* ex-card（種目カード） */
+/* ex-card・育ｨｮ逶ｮ繧ｫ繝ｼ繝会ｼ・*/
 .ex-card{ background: #ffffff !important; border-color: #b0cfdf !important; }
 .ex-card .e-name{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
 .ex-card .e-min{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 .ex-card.counted{ background: rgba(30,127,164,.08) !important; border-color: #1e7fa4 !important; }
-/* サイドパネル */
+/* 繧ｵ繧､繝峨ヱ繝阪Ν */
 .side-panel, .linked-panel{ background: #ffffff !important; border-color: #b0cfdf !important; }
 
-/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ蜊企乗・閭梧勹繧堤區繝吶・繧ｹ縺ｫ蜿崎ｻ｢ 笏笏 */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.05)"],
 [style*="rgba(255,255,255,.06)"],
@@ -976,7 +976,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   border-color: rgba(30,127,164,.25) !important;
   color: #0a2a40 !important;
 }
-/* ── ダーク前提の白テキストを暗くする ── */
+/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ逋ｽ繝・く繧ｹ繝医ｒ證励￥縺吶ｋ 笏笏 */
 [style*="color:rgba(220,225,245"],
 [style*="color:rgba(170,188,216"],
 [style*="color:#0a2a40"],
@@ -988,7 +988,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   color: #0a2a40 !important;
   -webkit-text-fill-color: #0a2a40 !important;
 }
-/* ── カード・パネル系クラス共通 ── */
+/* 笏笏 繧ｫ繝ｼ繝峨・繝代ロ繝ｫ邉ｻ繧ｯ繝ｩ繧ｹ蜈ｱ騾・笏笏 */
 .card, .panel, .section, .q-card, .stat-card,
 .info-card, .intro-card, .section-card, .week-card,
 .mission-card, .achievement-card, .skill, .entry,
@@ -997,7 +997,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   border-color: rgba(30,127,164,.22) !important;
   color: #0a2a40 !important;
 }
-/* ── ヘッダー・ナビ ── */
+/* 笏笏 繝倥ャ繝繝ｼ繝ｻ繝翫ン 笏笏 */
 header, nav:not(.bottom-nav){
   background: rgba(200,228,244,.97) !important;
   border-bottom-color: #b0cfdf !important;
@@ -1006,11 +1006,11 @@ header a, nav a:not(.bn-tab){
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
 }
-/* ── テキスト可読性の底上げ ── */
+/* 笏笏 繝・く繧ｹ繝亥庄隱ｭ諤ｧ縺ｮ蠎穂ｸ翫￡ 笏笏 */
 p, span, div, label, li, td, th, h1, h2, h3, h4{
   color: inherit;
 }
-/* ── ログイン画面 追加修正 ── */
+/* 笏笏 繝ｭ繧ｰ繧､繝ｳ逕ｻ髱｢ 霑ｽ蜉菫ｮ豁｣ 笏笏 */
 .kaito-bubble{ color: #8a5c00 !important; background: rgba(138,92,0,.06) !important; border-color: rgba(138,92,0,.25) !important; }
 .kaito-bubble::before{ color: #a06020 !important; background: var(--bg) !important; }
 .form-input{ color: #0a2a40 !important; background: rgba(255,255,255,.9) !important; border-color: rgba(30,127,164,.35) !important; }
@@ -1021,25 +1021,27 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 .qh-role{color:rgba(30,127,164,.65) !important;}
 .qh-bar-lbl{color:rgba(10,42,64,.55) !important;}
 .qh-bar-val{color:#355773 !important;}
-/* 歩数計ウィジェット薄緑 → 濃緑 */
+/* 豁ｩ謨ｰ險医え繧｣繧ｸ繧ｧ繝・ヨ阮・ｷ・竊・豼・ｷ・*/
 [style*="color:rgba(168,232,192"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
 #step-counter-card{background:rgba(31,138,102,.06) !important;border-color:rgba(31,138,102,.25) !important;}
 </style>
 
-<!-- ✦ Vitalia RPG Overlay ✦ -->
+<!-- 笨ｦ Vitalia RPG Overlay 笨ｦ -->
 <link rel="stylesheet" href="./vitalia-rpg.css">
 <script defer src="./vitalia-rpg-fx.js"></script>
 <script defer src="./vitalia-rpg-battle.js"></script>
 <script defer src="./vitalia-rpg-tweaks.js"></script>
 <script defer src="./vitalia-rpg-compact.js"></script>
 <script defer src="./vitalia-rpg-bind.js"></script>
+<script defer src="./vitalia-nav.js"></script>
+<link rel="stylesheet" href="./vitalia-clean-ui.css">
 </head>
 <body>
 
-<!-- ローディング -->
+<!-- 繝ｭ繝ｼ繝・ぅ繝ｳ繧ｰ -->
 <script>
 function showToast(msg,duration=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center',boxShadow:'0 4px 16px rgba(0,0,0,.25)',border:'1px solid rgba(30,127,164,.4)'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},duration);}
-function showConfirm(msg,onOk,onCancel){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button><button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};}
+function showConfirm(msg,onOk,onCancel){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">繧ｭ繝｣繝ｳ繧ｻ繝ｫ</button><button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};}
 setTimeout(function(){
   var ls=document.getElementById('loading-screen');
   var lg=document.getElementById('login-screen');
@@ -1047,310 +1049,310 @@ setTimeout(function(){
     ls.classList.add('hidden');
     if(lg){lg.classList.remove('hidden');lg.style.display='flex';}
   }
-},2500);
+},300);
 </script>
 <div id="loading-screen">
   <div class="ls-char">
-    <img src="./image/kaito-sabun%20(1).png" alt="カイト">
+    <img src="./image/kaito-sabun%20(1).png" alt="繧ｫ繧､繝・>
   </div>
-  <div class="ls-title">健康クエスト</div>
-  <div class="ls-sub">Health Quest — Vitalia</div>
+  <div class="ls-title">蛛･蠎ｷ繧ｯ繧ｨ繧ｹ繝・/div>
+  <div class="ls-sub">Health Quest 窶・Vitalia</div>
   <div class="ls-bar"><div class="ls-bar-fill"></div></div>
-  <div class="ls-msg">冒険の書を開いています<span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
+  <div class="ls-msg">蜀帝匱縺ｮ譖ｸ繧帝幕縺・※縺・∪縺・span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
 </div>
 
-<!-- ログイン -->
+<!-- 繝ｭ繧ｰ繧､繝ｳ -->
 <div id="login-screen" class="hidden">
   <div class="login-card">
     <div class="login-char">
-      <img src="./image/kaito-2-Photoroom.png" alt="カイト" style="object-fit:cover;object-position:top center;">
+      <img src="./image/kaito-2-Photoroom.png" alt="繧ｫ繧､繝・ style="object-fit:cover;object-position:top center;">
     </div>
     <div class="login-title">
-      <h1 class="gold-text">健康クエスト</h1>
-      <p class="sub">HEALTH QUEST — VITALIA</p>
-      <p class="note">研究参加者専用 ｜ ログインが必要です</p>
+      <h1 class="gold-text">蛛･蠎ｷ繧ｯ繧ｨ繧ｹ繝・/h1>
+      <p class="sub">HEALTH QUEST 窶・VITALIA</p>
+      <p class="note">遐皮ｩｶ蜿ょ刈閠・ｰら畑 ・・繝ｭ繧ｰ繧､繝ｳ縺悟ｿ・ｦ√〒縺・/p>
     </div>
     <div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.75rem;line-height:1.7;color:rgba(200,215,235,.75);">
-      このアプリは、小児がん経験者の<strong style="color:var(--gold2);">健康行動の継続</strong>を支援する研究プロジェクトです。<br>
-      毎週の運動記録を積み重ねることで、体力・習慣・健康知識が育ちます。<br>
-      記録データは研究目的で使用されます。
+      縺薙・繧｢繝励Μ縺ｯ縲∝ｰ丞・縺後ｓ邨碁ｨ楢・・<strong style="color:var(--gold2);">蛛･蠎ｷ陦悟虚縺ｮ邯咏ｶ・/strong>繧呈髪謠ｴ縺吶ｋ遐皮ｩｶ繝励Ο繧ｸ繧ｧ繧ｯ繝医〒縺吶・br>
+      豈朱ｱ縺ｮ驕句虚險倬鹸繧堤ｩ阪∩驥阪・繧九％縺ｨ縺ｧ縲∽ｽ灘鴨繝ｻ鄙呈・繝ｻ蛛･蠎ｷ遏･隴倥′閧ｲ縺｡縺ｾ縺吶・br>
+      險倬鹸繝・・繧ｿ縺ｯ遐皮ｩｶ逶ｮ逧・〒菴ｿ逕ｨ縺輔ｌ縺ｾ縺吶・
     </div>
     <div class="kaito-bubble">
-      「よし、一緒にクエストをこなそう！<br>
-      毎週の運動を記録して、勇者として強くなっていこうぜ！」
+      縲後ｈ縺励∽ｸ邱偵↓繧ｯ繧ｨ繧ｹ繝医ｒ縺薙↑縺昴≧・・br>
+      豈朱ｱ縺ｮ驕句虚繧定ｨ倬鹸縺励※縲∝窮閠・→縺励※蠑ｷ縺上↑縺｣縺ｦ縺・％縺・●・√・
     </div>
     <div class="form-group">
-      <label>メールアドレス</label>
-      <input type="email" id="email" class="form-input" placeholder="例: hero@vitalia.jp">
+      <label>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ</label>
+      <input type="email" id="email" class="form-input" placeholder="萓・ hero@vitalia.jp">
     </div>
     <div class="form-group">
-      <label>パスワード（6文字以上）</label>
-      <input type="password" id="password" class="form-input" placeholder="パスワードを入力">
+      <label>繝代せ繝ｯ繝ｼ繝会ｼ・譁・ｭ嶺ｻ･荳奇ｼ・/label>
+      <input type="password" id="password" class="form-input" placeholder="繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉・>
     </div>
     <div class="btn-row">
-      <button id="login-btn" class="btn-gold">クエストを始める</button>
-      <button id="register-btn" class="btn-outline">はじめての登録</button>
+      <button id="login-btn" class="btn-gold">繧ｯ繧ｨ繧ｹ繝医ｒ蟋九ａ繧・/button>
+      <button id="register-btn" class="btn-outline">縺ｯ縺倥ａ縺ｦ縺ｮ逋ｻ骭ｲ</button>
     </div>
     <div id="auth-error" style="display:none;margin-top:10px;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.25);border-radius:8px;padding:8px 12px;font-size:.73rem;color:#f08080;text-align:center;"></div>
     <div style="text-align:center;margin-top:8px;display:flex;gap:10px;justify-content:center;">
-      <button id="guest-btn" style="background:none;border:1px dashed rgba(201,168,76,0.35);color:rgba(30,80,110,.7);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">デモ入場（ログイン不要）</button>
-      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(30,80,110,.7);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">パスワードを忘れた方</button>
+      <button id="guest-btn" style="background:none;border:1px dashed rgba(201,168,76,0.35);color:rgba(30,80,110,.7);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">繝・Δ蜈･蝣ｴ・医Ο繧ｰ繧､繝ｳ荳崎ｦ・ｼ・/button>
+      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(30,80,110,.7);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">繝代せ繝ｯ繝ｼ繝峨ｒ蠢倥ｌ縺滓婿</button>
     </div>
     <div class="login-footer">
-      <p>このサービスは研究目的です。<br>医療診断は行いません。</p>
-      <a href="./index.html">← ヴィタリア転生録トップへ</a>
+      <p>縺薙・繧ｵ繝ｼ繝薙せ縺ｯ遐皮ｩｶ逶ｮ逧・〒縺吶・br>蛹ｻ逋りｨｺ譁ｭ縺ｯ陦後＞縺ｾ縺帙ｓ縲・/p>
+      <a href="./index.html">竊・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸繝医ャ繝励∈</a>
     </div>
   </div>
 </div>
 
 
-<!-- インフォームドコンセント -->
+<!-- 繧､繝ｳ繝輔か繝ｼ繝繝峨さ繝ｳ繧ｻ繝ｳ繝・-->
 <div id="consent-modal" style="position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
   <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:32px 28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(201,168,76,.1),0 24px 60px rgba(0,0,0,.8);">
-    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:10px;">研究参加への同意</div>
-    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">ヴィタリア転生録<br><span style="font-size:.8rem;font-weight:400;color:rgba(30,80,110,.7);">研究参加同意書</span></h2>
+    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:10px;">遐皮ｩｶ蜿ょ刈縺ｸ縺ｮ蜷梧э</div>
+    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸<br><span style="font-size:.8rem;font-weight:400;color:rgba(30,80,110,.7);">遐皮ｩｶ蜿ょ刈蜷梧э譖ｸ</span></h2>
     <div style="font-size:.78rem;line-height:1.85;color:rgba(200,215,235,.8);margin-bottom:20px;">
-      <p style="margin-bottom:12px;">本アプリは、<strong style="color:var(--gold2);">小児がん経験者の健康行動継続</strong>を支援することを目的とした研究プロジェクトです。</p>
+      <p style="margin-bottom:12px;">譛ｬ繧｢繝励Μ縺ｯ縲・strong style="color:var(--gold2);">蟆丞・縺後ｓ邨碁ｨ楢・・蛛･蠎ｷ陦悟虚邯咏ｶ・/strong>繧呈髪謠ｴ縺吶ｋ縺薙→繧堤岼逧・→縺励◆遐皮ｩｶ繝励Ο繧ｸ繧ｧ繧ｯ繝医〒縺吶・/p>
       <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:var(--gold);margin-bottom:8px;">収集するデータ</p>
+        <p style="font-weight:700;color:var(--gold);margin-bottom:8px;">蜿朱寔縺吶ｋ繝・・繧ｿ</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
-          <li>・ 毎週の運動記録（種目・時間・強度）</li>
-          <li>・ 身体情報（BMI・歩数）</li>
-          <li>・ ゲーム内行動データ（XP・レベル・実績）</li>
-          <li>・ AIコーチ「ルナ」との会話内容（任意利用）</li>
+          <li>繝ｻ 豈朱ｱ縺ｮ驕句虚險倬鹸・育ｨｮ逶ｮ繝ｻ譎る俣繝ｻ蠑ｷ蠎ｦ・・/li>
+          <li>繝ｻ 霄ｫ菴捺ュ蝣ｱ・・MI繝ｻ豁ｩ謨ｰ・・/li>
+          <li>繝ｻ 繧ｲ繝ｼ繝蜀・｡悟虚繝・・繧ｿ・・P繝ｻ繝ｬ繝吶Ν繝ｻ螳溽ｸｾ・・/li>
+          <li>繝ｻ AI繧ｳ繝ｼ繝√後Ν繝翫阪→縺ｮ莨夊ｩｱ蜀・ｮｹ・井ｻｻ諢丞茜逕ｨ・・/li>
         </ul>
       </div>
       <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.25);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:#c0a0f0;margin-bottom:8px;">外部サービスへの送信について</p>
+        <p style="font-weight:700;color:#c0a0f0;margin-bottom:8px;">螟夜Κ繧ｵ繝ｼ繝薙せ縺ｸ縺ｮ騾∽ｿ｡縺ｫ縺､縺・※</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.74rem;">
-          <li>・ AIコーチング機能では、入力した文章を <strong>Google Gemini API</strong> に送信して応答を生成します</li>
-          <li>・ 食事写真の自動認識でも同APIを利用します</li>
-          <li>・ 個人を特定する情報（氏名・住所等）の入力は避けてください</li>
+          <li>繝ｻ AI繧ｳ繝ｼ繝√Φ繧ｰ讖溯・縺ｧ縺ｯ縲∝・蜉帙＠縺滓枚遶繧・<strong>Google Gemini API</strong> 縺ｫ騾∽ｿ｡縺励※蠢懃ｭ斐ｒ逕滓・縺励∪縺・/li>
+          <li>繝ｻ 鬟滉ｺ句・逵溘・閾ｪ蜍戊ｪ崎ｭ倥〒繧ょ酔API繧貞茜逕ｨ縺励∪縺・/li>
+          <li>繝ｻ 蛟倶ｺｺ繧堤音螳壹☆繧区ュ蝣ｱ・域ｰ丞錐繝ｻ菴乗園遲会ｼ峨・蜈･蜉帙・驕ｿ縺代※縺上□縺輔＞</li>
         </ul>
       </div>
       <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:var(--gold);margin-bottom:8px;">データの取り扱い</p>
+        <p style="font-weight:700;color:var(--gold);margin-bottom:8px;">繝・・繧ｿ縺ｮ蜿悶ｊ謇ｱ縺・/p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
-          <li>・ データは研究目的のみに使用します</li>
-          <li>・ Firebase（Google）上に暗号化して保管されます</li>
-          <li>・ 個人を特定できる形では公表しません</li>
-          <li>・ 参加はいつでも中止できます</li>
-          <li>・ 中止の場合はデータ削除を申請できます</li>
+          <li>繝ｻ 繝・・繧ｿ縺ｯ遐皮ｩｶ逶ｮ逧・・縺ｿ縺ｫ菴ｿ逕ｨ縺励∪縺・/li>
+          <li>繝ｻ Firebase・・oogle・我ｸ翫↓證怜捷蛹悶＠縺ｦ菫晉ｮ｡縺輔ｌ縺ｾ縺・/li>
+          <li>繝ｻ 蛟倶ｺｺ繧堤音螳壹〒縺阪ｋ蠖｢縺ｧ縺ｯ蜈ｬ陦ｨ縺励∪縺帙ｓ</li>
+          <li>繝ｻ 蜿ょ刈縺ｯ縺・▽縺ｧ繧ゆｸｭ豁｢縺ｧ縺阪∪縺・/li>
+          <li>繝ｻ 荳ｭ豁｢縺ｮ蝣ｴ蜷医・繝・・繧ｿ蜑企勁繧堤筏隲九〒縺阪∪縺・/li>
         </ul>
       </div>
-      <p style="font-size:.72rem;color:rgba(30,80,110,.7);">研究責任者：福井郁子（連絡先は担当者にお問い合わせください）</p>
+      <p style="font-size:.72rem;color:rgba(30,80,110,.7);">遐皮ｩｶ雋ｬ莉ｻ閠・ｼ夂ｦ丈ｺ暮メ蟄撰ｼ磯｣邨｡蜈医・諡・ｽ楢・↓縺雁撫縺・粋繧上○縺上□縺輔＞・・/p>
     </div>
     <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px;font-size:.8rem;color:rgba(200,215,235,.8);">
       <input type="checkbox" id="consent-check" style="margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex-shrink:0;">
-      上記の内容を理解し、研究への参加に同意します
+      荳願ｨ倥・蜀・ｮｹ繧堤炊隗｣縺励∫皮ｩｶ縺ｸ縺ｮ蜿ょ刈縺ｫ蜷梧э縺励∪縺・
     </label>
-    <button id="consent-btn" disabled style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;opacity:.4;transition:opacity .2s;">同意して参加する</button>
+    <button id="consent-btn" disabled style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;opacity:.4;transition:opacity .2s;">蜷梧э縺励※蜿ょ刈縺吶ｋ</button>
   </div>
 </div>
 
-<!-- プロフィール入力 -->
+<!-- 繝励Ο繝輔ぅ繝ｼ繝ｫ蜈･蜉・-->
 <div id="profile-modal" style="position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:290;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
   <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(201,168,76,.35);border-radius:20px;padding:32px 28px;max-width:460px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(201,168,76,.1),0 24px 60px rgba(0,0,0,.8);">
-    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:8px;">はじめに</div>
-    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;margin-bottom:6px;">冒険者プロフィール</h2>
-    <p style="text-align:center;font-size:.72rem;color:rgba(30,80,110,.7);margin-bottom:24px;">研究データとして使用します。後から変更できます。</p>
+    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.6);margin-bottom:8px;">縺ｯ縺倥ａ縺ｫ</div>
+    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;margin-bottom:6px;">蜀帝匱閠・・繝ｭ繝輔ぅ繝ｼ繝ｫ</h2>
+    <p style="text-align:center;font-size:.72rem;color:rgba(30,80,110,.7);margin-bottom:24px;">遐皮ｩｶ繝・・繧ｿ縺ｨ縺励※菴ｿ逕ｨ縺励∪縺吶ょｾ後°繧牙､画峩縺ｧ縺阪∪縺吶・/p>
     <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
       <div>
-        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">生年（西暦）</label>
-        <input type="number" id="pf-birth" placeholder="例: 2005" min="1970" max="2020" style="width:100%;background:rgba(255,255,255,.85);border:1px solid rgba(30,127,164,.3);border-radius:8px;padding:9px 12px;color:#0a2a40;font-family:inherit;font-size:.85rem;outline:none;">
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">逕溷ｹｴ・郁･ｿ證ｦ・・/label>
+        <input type="number" id="pf-birth" placeholder="萓・ 2005" min="1970" max="2020" style="width:100%;background:rgba(255,255,255,.85);border:1px solid rgba(30,127,164,.3);border-radius:8px;padding:9px 12px;color:#0a2a40;font-family:inherit;font-size:.85rem;outline:none;">
       </div>
       <div>
-        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">性別</label>
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">諤ｧ蛻･</label>
         <select id="pf-sex" style="width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
-          <option value="">選択してください</option>
-          <option value="male">男性</option>
-          <option value="female">女性</option>
-          <option value="other">その他・回答しない</option>
+          <option value="">驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+          <option value="male">逕ｷ諤ｧ</option>
+          <option value="female">螂ｳ諤ｧ</option>
+          <option value="other">縺昴・莉悶・蝗樒ｭ斐＠縺ｪ縺・/option>
         </select>
       </div>
       <div>
-        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">がんの診断（任意）</label>
-        <input type="text" id="pf-diagnosis" placeholder="例: 急性リンパ性白血病" style="width:100%;background:rgba(255,255,255,.85);border:1px solid rgba(30,127,164,.3);border-radius:8px;padding:9px 12px;color:#0a2a40;font-family:inherit;font-size:.85rem;outline:none;">
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">縺後ｓ縺ｮ險ｺ譁ｭ・井ｻｻ諢擾ｼ・/label>
+        <input type="text" id="pf-diagnosis" placeholder="萓・ 諤･諤ｧ繝ｪ繝ｳ繝第ｧ逋ｽ陦逞・ style="width:100%;background:rgba(255,255,255,.85);border:1px solid rgba(30,127,164,.3);border-radius:8px;padding:9px 12px;color:#0a2a40;font-family:inherit;font-size:.85rem;outline:none;">
       </div>
       <div>
-        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">治療終了からの年数（任意）</label>
+        <label style="font-size:.72rem;color:rgba(30,80,110,.7);display:block;margin-bottom:5px;">豐ｻ逋らｵゆｺ・°繧峨・蟷ｴ謨ｰ・井ｻｻ諢擾ｼ・/label>
         <select id="pf-years" style="width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:var(--silver);font-family:inherit;font-size:.85rem;outline:none;">
-          <option value="">選択してください</option>
-          <option value="lt1">1年未満</option>
-          <option value="1to3">1〜3年</option>
-          <option value="3to5">3〜5年</option>
-          <option value="5to10">5〜10年</option>
-          <option value="gt10">10年以上</option>
+          <option value="">驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+          <option value="lt1">1蟷ｴ譛ｪ貅</option>
+          <option value="1to3">1縲・蟷ｴ</option>
+          <option value="3to5">3縲・蟷ｴ</option>
+          <option value="5to10">5縲・0蟷ｴ</option>
+          <option value="gt10">10蟷ｴ莉･荳・/option>
         </select>
       </div>
     </div>
-    <button id="profile-btn" style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;">冒険を始める ✦</button>
-    <button id="profile-skip" style="display:block;width:100%;margin-top:10px;background:none;border:none;font-size:.7rem;color:rgba(30,80,110,.7);cursor:pointer;font-family:inherit;">スキップ（後で入力する）</button>
+    <button id="profile-btn" style="display:block;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#1a1200;cursor:pointer;">蜀帝匱繧貞ｧ九ａ繧・笨ｦ</button>
+    <button id="profile-skip" style="display:block;width:100%;margin-top:10px;background:none;border:none;font-size:.7rem;color:rgba(30,80,110,.7);cursor:pointer;font-family:inherit;">繧ｹ繧ｭ繝・・・亥ｾ後〒蜈･蜉帙☆繧具ｼ・/button>
   </div>
 </div>
 
-<!-- 知識カードモーダル -->
+<!-- 遏･隴倥き繝ｼ繝峨Δ繝ｼ繝繝ｫ -->
 <div id="knowledge-modal">
   <div class="km-card">
-    <div class="km-char-face"><img id="km-char-img" src="./image/kaito-sabun%20(2).png" alt="カイト"></div>
-    <div class="km-lvup">✦ Level Up ✦</div>
+    <div class="km-char-face"><img id="km-char-img" src="./image/kaito-sabun%20(2).png" alt="繧ｫ繧､繝・></div>
+    <div class="km-lvup">笨ｦ Level Up 笨ｦ</div>
     <div class="km-title" id="km-lvname"></div>
     <div class="km-subtitle" id="km-lvnum"></div>
     <div class="km-divider"></div>
     <div class="km-theme" id="km-theme"></div>
     <div class="km-body" id="km-body"></div>
-    <button class="km-close" id="km-close">理解した ― 冒険を続ける</button>
+    <button class="km-close" id="km-close">逅・ｧ｣縺励◆ 窶・蜀帝匱繧堤ｶ壹￠繧・/button>
   </div>
 </div>
 
-<!-- 実績スライドイン通知 -->
+<!-- 螳溽ｸｾ繧ｹ繝ｩ繧､繝峨う繝ｳ騾夂衍 -->
 <div id="ach-notify">
-  <div class="an-icon" id="an-icon">🏅</div>
+  <div class="an-icon" id="an-icon">遵</div>
   <div class="an-body">
-    <div class="an-label">✦ 実績解除</div>
+    <div class="an-label">笨ｦ 螳溽ｸｾ隗｣髯､</div>
     <div class="an-name" id="an-name"></div>
     <div class="an-cond" id="an-cond"></div>
   </div>
 </div>
-<!-- 保存トースト -->
+<!-- 菫晏ｭ倥ヨ繝ｼ繧ｹ繝・-->
 <div id="save-toast">
-  <span class="st-icon">✅</span><span class="st-text" id="st-text">記録を保存しました</span>
+  <span class="st-icon">笨・/span><span class="st-text" id="st-text">險倬鹸繧剃ｿ晏ｭ倥＠縺ｾ縺励◆</span>
 </div>
-<!-- 目標達成バナー -->
-<div id="goal-banner">⚔ 今週の目標 150分達成！クエストクリア ✦ おめでとう！</div>
+<!-- 逶ｮ讓咎＃謌舌ヰ繝翫・ -->
+<div id="goal-banner">笞・莉企ｱ縺ｮ逶ｮ讓・150蛻・＃謌撰ｼ√け繧ｨ繧ｹ繝医け繝ｪ繧｢ 笨ｦ 縺翫ａ縺ｧ縺ｨ縺・ｼ・/div>
 
-<!-- メイン -->
+<!-- 繝｡繧､繝ｳ -->
 <div id="main-screen" class="hidden">
 
   <header class="main-header">
     <div class="h-left">
-      <a href="./game.html">⚔ ヴィタリア転生録</a>
+      <a href="./game.html">笞・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</a>
       <span class="pipe">|</span>
-      <span class="h-title">健康クエスト</span>
+      <span class="h-title">蛛･蠎ｷ繧ｯ繧ｨ繧ｹ繝・/span>
     </div>
     <div class="h-right">
       <span id="user-display"></span>
-      <a href="./account.html" class="h-nav-btn">👤 マイページ</a>
-      <a href="./settings.html" class="h-nav-btn">⚙ 設定</a>
-      <button id="logout-btn">退場</button>
+      <a href="./account.html" class="h-nav-btn">側 繝槭う繝壹・繧ｸ</a>
+      <a href="./settings.html" class="h-nav-btn">笞・險ｭ螳・/a>
+      <button id="logout-btn">騾蝣ｴ</button>
     </div>
   </header>
 
   <div class="main-content">
 
-    <!-- ===== 左：クエストボード ===== -->
+    <!-- ===== 蟾ｦ・壹け繧ｨ繧ｹ繝医・繝ｼ繝・===== -->
     <div class="quest-board">
 
-      <!-- キャラクターヒーローバナー -->
+      <!-- 繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ繝偵・繝ｭ繝ｼ繝舌リ繝ｼ -->
       <div class="quest-hero">
         <div class="qh-char">
-          <img src="./image/kaito-sabun%20(1).png" alt="カイト">
+          <img src="./image/kaito-sabun%20(1).png" alt="繧ｫ繧､繝・>
         </div>
         <div class="qh-info">
-          <div class="qh-role">Exercise Quest — 運動クエスト</div>
-          <div class="qh-name">カイト — 鍛錬の剣士</div>
+          <div class="qh-role">Exercise Quest 窶・驕句虚繧ｯ繧ｨ繧ｹ繝・/div>
+          <div class="qh-name">繧ｫ繧､繝・窶・骰幃軒縺ｮ蜑｣螢ｫ</div>
           <div class="qh-bar-row">
-            <span class="qh-bar-lbl">今週</span>
+            <span class="qh-bar-lbl">莉企ｱ</span>
             <div class="qh-bar"><div class="qh-bar-fill" id="qh-bar-fill" style="width:0%"></div></div>
-            <span class="qh-bar-val"><span id="qh-min-now">0</span>分</span>
+            <span class="qh-bar-val"><span id="qh-min-now">0</span>蛻・/span>
           </div>
-          <div class="qh-week-lbl" id="qh-week-lbl">目標まで読み込み中...</div>
+          <div class="qh-week-lbl" id="qh-week-lbl">逶ｮ讓吶∪縺ｧ隱ｭ縺ｿ霎ｼ縺ｿ荳ｭ...</div>
         </div>
         <div class="qh-stats">
           <div class="qh-stat">
             <div class="qh-stat-num" id="qh-streak">0</div>
-            <div class="qh-stat-lbl">連続週</div>
+            <div class="qh-stat-lbl">騾｣邯夐ｱ</div>
           </div>
           <div class="qh-stat-div"></div>
           <div class="qh-stat">
             <div class="qh-stat-num" id="qh-xp-today">0</div>
-            <div class="qh-stat-lbl">今日XP</div>
+            <div class="qh-stat-lbl">莉頑律XP</div>
           </div>
         </div>
       </div>
 
-      <!-- 日常の動き -->
+      <!-- 譌･蟶ｸ縺ｮ蜍輔″ -->
       <div class="board-section is-daily">
         <div class="section-head">
-          <div class="section-icon icon-daily">🚶</div>
+          <div class="section-icon icon-daily">垳</div>
           <div>
-            <div class="section-label" style="color:#7dd8e8">日常の動き</div>
-            <div class="section-note">1タップ＝10分 ｜ スポーツじゃなくてもOK！ まずはここから</div>
+            <div class="section-label" style="color:#7dd8e8">譌･蟶ｸ縺ｮ蜍輔″</div>
+            <div class="section-note">1繧ｿ繝・・・・0蛻・・・繧ｹ繝昴・繝・§繧・↑縺上※繧０K・・縺ｾ縺壹・縺薙％縺九ｉ</div>
           </div>
         </div>
         <div id="daily-board"></div>
-        <div class="daily-note">💡 歩く・階段を使う・家事をする、それだけでも立派なクエスト。積み重ねが力になるよ！</div>
+        <div class="daily-note">庁 豁ｩ縺上・髫取ｮｵ繧剃ｽｿ縺・・螳ｶ莠九ｒ縺吶ｋ縲√◎繧後□縺代〒繧らｫ区ｴｾ縺ｪ繧ｯ繧ｨ繧ｹ繝医らｩ阪∩驥阪・縺悟鴨縺ｫ縺ｪ繧九ｈ・・/div>
       </div>
 
-      <!-- 中強度 -->
+      <!-- 荳ｭ蠑ｷ蠎ｦ -->
       <div class="board-section is-mod">
         <div class="section-head">
-          <div class="section-icon icon-mod">🌿</div>
+          <div class="section-icon icon-mod">諺</div>
           <div>
-            <div class="section-label">中強度クエスト</div>
-            <div class="section-note" id="goal-section-note">1タップ＝10分 ｜ 週150〜300分が推奨目標</div>
+            <div class="section-label">荳ｭ蠑ｷ蠎ｦ繧ｯ繧ｨ繧ｹ繝・/div>
+            <div class="section-note" id="goal-section-note">1繧ｿ繝・・・・0蛻・・・騾ｱ150縲・00蛻・′謗ｨ螂ｨ逶ｮ讓・/div>
           </div>
         </div>
         <div id="mod-board"></div>
       </div>
 
-      <!-- 高強度 -->
+      <!-- 鬮伜ｼｷ蠎ｦ -->
       <div class="board-section is-high">
         <div class="section-head">
-          <div class="section-icon icon-high">🔥</div>
+          <div class="section-icon icon-high">櫨</div>
           <div>
-            <div class="section-label">高強度クエスト</div>
-            <div class="section-note">1タップ＝10分（中強度の2倍換算）</div>
+            <div class="section-label">鬮伜ｼｷ蠎ｦ繧ｯ繧ｨ繧ｹ繝・/div>
+            <div class="section-note">1繧ｿ繝・・・・0蛻・ｼ井ｸｭ蠑ｷ蠎ｦ縺ｮ2蛟肴鋤邂暦ｼ・/div>
           </div>
         </div>
-        <!-- 心リスク警告（条件で表示） -->
+        <!-- 蠢・Μ繧ｹ繧ｯ隴ｦ蜻奇ｼ域擅莉ｶ縺ｧ陦ｨ遉ｺ・・-->
         <div id="cardio-warning" style="display:none;background:linear-gradient(135deg,rgba(224,92,92,.18),rgba(224,92,92,.08));border:1.5px solid rgba(224,92,92,.55);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
-          <div style="font-size:.78rem;color:#f0a0a0;font-weight:700;line-height:1.7;">⚠ 治療歴の確認</div>
+          <div style="font-size:.78rem;color:#f0a0a0;font-weight:700;line-height:1.7;">笞 豐ｻ逋よｭｴ縺ｮ遒ｺ隱・/div>
           <div style="font-size:.7rem;color:rgba(245,200,200,.85);line-height:1.85;margin-top:4px;" id="cardio-warning-text"></div>
         </div>
         <div id="high-board"></div>
       </div>
 
-      <!-- METs 簡易計算 -->
+      <!-- METs 邁｡譏楢ｨ育ｮ・-->
       <div style="background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.22);border-radius:12px;padding:14px 14px 12px;margin-top:6px;">
-        <div style="font-size:.74rem;font-weight:700;color:#1e7fa4;letter-spacing:.04em;margin-bottom:8px;">🧮 METs から消費kcalを計算</div>
+        <div style="font-size:.74rem;font-weight:700;color:#1e7fa4;letter-spacing:.04em;margin-bottom:8px;">ｧｮ METs 縺九ｉ豸郁ｲｻkcal繧定ｨ育ｮ・/div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end;">
-          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">体重(kg)
-            <input id="mc-w" type="number" inputmode="decimal" min="20" max="200" step="0.1" placeholder="例 55" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#0a2a40;font-size:.78rem;">
+          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">菴馴㍾(kg)
+            <input id="mc-w" type="number" inputmode="decimal" min="20" max="200" step="0.1" placeholder="萓・55" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#0a2a40;font-size:.78rem;">
           </label>
           <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">METs
             <select id="mc-mets" style="width:100%;margin-top:3px;padding:7px 6px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#0a2a40;font-size:.72rem;">
-              <option value="1.3">1.3 ゆっくりTV</option>
-              <option value="1.8">1.8 立ち話</option>
-              <option value="2.5">2.5 デスクワーク</option>
-              <option value="3.0" selected>3.0 普通歩行</option>
-              <option value="3.8">3.8 軽いボウリング</option>
-              <option value="4.0">4.0 速歩・階段</option>
-              <option value="4.5">4.5 立位作業</option>
-              <option value="5.0">5.0 かなり速歩</option>
-              <option value="6.0">6.0 ジョギング</option>
-              <option value="7.0">7.0 サッカー</option>
-              <option value="7.3">7.3 テニス</option>
-              <option value="8.0">8.0 ランニング</option>
+              <option value="1.3">1.3 繧・▲縺上ｊTV</option>
+              <option value="1.8">1.8 遶九■隧ｱ</option>
+              <option value="2.5">2.5 繝・せ繧ｯ繝ｯ繝ｼ繧ｯ</option>
+              <option value="3.0" selected>3.0 譎ｮ騾壽ｭｩ陦・/option>
+              <option value="3.8">3.8 霆ｽ縺・・繧ｦ繝ｪ繝ｳ繧ｰ</option>
+              <option value="4.0">4.0 騾滓ｭｩ繝ｻ髫取ｮｵ</option>
+              <option value="4.5">4.5 遶倶ｽ堺ｽ懈･ｭ</option>
+              <option value="5.0">5.0 縺九↑繧企滓ｭｩ</option>
+              <option value="6.0">6.0 繧ｸ繝ｧ繧ｮ繝ｳ繧ｰ</option>
+              <option value="7.0">7.0 繧ｵ繝・き繝ｼ</option>
+              <option value="7.3">7.3 繝・ル繧ｹ</option>
+              <option value="8.0">8.0 繝ｩ繝ｳ繝九Φ繧ｰ</option>
             </select>
           </label>
-          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">時間(分)
+          <label style="font-size:.6rem;color:rgba(30,80,110,.7);line-height:1.5;">譎る俣(蛻・
             <input id="mc-min" type="number" inputmode="numeric" min="1" max="600" step="5" value="30" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#0a2a40;font-size:.78rem;">
           </label>
         </div>
-        <div id="mc-out" style="margin-top:10px;font-size:.82rem;color:#ffe28a;font-weight:700;text-align:center;letter-spacing:.04em;">体重を入れると消費kcalが出ます</div>
+        <div id="mc-out" style="margin-top:10px;font-size:.82rem;color:#ffe28a;font-weight:700;text-align:center;letter-spacing:.04em;">菴馴㍾繧貞・繧後ｋ縺ｨ豸郁ｲｻkcal縺悟・縺ｾ縺・/div>
         <div style="font-size:.55rem;color:rgba(30,80,110,.7);text-align:center;padding:10px 4px 0;line-height:1.7;">
-          消費kcal = METs × 体重(kg) × 時間(h) × 1.05<br>
-          ※ 数値は目安。METs値は <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.7);">厚労省「身体活動のメッツ表」改訂版</a>（国立健康・栄養研究所）に準拠。<br>
-          参考: <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">ダノン健康栄養財団</a> / <a href="https://www.jhei.net/exer/setumei04.html" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">JHEI</a> / <a href="https://wellnex.kyowahakko-bio-healthcare.jp/health-energy/calorie-consumption-mets" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">WellNex</a>
+          豸郁ｲｻkcal = METs ﾃ・菴馴㍾(kg) ﾃ・譎る俣(h) ﾃ・1.05<br>
+          窶ｻ 謨ｰ蛟､縺ｯ逶ｮ螳峨・ETs蛟､縺ｯ <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.7);">蜴壼感逵√瑚ｺｫ菴捺ｴｻ蜍輔・繝｡繝・ヤ陦ｨ縲肴隼險ら沿</a>・亥嵜遶句▼蠎ｷ繝ｻ譬・､顔皮ｩｶ謇・峨↓貅匁侠縲・br>
+          蜿り・ <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">繝繝弱Φ蛛･蠎ｷ譬・､願ｲ｡蝗｣</a> / <a href="https://www.jhei.net/exer/setumei04.html" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">JHEI</a> / <a href="https://wellnex.kyowahakko-bio-healthcare.jp/health-energy/calorie-consumption-mets" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">WellNex</a>
         </div>
       </div>
       <script>
       (function(){
         const w=document.getElementById('mc-w'),m=document.getElementById('mc-mets'),mn=document.getElementById('mc-min'),o=document.getElementById('mc-out');
         function calc(){const wt=parseFloat(w.value),me=parseFloat(m.value),mi=parseFloat(mn.value);
-          if(!isFinite(wt)||wt<=0){o.textContent='体重を入れると消費kcalが出ます';return;}
-          const k=1.05*me*(mi/60)*wt; o.textContent=`消費 ${k.toFixed(1)} kcal（${me} METs × ${mi}分）`;}
+          if(!isFinite(wt)||wt<=0){o.textContent='菴馴㍾繧貞・繧後ｋ縺ｨ豸郁ｲｻkcal縺悟・縺ｾ縺・;return;}
+          const k=1.05*me*(mi/60)*wt; o.textContent=`豸郁ｲｻ ${k.toFixed(1)} kcal・・{me} METs ﾃ・${mi}蛻・ｼ荏;}
         try{const p=JSON.parse(localStorage.getItem('vitalia_profile_v1')||'null');if(p&&p.weight){w.value=p.weight;}}catch(e){}
         [w,m,mn].forEach(el=>el.addEventListener('input',calc)); calc();
       })();
@@ -1358,58 +1360,58 @@ setTimeout(function(){
 
     </div>
 
-    <!-- ===== 右：ステータス ===== -->
+    <!-- ===== 蜿ｳ・壹せ繝・・繧ｿ繧ｹ ===== -->
     <div class="quest-side">
 
-      <!-- カイトのセリフ -->
+      <!-- 繧ｫ繧､繝医・繧ｻ繝ｪ繝・-->
       <div style="background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;">
         <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid rgba(201,168,76,.25);background:rgba(201,168,76,.06);">
-          <img id="kaito-face" src="./image/kaito-sabun%20(1).png" alt="カイト" style="width:100%;height:100%;object-fit:cover;object-position:center 12%;">
+          <img id="kaito-face" src="./image/kaito-sabun%20(1).png" alt="繧ｫ繧､繝・ style="width:100%;height:100%;object-fit:cover;object-position:center 12%;">
         </div>
         <div>
-          <div style="font-size:.6rem;color:rgba(201,168,76,.6);font-weight:700;margin-bottom:3px;">カイト</div>
-          <div id="kaito-comment" style="font-size:.72rem;line-height:1.65;color:rgba(200,215,235,.8);">今週の記録を入力して、クエストを進めよう！</div>
+          <div style="font-size:.6rem;color:rgba(201,168,76,.6);font-weight:700;margin-bottom:3px;">繧ｫ繧､繝・/div>
+          <div id="kaito-comment" style="font-size:.72rem;line-height:1.65;color:rgba(200,215,235,.8);">莉企ｱ縺ｮ險倬鹸繧貞・蜉帙＠縺ｦ縲√け繧ｨ繧ｹ繝医ｒ騾ｲ繧√ｈ縺・ｼ・/div>
         </div>
       </div>
 
-      <!-- 週・レベル -->
+      <!-- 騾ｱ繝ｻ繝ｬ繝吶Ν -->
       <div class="side-panel">
         <div class="week-label" id="week-lbl"></div>
         <div class="level-row">
           <div class="lv-badge" id="lv-badge">
             <span>Lv</span><span class="lv-n" id="lv-n">1</span>
-            <span id="lv-name">転生者</span>
+            <span id="lv-name">霆｢逕溯・/span>
           </div>
         </div>
         <div class="xp-wrap"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
         <div class="xp-note">
           <span>XP: <strong id="xp-now">0</strong></span>
-          <span>次Lv: <strong id="xp-next">300</strong></span>
+          <span>谺｡Lv: <strong id="xp-next">300</strong></span>
         </div>
       </div>
 
-      <!-- 連動ステータス -->
+      <!-- 騾｣蜍輔せ繝・・繧ｿ繧ｹ -->
       <div class="linked-panel">
-        <div class="linked-head">✦ 冒険全体ステータス</div>
+        <div class="linked-head">笨ｦ 蜀帝匱蜈ｨ菴薙せ繝・・繧ｿ繧ｹ</div>
         <div class="ls-row">
-          <span class="ls-label">⚔ 運動</span>
+          <span class="ls-label">笞・驕句虚</span>
           <div class="ls-bar"><div class="ls-fill ls-fill-q" id="ls-q-fill" style="width:0%"></div></div>
           <span class="ls-val" id="ls-q-val">0%</span>
         </div>
         <div class="ls-row">
-          <span class="ls-label">🌿 栄養</span>
+          <span class="ls-label">諺 譬・､・/span>
           <div class="ls-bar"><div class="ls-fill ls-fill-n" id="ls-n-fill" style="width:0%"></div></div>
-          <span class="ls-val" id="ls-n-val">未記録</span>
+          <span class="ls-val" id="ls-n-val">譛ｪ險倬鹸</span>
         </div>
-        <a href="./nutrition.html" class="ls-link">栄養クエストへ →</a>
+        <a href="./nutrition.html" class="ls-link">譬・､翫け繧ｨ繧ｹ繝医∈ 竊・/a>
       </div>
 
-      <!-- ボス戦 -->
+      <!-- 繝懊せ謌ｦ -->
       <div class="side-panel" id="boss-panel">
-        <div class="panel-head">⚔ 今週の討伐対象</div>
+        <div class="panel-head">笞・莉企ｱ縺ｮ險惹ｼ仙ｯｾ雎｡</div>
         <div id="boss-area">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <div id="boss-icon" style="font-size:2rem;line-height:1;">👾</div>
+            <div id="boss-icon" style="font-size:2rem;line-height:1;">太</div>
             <div>
               <div id="boss-name" style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);"></div>
               <div id="boss-type" style="font-size:.6rem;color:rgba(30,80,110,.7);margin-top:2px;"></div>
@@ -1417,7 +1419,7 @@ setTimeout(function(){
           </div>
           <div style="margin-bottom:6px;">
             <div style="display:flex;justify-content:space-between;font-size:.62rem;color:rgba(30,80,110,.7);margin-bottom:4px;">
-              <span>👾 敵HP</span>
+              <span>太 謨ｵHP</span>
               <span><span id="boss-hp-now">150</span> / <span id="boss-hp-max">150</span></span>
             </div>
             <div style="height:10px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;">
@@ -1426,54 +1428,54 @@ setTimeout(function(){
           </div>
           <div id="boss-damage-msg" style="font-size:.7rem;color:rgba(224,92,92,.7);text-align:center;min-height:16px;"></div>
           <div id="boss-defeated" class="hidden" style="text-align:center;padding:12px 0;">
-            <div style="font-size:1.4rem;margin-bottom:4px;">🎉</div>
-            <div style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);">討伐完了！</div>
-            <div style="font-size:.68rem;color:rgba(78,201,138,.7);margin-top:4px;">今週の目標を達成しました</div>
+            <div style="font-size:1.4rem;margin-bottom:4px;">脂</div>
+            <div style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:var(--gold2);">險惹ｼ仙ｮ御ｺ・ｼ・/div>
+            <div style="font-size:.68rem;color:rgba(78,201,138,.7);margin-top:4px;">莉企ｱ縺ｮ逶ｮ讓吶ｒ驕疲・縺励∪縺励◆</div>
           </div>
         </div>
       </div>
 
-      <!-- ストリーク -->
+      <!-- 繧ｹ繝医Μ繝ｼ繧ｯ -->
       <div class="side-panel">
-        <div class="panel-head">🔥 連続記録</div>
+        <div class="panel-head">櫨 騾｣邯夊ｨ倬鹸</div>
         <div class="streak-row">
-          <div class="streak-fire">🔥</div>
+          <div class="streak-fire">櫨</div>
           <div class="streak-info">
-            <div class="streak-num"><span id="streak-n">0</span><span class="streak-unit">週連続</span></div>
-            <div class="streak-sub" id="streak-sub">まず1週目から！</div>
+            <div class="streak-num"><span id="streak-n">0</span><span class="streak-unit">騾ｱ騾｣邯・/span></div>
+            <div class="streak-sub" id="streak-sub">縺ｾ縺・騾ｱ逶ｮ縺九ｉ・・/div>
           </div>
           <div class="streak-best" id="streak-best"></div>
         </div>
       </div>
 
-      <!-- 実績 -->
+      <!-- 螳溽ｸｾ -->
       <div class="side-panel">
-        <div class="panel-head">🏆 実績</div>
+        <div class="panel-head">醇 螳溽ｸｾ</div>
         <div class="ach-grid" id="ach-grid"></div>
       </div>
 
-      <!-- 研究指標入力 -->
+      <!-- 遐皮ｩｶ謖・ｨ吝・蜉・-->
       <div class="side-panel">
-        <div class="panel-head">📊 今週の健康記録</div>
+        <div class="panel-head">投 莉企ｱ縺ｮ蛛･蠎ｷ險倬鹸</div>
         <div class="metrics-grid">
           <div class="metric-card">
             <label>BMI</label>
-            <input type="number" id="bmi-val" placeholder="例: 22.0" step="0.1" min="10" max="60">
+            <input type="number" id="bmi-val" placeholder="萓・ 22.0" step="0.1" min="10" max="60">
             <div class="hint" id="bmi-hint"></div>
           </div>
           <div class="metric-card">
-            <label>週の歩数</label>
-            <input type="number" id="steps-val" placeholder="例: 35000" step="100" min="0">
-            <div class="hint">目標: 70,000歩/週</div>
+            <label>騾ｱ縺ｮ豁ｩ謨ｰ</label>
+            <input type="number" id="steps-val" placeholder="萓・ 35000" step="100" min="0">
+            <div class="hint">逶ｮ讓・ 70,000豁ｩ/騾ｱ</div>
           </div>
         </div>
 
-        <!-- QOL 3問 -->
+        <!-- QOL 3蝠・-->
         <div class="qol-section">
-          <div class="qol-head">🔬 今週の主観的健康感（研究用）</div>
+          <div class="qol-head">溌 莉企ｱ縺ｮ荳ｻ隕ｳ逧・▼蠎ｷ諢滂ｼ育皮ｩｶ逕ｨ・・/div>
 
           <div class="qol-item">
-            <span class="qol-label">① 今週の体調はどうでしたか？</span>
+            <span class="qol-label">竭 莉企ｱ縺ｮ菴楢ｪｿ縺ｯ縺ｩ縺・〒縺励◆縺具ｼ・/span>
             <div class="qol-scale">
               <input type="radio" name="qol1" id="q1-1" value="1"><label for="q1-1">1</label>
               <input type="radio" name="qol1" id="q1-2" value="2"><label for="q1-2">2</label>
@@ -1481,11 +1483,11 @@ setTimeout(function(){
               <input type="radio" name="qol1" id="q1-4" value="4"><label for="q1-4">4</label>
               <input type="radio" name="qol1" id="q1-5" value="5"><label for="q1-5">5</label>
             </div>
-            <div class="qol-note"><span>とても悪い</span><span>とても良い</span></div>
+            <div class="qol-note"><span>縺ｨ縺ｦ繧よが縺・/span><span>縺ｨ縺ｦ繧り憶縺・/span></div>
           </div>
 
           <div class="qol-item">
-            <span class="qol-label">② 今週の気分・精神状態はどうでしたか？</span>
+            <span class="qol-label">竭｡ 莉企ｱ縺ｮ豌怜・繝ｻ邊ｾ逾樒憾諷九・縺ｩ縺・〒縺励◆縺具ｼ・/span>
             <div class="qol-scale">
               <input type="radio" name="qol2" id="q2-1" value="1"><label for="q2-1">1</label>
               <input type="radio" name="qol2" id="q2-2" value="2"><label for="q2-2">2</label>
@@ -1493,11 +1495,11 @@ setTimeout(function(){
               <input type="radio" name="qol2" id="q2-4" value="4"><label for="q2-4">4</label>
               <input type="radio" name="qol2" id="q2-5" value="5"><label for="q2-5">5</label>
             </div>
-            <div class="qol-note"><span>とても悪い</span><span>とても良い</span></div>
+            <div class="qol-note"><span>縺ｨ縺ｦ繧よが縺・/span><span>縺ｨ縺ｦ繧り憶縺・/span></div>
           </div>
 
           <div class="qol-item">
-            <span class="qol-label">③ 今週の活力・エネルギーはどうでしたか？</span>
+            <span class="qol-label">竭｢ 莉企ｱ縺ｮ豢ｻ蜉帙・繧ｨ繝阪Ν繧ｮ繝ｼ縺ｯ縺ｩ縺・〒縺励◆縺具ｼ・/span>
             <div class="qol-scale">
               <input type="radio" name="qol3" id="q3-1" value="1"><label for="q3-1">1</label>
               <input type="radio" name="qol3" id="q3-2" value="2"><label for="q3-2">2</label>
@@ -1505,94 +1507,94 @@ setTimeout(function(){
               <input type="radio" name="qol3" id="q3-4" value="4"><label for="q3-4">4</label>
               <input type="radio" name="qol3" id="q3-5" value="5"><label for="q3-5">5</label>
             </div>
-            <div class="qol-note"><span>とても低い</span><span>とても高い</span></div>
+            <div class="qol-note"><span>縺ｨ縺ｦ繧ゆｽ弱＞</span><span>縺ｨ縺ｦ繧るｫ倥＞</span></div>
           </div>
         </div>
 
-        <!-- 運動量集計 -->
+        <!-- 驕句虚驥城寔險・-->
         <div class="score-block">
           <div class="score-row">
-            <span class="sl">中強度</span>
-            <span class="sv mod"><span id="mod-min">0</span> 分</span>
+            <span class="sl">荳ｭ蠑ｷ蠎ｦ</span>
+            <span class="sv mod"><span id="mod-min">0</span> 蛻・/span>
           </div>
           <div class="score-row">
-            <span class="sl">高強度</span>
-            <span class="sv high"><span id="high-min">0</span> 分</span>
+            <span class="sl">鬮伜ｼｷ蠎ｦ</span>
+            <span class="sv high"><span id="high-min">0</span> 蛻・/span>
           </div>
           <div class="score-row" style="border-top:1px solid rgba(201,168,76,.15);padding-top:5px;margin-top:4px;">
-            <span class="sl">運動量合計（換算）</span>
-            <span class="sv total"><span id="score-val">0</span> 分</span>
+            <span class="sl">驕句虚驥丞粋險茨ｼ域鋤邂暦ｼ・/span>
+            <span class="sv total"><span id="score-val">0</span> 蛻・/span>
           </div>
           <div class="goal-bar-wrap">
             <div class="goal-bar-fill" id="goal-fill" style="width:0%"></div>
           </div>
           <div class="goal-note">
-            <span class="gn-label" id="goal-label">週150分目標</span>
+            <span class="gn-label" id="goal-label">騾ｱ150蛻・岼讓・/span>
             <span class="gn-val"><span id="goal-pct">0</span>%</span>
           </div>
-          <div class="goal-achieved" id="goal-msg">✦ 今週の目標達成！クエストクリア ✦</div>
+          <div class="goal-achieved" id="goal-msg">笨ｦ 莉企ｱ縺ｮ逶ｮ讓咎＃謌撰ｼ√け繧ｨ繧ｹ繝医け繝ｪ繧｢ 笨ｦ</div>
         </div>
       </div>
 
-      <!-- 今日の記録 -->
+      <!-- 莉頑律縺ｮ險倬鹸 -->
       <div class="side-panel">
         <div class="panel-head" style="display:flex;justify-content:space-between;align-items:center;">
-          <span>📜 今週の記録</span>
-          <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">🔥 合計 <span id="total-kcal-burn">0</span> kcal</span>
+          <span>糖 莉企ｱ縺ｮ險倬鹸</span>
+          <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">櫨 蜷郁ｨ・<span id="total-kcal-burn">0</span> kcal</span>
         </div>
         <ul id="log-list"></ul>
       </div>
 
-      <!-- 運動時間帯 + 自由記述 -->
+      <!-- 驕句虚譎る俣蟶ｯ + 閾ｪ逕ｱ險倩ｿｰ -->
       <div style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:12px;padding:14px 16px;margin-top:10px;display:flex;flex-direction:column;gap:10px;">
-        <div style="font-size:.68rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.08em;">📝 週の記録メモ</div>
+        <div style="font-size:.68rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.08em;">統 騾ｱ縺ｮ險倬鹸繝｡繝｢</div>
         <div>
-          <div style="font-size:.64rem;color:rgba(30,80,110,.7);margin-bottom:6px;">主な運動時間帯</div>
+          <div style="font-size:.64rem;color:rgba(30,80,110,.7);margin-bottom:6px;">荳ｻ縺ｪ驕句虚譎る俣蟶ｯ</div>
           <div style="display:flex;gap:8px;">
-            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="morning" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">🌅 朝</span></label>
-            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="afternoon" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">☀️ 昼</span></label>
-            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="evening" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">🌙 夜</span></label>
-            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="varied" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">📊 様々</span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="morning" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">桁 譛・/span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="afternoon" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">笘・・譏ｼ</span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="evening" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">嫌 螟・/span></label>
+            <label style="flex:1;cursor:pointer;"><input type="radio" name="exercise-time" value="varied" style="accent-color:var(--gold);margin-right:4px;"><span style="font-size:.72rem;color:rgba(212,220,240,.75);">投 讒倥・/span></label>
           </div>
         </div>
         <div>
-          <div style="font-size:.64rem;color:rgba(30,80,110,.7);margin-bottom:6px;">今週の一言（任意・研究データとして活用）</div>
-          <textarea id="week-memo" rows="3" placeholder="例：仕事が忙しかったけど朝10分ずつ継続できた" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
+          <div style="font-size:.64rem;color:rgba(30,80,110,.7);margin-bottom:6px;">莉企ｱ縺ｮ荳險・井ｻｻ諢上・遐皮ｩｶ繝・・繧ｿ縺ｨ縺励※豢ｻ逕ｨ・・/div>
+          <textarea id="week-memo" rows="3" placeholder="萓具ｼ壻ｻ穂ｺ九′蠢吶＠縺九▲縺溘￠縺ｩ譛・0蛻・★縺､邯咏ｶ壹〒縺阪◆" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
         </div>
       </div>
 
-      <!-- 歩数計（DeviceMotion） -->
+      <!-- 豁ｩ謨ｰ險茨ｼ・eviceMotion・・-->
       <div id="step-counter-card" style="background:linear-gradient(135deg,rgba(78,201,138,.08),rgba(78,201,138,.03));border:1px solid rgba(78,201,138,.22);border-radius:12px;padding:14px 16px;margin-top:10px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="font-size:.7rem;color:rgba(168,232,192,.85);font-weight:700;letter-spacing:.06em;">👟 リアルタイム歩数計</div>
-          <div id="step-status" style="font-size:.6rem;color:rgba(30,80,110,.7);">未計測</div>
+          <div style="font-size:.7rem;color:rgba(168,232,192,.85);font-weight:700;letter-spacing:.06em;">臓 繝ｪ繧｢繝ｫ繧ｿ繧､繝豁ｩ謨ｰ險・/div>
+          <div id="step-status" style="font-size:.6rem;color:rgba(30,80,110,.7);">譛ｪ險域ｸｬ</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#a8e8c0;line-height:1;flex:1;text-align:center;">
-            <span id="step-count">0</span><span style="font-size:.65rem;color:rgba(168,232,192,.6);"> 歩</span>
+            <span id="step-count">0</span><span style="font-size:.65rem;color:rgba(168,232,192,.6);"> 豁ｩ</span>
           </div>
-          <button id="step-toggle" style="background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);color:#a8e8c0;font-family:inherit;font-size:.78rem;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;">▶ スタート</button>
-          <button id="step-import" style="display:none;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#f0d48a;font-family:inherit;font-size:.7rem;font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer;">分に変換</button>
+          <button id="step-toggle" style="background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);color:#a8e8c0;font-family:inherit;font-size:.78rem;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;">笆ｶ 繧ｹ繧ｿ繝ｼ繝・/button>
+          <button id="step-import" style="display:none;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#f0d48a;font-family:inherit;font-size:.7rem;font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer;">蛻・↓螟画鋤</button>
         </div>
-        <div style="font-size:.58rem;color:rgba(30,80,110,.7);margin-top:6px;line-height:1.5;">スマホをポケットに入れて歩くと自動カウント。1000歩 ≈ 10分換算で運動セッションに追加できます。</div>
+        <div style="font-size:.58rem;color:rgba(30,80,110,.7);margin-top:6px;line-height:1.5;">繧ｹ繝槭・繧偵・繧ｱ繝・ヨ縺ｫ蜈･繧後※豁ｩ縺上→閾ｪ蜍輔き繧ｦ繝ｳ繝医・000豁ｩ 竕・10蛻・鋤邂励〒驕句虚繧ｻ繝・す繝ｧ繝ｳ縺ｫ霑ｽ蜉縺ｧ縺阪∪縺吶・/div>
       </div>
 
-      <!-- 保存 -->
+      <!-- 菫晏ｭ・-->
       <div class="save-area">
-        <button class="btn-save" id="save-btn">✦ 今週の記録を保存する ✦</button>
-        <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">↺ 今週の入力をリセット</button>
+        <button class="btn-save" id="save-btn">笨ｦ 莉企ｱ縺ｮ險倬鹸繧剃ｿ晏ｭ倥☆繧・笨ｦ</button>
+        <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">竊ｺ 莉企ｱ縺ｮ蜈･蜉帙ｒ繝ｪ繧ｻ繝・ヨ</button>
         <div class="save-msg" id="save-msg"></div>
       </div>
 
-      <!-- 過去の記録 -->
+      <!-- 驕主悉縺ｮ險倬鹸 -->
       <div class="side-panel">
-        <div class="panel-head">📅 過去の記録</div>
+        <div class="panel-head">套 驕主悉縺ｮ險倬鹸</div>
         <div class="history-list" id="hist-list"></div>
       </div>
 
-      <!-- 月次サマリー -->
+      <!-- 譛域ｬ｡繧ｵ繝槭Μ繝ｼ -->
       <div class="side-panel" id="monthly-panel" style="display:none;">
-        <div class="panel-head">📊 月次サマリー</div>
+        <div class="panel-head">投 譛域ｬ｡繧ｵ繝槭Μ繝ｼ</div>
         <div id="monthly-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
 
@@ -1600,9 +1602,9 @@ setTimeout(function(){
   </div>
 </div>
 
-<!-- レベルアップトースト -->
+<!-- 繝ｬ繝吶Ν繧｢繝・・繝医・繧ｹ繝・-->
 <div id="lv-toast">
-  <div class="lt-head">✦ LEVEL UP ✦</div>
+  <div class="lt-head">笨ｦ LEVEL UP 笨ｦ</div>
   <div class="lt-body" id="lt-body"></div>
 </div>
 
@@ -1626,133 +1628,133 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-// ===== データ =====
-// 厚労省 国立健康・栄養研究所「身体活動のメッツ（METs）表」改訂版に準拠
+// ===== 繝・・繧ｿ =====
+// 蜴壼感逵・蝗ｽ遶句▼蠎ｷ繝ｻ譬・､顔皮ｩｶ謇縲瑚ｺｫ菴捺ｴｻ蜍輔・繝｡繝・ヤ・・ETs・芽｡ｨ縲肴隼險ら沿縺ｫ貅匁侠
 // https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf
 const EXERCISES = {
-  // 生活活動 + 3メッツ未満の運動
+  // 逕滓ｴｻ豢ｻ蜍・+ 3繝｡繝・ヤ譛ｪ貅縺ｮ驕句虚
   daily:[
-    {mets:2.0, label:'2.0 METs（生活活動）', list:[
-      {name:'ゆっくり散歩',icon:'🚶'},{name:'立ち仕事',icon:'🧍'},{name:'料理・家事',icon:'🍳'},
+    {mets:2.0, label:'2.0 METs・育函豢ｻ豢ｻ蜍包ｼ・, list:[
+      {name:'繧・▲縺上ｊ謨｣豁ｩ',icon:'垳'},{name:'遶九■莉穂ｺ・,icon:'ｧ・},{name:'譁咏炊繝ｻ螳ｶ莠・,icon:'叉'},
     ]},
     {mets:2.3, label:'2.3 METs', list:[
-      {name:'ストレッチング',icon:'🧘'},
+      {name:'繧ｹ繝医Ξ繝・メ繝ｳ繧ｰ',icon:'ｧ・},
     ]},
     {mets:2.5, label:'2.5 METs', list:[
-      {name:'ヨガ',icon:'🧘'},{name:'ビリヤード',icon:'🎱'},{name:'買い物・外出',icon:'🛒'},{name:'子どもと遊ぶ',icon:'🧒'},
+      {name:'繝ｨ繧ｬ',icon:'ｧ・},{name:'繝薙Μ繝､繝ｼ繝・,icon:'竺'},{name:'雋ｷ縺・黄繝ｻ螟門・',icon:'將'},{name:'蟄舌←繧ゅ→驕翫・',icon:'ｧ・},
     ]},
     {mets:2.8, label:'2.8 METs', list:[
-      {name:'座って行うラジオ体操',icon:'💺'},{name:'楽な強度の腹筋運動',icon:'💪'},{name:'掃除・片付け',icon:'🧹'},
+      {name:'蠎ｧ縺｣縺ｦ陦後≧繝ｩ繧ｸ繧ｪ菴捺桃',icon:'勅'},{name:'讌ｽ縺ｪ蠑ｷ蠎ｦ縺ｮ閻ｹ遲矩°蜍・,icon:'潮'},{name:'謗・勁繝ｻ迚・ｻ倥￠',icon:'ｧｹ'},
     ]},
   ],
-  // 中強度（3〜6 METs未満）— MHLW運動メッツ表
+  // 荳ｭ蠑ｷ蠎ｦ・・縲・ METs譛ｪ貅・俄・MHLW驕句虚繝｡繝・ヤ陦ｨ
   moderate:[
     {mets:3.0, label:'3.0 METs', list:[
-      {name:'ボウリング',icon:'🎳'},{name:'バレーボール',icon:'🏐'},
-      {name:'社交ダンス（ワルツ等）',icon:'💃'},{name:'ピラティス',icon:'🧘'},{name:'太極拳',icon:'🥋'},
-      {name:'普通の速さで歩く',icon:'🚶'},{name:'階段の上り下り',icon:'🪜'},
+      {name:'繝懊え繝ｪ繝ｳ繧ｰ',icon:'宍'},{name:'繝舌Ξ繝ｼ繝懊・繝ｫ',icon:'署'},
+      {name:'遉ｾ莠､繝繝ｳ繧ｹ・医Ρ繝ｫ繝・ｭ会ｼ・,icon:'茶'},{name:'繝斐Λ繝・ぅ繧ｹ',icon:'ｧ・},{name:'螟ｪ讌ｵ諡ｳ',icon:'･・},
+      {name:'譎ｮ騾壹・騾溘＆縺ｧ豁ｩ縺・,icon:'垳'},{name:'髫取ｮｵ縺ｮ荳翫ｊ荳九ｊ',icon:'ｪ・},
     ]},
     {mets:3.5, label:'3.5 METs', list:[
-      {name:'自転車エルゴ（30-50W）',icon:'🚲'},
-      {name:'体操（家で・軽中等度）',icon:'🤸'},
-      {name:'ゴルフ（手引きカート）',icon:'⛳'},
+      {name:'閾ｪ霆｢霆翫お繝ｫ繧ｴ・・0-50W・・,icon:'坿'},
+      {name:'菴捺桃・亥ｮｶ縺ｧ繝ｻ霆ｽ荳ｭ遲牙ｺｦ・・,icon:'､ｸ'},
+      {name:'繧ｴ繝ｫ繝包ｼ域焔蠑輔″繧ｫ繝ｼ繝茨ｼ・,icon:'笵ｳ'},
     ]},
     {mets:3.8, label:'3.8 METs', list:[
-      {name:'筋トレ（腕立て・中等度）',icon:'💪'},
-      {name:'筋トレ（腹筋・中等度）',icon:'🏋️'},
+      {name:'遲九ヨ繝ｬ・郁・遶九※繝ｻ荳ｭ遲牙ｺｦ・・,icon:'潮'},
+      {name:'遲九ヨ繝ｬ・郁・遲九・荳ｭ遲牙ｺｦ・・,icon:'暑・・},
     ]},
     {mets:4.0, label:'4.0 METs', list:[
-      {name:'卓球',icon:'🏓'},{name:'パワーヨガ',icon:'🧘'},{name:'ラジオ体操第1',icon:'📻'},
+      {name:'蜊鍋帥',icon:'藷'},{name:'繝代Ρ繝ｼ繝ｨ繧ｬ',icon:'ｧ・},{name:'繝ｩ繧ｸ繧ｪ菴捺桃隨ｬ1',icon:'峠'},
     ]},
     {mets:4.3, label:'4.3 METs', list:[
-      {name:'やや速歩（平地93m/分）',icon:'🚶'},
-      {name:'ゴルフ（クラブを担いで）',icon:'⛳'},
+      {name:'繧・ｄ騾滓ｭｩ・亥ｹｳ蝨ｰ93m/蛻・ｼ・,icon:'垳'},
+      {name:'繧ｴ繝ｫ繝包ｼ医け繝ｩ繝悶ｒ諡・＞縺ｧ・・,icon:'笵ｳ'},
     ]},
     {mets:4.5, label:'4.5 METs', list:[
-      {name:'テニス（ダブルス）',icon:'🎾'},
-      {name:'水中歩行（中等度）',icon:'🏊'},
-      {name:'ラジオ体操第2',icon:'📻'},
+      {name:'繝・ル繧ｹ・医ム繝悶Ν繧ｹ・・,icon:'疾'},
+      {name:'豌ｴ荳ｭ豁ｩ陦鯉ｼ井ｸｭ遲牙ｺｦ・・,icon:'所'},
+      {name:'繝ｩ繧ｸ繧ｪ菴捺桃隨ｬ2',icon:'峠'},
     ]},
     {mets:4.8, label:'4.8 METs', list:[
-      {name:'水泳（ゆっくり背泳）',icon:'🏊'},
+      {name:'豌ｴ豕ｳ・医ｆ縺｣縺上ｊ閭梧ｳｳ・・,icon:'所'},
     ]},
     {mets:5.0, label:'5.0 METs', list:[
-      {name:'かなり速歩（107m/分）',icon:'🏃'},
-      {name:'野球',icon:'⚾'},{name:'ソフトボール',icon:'⚾'},
-      {name:'サーフィン',icon:'🏄'},{name:'バレエ（モダン・ジャズ）',icon:'🩰'},
-      {name:'筋トレ（スクワット）',icon:'🏋️'},
+      {name:'縺九↑繧企滓ｭｩ・・07m/蛻・ｼ・,icon:'純'},
+      {name:'驥守帥',icon:'笞ｾ'},{name:'繧ｽ繝輔ヨ繝懊・繝ｫ',icon:'笞ｾ'},
+      {name:'繧ｵ繝ｼ繝輔ぅ繝ｳ',icon:'巡'},{name:'繝舌Ξ繧ｨ・医Δ繝繝ｳ繝ｻ繧ｸ繝｣繧ｺ・・,icon:'ｩｰ'},
+      {name:'遲九ヨ繝ｬ・医せ繧ｯ繝ｯ繝・ヨ・・,icon:'暑・・},
     ]},
     {mets:5.3, label:'5.3 METs', list:[
-      {name:'水泳（ゆっくり平泳ぎ）',icon:'🏊'},
-      {name:'スキー',icon:'⛷️'},{name:'アクアビクス',icon:'💦'},
+      {name:'豌ｴ豕ｳ・医ｆ縺｣縺上ｊ蟷ｳ豕ｳ縺趣ｼ・,icon:'所'},
+      {name:'繧ｹ繧ｭ繝ｼ',icon:'笵ｷ・・},{name:'繧｢繧ｯ繧｢繝薙け繧ｹ',icon:'懲'},
     ]},
     {mets:5.5, label:'5.5 METs', list:[
-      {name:'バドミントン',icon:'🏸'},
+      {name:'繝舌ラ繝溘Φ繝医Φ',icon:'昇'},
     ]},
   ],
-  // 高強度（6 METs以上）— MHLW運動メッツ表
+  // 鬮伜ｼｷ蠎ｦ・・ METs莉･荳奇ｼ俄・MHLW驕句虚繝｡繝・ヤ陦ｨ
   high:[
     {mets:6.0, label:'6.0 METs', list:[
-      {name:'ゆっくりジョギング',icon:'🏃'},
-      {name:'ウェイトトレ（高強度）',icon:'🏋️'},
-      {name:'バスケットボール',icon:'🏀'},
-      {name:'水泳（のんびり泳ぐ）',icon:'🏊'},
+      {name:'繧・▲縺上ｊ繧ｸ繝ｧ繧ｮ繝ｳ繧ｰ',icon:'純'},
+      {name:'繧ｦ繧ｧ繧､繝医ヨ繝ｬ・磯ｫ伜ｼｷ蠎ｦ・・,icon:'暑・・},
+      {name:'繝舌せ繧ｱ繝・ヨ繝懊・繝ｫ',icon:'準'},
+      {name:'豌ｴ豕ｳ・医・繧薙・繧頑ｳｳ縺撰ｼ・,icon:'所'},
     ]},
     {mets:6.5, label:'6.5 METs', list:[
-      {name:'山登り（0-4kg荷物）',icon:'🏔️'},
+      {name:'螻ｱ逋ｻ繧奇ｼ・-4kg闕ｷ迚ｩ・・,icon:'諸・・},
     ]},
     {mets:6.8, label:'6.8 METs', list:[
-      {name:'自転車エルゴ（90-100W）',icon:'🚲'},
+      {name:'閾ｪ霆｢霆翫お繝ｫ繧ｴ・・0-100W・・,icon:'坿'},
     ]},
     {mets:7.0, label:'7.0 METs', list:[
-      {name:'ジョギング',icon:'🏃'},
-      {name:'サッカー',icon:'⚽'},{name:'スキー',icon:'⛷️'},
-      {name:'スケート',icon:'⛸️'},{name:'ハンドボール',icon:'🤾'},
+      {name:'繧ｸ繝ｧ繧ｮ繝ｳ繧ｰ',icon:'純'},
+      {name:'繧ｵ繝・き繝ｼ',icon:'笞ｽ'},{name:'繧ｹ繧ｭ繝ｼ',icon:'笵ｷ・・},
+      {name:'繧ｹ繧ｱ繝ｼ繝・,icon:'笵ｸ・・},{name:'繝上Φ繝峨・繝ｼ繝ｫ',icon:'､ｾ'},
     ]},
     {mets:7.3, label:'7.3 METs', list:[
-      {name:'エアロビクス',icon:'🎵'},
-      {name:'テニス（シングルス）',icon:'🎾'},
-      {name:'山登り（4.5-9kg荷物）',icon:'🏔️'},
+      {name:'繧ｨ繧｢繝ｭ繝薙け繧ｹ',icon:'七'},
+      {name:'繝・ル繧ｹ・医す繝ｳ繧ｰ繝ｫ繧ｹ・・,icon:'疾'},
+      {name:'螻ｱ逋ｻ繧奇ｼ・.5-9kg闕ｷ迚ｩ・・,icon:'諸・・},
     ]},
     {mets:8.0, label:'8.0 METs', list:[
-      {name:'サイクリング（20km/h）',icon:'🚴'},
-      {name:'激しい筋トレ',icon:'🏋️'},
+      {name:'繧ｵ繧､繧ｯ繝ｪ繝ｳ繧ｰ・・0km/h・・,icon:'垓'},
+      {name:'豼縺励＞遲九ヨ繝ｬ',icon:'暑・・},
     ]},
     {mets:8.3, label:'8.3 METs', list:[
-      {name:'ランニング（134m/分）',icon:'🏃'},
-      {name:'水泳（クロール46m/分未満）',icon:'🏊'},
-      {name:'ラグビー',icon:'🏉'},
+      {name:'繝ｩ繝ｳ繝九Φ繧ｰ・・34m/蛻・ｼ・,icon:'純'},
+      {name:'豌ｴ豕ｳ・医け繝ｭ繝ｼ繝ｫ46m/蛻・悴貅・・,icon:'所'},
+      {name:'繝ｩ繧ｰ繝薙・',icon:'初'},
     ]},
     {mets:9.0, label:'9.0 METs', list:[
-      {name:'ランニング（139m/分）',icon:'🏃'},
+      {name:'繝ｩ繝ｳ繝九Φ繧ｰ・・39m/蛻・ｼ・,icon:'純'},
     ]},
     {mets:9.8, label:'9.8 METs', list:[
-      {name:'ランニング（161m/分）',icon:'🏃'},
+      {name:'繝ｩ繝ｳ繝九Φ繧ｰ・・61m/蛻・ｼ・,icon:'純'},
     ]},
     {mets:10.0, label:'10.0 METs', list:[
-      {name:'水泳（速いクロール69m/分）',icon:'🏊'},
+      {name:'豌ｴ豕ｳ・磯溘＞繧ｯ繝ｭ繝ｼ繝ｫ69m/蛻・ｼ・,icon:'所'},
     ]},
     {mets:10.3, label:'10.3 METs', list:[
-      {name:'武道・武術（柔道・空手等）',icon:'🥋'},
+      {name:'豁ｦ驕薙・豁ｦ陦難ｼ域沐驕薙・遨ｺ謇狗ｭ会ｼ・,icon:'･・},
     ]},
     {mets:11.0, label:'11.0 METs', list:[
-      {name:'ランニング（188m/分）',icon:'🏃'},
-      {name:'自転車エルゴ（161-200W）',icon:'🚴'},
+      {name:'繝ｩ繝ｳ繝九Φ繧ｰ・・88m/蛻・ｼ・,icon:'純'},
+      {name:'閾ｪ霆｢霆翫お繝ｫ繧ｴ・・61-200W・・,icon:'垓'},
     ]},
   ]
 };
 const LEVELS=[
-  {lv:1,name:'転生者',     xp:0},
-  {lv:2,name:'見習い勇者', xp:300},
-  {lv:3,name:'修行の勇者', xp:600},
-  {lv:4,name:'英雄候補',   xp:1000},
-  {lv:5,name:'覚醒した勇者',xp:1500},
+  {lv:1,name:'霆｢逕溯・,     xp:0},
+  {lv:2,name:'隕狗ｿ偵＞蜍・・, xp:300},
+  {lv:3,name:'菫ｮ陦後・蜍・・, xp:600},
+  {lv:4,name:'闍ｱ髮・呵｣・,   xp:1000},
+  {lv:5,name:'隕夐・縺励◆蜍・・,xp:1500},
 ];
 
-// ===== 状態 =====
+// ===== 迥ｶ諷・=====
 let uid='', sessions=[], modMin=0, highMin=0, prevLv=1;
 
-// ===== 週キー =====
+// ===== 騾ｱ繧ｭ繝ｼ =====
 function weekKey(){
   const d=new Date(), j=new Date(d.getFullYear(),0,1);
   const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
@@ -1762,10 +1764,10 @@ function checkStreakWarning(){
   const s=getStreak(); if(!s.count) return;
   const hasSavedThisWeek=!!localStorage.getItem(storeKey());
   if(hasSavedThisWeek) return;
-  const dow=new Date().getDay(); // 0=日, 4=木, 6=土
-  if(dow<4) return; // 木曜以降だけ警告
+  const dow=new Date().getDay(); // 0=譌･, 4=譛ｨ, 6=蝨・
+  if(dow<4) return; // 譛ｨ譖應ｻ･髯阪□縺題ｭｦ蜻・
   const daysLeft=7-dow;
-  showSaveToast('🔥',`ストリーク${s.count}週連続中！あと${daysLeft}日で記録してね`);
+  showSaveToast('櫨',`繧ｹ繝医Μ繝ｼ繧ｯ${s.count}騾ｱ騾｣邯壻ｸｭ・√≠縺ｨ${daysLeft}譌･縺ｧ險倬鹸縺励※縺ｭ`);
 }
 function weekLabel(){
   const d=new Date();
@@ -1774,14 +1776,14 @@ function weekLabel(){
   const f=x=>`${x.getMonth()+1}/${x.getDate()}`;
   const j=new Date(d.getFullYear(),0,1);
   const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
-  return `第${w}週 (${f(s)}〜${f(e)})`;
+  return `隨ｬ${w}騾ｱ (${f(s)}縲・{f(e)})`;
 }
 
-// ===== 設定読込 =====
+// ===== 險ｭ螳夊ｪｭ霎ｼ =====
 function getSettings(){ try{return JSON.parse(localStorage.getItem('vitalia_settings')||'{}');}catch(e){return{};} }
 function getWeeklyGoal(){ return parseInt(getSettings().weeklyGoal)||150; }
 
-// ===== 栄養ボーナス =====
+// ===== 譬・､翫・繝ｼ繝翫せ =====
 function getNutritionScore(){
   try{
     const raw=localStorage.getItem(`vn_${uid}_${weekKey()}`);
@@ -1791,24 +1793,24 @@ function getNutritionScore(){
 }
 function getNutritionMult(score){ return score>=20?1.15:score>=10?1.08:1.0; }
 
-// ===== ストレージキー =====
+// ===== 繧ｹ繝医Ξ繝ｼ繧ｸ繧ｭ繝ｼ =====
 function storeKey(wk){ return `vq_${uid}_${wk||weekKey()}`; }
 function histKey(){    return `vq_hist_${uid}`; }
 function bonusKey(){   return `vq_bonus_${uid}`; }
 function achKey(){     return `vq_ach_${uid}`; }
 function streakSKey(){ return `vq_streak_${uid}`; }
 
-// ===== 実績定義 =====
+// ===== 螳溽ｸｾ螳夂ｾｩ =====
 const ACHV=[
-  {id:'first',   icon:'⚔️', name:'初陣',     cond:'初めての記録'},
-  {id:'goal',    icon:'🎯', name:'目標達成', cond:'週150分クリア'},
-  {id:'high',    icon:'🔥', name:'高強度',   cond:'高強度クエスト初挑戦'},
-  {id:'streak3', icon:'📅', name:'3週連続', cond:'3週間連続記録'},
-  {id:'streak8', icon:'🌟', name:'2ヶ月',    cond:'8週間連続記録'},
-  {id:'lv3',     icon:'⭐', name:'Lv3',      cond:'修行の勇者に到達'},
-  {id:'lv5',     icon:'👑', name:'覚醒',     cond:'Lv5到達'},
-  {id:'steps',   icon:'👣', name:'鉄の足',   cond:'週7万歩達成'},
-  {id:'season12',icon:'🏆', name:'シーズン完走', cond:'12週間の記録を達成'},
+  {id:'first',   icon:'笞費ｸ・, name:'蛻晞劵',     cond:'蛻昴ａ縺ｦ縺ｮ險倬鹸'},
+  {id:'goal',    icon:'識', name:'逶ｮ讓咎＃謌・, cond:'騾ｱ150蛻・け繝ｪ繧｢'},
+  {id:'high',    icon:'櫨', name:'鬮伜ｼｷ蠎ｦ',   cond:'鬮伜ｼｷ蠎ｦ繧ｯ繧ｨ繧ｹ繝亥・謖第姶'},
+  {id:'streak3', icon:'套', name:'3騾ｱ騾｣邯・, cond:'3騾ｱ髢馴｣邯夊ｨ倬鹸'},
+  {id:'streak8', icon:'検', name:'2繝ｶ譛・,    cond:'8騾ｱ髢馴｣邯夊ｨ倬鹸'},
+  {id:'lv3',     icon:'箝・, name:'Lv3',      cond:'菫ｮ陦後・蜍・・↓蛻ｰ驕・},
+  {id:'lv5',     icon:'荘', name:'隕夐・',     cond:'Lv5蛻ｰ驕・},
+  {id:'steps',   icon:'促', name:'驩・・雜ｳ',   cond:'騾ｱ7荳・ｭｩ驕疲・'},
+  {id:'season12',icon:'醇', name:'繧ｷ繝ｼ繧ｺ繝ｳ螳瑚ｵｰ', cond:'12騾ｱ髢薙・險倬鹸繧帝＃謌・},
 ];
 function getAch(){ try{return JSON.parse(localStorage.getItem(achKey())||'{}');}catch(e){return{};} }
 function setAch(a){ localStorage.setItem(achKey(),JSON.stringify(a)); }
@@ -1833,7 +1835,7 @@ function renderAch(){
     b.className='ach-badge'+(a[d.id]?' unlocked':'');
     b.title=d.cond;
     const dateStr=a[d.id] ? new Date(a[d.id]).toLocaleDateString('ja-JP') : '';
-    b.innerHTML=`<span class="ach-icon">${d.icon}</span><span class="ach-info"><span class="ach-name">${d.name}</span><span class="ach-cond">${a[d.id] ? '✓ '+dateStr : d.cond}</span></span>`;
+    b.innerHTML=`<span class="ach-icon">${d.icon}</span><span class="ach-info"><span class="ach-name">${d.name}</span><span class="ach-cond">${a[d.id] ? '笨・'+dateStr : d.cond}</span></span>`;
     el.appendChild(b);
   });
 }
@@ -1847,12 +1849,12 @@ function checkAch(){
   if(!a.lv3    && getLv(xp).lv>=3)      unlock('lv3');
   if(!a.lv5    && getLv(xp).lv>=5)      unlock('lv5');
   if(!a.steps  && steps>=70000)         unlock('steps');
-  // 12週完走バッジ
+  // 12騾ｱ螳瑚ｵｰ繝舌ャ繧ｸ
   let qHist=[]; try{qHist=JSON.parse(localStorage.getItem(histKey())||'[]');}catch(e){}
   if(!a.season12 && qHist.length>=12)  unlock('season12');
 }
 
-// ===== ストリーク =====
+// ===== 繧ｹ繝医Μ繝ｼ繧ｯ =====
 function getStreak(){ try{return JSON.parse(localStorage.getItem(streakSKey())||'{"count":0,"best":0,"lastWk":""}');}catch(e){return{count:0,best:0,lastWk:''};} }
 function prevWeekKey(){
   const d=new Date(); d.setDate(d.getDate()-7);
@@ -1877,12 +1879,12 @@ function renderStreak(s){
   const best=document.getElementById('streak-best');
   if(!n) return;
   n.textContent=s.count||0;
-  const msgs=['まず1週目から！','1週目スタート！','2週連続！','3週連続！すごい！','4週連続！','5週連続！','6週連続！','7週連続！もう少し！','8週連続！伝説！'];
+  const msgs=['縺ｾ縺・騾ｱ逶ｮ縺九ｉ・・,'1騾ｱ逶ｮ繧ｹ繧ｿ繝ｼ繝茨ｼ・,'2騾ｱ騾｣邯夲ｼ・,'3騾ｱ騾｣邯夲ｼ√☆縺斐＞・・,'4騾ｱ騾｣邯夲ｼ・,'5騾ｱ騾｣邯夲ｼ・,'6騾ｱ騾｣邯夲ｼ・,'7騾ｱ騾｣邯夲ｼ√ｂ縺・ｰ代＠・・,'8騾ｱ騾｣邯夲ｼ∽ｼ晁ｪｬ・・];
   sub.textContent=msgs[Math.min(s.count,msgs.length-1)];
-  best.textContent=s.best>1?`最高 ${s.best}週`:'';
+  best.textContent=s.best>1?`譛鬮・${s.best}騾ｱ`:'';
 }
 
-// ===== ログインボーナス =====
+// ===== 繝ｭ繧ｰ繧､繝ｳ繝懊・繝翫せ =====
 function checkLoginBonus(){
   const dayKey=`vq_day_${uid}`, today=new Date().toDateString();
   if(localStorage.getItem(dayKey)===today) return;
@@ -1892,12 +1894,12 @@ function checkLoginBonus(){
   updateUI();
   const el=document.createElement('div');
   el.className='bonus-toast';
-  el.innerHTML='<div class="bt-head">✦ デイリーボーナス ✦</div><div class="bt-body">今日もヴィタリアへ！ +30XP</div>';
+  el.innerHTML='<div class="bt-head">笨ｦ 繝・う繝ｪ繝ｼ繝懊・繝翫せ 笨ｦ</div><div class="bt-body">莉頑律繧ゅΧ繧｣繧ｿ繝ｪ繧｢縺ｸ・・+30XP</div>';
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),3700);
 }
 
-// ===== XP / レベル =====
+// ===== XP / 繝ｬ繝吶Ν =====
 function totalXp(){
   const sXp=sessions.reduce((s,x)=>s+x.xp,0);
   const bXp=parseInt(localStorage.getItem(bonusKey())||'0');
@@ -1916,7 +1918,7 @@ function xpForActivity(mets,type){
   return type==='high' ? Math.round(mets*10*2) : Math.round(mets*10);
 }
 
-// ===== UI更新 =====
+// ===== UI譖ｴ譁ｰ =====
 function updateUI(){
   const goal=getWeeklyGoal();
   const score=modMin+highMin*2;
@@ -1934,11 +1936,11 @@ function updateUI(){
   document.getElementById('goal-pct').textContent = pct;
   document.getElementById('goal-msg').style.display= score>=goal ? 'block' : 'none';
   const goalLbl=document.getElementById('goal-label');
-  if(goalLbl) goalLbl.textContent=`週${goal}分目標`;
+  if(goalLbl) goalLbl.textContent=`騾ｱ${goal}蛻・岼讓兪;
   const goalNote=document.getElementById('goal-section-note');
-  if(goalNote) goalNote.textContent=`1タップ＝10分 ｜ あなたの週間目標：${goal}分`;
+  if(goalNote) goalNote.textContent=`1繧ｿ繝・・・・0蛻・・・縺ゅ↑縺溘・騾ｱ髢鍋岼讓呻ｼ・{goal}蛻・;
 
-  // ヒーローバナー更新
+  // 繝偵・繝ｭ繝ｼ繝舌リ繝ｼ譖ｴ譁ｰ
   const qhFill=document.getElementById('qh-bar-fill');
   if(qhFill) qhFill.style.width=pct+'%';
   const qhMin=document.getElementById('qh-min-now');
@@ -1946,14 +1948,14 @@ function updateUI(){
   const qhWeek=document.getElementById('qh-week-lbl');
   if(qhWeek){
     const remain=Math.max(0,goal-score);
-    qhWeek.textContent=remain>0 ? `目標まで残り ${remain}分 (${goal}分/週)` : `🎉 週間目標達成！(${goal}分/週)`;
+    qhWeek.textContent=remain>0 ? `逶ｮ讓吶∪縺ｧ谿九ｊ ${remain}蛻・(${goal}蛻・騾ｱ)` : `脂 騾ｱ髢鍋岼讓咎＃謌撰ｼ・${goal}蛻・騾ｱ)`;
   }
   const qhXp=document.getElementById('qh-xp-today');
   if(qhXp){
     const todayXp=sessions.reduce((s,x)=>s+(x.xp||0),0);
     qhXp.textContent=todayXp;
   }
-  // ストリーク
+  // 繧ｹ繝医Μ繝ｼ繧ｯ
   const qhStreak=document.getElementById('qh-streak');
   if(qhStreak){
     try{ const st=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); qhStreak.textContent=st.count||0; }catch(e){}
@@ -1961,51 +1963,51 @@ function updateUI(){
 
   document.getElementById('xp-fill').style.width  = barPct+'%';
   document.getElementById('xp-now').textContent   = xp;
-  document.getElementById('xp-next').textContent  = nxt ? nxt-xp : '最大';
+  document.getElementById('xp-next').textContent  = nxt ? nxt-xp : '譛螟ｧ';
   document.getElementById('lv-n').textContent     = lv.lv;
   document.getElementById('lv-name').textContent  = lv.name;
 
-  // BMIヒント
+  // BMI繝偵Φ繝・
   const bmi=parseFloat(document.getElementById('bmi-val').value||'0');
   const hint=document.getElementById('bmi-hint');
   if(bmi>0){
-    if(bmi<18.5)      { hint.textContent='痩せ気味'; hint.className='hint bmi-ng'; }
-    else if(bmi<25)   { hint.textContent='標準';     hint.className='hint bmi-ok'; }
-    else if(bmi<30)   { hint.textContent='肥満(1°)'; hint.className='hint bmi-ng'; }
-    else              { hint.textContent='肥満(2°+)';hint.className='hint bmi-ng'; }
+    if(bmi<18.5)      { hint.textContent='逞ｩ縺帶ｰ怜袖'; hint.className='hint bmi-ng'; }
+    else if(bmi<25)   { hint.textContent='讓呎ｺ・;     hint.className='hint bmi-ok'; }
+    else if(bmi<30)   { hint.textContent='閧･貅(1ﾂｰ)'; hint.className='hint bmi-ng'; }
+    else              { hint.textContent='閧･貅(2ﾂｰ+)';hint.className='hint bmi-ng'; }
   } else {
     hint.textContent=''; hint.className='hint';
   }
 
-  // ボス更新
+  // 繝懊せ譖ｴ譁ｰ
   renderBoss(score);
 
-  // カイトのセリフ＋表情差分更新
+  // 繧ｫ繧､繝医・繧ｻ繝ｪ繝包ｼ玖｡ｨ諠・ｷｮ蛻・峩譁ｰ
   const kc=document.getElementById('kaito-comment');
   const kf=document.getElementById('kaito-face');
   if(kc){
     const nutScore=getNutritionScore();
     let msg,face;
     if(score===0){
-      msg='今週の記録を入力して、クエストを進めよう！';       face=4; // 思案
+      msg='莉企ｱ縺ｮ險倬鹸繧貞・蜉帙＠縺ｦ縲√け繧ｨ繧ｹ繝医ｒ騾ｲ繧√ｈ縺・ｼ・;       face=4; // 諤晄｡・
     } else if(score<50){
-      msg='よし、動き出したな！この調子で続けていこうぜ。';   face=1; // 笑顔
+      msg='繧医＠縲∝虚縺榊・縺励◆縺ｪ・√％縺ｮ隱ｿ蟄舌〒邯壹￠縺ｦ縺・％縺・●縲・;   face=1; // 隨鷹｡・
     } else if(score<100){
-      msg='いい感じだ！あと少しで目標の半分だぞ。';           face=1; // 笑顔
+      msg='縺・＞諢溘§縺・√≠縺ｨ蟆代＠縺ｧ逶ｮ讓吶・蜊雁・縺縺槭・;           face=1; // 隨鷹｡・
     } else if(score<goal){
-      msg=`もう少しで${goal}分！最後まで諦めるな！`;          face=2; // 真剣
+      msg=`繧ゅ≧蟆代＠縺ｧ${goal}蛻・ｼ∵怙蠕後∪縺ｧ隲ｦ繧√ｋ縺ｪ・～;          face=2; // 逵溷殴
     } else if(score>=goal && nutScore===0){
-      msg='運動目標達成！あとは栄養クエストも記録するとXPボーナスが増えるぞ。'; face=5; // 驚き
+      msg='驕句虚逶ｮ讓咎＃謌撰ｼ√≠縺ｨ縺ｯ譬・､翫け繧ｨ繧ｹ繝医ｂ險倬鹸縺吶ｋ縺ｨXP繝懊・繝翫せ縺悟｢励∴繧九◇縲・; face=5; // 鬩壹″
     } else if(score<goal*1.7){
-      msg='目標達成！食事もバッチリならXPボーナス中だ！';     face=6; // 照れ
+      msg='逶ｮ讓咎＃謌撰ｼ・｣滉ｺ九ｂ繝舌ャ繝√Μ縺ｪ繧厩P繝懊・繝翫せ荳ｭ縺・・;     face=6; // 辣ｧ繧・
     } else {
-      msg='すごい週だ…！この記録、ちゃんと残しておこう。';   face=1; // 笑顔
+      msg='縺吶＃縺・ｱ縺窶ｦ・√％縺ｮ險倬鹸縲√■繧・ｓ縺ｨ谿九＠縺ｦ縺翫％縺・・;   face=1; // 隨鷹｡・
     }
     kc.textContent=msg;
     if(kf) kf.src=`./image/kaito-sabun%20(${face}).png`;
   }
 
-  // レベルアップチェック
+  // 繝ｬ繝吶Ν繧｢繝・・繝√ぉ繝・け
   if(lv.lv > prevLv){
     showLvUp(lv.lv, lv.name);
     const badge=document.getElementById('lv-badge');
@@ -2016,19 +2018,19 @@ function updateUI(){
   updateLinked();
 }
 
-// ===== ボス戦システム =====
+// ===== 繝懊せ謌ｦ繧ｷ繧ｹ繝・Β =====
 const BOSSES=[
-  {icon:'👾',name:'ナマケ・グリム',    type:'怠惰の魔獣 ／ 弱点：有酸素運動'},
-  {icon:'🐌',name:'スロース・ワーム', type:'停滞の虫 ／ 弱点：継続的な中強度運動'},
-  {icon:'💤',name:'ドロウジー卿',     type:'睡眠過多の騎士 ／ 弱点：ウォーキング'},
-  {icon:'🦥',name:'ズボラ大公',       type:'運動回避の貴族 ／ 弱点：筋力トレーニング'},
-  {icon:'🌫',name:'モヤ・フォグ',     type:'霧の精霊 ／ 弱点：高強度運動'},
-  {icon:'🕸',name:'クモノス・クイーン',type:'習慣を絡め取る女王 ／ 弱点：週3回以上の運動'},
-  {icon:'🪨',name:'ロック・ゴーレム', type:'惰性の巨人 ／ 弱点：歩数増加'},
-  {icon:'🌊',name:'デプレシア・タイド',type:'倦怠の波 ／ 弱点：軽運動の継続'},
+  {icon:'太',name:'繝翫・繧ｱ繝ｻ繧ｰ繝ｪ繝',    type:'諤諠ｰ縺ｮ鬲皮坤 ・・蠑ｱ轤ｹ・壽怏驟ｸ邏驕句虚'},
+  {icon:'酔',name:'繧ｹ繝ｭ繝ｼ繧ｹ繝ｻ繝ｯ繝ｼ繝', type:'蛛懈ｻ槭・陌ｫ ・・蠑ｱ轤ｹ・夂ｶ咏ｶ夂噪縺ｪ荳ｭ蠑ｷ蠎ｦ驕句虚'},
+  {icon:'彫',name:'繝峨Ο繧ｦ繧ｸ繝ｼ蜊ｿ',     type:'逹｡逵驕主､壹・鬨主｣ｫ ・・蠑ｱ轤ｹ・壹え繧ｩ繝ｼ繧ｭ繝ｳ繧ｰ'},
+  {icon:'ｦ･',name:'繧ｺ繝懊Λ螟ｧ蜈ｬ',       type:'驕句虚蝗樣∩縺ｮ雋ｴ譌・・・蠑ｱ轤ｹ・夂ｭ句鴨繝医Ξ繝ｼ繝九Φ繧ｰ'},
+  {icon:'賢',name:'繝｢繝､繝ｻ繝輔か繧ｰ',     type:'髴ｧ縺ｮ邊ｾ髴・・・蠑ｱ轤ｹ・夐ｫ伜ｼｷ蠎ｦ驕句虚'},
+  {icon:'丙',name:'繧ｯ繝｢繝弱せ繝ｻ繧ｯ繧､繝ｼ繝ｳ',type:'鄙呈・繧堤ｵ｡繧∝叙繧句･ｳ邇・・・蠑ｱ轤ｹ・夐ｱ3蝗樔ｻ･荳翫・驕句虚'},
+  {icon:'ｪｨ',name:'繝ｭ繝・け繝ｻ繧ｴ繝ｼ繝ｬ繝', type:'諠ｰ諤ｧ縺ｮ蟾ｨ莠ｺ ・・蠑ｱ轤ｹ・壽ｭｩ謨ｰ蠅怜刈'},
+  {icon:'穴',name:'繝・・繝ｬ繧ｷ繧｢繝ｻ繧ｿ繧､繝・,type:'蛟ｦ諤縺ｮ豕｢ ・・蠑ｱ轤ｹ・夊ｻｽ驕句虚縺ｮ邯咏ｶ・},
 ];
 function getBoss(){
-  const wk=weekKey(); // "2026-W19" 形式
+  const wk=weekKey(); // "2026-W19" 蠖｢蠑・
   const n=parseInt(wk.replace(/\D/g,''))%BOSSES.length;
   return BOSSES[n];
 }
@@ -2054,40 +2056,40 @@ function renderBoss(score){
   } else {
     defeated.classList.add('hidden');
   }
-  // ダメージメッセージ
+  // 繝繝｡繝ｼ繧ｸ繝｡繝・そ繝ｼ繧ｸ
   const dmgEl=document.getElementById('boss-damage-msg');
-  if(score===0)       dmgEl.textContent='運動してダメージを与えよう！';
-  else if(hp<=75)     dmgEl.textContent=`残りHP ${hp} — もう少しで討伐！`;
-  else                dmgEl.textContent=`${score}ポイントのダメージを与えた！`;
+  if(score===0)       dmgEl.textContent='驕句虚縺励※繝繝｡繝ｼ繧ｸ繧剃ｸ弱∴繧医≧・・;
+  else if(hp<=75)     dmgEl.textContent=`谿九ｊHP ${hp} 窶・繧ゅ≧蟆代＠縺ｧ險惹ｼ撰ｼ～;
+  else                dmgEl.textContent=`${score}繝昴う繝ｳ繝医・繝繝｡繝ｼ繧ｸ繧剃ｸ弱∴縺滂ｼ～;
 }
 
-// ===== 健康知識カードデータ =====
+// ===== 蛛･蠎ｷ遏･隴倥き繝ｼ繝峨ョ繝ｼ繧ｿ =====
 const KNOWLEDGE={
   1:{
-    theme:'このアプリでできること',
-    body:`ようこそ、<strong>ヴィタリア転生録</strong>へ。<br><br>
-    このアプリでは、毎週の<strong>運動記録を積み重ねる</strong>ことで、あなたの体と習慣の変化を追跡します。<br><br>
-    記録するたびにXPが貯まり、レベルが上がるごとに<strong>健康に関する知識</strong>が解放されます。数週間後、自分の変化を振り返ったとき――それが、この冒険の本当の報酬です。`
+    theme:'縺薙・繧｢繝励Μ縺ｧ縺ｧ縺阪ｋ縺薙→',
+    body:`繧医≧縺薙◎縲・strong>繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</strong>縺ｸ縲・br><br>
+    縺薙・繧｢繝励Μ縺ｧ縺ｯ縲∵ｯ朱ｱ縺ｮ<strong>驕句虚險倬鹸繧堤ｩ阪∩驥阪・繧・/strong>縺薙→縺ｧ縲√≠縺ｪ縺溘・菴薙→鄙呈・縺ｮ螟牙喧繧定ｿｽ霍｡縺励∪縺吶・br><br>
+    險倬鹸縺吶ｋ縺溘・縺ｫXP縺瑚ｲｯ縺ｾ繧翫√Ξ繝吶Ν縺御ｸ翫′繧九＃縺ｨ縺ｫ<strong>蛛･蠎ｷ縺ｫ髢｢縺吶ｋ遏･隴・/strong>縺瑚ｧ｣謾ｾ縺輔ｌ縺ｾ縺吶よ焚騾ｱ髢灘ｾ後∬・蛻・・螟牙喧繧呈険繧願ｿ斐▲縺溘→縺坂補輔◎繧後′縲√％縺ｮ蜀帝匱縺ｮ譛ｬ蠖薙・蝣ｱ驟ｬ縺ｧ縺吶Ａ
   },
   2:{
-    theme:'METs（運動強度）とは',
-    body:`運動の強さを表す単位が <strong>METs（メッツ）</strong> です。安静時を1とすると、早歩きは約3METs、ジョギングは約7METs。<br><br>
-    このアプリが記録しているのは、あなたの<strong>週あたりの運動量合計</strong>です。週150分以上の中強度運動を続けることで、体力・疲労感・生活の質（QOL）の改善が期待できます。`
+    theme:'METs・磯°蜍募ｼｷ蠎ｦ・峨→縺ｯ',
+    body:`驕句虚縺ｮ蠑ｷ縺輔ｒ陦ｨ縺吝腰菴阪′ <strong>METs・医Γ繝・ヤ・・/strong> 縺ｧ縺吶ょｮ蛾撕譎ゅｒ1縺ｨ縺吶ｋ縺ｨ縲∵掠豁ｩ縺阪・邏・METs縲√ず繝ｧ繧ｮ繝ｳ繧ｰ縺ｯ邏・METs縲・br><br>
+    縺薙・繧｢繝励Μ縺瑚ｨ倬鹸縺励※縺・ｋ縺ｮ縺ｯ縲√≠縺ｪ縺溘・<strong>騾ｱ縺ゅ◆繧翫・驕句虚驥丞粋險・/strong>縺ｧ縺吶るｱ150蛻・ｻ･荳翫・荳ｭ蠑ｷ蠎ｦ驕句虚繧堤ｶ壹￠繧九％縺ｨ縺ｧ縲∽ｽ灘鴨繝ｻ逍ｲ蜉ｴ諢溘・逕滓ｴｻ縺ｮ雉ｪ・・OL・峨・謾ｹ蝟・′譛溷ｾ・〒縺阪∪縺吶Ａ
   },
   3:{
-    theme:'習慣化の科学',
-    body:`ある行動が「習慣」になるまでには、ある程度の時間がかかります。最初の数週間が最も重要で、続けるうちに「やらないと落ち着かない」感覚に変わっていきます。<br><br>
-    あなたが今積み重ねている毎週の記録は、その<strong>習慣の土台</strong>を作っています。`
+    theme:'鄙呈・蛹悶・遘大ｭｦ',
+    body:`縺ゅｋ陦悟虚縺後檎ｿ呈・縲阪↓縺ｪ繧九∪縺ｧ縺ｫ縺ｯ縲√≠繧狗ｨ句ｺｦ縺ｮ譎る俣縺後°縺九ｊ縺ｾ縺吶よ怙蛻昴・謨ｰ騾ｱ髢薙′譛繧る㍾隕√〒縲∫ｶ壹￠繧九≧縺｡縺ｫ縲後ｄ繧峨↑縺・→關ｽ縺｡逹縺九↑縺・肴─隕壹↓螟峨ｏ縺｣縺ｦ縺・″縺ｾ縺吶・br><br>
+    縺ゅ↑縺溘′莉顔ｩ阪∩驥阪・縺ｦ縺・ｋ豈朱ｱ縺ｮ險倬鹸縺ｯ縲√◎縺ｮ<strong>鄙呈・縺ｮ蝨溷床</strong>繧剃ｽ懊▲縺ｦ縺・∪縺吶Ａ
   },
   4:{
-    theme:'がん経験者と身体活動',
-    body:`がん治療後において、定期的な身体活動は<strong>治療後の疲労感（がん関連疲労）の改善</strong>、心理的健康の向上と関連しています。<br><br>
-    特に小児・AYA世代のがん経験者では、<strong>運動が長期的な晩期障害の予防</strong>にも寄与することが指摘されています。`
+    theme:'縺後ｓ邨碁ｨ楢・→霄ｫ菴捺ｴｻ蜍・,
+    body:`縺後ｓ豐ｻ逋ょｾ後↓縺翫＞縺ｦ縲∝ｮ壽悄逧・↑霄ｫ菴捺ｴｻ蜍輔・<strong>豐ｻ逋ょｾ後・逍ｲ蜉ｴ諢滂ｼ医′繧馴未騾｣逍ｲ蜉ｴ・峨・謾ｹ蝟・/strong>縲∝ｿ・炊逧・▼蠎ｷ縺ｮ蜷台ｸ翫→髢｢騾｣縺励※縺・∪縺吶・br><br>
+    迚ｹ縺ｫ蟆丞・繝ｻAYA荳紋ｻ｣縺ｮ縺後ｓ邨碁ｨ楢・〒縺ｯ縲・strong>驕句虚縺碁聞譛溽噪縺ｪ譎ｩ譛滄囿螳ｳ縺ｮ莠磯亟</strong>縺ｫ繧ょｯ・ｸ弱☆繧九％縺ｨ縺梧欠鞫倥＆繧後※縺・∪縺吶Ａ
   },
   5:{
-    theme:'運動と免疫機能',
-    body:`中強度の運動は、NK細胞やT細胞などの<strong>免疫細胞の活性</strong>を高める効果があるとされています。一方、過度な高強度運動は一時的に免疫を低下させることも。<br><br>
-    「適度な運動」が免疫にとって最も効果的。このアプリが<strong>中強度を中心に設計されている</strong>のはこのためです。`
+    theme:'驕句虚縺ｨ蜈咲稔讖溯・',
+    body:`荳ｭ蠑ｷ蠎ｦ縺ｮ驕句虚縺ｯ縲¨K邏ｰ閭槭ｄT邏ｰ閭槭↑縺ｩ縺ｮ<strong>蜈咲稔邏ｰ閭槭・豢ｻ諤ｧ</strong>繧帝ｫ倥ａ繧句柑譫懊′縺ゅｋ縺ｨ縺輔ｌ縺ｦ縺・∪縺吶ゆｸ譁ｹ縲・℃蠎ｦ縺ｪ鬮伜ｼｷ蠎ｦ驕句虚縺ｯ荳譎ら噪縺ｫ蜈咲稔繧剃ｽ惹ｸ九＆縺帙ｋ縺薙→繧ゅ・br><br>
+    縲碁←蠎ｦ縺ｪ驕句虚縲阪′蜈咲稔縺ｫ縺ｨ縺｣縺ｦ譛繧ょ柑譫懃噪縲ゅ％縺ｮ繧｢繝励Μ縺・strong>荳ｭ蠑ｷ蠎ｦ繧剃ｸｭ蠢・↓險ｭ險医＆繧後※縺・ｋ</strong>縺ｮ縺ｯ縺薙・縺溘ａ縺ｧ縺吶Ａ
   }
 };
 
@@ -2110,13 +2112,13 @@ function showLvUp(lvNum, name){
   const k=KNOWLEDGE[lvNum];
   if(k){
     document.getElementById('km-lvname').textContent=name;
-    document.getElementById('km-lvnum').textContent=`Lv ${lvNum} に到達`;
+    document.getElementById('km-lvnum').textContent=`Lv ${lvNum} 縺ｫ蛻ｰ驕覗;
     document.getElementById('km-theme').textContent=k.theme;
     document.getElementById('km-body').innerHTML=k.body;
     document.getElementById('knowledge-modal').classList.add('open');
   } else {
     const t=document.getElementById('lv-toast');
-    document.getElementById('lt-body').textContent=`称号が「${name}」に変わった！`;
+    document.getElementById('lt-body').textContent=`遘ｰ蜿ｷ縺後・{name}縲阪↓螟峨ｏ縺｣縺滂ｼ～;
     t.classList.add('show');
     setTimeout(()=>t.classList.remove('show'),3000);
   }
@@ -2125,7 +2127,7 @@ document.getElementById('km-close').addEventListener('click',()=>{
   document.getElementById('knowledge-modal').classList.remove('open');
 });
 
-// ===== プロフィール =====
+// ===== 繝励Ο繝輔ぅ繝ｼ繝ｫ =====
 const PROFILE_KEY='vq_profile_done';
 function saveProfile(){
   const p={
@@ -2136,7 +2138,7 @@ function saveProfile(){
     savedAt: new Date().toISOString()
   };
   localStorage.setItem(PROFILE_KEY, JSON.stringify(p));
-  // Firestoreにも保存
+  // Firestore縺ｫ繧ゆｿ晏ｭ・
   if(uid && uid!=='guest'){
     try{ setDoc(doc(db,'profiles',uid), {...p, uid}); }catch(e){}
   }
@@ -2147,7 +2149,7 @@ document.getElementById('profile-skip').addEventListener('click',()=>{
   document.getElementById('profile-modal').style.display='none';
 });
 
-// ===== インフォームドコンセント =====
+// ===== 繧､繝ｳ繝輔か繝ｼ繝繝峨さ繝ｳ繧ｻ繝ｳ繝・=====
 const CONSENT_KEY='vq_consent_done';
 if(!localStorage.getItem(CONSENT_KEY)){
   document.getElementById('consent-modal').style.display='flex';
@@ -2164,7 +2166,7 @@ document.getElementById('consent-btn').addEventListener('click',()=>{
   }
 });
 
-// ===== ログ描画 =====
+// ===== 繝ｭ繧ｰ謠冗判 =====
 function renderLog(){
   const ul=document.getElementById('log-list');
   ul.innerHTML='';
@@ -2178,20 +2180,20 @@ function renderLog(){
     li.innerHTML=`
       <span class="li-icon">${s.icon}</span>
       <span class="li-name">${s.name}<br>
-        <span class="li-sub">${s.type==='high'?'高強度':'中強度'} ${s.mets}METs · ${min}分 · 🔥${kcal}kcal</span>
+        <span class="li-sub">${s.type==='high'?'鬮伜ｼｷ蠎ｦ':'荳ｭ蠑ｷ蠎ｦ'} ${s.mets}METs ﾂｷ ${min}蛻・ﾂｷ 櫨${kcal}kcal</span>
       </span>
       <span class="li-xp">+${s.xp}XP</span>
-      <button class="li-del" data-i="${i}">✕</button>`;
+      <button class="li-del" data-i="${i}">笨・/button>`;
     ul.appendChild(li);
   });
   ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>removeSession(+b.dataset.i)));
-  // 合計カロリー消費表示
+  // 蜷郁ｨ医き繝ｭ繝ｪ繝ｼ豸郁ｲｻ陦ｨ遉ｺ
   const kcalEl = document.getElementById('total-kcal-burn');
   if(kcalEl) kcalEl.textContent = totalKcal;
   updateCardCounts();
 }
 
-// ===== カード回数バッジ =====
+// ===== 繧ｫ繝ｼ繝牙屓謨ｰ繝舌ャ繧ｸ =====
 function updateCardCounts(){
   const counts={};
   sessions.forEach(s=>{ counts[s.name]=(counts[s.name]||0)+1; });
@@ -2202,20 +2204,20 @@ function updateCardCounts(){
   });
 }
 
-// ===== カロリー消費計算 =====
+// ===== 繧ｫ繝ｭ繝ｪ繝ｼ豸郁ｲｻ險育ｮ・=====
 function getUserWeight(){
   try{
     const s = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
-    return parseFloat(s.weight) || 60; // デフォルト60kg
+    return parseFloat(s.weight) || 60; // 繝・ヵ繧ｩ繝ｫ繝・0kg
   }catch(e){ return 60; }
 }
 function calcCaloriesBurned(mets, minutes){
-  // METs * 体重(kg) * 時間(h) * 1.05 (補正係数)
+  // METs * 菴馴㍾(kg) * 譎る俣(h) * 1.05 (陬懈ｭ｣菫よ焚)
   const w = getUserWeight();
   return Math.round(mets * w * (minutes/60) * 1.05);
 }
 
-// ===== セッション操作 =====
+// ===== 繧ｻ繝・す繝ｧ繝ｳ謫堺ｽ・=====
 function addSession(name,icon,mets,type,minutes){
   const min = minutes || 10;
   const baseXp=xpForActivity(mets,type);
@@ -2226,14 +2228,14 @@ function addSession(name,icon,mets,type,minutes){
   sessions.push({name,icon,mets,type,xp,minutes:min,kcal});
   if(type==='high') highMin+=min; else modMin+=min;
   renderLog(); updateUI();
-  // 拡張：演出・コンボ・デイリー・ダメージ
+  // 諡｡蠑ｵ・壽ｼ泌・繝ｻ繧ｳ繝ｳ繝懊・繝・う繝ｪ繝ｼ繝ｻ繝繝｡繝ｼ繧ｸ
   if(window.AppEnhance) window.AppEnhance.onExerciseRecord(10, type);
   if(mult>1 && !window._nutBonusShown){
     window._nutBonusShown=true;
     const pct=mult===1.15?'+15%':'+8%';
     const el=document.createElement('div');
     el.className='bonus-toast';
-    el.innerHTML=`<div class="bt-head">🥗 栄養ボーナス ${pct}</div><div class="bt-body">今週の食事記録がXPを底上げしている！</div>`;
+    el.innerHTML=`<div class="bt-head">･・譬・､翫・繝ｼ繝翫せ ${pct}</div><div class="bt-body">莉企ｱ縺ｮ鬟滉ｺ玖ｨ倬鹸縺傾P繧貞ｺ穂ｸ翫￡縺励※縺・ｋ・・/div>`;
     document.body.appendChild(el);
     setTimeout(()=>el.remove(),3700);
   }
@@ -2251,7 +2253,7 @@ function removeSession(i){
   renderLog(); updateUI();
 }
 
-// ===== ボード構築 =====
+// ===== 繝懊・繝画ｧ狗ｯ・=====
 function buildBoard(id,groups,type){
   const wrap=document.getElementById(id);
   wrap.innerHTML='';
@@ -2268,9 +2270,9 @@ function buildBoard(id,groups,type){
       c.innerHTML=`
         <span class="e-icon">${ex.icon}</span>
         <span class="e-name">${ex.name}</span>
-        <span class="e-min">10分</span>
+        <span class="e-min">10蛻・/span>
         <span class="ex-count">0</span>
-        <button class="ex-dec">−</button>`;
+        <button class="ex-dec">竏・/button>`;
       c.addEventListener('click',()=>addSession(ex.name,ex.icon,g.mets,type));
       c.querySelector('.ex-dec').addEventListener('click',e=>{
         e.stopPropagation();
@@ -2283,7 +2285,7 @@ function buildBoard(id,groups,type){
   });
 }
 
-// ===== 保存 / 読込 =====
+// ===== 菫晏ｭ・/ 隱ｭ霎ｼ =====
 function getQol(){
   const v=n=>{ const el=document.querySelector(`input[name="qol${n}"]:checked`); return el ? parseInt(el.value) : null; };
   return { qol1:v(1), qol2:v(2), qol3:v(3) };
@@ -2291,7 +2293,7 @@ function getQol(){
 async function saveWeek(){
   const isFirst=!localStorage.getItem(`vq_firstsave_${uid}`);
   const xp=totalXp(), lv=getLv(xp);
-  // 履歴にはセッションXPのみ保存（ログインボーナスは vq_bonus_uid で別管理）
+  // 螻･豁ｴ縺ｫ縺ｯ繧ｻ繝・す繝ｧ繝ｳXP縺ｮ縺ｿ菫晏ｭ假ｼ医Ο繧ｰ繧､繝ｳ繝懊・繝翫せ縺ｯ vq_bonus_uid 縺ｧ蛻･邂｡逅・ｼ・
   const sessionXp=sessions.reduce((s,x)=>s+x.xp,0);
   const qol=getQol();
   const data={
@@ -2309,7 +2311,7 @@ async function saveWeek(){
   checkAch();
   const s=applyStreak(); renderStreak(s);
 
-  // Firestoreにも保存（研究データ収集／オフライン時はキュー）
+  // Firestore縺ｫ繧ゆｿ晏ｭ假ｼ育皮ｩｶ繝・・繧ｿ蜿朱寔・上が繝輔Λ繧､繝ｳ譎ゅ・繧ｭ繝･繝ｼ・・
   const recordPayload = {
     uid,
     email: auth.currentUser?.email||'',
@@ -2341,12 +2343,12 @@ async function saveWeek(){
   }
 
   document.getElementById('save-msg').textContent='';
-  showSaveToast('✅', '記録を保存しました');
+  showSaveToast('笨・, '險倬鹸繧剃ｿ晏ｭ倥＠縺ｾ縺励◆');
   const achieved = data.score >= getWeeklyGoal();
   if(achieved) setTimeout(showGoalCelebration, 400);
   if(isFirst){
     localStorage.setItem(`vq_firstsave_${uid}`,'1');
-    setTimeout(()=>showLvUp(1,'転生者'), 800);
+    setTimeout(()=>showLvUp(1,'霆｢逕溯・), 800);
   }
 }
 function showSaveToast(icon, msg){
@@ -2397,19 +2399,19 @@ function appendHistory(data){
   const idx=hist.findIndex(h=>h.wkKey===wk);
   const entry={wkKey:wk,week:data.week,score:data.score,xp:data.xp||0,lv:data.lv,savedAt:data.savedAt};
   if(idx>=0) hist[idx]=entry; else hist.unshift(entry);
-  hist=hist.slice(0,12); // 最大12週
+  hist=hist.slice(0,12); // 譛螟ｧ12騾ｱ
   localStorage.setItem(histKey(),JSON.stringify(hist));
   renderHistory();
 }
 function wkToMonthLabel(wk){
-  // "2026-W19" → 週の木曜日 → 月ラベル
+  // "2026-W19" 竊・騾ｱ縺ｮ譛ｨ譖懈律 竊・譛医Λ繝吶Ν
   try{
     const [y,w]=wk.split('-W').map(Number);
     const jan4=new Date(y,0,4);
     const d=jan4.getDay()||7;
     const mon=new Date(jan4); mon.setDate(jan4.getDate()-d+1+(w-1)*7);
     const thu=new Date(mon); thu.setDate(mon.getDate()+3);
-    return `${thu.getFullYear()}年${thu.getMonth()+1}月`;
+    return `${thu.getFullYear()}蟷ｴ${thu.getMonth()+1}譛・;
   }catch(e){ return wk; }
 }
 function renderHistory(){
@@ -2418,7 +2420,7 @@ function renderHistory(){
   const el=document.getElementById('hist-list');
   el.innerHTML='';
   if(!hist.length){
-    el.innerHTML='<div class="hist-empty">まだ記録がありません</div>';
+    el.innerHTML='<div class="hist-empty">縺ｾ縺險倬鹸縺後≠繧翫∪縺帙ｓ</div>';
     document.getElementById('monthly-panel').style.display='none';
     return;
   }
@@ -2430,10 +2432,10 @@ function renderHistory(){
     div.innerHTML=`
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
-      <span class="hist-score">${h.score||0}分</span>`;
+      <span class="hist-score">${h.score||0}蛻・/span>`;
     el.appendChild(div);
   });
-  // 月次サマリー
+  // 譛域ｬ｡繧ｵ繝槭Μ繝ｼ
   const monthly=new Map();
   hist.forEach(h=>{
     const lbl=wkToMonthLabel(h.wkKey||h.week||'');
@@ -2448,9 +2450,9 @@ function renderHistory(){
     div.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:8px 10px;font-size:.72rem;';
     div.innerHTML=`<div style="font-weight:700;color:var(--gold2);margin-bottom:4px;">${lbl}</div>`+
       `<div style="display:flex;gap:12px;color:rgba(200,215,235,.7);">`+
-      `<span>合計 <strong style="color:#fff;">${m.total}分</strong></span>`+
-      `<span>記録 <strong style="color:#fff;">${m.weeks}週</strong></span>`+
-      `<span>達成 <strong style="color:var(--green);">${m.achieved}回</strong></span></div>`;
+      `<span>蜷郁ｨ・<strong style="color:#fff;">${m.total}蛻・/strong></span>`+
+      `<span>險倬鹸 <strong style="color:#fff;">${m.weeks}騾ｱ</strong></span>`+
+      `<span>驕疲・ <strong style="color:var(--green);">${m.achieved}蝗・/strong></span></div>`;
     mList.appendChild(div);
   });
   document.getElementById('monthly-panel').style.display='block';
@@ -2459,16 +2461,16 @@ function renderHistory(){
 // ===== Auth =====
 function authErrMsg(code){
   const map={
-    'auth/user-not-found':'このメールアドレスは登録されていません。',
-    'auth/wrong-password':'パスワードが正しくありません。',
-    'auth/invalid-credential':'メールアドレスまたはパスワードが正しくありません。',
-    'auth/invalid-email':'メールアドレスの形式が正しくありません。',
-    'auth/too-many-requests':'試行回数が多すぎます。しばらく後にお試しください。',
-    'auth/email-already-in-use':'このメールアドレスはすでに登録されています。',
-    'auth/weak-password':'パスワードは6文字以上にしてください。',
-    'auth/network-request-failed':'通信エラーが発生しました。接続を確認してください。',
+    'auth/user-not-found':'縺薙・繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｯ逋ｻ骭ｲ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲・,
+    'auth/wrong-password':'繝代せ繝ｯ繝ｼ繝峨′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・,
+    'auth/invalid-credential':'繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｾ縺溘・繝代せ繝ｯ繝ｼ繝峨′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・,
+    'auth/invalid-email':'繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｮ蠖｢蠑上′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・,
+    'auth/too-many-requests':'隧ｦ陦悟屓謨ｰ縺悟､壹☆縺弱∪縺吶ゅ＠縺ｰ繧峨￥蠕後↓縺願ｩｦ縺励￥縺縺輔＞縲・,
+    'auth/email-already-in-use':'縺薙・繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｯ縺吶〒縺ｫ逋ｻ骭ｲ縺輔ｌ縺ｦ縺・∪縺吶・,
+    'auth/weak-password':'繝代せ繝ｯ繝ｼ繝峨・6譁・ｭ嶺ｻ･荳翫↓縺励※縺上□縺輔＞縲・,
+    'auth/network-request-failed':'騾壻ｿ｡繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺ｾ縺励◆縲よ磁邯壹ｒ遒ｺ隱阪＠縺ｦ縺上□縺輔＞縲・,
   };
-  return map[code]||'エラーが発生しました。もう一度お試しください。';
+  return map[code]||'繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺ｾ縺励◆縲ゅｂ縺・ｸ蠎ｦ縺願ｩｦ縺励￥縺縺輔＞縲・;
 }
 function showAuthError(msg){ const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
 function clearAuthError(){ const el=document.getElementById('auth-error'); el.style.display='none'; }
@@ -2477,24 +2479,24 @@ document.getElementById('login-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim();
   const p=document.getElementById('password').value;
   clearAuthError();
-  if(!e||!p){ showAuthError('メールアドレスとパスワードを入力してください。'); return; }
+  if(!e||!p){ showAuthError('繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｨ繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞縲・); return; }
   signInWithEmailAndPassword(auth,e,p).catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('register-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim();
   const p=document.getElementById('password').value;
   clearAuthError();
-  if(!e||!p){ showAuthError('メールアドレスとパスワードを入力してください。'); return; }
+  if(!e||!p){ showAuthError('繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｨ繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞縲・); return; }
   createUserWithEmailAndPassword(auth,e,p)
-    .then(()=>showAuthError('✓ アカウントを作成しました！ログインします…'))
+    .then(()=>showAuthError('笨・繧｢繧ｫ繧ｦ繝ｳ繝医ｒ菴懈・縺励∪縺励◆・√Ο繧ｰ繧､繝ｳ縺励∪縺吮ｦ'))
     .catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('reset-pw-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim();
   clearAuthError();
-  if(!e){ showAuthError('メールアドレスを入力してから「パスワードを忘れた方」を押してください。'); return; }
+  if(!e){ showAuthError('繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ繧貞・蜉帙＠縺ｦ縺九ｉ縲後ヱ繧ｹ繝ｯ繝ｼ繝峨ｒ蠢倥ｌ縺滓婿縲阪ｒ謚ｼ縺励※縺上□縺輔＞縲・); return; }
   sendPasswordResetEmail(auth,e)
-    .then(()=>showAuthError('✓ パスワードリセットメールを送信しました。'))
+    .then(()=>showAuthError('笨・繝代せ繝ｯ繝ｼ繝峨Μ繧ｻ繝・ヨ繝｡繝ｼ繝ｫ繧帝∽ｿ｡縺励∪縺励◆縲・))
     .catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('logout-btn').addEventListener('click',()=>{
@@ -2503,37 +2505,37 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
 });
 document.getElementById('save-btn').addEventListener('click',saveWeek);
 
-// 臨床安全性警告の表示
+// 閾ｨ蠎雁ｮ牙・諤ｧ隴ｦ蜻翫・陦ｨ遉ｺ
 function renderClinicalSafety(){
   if(!window.AppSafety) return;
   const profile = window.AppSafety.getClinicalProfile();
   if(!profile) return;
-  // 高強度運動の警告
+  // 鬮伜ｼｷ蠎ｦ驕句虚縺ｮ隴ｦ蜻・
   if(window.AppSafety.hasCardioRiskFromTx(profile)){
     const w = document.getElementById('cardio-warning');
     const t = document.getElementById('cardio-warning-text');
     if(w && t){
       w.style.display = 'block';
-      t.innerHTML = 'ベースライン記録から<strong>心血管系への影響が想定される治療歴</strong>を検出しました。<br>'
-        + '高強度運動（7 METs以上）は<strong>主治医にご相談</strong>のうえご判断ください。'
-        + '中強度（3〜6 METs）から始めるのが安全です。気になる症状（息切れ・動悸・胸痛）が出たら直ちに中止を。';
+      t.innerHTML = '繝吶・繧ｹ繝ｩ繧､繝ｳ險倬鹸縺九ｉ<strong>蠢・｡邂｡邉ｻ縺ｸ縺ｮ蠖ｱ髻ｿ縺梧Φ螳壹＆繧後ｋ豐ｻ逋よｭｴ</strong>繧呈､懷・縺励∪縺励◆縲・br>'
+        + '鬮伜ｼｷ蠎ｦ驕句虚・・ METs莉･荳奇ｼ峨・<strong>荳ｻ豐ｻ蛹ｻ縺ｫ縺皮嶌隲・/strong>縺ｮ縺・∴縺泌愛譁ｭ縺上□縺輔＞縲・
+        + '荳ｭ蠑ｷ蠎ｦ・・縲・ METs・峨°繧牙ｧ九ａ繧九・縺悟ｮ牙・縺ｧ縺吶よｰ励↓縺ｪ繧狗裸迥ｶ・域・蛻・ｌ繝ｻ蜍墓ず繝ｻ閭ｸ逞幢ｼ峨′蜃ｺ縺溘ｉ逶ｴ縺｡縺ｫ荳ｭ豁｢繧偵・;
     }
-    // 高強度ボード自体に薄く印
+    // 鬮伜ｼｷ蠎ｦ繝懊・繝芽・菴薙↓阮・￥蜊ｰ
     const highBoard = document.querySelector('.is-high');
     if(highBoard) highBoard.style.opacity = '0.85';
   }
 }
-// ログイン後の認証済みタイミングでチェック
+// 繝ｭ繧ｰ繧､繝ｳ蠕後・隱崎ｨｼ貂医∩繧ｿ繧､繝溘Φ繧ｰ縺ｧ繝√ぉ繝・け
 setTimeout(renderClinicalSafety, 1500);
 
-// ===== 歩数計（DeviceMotion） =====
+// ===== 豁ｩ謨ｰ險茨ｼ・eviceMotion・・=====
 let _stepCount = 0, _stepActive = false, _lastPeak = 0, _lastMag = 0;
 function onMotion(e){
   const a = e.accelerationIncludingGravity || e.acceleration;
   if(!a) return;
   const mag = Math.sqrt((a.x||0)**2 + (a.y||0)**2 + (a.z||0)**2);
   const now = Date.now();
-  // ピーク検出：閾値 11〜15 (m/s²) かつ前ピークから 250ms 以上経過
+  // 繝斐・繧ｯ讀懷・・夐明蛟､ 11縲・5 (m/sﾂｲ) 縺九▽蜑阪ヴ繝ｼ繧ｯ縺九ｉ 250ms 莉･荳顔ｵ碁℃
   if(mag > 13 && _lastMag <= 13 && now - _lastPeak > 250){
     _stepCount++;
     _lastPeak = now;
@@ -2542,20 +2544,20 @@ function onMotion(e){
   _lastMag = mag;
 }
 async function startStepCounter(){
-  // iOS 13+ では明示的なpermissionが必要
+  // iOS 13+ 縺ｧ縺ｯ譏守､ｺ逧・↑permission縺悟ｿ・ｦ・
   if(typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function'){
     try{
       const r = await DeviceMotionEvent.requestPermission();
       if(r !== 'granted'){
-        showToast('モーションセンサーの許可が必要です。設定 → Safari → モーションとジャイロ から許可してください。',5000);
+        showToast('繝｢繝ｼ繧ｷ繝ｧ繝ｳ繧ｻ繝ｳ繧ｵ繝ｼ縺ｮ險ｱ蜿ｯ縺悟ｿ・ｦ√〒縺吶りｨｭ螳・竊・Safari 竊・繝｢繝ｼ繧ｷ繝ｧ繝ｳ縺ｨ繧ｸ繝｣繧､繝ｭ 縺九ｉ險ｱ蜿ｯ縺励※縺上□縺輔＞縲・,5000);
         return false;
       }
     }catch(e){
-      showToast('モーションセンサー利用エラー: '+e.message);
+      showToast('繝｢繝ｼ繧ｷ繝ｧ繝ｳ繧ｻ繝ｳ繧ｵ繝ｼ蛻ｩ逕ｨ繧ｨ繝ｩ繝ｼ: '+e.message);
       return false;
     }
   } else if(!('DeviceMotionEvent' in window)){
-    showToast('このブラウザはモーションセンサーに対応していません。スマートフォンでお試しください。',4500);
+    showToast('縺薙・繝悶Λ繧ｦ繧ｶ縺ｯ繝｢繝ｼ繧ｷ繝ｧ繝ｳ繧ｻ繝ｳ繧ｵ繝ｼ縺ｫ蟇ｾ蠢懊＠縺ｦ縺・∪縺帙ｓ縲ゅせ繝槭・繝医ヵ繧ｩ繝ｳ縺ｧ縺願ｩｦ縺励￥縺縺輔＞縲・,4500);
     return false;
   }
   window.addEventListener('devicemotion', onMotion);
@@ -2574,33 +2576,33 @@ document.getElementById('step-toggle').addEventListener('click', async ()=>{
   if(!_stepActive){
     const ok = await startStepCounter();
     if(!ok) return;
-    btn.textContent = '⏸ 停止';
-    status.textContent = '計測中…';
+    btn.textContent = '竢ｸ 蛛懈ｭ｢';
+    status.textContent = '險域ｸｬ荳ｭ窶ｦ';
     status.style.color = 'rgba(168,232,192,.85)';
     importBtn.style.display = 'inline-block';
   } else {
     stopStepCounter();
-    btn.textContent = '▶ 再開';
-    status.textContent = `${_stepCount}歩で停止`;
+    btn.textContent = '笆ｶ 蜀埼幕';
+    status.textContent = `${_stepCount}豁ｩ縺ｧ蛛懈ｭ｢`;
     status.style.color = 'rgba(170,188,216,.55)';
   }
 });
 
 document.getElementById('step-import').addEventListener('click', ()=>{
-  if(_stepCount < 100){ showToast('100歩以上で変換できます'); return; }
+  if(_stepCount < 100){ showToast('100豁ｩ莉･荳翫〒螟画鋤縺ｧ縺阪∪縺・); return; }
   const minutes = Math.round(_stepCount / 100);
-  showConfirm(`${_stepCount}歩を「ウォーキング ${minutes}分（中強度）」として記録に追加しますか？`, ()=>{
-    addSession('ウォーキング（自動計測）', '👟', 3.5, 'mod', minutes);
+  showConfirm(`${_stepCount}豁ｩ繧偵後え繧ｩ繝ｼ繧ｭ繝ｳ繧ｰ ${minutes}蛻・ｼ井ｸｭ蠑ｷ蠎ｦ・峨阪→縺励※險倬鹸縺ｫ霑ｽ蜉縺励∪縺吶°・歔, ()=>{
+    addSession('繧ｦ繧ｩ繝ｼ繧ｭ繝ｳ繧ｰ・郁・蜍戊ｨ域ｸｬ・・, '臓', 3.5, 'mod', minutes);
     _stepCount = 0;
     document.getElementById('step-count').textContent = '0';
-    document.getElementById('step-status').textContent = '✓ 記録に追加されました';
+    document.getElementById('step-status').textContent = '笨・險倬鹸縺ｫ霑ｽ蜉縺輔ｌ縺ｾ縺励◆';
     stopStepCounter();
-    document.getElementById('step-toggle').textContent = '▶ スタート';
+    document.getElementById('step-toggle').textContent = '笆ｶ 繧ｹ繧ｿ繝ｼ繝・;
     document.getElementById('step-import').style.display = 'none';
   });
 });
 document.getElementById('reset-btn').addEventListener('click',()=>{
-  showConfirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）', ()=>{
+  showConfirm('莉企ｱ縺ｮ繧ｿ繝・・蜈･蜉帙ｒ縺吶∋縺ｦ繝ｪ繧ｻ繝・ヨ縺励∪縺吶°・歃n・井ｿ晏ｭ俶ｸ医∩繝・・繧ｿ縺ｯ谿九ｊ縺ｾ縺呻ｼ・, ()=>{
     sessions=[]; modMin=0; highMin=0;
     localStorage.removeItem(storeKey());
     buildBoard('mod-board',EXERCISES.moderate,'moderate');
@@ -2608,7 +2610,7 @@ document.getElementById('reset-btn').addEventListener('click',()=>{
     document.getElementById('bmi-val').value='';
     document.getElementById('steps-val').value='';
     updateUI();
-    document.getElementById('save-msg').textContent='リセットしました';
+    document.getElementById('save-msg').textContent='繝ｪ繧ｻ繝・ヨ縺励∪縺励◆';
     setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
   });
 });
@@ -2618,8 +2620,8 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('login-screen').style.display='';
   document.getElementById('main-screen').classList.remove('hidden');
   document.getElementById('main-screen').style.display='flex';
-  document.getElementById('user-display').textContent='ゲスト（デモ）';
-  document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
+  document.getElementById('user-display').textContent='繧ｲ繧ｹ繝茨ｼ医ョ繝｢・・;
+  document.getElementById('week-lbl').textContent='套 '+weekLabel()+'縺ｮ蜀帝匱險倬鹸';
   buildBoard('mod-board',EXERCISES.moderate,'moderate');
   buildBoard('high-board',EXERCISES.high,'high');
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
@@ -2630,7 +2632,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
 document.getElementById('bmi-val').addEventListener('input',updateUI);
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 
-// ===== 連動ステータス更新 =====
+// ===== 騾｣蜍輔せ繝・・繧ｿ繧ｹ譖ｴ譁ｰ =====
 function updateLinked(){
   const goal=getWeeklyGoal();
   const score=modMin+highMin*2;
@@ -2650,9 +2652,9 @@ function updateLinked(){
   }catch(e){}
 }
 
-// ===== AI Coach: ホーム画面のルナチャットへ遷移 =====
+// ===== AI Coach: 繝帙・繝逕ｻ髱｢縺ｮ繝ｫ繝翫メ繝｣繝・ヨ縺ｸ驕ｷ遘ｻ =====
 document.getElementById('coach-fab').addEventListener('click',()=>{
-  // ルナとの本格チャットは game.html に集約（GROWモデル＋Gemini連携）
+  // 繝ｫ繝翫→縺ｮ譛ｬ譬ｼ繝√Ε繝・ヨ縺ｯ game.html 縺ｫ髮・ｴ・ｼ・ROW繝｢繝・Ν・季emini騾｣謳ｺ・・
   window.location.href='./game.html#coach';
 });
 document.getElementById('coach-close')?.addEventListener('click',()=>{
@@ -2663,7 +2665,7 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
     document.getElementById('coach-modal').classList.remove('open');
 });
 
-const _authDelay=localStorage.getItem('vitalia_uid_hint') ? 8000 : 2000;
+const _authDelay=900;
 const _authTO=setTimeout(()=>{
   document.getElementById('loading-screen').classList.add('hidden');
   document.getElementById('login-screen').classList.remove('hidden');
@@ -2680,7 +2682,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('main-screen').classList.remove('hidden');
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
-    document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
+    document.getElementById('week-lbl').textContent='套 '+weekLabel()+'縺ｮ蜀帝匱險倬鹸';
     if(window.AppEnhance) window.AppEnhance.init(uid);
     buildBoard('daily-board',EXERCISES.daily,'moderate');
     buildBoard('mod-board',EXERCISES.moderate,'moderate');
@@ -2708,19 +2710,19 @@ onAuthStateChanged(auth,user=>{
 });
 </script>
 
-<!-- ボトムナビ -->
+<!-- 繝懊ヨ繝繝翫ン -->
 <nav class="bottom-nav" id="bottom-nav" style="display:none;">
-  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
-  <a href="./quest.html" class="bn-tab active"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
-  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">匠</span><span class="bn-label">繝帙・繝</span></a>
+  <a href="./quest.html" class="bn-tab active"><span class="bn-icon">笞・/span><span class="bn-label">繧ｯ繧ｨ繧ｹ繝・/span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">諺</span><span class="bn-label">譬・､・/span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">亮</span><span class="bn-label">蜀帝匱</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">險ｭ螳・/span></a>
 </nav>
 
 <!-- AI Coach FAB -->
-<button id="coach-fab" aria-label="ルナのコーチングを開く">
-  <img src="./image/runa-sabun%20(1).png" alt="ルナ">
-  ✦ ルナに話す
+<button id="coach-fab" aria-label="繝ｫ繝翫・繧ｳ繝ｼ繝√Φ繧ｰ繧帝幕縺・>
+  <img src="./image/runa-sabun%20(1).png" alt="繝ｫ繝・>
+  笨ｦ 繝ｫ繝翫↓隧ｱ縺・
 </button>
 
 </body>

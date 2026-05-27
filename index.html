@@ -437,7 +437,7 @@ body::before{
 
 /* スクロールレール */
 .appshow-rail{
-  display:flex;gap:20px;
+  display:none;gap:20px;
   overflow-x:auto;
   padding:32px 40px 20px;
   scroll-snap-type:x mandatory;
@@ -445,6 +445,56 @@ body::before{
   scrollbar-width:none;
 }
 .appshow-rail::-webkit-scrollbar{display:none;}
+
+.real-appshow{
+  max-width:1080px;margin:0 auto;padding:10px 32px 36px;
+  display:grid;grid-template-columns:360px minmax(0,1fr);gap:36px;align-items:center;
+}
+.real-app-phone{
+  width:min(360px,100%);margin:0 auto;background:#050814;border:2px solid rgba(95,208,232,.22);
+  border-radius:30px;padding:12px;box-shadow:0 28px 70px rgba(0,0,0,.35);
+}
+.real-app-screen{
+  height:660px;overflow:hidden;border-radius:22px;background:#070b18;color:#e8e4d4;
+  padding:12px;display:flex;flex-direction:column;gap:10px;
+}
+.real-phone-hdr{display:flex;align-items:center;gap:8px;font-size:.72rem;color:rgba(220,225,245,.72);}
+.real-phone-title{font-family:'Noto Serif JP',serif;font-weight:900;color:#f0d48a;flex:1;}
+.real-chip{font-size:.62rem;border:1px solid rgba(201,168,76,.35);border-radius:999px;padding:2px 8px;color:#f0d48a;background:rgba(201,168,76,.12);}
+.real-player{
+  position:relative;overflow:hidden;border:1px solid rgba(95,208,232,.28);border-radius:18px;
+  background:linear-gradient(160deg,rgba(20,40,70,.92),rgba(12,28,56,.96));
+}
+.real-player video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.36;filter:brightness(.75) saturate(1.08);}
+.real-player::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,11,20,.86),rgba(8,11,20,.42),rgba(8,11,20,.76));}
+.real-player-inner{position:relative;z-index:1;display:flex;gap:12px;align-items:center;padding:14px;}
+.real-avatar{width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:center 14%;border:2px solid rgba(95,208,232,.55);}
+.real-name{font-family:'Noto Serif JP',serif;font-size:.86rem;font-weight:900;color:#f3f6ff;}
+.real-meta{font-size:.62rem;color:rgba(220,225,245,.7);margin-top:2px;}
+.real-xp{height:7px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:8px;}
+.real-xp span{display:block;height:100%;width:62%;background:linear-gradient(90deg,#5fd0e8,#f0d48a);}
+.real-card{background:rgba(255,255,255,.045);border:1px solid rgba(201,168,76,.18);border-radius:14px;padding:11px;}
+.real-card-title{font-size:.68rem;font-weight:900;color:#f0d48a;letter-spacing:.08em;margin-bottom:8px;}
+.real-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.real-char{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 6px;text-align:center;background:rgba(255,255,255,.035);}
+.real-char img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(255,255,255,.18);}
+.real-char-name{font-size:.68rem;font-weight:900;margin-top:5px;color:#f3f6ff;}
+.real-char-sub{font-size:.54rem;color:rgba(220,225,245,.58);line-height:1.35;margin-top:2px;}
+.real-action{display:flex;align-items:center;gap:10px;border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.04);}
+.real-action-icon{font-size:1.2rem;width:28px;text-align:center;}
+.real-action-main{font-size:.76rem;font-weight:900;color:#f3f6ff;}
+.real-action-sub{font-size:.58rem;color:rgba(220,225,245,.56);margin-top:1px;}
+.real-note{font-size:.66rem;line-height:1.75;color:rgba(220,225,245,.7);}
+.real-app-copy h3{font-family:'Noto Serif JP',serif;font-size:1.5rem;line-height:1.45;color:#f0f4ff;margin-bottom:14px;}
+.real-app-copy p{color:rgba(200,215,245,.72);line-height:1.9;font-size:.9rem;margin-bottom:18px;}
+.real-match-list{display:grid;gap:10px;margin-top:18px;}
+.real-match-item{display:flex;gap:10px;align-items:flex-start;color:rgba(230,236,255,.82);font-size:.82rem;line-height:1.6;}
+.real-match-item span{color:#f0d48a;font-weight:900;}
+@media(max-width:820px){
+  .real-appshow{grid-template-columns:1fr;padding:0 20px 32px;gap:22px;}
+  .real-app-copy{order:-1;text-align:center;}
+  .real-app-screen{height:620px;}
+}
 
 /* 各スクリーンカード */
 .appshow-card{
@@ -501,7 +551,19 @@ body::before{
 .as-char{
   display:flex;align-items:center;gap:8px;padding:8px 10px;
   border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;
+  position:relative;overflow:hidden;
 }
+.as-char-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.42;filter:saturate(1.08) brightness(.68);
+  pointer-events:none;z-index:0;
+}
+.as-char.has-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(8,11,20,.82),rgba(8,11,20,.42) 48%,rgba(8,11,20,.74));
+  pointer-events:none;z-index:1;
+}
+.as-char.has-bg img,.as-char.has-bg .as-char-info{position:relative;z-index:2;}
 .as-char img{
   width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid;
 }
@@ -581,7 +643,7 @@ body::before{
 
 /* インジケーター（ページドット） */
 .appshow-indicators{
-  display:flex;gap:6px;justify-content:center;padding:8px 0 4px;
+  display:none;gap:6px;justify-content:center;padding:8px 0 4px;
 }
 .appshow-dot{
   width:6px;height:6px;border-radius:50%;
@@ -3457,6 +3519,86 @@ footer{
   </div>
 
   <!-- 横スクロール レール -->
+  <div class="real-appshow">
+    <div class="real-app-phone">
+      <div class="real-app-screen">
+        <div class="real-phone-hdr">
+          <span>退場</span>
+          <span class="real-phone-title">✦ ヴィタリア転生録</span>
+          <span class="real-chip">Lv.3</span>
+        </div>
+        <div class="real-player">
+          <video autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+            <source src="./image/%E8%83%8C%E6%99%AF%E6%A3%AE.mp4" type="video/mp4">
+          </video>
+          <div class="real-player-inner">
+            <img class="real-avatar" src="./image/runa-sabun%20(1).png" alt="ルナ">
+            <div style="flex:1;min-width:0;">
+              <div class="real-name">ルナ</div>
+              <div class="real-meta">試練の修行者・3週目</div>
+              <div class="real-xp"><span></span></div>
+              <div class="real-meta" style="text-align:right;">1,240 / 2,000 XP</div>
+            </div>
+          </div>
+        </div>
+        <div class="real-card">
+          <div class="real-card-title">今週のホーム</div>
+          <div class="real-trio">
+            <div class="real-char">
+              <img src="./image/kaito-sabun%20(1).png" alt="カイト" style="object-position:center 12%;">
+              <div class="real-char-name">カイト</div>
+              <div class="real-char-sub">運動<br>87 / 150分</div>
+            </div>
+            <div class="real-char">
+              <img src="./image/sera-sabun%20(1).png" alt="セラ" style="object-position:center 16%;">
+              <div class="real-char-name">セラ</div>
+              <div class="real-char-sub">栄養<br>野菜・魚</div>
+            </div>
+            <div class="real-char">
+              <img src="./image/runa-sabun%20(2).png" alt="ルナ" style="object-position:center 14%;">
+              <div class="real-char-name">ルナ</div>
+              <div class="real-char-sub">AI<br>GROW対話</div>
+            </div>
+          </div>
+        </div>
+        <div class="real-action">
+          <div class="real-action-icon">⚔</div>
+          <div>
+            <div class="real-action-main">運動を記録</div>
+            <div class="real-action-sub">今週 87 / 150分</div>
+          </div>
+        </div>
+        <div class="real-action">
+          <div class="real-action-icon">🌿</div>
+          <div>
+            <div class="real-action-main">食事を記録</div>
+            <div class="real-action-sub">野菜・魚・果物をチェック</div>
+          </div>
+        </div>
+        <div class="real-action">
+          <div class="real-action-icon">✦</div>
+          <div>
+            <div class="real-action-main">ルナと話す</div>
+            <div class="real-action-sub">AIコーチング・GROWモデル</div>
+          </div>
+        </div>
+        <div class="real-card">
+          <div class="real-card-title">今週の調子</div>
+          <div class="real-note">体調・気分・生活の記録を見ながら、運動・食事・相談へ進む実際のホーム画面構成に合わせています。</div>
+        </div>
+      </div>
+    </div>
+    <div class="real-app-copy">
+      <h3>実際にプレイする画面と同じ流れで紹介します。</h3>
+      <p>ホームページ用の見栄えだけを作るのではなく、参加後に開くアプリ画面と同じ「プレイヤーカード、3キャラ入口、記録ボタン、ルナ対話」の構成に合わせました。</p>
+      <div class="real-match-list">
+        <div class="real-match-item"><span>1</span> ホームはルナのプレイヤーカードから始まります。</div>
+        <div class="real-match-item"><span>2</span> カイトは運動、セラは栄養、ルナはAIコーチングへつながります。</div>
+        <div class="real-match-item"><span>3</span> 実アプリ側と同じ森背景動画を使い、世界観も揃えています。</div>
+      </div>
+    </div>
+  </div>
+
   <div class="appshow-rail" id="appshow-rail">
 
     <!-- Screen 1: ゲームホーム -->
@@ -3638,7 +3780,10 @@ footer{
             <span class="as-hdr-title" style="color:rgba(200,180,255,.85);">✦ ルナのコーチング</span>
             <span style="font-size:.42rem;color:rgba(156,114,224,.4);">AI</span>
           </div>
-          <div class="as-char" style="background:linear-gradient(135deg,rgba(156,114,224,.07),transparent);">
+          <div class="as-char has-bg" style="background:linear-gradient(135deg,rgba(156,114,224,.07),transparent);">
+            <video class="as-char-bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+              <source src="./image/%E8%83%8C%E6%99%AF%E6%A3%AE.mp4" type="video/mp4">
+            </video>
             <img src="./image/runa-sabun%20(1).png" alt="ルナ" style="border-color:rgba(156,114,224,.45);object-position:center 14%;box-shadow:0 0 12px rgba(156,114,224,.15);">
             <div class="as-char-info">
               <div class="as-char-name">ルナ — 転生の女神</div>
@@ -3937,8 +4082,8 @@ footer{
       </div>
       <div class="gap-scard">
         <span class="gap-sicon">🌍</span>
-        <div class="gap-stitle">日本初の3者統合介入</div>
-        <div class="gap-sdesc">12週間・社会的認知理論（SCT）準拠。ゲーム×AI×行動変容の初の統合設計</div>
+        <div class="gap-stitle">理論的統合</div>
+        <div class="gap-sdesc">行動変容を促すトランスセオリティカルモデル（Transtheoretical model：TTM）× あなたの出来ることを探し出すコーチング × ゲーミフィケーションで楽しさを追求した次世代型健康行動の定着をサポート！</div>
       </div>
     </div>
   </div>
@@ -3955,17 +4100,17 @@ footer{
     <div class="str-grid reveal">
       <div class="str-card str-1">
         <span class="str-icon">🌍</span>
-        <span class="str-tag">国内初の試み</span>
+        <span class="str-tag">統合的アプローチ</span>
         <div class="str-title">小児がん経験者 ×<br>ゲーミフィケーション × AI</div>
-        <div class="str-desc">この3つを組み合わせた介入研究は、日本国内では<strong>先行例がない</strong>。生存率向上後の「その後」を支援する研究として、新規性・社会的意義ともに高い。</div>
-        <div class="str-evidence">📖 国内外の文献レビューでも、AYA世代のがん経験者を対象にしたゲーミフィケーション介入は極めて限られている（Baranowski et al., 2016）</div>
+        <div class="str-desc">小児がん経験者の「その後」を支えるために、ゲーミフィケーション、AIコーチング、健康行動支援を組み合わせた介入として設計。継続しやすさと自己決定を両立させます。</div>
+        <div class="str-evidence">📖 国内外の文献レビューでも、AYA世代のがん経験者を対象にしたゲーミフィケーション介入は限られている（Baranowski et al., 2016）</div>
       </div>
       <div class="str-card str-2">
         <span class="str-icon">🧪</span>
         <span class="str-tag">エビデンスベース</span>
         <div class="str-title">行動変容理論に基づく<br>科学的プログラム設計</div>
-        <div class="str-desc">社会的認知理論（SCT）・セルフエフィカシー理論・GROWコーチングモデルを統合。<strong>「楽しい」だけでなく、行動変容の機序が理論的に担保</strong>されている。</div>
-        <div class="str-evidence">📖 Bandura（1986）の自己効力感理論に基づくフィードバック設計。ACS推奨ガイドラインに沿った運動・栄養指標を採用</div>
+        <div class="str-desc">晩期合併症予防に向けて、運動・食事・睡眠・ストレス管理などの行動変容を促すトランスセオリティカルモデル（TTM）、コーチングのGROWモデル、ゲーミフィケーションを統合。<strong>スモールステップで無理のない目標を選び、自己決定を支える</strong>設計です。</div>
+        <div class="str-evidence">📖 TTM（Glanz et al. 木原訳，2018）とGROWモデルをもとに、目標・現状確認・選択肢・意思（Will）の4ステップで実行可能性を広げる</div>
       </div>
       <div class="str-card str-3">
         <span class="str-icon">📱</span>

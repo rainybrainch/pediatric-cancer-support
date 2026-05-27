@@ -134,6 +134,7 @@
   }
 
   function init(){
+    return;
     buildPanel();
     buildToggle();
   }

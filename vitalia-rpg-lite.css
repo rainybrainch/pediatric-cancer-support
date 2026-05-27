@@ -53,6 +53,9 @@ body.vrpg-on .bottom-nav .bn-tab{
   position:relative;
   transition: background .18s, color .15s, transform .12s;
 }
+body.vrpg-on .bottom-nav .bn-tab[hidden]{
+  display:none !important;
+}
 body.vrpg-on .bottom-nav .bn-tab:active{
   transform: scale(.94);
 }
@@ -97,6 +100,13 @@ body.vrpg-on .bottom-nav .bn-tab.active::before{
 /* Body bottom padding so floating nav doesn't cover content */
 body.vrpg-on{
   padding-bottom: calc(82px + env(safe-area-inset-bottom,0)) !important;
+}
+
+/* Development-only RPG controls are disabled in the participant UI. */
+.vrpg-fab,
+.vrpg-tweaks,
+.vrpg-battle{
+  display:none !important;
 }
 
 @media (prefers-reduced-motion: reduce){

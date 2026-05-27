@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>思い出ノート ｜ ヴィタリア転生録</title>
+<title>諤昴＞蜃ｺ繝弱・繝・・・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<meta name="apple-mobile-web-app-title" content="繝ｴ繧｣繧ｿ繝ｪ繧｢">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -97,9 +97,9 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
 body::before{opacity:0 !important;}
 /* ============================================
-   水色スキン v1 ── 2026-05-11
-   創造主指示「ゲームのデザインを水色に。文字見やすく」
-   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   豌ｴ濶ｲ繧ｹ繧ｭ繝ｳ v1 笏笏 2026-05-11
+   蜑ｵ騾荳ｻ謖・､ｺ縲後ご繝ｼ繝縺ｮ繝・じ繧､繝ｳ繧呈ｰｴ濶ｲ縺ｫ縲よ枚蟄苓ｦ九ｄ縺吶￥縲・
+   譌｢蟄倥・ dark-fantasy CSS 繧剃ｸ頑嶌縺阪☆繧区怙蠕悟ｰｾ繝ｬ繧､繝､繝ｼ
    ============================================ */
 :root{
   --bg:    #e8f4fb;
@@ -138,7 +138,7 @@ body::before{
   border-color: rgba(30,127,164,.4) !important;
   box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
 }
-/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+/* 繧､繝ｳ繝ｩ繧､繝ｳ style 縺ｮ證苓レ譎ｯ蜑肴署逋ｽ繧ｪ繝ｼ繝舌・繝ｬ繧､ 竊・證怜・蜊企乗・縺ｫ蜿崎ｻ｢ */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.06)"],
 [style*="rgba(255,255,255,.07)"],
@@ -157,7 +157,7 @@ input[type="password"], input[type="tel"], input[type="search"], select, textare
 ::placeholder{ color: rgba(20,60,80,.45) !important; }
 a{ color: #1e7fa4; }
 a:hover{ color: #4ab0d4; }
-/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+/* 隕句・縺励・蜿ｯ隱ｭ諤ｧ・夐乗・譁・ｭ励ヵ繧ｩ繝ｼ繝ｫ繝舌ャ繧ｯ・・radient 螟ｱ謨玲凾縺ｫ鮟偵￥蜃ｺ繧句ｯｾ遲厄ｼ・*/
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
@@ -173,7 +173,7 @@ header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(
 header a{ color: #0a4870 !important; }
 .back-btn{ color: #1e7fa4 !important; border-color: rgba(30,127,164,.35) !important; }
 
-/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ蜊企乗・閭梧勹繧堤區繝吶・繧ｹ縺ｫ蜿崎ｻ｢ 笏笏 */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.05)"],
 [style*="rgba(255,255,255,.06)"],
@@ -187,7 +187,7 @@ header a{ color: #0a4870 !important; }
   border-color: rgba(30,127,164,.25) !important;
   color: #0a2a40 !important;
 }
-/* ── ダーク前提の白テキストを暗くする ── */
+/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ逋ｽ繝・く繧ｹ繝医ｒ證励￥縺吶ｋ 笏笏 */
 [style*="color:rgba(220,225,245"],
 [style*="color:rgba(170,188,216"],
 [style*="color:#d4dcf0"],
@@ -199,7 +199,7 @@ header a{ color: #0a4870 !important; }
   color: #0a2a40 !important;
   -webkit-text-fill-color: #0a2a40 !important;
 }
-/* ── カード・パネル系クラス共通 ── */
+/* 笏笏 繧ｫ繝ｼ繝峨・繝代ロ繝ｫ邉ｻ繧ｯ繝ｩ繧ｹ蜈ｱ騾・笏笏 */
 .card, .panel, .section, .q-card, .stat-card,
 .info-card, .intro-card, .section-card, .week-card,
 .mission-card, .achievement-card, .skill, .entry,
@@ -208,7 +208,7 @@ header a{ color: #0a4870 !important; }
   border-color: rgba(30,127,164,.22) !important;
   color: #0a2a40 !important;
 }
-/* ── ヘッダー・ナビ ── */
+/* 笏笏 繝倥ャ繝繝ｼ繝ｻ繝翫ン 笏笏 */
 header, nav:not(.bottom-nav){
   background: rgba(200,228,244,.97) !important;
   border-bottom-color: #b0cfdf !important;
@@ -217,11 +217,11 @@ header a, nav a:not(.bn-tab){
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
 }
-/* ── テキスト可読性の底上げ ── */
+/* 笏笏 繝・く繧ｹ繝亥庄隱ｭ諤ｧ縺ｮ蠎穂ｸ翫￡ 笏笏 */
 p, span, div, label, li, td, th, h1, h2, h3, h4{
   color: inherit;
 }
-/* ── journal.html 固有クラス ── */
+/* 笏笏 journal.html 蝗ｺ譛峨け繝ｩ繧ｹ 笏笏 */
 .page-sub{color:rgba(10,42,64,.55) !important;}
 .stat-lbl{color:rgba(10,42,64,.5) !important;}
 .entry-day{color:rgba(10,42,64,.4) !important;}
@@ -236,34 +236,35 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 .search-input{color:#0a2a40 !important;background:rgba(255,255,255,.85) !important;border-color:rgba(30,127,164,.3) !important;}
 </style>
 
-<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<!-- 笨ｦ Vitalia RPG Lite (bottom-nav redesign) 笨ｦ -->
 <link rel="stylesheet" href="./vitalia-rpg-lite.css">
 <script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+<script defer src="./vitalia-nav.js"></script>
 </head>
 <body>
 <header>
-  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
-  <a href="./settings.html" class="back-btn">設定</a>
+  <a href="./game.html" class="brand">筺ｵ 繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</a>
+  <a href="./settings.html" class="back-btn">險ｭ螳・/a>
 </header>
 
 <main class="page">
-  <h1 class="page-title">📓 思い出ノート</h1>
-  <div class="page-sub">あなたが綴った日々の記録</div>
+  <h1 class="page-title">涛 諤昴＞蜃ｺ繝弱・繝・/h1>
+  <div class="page-sub">縺ゅ↑縺溘′邯ｴ縺｣縺滓律縲・・險倬鹸</div>
 
   <div class="intro">
-    気持ち・体調・できたこと、何でも書いた <strong>「今日のひとこと」</strong> を時系列で振り返れます。<br>
-    記録は端末内に保存され、最大90日分が表示されます。
+    豌玲戟縺｡繝ｻ菴楢ｪｿ繝ｻ縺ｧ縺阪◆縺薙→縲∽ｽ輔〒繧よ嶌縺・◆ <strong>縲御ｻ頑律縺ｮ縺ｲ縺ｨ縺薙→縲・/strong> 繧呈凾邉ｻ蛻励〒謖ｯ繧願ｿ斐ｌ縺ｾ縺吶・br>
+    險倬鹸縺ｯ遶ｯ譛ｫ蜀・↓菫晏ｭ倥＆繧後∵怙螟ｧ90譌･蛻・′陦ｨ遉ｺ縺輔ｌ縺ｾ縺吶・
   </div>
 
   <div class="stats-row">
-    <div class="stat-cell"><div class="stat-num" id="js-total">—</div><div class="stat-lbl">記録数</div></div>
-    <div class="stat-cell"><div class="stat-num" id="js-week">—</div><div class="stat-lbl">今週</div></div>
-    <div class="stat-cell"><div class="stat-num" id="js-streak">—</div><div class="stat-lbl">最長連続</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-total">窶・/div><div class="stat-lbl">險倬鹸謨ｰ</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-week">窶・/div><div class="stat-lbl">莉企ｱ</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-streak">窶・/div><div class="stat-lbl">譛髟ｷ騾｣邯・/div></div>
   </div>
 
   <div class="controls">
-    <input type="text" class="search-input" id="js-search" placeholder="🔍 言葉で探す">
-    <button class="export-btn" id="js-export">⬇ エクスポート</button>
+    <input type="text" class="search-input" id="js-search" placeholder="剥 險闡峨〒謗｢縺・>
+    <button class="export-btn" id="js-export">筮・繧ｨ繧ｯ繧ｹ繝昴・繝・/button>
   </div>
 
   <div id="entries-wrap"></div>
@@ -276,25 +277,25 @@ const wrap = document.getElementById('entries-wrap');
 
 function loadJournal(){
   if(!uid){
-    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">🔒</div>ログインしてからご利用ください。<br><a href="./game.html">ホームへ</a></div>`;
+    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">白</div>繝ｭ繧ｰ繧､繝ｳ縺励※縺九ｉ縺泌茜逕ｨ縺上□縺輔＞縲・br><a href="./game.html">繝帙・繝縺ｸ</a></div>`;
     return;
   }
   let arr=[];
   try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
   if(arr.length===0){
-    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">📜</div>まだ思い出がありません。<br>QOL記録のときに「今日のひとこと」を書いてみてください。<br><br><a href="./game.html">ホームへ</a></div>`;
+    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">糖</div>縺ｾ縺諤昴＞蜃ｺ縺後≠繧翫∪縺帙ｓ縲・br>QOL險倬鹸縺ｮ縺ｨ縺阪↓縲御ｻ頑律縺ｮ縺ｲ縺ｨ縺薙→縲阪ｒ譖ｸ縺・※縺ｿ縺ｦ縺上□縺輔＞縲・br><br><a href="./game.html">繝帙・繝縺ｸ</a></div>`;
     document.getElementById('js-total').textContent='0';
     document.getElementById('js-week').textContent='0';
     document.getElementById('js-streak').textContent='0';
     return;
   }
 
-  // 統計
+  // 邨ｱ險・
   const today=new Date().toISOString().slice(0,10);
   const weekAgo=new Date(Date.now()-7*86400000).toISOString().slice(0,10);
   const weekCount=arr.filter(e=>e.date>=weekAgo).length;
 
-  // 連続記録（最長）
+  // 騾｣邯夊ｨ倬鹸・域怙髟ｷ・・
   const dates=arr.map(e=>e.date).sort();
   let maxStreak=0, cur=0, prev=null;
   dates.forEach(d=>{
@@ -316,24 +317,24 @@ function loadJournal(){
 
 function moodEmoji(v){
   if(v==null) return '';
-  if(v>=5) return '😄';
-  if(v>=4) return '😊';
-  if(v>=3) return '🙂';
-  if(v>=2) return '😐';
-  return '😞';
+  if(v>=5) return '・';
+  if(v>=4) return '・';
+  if(v>=3) return '凾';
+  if(v>=2) return '・';
+  return '・';
 }
 function dayLabel(dateStr){
   const d=new Date(dateStr);
-  const days=['日','月','火','水','木','金','土'];
+  const days=['譌･','譛・,'轣ｫ','豌ｴ','譛ｨ','驥・,'蝨・];
   return days[d.getDay()];
 }
 
 function renderEntries(arr){
   wrap.innerHTML = arr.map(e=>{
     const tags=[];
-    if(e.mood!=null) tags.push(`気分${e.mood}`);
-    if(e.condition!=null) tags.push(`体調${e.condition}`);
-    const photoHtml = e.photo ? `<img class="entry-photo" src="${e.photo}" alt="思い出の写真" onclick="openPhotoLightbox(this.src)">` : '';
+    if(e.mood!=null) tags.push(`豌怜・${e.mood}`);
+    if(e.condition!=null) tags.push(`菴楢ｪｿ${e.condition}`);
+    const photoHtml = e.photo ? `<img class="entry-photo" src="${e.photo}" alt="諤昴＞蜃ｺ縺ｮ蜀咏悄" onclick="openPhotoLightbox(this.src)">` : '';
     const noteHtml = e.note ? `<div class="entry-text">${escapeHtml(e.note)}</div>` : '';
     return `
       <div class="entry">
@@ -371,7 +372,7 @@ document.getElementById('js-search').addEventListener('input', (e)=>{
   if(!q){ renderEntries(arr); return; }
   const filtered = arr.filter(x=>x.note.toLowerCase().includes(q) || x.date.includes(q));
   if(filtered.length===0){
-    wrap.innerHTML=`<div class="empty"><div class="empty-emoji">🔍</div>「${escapeHtml(q)}」を含む記録は見つかりませんでした。</div>`;
+    wrap.innerHTML=`<div class="empty"><div class="empty-emoji">剥</div>縲・{escapeHtml(q)}縲阪ｒ蜷ｫ繧險倬鹸縺ｯ隕九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・/div>`;
   } else {
     renderEntries(filtered);
   }
@@ -380,7 +381,7 @@ document.getElementById('js-search').addEventListener('input', (e)=>{
 document.getElementById('js-export').addEventListener('click', ()=>{
   let arr=[];
   try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
-  if(arr.length===0){ showToast('エクスポートする記録がありません。'); return; }
+  if(arr.length===0){ showToast('繧ｨ繧ｯ繧ｹ繝昴・繝医☆繧玖ｨ倬鹸縺後≠繧翫∪縺帙ｓ縲・); return; }
   const csv=['date,note,mood,condition,ts'].concat(
     arr.map(e=>`"${e.date}","${(e.note||'').replace(/"/g,'""')}","${e.mood||''}","${e.condition||''}","${new Date(e.ts).toISOString()}"`)
   ).join('\n');
@@ -396,11 +397,11 @@ loadJournal();
 </script>
 
 <nav class="bottom-nav">
-  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
-  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+  <a href="./game.html" class="bn-tab active"><span class="bn-icon">匠</span><span class="bn-label">繝帙・繝</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">繧ｯ繧ｨ繧ｹ繝・/span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">諺</span><span class="bn-label">譬・､・/span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">亮</span><span class="bn-label">蜀帝匱</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">險ｭ螳・/span></a>
 </nav>
 </body>
 </html>
