@@ -1233,6 +1233,8 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 <script defer src="./vitalia-rpg-tweaks.js"></script>
 <script defer src="./vitalia-rpg-compact.js"></script>
 <script defer src="./vitalia-rpg-bind.js"></script>
+<link rel="stylesheet" href="./vitalia-clean-ui.css">
+<script defer src="./vitalia-nav.js"></script>
 </head>
 <body>
 
@@ -3294,7 +3296,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
 });
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 
-const _authDelay=localStorage.getItem('vitalia_uid_hint') ? 8000 : 2000;
+const _authDelay=900;
 const _authTO=setTimeout(()=>{
   document.getElementById('loading-screen').classList.add('hidden');
   document.getElementById('login-screen').classList.remove('hidden');

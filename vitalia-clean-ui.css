@@ -1,0 +1,336 @@
+/* Safe participant-facing UI cleanup. ASCII-only file to avoid encoding drift. */
+:root{
+  --clean-bg:#f5fbff;
+  --clean-panel:#ffffff;
+  --clean-ink:#0a2a40;
+  --clean-muted:#557185;
+  --clean-line:#b8d5e4;
+  --clean-cyan:#1e7fa4;
+  --clean-green:#1f8a66;
+}
+
+html,
+body,
+#main-screen,
+#main-app{
+  background:var(--clean-bg) !important;
+  color:var(--clean-ink) !important;
+}
+
+body::before,
+.aurora-stage,
+#loading-screen,
+#goal-banner,
+.goal-banner,
+#save-toast,
+#ach-notify,
+#lv-toast,
+#_toast,
+.coach-toast,
+.bonus-toast,
+.bt-notify,
+#tutorial-overlay,
+#spot-overlay,
+.jump-fab{
+  display:none !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+a[href*="party.html"],
+.ch-card-pt,
+.menu-board-section,
+.sera-recipe-banner,
+.photo-cta,
+.quick-note,
+.daily-note,
+.guide-note,
+#adv-howto,
+.mission-card,
+.news-card,
+.achievement-card,
+.qol-trend-card,
+.sh-foot,
+#ch-main-btn,
+#ch-detail-btn,
+.home-3btn,
+#daily-mission{
+  display:none !important;
+}
+
+.main-header,
+.adv-header,
+header{
+  background:rgba(255,255,255,.96) !important;
+  border-bottom:1px solid var(--clean-line) !important;
+  box-shadow:0 6px 24px rgba(20,70,100,.08) !important;
+}
+
+.main-header *,
+.adv-header *,
+header *{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+.main-content,
+.adv-main,
+.app-shell,
+main{
+  width:100% !important;
+  max-width:1080px !important;
+  margin:0 auto !important;
+  padding-bottom:104px !important;
+}
+
+.main-content{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 300px !important;
+  align-items:start !important;
+  gap:16px !important;
+}
+
+.quest-side{
+  position:static !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+  min-width:0 !important;
+}
+
+.quest-board,
+.food-board{
+  min-width:0 !important;
+}
+
+.player-card,
+.quest-hero,
+.side-panel,
+.linked-panel,
+.board-section,
+.chapter-card,
+.battle-card,
+.history-card,
+.global-progress,
+.stat-bar-card,
+.score-block,
+.metric-card,
+.log-item,
+.achievement-panel,
+.nutrition-link,
+.food-search-wrap,
+.portion-bar,
+.nut-summary,
+.hc-card,
+.sh-rec-btn,
+.sh-summary,
+.sh-adv,
+.sh-mission,
+.ch-menu-sheet,
+.ch-card,
+.ch-sub-btn,
+.form-card,
+.survey-card,
+.baseline-card,
+form,
+fieldset{
+  background:var(--clean-panel) !important;
+  background-image:none !important;
+  border:1px solid var(--clean-line) !important;
+  border-radius:14px !important;
+  box-shadow:0 8px 22px rgba(20,70,100,.06) !important;
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+.quest-hero,
+.hc-card{
+  display:grid !important;
+  grid-template-columns:64px minmax(0,1fr) !important;
+  gap:10px 12px !important;
+  align-items:center !important;
+  padding:14px !important;
+  margin-bottom:12px !important;
+}
+
+.qh-char,
+.hc-portrait{
+  width:64px !important;
+  height:64px !important;
+  border-radius:16px !important;
+}
+
+.qh-role,
+.qh-week-lbl,
+.section-note,
+.attack-sub,
+.chapter-narration,
+.battle-weakness,
+.gp-stats,
+.xp-note,
+.sh-rec-meta,
+.pstat-label,
+.ch-card-meta,
+small,
+.help,
+.hint{
+  color:var(--clean-muted) !important;
+  -webkit-text-fill-color:var(--clean-muted) !important;
+}
+
+.qh-name,
+.section-label,
+.chapter-title,
+.battle-name,
+.history-head,
+.gp-head,
+.hc-name,
+h1,h2,h3,h4,label,legend{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+.qh-bar,
+.xp-wrap,
+.goal-bar-wrap,
+.gp-bar,
+.battle-hp-bar,
+.stat-bar-wrap,
+.hist-bar-wrap,
+.hc-bar{
+  background:#e8f3f8 !important;
+}
+
+.qh-bar-fill,
+.xp-fill,
+.goal-bar-fill,
+.gp-fill,
+.hist-bar,
+.stat-bar-fill,
+.hc-bar-fill{
+  background:linear-gradient(90deg,#1e7fa4,#5fd0e8) !important;
+}
+
+.board-section,
+.chapter-card,
+.battle-card,
+.history-card,
+.global-progress{
+  padding:14px !important;
+  margin-bottom:12px !important;
+}
+
+.card-grid,
+.resto-grid{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fill,minmax(96px,1fr)) !important;
+  gap:8px !important;
+}
+
+.attack-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:8px !important;
+}
+
+.ex-card,
+.food-card,
+.rc,
+.attack-card,
+.menu-card,
+button,
+.btn,
+.h-nav-btn{
+  border-radius:12px !important;
+}
+
+.ex-card,
+.food-card,
+.rc,
+.attack-card,
+.menu-card{
+  background:#fff !important;
+  border:1px solid #cfe1eb !important;
+  color:var(--clean-ink) !important;
+  box-shadow:none !important;
+}
+
+input,
+textarea,
+select{
+  color:var(--clean-ink) !important;
+  background:#fff !important;
+  border:1px solid #bdd8e6 !important;
+  border-radius:10px !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+input::placeholder,
+textarea::placeholder{
+  color:#8aa4b4 !important;
+  -webkit-text-fill-color:#8aa4b4 !important;
+}
+
+#vitalia-common-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:68px;
+  z-index:999;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  background:rgba(255,255,255,.98);
+  border-top:1px solid var(--clean-line);
+  box-shadow:0 -8px 24px rgba(20,70,100,.08);
+}
+
+#vitalia-common-nav[hidden]{
+  display:none !important;
+}
+
+.vcn-tab{
+  flex:1 1 0;
+  max-width:118px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  text-decoration:none;
+  color:var(--clean-muted);
+  font-size:11px;
+  font-weight:800;
+}
+
+.vcn-icon{
+  font-size:20px;
+  line-height:1;
+}
+
+.vcn-tab.is-active{
+  color:var(--clean-cyan);
+}
+
+@media (max-width:820px){
+  .main-content{
+    grid-template-columns:1fr !important;
+    padding-left:12px !important;
+    padding-right:12px !important;
+  }
+  .quest-side{
+    order:2 !important;
+  }
+  .quest-board,
+  .food-board{
+    order:1 !important;
+  }
+  .card-grid,
+  .resto-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+  .attack-grid{
+    grid-template-columns:1fr !important;
+  }
+}

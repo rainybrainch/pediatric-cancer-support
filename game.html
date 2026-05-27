@@ -3926,7 +3926,9 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
 <!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
 <link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<link rel="stylesheet" href="./vitalia-clean-ui.css">
 <script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+<script defer src="./vitalia-nav.js"></script>
 </head>
 <body>
 
@@ -5701,7 +5703,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   updateUI();
 });
 
-const _authDelay=localStorage.getItem('vitalia_uid_hint') ? 8000 : 2500;
+const _authDelay=900;
 const _to=setTimeout(()=>{
   document.getElementById('loading-screen').style.display='none';
   document.getElementById('login-screen').style.display='flex';
