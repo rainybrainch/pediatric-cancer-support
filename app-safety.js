@@ -113,13 +113,13 @@
         <div class="consent-head">
           <div class="consent-badge">研究参加のお願い</div>
           <h2 id="consent-title">ヴィタリア転生録について</h2>
-          <p class="consent-sub">本アプリは小児がん経験者の健康行動継続を支援する <strong>研究</strong> です。</p>
+          <p class="consent-sub">本アプリは小児がん経験者の健康行動継続を支援する <strong>修士論文研究</strong> です。</p>
         </div>
         <div class="consent-body">
           <div class="consent-section">
             <h3>📜 ご協力いただくこと</h3>
             <ul>
-              <li>運動量・食事量は、メッツボタンとグラムボタンを入力（1週間に1回、1〜2分）</li>
+              <li>運動・食事・QOL記録の入力（1日2〜5分）</li>
               <li>AIコーチ「ルナ」との対話（任意）</li>
               <li>研究期間：12週間（その後も継続利用は自由）</li>
             </ul>

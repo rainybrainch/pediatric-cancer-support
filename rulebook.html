@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>繝ｫ繝ｼ繝ｫ繝悶ャ繧ｯ ・・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</title>
-<meta name="description" content="繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸縺ｮ驕翫・譁ｹ繝ｻ蜷・ｩ溯・縺ｮ隗｣隱ｬ縲ょ▼蠎ｷ陦悟虚邯咏ｶ壽髪謠ｴ遐皮ｩｶ繝励Ο繧ｸ繧ｧ繧ｯ繝医・蜿匁桶隱ｬ譏取嶌縲・>
+<title>ルールブック ｜ ヴィタリア転生録</title>
+<meta name="description" content="ヴィタリア転生録の遊び方・各機能の解説。健康行動継続支援研究プロジェクトの取扱説明書。">
 <meta name="theme-color" content="#c8e4f4">
 <link rel="manifest" href="./manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,7 +110,7 @@ header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
 .sec p.note{font-size:.74rem;color:var(--muted);}
 .sec strong{color:var(--accent);font-weight:700;}
 
-/* 繧ｭ繝｣繝ｩ邏ｹ莉・*/
+/* キャラ紹介 */
 .char-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0 6px;}
 .char-card{
   background:rgba(255,255,255,.6);border:1px solid var(--line);
@@ -122,7 +122,7 @@ header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
 .char-desc{font-size:.7rem;color:var(--ink2);margin-top:8px;line-height:1.7;text-align:left;}
 @media(max-width:520px){.char-grid{grid-template-columns:1fr;}}
 
-/* 逕ｻ髱｢繝ｪ繧ｹ繝・*/
+/* 画面リスト */
 .screen-list{display:grid;gap:10px;margin:14px 0 6px;}
 .screen-row{
   display:grid;grid-template-columns:90px 1fr;gap:14px;
@@ -137,17 +137,17 @@ header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
 .screen-row a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent2);}
 @media(max-width:520px){.screen-row{grid-template-columns:1fr;gap:4px;}}
 
-/* 繝√ぉ繝・け繝ｪ繧ｹ繝・*/
+/* チェックリスト */
 .check{padding-left:0;list-style:none;margin:10px 0;}
 .check li{
   font-size:.78rem;color:var(--ink);padding:6px 0 6px 28px;position:relative;
   line-height:1.75;
 }
 .check li::before{
-  content:'笨・;position:absolute;left:6px;color:var(--accent);font-weight:900;
+  content:'✓';position:absolute;left:6px;color:var(--accent);font-weight:900;
 }
 
-/* 豕ｨ諢上・繝・け繧ｹ */
+/* 注意ボックス */
 .callout{
   background:rgba(176,122,26,.08);
   border-left:3px solid var(--warn);
@@ -157,7 +157,7 @@ header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
 .callout strong{color:var(--warn);}
 .callout p{font-size:.74rem;line-height:1.8;margin:0;color:var(--ink2);}
 
-/* 繝・・繝悶Ν */
+/* テーブル */
 .kv{width:100%;border-collapse:collapse;margin:10px 0;font-size:.74rem;}
 .kv th,.kv td{
   padding:8px 10px;text-align:left;vertical-align:top;
@@ -180,179 +180,178 @@ header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
 .foot-link a:hover{background:rgba(255,255,255,.85);}
 </style>
 
-<!-- 笨ｦ Vitalia RPG Lite (bottom-nav redesign) 笨ｦ -->
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
 <link rel="stylesheet" href="./vitalia-rpg-lite.css">
 <script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
-<script defer src="./vitalia-nav.js"></script>
 </head>
 <body>
 
 <header>
-  <a href="./game.html" class="logo">笨ｦ 繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</a>
-  <a href="./settings.html" class="back-btn">竊・險ｭ螳壹↓謌ｻ繧・/a>
+  <a href="./game.html" class="logo">✦ ヴィタリア転生録</a>
+  <a href="./settings.html" class="back-btn">← 設定に戻る</a>
 </header>
 
 <main class="page">
 
   <div class="title-block">
-    <div class="title-rune">窶・RULE BOOK ﾂｷ 蜿匁桶隱ｬ譏取嶌 窶・/div>
-    <h1 class="page-title">繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸 繝ｫ繝ｼ繝ｫ繝悶ャ繧ｯ</h1>
-    <p class="page-sub">蛻昴ａ縺ｦ縺ｮ譁ｹ繧ゅ√ｂ縺・ｸ蠎ｦ遒ｺ隱阪＠縺溘＞譁ｹ繧ゅゅ％縺ｮ繝壹・繧ｸ縺悟・髯ｺ縺ｮ謇句ｼ輔″縺ｧ縺吶・/p>
+    <div class="title-rune">— RULE BOOK · 取扱説明書 —</div>
+    <h1 class="page-title">ヴィタリア転生録 ルールブック</h1>
+    <p class="page-sub">初めての方も、もう一度確認したい方も。このページが冒険の手引きです。</p>
   </div>
 
-  <!-- 逶ｮ谺｡ -->
+  <!-- 目次 -->
   <div class="toc">
-    <div class="toc-title">当 逶ｮ谺｡</div>
+    <div class="toc-title">📖 目次</div>
     <ol>
-      <li><a href="#about">縺薙・繧ｲ繝ｼ繝縺ｫ縺､縺・※</a></li>
-      <li><a href="#chars">逋ｻ蝣ｴ繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ</a></li>
-      <li><a href="#flow">驕翫・譁ｹ縺ｮ豬√ｌ</a></li>
-      <li><a href="#screens">逕ｻ髱｢縺ｮ蠖ｹ蜑ｲ</a></li>
-      <li><a href="#xp">XP繝ｻ繝ｬ繝吶Ν繝ｻ繧ｯ繧ｨ繧ｹ繝・/a></li>
-      <li><a href="#nutrition">譬・､翫→驕句虚縺ｮ騾｣謳ｺ</a></li>
-      <li><a href="#luna">AI繧ｳ繝ｼ繝√Φ繧ｰ・医Ν繝奇ｼ・/a></li>
-      <li><a href="#data">繝・・繧ｿ縺ｨ繝励Λ繧､繝舌す繝ｼ</a></li>
-      <li><a href="#safety">螳牙・縺ｫ菴ｿ縺・◆繧√↓</a></li>
-      <li><a href="#help">蝗ｰ縺｣縺溘→縺・/a></li>
+      <li><a href="#about">このゲームについて</a></li>
+      <li><a href="#chars">登場キャラクター</a></li>
+      <li><a href="#flow">遊び方の流れ</a></li>
+      <li><a href="#screens">画面の役割</a></li>
+      <li><a href="#xp">XP・レベル・クエスト</a></li>
+      <li><a href="#nutrition">栄養と運動の連携</a></li>
+      <li><a href="#luna">AIコーチング（ルナ）</a></li>
+      <li><a href="#data">データとプライバシー</a></li>
+      <li><a href="#safety">安全に使うために</a></li>
+      <li><a href="#help">困ったとき</a></li>
     </ol>
   </div>
 
   <!-- 1 -->
   <section class="sec" id="about">
-    <h2><span class="num">1</span> 縺薙・繧ｲ繝ｼ繝縺ｫ縺､縺・※</h2>
-    <p><strong>繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</strong>縺ｯ縲∝ｰ丞・縺後ｓ邨碁ｨ楢・・AYA荳紋ｻ｣縺ｮ逧・＆繧薙′縲・°蜍輔→譬・､翫・鄙呈・繧偵檎┌逅・↑縺上・讌ｽ縺励￥繝ｻ邯壹￠繧峨ｌ繧九阪ｈ縺・↓險ｭ險医＆繧後◆<strong>遐皮ｩｶ蜿ょ刈蝙九・繧ｦ繧ｧ繝ｫ繝阪せRPG</strong>縺ｧ縺吶・/p>
-    <p>逡ｰ荳也阜縲後Χ繧｣繧ｿ繝ｪ繧｢縲阪↓霆｢逕溘＠縺溘≠縺ｪ縺溘・縲∝･ｳ逾・strong>繝ｫ繝・/strong>縺ｨ莉ｲ髢薙→縺ｨ繧ゅ↓12騾ｱ髢薙・蜀帝匱繧帝ｲ繧√↑縺後ｉ縲∬・蛻・・蛛･蠎ｷ陦悟虚繧定ｨ倬鹸縺励∵勦譛溷粋菴ｵ逞・・莠磯亟縺ｫ縺､縺ｪ縺後ｋ鄙呈・繧定ｺｫ縺ｫ縺､縺代※縺・″縺ｾ縺吶・/p>
-    <p class="note">縲梧・諷｢縺励↑縺・°繧峨Μ繝舌え繝ｳ繝峨＠縺ｪ縺・∬協縺励￥縺ｪ縺・°繧峨ｄ縺｣縺ｦ縺ｿ縺溘＞縲√ｄ繧後・繧・ｋ縺ｻ縺ｩ讌ｽ縺励＞縲坂楳笏 縺薙・菫｡譚｡縺ｮ繧ゅ→縺ｧ菴懊ｉ繧後※縺・∪縺吶・/p>
+    <h2><span class="num">1</span> このゲームについて</h2>
+    <p><strong>ヴィタリア転生録</strong>は、小児がん経験者・AYA世代の皆さんが、運動と栄養の習慣を「無理なく・楽しく・続けられる」ように設計された<strong>研究参加型のウェルネスRPG</strong>です。</p>
+    <p>異世界「ヴィタリア」に転生したあなたは、女神<strong>ルナ</strong>と仲間とともに12週間の冒険を進めながら、自分の健康行動を記録し、晩期合併症の予防につながる習慣を身につけていきます。</p>
+    <p class="note">「我慢しないからリバウンドしない、苦しくないからやってみたい、やればやるほど楽しい」── この信条のもとで作られています。</p>
   </section>
 
   <!-- 2 -->
   <section class="sec" id="chars">
-    <h2><span class="num">2</span> 逋ｻ蝣ｴ繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ</h2>
+    <h2><span class="num">2</span> 登場キャラクター</h2>
     <div class="char-grid">
       <div class="char-card">
-        <div class="char-icon">嫌</div>
-        <div class="char-name">繝ｫ繝・/div>
-        <div class="char-role">AI繧ｳ繝ｼ繝√・螂ｳ逾・/div>
-        <div class="char-desc">縺ゅ↑縺溘・莨ｴ襍ｰ閠・・ROW繝｢繝・Ν・・oal/Reality/Options/Will・峨〒蟇ｾ隧ｱ縺励↑縺後ｉ縲∽ｻ企ｱ縺ｮ蟆上＆縺ｪ荳豁ｩ繧剃ｸ邱偵↓豎ｺ繧√∪縺吶・/div>
+        <div class="char-icon">🌙</div>
+        <div class="char-name">ルナ</div>
+        <div class="char-role">AIコーチ・女神</div>
+        <div class="char-desc">あなたの伴走者。GROWモデル（Goal/Reality/Options/Will）で対話しながら、今週の小さな一歩を一緒に決めます。</div>
       </div>
       <div class="char-card">
-        <div class="char-icon">笞・/div>
-        <div class="char-name">繧ｫ繧､繝・/div>
-        <div class="char-role">驕句虚縺ｮ蟶ｫ</div>
-        <div class="char-desc">蛛･蠎ｷ繧ｯ繧ｨ繧ｹ繝茨ｼ磯°蜍包ｼ峨・繧ｬ繧､繝峨るｱ150縲・00蛻・・荳ｭ蠑ｷ蠎ｦ驕句虚繧偵∫┌逅・↑縺乗･ｽ縺励￥邯壹￠繧九さ繝・ｒ謨吶∴縺ｦ縺上ｌ縺ｾ縺吶・/div>
+        <div class="char-icon">⚔</div>
+        <div class="char-name">カイト</div>
+        <div class="char-role">運動の師</div>
+        <div class="char-desc">健康クエスト（運動）のガイド。週150〜300分の中強度運動を、無理なく楽しく続けるコツを教えてくれます。</div>
       </div>
       <div class="char-card">
-        <div class="char-icon">諺</div>
-        <div class="char-name">繧ｻ繝ｩ</div>
-        <div class="char-role">譬・､翫・蟾ｫ螂ｳ</div>
-        <div class="char-desc">譬・､翫け繧ｨ繧ｹ繝医・繧ｬ繧､繝峨る㍽闖懊・鬲壹・螟ｧ雎・↑縺ｩ縲∵蒲驟ｸ蛹悶・謚礼ｎ逞・↓蠖ｹ遶九▽鬟滓攝繧帝寔繧√ｋ譌・ｒ蟆弱＞縺ｦ縺上ｌ縺ｾ縺吶・/div>
+        <div class="char-icon">🌿</div>
+        <div class="char-name">セラ</div>
+        <div class="char-role">栄養の巫女</div>
+        <div class="char-desc">栄養クエストのガイド。野菜・魚・大豆など、抗酸化・抗炎症に役立つ食材を集める旅を導いてくれます。</div>
       </div>
     </div>
   </section>
 
   <!-- 3 -->
   <section class="sec" id="flow">
-    <h2><span class="num">3</span> 驕翫・譁ｹ縺ｮ豬√ｌ</h2>
+    <h2><span class="num">3</span> 遊び方の流れ</h2>
     <ul class="check">
-      <li><strong>竭 霆｢逕滂ｼ亥盾蜉逋ｻ骭ｲ・・/strong> 笏笏 蜷榊燕繝ｻ蟷ｴ鮨｢繝ｻ菴馴㍾縺ｪ縺ｩ縺ｮ蝓ｺ譛ｬ諠・ｱ繧貞・蜉帙＠縲∝・髯ｺ繧ｯ繝ｩ繧ｹ繧帝∈縺ｳ縺ｾ縺吶・/li>
-      <li><strong>竭｡ 豈取律縺ｮ蜀帝匱</strong> 笏笏 驕句虚縺励◆譎る俣縲・｣溘∋縺溘ｂ縺ｮ繧定ｨ倬鹸縲・繧ｿ繝・・・・0蛻・・邁｡蜊伜・蜉帙〒縺吶・/li>
-      <li><strong>竭｢ 騾ｱ谺｡繝ｬ繝薙Η繝ｼ</strong> 笏笏 繝ｫ繝翫→蟇ｾ隧ｱ縺励※縲∽ｻ企ｱ縺ｧ縺阪◆縺薙→繝ｻ譚･騾ｱ縺ｮ逶ｮ讓吶ｒ謨ｴ逅・＠縺ｾ縺吶・/li>
-      <li><strong>竭｣ 12騾ｱ髢薙・蛻ｰ驕・/strong> 笏笏 12騾ｱ髢薙・蜀帝匱繧堤ｵゅ∴繧九→縲∝粋菴ｵ逞・ｺ磯亟縺ｫ蠖ｹ遶九▽鄙呈・縺ｮ蝓ｺ遉弱′霄ｫ縺ｫ縺､縺・※縺・∪縺吶・/li>
+      <li><strong>① 転生（参加登録）</strong> ── 名前・年齢・体重などの基本情報を入力し、冒険クラスを選びます。</li>
+      <li><strong>② 毎日の冒険</strong> ── 運動した時間、食べたものを記録。1タップ＝10分の簡単入力です。</li>
+      <li><strong>③ 週次レビュー</strong> ── ルナと対話して、今週できたこと・来週の目標を整理します。</li>
+      <li><strong>④ 12週間の到達</strong> ── 12週間の冒険を終えると、合併症予防に役立つ習慣の基礎が身についています。</li>
     </ul>
   </section>
 
   <!-- 4 -->
   <section class="sec" id="screens">
-    <h2><span class="num">4</span> 逕ｻ髱｢縺ｮ蠖ｹ蜑ｲ</h2>
+    <h2><span class="num">4</span> 画面の役割</h2>
     <div class="screen-list">
-      <div class="screen-row"><div class="lbl">繝帙・繝</div><div class="desc"><a href="./game.html">game.html</a> 笏笏 繧ｹ繝・・繧ｿ繧ｹ繝ｻ騾ｱ髢馴ｲ謐励・縺顔衍繧峨○縺ｮ荳ｭ蠢・ゅ％縺薙°繧牙推讖溯・縺ｸ遘ｻ蜍輔＠縺ｾ縺吶・/div></div>
-      <div class="screen-row"><div class="lbl">繧ｯ繧ｨ繧ｹ繝・/div><div class="desc"><a href="./quest.html">quest.html</a> 笏笏 驕句虚縺ｮ險倬鹸縲・ETs險育ｮ玲ｩ溘〒豸郁ｲｻkcal繧ゅメ繧ｧ繝・け縺ｧ縺阪∪縺吶・/div></div>
-      <div class="screen-row"><div class="lbl">譬・､・/div><div class="desc"><a href="./nutrition.html">nutrition.html</a> 笏笏 鬟滉ｺ九・險倬鹸縲る°蜍暮㍼縺ｫ蠢懊§縺滄｣滉ｺ狗岼螳峨ｂ陦ｨ遉ｺ縲・/div></div>
-      <div class="screen-row"><div class="lbl">蜀帝匱險倬鹸</div><div class="desc"><a href="./journal.html">journal.html</a> 笏笏 譌･縲・・蜃ｺ譚･莠九・豌玲戟縺｡縺ｮ繝｡繝｢縲ょｾ後〒隱ｭ縺ｿ霑斐○縺ｾ縺吶・/div></div>
-      <div class="screen-row"><div class="lbl">繝代・繝・ぅ</div><div class="desc"><a href="./party.html">party.html</a> 笏笏 繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ縺溘■縺ｮ邨・ｒ豺ｱ繧√ｋ逕ｻ髱｢縲・/div></div>
-      <div class="screen-row"><div class="lbl">蝗ｳ髑・/div><div class="desc"><a href="./collection.html">collection.html</a> 笏笏 髮・ａ縺滄｣滓攝繝ｻ驕疲・縺励◆螳溽ｸｾ繧堤｢ｺ隱阪・/div></div>
-      <div class="screen-row"><div class="lbl">繧ｹ繧ｭ繝ｫ</div><div class="desc"><a href="./skills.html">skills.html</a> 笏笏 鄙貞ｾ励＠縺溘せ繧ｭ繝ｫ・亥▼蠎ｷ陦悟虚縺ｮ遏･隴假ｼ峨・荳隕ｧ縲・/div></div>
-      <div class="screen-row"><div class="lbl">蝠・ｺ・/div><div class="desc"><a href="./shop.html">shop.html</a> 笏笏 XP縺ｧ陬・｣ｾ繧｢繧､繝・Β縺ｪ縺ｩ繧貞・謇九・/div></div>
-      <div class="screen-row"><div class="lbl">險ｭ螳・/div><div class="desc"><a href="./settings.html">settings.html</a> 笏笏 菴馴㍾繝ｻ騾夂衍繝ｻ繝・・繧ｿ邂｡逅・ゅ％縺ｮ繝ｫ繝ｼ繝ｫ繝悶ャ繧ｯ繧ゅ％縺薙°繧画擂繧峨ｌ縺ｾ縺吶・/div></div>
+      <div class="screen-row"><div class="lbl">ホーム</div><div class="desc"><a href="./game.html">game.html</a> ── ステータス・週間進捗・お知らせの中心。ここから各機能へ移動します。</div></div>
+      <div class="screen-row"><div class="lbl">クエスト</div><div class="desc"><a href="./quest.html">quest.html</a> ── 運動の記録。METs計算機で消費kcalもチェックできます。</div></div>
+      <div class="screen-row"><div class="lbl">栄養</div><div class="desc"><a href="./nutrition.html">nutrition.html</a> ── 食事の記録。運動量に応じた食事目安も表示。</div></div>
+      <div class="screen-row"><div class="lbl">冒険記録</div><div class="desc"><a href="./journal.html">journal.html</a> ── 日々の出来事・気持ちのメモ。後で読み返せます。</div></div>
+      <div class="screen-row"><div class="lbl">パーティ</div><div class="desc"><a href="./party.html">party.html</a> ── キャラクターたちの絆を深める画面。</div></div>
+      <div class="screen-row"><div class="lbl">図鑑</div><div class="desc"><a href="./collection.html">collection.html</a> ── 集めた食材・達成した実績を確認。</div></div>
+      <div class="screen-row"><div class="lbl">スキル</div><div class="desc"><a href="./skills.html">skills.html</a> ── 習得したスキル（健康行動の知識）の一覧。</div></div>
+      <div class="screen-row"><div class="lbl">商店</div><div class="desc"><a href="./shop.html">shop.html</a> ── XPで装飾アイテムなどを入手。</div></div>
+      <div class="screen-row"><div class="lbl">設定</div><div class="desc"><a href="./settings.html">settings.html</a> ── 体重・通知・データ管理。このルールブックもここから来られます。</div></div>
     </div>
   </section>
 
   <!-- 5 -->
   <section class="sec" id="xp">
-    <h2><span class="num">5</span> XP繝ｻ繝ｬ繝吶Ν繝ｻ繧ｯ繧ｨ繧ｹ繝・/h2>
+    <h2><span class="num">5</span> XP・レベル・クエスト</h2>
     <table class="kv">
-      <tr><th>XP・育ｵ碁ｨ灘､・・/th><td>驕句虚繝ｻ譬・､翫・蜀帝匱險倬鹸縺ｮ蜈･蜉帙〒迯ｲ蠕励らｶ壹￠繧九⊇縺ｩ遨阪∩荳翫′繧翫∪縺吶・/td></tr>
-      <tr><th>繝ｬ繝吶Ν</th><td>XP縺御ｸ螳壼､縺ｫ驕斐☆繧九→荳翫′繧翫∪縺吶・v1縲瑚ｻ｢逕溯・阪°繧峨せ繧ｿ繝ｼ繝医・/td></tr>
-      <tr><th>繧ｯ繧ｨ繧ｹ繝・/th><td>菴弱・荳ｭ繝ｻ鬮・蠑ｷ蠎ｦ縺ｮ3繝ｬ繝吶Ν縲・繧ｿ繝・・・・0蛻・るｱ150縲・00蛻・ｼ井ｸｭ蠑ｷ蠎ｦ謠帷ｮ暦ｼ峨′謗ｨ螂ｨ逶ｮ讓吶〒縺吶・/td></tr>
-      <tr><th>騾｣邯夊ｨ倬鹸</th><td>豈取律蟆代＠縺ｧ繧ょ・蜉帙☆繧後・縲碁｣邯夊ｨ倬鹸縲阪′莨ｸ縺ｳ縺ｾ縺吶・譌･莨代ｓ縺ｧ繧らｿ梧律縺九ｉ縺ｾ縺溽ｩ阪ａ縺ｰOK縲・/td></tr>
-      <tr><th>螳溽ｸｾ</th><td>蝗ｳ髑代・縲悟ｮ溽ｸｾ縲阪ち繝悶↓菫晏ｭ倥ょｾ後°繧芽ｦ玖ｿ斐○縺ｾ縺吶・/td></tr>
+      <tr><th>XP（経験値）</th><td>運動・栄養・冒険記録の入力で獲得。続けるほど積み上がります。</td></tr>
+      <tr><th>レベル</th><td>XPが一定値に達すると上がります。Lv1「転生者」からスタート。</td></tr>
+      <tr><th>クエスト</th><td>低・中・高 強度の3レベル。1タップ＝10分。週150〜300分（中強度換算）が推奨目標です。</td></tr>
+      <tr><th>連続記録</th><td>毎日少しでも入力すれば「連続記録」が伸びます。1日休んでも翌日からまた積めばOK。</td></tr>
+      <tr><th>実績</th><td>図鑑の「実績」タブに保存。後から見返せます。</td></tr>
     </table>
   </section>
 
   <!-- 6 -->
   <section class="sec" id="nutrition">
-    <h2><span class="num">6</span> 譬・､翫→驕句虚縺ｮ騾｣謳ｺ</h2>
-    <p>縺薙・繧ｲ繝ｼ繝縺ｧ縺ｯ縲・°蜍暮㍼縺ｫ蠢懊§縺滄｣滉ｺ矩㍼縺ｮ逶ｮ螳峨′閾ｪ蜍戊｡ｨ遉ｺ縺輔ｌ縺ｾ縺吶・strong>縲悟虚縺・◆蛻・・鬟溘∋縺ｦ縺・＞縲・/strong>縺悟渕譛ｬ蟋ｿ蜍｢縲よ・諷｢縺ｧ縺ｯ縺ｪ縺上√お繝阪Ν繧ｮ繝ｼ繝舌Λ繝ｳ繧ｹ縺ｧ閠・∴縺ｾ縺吶・/p>
-    <p class="note">豸郁ｲｻkcal縺ｮ險育ｮ怜ｼ擾ｼ・<strong>1.05 ﾃ・METs ﾃ・譎る俣(h) ﾃ・菴馴㍾(kg)</strong>・亥字蜉ｴ逵√瑚ｺｫ菴捺ｴｻ蜍輔・繝｡繝・ヤ陦ｨ縲肴隼險ら沿縺ｫ貅匁侠・・/p>
-    <p class="note">1譌･縺ｮ逶ｮ螳峨お繝阪Ν繧ｮ繝ｼ・・霆ｽ縺・律 竕・菴馴㍾ﾃ・2ﾃ・.4 kcal縲∝虚縺・◆譌･ 竕・菴馴㍾ﾃ・2ﾃ・.7 kcal</p>
+    <h2><span class="num">6</span> 栄養と運動の連携</h2>
+    <p>このゲームでは、運動量に応じた食事量の目安が自動表示されます。<strong>「動いた分は食べていい」</strong>が基本姿勢。我慢ではなく、エネルギーバランスで考えます。</p>
+    <p class="note">消費kcalの計算式： <strong>1.05 × METs × 時間(h) × 体重(kg)</strong>（厚労省「身体活動のメッツ表」改訂版に準拠）</p>
+    <p class="note">1日の目安エネルギー： 軽い日 ≒ 体重×22×1.4 kcal、動いた日 ≒ 体重×22×1.7 kcal</p>
     <div class="callout">
-      <p><strong>蜈咲稔繝ｻ轤守裸繝ｻ謚鈴・蛹・/strong> 縺ｫ蠖ｹ遶九▽鬟滓攝繧呈э隴假ｼ夐ｭ夲ｼ医が繝｡繧ｬ3・峨√・繝ｪ繝ｼ鬘槭∫ｷ鷹ｻ・牡驥手除縲∫ｷ題幻縲√リ繝・ヤ縲∫匱驟ｵ鬟溷刀縲よ・､翫け繧ｨ繧ｹ繝医〒髮・ａ繧九→ XP 繧ょ・繧翫∪縺吶・/p>
+      <p><strong>免疫・炎症・抗酸化</strong> に役立つ食材を意識：魚（オメガ3）、ベリー類、緑黄色野菜、緑茶、ナッツ、発酵食品。栄養クエストで集めると XP も入ります。</p>
     </div>
   </section>
 
   <!-- 7 -->
   <section class="sec" id="luna">
-    <h2><span class="num">7</span> AI繧ｳ繝ｼ繝√Φ繧ｰ・医Ν繝奇ｼ・/h2>
-    <p>繝ｫ繝翫・縺ゅ↑縺溘・莨ｴ襍ｰ閠・〒縺吶よ音蛻､縺帙★縲∵ｯ碑ｼ・○縺壹√＞縺ｾ縺ｮ縺ゅ↑縺溘↓蟇・ｊ豺ｻ縺・∪縺吶ゆｼ夊ｩｱ縺ｯ <strong>GROW 繝｢繝・Ν</strong> 縺ｧ騾ｲ縺ｿ縺ｾ縺呻ｼ・/p>
+    <h2><span class="num">7</span> AIコーチング（ルナ）</h2>
+    <p>ルナはあなたの伴走者です。批判せず、比較せず、いまのあなたに寄り添います。会話は <strong>GROW モデル</strong> で進みます：</p>
     <table class="kv">
-      <tr><th>Goal・育岼讓呻ｼ・/th><td>莉企ｱ縺ｩ繧薙↑蛛･蠎ｷ鄙呈・繧堤ｶ壹￠縺溘＞縺具ｼ・/td></tr>
-      <tr><th>Reality・育樟迥ｶ・・/th><td>縺・∪縺ｩ繧薙↑迥ｶ豕√°縲ゅ〒縺阪※縺・ｋ縺薙→繝ｻ髮｣縺励＞縺薙→縲・/td></tr>
-      <tr><th>Options・磯∈謚櫁い・・/th><td>2縲・蛟九・蟾･螟ｫ譯医ｒ閠・∴繧九・/td></tr>
-      <tr><th>Will・域э蠢暦ｼ・/th><td>縺ｩ繧後ｒ螳滄圀縺ｫ繧・ｋ縺九ゅ＞縺､繝ｻ縺ｩ繧後￥繧峨＞縲・/td></tr>
+      <tr><th>Goal（目標）</th><td>今週どんな健康習慣を続けたいか？</td></tr>
+      <tr><th>Reality（現状）</th><td>いまどんな状況か。できていること・難しいこと。</td></tr>
+      <tr><th>Options（選択肢）</th><td>2〜3個の工夫案を考える。</td></tr>
+      <tr><th>Will（意志）</th><td>どれを実際にやるか。いつ・どれくらい。</td></tr>
     </table>
-    <p class="note">莨代ｓ縺譌･縺後≠縺｣縺ｦ繧ょ､ｧ荳亥､ｫ縲ゅ檎┌逅・＠縺ｪ縺・％縺ｨ閾ｪ菴薙′縲∝▼蠎ｷ陦悟虚縺ｮ荳驛ｨ縲阪→繝ｫ繝翫・莨昴∴縺ｾ縺吶・/p>
+    <p class="note">休んだ日があっても大丈夫。「無理しないこと自体が、健康行動の一部」とルナは伝えます。</p>
   </section>
 
   <!-- 8 -->
   <section class="sec" id="data">
-    <h2><span class="num">8</span> 繝・・繧ｿ縺ｨ繝励Λ繧､繝舌す繝ｼ</h2>
+    <h2><span class="num">8</span> データとプライバシー</h2>
     <ul class="check">
-      <li>縺ゅ↑縺溘・險倬鹸縺ｯ蝓ｺ譛ｬ逧・↓<strong>縺ゅ↑縺溘・遶ｯ譛ｫ蜀・ｼ・ocalStorage・・/strong>縺ｫ菫晏ｭ倥＆繧後∪縺吶・/li>
-      <li>遐皮ｩｶ繝・・繧ｿ縺ｨ縺励※蜈ｱ譛峨＆繧後ｋ遽・峇縺ｯ縲∝盾蜉蜷梧э譖ｸ繝ｻ<a href="./privacy.html" style="color:var(--accent);">繝励Λ繧､繝舌す繝ｼ繝昴Μ繧ｷ繝ｼ</a>縺ｫ譏手ｨ倥＆繧後※縺・∪縺吶・/li>
-      <li>AI繧ｳ繝ｼ繝√Φ繧ｰ・医Ν繝奇ｼ峨・莨夊ｩｱ縺ｯ縲√し繝ｼ繝舌・・・loudflare・峨ｒ邨檎罰縺励※Gemini API・・oogle・峨↓騾∽ｿ｡縺輔ｌ縺ｾ縺吶る∽ｿ｡蜑阪↓豌丞錐遲峨・蛟倶ｺｺ隴伜挨諠・ｱ縺ｯ蜷ｫ繧√↑縺・ｨｭ險医〒縺吶・/li>
-      <li>縺・▽縺ｧ繧ょ盾蜉繧呈彫蝗槭〒縺阪∪縺吶ゅョ繝ｼ繧ｿ縺ｮ蜑企勁繧・a href="./settings.html" style="color:var(--accent);">險ｭ螳・/a>縺九ｉ陦後∴縺ｾ縺吶・/li>
+      <li>あなたの記録は基本的に<strong>あなたの端末内（localStorage）</strong>に保存されます。</li>
+      <li>研究データとして共有される範囲は、参加同意書・<a href="./privacy.html" style="color:var(--accent);">プライバシーポリシー</a>に明記されています。</li>
+      <li>AIコーチング（ルナ）の会話は、サーバー（Cloudflare）を経由してGemini API（Google）に送信されます。送信前に氏名等の個人識別情報は含めない設計です。</li>
+      <li>いつでも参加を撤回できます。データの削除も<a href="./settings.html" style="color:var(--accent);">設定</a>から行えます。</li>
     </ul>
   </section>
 
   <!-- 9 -->
   <section class="sec" id="safety">
-    <h2><span class="num">9</span> 螳牙・縺ｫ菴ｿ縺・◆繧√↓</h2>
+    <h2><span class="num">9</span> 安全に使うために</h2>
     <div class="callout">
-      <p><strong>縺薙・繧ｲ繝ｼ繝縺ｯ蛹ｻ逋り｡檎ぜ縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ縲・/strong>繝ｫ繝翫・蛹ｻ蟶ｫ縺ｧ縺ｯ縺ｪ縺上∬ｨｺ譁ｭ繝ｻ蜃ｦ譁ｹ繝ｻ阮ｬ縺ｮ蛻､譁ｭ縺ｫ縺ｯ雕上∩霎ｼ縺ｿ縺ｾ縺帙ｓ縲ゆｽ楢ｪｿ繧・､懈渊蛟､縺ｮ蛻､譁ｭ縺ｯ蠢・★荳ｻ豐ｻ蛹ｻ縺ｫ縺皮嶌隲・￥縺縺輔＞縲・/p>
+      <p><strong>このゲームは医療行為ではありません。</strong>ルナは医師ではなく、診断・処方・薬の判断には踏み込みません。体調や検査値の判断は必ず主治医にご相談ください。</p>
     </div>
-    <p>邱頑･譎ゅ・縺､繧峨＞縺ｨ縺搾ｼ・/p>
+    <p>緊急時・つらいとき：</p>
     <ul class="check">
-      <li>霄ｫ菴薙・邱頑･ 笏笏 <strong>119</strong>・域舞諤･・会ｼ・strong>#7119</strong>・域舞諤･螳牙ｿ・そ繝ｳ繧ｿ繝ｼ・・/li>
-      <li>縺薙％繧阪・縺､繧峨＆ 笏笏 <strong>繧医ｊ縺昴＞繝帙ャ繝医Λ繧､繝ｳ 0120-279-338</strong>・育┌譁吶・24譎る俣・・/li>
-      <li>縺・・縺｡縺ｮ髮ｻ隧ｱ 笏笏 <strong>0570-783-556</strong></li>
+      <li>身体の緊急 ── <strong>119</strong>（救急）／<strong>#7119</strong>（救急安心センター）</li>
+      <li>こころのつらさ ── <strong>よりそいホットライン 0120-279-338</strong>（無料・24時間）</li>
+      <li>いのちの電話 ── <strong>0570-783-556</strong></li>
     </ul>
-    <p class="note">縲悟虚縺代↑縺・律縲阪梧ｰ怜・縺瑚誠縺｡繧区律縲阪ｂ縺ゅ▲縺ｦ蠖鍋┯縺ｧ縺吶よｳ｢縺後≠繧九％縺ｨ繧偵√Ν繝翫ｂ遐皮ｩｶ繝√・繝繧ら炊隗｣縺励※縺・∪縺吶・/p>
+    <p class="note">「動けない日」「気分が落ちる日」もあって当然です。波があることを、ルナも研究チームも理解しています。</p>
   </section>
 
   <!-- 10 -->
   <section class="sec" id="help">
-    <h2><span class="num">10</span> 蝗ｰ縺｣縺溘→縺・/h2>
+    <h2><span class="num">10</span> 困ったとき</h2>
     <ul class="check">
-      <li>菴ｿ縺・婿縺後ｏ縺九ｉ縺ｪ縺・笏笏 <a href="./faq.html" style="color:var(--accent);">FAQ繝壹・繧ｸ</a>繧堤｢ｺ隱・/li>
-      <li>荳榊・蜷医・隕∵悍 笏笏 <a href="./support.html" style="color:var(--accent);">繧ｵ繝昴・繝医・繝ｼ繧ｸ</a>縺九ｉ騾｣邨｡</li>
-      <li>蜿ょ刈縺ｫ髢｢縺吶ｋ雉ｪ蝠・笏笏 遐皮ｩｶ莠句漁螻・亥盾蜉逋ｻ骭ｲ譎ゅ・騾｣邨｡蜈茨ｼ・/li>
-      <li>繝・・繧ｿ繧呈ｶ医＠縺溘＞ 笏笏 <a href="./settings.html" style="color:var(--accent);">險ｭ螳・竊・繝・・繧ｿ邂｡逅・/a></li>
+      <li>使い方がわからない ── <a href="./faq.html" style="color:var(--accent);">FAQページ</a>を確認</li>
+      <li>不具合・要望 ── <a href="./support.html" style="color:var(--accent);">サポートページ</a>から連絡</li>
+      <li>参加に関する質問 ── 研究事務局（参加登録時の連絡先）</li>
+      <li>データを消したい ── <a href="./settings.html" style="color:var(--accent);">設定 → データ管理</a></li>
     </ul>
   </section>
 
   <div class="foot-link">
-    <a href="./settings.html">竊・險ｭ螳壹↓謌ｻ繧・/a>
-    <a href="./game.html">繝帙・繝縺ｸ 竊・/a>
+    <a href="./settings.html">← 設定に戻る</a>
+    <a href="./game.html">ホームへ →</a>
   </div>
 
 </main>
@@ -368,11 +367,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 </style>
 <nav class="bottom-nav">
-  <a href="./game.html" class="bn-tab"><span class="bn-icon">匠</span><span class="bn-label">繝帙・繝</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">繧ｯ繧ｨ繧ｹ繝・/span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">諺</span><span class="bn-label">譬・､・/span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">亮</span><span class="bn-label">蜀帝匱</span></a>
-  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">笞・/span><span class="bn-label">險ｭ螳・/span></a>
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
 </nav>
 </body>
 </html>

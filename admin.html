@@ -303,13 +303,13 @@ td{padding:10px 14px;color:rgba(200,215,235,.8);white-space:nowrap;}
       <div class="table-wrap">
         <table>
           <thead><tr>
-            <th>研究ID</th><th>年齢</th><th>性別</th><th>疾患名</th><th>診断時年齢</th><th>治療終了</th><th>小児がんの治療内容</th><th>現在の治療</th>
+            <th>研究ID</th><th>年齢</th><th>性別</th><th>診断時年齢</th><th>治療終了</th><th>治療内容</th>
             <th>BMI</th><th>運動(中強度日)</th><th>運動(高強度日)</th>
             <th>野菜頻度</th><th>魚頻度</th><th>大豆頻度</th>
             <th>疲労</th><th>睡眠</th><th>不安</th><th>抑うつ</th><th>身体機能</th>
             <th>SE運動</th><th>SE栄養</th><th>SE管理</th><th>動機</th><th>記録日時</th>
           </tr></thead>
-          <tbody id="baseline-tbody"><tr><td colspan="24" class="loading-msg">読み込み中...</td></tr></tbody>
+          <tbody id="baseline-tbody"><tr><td colspan="22" class="loading-msg">読み込み中...</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -1230,15 +1230,15 @@ function renderResearchTabs(baseline, weekly, milestone, profiles){
   const blBody = document.getElementById('baseline-tbody');
   if(blBody){
     if(baseline.length===0){
-      blBody.innerHTML = '<tr><td colspan="24" class="loading-msg">記録がまだありません</td></tr>';
+      blBody.innerHTML = '<tr><td colspan="22" class="loading-msg">記録がまだありません</td></tr>';
     } else {
       blBody.innerHTML = baseline.map(b=>{
         const s1=b.step1||{}, s2=b.step2||{}, s3=b.step3||{}, s4=b.step4||{}, s5=b.step5||{}, s6=b.step6||{};
         const bmi = s1.height && s1.weight ? (s1.weight/((s1.height/100)**2)).toFixed(1) : '—';
         return `<tr>
           <td>${idMap[b.uid]||'?'}</td>
-          <td>${s1.age||''}</td><td>${s1.sex||''}</td><td>${s1.diseaseName||''}</td><td>${s1.dxAge||''}</td><td>${s1.postTxYrs||''}</td>
-          <td>${(s1.tx||[]).join(',')}</td><td>${s1.currentTreatment||''}</td><td>${bmi}</td>
+          <td>${s1.age||''}</td><td>${s1.sex||''}</td><td>${s1.dxAge||''}</td><td>${s1.postTxYrs||''}</td>
+          <td>${(s1.tx||[]).join(',')}</td><td>${bmi}</td>
           <td>${s2.ipaqVigDays??''}</td><td>${s2.ipaqModDays??''}</td>
           <td>${s3.vegFreq||''}</td><td>${s3.fishFreq||''}</td><td>${s3.soyFreq||''}</td>
           <td>${s4.fatigue||''}</td><td>${s4.sleepQ||''}</td><td>${s4.anxiety||''}</td><td>${s4.depression||''}</td><td>${s4.physFunc||''}</td>
@@ -1351,13 +1351,13 @@ function exportTabAsCsv(rows, filename){
 }
 
 document.getElementById('export-baseline-btn')?.addEventListener('click',()=>{
-  const rows = [['research_id','age','sex','disease_name','dx_age','post_tx_yrs','tx','current_treatment','height','weight','bmi','ipaq_vig_days','ipaq_mod_days','sedentary','veg_freq','fish_freq','soy_freq','processed_freq','fatigue','sleep_q','anxiety','depression','phys_func','se_exercise','se_nutrition','se_control','motivation','hope','completed_at','instrument_version']];
+  const rows = [['research_id','age','sex','dx_age','post_tx_yrs','tx','height','weight','bmi','ipaq_vig_days','ipaq_mod_days','sedentary','veg_freq','fish_freq','soy_freq','processed_freq','fatigue','sleep_q','anxiety','depression','phys_func','se_exercise','se_nutrition','se_control','motivation','hope','completed_at','instrument_version']];
   _baselineData.forEach(b=>{
     const s1=b.step1||{},s2=b.step2||{},s3=b.step3||{},s4=b.step4||{},s5=b.step5||{},s6=b.step6||{};
     const bmi = s1.height && s1.weight ? (s1.weight/((s1.height/100)**2)).toFixed(1) : '';
     rows.push([
       b.researchId||b.uid?.slice(0,6)||'?',
-      s1.age,s1.sex,s1.diseaseName,s1.dxAge,s1.postTxYrs,(s1.tx||[]).join(';'),(s1.currentTreatment||'').replace(/[\r\n]/g,' '),s1.height,s1.weight,bmi,
+      s1.age,s1.sex,s1.dxAge,s1.postTxYrs,(s1.tx||[]).join(';'),s1.height,s1.weight,bmi,
       s2.ipaqVigDays,s2.ipaqModDays,s2.sedentary,
       s3.vegFreq,s3.fishFreq,s3.soyFreq,s3.processedFreq,
       s4.fatigue,s4.sleepQ,s4.anxiety,s4.depression,s4.physFunc,
@@ -1443,3 +1443,5 @@ document.getElementById('export-coach-btn').addEventListener('click',()=>{
 </script>
 </body>
 </html>
+
+

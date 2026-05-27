@@ -73,11 +73,11 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 .input-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .input-row .form-group{display:flex;flex-direction:column;gap:4px;}
 .input-row label{font-size:.7rem;color:rgba(170,188,216,.55);}
-.input-row input,.input-row select,.input-row textarea{
+.input-row input,.input-row select{
   background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
   border-radius:8px;padding:8px 11px;color:#e8e4d4;font-family:inherit;font-size:.85rem;outline:none;
 }
-.input-row input:focus,.input-row textarea:focus{border-color:rgba(201,168,76,.5);}
+.input-row input:focus{border-color:rgba(201,168,76,.5);}
 
 .bottom-bar{
   position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(8,11,20,.92),rgba(0,0,0,.98));
@@ -253,26 +253,6 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
     <div class="q-block">
       <div class="q-text">小児がん診断・治療歴（任意）</div>
       <div class="input-row">
-        <div class="form-group" style="grid-column:span 2;">
-          <label>疾患名</label>
-          <select id="disease-name">
-            <option value="">選んでください</option>
-            <option value="白血病">白血病</option>
-            <option value="リンパ腫">リンパ腫</option>
-            <option value="脳腫瘍">脳腫瘍</option>
-            <option value="神経芽腫">神経芽腫</option>
-            <option value="網膜芽細胞腫">網膜芽細胞腫</option>
-            <option value="腎芽腫（ウィルムス腫瘍）">腎芽腫（ウィルムス腫瘍）</option>
-            <option value="肝芽腫">肝芽腫</option>
-            <option value="骨肉腫">骨肉腫</option>
-            <option value="ユーイング肉腫">ユーイング肉腫</option>
-            <option value="横紋筋肉腫">横紋筋肉腫</option>
-            <option value="胚細胞腫瘍">胚細胞腫瘍</option>
-            <option value="other">その他</option>
-          </select>
-          <input type="text" id="disease-name-other" maxlength="80" placeholder="その他の場合は疾患名を入力" style="display:none;margin-top:8px;">
-          <div style="font-size:.6rem;color:rgba(170,188,216,.5);line-height:1.6;">国立がん研究センター「がん情報サービス」の「表1 主な小児がんの発生場所など」を参考にしています。</div>
-        </div>
         <div class="form-group">
           <label>診断時の年齢</label>
           <input type="number" id="dx-age" min="0" max="40" placeholder="例: 8">
@@ -284,7 +264,7 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
       </div>
       <div class="input-row" style="margin-top:8px;">
         <div class="form-group" style="grid-column:span 2;">
-          <label>小児がんの治療内容（複数選択）</label>
+          <label>治療内容（複数選択）</label>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:5px;">
             <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="chemo">化学療法</label>
             <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="radio">放射線</label>
@@ -308,15 +288,18 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
         </div>
       </div>
 
-      <!-- 現在の治療 -->
+      <!-- 服薬・既往 -->
       <div class="q-block" style="margin-top:14px;">
-        <div class="q-text">現在の治療</div>
-        <div class="input-row">
-          <div class="form-group" style="grid-column:span 2;">
-            <textarea id="current-treatment" rows="3" maxlength="300" placeholder="例: 経過観察中、内服中の薬、通院頻度、現在受けている治療など" style="resize:vertical;line-height:1.7;"></textarea>
-          </div>
+        <div class="q-text">現在の服薬・既往（複数選択・該当があれば）</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="warfarin">ワルファリン服用中</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="immunosup">免疫抑制剤</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="anticonv">抗てんかん薬</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="hormone">ホルモン補充療法</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="hist" value="cardiac">心機能低下/心筋障害の指摘</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="hist" value="splenectomy">脾臓摘出</label>
         </div>
-        <div style="font-size:.6rem;color:rgba(170,188,216,.5);margin-top:6px;line-height:1.6;">心配なことがある場合は、主治医に確認してください。</div>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.5);margin-top:6px;line-height:1.6;">⚠ 該当する場合、運動・食事に**個別の注意**を表示します。心配なときは主治医に確認してください。</div>
       </div>
 
       <!-- Stages of Change -->
@@ -613,31 +596,17 @@ document.querySelectorAll('input[name="tx"]').forEach(cb=>{
   });
 });
 
-// 疾患名「その他」の自由記載欄
-document.getElementById('disease-name').addEventListener('change', (event)=>{
-  const otherInput = document.getElementById('disease-name-other');
-  const isOther = event.target.value === 'other';
-  otherInput.style.display = isOther ? 'block' : 'none';
-  if(!isOther) otherInput.value = '';
-});
-
 async function saveBaseline(){
-  const diseaseSelect = document.getElementById('disease-name');
-  const diseaseOther = document.getElementById('disease-name-other').value.trim();
-  const diseaseName = diseaseSelect.value === 'other' ? diseaseOther : diseaseSelect.value;
   const data = {
     step1:{
       age: parseInt(document.getElementById('age').value)||null,
       sex: document.getElementById('sex').value || null,
-      diseaseName: diseaseName || null,
-      diseaseNameCategory: diseaseSelect.value || null,
       dxAge: parseInt(document.getElementById('dx-age').value)||null,
       postTxYrs: parseInt(document.getElementById('post-tx-yrs').value)||null,
       tx: Array.from(document.querySelectorAll('input[name="tx"]:checked')).map(c=>c.value),
       chemoClass: Array.from(document.querySelectorAll('input[name="chemo-class"]:checked')).map(c=>c.value),
-      currentTreatment: document.getElementById('current-treatment').value.trim() || null,
-      meds: [],
-      hist: [],
+      meds: Array.from(document.querySelectorAll('input[name="meds"]:checked')).map(c=>c.value),
+      hist: Array.from(document.querySelectorAll('input[name="hist"]:checked')).map(c=>c.value),
       stage: document.querySelector('input[name="stage"]:checked')?.value || null,
       height: parseFloat(document.getElementById('height').value)||null,
       weight: parseFloat(document.getElementById('weight').value)||null,

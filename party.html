@@ -1,16 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>繝代・繝・ぅ ・・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</title>
+<title>パーティ ｜ ヴィタリア転生録</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="繝ｴ繧｣繧ｿ繝ｪ繧｢">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -18,7 +18,7 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
 
-/* ===== 繝懊ヨ繝繝翫ン ===== */
+/* ===== ボトムナビ ===== */
 .bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
 .bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
 .bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
@@ -127,9 +127,9 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
 body::before{opacity:0 !important;}
 /* ============================================
-   豌ｴ濶ｲ繧ｹ繧ｭ繝ｳ v1 笏笏 2026-05-11
-   蜑ｵ騾荳ｻ謖・､ｺ縲後ご繝ｼ繝縺ｮ繝・じ繧､繝ｳ繧呈ｰｴ濶ｲ縺ｫ縲よ枚蟄苓ｦ九ｄ縺吶￥縲・
-   譌｢蟄倥・ dark-fantasy CSS 繧剃ｸ頑嶌縺阪☆繧区怙蠕悟ｰｾ繝ｬ繧､繝､繝ｼ
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
    ============================================ */
 :root{
   --bg:    #e8f4fb;
@@ -168,7 +168,7 @@ body::before{
   border-color: rgba(30,127,164,.4) !important;
   box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
 }
-/* 繧､繝ｳ繝ｩ繧､繝ｳ style 縺ｮ證苓レ譎ｯ蜑肴署逋ｽ繧ｪ繝ｼ繝舌・繝ｬ繧､ 竊・證怜・蜊企乗・縺ｫ蜿崎ｻ｢ */
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.06)"],
 [style*="rgba(255,255,255,.07)"],
@@ -187,13 +187,13 @@ input[type="password"], input[type="tel"], input[type="search"], select, textare
 ::placeholder{ color: rgba(20,60,80,.45) !important; }
 a{ color: #1e7fa4; }
 a:hover{ color: #4ab0d4; }
-/* 隕句・縺励・蜿ｯ隱ｭ諤ｧ・夐乗・譁・ｭ励ヵ繧ｩ繝ｼ繝ｫ繝舌ャ繧ｯ・・radient 螟ｱ謨玲凾縺ｫ鮟偵￥蜃ｺ繧句ｯｾ遲厄ｼ・*/
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
 
 /* ============================================
-   party.html 蠑ｷ繧ｳ繝ｳ繝医Λ繧ｹ繝・v8 笏笏 2026-05-13
+   party.html 強コントラスト v8 ── 2026-05-13
    ============================================ */
 body, html{ background: #c8e4f4 !important; }
 body *{ text-shadow: none !important; }
@@ -215,7 +215,7 @@ header a, header .brand{
   font-weight: 800 !important;
 }
 
-/* 繝代・繝・ぅ繝偵・繝ｭ繝ｼ・夊牡蝪励ｊ繧ｫ繝ｼ繝・*/
+/* パーティヒーロー：色塗りカード */
 .party-hero{
   background: linear-gradient(160deg, #fff, #e0eff8) !important;
   background-image: linear-gradient(160deg, #fff, #e0eff8) !important;
@@ -241,7 +241,7 @@ header a, header .brand{
   font-weight: 900 !important;
 }
 
-/* 邨ｱ險医そ繝ｫ */
+/* 統計セル */
 .party-stats .ps-cell{
   background: #ffffff !important;
   border: 1.5px solid #b0cfdf !important;
@@ -263,7 +263,7 @@ header a, header .brand{
   font-family: 'Noto Serif JP', serif !important;
 }
 
-/* 繝｡繝ｳ繝舌・繝ｪ繧ｹ繝・*/
+/* メンバーリスト */
 .member-list .member-row,
 .member-list > div{
   background: #ffffff !important;
@@ -282,7 +282,7 @@ header a, header .brand{
   font-weight: 700 !important;
 }
 
-/* 霑第ｳ∝ｱ蜻翫・繝ｼ繝・*/
+/* 近況報告ボード */
 .report-box{
   background: #ffffff !important;
   border: 1.5px solid #b0cfdf !important;
@@ -324,7 +324,7 @@ header a, header .brand{
   color: #355773 !important; -webkit-text-fill-color: #355773 !important; font-weight: 700 !important;
 }
 
-/* 騾上￠縺溯牡繧貞ｼｷ蛻ｶ豼・￥ */
+/* 透けた色を強制濃く */
 [style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
 [style*="color:rgba(212,220,240"]{
   color: #1a4860 !important; -webkit-text-fill-color: #1a4860 !important;
@@ -332,7 +332,7 @@ header a, header .brand{
 [style*="color:rgba(201,168,76"], [style*="color:#c9a84c"], [style*="color:#f0d48a"]{
   color: #b07a1a !important; -webkit-text-fill-color: #b07a1a !important; font-weight: 800 !important;
 }
-/* 繝懊ヨ繝繝翫ン・域ｰｴ濶ｲ・・*/
+/* ボトムナビ（水色） */
 .bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
 .bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
 .bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
@@ -343,7 +343,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(30,127,164,.22) !important; }
 
-/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ蜊企乗・閭梧勹繧堤區繝吶・繧ｹ縺ｫ蜿崎ｻ｢ 笏笏 */
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.05)"],
 [style*="rgba(255,255,255,.06)"],
@@ -357,7 +357,7 @@ header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(
   border-color: rgba(30,127,164,.25) !important;
   color: #0a2a40 !important;
 }
-/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ逋ｽ繝・く繧ｹ繝医ｒ證励￥縺吶ｋ 笏笏 */
+/* ── ダーク前提の白テキストを暗くする ── */
 [style*="color:rgba(220,225,245"],
 [style*="color:rgba(170,188,216"],
 [style*="color:#d4dcf0"],
@@ -369,7 +369,7 @@ header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(
   color: #0a2a40 !important;
   -webkit-text-fill-color: #0a2a40 !important;
 }
-/* 笏笏 繧ｫ繝ｼ繝峨・繝代ロ繝ｫ邉ｻ繧ｯ繝ｩ繧ｹ蜈ｱ騾・笏笏 */
+/* ── カード・パネル系クラス共通 ── */
 .card, .panel, .section, .q-card, .stat-card,
 .info-card, .intro-card, .section-card, .week-card,
 .mission-card, .achievement-card, .skill, .entry,
@@ -378,7 +378,7 @@ header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(
   border-color: rgba(30,127,164,.22) !important;
   color: #0a2a40 !important;
 }
-/* 笏笏 繝倥ャ繝繝ｼ繝ｻ繝翫ン 笏笏 */
+/* ── ヘッダー・ナビ ── */
 header, nav:not(.bottom-nav){
   background: rgba(200,228,244,.97) !important;
   border-bottom-color: #b0cfdf !important;
@@ -387,11 +387,11 @@ header a, nav a:not(.bn-tab){
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
 }
-/* 笏笏 繝・く繧ｹ繝亥庄隱ｭ諤ｧ縺ｮ蠎穂ｸ翫￡ 笏笏 */
+/* ── テキスト可読性の底上げ ── */
 p, span, div, label, li, td, th, h1, h2, h3, h4{
   color: inherit;
 }
-/* 笏笏 party.html 蝗ｺ譛峨け繝ｩ繧ｹ 笏笏 */
+/* ── party.html 固有クラス ── */
 .ph-desc{color:rgba(10,42,64,.8) !important;}
 .ps-lbl{color:rgba(10,42,64,.55) !important;}
 .m-stats{color:rgba(10,42,64,.55) !important;}
@@ -410,116 +410,115 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 .member.you{border-color:rgba(30,127,164,.4) !important;background:rgba(30,127,164,.06) !important;}
 </style>
 
-<!-- 笨ｦ Vitalia RPG Lite (bottom-nav redesign) 笨ｦ -->
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
 <link rel="stylesheet" href="./vitalia-rpg-lite.css">
 <script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
-<script defer src="./vitalia-nav.js"></script>
 </head>
 <body>
 <header>
-  <a href="./game.html" class="brand" style="color:#0a4870;">筺ｵ 繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</a>
+  <a href="./game.html" class="brand" style="color:#0a4870;">⟵ ヴィタリア転生録</a>
 </header>
 
 <main class="page">
 
-  <!-- ・ 莉慕ｵ・∩隗｣隱ｬ・亥・隕九Θ繝ｼ繧ｶ繝ｼ蜷代￠謚倥ｊ縺溘◆縺ｿ・・-->
+  <!-- 🆕 仕組み解説（初見ユーザー向け折りたたみ） -->
   <details id="party-howto" style="background:#ffffff;border:2px solid #b0cfdf;border-radius:14px;padding:14px 18px;margin-bottom:18px;box-shadow:0 4px 0 rgba(30,80,110,.10),0 2px 12px rgba(30,80,110,.10);">
     <summary style="font-family:'Noto Serif JP',serif;font-weight:900;color:#0a4870;font-size:1rem;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;">
-      <span style="display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;border-radius:50%;font-size:.78rem;flex-shrink:0;">・・/span>
-      <span>縲御ｻｲ髢薙阪→縲後ヱ繝ｼ繝・ぅ縲阪▲縺ｦ菴包ｼ滂ｼ医ち繝・・縺ｧ髢九￥・・/span>
-      <span style="margin-left:auto;color:#1e7fa4;font-size:.8rem;">笆ｾ</span>
+      <span style="display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;border-radius:50%;font-size:.78rem;flex-shrink:0;">？</span>
+      <span>「仲間」と「パーティ」って何？（タップで開く）</span>
+      <span style="margin-left:auto;color:#1e7fa4;font-size:.8rem;">▾</span>
     </summary>
     <div style="margin-top:14px;font-size:.82rem;line-height:1.85;color:#0a2a40;">
 
-      <h3 style="font-family:'Noto Serif JP',serif;color:#1e7fa4;font-size:.95rem;font-weight:900;margin:6px 0 8px;">､・縺昴ｂ縺昴ｂ縲御ｻｲ髢薙阪▲縺ｦ・・/h3>
-      <p style="margin-bottom:12px;">縺ゅ↑縺溘→蜷後§遐皮ｩｶ繝励Ο繧ｸ繧ｧ繧ｯ繝医↓蜿ょ刈縺励※縺・ｋ<strong>莉悶・蟆丞・縺後ｓ邨碁ｨ楢・・AYA荳紋ｻ｣縺ｮ譁ｹ縲・/strong>縺ｮ縺薙→縺ｧ縺吶ょｹｴ鮨｢繧ら羅豌励・邨碁℃繧ゆｼｼ縺ｦ縺・ｋ縺九ｉ縲√御ｻ企ｱ縺ｩ縺・ｼ溘阪′荳逡ｪ莨昴ｏ繧狗嶌謇九・/p>
+      <h3 style="font-family:'Noto Serif JP',serif;color:#1e7fa4;font-size:.95rem;font-weight:900;margin:6px 0 8px;">🤝 そもそも「仲間」って？</h3>
+      <p style="margin-bottom:12px;">あなたと同じ研究プロジェクトに参加している<strong>他の小児がん経験者・AYA世代の方々</strong>のことです。年齢も病気の経過も似ているから、「今週どう？」が一番伝わる相手。</p>
 
-      <h3 style="font-family:'Noto Serif JP',serif;color:#5b4ea8;font-size:.95rem;font-weight:900;margin:14px 0 8px;">式 縲後ヱ繝ｼ繝・ぅ縲搾ｼ医け繝ｩ繧ｹ・峨▲縺ｦ菴包ｼ・/h3>
-      <p style="margin-bottom:8px;">縺ゅ↑縺溘′驕ｸ繧薙□ <strong>蠕玲э蛻・㍽</strong> 縺ｧ繧ｰ繝ｫ繝ｼ繝怜・縺代＆繧後※縺・∪縺吶ょ酔縺倥ヱ繝ｼ繝・ぅ縺ｮ莠ｺ縺ｯ縲∝酔縺倡岼讓吶〒豁ｩ繧薙〒縺・ｋ莉ｲ髢薙・/p>
+      <h3 style="font-family:'Noto Serif JP',serif;color:#5b4ea8;font-size:.95rem;font-weight:900;margin:14px 0 8px;">🎮 「パーティ」（クラス）って何？</h3>
+      <p style="margin-bottom:8px;">あなたが選んだ <strong>得意分野</strong> でグループ分けされています。同じパーティの人は、同じ目標で歩んでいる仲間。</p>
       <table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:.74rem;background:#f4faff;">
         <tr>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b53a3a;white-space:nowrap;">笞・蜍・・/td>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">驕句虚繝ｻ譬・､翫・蟇ｾ隧ｱ繧偵ヰ繝ｩ繝ｳ繧ｹ繧医￥邯壹￠繧狗視驕薙ち繧､繝・/td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b53a3a;white-space:nowrap;">⚔ 勇者</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">運動・栄養・対話をバランスよく続ける王道タイプ</td>
         </tr>
         <tr>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#5b4ea8;white-space:nowrap;">ｧ吮坂凰・・鬲泌･ｳ縺｣蟄・/td>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">譬・､奇ｼ磯｣滓攝・晞ｭ疲ｳ包ｼ峨〒霄ｫ菴薙ｒ謨ｴ縺医ｋ縺ｮ縺悟･ｽ縺・/td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#5b4ea8;white-space:nowrap;">🧙‍♀️ 魔女っ子</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">栄養（食材＝魔法）で身体を整えるのが好き</td>
         </tr>
         <tr>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#1f7d4d;white-space:nowrap;">笵ｪ 閨門･ｳ</td>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">QOL繧・ｰ玲戟縺｡縺ｮ繧ｱ繧｢繧貞､ｧ莠九↓縺吶ｋ逋偵ｄ縺怜梛</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#1f7d4d;white-space:nowrap;">⛪ 聖女</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">QOLや気持ちのケアを大事にする癒やし型</td>
         </tr>
         <tr>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b07a1a;white-space:nowrap;">孱 鬨主｣ｫ</td>
-          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">繧ｳ繝・さ繝・ｯ取律邯壹￠繧九％縺ｨ繧貞､ｧ蛻・↓縺吶ｋ邯咏ｶ壼梛</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b07a1a;white-space:nowrap;">🛡 騎士</td>
+          <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">コツコツ毎日続けることを大切にする継続型</td>
         </tr>
       </table>
 
-      <h3 style="font-family:'Noto Serif JP',serif;color:#b07a1a;font-size:.95rem;font-weight:900;margin:14px 0 8px;">謄 霑第ｳ∝ｱ蜻贋ｼ夲ｼ井ｸ逡ｪ螟ｧ莠具ｼ・ｼ・/h3>
+      <h3 style="font-family:'Noto Serif JP',serif;color:#b07a1a;font-size:.95rem;font-weight:900;margin:14px 0 8px;">📣 近況報告会（一番大事！）</h3>
       <div style="background:#fef9e8;border-left:3px solid #b07a1a;border-radius:0 8px 8px 0;padding:12px 14px;margin:6px 0;">
         <p style="font-size:.78rem;color:#0a2a40;line-height:1.8;margin-bottom:6px;">
-          <strong style="color:#b07a1a;">譛・蝗槭・繝ｼ繧ｹ</strong>縺ｧ髢句ぎ縺輔ｌ繧九∽ｻｲ髢薙→縲御ｻ企ｱ縺ｩ縺・ｼ溘阪後←縺・☆繧後・邯壹￠繧峨ｌ縺昴≧・溘阪ｒ蜈ｱ譛峨☆繧句ｴ縺ｧ縺吶・oom 縺ｾ縺溘・莨壼ｴ・亥､ｧ蟄ｦ・峨↓縺ｦ縲・
+          <strong style="color:#b07a1a;">月1回ペース</strong>で開催される、仲間と「今週どう？」「どうすれば続けられそう？」を共有する場です。Zoom または会場（大学）にて。
         </p>
         <ul style="padding-left:18px;margin:6px 0;font-size:.74rem;color:#1a4860;line-height:1.85;">
-          <li><strong>隱ｰ縺ｧ繧ょ盾蜉OK</strong>・夊ｩｱ縺輔↑縺上※繧り◇縺上□縺代〒OK</li>
-          <li><strong>遐皮ｩｶ莠句漁螻</strong>縺九ｉ譌･遞九・騾夂衍縺梧擂縺ｾ縺・/li>
-          <li>莉ｲ髢薙・隧ｱ繧定◇縺・※縲瑚・蛻・□縺代§繧・↑縺・阪→諢溘§繧峨ｌ繧・/li>
-          <li>縺・∪縺上＞縺｣縺溘さ繝・・蜈ｱ譛峨ｄ縲√▽縺ｾ縺壹″縺ｮ逶ｸ隲・′縺ｧ縺阪ｋ</li>
+          <li><strong>誰でも参加OK</strong>：話さなくても聞くだけでOK</li>
+          <li><strong>研究事務局</strong>から日程の通知が来ます</li>
+          <li>仲間の話を聞いて「自分だけじゃない」と感じられる</li>
+          <li>うまくいったコツの共有や、つまずきの相談ができる</li>
         </ul>
       </div>
 
-      <h3 style="font-family:'Noto Serif JP',serif;color:#1f7d4d;font-size:.95rem;font-weight:900;margin:14px 0 8px;">統 霑第ｳ∝ｱ蜻翫・繝ｼ繝峨▲縺ｦ・・/h3>
-      <p style="margin-bottom:6px;font-size:.78rem;">蝣ｱ蜻贋ｼ壹・譌･縺ｾ縺ｧ蠕・◆縺ｪ縺上※繧ゅ・strong>荳九・縲瑚ｿ第ｳ∝ｱ蜻翫・繝ｼ繝峨・/strong>縺ｫ諤昴▲縺溘％縺ｨ繧呈嶌縺代∪縺吶ょ諺蜷搾ｼ医・繝ｭ繝輔ぅ繝ｼ繝ｫ蜷阪・縺ｿ・峨〒謚慕ｨｿ縺ｧ縺阪∽ｻｲ髢薙′隱ｭ繧薙〒縺上ｌ縺ｾ縺吶・/p>
+      <h3 style="font-family:'Noto Serif JP',serif;color:#1f7d4d;font-size:.95rem;font-weight:900;margin:14px 0 8px;">📝 近況報告ボードって？</h3>
+      <p style="margin-bottom:6px;font-size:.78rem;">報告会の日まで待たなくても、<strong>下の「近況報告ボード」</strong>に思ったことを書けます。匿名（プロフィール名のみ）で投稿でき、仲間が読んでくれます。</p>
 
-      <h3 style="font-family:'Noto Serif JP',serif;color:#0a4870;font-size:.95rem;font-weight:900;margin:14px 0 8px;">搭 繝｡繝ｳ繝舌・荳隕ｧ縺ｮ謨ｰ蟄励▲縺ｦ・・/h3>
-      <p style="font-size:.78rem;margin-bottom:6px;">荳九↓荳ｦ繧薙〒縺・ｋ縺ｮ縺ｯ <strong>鬆・ｽ阪〒縺ｯ縺ｪ縺丈ｻｲ髢薙・蜿り・ュ蝣ｱ</strong> 縺ｧ縺吶ゅ御ｻ企ｱ笳宜P縲阪・豢ｻ蜍暮㍼縺ｮ逶ｮ螳峨〒縺吶′縲∫ｫｶ莠峨〒縺ｯ縺ゅｊ縺ｾ縺帙ｓ縲よｯ斐∋繧狗嶌謇九・ <strong>蜈磯ｱ縺ｮ閾ｪ蛻・/strong>縲・/p>
+      <h3 style="font-family:'Noto Serif JP',serif;color:#0a4870;font-size:.95rem;font-weight:900;margin:14px 0 8px;">📋 メンバー一覧の数字って？</h3>
+      <p style="font-size:.78rem;margin-bottom:6px;">下に並んでいるのは <strong>順位ではなく仲間の参考情報</strong> です。「今週○XP」は活動量の目安ですが、競争ではありません。比べる相手は <strong>先週の自分</strong>。</p>
 
-      <p style="margin-top:14px;font-size:.74rem;color:#355773;">隧ｳ縺励￥縺ｯ <a href="./rulebook.html#screens" style="color:#1e7fa4;font-weight:700;">当 繝ｫ繝ｼ繝ｫ繝悶ャ繧ｯ</a> 繧定ｦ九※縺上□縺輔＞縲・/p>
+      <p style="margin-top:14px;font-size:.74rem;color:#355773;">詳しくは <a href="./rulebook.html#screens" style="color:#1e7fa4;font-weight:700;">📖 ルールブック</a> を見てください。</p>
     </div>
   </details>
 
-  <!-- 繝代・繝・ぅ繝偵・繝ｭ繝ｼ -->
+  <!-- パーティヒーロー -->
   <div class="party-hero">
     <div class="ph-badge" id="party-badge">PARTY</div>
-    <div class="ph-name" id="party-name">縺ゅ↑縺溘・繝代・繝・ぅ</div>
-    <div class="ph-desc" id="party-desc">蜷後§逶ｮ讓吶ｒ謖√▽莉ｲ髢薙→荳邱偵↓縲∝▼蠎ｷ鄙呈・繧堤ｶ壹￠縺ｾ縺励ｇ縺・・/div>
+    <div class="ph-name" id="party-name">あなたのパーティ</div>
+    <div class="ph-desc" id="party-desc">同じ目標を持つ仲間と一緒に、健康習慣を続けましょう。</div>
   </div>
 
-  <!-- 謄 谺｡蝗槭・繝溘・繝・ぅ繝ｳ繧ｰ・域怙驥崎ｦ√・荳ｻ蠖ｹ蛹厄ｼ・-->
+  <!-- 📣 次回のミーティング（最重要・主役化） -->
   <div class="zoom-card" style="background:linear-gradient(135deg,#fff,#fef9e8) !important;border:2.5px solid #b07a1a !important;border-radius:18px !important;padding:20px 22px !important;margin-bottom:18px !important;box-shadow:0 6px 0 rgba(176,122,26,.18),0 4px 18px rgba(30,80,110,.12) !important;">
     <div class="zoom-head" style="color:#b07a1a !important;-webkit-text-fill-color:#b07a1a !important;font-family:'Noto Serif JP',serif !important;font-size:1.1rem !important;font-weight:900 !important;margin-bottom:10px !important;display:flex;align-items:center;gap:8px;">
-      <span style="background:#b07a1a;color:#fff;padding:3px 10px;border-radius:99px;font-size:.6rem;letter-spacing:.1em;">譛驥崎ｦ・/span>
-      謄 霑第ｳ∝ｱ蜻贋ｼ・
+      <span style="background:#b07a1a;color:#fff;padding:3px 10px;border-radius:99px;font-size:.6rem;letter-spacing:.1em;">最重要</span>
+      📣 近況報告会
     </div>
     <div class="zoom-info" id="meeting-info" style="color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;font-size:.82rem !important;line-height:1.85 !important;font-weight:500 !important;">
-      <strong style="color:#b07a1a !important;-webkit-text-fill-color:#b07a1a !important;">譌･遞・/strong>縺ｯ遐皮ｩｶ莠句漁螻縺九ｉ縺ｮ縺顔衍繧峨○繧偵♀蠕・■縺上□縺輔＞・域怦1蝗槭・繝ｼ繧ｹ・峨・br>
-      Zoom 縺ｾ縺溘・莨壼ｴ縺ｫ縺ｦ縲∽ｻｲ髢灘酔螢ｫ縺ｧ縲御ｻ企ｱ縺ｩ縺・□縺｣縺滂ｼ溘阪後←縺・☆繧後・邯壹￠繧峨ｌ縺昴≧・溘阪ｒ蜈ｱ譛峨＠縺ｾ縺吶よ怙蠕後↓逋ｺ陦ｨ繧ゅ≠繧翫∪縺咀沁､<br>
-      <span style="display:inline-block;margin-top:8px;background:#fff;border:1.5px solid #b07a1a;border-radius:99px;padding:5px 12px;font-size:.72rem;color:#b07a1a;font-weight:900;">曹 隧ｱ縺輔↑縺上※繧り◇縺上□縺代〒OK</span>
+      <strong style="color:#b07a1a !important;-webkit-text-fill-color:#b07a1a !important;">日程</strong>は研究事務局からのお知らせをお待ちください（月1回ペース）。<br>
+      Zoom または会場にて、仲間同士で「今週どうだった？」「どうすれば続けられそう？」を共有します。最後に発表もあります🎤<br>
+      <span style="display:inline-block;margin-top:8px;background:#fff;border:1.5px solid #b07a1a;border-radius:99px;padding:5px 12px;font-size:.72rem;color:#b07a1a;font-weight:900;">👂 話さなくても聞くだけでOK</span>
     </div>
   </div>
 
-  <!-- 邨ｱ險茨ｼ域而縺医ａ縺ｫ・・-->
+  <!-- 統計（控えめに） -->
   <div class="party-stats">
-    <div class="ps-cell"><div class="ps-num" id="party-members">窶・/div><div class="ps-lbl">繝｡繝ｳ繝舌・</div></div>
-    <div class="ps-cell"><div class="ps-num" id="party-active">窶・/div><div class="ps-lbl">莉企ｱ繧｢繧ｯ繝・ぅ繝・/div></div>
-    <div class="ps-cell"><div class="ps-num" id="party-xp">窶・/div><div class="ps-lbl">繝代・繝・ぅ蟷ｳ蝮ⅤP</div></div>
+    <div class="ps-cell"><div class="ps-num" id="party-members">—</div><div class="ps-lbl">メンバー</div></div>
+    <div class="ps-cell"><div class="ps-num" id="party-active">—</div><div class="ps-lbl">今週アクティブ</div></div>
+    <div class="ps-cell"><div class="ps-num" id="party-xp">—</div><div class="ps-lbl">パーティ平均XP</div></div>
   </div>
 
-  <!-- 繝｡繝ｳ繝舌・・磯・ｽ阪〒縺ｯ縺ｪ縺丈ｸ隕ｧ・・-->
-  <div class="section-title">則 莉ｲ髢薙◆縺｡ <span style="font-size:.7rem;color:#355773;font-weight:600;margin-left:8px;">窶ｻ 鬆・ｽ阪〒縺ｯ縺ｪ縺丞盾閠・ュ蝣ｱ</span></div>
+  <!-- メンバー（順位ではなく一覧） -->
+  <div class="section-title">👥 仲間たち <span style="font-size:.7rem;color:#355773;font-weight:600;margin-left:8px;">※ 順位ではなく参考情報</span></div>
   <div class="member-list" id="member-list"></div>
 
-  <!-- 霑第ｳ∝ｱ蜻翫・繝ｼ繝・-->
-  <div class="section-title">謄 霑第ｳ∝ｱ蜻翫・繝ｼ繝・/div>
+  <!-- 近況報告ボード -->
+  <div class="section-title">📣 近況報告ボード</div>
   <div class="report-box">
-    <textarea class="report-input" id="report-input" maxlength="500" placeholder="莉企ｱ縺ｮ蜃ｺ譚･莠九・邯壹￠繧九さ繝・・蝗ｰ縺｣縺ｦ縺・ｋ縺薙→窶ｦ 莉ｲ髢薙↓蜈ｱ譛峨＠繧医≧・・00蟄嶺ｻ･蜀・ｼ・></textarea>
+    <textarea class="report-input" id="report-input" maxlength="500" placeholder="今週の出来事・続けるコツ・困っていること… 仲間に共有しよう（500字以内）"></textarea>
     <div class="report-row">
-      <div class="report-mood" role="radiogroup" aria-label="莉翫・豌怜・">
-        <label><input type="radio" name="rmood" value="good"><span>・</span></label>
-        <label><input type="radio" name="rmood" value="ok" checked><span>凾</span></label>
-        <label><input type="radio" name="rmood" value="tough"><span>・</span></label>
+      <div class="report-mood" role="radiogroup" aria-label="今の気分">
+        <label><input type="radio" name="rmood" value="good"><span>😄</span></label>
+        <label><input type="radio" name="rmood" value="ok" checked><span>🙂</span></label>
+        <label><input type="radio" name="rmood" value="tough"><span>😔</span></label>
       </div>
-      <button class="report-submit" id="report-submit">謚慕ｨｿ縺吶ｋ 笨ｦ</button>
+      <button class="report-submit" id="report-submit">投稿する ✦</button>
     </div>
   </div>
 
@@ -528,24 +527,24 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 
 <script>
 const CLASS_DATA = {
-  witch:      { name:'鬲泌･ｳ縺｣蟄舌ヱ繝ｼ繝・ぅ',   icon:'ｧ吮坂凰・・, desc:'鬲疲ｳ輔・鬟滓攝縺ｧ霄ｫ菴薙ｒ逋偵ｄ縺吶∵・､顔音蛹悶・蜀帝匱閠・◆縺｡縲・ },
-  hero:       { name:'蜍・・ヱ繝ｼ繝・ぅ',       icon:'笞・,   desc:'繝舌Λ繝ｳ繧ｹ濶ｯ縺丞・繧ｫ繝・ざ繝ｪ繧呈判逡･縺吶ｋ縲∫視驕薙・蜀帝匱閠・◆縺｡縲・ },
-  saint:      { name:'閨門･ｳ繝代・繝・ぅ',       icon:'笵ｪ',   desc:'蠢・→菴薙ｒ謨ｴ縺医ｋ縲＿OL繝ｻ繝｡繝ｳ繧ｿ繝ｫ繧ｱ繧｢驥崎ｦ悶・逋偵ｄ縺玲焔縲・ },
-  villainess: { name:'謔ｪ蠖ｹ莉､螫｢繝代・繝・ぅ',   icon:'荘',   desc:'譁ｭ鄂ｪ縺ｪ繧薙※縺輔○縺ｪ縺・・・｢・°繧蛾・ｻ｢縺吶ｋ霆｢逕溯・◆縺｡縲・ },
-  prince:     { name:'邇句ｭ舌ヱ繝ｼ繝・ぅ',       icon:'､ｴ',   desc:'莉ｲ髢薙→騾ｲ繧縲√Μ繝ｼ繝繝ｼ繧ｷ繝・・縺ｨ蜊碑ｪｿ縺ｮ蜀帝匱閠・◆縺｡縲・ },
-  knight:     { name:'鬨主｣ｫ繝代・繝・ぅ',       icon:'孱',   desc:'繧ｳ繝・さ繝・ｮ医ｊ邯壹￠繧九∫ｿ呈・縺ｮ驩・｣√・邯咏ｶ夊・◆縺｡縲・ },
+  witch:      { name:'魔女っ子パーティ',   icon:'🧙‍♀️', desc:'魔法の食材で身体を癒やす、栄養特化の冒険者たち。' },
+  hero:       { name:'勇者パーティ',       icon:'⚔',   desc:'バランス良く全カテゴリを攻略する、王道の冒険者たち。' },
+  saint:      { name:'聖女パーティ',       icon:'⛪',   desc:'心と体を整える、QOL・メンタルケア重視の癒やし手。' },
+  villainess: { name:'悪役令嬢パーティ',   icon:'👑',   desc:'断罪なんてさせない、逆境から逆転する転生者たち。' },
+  prince:     { name:'王子パーティ',       icon:'🤴',   desc:'仲間と進む、リーダーシップと協調の冒険者たち。' },
+  knight:     { name:'騎士パーティ',       icon:'🛡',   desc:'コツコツ守り続ける、習慣の鉄壁の継続者たち。' },
 };
 
 const uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
 const cls = localStorage.getItem('vt_class') || 'hero';
 const c = CLASS_DATA[cls] || CLASS_DATA.hero;
 
-document.getElementById('party-badge').textContent = c.icon + ' ' + c.name.replace('繝代・繝・ぅ','').toUpperCase();
+document.getElementById('party-badge').textContent = c.icon + ' ' + c.name.replace('パーティ','').toUpperCase();
 document.getElementById('party-name').textContent = c.name;
 document.getElementById('party-desc').textContent = c.desc;
 
-// 繝代・繝・ぅ邨ｱ險茨ｼ医け繝ｩ繧､繧｢繝ｳ繝亥・縺ｮ繧ｵ繝ｳ繝励Ν・壼ｮ溯｣・凾縺ｯFirestore縺ｧ髮・ｨ茨ｼ・
-const sampleSize = 8 + Math.floor(Math.random()*15); // 8-22莠ｺ
+// パーティ統計（クライアント側のサンプル：実装時はFirestoreで集計）
+const sampleSize = 8 + Math.floor(Math.random()*15); // 8-22人
 const activeRatio = 0.55 + Math.random()*0.3;
 document.getElementById('party-members').textContent = sampleSize;
 document.getElementById('party-active').textContent = Math.floor(sampleSize*activeRatio);
@@ -561,16 +560,16 @@ function weekKey(){
   return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
 }
 
-// 繝代・繝・ぅ繝｡繝ｳ繝舌・・医Δ繝・け - 閾ｪ蛻・+ 繧ｵ繝ｳ繝励Ν莉ｲ髢難ｼ・
-const SAMPLE_NAMES = ['譏溯ｦ九・譌・ｺｺ','譽ｮ縺ｮ逡ｪ莠ｺ','鮟・・縺ｮ豁後＞謇・,'闥ｼ遨ｹ縺ｮ謗｢遨ｶ閠・,'蜈峨・邯呎価閠・,'鬚ｨ縺ｮ雕翫ｊ謇・,'轤弱・骰帛・蟶ｫ','驫縺ｮ譛・,'邱代・鬲泌ｰ主｣ｫ','髱吝ｯゅ・雉｢閠・];
-const SAMPLE_AVATARS = ['嫌','検','笨ｨ','減','鴻','櫨','虫','穴','諺','箝・];
+// パーティメンバー（モック - 自分 + サンプル仲間）
+const SAMPLE_NAMES = ['星見の旅人','森の番人','黄昏の歌い手','蒼穹の探究者','光の継承者','風の踊り手','炎の鍛冶師','銀の月','緑の魔導士','静寂の賢者'];
+const SAMPLE_AVATARS = ['🌙','🌟','✨','🌸','🍃','🔥','💎','🌊','🌿','⭐'];
 
 function renderMembers(){
   const list = document.getElementById('member-list');
   const members = [];
-  // 閾ｪ蛻・
-  members.push({ name:'縺ゅ↑縺・, avatar:c.icon, xp:myXp, you:true });
-  // 繧ｵ繝ｳ繝励Ν
+  // 自分
+  members.push({ name:'あなた', avatar:c.icon, xp:myXp, you:true });
+  // サンプル
   for(let i=0;i<6;i++){
     members.push({
       name: SAMPLE_NAMES[i % SAMPLE_NAMES.length],
@@ -582,14 +581,14 @@ function renderMembers(){
   members.sort((a,b)=>b.xp-a.xp);
   list.innerHTML = members.map((m,i)=>{
     const rank = i+1;
-    const medal = rank===1?'･・:rank===2?'･・:rank===3?'･・:rank;
+    const medal = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
     return `
       <div class="member${m.you?' you':''}">
         <div class="m-rank">${medal}</div>
         <div class="m-avatar">${m.avatar}</div>
         <div class="m-info">
-          <div class="m-name">${m.name}${m.you?' (縺ゅ↑縺・':''}</div>
-          <div class="m-stats">莉企ｱ ${m.xp} XP</div>
+          <div class="m-name">${m.name}${m.you?' (あなた)':''}</div>
+          <div class="m-stats">今週 ${m.xp} XP</div>
         </div>
       </div>
     `;
@@ -597,17 +596,17 @@ function renderMembers(){
 }
 renderMembers();
 
-// 霑第ｳ∝ｱ蜻翫・繝ｼ繝・
+// 近況報告ボード
 const REPORTS_KEY = `vt_reports_${cls}`;
 function loadReports(){
   let arr = [];
   try{ arr = JSON.parse(localStorage.getItem(REPORTS_KEY) || '[]'); }catch(e){}
-  // 繧ｵ繝ｳ繝励Ν謚慕ｨｿ・亥・蝗樊凾縺ｮ縺ｿ・・
+  // サンプル投稿（初回時のみ）
   if(arr.length === 0){
     arr = [
-      { author:'譽ｮ縺ｮ逡ｪ莠ｺ', mood:'good', text:'莉企ｱ縺ｯ譛昴・謨｣豁ｩ繧・譌･邯壹￠繧峨ｌ縺ｾ縺励◆・・ｭ壹ｒ騾ｱ3蝗樣｣溘∋縺溘ｉ縲√↑繧薙□縺倶ｽ楢ｪｿ縺後＞縺・ｰ励′縺吶ｋ澄', ts: Date.now()-86400000*2 },
-      { author:'驫縺ｮ譛・,   mood:'tough',text:'莉穂ｺ九′蠢吶＠縺上※驕句虚縺ｧ縺阪↑縺九▲縺溪ｦ縲ゅ〒繧る㍽闖懊・諢剰ｭ倥＠縺溘°繧画ｬ｡騾ｱ縺薙◎縲・, ts: Date.now()-86400000*4 },
-      { author:'蜈峨・邯呎価閠・,mood:'ok',  text:'繝ｫ繝翫→隧ｱ縺励※繧九→縲√↑繧薙〒閾ｪ蛻・′鬆大ｼｵ縺｣縺ｦ繧九°謨ｴ逅・〒縺阪ｋ縲・oal險ｭ螳壼､ｧ莠九・, ts: Date.now()-86400000*5 },
+      { author:'森の番人', mood:'good', text:'今週は朝の散歩を5日続けられました！魚を週3回食べたら、なんだか体調がいい気がする🐟', ts: Date.now()-86400000*2 },
+      { author:'銀の月',   mood:'tough',text:'仕事が忙しくて運動できなかった…。でも野菜は意識したから次週こそ。', ts: Date.now()-86400000*4 },
+      { author:'光の継承者',mood:'ok',  text:'ルナと話してると、なんで自分が頑張ってるか整理できる。Goal設定大事。', ts: Date.now()-86400000*5 },
     ];
   }
   return arr;
@@ -619,14 +618,14 @@ function renderReports(){
   const arr = loadReports();
   const feed = document.getElementById('report-feed');
   feed.innerHTML = arr.map(r=>{
-    const moodMap = { good:'・', ok:'凾', tough:'・' };
+    const moodMap = { good:'😄', ok:'🙂', tough:'😔' };
     const t = new Date(r.ts);
     const ago = formatAgo(r.ts);
     return `
       <div class="report-card">
         <div class="rc-head">
           <span class="rc-author">${escapeHtml(r.author)}</span>
-          <span class="rc-mood">${moodMap[r.mood]||'凾'}</span>
+          <span class="rc-mood">${moodMap[r.mood]||'🙂'}</span>
           <span class="rc-time">${ago}</span>
         </div>
         <div class="rc-text">${escapeHtml(r.text)}</div>
@@ -636,10 +635,10 @@ function renderReports(){
 }
 function formatAgo(ts){
   const d = (Date.now() - ts) / 1000;
-  if(d < 60) return '縺溘▲縺滉ｻ・;
-  if(d < 3600) return Math.floor(d/60) + '蛻・燕';
-  if(d < 86400) return Math.floor(d/3600) + '譎る俣蜑・;
-  return Math.floor(d/86400) + '譌･蜑・;
+  if(d < 60) return 'たった今';
+  if(d < 3600) return Math.floor(d/60) + '分前';
+  if(d < 86400) return Math.floor(d/3600) + '時間前';
+  return Math.floor(d/86400) + '日前';
 }
 function escapeHtml(s){
   return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -656,7 +655,7 @@ document.getElementById('report-submit').addEventListener('click', ()=>{
   const mood = document.querySelector('input[name="rmood"]:checked')?.value || 'ok';
   const arr = loadReports();
   arr.unshift({
-    author: '縺ゅ↑縺・,
+    author: 'あなた',
     text, mood,
     ts: Date.now(),
   });
@@ -676,11 +675,11 @@ renderReports();
 </script>
 
 <nav class="bottom-nav">
-  <a href="./game.html" class="bn-tab active"><span class="bn-icon">匠</span><span class="bn-label">繝帙・繝</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">繧ｯ繧ｨ繧ｹ繝・/span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">諺</span><span class="bn-label">譬・､・/span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">亮</span><span class="bn-label">蜀帝匱</span></a>
-  <a href="./settings.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">險ｭ螳・/span></a>
+  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
 </nav>
 </body>
 </html>

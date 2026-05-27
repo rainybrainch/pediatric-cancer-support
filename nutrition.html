@@ -1,15 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>譬・､翫け繧ｨ繧ｹ繝・・・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</title>
+<title>栄養クエスト ｜ ヴィタリア転生録</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="theme-color" content="#1e7fa4">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="繝ｴ繧｣繧ｿ繝ｪ繧｢">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -19,12 +19,12 @@
   --silver:#aabcd8;--text:#d4dcf0;--muted:#6070a0;
   --green:#4ec98a;--purple:#9c72e0;--red:#e05c5c;--orange:#e08a3c;
   --blue:#5c8cd4;
-  /* 譬・､翫せ繝・・繧ｿ繧ｹ繧ｫ繝ｩ繝ｼ */
-  --hp:#e05c5c;    /* 逕溷多蜉幢ｼ磯㍽闖懶ｼ・*/
-  --mp:#9c72e0;    /* 鬲泌鴨・域棡迚ｩ・・*/
-  --atk:#e08a3c;   /* 謾ｻ謦・鴨・医◆繧薙・縺剰ｳｪ・・*/
-  --def:#4ec98a;   /* 謖∽ｹ・鴨・亥・邊堤ｩ迚ｩ・・*/
-  --debuff:#6070a0;/* 豈堤ｴ・亥宛髯宣｣溷刀・・*/
+  /* 栄養ステータスカラー */
+  --hp:#e05c5c;    /* 生命力（野菜） */
+  --mp:#9c72e0;    /* 魔力（果物） */
+  --atk:#e08a3c;   /* 攻撃力（たんぱく質） */
+  --def:#4ec98a;   /* 持久力（全粒穀物） */
+  --debuff:#6070a0;/* 毒素（制限食品） */
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
@@ -82,7 +82,7 @@ body::before{
   background-clip:text;animation:shimmer 4s linear infinite;
 }
 
-/* ===== 繝ｭ繝ｼ繝・ぅ繝ｳ繧ｰ ===== */
+/* ===== ローディング ===== */
 .hidden{display:none!important;}
 #loading-screen{
   position:fixed;inset:0;background:var(--bg);z-index:500;
@@ -123,7 +123,7 @@ body::before{
 .ls-dot:nth-child(3){animation-delay:.4s;}
 @keyframes ls-fade{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
 
-/* ===== 繝ｭ繧ｰ繧､繝ｳ ===== */
+/* ===== ログイン ===== */
 #login-screen{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;}
 .login-card{
   background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.3);
@@ -140,7 +140,7 @@ body::before{
   background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.25);border-radius:10px;
   padding:10px 14px;font-size:.8rem;color:#90e8b0;line-height:1.65;margin-bottom:20px;position:relative;
 }
-.sera-bubble::before{content:'繧ｻ繝ｩ';position:absolute;top:-9px;left:12px;background:var(--bg2);padding:0 6px;font-size:.66rem;color:var(--green);font-weight:700;}
+.sera-bubble::before{content:'セラ';position:absolute;top:-9px;left:12px;background:var(--bg2);padding:0 6px;font-size:.66rem;color:var(--green);font-weight:700;}
 .form-group{margin-bottom:14px;}
 .form-group label{display:block;font-size:.73rem;font-weight:700;color:var(--silver);margin-bottom:5px;}
 .form-input{
@@ -170,7 +170,7 @@ body::before{
 .login-footer a{color:var(--green);font-size:.75rem;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;}
 .login-footer a:hover{text-decoration:underline;}
 
-/* ===== 繝｡繧､繝ｳ ===== */
+/* ===== メイン ===== */
 #main-screen{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
 
 .main-header{
@@ -199,7 +199,7 @@ body::before{
   display:grid;grid-template-columns:1fr 320px;
   gap:18px;padding:18px 20px 80px;max-width:1200px;margin:0 auto;width:100%;
 }
-/* 笏笏 逕ｻ髱｢繧ｵ繧､繧ｺ邨ｱ荳蟇ｾ蠢・v5 笏笏 蟾ｦ蜿ｳ繧ｫ繝ｩ繝繧剃ｸ逕ｻ髱｢縺ｧ螳檎ｵ舌＆縺帙ｋ */
+/* ── 画面サイズ統一対応 v5 ── 左右カラムを一画面で完結させる */
 @media(min-width:1101px){
   .main-content{ grid-template-columns: minmax(0,1fr) 340px; align-items:start; }
   .quest-side{ position:sticky; top:74px; max-height:calc(100vh - 90px); overflow-y:auto; padding-right:4px; }
@@ -215,14 +215,14 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 
-/* ===== 蟾ｦ・夐｣滓攝繝懊・繝・===== */
+/* ===== 左：食材ボード ===== */
 .food-board{display:flex;flex-direction:column;gap:0;}
 .board-section{margin-bottom:28px;}
 .quick-note{font-size:.65rem;color:rgba(201,168,76,.55);margin-top:10px;line-height:1.6;padding:8px 10px;background:rgba(201,168,76,.04);border-radius:8px;border:1px solid rgba(201,168,76,.1);}
 .icon-quick{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.4);}
 #quick-grid .food-card{border-color:rgba(201,168,76,.18);}
 #quick-grid .food-card:hover{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
-/* ===== 螟夜｣溘ヱ繝阪Ν ===== */
+/* ===== 外食パネル ===== */
 .icon-resto{background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.1));border:1px solid rgba(92,140,212,.4);}
 .resto-tabs{display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
 .resto-tabs::-webkit-scrollbar{display:none;}
@@ -250,7 +250,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .section-label{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:var(--gold2);}
 .section-note{font-size:.7rem;color:rgba(30,80,110,.7);margin-top:2px;}
 
-/* 鬟滓攝繧ｫ繝ｼ繝・*/
+/* 食材カード */
 .card-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
 .food-card{
   background:rgba(255,255,255,.92);border:1px solid;
@@ -281,7 +281,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .food-card.counted .f-dec{display:flex;}
 
-/* 驥上・譎る俣蟶ｯ繧ｻ繝ｬ繧ｯ繧ｿ繝ｼ */
+/* 量・時間帯セレクター */
 .portion-bar{
   background:rgba(20,26,44,.7);border:1px solid rgba(201,168,76,.18);
   border-radius:12px;padding:10px 14px;margin-bottom:10px;
@@ -301,7 +301,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .portion-radios span{font-size:.72rem;color:#0a2a40;font-weight:700;}
 .portion-radios em{font-size:.5rem;color:rgba(30,80,110,.7);font-style:normal;}
 
-/* 繝ｪ繧｢繝ｫ繧ｿ繧､繝譬・､翫し繝槭Μ繝ｼ */
+/* リアルタイム栄養サマリー */
 .nut-summary{
   background:linear-gradient(135deg,rgba(78,201,138,.06),rgba(78,201,138,.02));
   border:1px solid rgba(78,201,138,.22);border-radius:12px;
@@ -320,7 +320,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 @keyframes bonusIn{0%{transform:scale(.7);opacity:0;}100%{transform:scale(1);opacity:1;}}
 
-/* 鬟ｲ縺ｿ迚ｩ繝ｻ縺翫ｄ縺､繧ｫ繝・ざ繝ｪ繧ｹ繧ｿ繧､繝ｫ */
+/* 飲み物・おやつカテゴリスタイル */
 .fc-drink{border-color:rgba(92,160,224,.22);}
 .fc-drink:hover{border-color:rgba(92,160,224,.55);background:rgba(92,160,224,.07);}
 .fc-drink .f-unit{color:rgba(92,160,224,.7);}
@@ -342,7 +342,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   letter-spacing:.04em;
 }
 
-/* 繧ｫ繝・ざ繝ｪ蛻･繧ｹ繧ｿ繧､繝ｫ */
+/* カテゴリ別スタイル */
 .fc-veg{border-color:rgba(224,92,92,.22);}
 .fc-veg:hover{border-color:rgba(224,92,92,.55);background:rgba(224,92,92,.07);box-shadow:0 4px 14px rgba(224,92,92,.1);}
 .fc-veg .f-unit{color:rgba(224,92,92,.7);}
@@ -358,7 +358,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .fc-protein .f-unit{color:rgba(224,138,60,.7);}
 .fc-protein .f-count{background:var(--atk);}
 
-/* 謗ｨ螂ｨ縺溘ｓ縺ｱ縺剰ｳｪ・磯ｭ壹・螟ｧ雎・ｼ峨・迚ｹ蛻･繝舌ャ繧ｸ */
+/* 推奨たんぱく質（魚・大豆）の特別バッジ */
 .f-card{position:relative;}
 .f-recommend{
   position:absolute;top:-6px;right:-6px;
@@ -393,21 +393,21 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .fc-limit .f-count{background:var(--debuff);}
 .fc-limit .f-icon{filter:grayscale(.4);}
 
-/* 繧ｬ繧､繝峨Λ繧､繝ｳ繝｡繝｢ */
+/* ガイドラインメモ */
 .guide-note{
   font-size:.72rem;color:rgba(30,80,110,.7);
   background:rgba(255,255,255,.03);border-left:2px solid rgba(78,201,138,.3);
   padding:6px 10px;border-radius:0 6px 6px 0;margin-top:4px;line-height:1.6;
 }
 
-/* ===== 蜿ｳ・壹せ繝・・繧ｿ繧ｹ ===== */
+/* ===== 右：ステータス ===== */
 .quest-side{display:flex;flex-direction:column;gap:14px;}
 .side-panel{background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.18);border-radius:14px;padding:16px;}
 .panel-head{font-family:'Noto Serif JP',serif;font-size:.82rem;font-weight:900;color:#7ee8aa;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 
 .week-label{font-size:.68rem;color:rgba(78,201,138,.65);letter-spacing:.1em;font-weight:700;margin-bottom:10px;}
 
-/* 繝ｬ繝吶Ν繝舌ャ繧ｸ */
+/* レベルバッジ */
 .lv-badge{
   display:inline-flex;align-items:center;gap:4px;
   background:rgba(78,201,138,.1);border:1px solid rgba(78,201,138,.3);
@@ -422,7 +422,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .xp-note{font-size:.65rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;}
 .xp-note strong{color:var(--green);}
 
-/* 鬲泌鴨繧ｹ繝・・繧ｿ繧ｹ */
+/* 魔力ステータス */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .stat-bar-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:9px 10px;}
 .stat-bar-card .sbc-label{font-size:.62rem;font-weight:700;letter-spacing:.05em;margin-bottom:3px;display:flex;justify-content:space-between;}
@@ -441,7 +441,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .sbc-def .sbc-label{color:var(--def);}
 .sbc-def .stat-bar-fill{background:linear-gradient(90deg,#206040,var(--def));}
 
-/* 蛻ｶ髯宣｣溷刀繧ｫ繧ｦ繝ｳ繝・*/
+/* 制限食品カウント */
 .debuff-block{
   background:rgba(96,112,160,.07);border:1px solid rgba(96,112,160,.2);
   border-radius:9px;padding:9px 12px;margin-top:8px;
@@ -451,7 +451,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .debuff-count{font-size:.9rem;font-weight:700;color:rgba(96,112,160,.9);}
 .debuff-note{font-size:.62rem;color:rgba(96,112,160,.5);margin-top:3px;}
 
-/* ===== 縺翫☆縺吶ａ迪ｮ遶・===== */
+/* ===== おすすめ献立 ===== */
 .menu-board-section{margin-bottom:24px;background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;}
 .menu-section-toggle{width:100%;background:none;border:none;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;gap:8px;}
 .menu-toggle-head{display:flex;align-items:center;gap:10px;}
@@ -480,9 +480,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .menu-card-btn{width:100%;padding:6px;border-radius:7px;background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.06));border:1px solid rgba(201,168,76,.25);color:var(--gold2);font-family:inherit;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .2s;}
 .menu-card-btn:hover{background:linear-gradient(90deg,rgba(201,168,76,.28),rgba(201,168,76,.14));}
 
-/* 繝ｭ繧ｰ繝ｪ繧ｹ繝・*/
+/* ログリスト */
 #log-list{list-style:none;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;}
-#log-list:empty::after{content:'鬟滓攝繧ｫ繝ｼ繝峨ｒ繧ｿ繝・・縺励※險倬鹸縺励ｈ縺・;display:block;font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:14px 0;}
+#log-list:empty::after{content:'食材カードをタップして記録しよう';display:block;font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:14px 0;}
 .log-item{
   display:flex;align-items:center;gap:7px;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);
@@ -495,7 +495,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .li-del{background:none;border:none;cursor:pointer;color:rgba(30,80,110,.7);font-size:.75rem;padding:2px 4px;transition:color .15s;flex-shrink:0;}
 .li-del:hover{color:var(--red);}
 
-/* 菫晏ｭ・*/
+/* 保存 */
 .btn-save{
   width:100%;background:linear-gradient(135deg,#4ec98a,#7ee8aa,#4ec98a);background-size:200% auto;
   color:#0a2010;border:none;border-radius:10px;padding:12px;
@@ -506,7 +506,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .btn-save:hover{background-position:right center;transform:translateY(-2px);box-shadow:0 7px 24px rgba(78,201,138,.3);}
 .save-msg{font-size:.68rem;color:rgba(30,80,110,.7);text-align:center;margin-top:5px;}
 
-/* 驕主悉險倬鹸 */
+/* 過去記録 */
 .history-list{display:flex;flex-direction:column;gap:7px;}
 .hist-item{
   background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
@@ -518,7 +518,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .hist-score{font-size:.7rem;font-weight:700;color:var(--green);flex-shrink:0;}
 .hist-empty{font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:8px 0;}
 
-/* ===== 繧ｹ繝医Μ繝ｼ繧ｯ ===== */
+/* ===== ストリーク ===== */
 .streak-row{display:flex;align-items:center;gap:12px;}
 .streak-fire{font-size:1.8rem;flex-shrink:0;line-height:1;}
 .streak-info{flex:1;}
@@ -527,7 +527,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .streak-sub{font-size:.6rem;color:rgba(30,80,110,.7);margin-top:3px;}
 .streak-best{font-size:.58rem;color:rgba(78,201,138,.45);text-align:right;flex-shrink:0;line-height:1.5;}
 
-/* ===== 螳溽ｸｾ繝舌ャ繧ｸ ===== */
+/* ===== 実績バッジ ===== */
 .ach-grid{display:flex;flex-wrap:wrap;gap:5px;}
 .ach-badge{
   display:flex;align-items:center;gap:4px;
@@ -538,7 +538,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ach-badge.unlocked{background:rgba(78,201,138,.1);border-color:rgba(78,201,138,.32);color:#7ee8aa;}
 .ach-icon{font-size:.8rem;}
 
-/* ===== 繝懊・繝翫せ繝医・繧ｹ繝・===== */
+/* ===== ボーナストースト ===== */
 @keyframes bonusPop{0%{opacity:0;transform:translateX(-50%) translateY(-14px);}12%{opacity:1;transform:translateX(-50%) translateY(0);}80%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-8px);}}
 .bonus-toast{
   position:fixed;top:70px;left:50%;
@@ -550,7 +550,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bt-head{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:#7ee8aa;margin-bottom:3px;}
 .bt-body{font-size:.72rem;color:var(--silver);}
 
-/* 菫晏ｭ倥ヨ繝ｼ繧ｹ繝・*/
+/* 保存トースト */
 #save-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.4);border-radius:12px;padding:10px 24px;text-align:center;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:250;white-space:nowrap;}
 #save-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #save-toast .st-icon{font-size:1rem;margin-right:6px;}
@@ -559,13 +559,13 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #goal-banner.show{transform:translateY(0);}
 .confetti-piece{position:fixed;top:-10px;pointer-events:none;z-index:9998;width:8px;height:8px;border-radius:2px;animation:confetti-fall var(--dur) ease-in forwards;}
 @keyframes confetti-fall{0%{transform:translate(var(--x),0) rotate(0deg);opacity:1;}100%{transform:translate(calc(var(--x) + var(--dx)),100vh) rotate(720deg);opacity:0;}}
-/* +1 繝輔Ο繝ｼ繝医い繝九Γ */
+/* +1 フロートアニメ */
 .plus-float{
   position:fixed;font-size:.8rem;font-weight:900;pointer-events:none;z-index:999;
   animation:plusFloat .8s ease forwards;
 }
 
-/* 繝ｬ繝吶Ν繧｢繝・・繝医・繧ｹ繝・*/
+/* レベルアップトースト */
 #lv-toast{
   position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-14px);
   background:rgba(255,255,255,.92);border:1px solid var(--green);border-radius:14px;
@@ -576,7 +576,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #lv-toast .lt-head{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;color:#7ee8aa;margin-bottom:3px;}
 #lv-toast .lt-body{font-size:.75rem;color:var(--silver);}
 
-/* ===== 繝ｬ繧ｹ繝昴Φ繧ｷ繝・===== */
+/* ===== レスポンシブ ===== */
 @media(max-width:900px){
   .main-content{grid-template-columns:1fr 280px;}
 }
@@ -620,14 +620,14 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   .main-header{padding:7px 12px;}
 }
 
-/* ===== 騾｣蜍輔せ繝・・繧ｿ繧ｹ ===== */
+/* ===== 連動ステータス ===== */
 .linked-panel{background:rgba(20,25,41,.9);border:1px solid rgba(78,201,138,.15);border-radius:12px;padding:12px 14px;overflow:hidden;}
 .linked-head{font-size:.58rem;letter-spacing:.14em;color:rgba(78,201,138,.5);text-transform:uppercase;margin-bottom:10px;}
 .ls-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .ls-label{font-size:.62rem;color:rgba(30,80,110,.7);width:40px;flex-shrink:0;}
 .ls-bar{flex:1;min-width:0;height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;}
 
-/* 鬲壹・螟ｧ雎・耳螂ｨ繧ｫ繧ｦ繝ｳ繧ｿ */
+/* 魚・大豆推奨カウンタ */
 .recommend-row{
   display:grid;grid-template-columns:1fr 1fr;gap:8px;
   margin-top:10px;padding-top:10px;
@@ -681,7 +681,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #coach-fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(60,20,120,.65);}
 #coach-fab img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:center 14%;flex-shrink:0;}
 
-/* ===== AI Coach 繝｢繝ｼ繝繝ｫ ===== */
+/* ===== AI Coach モーダル ===== */
 #coach-modal{
   position:fixed;inset:0;background:rgba(4,6,12,.7);z-index:200;
   display:none;align-items:flex-end;justify-content:flex-end;
@@ -709,7 +709,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #coach-close:hover{color:rgba(30,80,110,.7);}
 .coach-iframe{flex:1;border:none;width:100%;background:#c8e4f4;}
 
-/* ===== 鬟滓攝讀懃ｴ｢ ===== */
+/* ===== 食材検索 ===== */
 .food-search-wrap{position:relative;margin-bottom:20px;}
 .food-search-box{
   width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.25);
@@ -754,7 +754,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .sr-custom{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;background:rgba(201,168,76,.04);transition:background .12s;}
 .sr-custom:hover{background:rgba(201,168,76,.1);}
 .sr-custom-text{font-size:.78rem;color:rgba(201,168,76,.7);}
-/* 譁咏炊DB蟆ら畑繧ｹ繧ｿ繧､繝ｫ */
+/* 料理DB専用スタイル */
 .sr-dish{background:rgba(92,140,212,.03);}
 .sr-dish:hover{background:rgba(92,140,212,.08);}
 .sr-group-badge{font-size:.52rem;padding:1px 6px;border-radius:4px;background:rgba(92,140,212,.15);color:rgba(150,190,235,.8);font-weight:700;margin-left:4px;}
@@ -762,10 +762,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .sr-comp-tag{font-size:.52rem;padding:1px 5px;border-radius:4px;font-weight:700;}
 .sr-caution{font-size:.57rem;color:rgba(224,138,60,.75);margin-left:6px;}
 .sr-tip{font-size:.57rem;color:rgba(78,201,138,.65);margin-top:2px;}
-/* 繝ｭ繧ｰ縺ｮ譁咏炊繧ｳ繝ｳ繝昴・繝阪Φ繝医ち繧ｰ */
+/* ログの料理コンポーネントタグ */
 .li-comp-tag{font-size:.55rem;padding:1px 6px;border-radius:4px;font-weight:700;margin-right:2px;}
 .li-caution{font-size:.55rem;color:rgba(224,138,60,.7);display:block;margin-top:2px;}
-/* ===== 繧ｫ繝｡繝ｩ繝懊ち繝ｳ ===== */
+/* ===== カメラボタン ===== */
 .food-search-box{padding-right:72px!important;}
 .food-cam-btn{
   position:absolute;right:38px;top:50%;transform:translateY(-50%);
@@ -775,7 +775,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .food-cam-btn:hover{background:rgba(92,140,212,.3);}
 
-/* ===== 繧ｻ繝ｩ縺ｮ縺翫☆縺吶ａ繝ｬ繧ｷ繝斐ヰ繝翫・ ===== */
+/* ===== セラのおすすめレシピバナー ===== */
 .sera-recipe-banner{
   background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(92,180,240,.08));
   border:1px solid rgba(78,201,138,.3);
@@ -822,7 +822,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   position:relative;z-index:1;
 }
 
-/* ===== 蜀咏悄CTA繝舌リ繝ｼ ===== */
+/* ===== 写真CTAバナー ===== */
 .photo-cta{
   display:flex;align-items:center;gap:14px;width:100%;
   background:linear-gradient(135deg,rgba(78,201,138,.18) 0%,rgba(92,140,212,.18) 100%);
@@ -869,7 +869,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   .photo-cta{padding:12px 14px;}
   .photo-cta-icon{width:40px;height:40px;font-size:1.4rem;}
 }
-/* ===== Gemini Vision繝｢繝ｼ繝繝ｫ ===== */
+/* ===== Gemini Visionモーダル ===== */
 #vision-modal{
   position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:400;
   display:none;align-items:flex-end;justify-content:center;
@@ -930,9 +930,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
 body::before{opacity:0 !important;}
 /* ============================================
-   豌ｴ濶ｲ繧ｹ繧ｭ繝ｳ v1 笏笏 2026-05-11
-   蜑ｵ騾荳ｻ謖・､ｺ縲後ご繝ｼ繝縺ｮ繝・じ繧､繝ｳ繧呈ｰｴ濶ｲ縺ｫ縲よ枚蟄苓ｦ九ｄ縺吶￥縲・
-   譌｢蟄倥・ dark-fantasy CSS 繧剃ｸ頑嶌縺阪☆繧区怙蠕悟ｰｾ繝ｬ繧､繝､繝ｼ
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
    ============================================ */
 :root{
   --bg:    #e8f4fb;
@@ -971,7 +971,7 @@ body::before{
   border-color: rgba(30,127,164,.4) !important;
   box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
 }
-/* 繧､繝ｳ繝ｩ繧､繝ｳ style 縺ｮ證苓レ譎ｯ蜑肴署逋ｽ繧ｪ繝ｼ繝舌・繝ｬ繧､ 竊・證怜・蜊企乗・縺ｫ蜿崎ｻ｢ */
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.06)"],
 [style*="rgba(255,255,255,.07)"],
@@ -990,13 +990,13 @@ input[type="password"], input[type="tel"], input[type="search"], select, textare
 ::placeholder{ color: rgba(20,60,80,.45) !important; }
 a{ color: #1e7fa4; }
 a:hover{ color: #4ab0d4; }
-/* 隕句・縺励・蜿ｯ隱ｭ諤ｧ・夐乗・譁・ｭ励ヵ繧ｩ繝ｼ繝ｫ繝舌ャ繧ｯ・・radient 螟ｱ謨玲凾縺ｫ鮟偵￥蜃ｺ繧句ｯｾ遲厄ｼ・*/
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
 @supports not (background-clip: text){
   .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
 }
 
 /* ============================================
-   nutrition.html 蠑ｷ繧ｳ繝ｳ繝医Λ繧ｹ繝・v8 笏笏 2026-05-13
+   nutrition.html 強コントラスト v8 ── 2026-05-13
    ============================================ */
 body, html{ background: #c8e4f4 !important; color: #0a2a40 !important; }
 body *{ text-shadow: none !important; }
@@ -1014,7 +1014,7 @@ body *{ text-shadow: none !important; }
   -webkit-text-fill-color: #0a4870 !important;
 }
 
-/* 蜈ｨ繝代ロ繝ｫ・夂區繧ｫ繝ｼ繝牙喧 */
+/* 全パネル：白カード化 */
 .side-panel, .linked-panel, .quest-card, .info-card, .food-section,
 [style*="background:rgba(14,18,32"], [style*="background:rgba(10,14,24"],
 [style*="background:rgba(8,11,20"]{
@@ -1026,7 +1026,7 @@ body *{ text-shadow: none !important; }
   color: #0a2a40 !important;
 }
 
-/* 鬟滓攝繧ｫ繝ｼ繝会ｼ亥句挨繧ｿ繧､繝ｫ・・*/
+/* 食材カード（個別タイル） */
 .food-card{
   background: #ffffff !important;
   background-image: none !important;
@@ -1047,7 +1047,7 @@ body *{ text-shadow: none !important; }
 .food-card .f-name{ font-weight: 800 !important; }
 .food-card .f-icon{ filter: none !important; -webkit-text-fill-color: initial !important; color: initial !important; }
 
-/* 隕句・縺・*/
+/* 見出し */
 .section-label, .section-head, .panel-head, .linked-head, .section-title{
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
@@ -1059,7 +1059,7 @@ body *{ text-shadow: none !important; }
   -webkit-background-clip: initial !important;
 }
 
-/* 騾上￠縺溯牡繧貞・驛ｨ豼・￥ */
+/* 透けた色を全部濃く */
 [style*="color:rgba(170,188,216"], [style*="color:rgba(200,215,235"],
 [style*="color:rgba(212,220,240"], [style*="color:rgba(170,190,240"],
 [style*="color:rgba(200,180,255"], [style*="color:rgba(245,200,200"],
@@ -1077,7 +1077,7 @@ body *{ text-shadow: none !important; }
   color: #1f7d4d !important; -webkit-text-fill-color: #1f7d4d !important; font-weight: 800 !important;
 }
 
-/* 荳矩Κ繝翫ン */
+/* 下部ナビ */
 .bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
 .bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
 .bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
@@ -1088,7 +1088,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 
-/* 笏笏 consent-modal 豌ｴ蠖ｩ蛹・笏笏 */
+/* ── consent-modal 水彩化 ── */
 #consent-modal{
   background: rgba(10,42,64,.75) !important;
   backdrop-filter: blur(8px) !important;
@@ -1109,7 +1109,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 }
 
 /* ============================================
-   nutrition.html 霑ｽ蜉 v10 笏笏 谿句ｭ倥Λ繧､繝郁牡縺ｮ荳諡ｬ荳頑嶌縺・
+   nutrition.html 追加 v10 ── 残存ライト色の一括上書き
    ============================================ */
 [style*="color:#e8f0ff"],[style*="color:#0a2a40"],[style*="color:#0a2a40"],
 [style*="color:#9ee0ee"],[style*="color:#7dd8e8"],[style*="color:#a8e8c0"],
@@ -1126,28 +1126,28 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 [style*="background:rgba(8,11,20"]{
   background: #ffffff !important; color: #0a2a40 !important;
 }
-/* 繝倥ャ繝繝ｼ */
+/* ヘッダー */
 .main-header{ background: rgba(200,228,244,.97) !important; border-bottom: 1px solid #b0cfdf !important; }
 .main-header a, .main-header span{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
 #logout-btn{ background: none !important; border-color: #b0cfdf !important; color: #1e7fa4 !important; }
-/* 譬・､翫ヲ繝ｼ繝ｭ繝ｼ繝舌リ繝ｼ */
+/* 栄養ヒーローバナー */
 .nutr-hero, .nu-hero{ background: linear-gradient(135deg,#e0f4fc,#c8e4f4) !important; border: 1.5px solid #b0cfdf !important; }
-/* 鬟溷刀繧ｫ繝ｼ繝・*/
+/* 食品カード */
 .food-card, .food-item, .nutr-card, .f-card{
   background: #ffffff !important; border-color: #b0cfdf !important; color: #0a2a40 !important;
 }
 .food-card .f-name, .f-name{ color: #0a2a40 !important; -webkit-text-fill-color: #0a2a40 !important; }
 .food-card .f-pt, .f-pt{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
-/* 繧ｹ繧ｳ繧｢繝舌・ */
+/* スコアバー */
 .score-bar-wrap, .nu-bar-wrap{ background: rgba(30,127,164,.12) !important; }
 .score-bar-fill{ background: linear-gradient(90deg,#1e7fa4,#4ab0d4) !important; }
-/* 菫晏ｭ倥・繧ｿ繝ｳ */
+/* 保存ボタン */
 .btn-save{ background: linear-gradient(135deg,#1e7fa4,#4ab0d4) !important; color: #fff !important; }
-/* 繧ｻ繧ｯ繧ｷ繝ｧ繝ｳ */
+/* セクション */
 .board-section, .nu-section{ background: #ffffff !important; border-color: #b0cfdf !important; }
 .section-label, .nu-label{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
 
-/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ蜊企乗・閭梧勹繧堤區繝吶・繧ｹ縺ｫ蜿崎ｻ｢ 笏笏 */
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.05)"],
 [style*="rgba(255,255,255,.06)"],
@@ -1161,7 +1161,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   border-color: rgba(30,127,164,.25) !important;
   color: #0a2a40 !important;
 }
-/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ逋ｽ繝・く繧ｹ繝医ｒ證励￥縺吶ｋ 笏笏 */
+/* ── ダーク前提の白テキストを暗くする ── */
 [style*="color:rgba(220,225,245"],
 [style*="color:rgba(170,188,216"],
 [style*="color:#0a2a40"],
@@ -1173,7 +1173,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   color: #0a2a40 !important;
   -webkit-text-fill-color: #0a2a40 !important;
 }
-/* 笏笏 繧ｫ繝ｼ繝峨・繝代ロ繝ｫ邉ｻ繧ｯ繝ｩ繧ｹ蜈ｱ騾・笏笏 */
+/* ── カード・パネル系クラス共通 ── */
 .card, .panel, .section, .q-card, .stat-card,
 .info-card, .intro-card, .section-card, .week-card,
 .mission-card, .achievement-card, .skill, .entry,
@@ -1182,7 +1182,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   border-color: rgba(30,127,164,.22) !important;
   color: #0a2a40 !important;
 }
-/* 笏笏 繝倥ャ繝繝ｼ繝ｻ繝翫ン 笏笏 */
+/* ── ヘッダー・ナビ ── */
 header, nav:not(.bottom-nav){
   background: rgba(200,228,244,.97) !important;
   border-bottom-color: #b0cfdf !important;
@@ -1191,11 +1191,11 @@ header a, nav a:not(.bn-tab){
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
 }
-/* 笏笏 繝・く繧ｹ繝亥庄隱ｭ諤ｧ縺ｮ蠎穂ｸ翫￡ 笏笏 */
+/* ── テキスト可読性の底上げ ── */
 p, span, div, label, li, td, th, h1, h2, h3, h4{
   color: inherit;
 }
-/* 笏笏 nutrition.html 蝗ｺ譛峨・阮・ｷ台ｿｮ豁｣ 笏笏 */
+/* ── nutrition.html 固有の薄緑修正 ── */
 .ns-num{color:#1f8a66 !important;}
 .recommend-soy .rc-value{color:#1f8a66 !important;}
 .srb-title{color:#1f8a66 !important;}
@@ -1226,22 +1226,20 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 .resto-tab.active{background:rgba(30,127,164,.15) !important;border-color:rgba(30,127,164,.45) !important;color:#1e7fa4 !important;}
 </style>
 
-<!-- 笨ｦ Vitalia RPG Overlay 笨ｦ -->
+<!-- ✦ Vitalia RPG Overlay ✦ -->
 <link rel="stylesheet" href="./vitalia-rpg.css">
 <script defer src="./vitalia-rpg-fx.js"></script>
 <script defer src="./vitalia-rpg-battle.js"></script>
 <script defer src="./vitalia-rpg-tweaks.js"></script>
 <script defer src="./vitalia-rpg-compact.js"></script>
 <script defer src="./vitalia-rpg-bind.js"></script>
-<script defer src="./vitalia-nav.js"></script>
-<link rel="stylesheet" href="./vitalia-clean-ui.css">
 </head>
 <body>
 
-<!-- 繝ｭ繝ｼ繝・ぅ繝ｳ繧ｰ -->
+<!-- ローディング -->
 <script>
 function showToast(msg,duration=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center',boxShadow:'0 4px 16px rgba(0,0,0,.25)',border:'1px solid rgba(30,127,164,.4)'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},duration);}
-function showConfirm(msg,onOk,onCancel){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">繧ｭ繝｣繝ｳ繧ｻ繝ｫ</button><button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};}
+function showConfirm(msg,onOk,onCancel){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg.replace(/\n/g,'<br>')}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button><button id="_cOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cOk').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cCancel').onclick=()=>{ov.remove();if(onCancel)onCancel();};}
 setTimeout(function(){
   var ls=document.getElementById('loading-screen');
   var lg=document.getElementById('login-screen');
@@ -1249,437 +1247,437 @@ setTimeout(function(){
     ls.classList.add('hidden');
     if(lg){lg.classList.remove('hidden');lg.style.display='flex';}
   }
-},300);
+},5000);
 </script>
 <div id="loading-screen">
   <div class="ls-char">
-    <img src="./image/sera-sabun%20(1).png" alt="繧ｻ繝ｩ">
+    <img src="./image/sera-sabun%20(1).png" alt="セラ">
   </div>
-  <div class="ls-title">譬・､翫け繧ｨ繧ｹ繝・/div>
-  <div class="ls-sub">Nutrition Quest 窶・Vitalia</div>
+  <div class="ls-title">栄養クエスト</div>
+  <div class="ls-sub">Nutrition Quest — Vitalia</div>
   <div class="ls-bar"><div class="ls-bar-fill"></div></div>
-  <div class="ls-msg">鬲疲ｳ墓嶌繧帝幕縺・※縺・∪縺・span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
+  <div class="ls-msg">魔法書を開いています<span class="ls-dot">.</span><span class="ls-dot">.</span><span class="ls-dot">.</span></div>
 </div>
 
-<!-- 繝ｭ繧ｰ繧､繝ｳ -->
+<!-- ログイン -->
 <div id="login-screen" class="hidden">
   <div class="login-card">
     <div class="login-char">
-      <img src="./image/sera-2-Photoroom.png" alt="繧ｻ繝ｩ">
+      <img src="./image/sera-2-Photoroom.png" alt="セラ">
     </div>
     <div class="login-title">
-      <h1 class="gold-text">譬・､翫け繧ｨ繧ｹ繝・/h1>
-      <p class="sub" style="color:var(--green);">NUTRITION QUEST 窶・VITALIA</p>
-      <p class="note">遐皮ｩｶ蜿ょ刈閠・ｰら畑 ・・繝ｭ繧ｰ繧､繝ｳ縺悟ｿ・ｦ√〒縺・/p>
+      <h1 class="gold-text">栄養クエスト</h1>
+      <p class="sub" style="color:var(--green);">NUTRITION QUEST — VITALIA</p>
+      <p class="note">研究参加者専用 ｜ ログインが必要です</p>
     </div>
     <div style="background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.18);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.75rem;line-height:1.7;color:rgba(200,215,235,.75);">
-      縺薙・繧｢繝励Μ縺ｯ縲∝ｰ丞・縺後ｓ邨碁ｨ楢・・<strong style="color:#7ee8b0;">蛛･蠎ｷ陦悟虚縺ｮ邯咏ｶ・/strong>繧呈髪謠ｴ縺吶ｋ遐皮ｩｶ繝励Ο繧ｸ繧ｧ繧ｯ繝医〒縺吶・br>
-      豈朱ｱ縺ｮ鬟滉ｺ玖ｨ倬鹸繧堤ｩ阪∩驥阪・繧九％縺ｨ縺ｧ縲∵・､翫ヰ繝ｩ繝ｳ繧ｹ縺ｸ縺ｮ豌励▼縺阪→鄙呈・縺瑚ご縺｡縺ｾ縺吶・br>
-      險倬鹸繝・・繧ｿ縺ｯ遐皮ｩｶ逶ｮ逧・〒菴ｿ逕ｨ縺輔ｌ縺ｾ縺吶・
+      このアプリは、小児がん経験者の<strong style="color:#7ee8b0;">健康行動の継続</strong>を支援する研究プロジェクトです。<br>
+      毎週の食事記録を積み重ねることで、栄養バランスへの気づきと習慣が育ちます。<br>
+      記録データは研究目的で使用されます。
     </div>
     <div class="sera-bubble">
-      縲碁｣溘∋繧九％縺ｨ縺ｯ鬲泌鴨縺ｮ陬懷・縲・br>
-      豈取律縺ｮ鬟滉ｺ九ｒ險倬鹸縺励※縲√≠縺ｪ縺溘・鬲疲ｳ輔せ繝・・繧ｿ繧ｹ繧剃ｸ翫￡縺ｾ縺励ｇ縺・ｼ√・
+      「食べることは魔力の補充。<br>
+      毎日の食事を記録して、あなたの魔法ステータスを上げましょう！」
     </div>
     <div class="form-group">
-      <label>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ</label>
-      <input type="email" id="email" class="form-input" placeholder="萓・ hero@vitalia.jp">
+      <label>メールアドレス</label>
+      <input type="email" id="email" class="form-input" placeholder="例: hero@vitalia.jp">
     </div>
     <div class="form-group">
-      <label>繝代せ繝ｯ繝ｼ繝会ｼ・譁・ｭ嶺ｻ･荳奇ｼ・/label>
-      <input type="password" id="password" class="form-input" placeholder="繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉・>
+      <label>パスワード（6文字以上）</label>
+      <input type="password" id="password" class="form-input" placeholder="パスワードを入力">
     </div>
     <div class="btn-row">
-      <button id="login-btn" class="btn-green">鬲疲ｳ墓嶌繧帝幕縺擾ｼ医Ο繧ｰ繧､繝ｳ・・/button>
-      <button id="register-btn" class="btn-outline">縺ｯ縺倥ａ縺ｦ縺ｮ逋ｻ骭ｲ</button>
+      <button id="login-btn" class="btn-green">魔法書を開く（ログイン）</button>
+      <button id="register-btn" class="btn-outline">はじめての登録</button>
     </div>
     <div id="auth-error" style="display:none;margin-top:10px;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.25);border-radius:8px;padding:8px 12px;font-size:.73rem;color:#f08080;text-align:center;"></div>
     <div style="text-align:center;margin-top:8px;display:flex;gap:10px;justify-content:center;">
-      <button id="guest-btn" style="background:none;border:1px dashed rgba(78,201,138,0.35);color:rgba(30,80,110,.7);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">繝・Δ蜈･蝣ｴ・医Ο繧ｰ繧､繝ｳ荳崎ｦ・ｼ・/button>
-      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(30,80,110,.7);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">繝代せ繝ｯ繝ｼ繝峨ｒ蠢倥ｌ縺滓婿</button>
+      <button id="guest-btn" style="background:none;border:1px dashed rgba(78,201,138,0.35);color:rgba(30,80,110,.7);font-size:.72rem;padding:6px 18px;border-radius:8px;cursor:pointer;font-family:inherit;">デモ入場（ログイン不要）</button>
+      <button id="reset-pw-btn" style="background:none;border:none;color:rgba(30,80,110,.7);font-size:.68rem;cursor:pointer;font-family:inherit;text-decoration:underline;">パスワードを忘れた方</button>
     </div>
     <div class="login-footer">
-      <p>縺薙・繧ｵ繝ｼ繝薙せ縺ｯ遐皮ｩｶ逶ｮ逧・〒縺吶・br>蛹ｻ逋りｨｺ譁ｭ縺ｯ陦後＞縺ｾ縺帙ｓ縲・/p>
-      <a href="./index.html">竊・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸繝医ャ繝励∈</a>
+      <p>このサービスは研究目的です。<br>医療診断は行いません。</p>
+      <a href="./index.html">← ヴィタリア転生録トップへ</a>
     </div>
   </div>
 </div>
 
 
-<!-- 繧､繝ｳ繝輔か繝ｼ繝繝峨さ繝ｳ繧ｻ繝ｳ繝・-->
+<!-- インフォームドコンセント -->
 <div id="consent-modal" style="position:fixed;inset:0;background:rgba(4,6,12,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);">
   <div style="background:linear-gradient(145deg,#0d1225,#111829);border:1px solid rgba(78,201,138,.35);border-radius:20px;padding:32px 28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 0 60px rgba(78,201,138,.1),0 24px 60px rgba(0,0,0,.8);">
-    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(78,201,138,.6);margin-bottom:10px;">遐皮ｩｶ蜿ょ刈縺ｸ縺ｮ蜷梧э</div>
-    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸<br><span style="font-size:.8rem;font-weight:400;color:rgba(30,80,110,.7);">遐皮ｩｶ蜿ょ刈蜷梧э譖ｸ</span></h2>
+    <div style="text-align:center;font-size:.7rem;letter-spacing:.2em;color:rgba(78,201,138,.6);margin-bottom:10px;">研究参加への同意</div>
+    <h2 style="text-align:center;font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;margin-bottom:20px;">ヴィタリア転生録<br><span style="font-size:.8rem;font-weight:400;color:rgba(30,80,110,.7);">研究参加同意書</span></h2>
     <div style="font-size:.78rem;line-height:1.85;color:rgba(200,215,235,.8);margin-bottom:20px;">
-      <p style="margin-bottom:12px;">譛ｬ繧｢繝励Μ縺ｯ縲・strong style="color:#7ee8b0;">蟆丞・縺後ｓ邨碁ｨ楢・・蛛･蠎ｷ陦悟虚邯咏ｶ・/strong>繧呈髪謠ｴ縺吶ｋ縺薙→繧堤岼逧・→縺励◆遐皮ｩｶ繝励Ο繧ｸ繧ｧ繧ｯ繝医〒縺吶・/p>
+      <p style="margin-bottom:12px;">本アプリは、<strong style="color:#7ee8b0;">小児がん経験者の健康行動継続</strong>を支援することを目的とした研究プロジェクトです。</p>
       <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:var(--green);margin-bottom:8px;">蜿朱寔縺吶ｋ繝・・繧ｿ</p>
+        <p style="font-weight:700;color:var(--green);margin-bottom:8px;">収集するデータ</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
-          <li>繝ｻ 豈朱ｱ縺ｮ鬟滉ｺ玖ｨ倬鹸・磯｣溷刀遞ｮ蛻･繝ｻ鞫ょ叙驥擾ｼ・/li>
-          <li>繝ｻ 譬・､翫ヰ繝ｩ繝ｳ繧ｹ隧穂ｾ｡繧ｹ繧ｳ繧｢</li>
-          <li>繝ｻ 繧ｲ繝ｼ繝蜀・｡悟虚繝・・繧ｿ・・P繝ｻ繝ｬ繝吶Ν繝ｻ螳溽ｸｾ・・/li>
-          <li>繝ｻ AI繧ｳ繝ｼ繝√後Ν繝翫阪→縺ｮ莨夊ｩｱ蜀・ｮｹ・井ｻｻ諢丞茜逕ｨ・・/li>
+          <li>・ 毎週の食事記録（食品種別・摂取量）</li>
+          <li>・ 栄養バランス評価スコア</li>
+          <li>・ ゲーム内行動データ（XP・レベル・実績）</li>
+          <li>・ AIコーチ「ルナ」との会話内容（任意利用）</li>
         </ul>
       </div>
       <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.25);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:#c0a0f0;margin-bottom:8px;">螟夜Κ繧ｵ繝ｼ繝薙せ縺ｸ縺ｮ騾∽ｿ｡縺ｫ縺､縺・※</p>
+        <p style="font-weight:700;color:#c0a0f0;margin-bottom:8px;">外部サービスへの送信について</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.74rem;">
-          <li>繝ｻ 鬟滉ｺ句・逵溘・閾ｪ蜍戊ｪ崎ｭ倥・AI繧ｳ繝ｼ繝√Φ繧ｰ讖溯・縺ｧ縺ｯ縲∝・蜉帙ョ繝ｼ繧ｿ繧・<strong>Google Gemini API</strong> 縺ｫ騾∽ｿ｡縺励※蠢懃ｭ斐ｒ逕滓・縺励∪縺・/li>
-          <li>繝ｻ 蛟倶ｺｺ繧堤音螳壹☆繧区ュ蝣ｱ・域ｰ丞錐繝ｻ菴乗園遲会ｼ峨・蜈･蜉帙・驕ｿ縺代※縺上□縺輔＞</li>
+          <li>・ 食事写真の自動認識・AIコーチング機能では、入力データを <strong>Google Gemini API</strong> に送信して応答を生成します</li>
+          <li>・ 個人を特定する情報（氏名・住所等）の入力は避けてください</li>
         </ul>
       </div>
       <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:var(--green);margin-bottom:8px;">繝・・繧ｿ縺ｮ蜿悶ｊ謇ｱ縺・/p>
+        <p style="font-weight:700;color:var(--green);margin-bottom:8px;">データの取り扱い</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
-          <li>繝ｻ 繝・・繧ｿ縺ｯ遐皮ｩｶ逶ｮ逧・・縺ｿ縺ｫ菴ｿ逕ｨ縺励∪縺・/li>
-          <li>繝ｻ Firebase・・oogle・我ｸ翫↓證怜捷蛹悶＠縺ｦ菫晉ｮ｡縺輔ｌ縺ｾ縺・/li>
-          <li>繝ｻ 蛟倶ｺｺ繧堤音螳壹〒縺阪ｋ蠖｢縺ｧ縺ｯ蜈ｬ陦ｨ縺励∪縺帙ｓ</li>
-          <li>繝ｻ 蜿ょ刈縺ｯ縺・▽縺ｧ繧ゆｸｭ豁｢縺ｧ縺阪∪縺・/li>
-          <li>繝ｻ 荳ｭ豁｢縺ｮ蝣ｴ蜷医・繝・・繧ｿ蜑企勁繧堤筏隲九〒縺阪∪縺・/li>
+          <li>・ データは研究目的のみに使用します</li>
+          <li>・ Firebase（Google）上に暗号化して保管されます</li>
+          <li>・ 個人を特定できる形では公表しません</li>
+          <li>・ 参加はいつでも中止できます</li>
+          <li>・ 中止の場合はデータ削除を申請できます</li>
         </ul>
       </div>
-      <p style="font-size:.72rem;color:rgba(30,80,110,.7);">遐皮ｩｶ雋ｬ莉ｻ閠・ｼ夂ｦ丈ｺ暮メ蟄撰ｼ磯｣邨｡蜈医・諡・ｽ楢・↓縺雁撫縺・粋繧上○縺上□縺輔＞・・/p>
+      <p style="font-size:.72rem;color:rgba(30,80,110,.7);">研究責任者：福井郁子（連絡先は担当者にお問い合わせください）</p>
     </div>
     <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px;font-size:.8rem;color:rgba(200,215,235,.8);">
       <input type="checkbox" id="consent-check" style="margin-top:3px;accent-color:var(--green);width:16px;height:16px;flex-shrink:0;">
-      荳願ｨ倥・蜀・ｮｹ繧堤炊隗｣縺励∫皮ｩｶ縺ｸ縺ｮ蜿ょ刈縺ｫ蜷梧э縺励∪縺・
+      上記の内容を理解し、研究への参加に同意します
     </label>
-    <button id="consent-btn" disabled style="display:block;width:100%;background:linear-gradient(90deg,var(--green),#7ee8b0);border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#0a2018;cursor:pointer;opacity:.4;transition:opacity .2s;">蜷梧э縺励※蜿ょ刈縺吶ｋ</button>
+    <button id="consent-btn" disabled style="display:block;width:100%;background:linear-gradient(90deg,var(--green),#7ee8b0);border:none;border-radius:10px;padding:13px;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:#0a2018;cursor:pointer;opacity:.4;transition:opacity .2s;">同意して参加する</button>
   </div>
 </div>
 
-<!-- 遏･隴倥き繝ｼ繝峨Δ繝ｼ繝繝ｫ -->
+<!-- 知識カードモーダル -->
 <div id="knowledge-modal">
   <div class="km-card">
-    <div class="km-char-face"><img src="./image/sera-sabun%20(2).png" alt="繧ｻ繝ｩ"></div>
-    <div class="km-lvup">笨ｦ Level Up 笨ｦ</div>
+    <div class="km-char-face"><img src="./image/sera-sabun%20(2).png" alt="セラ"></div>
+    <div class="km-lvup">✦ Level Up ✦</div>
     <div class="km-title" id="km-lvname"></div>
     <div class="km-subtitle" id="km-lvnum"></div>
     <div class="km-divider"></div>
     <div class="km-theme" id="km-theme"></div>
     <div class="km-body" id="km-body"></div>
-    <button class="km-close" id="km-close">逅・ｧ｣縺励◆ 窶・鬲疲ｳ墓嶌繧堤ｶ壹￠繧・/button>
+    <button class="km-close" id="km-close">理解した ― 魔法書を続ける</button>
   </div>
 </div>
 
-<!-- 繝｡繧､繝ｳ -->
+<!-- メイン -->
 <div id="main-screen" class="hidden">
 
   <header class="main-header">
     <div class="h-left">
-      <a href="./game.html">笞・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</a>
+      <a href="./game.html">⚔ ヴィタリア転生録</a>
       <span class="h-pipe">|</span>
-      <span class="h-title">譬・､翫け繧ｨ繧ｹ繝・/span>
+      <span class="h-title">栄養クエスト</span>
     </div>
     <div class="h-right">
       <span id="user-display"></span>
-      <a href="./account.html" class="h-nav-btn">側 繝槭う繝壹・繧ｸ</a>
-      <a href="./settings.html" class="h-nav-btn">笞・險ｭ螳・/a>
-      <button id="logout-btn">騾蝣ｴ</button>
+      <a href="./account.html" class="h-nav-btn">👤 マイページ</a>
+      <a href="./settings.html" class="h-nav-btn">⚙ 設定</a>
+      <button id="logout-btn">退場</button>
     </div>
   </header>
 
   <div class="main-content">
 
-    <!-- ===== 蟾ｦ・夐｣滓攝繝懊・繝・===== -->
+    <!-- ===== 左：食材ボード ===== -->
     <div class="food-board">
 
-      <!-- 蜀咏悄謦ｮ蠖ｱ CTA繝舌リ繝ｼ -->
+      <!-- 写真撮影 CTAバナー -->
       <button class="photo-cta" id="photo-cta-btn" type="button">
-        <span class="photo-cta-icon">胴</span>
+        <span class="photo-cta-icon">📷</span>
         <span class="photo-cta-text">
-          <span class="photo-cta-title">蜀咏悄縺ｧAI閾ｪ蜍戊ｨ倬鹸</span>
-          <span class="photo-cta-sub">鬟滉ｺ九・蜀咏悄繧呈聴繧九□縺代ゅそ繝ｩ縺ｮ鬲疲ｳ輔〒鬟滓攝繧定・蜍募愛螳壹＠縺ｾ縺・/span>
+          <span class="photo-cta-title">写真でAI自動記録</span>
+          <span class="photo-cta-sub">食事の写真を撮るだけ。セラの魔法で食材を自動判定します</span>
         </span>
-        <span class="photo-cta-arrow">竊・/span>
+        <span class="photo-cta-arrow">→</span>
       </button>
 
-      <!-- 諺 繧ｻ繝ｩ縺ｮ莉頑律縺ｮ縺翫☆縺吶ａ -->
+      <!-- 🌿 セラの今日のおすすめ -->
       <div class="sera-recipe-banner" id="sera-recipe-banner">
         <div class="srb-header">
-          <img src="./image/sera-sabun%20(1).png" alt="繧ｻ繝ｩ" class="srb-face">
+          <img src="./image/sera-sabun%20(1).png" alt="セラ" class="srb-face">
           <div class="srb-title-wrap">
-            <div class="srb-title-lbl">窶・Sera's Recipe of the Day 窶・/div>
-            <div class="srb-title">繧ｻ繝ｩ縺ｮ縺翫☆縺吶ａ譁咏炊</div>
+            <div class="srb-title-lbl">— Sera's Recipe of the Day —</div>
+            <div class="srb-title">セラのおすすめ料理</div>
           </div>
         </div>
         <div class="srb-card" id="srb-card">
-          <span class="srb-icon" id="srb-icon">澄</span>
+          <span class="srb-icon" id="srb-icon">🐟</span>
           <div class="srb-info">
-            <div class="srb-name" id="srb-name">隱ｭ縺ｿ霎ｼ縺ｿ荳ｭ窶ｦ</div>
+            <div class="srb-name" id="srb-name">読み込み中…</div>
             <div class="srb-xp" id="srb-xp">+0XP</div>
-            <div class="srb-note" id="srb-note">鬲壹→驥手除縺ｮ繝舌Λ繝ｳ繧ｹ笳・/div>
+            <div class="srb-note" id="srb-note">魚と野菜のバランス◎</div>
           </div>
-          <button class="srb-add" id="srb-add">+ 險倬鹸</button>
+          <button class="srb-add" id="srb-add">+ 記録</button>
         </div>
-        <div class="srb-quote" id="srb-quote">縲碁ｭ壹・騾ｱ2蝗槭′逶ｮ讓吶〒縺吶ゆｻ頑律縺・°縺後〒縺吶°・溘・/div>
+        <div class="srb-quote" id="srb-quote">「魚は週2回が目標です。今日いかがですか？」</div>
       </div>
 
-      <!-- 鬟滓攝讀懃ｴ｢ -->
+      <!-- 食材検索 -->
       <div class="food-search-wrap">
-        <span class="food-search-icon">剥</span>
-        <input type="text" class="food-search-box" id="food-search" placeholder="縺ｾ縺溘・謇句虚縺ｧ讀懃ｴ｢・井ｾ具ｼ壹Λ繝ｼ繝｡繝ｳ縲・ｮｭ縲∫私邀ｳ窶ｦ・・ autocomplete="off">
-        <button class="food-cam-btn" id="food-cam-btn" title="蜀咏悄縺ｧAI隗｣譫・>胴</button>
-        <button class="food-search-clear" id="search-clear">笨・/button>
+        <span class="food-search-icon">🔍</span>
+        <input type="text" class="food-search-box" id="food-search" placeholder="または手動で検索（例：ラーメン、鮭、玄米…）" autocomplete="off">
+        <button class="food-cam-btn" id="food-cam-btn" title="写真でAI解析">📷</button>
+        <button class="food-search-clear" id="search-clear">✕</button>
         <div class="search-results" id="search-results"></div>
       </div>
       <input type="file" id="img-capture" accept="image/*" capture="environment" style="display:none">
 
-      <!-- 縺翫☆縺吶ａ迪ｮ遶・-->
+      <!-- おすすめ献立 -->
       <div class="menu-board-section open" id="menu-board-section">
         <button class="menu-section-toggle" id="menu-toggle">
           <div class="menu-toggle-head">
-            <div class="menu-toggle-icon">鎖・・/div>
+            <div class="menu-toggle-icon">🍽️</div>
             <div>
-              <div class="menu-toggle-label">縺翫☆縺吶ａ迪ｮ遶・/div>
-              <div class="menu-toggle-sub">縺ｾ縺ｨ繧√※繝ｯ繝ｳ繧ｿ繝・・險倬鹸縺ｧ縺阪ｋ鬟滉ｺ九ヱ繧ｿ繝ｼ繝ｳ</div>
+              <div class="menu-toggle-label">おすすめ献立</div>
+              <div class="menu-toggle-sub">まとめてワンタップ記録できる食事パターン</div>
             </div>
           </div>
-          <span class="menu-toggle-arrow">笆ｶ</span>
+          <span class="menu-toggle-arrow">▶</span>
         </button>
         <div class="menu-content">
           <div class="menu-tabs" id="menu-tabs">
-            <button class="menu-tab active" data-time="morning">桁 譛晞｣・/button>
-            <button class="menu-tab" data-time="lunch">笘・・譏ｼ鬟・/button>
-            <button class="menu-tab" data-time="dinner">嫌 螟暮｣・/button>
-            <button class="menu-tab" data-time="snack">克 髢馴｣・/button>
+            <button class="menu-tab active" data-time="morning">🌅 朝食</button>
+            <button class="menu-tab" data-time="lunch">☀️ 昼食</button>
+            <button class="menu-tab" data-time="dinner">🌙 夕食</button>
+            <button class="menu-tab" data-time="snack">🍎 間食</button>
           </div>
           <div class="menu-cards" id="menu-cards"></div>
         </div>
       </div>
 
-      <!-- 繧医￥鬟溘∋繧九ｂ縺ｮ -->
+      <!-- よく食べるもの -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon icon-quick">箝・/div>
+          <div class="section-icon icon-quick">⭐</div>
           <div>
-            <div class="section-label" style="color:var(--gold2)">繧医￥鬟溘∋繧九ｂ縺ｮ</div>
-            <div class="section-note">豈取律縺ｮ螳夂分鬟滓攝 ・・縺ｾ縺壹％縺薙°繧芽ｨ倬鹸縺励ｈ縺・/div>
+            <div class="section-label" style="color:var(--gold2)">よく食べるもの</div>
+            <div class="section-note">毎日の定番食材 ｜ まずここから記録しよう</div>
           </div>
         </div>
         <div class="card-grid" id="quick-grid"></div>
-        <div class="quick-note">庁 縺斐・繧薙・蜊ｵ繝ｻ驥手除縺ｪ縺ｩ縲√＞縺､繧ゅ・鬟滉ｺ九ｒ縺昴・縺ｾ縺ｾ險倬鹸縺ｧ縺阪ｋ繧医ら音蛻･縺ｪ鬟滉ｺ九§繧・↑縺上※OK・・/div>
+        <div class="quick-note">💡 ごはん・卵・野菜など、いつもの食事をそのまま記録できるよ。特別な食事じゃなくてOK！</div>
       </div>
 
-      <!-- 螟夜｣溘・繧医￥鬟溘∋繧九ｂ縺ｮ -->
+      <!-- 外食・よく食べるもの -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon icon-resto">唆</div>
+          <div class="section-icon icon-resto">🍴</div>
           <div>
-            <div class="section-label" style="color:#8ab4e8">螟夜｣溘・繧医￥鬟溘∋繧九ｂ縺ｮ</div>
-            <div class="section-note">繝ｩ繝ｼ繝｡繝ｳ繝ｻ迚帑ｸｼ繝ｻ螳夐｣溪ｦ 螟悶〒鬟溘∋縺溘ｂ縺ｮ繧偵◎縺ｮ縺ｾ縺ｾ險倬鹸・・0蜩・ｼ・/div>
+            <div class="section-label" style="color:#8ab4e8">外食・よく食べるもの</div>
+            <div class="section-note">ラーメン・牛丼・定食… 外で食べたものをそのまま記録（50品）</div>
           </div>
         </div>
         <div class="resto-tabs" id="resto-tabs">
-          <button class="resto-tab active" data-grp="縺吶∋縺ｦ">縺吶∋縺ｦ</button>
-          <button class="resto-tab" data-grp="鮗ｺ鬘・>骨 鮗ｺ鬘・/button>
-          <button class="resto-tab" data-grp="荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ">惚 荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ</button>
-          <button class="resto-tab" data-grp="螳夐｣・>些 螳夐｣・/button>
-          <button class="resto-tab" data-grp="蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ">坤 豬ｷ魄ｮ</button>
-          <button class="resto-tab" data-grp="繝輔ぃ繧ｹ繝・>鵠 繝輔ぃ繧ｹ繝・/button>
+          <button class="resto-tab active" data-grp="すべて">すべて</button>
+          <button class="resto-tab" data-grp="麺類">🍜 麺類</button>
+          <button class="resto-tab" data-grp="丼・カレー">🍛 丼・カレー</button>
+          <button class="resto-tab" data-grp="定食">🍱 定食</button>
+          <button class="resto-tab" data-grp="寿司・海鮮">🍣 海鮮</button>
+          <button class="resto-tab" data-grp="ファスト">🍔 ファスト</button>
         </div>
         <div class="resto-grid" id="resto-grid"></div>
       </div>
 
-      <!-- 驥上・譎る俣蟶ｯ繧ｻ繝ｬ繧ｯ繧ｿ繝ｼ -->
+      <!-- 量・時間帯セレクター -->
       <div class="portion-bar">
         <div class="portion-block">
-          <div class="portion-lbl">棟 驥・/div>
+          <div class="portion-lbl">📏 量</div>
           <div class="portion-radios">
-            <label><input type="radio" name="portion" value="small"><span>蟆・/span><em>ﾃ・.6</em></label>
-            <label><input type="radio" name="portion" value="normal" checked><span>荳ｭ</span><em>ﾃ・.0</em></label>
-            <label><input type="radio" name="portion" value="large"><span>螟ｧ</span><em>ﾃ・.4</em></label>
+            <label><input type="radio" name="portion" value="small"><span>小</span><em>×0.6</em></label>
+            <label><input type="radio" name="portion" value="normal" checked><span>中</span><em>×1.0</em></label>
+            <label><input type="radio" name="portion" value="large"><span>大</span><em>×1.4</em></label>
           </div>
         </div>
         <div class="portion-block">
-          <div class="portion-lbl">竢ｰ 譎る俣</div>
+          <div class="portion-lbl">⏰ 時間</div>
           <div class="portion-radios">
-            <label><input type="radio" name="meal-time" value="morning"><span>譛・/span></label>
-            <label><input type="radio" name="meal-time" value="lunch" checked><span>譏ｼ</span></label>
-            <label><input type="radio" name="meal-time" value="dinner"><span>螟・/span></label>
-            <label><input type="radio" name="meal-time" value="snack"><span>髢馴｣・/span></label>
+            <label><input type="radio" name="meal-time" value="morning"><span>朝</span></label>
+            <label><input type="radio" name="meal-time" value="lunch" checked><span>昼</span></label>
+            <label><input type="radio" name="meal-time" value="dinner"><span>夜</span></label>
+            <label><input type="radio" name="meal-time" value="snack"><span>間食</span></label>
           </div>
         </div>
       </div>
 
-      <!-- 譬・､翫し繝槭Μ繝ｼ・医Μ繧｢繝ｫ繧ｿ繧､繝・・-->
+      <!-- 栄養サマリー（リアルタイム） -->
       <div class="nut-summary" id="nut-summary">
         <div class="ns-row">
           <div class="ns-cell"><span class="ns-num" id="ns-kcal">0</span><span class="ns-lbl">kcal</span></div>
-          <div class="ns-cell"><span class="ns-num" id="ns-prot">0</span><span class="ns-lbl">g 繧ｿ繝ｳ繝代け</span></div>
-          <div class="ns-cell"><span class="ns-num" id="ns-fib">0</span><span class="ns-lbl">g 鬟溽黄郢顔ｶｭ</span></div>
+          <div class="ns-cell"><span class="ns-num" id="ns-prot">0</span><span class="ns-lbl">g タンパク</span></div>
+          <div class="ns-cell"><span class="ns-num" id="ns-fib">0</span><span class="ns-lbl">g 食物繊維</span></div>
         </div>
         <div class="ns-bonuses" id="ns-bonuses"></div>
       </div>
 
-      <!-- 驥手除 -->
+      <!-- 野菜 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(224,92,92,.15);border:1px solid rgba(224,92,92,.35);">･ｦ</div>
+          <div class="section-icon" style="background:rgba(224,92,92,.15);border:1px solid rgba(224,92,92,.35);">🥦</div>
           <div>
-            <div class="section-label">驥手除縺ｮ鬲疲ｳ慕ｴ譚・/div>
-            <div class="section-note">1繧ｿ繝・・・・逧ｿ・・0g・会ｽ・逕溷多蜉婉P ・・逶ｮ讓・ 1譌･3逧ｿ繝ｻ騾ｱ21逧ｿ</div>
+            <div class="section-label">野菜の魔法素材</div>
+            <div class="section-note">1タップ＝1皿（80g）｜ 生命力UP ｜ 目標: 1日3皿・週21皿</div>
           </div>
         </div>
         <div class="card-grid" id="veg-grid"></div>
-        <div class="guide-note">庁 ACS謗ｨ螂ｨ・壹′繧謎ｺ磯亟縺ｫ驥手除繝ｻ譫懃黄繧呈ｯ取律2.5縲・繧ｫ繝・・・育ｴ・00縲・20g・画曹蜿・/div>
+        <div class="guide-note">💡 ACS推奨：がん予防に野菜・果物を毎日2.5〜3カップ（約600〜720g）摂取</div>
       </div>
 
-      <!-- 譫懃黄 -->
+      <!-- 果物 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(156,114,224,.15);border:1px solid rgba(156,114,224,.35);">克</div>
+          <div class="section-icon" style="background:rgba(156,114,224,.15);border:1px solid rgba(156,114,224,.35);">🍎</div>
           <div>
-            <div class="section-label">譫懃黄縺ｮ鬲疲ｳ慕ｴ譚・/div>
-            <div class="section-note">1繧ｿ繝・・・・逧ｿ・・50g・会ｽ・鬲泌鴨UP ・・逶ｮ讓・ 1譌･1.5逧ｿ繝ｻ騾ｱ10逧ｿ</div>
+            <div class="section-label">果物の魔法素材</div>
+            <div class="section-note">1タップ＝1皿（150g）｜ 魔力UP ｜ 目標: 1日1.5皿・週10皿</div>
           </div>
         </div>
         <div class="card-grid" id="fruit-grid"></div>
       </div>
 
-      <!-- 縺溘ｓ縺ｱ縺剰ｳｪ -->
+      <!-- たんぱく質 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(224,138,60,.15);border:1px solid rgba(224,138,60,.35);">澄</div>
+          <div class="section-icon" style="background:rgba(224,138,60,.15);border:1px solid rgba(224,138,60,.35);">🐟</div>
           <div>
-            <div class="section-label">謗ｨ螂ｨ縺溘ｓ縺ｱ縺剰ｳｪ邏譚・/div>
-            <div class="section-note">1繧ｿ繝・・・・鬟溷・ ・・謾ｻ謦・鴨UP ・・逶ｮ讓・ 1譌･2鬟溘・騾ｱ14鬟・/div>
+            <div class="section-label">推奨たんぱく質素材</div>
+            <div class="section-note">1タップ＝1食分 ｜ 攻撃力UP ｜ 目標: 1日2食・週14食</div>
           </div>
         </div>
         <div class="card-grid" id="protein-grid"></div>
-        <div class="guide-note">庁 ACS謗ｨ螂ｨ・夊ｵ､閧峨ｈ繧企ｭ壹・鮓剰ｉ繝ｻ螟ｧ雎・◆繧薙・縺上ｒ驕ｸ縺ｼ縺・/div>
+        <div class="guide-note">💡 ACS推奨：赤肉より魚・鶏肉・大豆たんぱくを選ぼう</div>
       </div>
 
-      <!-- 蜈ｨ邊堤ｩ迚ｩ -->
+      <!-- 全粒穀物 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.35);">言</div>
+          <div class="section-icon" style="background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.35);">🌾</div>
           <div>
-            <div class="section-label">蜈ｨ邊堤ｩ迚ｩ縺ｮ邏譚・/div>
-            <div class="section-note">1繧ｿ繝・・・・鬟溷・ ・・謖∽ｹ・鴨UP ・・逶ｮ讓・ 1譌･2鬟溘・騾ｱ14鬟・/div>
+            <div class="section-label">全粒穀物の素材</div>
+            <div class="section-note">1タップ＝1食分 ｜ 持久力UP ｜ 目標: 1日2食・週14食</div>
           </div>
         </div>
         <div class="card-grid" id="grain-grid"></div>
       </div>
 
-      <!-- 鬟ｲ縺ｿ迚ｩ -->
+      <!-- 飲み物 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(92,160,224,.1);border:1px solid rgba(92,160,224,.3);">挑</div>
+          <div class="section-icon" style="background:rgba(92,160,224,.1);border:1px solid rgba(92,160,224,.3);">💧</div>
           <div>
-            <div class="section-label">鬟ｲ縺ｿ迚ｩ</div>
-            <div class="section-note">1繧ｿ繝・・・・譚ｯ・・00ml逶ｮ螳会ｼ会ｽ・豌ｴ蛻・｣懃ｵｦ縺ｧ莉｣隰拔P</div>
+            <div class="section-label">飲み物</div>
+            <div class="section-note">1タップ＝1杯（200ml目安）｜ 水分補給で代謝UP</div>
           </div>
         </div>
         <div class="card-grid" id="drink-grid"></div>
       </div>
 
-      <!-- 蛛･蠎ｷ縺翫ｄ縺､ -->
+      <!-- 健康おやつ -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(240,180,80,.1);border:1px solid rgba(240,180,80,.3);">嵯</div>
+          <div class="section-icon" style="background:rgba(240,180,80,.1);border:1px solid rgba(240,180,80,.3);">🍵</div>
           <div>
-            <div class="section-label">蛛･蠎ｷ縺翫ｄ縺､</div>
-            <div class="section-note">蟆上＆縺・縲懈焔縺ｮ縺ｲ繧牙､ｧ ・・鄂ｪ謔ｪ諢溘ぞ繝ｭ縺ｮ髢馴｣・/div>
+            <div class="section-label">健康おやつ</div>
+            <div class="section-note">小さじ1〜手のひら大 ｜ 罪悪感ゼロの間食</div>
           </div>
         </div>
         <div class="card-grid" id="snack-grid"></div>
       </div>
 
-      <!-- 蛻ｶ髯宣｣溷刀 -->
+      <!-- 制限食品 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(96,112,160,.1);border:1px solid rgba(96,112,160,.3);">笞・・/div>
+          <div class="section-icon" style="background:rgba(96,112,160,.1);border:1px solid rgba(96,112,160,.3);">⚠️</div>
           <div>
-            <div class="section-label">蛻ｶ髯宣｣溷刀・域ｯ堤ｴ・・/div>
-            <div class="section-note">鬟溘∋縺溷ｴ蜷医ｂ險倬鹸 ・・騾ｱ縺ｫ蟆代↑縺・⊇縺ｩ濶ｯ縺・/div>
+            <div class="section-label">制限食品（毒素）</div>
+            <div class="section-note">食べた場合も記録 ｜ 週に少ないほど良い</div>
           </div>
         </div>
         <div class="card-grid" id="limit-grid"></div>
-        <div class="guide-note">笞・・ACS謗ｨ螂ｨ・夊ｵ､閧峨・蜉蟾･閧峨・繧｢繝ｫ繧ｳ繝ｼ繝ｫ繝ｻ遐らｳ夜｣ｲ譁吶・蛻ｶ髯舌ｒ</div>
+        <div class="guide-note">⚠️ ACS推奨：赤肉・加工肉・アルコール・砂糖飲料は制限を</div>
       </div>
 
     </div>
 
-    <!-- ===== 蜿ｳ・壹せ繝・・繧ｿ繧ｹ ===== -->
+    <!-- ===== 右：ステータス ===== -->
     <div class="quest-side">
 
-      <!-- 繧ｻ繝ｩ縺ｮ繧ｻ繝ｪ繝・-->
+      <!-- セラのセリフ -->
       <div style="background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.18);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;">
         <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid rgba(78,201,138,.25);background:rgba(78,201,138,.06);">
-          <img id="sera-face" src="./image/sera-sabun%20(1).png" alt="繧ｻ繝ｩ" style="width:100%;height:100%;object-fit:cover;object-position:center 16%;">
+          <img id="sera-face" src="./image/sera-sabun%20(1).png" alt="セラ" style="width:100%;height:100%;object-fit:cover;object-position:center 16%;">
         </div>
         <div>
-          <div style="font-size:.6rem;color:rgba(78,201,138,.6);font-weight:700;margin-bottom:3px;">繧ｻ繝ｩ</div>
-          <div id="sera-comment" style="font-size:.72rem;line-height:1.65;color:rgba(200,215,235,.8);">莉企ｱ縺ｮ鬟滉ｺ九ｒ險倬鹸縺励※縲・ｭ泌鴨繧定｣懷・縺励ｈ縺・ｼ・/div>
+          <div style="font-size:.6rem;color:rgba(78,201,138,.6);font-weight:700;margin-bottom:3px;">セラ</div>
+          <div id="sera-comment" style="font-size:.72rem;line-height:1.65;color:rgba(200,215,235,.8);">今週の食事を記録して、魔力を補充しよう！</div>
         </div>
       </div>
 
-      <!-- 騾ｱ繝ｻ繝ｬ繝吶Ν -->
+      <!-- 週・レベル -->
       <div class="side-panel">
         <div class="week-label" id="week-lbl"></div>
         <div class="lv-badge" id="lv-badge">
           <span>Lv</span><span class="lv-n" id="lv-n">1</span>
-          <span id="lv-name">隕狗ｿ偵＞骭ｬ驥題｡灘ｸｫ</span>
+          <span id="lv-name">見習い錬金術師</span>
         </div>
         <div class="xp-wrap"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
         <div class="xp-note">
           <span>XP: <strong id="xp-now">0</strong></span>
-          <span>谺｡Lv: <strong id="xp-next">200</strong></span>
+          <span>次Lv: <strong id="xp-next">200</strong></span>
         </div>
       </div>
 
-      <!-- 騾｣蜍輔せ繝・・繧ｿ繧ｹ -->
+      <!-- 連動ステータス -->
       <div class="linked-panel">
-        <div class="linked-head">笨ｦ 蜀帝匱蜈ｨ菴薙せ繝・・繧ｿ繧ｹ</div>
+        <div class="linked-head">✦ 冒険全体ステータス</div>
         <div class="ls-row">
-          <span class="ls-label">諺 譬・､・/span>
+          <span class="ls-label">🌿 栄養</span>
           <div class="ls-bar"><div class="ls-fill ls-fill-n" id="ls-n-fill" style="width:0%"></div></div>
           <span class="ls-val" id="ls-n-val">0%</span>
         </div>
         <div class="ls-row">
-          <span class="ls-label">笞・驕句虚</span>
+          <span class="ls-label">⚔ 運動</span>
           <div class="ls-bar"><div class="ls-fill ls-fill-q" id="ls-q-fill" style="width:0%"></div></div>
-          <span class="ls-val" id="ls-q-val">譛ｪ險倬鹸</span>
+          <span class="ls-val" id="ls-q-val">未記録</span>
         </div>
-        <!-- 鬲壹・螟ｧ雎・謗ｨ螂ｨ繧ｫ繧ｦ繝ｳ繧ｿ -->
+        <!-- 魚・大豆 推奨カウンタ -->
         <div class="recommend-row">
           <div class="recommend-card recommend-fish">
-            <span class="rc-icon">澄</span>
+            <span class="rc-icon">🐟</span>
             <div class="rc-text">
-              <div class="rc-label">鬲夲ｼ磯ｱ2蝗樊耳螂ｨ・・/div>
-              <div class="rc-value"><span id="cnt-fish">0</span><span class="rc-unit">鬟・/span></div>
+              <div class="rc-label">魚（週2回推奨）</div>
+              <div class="rc-value"><span id="cnt-fish">0</span><span class="rc-unit">食</span></div>
             </div>
           </div>
           <div class="recommend-card recommend-soy">
-            <span class="rc-icon">験</span>
+            <span class="rc-icon">🌱</span>
             <div class="rc-text">
-              <div class="rc-label">螟ｧ雎・｣ｽ蜩・/div>
-              <div class="rc-value"><span id="cnt-soy">0</span><span class="rc-unit">鬟・/span></div>
+              <div class="rc-label">大豆製品</div>
+              <div class="rc-value"><span id="cnt-soy">0</span><span class="rc-unit">食</span></div>
             </div>
           </div>
         </div>
-        <a href="./quest.html" class="ls-link">驕句虚繧ｯ繧ｨ繧ｹ繝医∈ 竊・/a>
+        <a href="./quest.html" class="ls-link">運動クエストへ →</a>
       </div>
 
-      <!-- 驕句虚驥上↓蠢懊§縺滄｣滉ｺ狗岼螳・-->
+      <!-- 運動量に応じた食事目安 -->
       <div class="side-panel" id="kcal-balance-panel" style="border:1px solid rgba(125,216,232,.22);">
-        <div class="panel-head" style="color:#9ee0ee;">笞・驕句虚驥上↓蠢懊§縺滄｣滉ｺ狗岼螳・/div>
+        <div class="panel-head" style="color:#9ee0ee;">⚖ 運動量に応じた食事目安</div>
         <div id="kcal-balance-body" style="font-size:.72rem;line-height:1.75;color:rgba(200,215,235,.85);padding:4px 2px 0;">
-          <div id="kb-out">菴馴㍾繧貞・髯ｺ繝励Ο繝輔ぅ繝ｼ繝ｫ縺ｫ逋ｻ骭ｲ縺吶ｋ縺ｨ縲∫岼螳峨′蜃ｺ縺ｾ縺吶・/div>
+          <div id="kb-out">体重を冒険プロフィールに登録すると、目安が出ます。</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;font-size:.62rem;">
             <div style="background:rgba(125,216,232,.08);border-radius:8px;padding:7px 8px;line-height:1.6;">
-              <div style="color:#9ee0ee;font-weight:700;">垳 霆ｽ縺・律</div>
-              <div style="color:rgba(30,80,110,.7);">荳ｻ鬟溘・縺､縺・ｼ矩㍽闖懷､壹ａ</div>
+              <div style="color:#9ee0ee;font-weight:700;">🚶 軽い日</div>
+              <div style="color:rgba(30,80,110,.7);">主食ふつう＋野菜多め</div>
             </div>
             <div style="background:rgba(232,198,104,.08);border-radius:8px;padding:7px 8px;line-height:1.6;">
-              <div style="color:#ffe28a;font-weight:700;">純 蜍輔＞縺滓律</div>
-              <div style="color:rgba(30,80,110,.7);">荳ｻ鬟滂ｼ九◆繧薙・縺剰ｳｪ繧ょ､壹ａ縺ｫ</div>
+              <div style="color:#ffe28a;font-weight:700;">🏃 動いた日</div>
+              <div style="color:rgba(30,80,110,.7);">主食＋たんぱく質も多めに</div>
             </div>
           </div>
           <div style="font-size:.55rem;color:rgba(30,80,110,.7);margin-top:10px;line-height:1.7;">
-            窶ｻ 謌第・縺ｧ縺ｯ縺ｪ縺上悟虚縺・◆蛻・・鬟溘∋縺ｦ縺・＞縲阪′蝓ｺ譛ｬ縲ょ・蜈ｸ: <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.6);">蜴壼感逵｀ETs陦ｨ</a> / <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">繝繝弱Φ</a>
+            ※ 我慢ではなく「動いた分は食べていい」が基本。出典: <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.6);">厚労省METs表</a> / <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">ダノン</a>
           </div>
         </div>
       </div>
@@ -1691,19 +1689,19 @@ setTimeout(function(){
           const prof=rd('vitalia_profile_v1');
           const wt=prof&&prof.weight?parseFloat(prof.weight):null;
           if(!wt||!isFinite(wt)||wt<=0){
-            out.innerHTML='菴馴㍾繧・a href="./baseline.html" style="color:#9ee0ee;">蜀帝匱繝励Ο繝輔ぅ繝ｼ繝ｫ</a>縺ｫ逋ｻ骭ｲ縺吶ｋ縺ｨ縲∫岼螳峨′蜃ｺ縺ｾ縺吶・;
+            out.innerHTML='体重を<a href="./baseline.html" style="color:#9ee0ee;">冒険プロフィール</a>に登録すると、目安が出ます。';
             return;
           }
           const baseBMR = Math.round(22 * wt);
           const lightTDEE = Math.round(baseBMR * 1.4);
           const activeTDEE = Math.round(baseBMR * 1.7);
           out.innerHTML=`
-            <div style="margin-bottom:6px;">縺ゅ↑縺滂ｼ・{wt}kg・峨・1譌･縺ｮ逶ｮ螳会ｼ・/div>
+            <div style="margin-bottom:6px;">あなた（${wt}kg）の1日の目安：</div>
             <div style="display:flex;justify-content:space-between;padding:3px 0;">
-              <span>垳 霆ｽ縺・律・亥惠螳・ｸｭ蠢・ｼ・/span><strong style="color:#9ee0ee;">邏・${lightTDEE} kcal</strong>
+              <span>🚶 軽い日（在宅中心）</span><strong style="color:#9ee0ee;">約 ${lightTDEE} kcal</strong>
             </div>
             <div style="display:flex;justify-content:space-between;padding:3px 0;">
-              <span>純 蜍輔＞縺滓律・磯°蜍輔≠繧奇ｼ・/span><strong style="color:#ffe28a;">邏・${activeTDEE} kcal</strong>
+              <span>🏃 動いた日（運動あり）</span><strong style="color:#ffe28a;">約 ${activeTDEE} kcal</strong>
             </div>`;
         }
         update();
@@ -1711,99 +1709,99 @@ setTimeout(function(){
       })();
       </script>
 
-      <!-- 繧ｹ繝医Μ繝ｼ繧ｯ -->
+      <!-- ストリーク -->
       <div class="side-panel">
-        <div class="panel-head">諺 騾｣邯夊ｨ倬鹸</div>
+        <div class="panel-head">🌿 連続記録</div>
         <div class="streak-row">
-          <div class="streak-fire">諺</div>
+          <div class="streak-fire">🌿</div>
           <div class="streak-info">
-            <div class="streak-num"><span id="streak-n">0</span><span class="streak-unit">騾ｱ騾｣邯・/span></div>
-            <div class="streak-sub" id="streak-sub">縺ｾ縺・騾ｱ逶ｮ縺九ｉ・・/div>
+            <div class="streak-num"><span id="streak-n">0</span><span class="streak-unit">週連続</span></div>
+            <div class="streak-sub" id="streak-sub">まず1週目から！</div>
           </div>
           <div class="streak-best" id="streak-best"></div>
         </div>
       </div>
 
-      <!-- 螳溽ｸｾ -->
+      <!-- 実績 -->
       <div class="side-panel">
-        <div class="panel-head">醇 螳溽ｸｾ</div>
+        <div class="panel-head">🏆 実績</div>
         <div class="ach-grid" id="ach-grid"></div>
       </div>
 
-      <!-- 鬲泌鴨繧ｹ繝・・繧ｿ繧ｹ -->
+      <!-- 魔力ステータス -->
       <div class="side-panel">
-        <div class="panel-head">笞暦ｸ・莉企ｱ縺ｮ鬲泌鴨繧ｹ繝・・繧ｿ繧ｹ</div>
+        <div class="panel-head">⚗️ 今週の魔力ステータス</div>
         <div class="stats-grid">
           <div class="stat-bar-card sbc-hp">
             <div class="sbc-label">
-              <span class="sbc-name">笶､・・逕溷多蜉・/span>
+              <span class="sbc-name">❤️ 生命力</span>
               <span class="sbc-val" id="veg-count">0</span>
             </div>
             <div class="stat-bar-wrap"><div class="stat-bar-fill" id="veg-bar" style="width:0%"></div></div>
-            <div class="sbc-target">驥手除 逶ｮ讓・1逧ｿ/騾ｱ</div>
+            <div class="sbc-target">野菜 目標21皿/週</div>
           </div>
           <div class="stat-bar-card sbc-mp">
             <div class="sbc-label">
-              <span class="sbc-name">凋 鬲泌鴨</span>
+              <span class="sbc-name">💜 魔力</span>
               <span class="sbc-val" id="fruit-count">0</span>
             </div>
             <div class="stat-bar-wrap"><div class="stat-bar-fill" id="fruit-bar" style="width:0%"></div></div>
-            <div class="sbc-target">譫懃黄 逶ｮ讓・0逧ｿ/騾ｱ</div>
+            <div class="sbc-target">果物 目標10皿/週</div>
           </div>
           <div class="stat-bar-card sbc-atk">
             <div class="sbc-label">
-              <span class="sbc-name">櫨 謾ｻ謦・鴨</span>
+              <span class="sbc-name">🔥 攻撃力</span>
               <span class="sbc-val" id="protein-count">0</span>
             </div>
             <div class="stat-bar-wrap"><div class="stat-bar-fill" id="protein-bar" style="width:0%"></div></div>
-            <div class="sbc-target">縺溘ｓ縺ｱ縺剰ｳｪ 逶ｮ讓・4鬟・騾ｱ</div>
+            <div class="sbc-target">たんぱく質 目標14食/週</div>
           </div>
           <div class="stat-bar-card sbc-def">
             <div class="sbc-label">
-              <span class="sbc-name">孱・・謖∽ｹ・鴨</span>
+              <span class="sbc-name">🛡️ 持久力</span>
               <span class="sbc-val" id="grain-count">0</span>
             </div>
             <div class="stat-bar-wrap"><div class="stat-bar-fill" id="grain-bar" style="width:0%"></div></div>
-            <div class="sbc-target">蜈ｨ邊堤ｩ迚ｩ 逶ｮ讓・4鬟・騾ｱ</div>
+            <div class="sbc-target">全粒穀物 目標14食/週</div>
           </div>
         </div>
         <div class="debuff-block">
           <div class="debuff-row">
-            <span class="debuff-label">笘・・豈堤ｴ・亥宛髯宣｣溷刀・・/span>
-            <span class="debuff-count" id="limit-count">0 鬟・/span>
+            <span class="debuff-label">☠️ 毒素（制限食品）</span>
+            <span class="debuff-count" id="limit-count">0 食</span>
           </div>
-          <div class="debuff-note">騾ｱ7鬟滉ｻ･荳九′謗ｨ螂ｨ逶ｮ讓・/div>
+          <div class="debuff-note">週7食以下が推奨目標</div>
         </div>
       </div>
 
-      <!-- 莉企ｱ縺ｮ險倬鹸 -->
+      <!-- 今週の記録 -->
       <div class="side-panel">
-        <div class="panel-head">糖 莉企ｱ縺ｮ鬟滉ｺ玖ｨ倬鹸</div>
+        <div class="panel-head">📜 今週の食事記録</div>
         <ul id="log-list"></ul>
       </div>
 
-      <!-- 閾ｪ逕ｱ險倩ｿｰ -->
+      <!-- 自由記述 -->
       <div style="background:rgba(255,255,255,.03);border:1px solid rgba(78,201,138,.12);border-radius:12px;padding:14px 16px;margin-top:10px;">
-        <div style="font-size:.68rem;color:rgba(78,201,138,.7);font-weight:700;letter-spacing:.08em;margin-bottom:8px;">統 莉企ｱ縺ｮ鬟滉ｺ九Γ繝｢・井ｻｻ諢上・遐皮ｩｶ繝・・繧ｿ縺ｨ縺励※豢ｻ逕ｨ・・/div>
-        <textarea id="week-memo" rows="3" placeholder="萓具ｼ壼､夜｣溘′螟壹°縺｣縺溘′驥手除繧呈э隴倥＠縺ｦ驕ｸ繧薙□" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(78,201,138,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
+        <div style="font-size:.68rem;color:rgba(78,201,138,.7);font-weight:700;letter-spacing:.08em;margin-bottom:8px;">📝 今週の食事メモ（任意・研究データとして活用）</div>
+        <textarea id="week-memo" rows="3" placeholder="例：外食が多かったが野菜を意識して選んだ" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(78,201,138,.18);border-radius:8px;padding:9px 12px;color:rgba(212,220,240,.85);font-family:inherit;font-size:.78rem;resize:vertical;outline:none;line-height:1.6;"></textarea>
       </div>
 
-      <!-- 菫晏ｭ・-->
+      <!-- 保存 -->
       <div>
-        <button class="btn-save" id="save-btn">笨ｦ 莉企ｱ縺ｮ險倬鹸繧剃ｿ晏ｭ倥☆繧・笨ｦ</button>
-        <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">竊ｺ 莉企ｱ縺ｮ蜈･蜉帙ｒ繝ｪ繧ｻ繝・ヨ</button>
+        <button class="btn-save" id="save-btn">✦ 今週の記録を保存する ✦</button>
+        <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">↺ 今週の入力をリセット</button>
         <div class="save-msg" id="save-msg"></div>
       </div>
 
-      <!-- 驕主悉險倬鹸 -->
+      <!-- 過去記録 -->
       <div class="side-panel">
-        <div class="panel-head">套 驕主悉縺ｮ險倬鹸</div>
+        <div class="panel-head">📅 過去の記録</div>
         <div class="history-list" id="hist-list"></div>
       </div>
 
-      <!-- 譛域ｬ｡繧ｵ繝槭Μ繝ｼ -->
+      <!-- 月次サマリー -->
       <div class="side-panel" id="monthly-panel" style="display:none;">
-        <div class="panel-head">投 譛域ｬ｡繧ｵ繝槭Μ繝ｼ</div>
+        <div class="panel-head">📊 月次サマリー</div>
         <div id="monthly-list" style="display:flex;flex-direction:column;gap:8px;"></div>
       </div>
 
@@ -1811,27 +1809,27 @@ setTimeout(function(){
   </div>
 </div>
 
-<!-- 繝ｬ繝吶Ν繧｢繝・・繝医・繧ｹ繝・-->
+<!-- レベルアップトースト -->
 <div id="lv-toast">
-  <div class="lt-head">笨ｦ LEVEL UP 笨ｦ</div>
+  <div class="lt-head">✦ LEVEL UP ✦</div>
   <div class="lt-body" id="lt-body"></div>
 </div>
 
-<!-- 螳溽ｸｾ繧ｹ繝ｩ繧､繝峨う繝ｳ騾夂衍 -->
+<!-- 実績スライドイン通知 -->
 <div id="ach-notify">
-  <div class="an-icon" id="an-icon">遵</div>
+  <div class="an-icon" id="an-icon">🏅</div>
   <div class="an-body">
-    <div class="an-label">笨ｦ 螳溽ｸｾ隗｣髯､</div>
+    <div class="an-label">✦ 実績解除</div>
     <div class="an-name" id="an-name"></div>
     <div class="an-cond" id="an-cond"></div>
   </div>
 </div>
-<!-- 菫晏ｭ倥ヨ繝ｼ繧ｹ繝・-->
+<!-- 保存トースト -->
 <div id="save-toast">
-  <span class="st-icon">笨・/span><span class="st-text" id="st-text">險倬鹸繧剃ｿ晏ｭ倥＠縺ｾ縺励◆</span>
+  <span class="st-icon">✅</span><span class="st-text" id="st-text">記録を保存しました</span>
 </div>
-<!-- 逶ｮ讓咎＃謌舌ヰ繝翫・ -->
-<div id="goal-banner">諺 莉企ｱ縺ｮ譬・､翫せ繧ｳ繧｢逶ｮ讓咎＃謌撰ｼ・ｭ泌鴨縺梧ｺ縺｡縺・笨ｦ 縺翫ａ縺ｧ縺ｨ縺・ｼ・/div>
+<!-- 目標達成バナー -->
+<div id="goal-banner">🌿 今週の栄養スコア目標達成！魔力が満ちた ✦ おめでとう！</div>
 
 
 <script type="module">
@@ -1853,289 +1851,289 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-// ===== 鬟滓攝繝・・繧ｿ =====
-// 鬟溷刀DB・嗾ags = ['anti-ox'(謚鈴・蛹・, 'anti-inf'(謚礼ｎ逞・, 'immune'(蜈咲稔蜉婉P), 'omega3', 'fiber', 'fermented']
+// ===== 食材データ =====
+// 食品DB：tags = ['anti-ox'(抗酸化), 'anti-inf'(抗炎症), 'immune'(免疫力UP), 'omega3', 'fiber', 'fermented']
 const FOODS = {
   veg:[
-    {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',xp:15,kcal:15,prot:2.0,fib:2.5,tags:['anti-ox','immune']},
-    {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',xp:18,kcal:30,prot:4.0,fib:4.0,tags:['anti-ox','anti-inf','immune']},
-    {name:'縺ｫ繧薙§繧・,icon:'･・,xp:12,kcal:35,prot:0.6,fib:2.5,tags:['anti-ox','immune']},
-    {name:'繝医・繝・,icon:'劫',xp:12,kcal:20,prot:0.7,fib:1.0,tags:['anti-ox','anti-inf']},
-    {name:'繧ｭ繝｣繝吶ヤ',icon:'･・,xp:10,kcal:15,prot:1.0,fib:1.8,tags:['anti-inf']},
-    {name:'縺溘∪縺ｭ縺・,icon:'ｧ・,xp:10,kcal:30,prot:1.0,fib:1.5,tags:['anti-inf']},
-    {name:'縺ｪ縺・,icon:'号',xp:10,kcal:18,prot:0.8,fib:2.2,tags:['anti-ox']},
-    {name:'繝斐・繝槭Φ',icon:'ｫ・,xp:12,kcal:18,prot:0.8,fib:2.3,tags:['anti-ox','immune']},
-    {name:'縺阪・縺馴｡・,icon:'剛',xp:14,kcal:18,prot:2.5,fib:3.5,tags:['immune','fiber']},
-    {name:'縺九⊂縺｡繧・,icon:'祉',xp:15,kcal:60,prot:1.5,fib:3.0,tags:['anti-ox','immune']},
-    {name:'縺縺・％繧・,icon:'ｫ・,xp:8,kcal:15,prot:0.5,fib:1.4,tags:['anti-inf']},
-    {name:'蟆乗收闖・,icon:'･ｬ',xp:15,kcal:14,prot:1.5,fib:1.9,tags:['anti-ox','immune']},
-    {name:'繧ゅｄ縺・,icon:'験',xp:7,kcal:14,prot:1.7,fib:1.3,tags:[]},
-    {name:'繧後ｓ縺薙ｓ',icon:'迫',xp:12,kcal:60,prot:2.0,fib:2.0,tags:['anti-inf']},
-    {name:'縺斐⊂縺・,icon:'･ｬ',xp:14,kcal:55,prot:1.8,fib:5.7,tags:['fiber','anti-ox']},
-    {name:'繧｢繧ｹ繝代Λ',icon:'諺',xp:13,kcal:20,prot:2.5,fib:1.8,tags:['anti-ox']},
-    {name:'逋ｽ闖・,icon:'･ｬ',xp:9,kcal:14,prot:0.8,fib:1.3,tags:[]},
-    {name:'繝ｬ繧ｿ繧ｹ',icon:'･ｬ',xp:8,kcal:12,prot:0.6,fib:1.1,tags:[]},
-    // 豬ｷ阯ｻ繝ｻ縺阪・縺馴｡橸ｼ郁ｿｽ蜉・・
-    {name:'繧上°繧・,icon:'穴',xp:14,kcal:16,prot:1.9,fib:3.6,note:'豬ｷ阯ｻ',tags:['fiber','immune']},
-    {name:'縺ｲ縺倥″',icon:'穴',xp:16,kcal:11,prot:1.0,fib:6.5,note:'豬ｷ阯ｻ',tags:['fiber','immune']},
-    {name:'繧ゅ★縺・,icon:'穴',xp:14,kcal:6,prot:0.2,fib:1.4,note:'豬ｷ阯ｻ',tags:['fiber']},
-    {name:'譏・ｸ・,icon:'穴',xp:13,kcal:12,prot:1.5,fib:3.5,note:'豬ｷ阯ｻ',tags:['fiber','immune']},
-    {name:'縺医・縺・,icon:'剛',xp:12,kcal:22,prot:2.7,fib:3.9,tags:['immune','fiber']},
-    {name:'縺励ａ縺・,icon:'剛',xp:13,kcal:18,prot:2.7,fib:3.0,tags:['immune','fiber']},
-    {name:'縺ｾ縺・◆縺・,icon:'剛',xp:14,kcal:15,prot:2.0,fib:3.5,tags:['immune','fiber']},
+    {name:'ほうれん草',icon:'🥬',xp:15,kcal:15,prot:2.0,fib:2.5,tags:['anti-ox','immune']},
+    {name:'ブロッコリー',icon:'🥦',xp:18,kcal:30,prot:4.0,fib:4.0,tags:['anti-ox','anti-inf','immune']},
+    {name:'にんじん',icon:'🥕',xp:12,kcal:35,prot:0.6,fib:2.5,tags:['anti-ox','immune']},
+    {name:'トマト',icon:'🍅',xp:12,kcal:20,prot:0.7,fib:1.0,tags:['anti-ox','anti-inf']},
+    {name:'キャベツ',icon:'🥗',xp:10,kcal:15,prot:1.0,fib:1.8,tags:['anti-inf']},
+    {name:'たまねぎ',icon:'🧅',xp:10,kcal:30,prot:1.0,fib:1.5,tags:['anti-inf']},
+    {name:'なす',icon:'🍆',xp:10,kcal:18,prot:0.8,fib:2.2,tags:['anti-ox']},
+    {name:'ピーマン',icon:'🫑',xp:12,kcal:18,prot:0.8,fib:2.3,tags:['anti-ox','immune']},
+    {name:'きのこ類',icon:'🍄',xp:14,kcal:18,prot:2.5,fib:3.5,tags:['immune','fiber']},
+    {name:'かぼちゃ',icon:'🎃',xp:15,kcal:60,prot:1.5,fib:3.0,tags:['anti-ox','immune']},
+    {name:'だいこん',icon:'🫚',xp:8,kcal:15,prot:0.5,fib:1.4,tags:['anti-inf']},
+    {name:'小松菜',icon:'🥬',xp:15,kcal:14,prot:1.5,fib:1.9,tags:['anti-ox','immune']},
+    {name:'もやし',icon:'🌱',xp:7,kcal:14,prot:1.7,fib:1.3,tags:[]},
+    {name:'れんこん',icon:'🔗',xp:12,kcal:60,prot:2.0,fib:2.0,tags:['anti-inf']},
+    {name:'ごぼう',icon:'🥬',xp:14,kcal:55,prot:1.8,fib:5.7,tags:['fiber','anti-ox']},
+    {name:'アスパラ',icon:'🌿',xp:13,kcal:20,prot:2.5,fib:1.8,tags:['anti-ox']},
+    {name:'白菜',icon:'🥬',xp:9,kcal:14,prot:0.8,fib:1.3,tags:[]},
+    {name:'レタス',icon:'🥬',xp:8,kcal:12,prot:0.6,fib:1.1,tags:[]},
+    // 海藻・きのこ類（追加）
+    {name:'わかめ',icon:'🌊',xp:14,kcal:16,prot:1.9,fib:3.6,note:'海藻',tags:['fiber','immune']},
+    {name:'ひじき',icon:'🌊',xp:16,kcal:11,prot:1.0,fib:6.5,note:'海藻',tags:['fiber','immune']},
+    {name:'もずく',icon:'🌊',xp:14,kcal:6,prot:0.2,fib:1.4,note:'海藻',tags:['fiber']},
+    {name:'昆布',icon:'🌊',xp:13,kcal:12,prot:1.5,fib:3.5,note:'海藻',tags:['fiber','immune']},
+    {name:'えのき',icon:'🍄',xp:12,kcal:22,prot:2.7,fib:3.9,tags:['immune','fiber']},
+    {name:'しめじ',icon:'🍄',xp:13,kcal:18,prot:2.7,fib:3.0,tags:['immune','fiber']},
+    {name:'まいたけ',icon:'🍄',xp:14,kcal:15,prot:2.0,fib:3.5,tags:['immune','fiber']},
   ],
   fruit:[
-    {name:'繧翫ｓ縺・,icon:'克',xp:12,kcal:54,prot:0.2,fib:1.5,tags:['anti-ox','fiber']},
-    {name:'縺ｿ縺九ｓ',icon:'濠',xp:12,kcal:46,prot:0.7,fib:1.0,tags:['anti-ox','immune']},
-    {name:'繝舌リ繝・,icon:'轟',xp:10,kcal:86,prot:1.1,fib:1.1,tags:[]},
-    {name:'縺・■縺・,icon:'酷',xp:14,kcal:34,prot:0.9,fib:1.4,tags:['anti-ox','immune']},
-    {name:'繝悶Ν繝ｼ繝吶Μ繝ｼ',icon:'ｫ・,xp:16,kcal:49,prot:0.5,fib:3.3,tags:['anti-ox','anti-inf'],note:'謚鈴・蛹鋒o.1'},
-    {name:'縺ｶ縺ｩ縺・,icon:'合',xp:12,kcal:59,prot:0.4,fib:0.5,tags:['anti-ox']},
-    {name:'繧ｭ繧ｦ繧､',icon:'･・,xp:14,kcal:53,prot:1.0,fib:2.5,tags:['anti-ox','immune']},
-    {name:'繧ｹ繧､繧ｫ',icon:'拷',xp:10,kcal:37,prot:0.6,fib:0.3,tags:['anti-ox']},
-    {name:'譴ｨ',icon:'告',xp:11,kcal:43,prot:0.3,fib:0.9,tags:[]},
-    {name:'譟ｿ',icon:'国',xp:13,kcal:60,prot:0.4,fib:1.6,tags:['anti-ox']},
-    {name:'譯・,icon:'国',xp:12,kcal:40,prot:0.6,fib:1.3,tags:[]},
-    {name:'繧ｰ繝ｬ繝ｼ繝励ヵ繝ｫ繝ｼ繝・,icon:'濠',xp:13,kcal:38,prot:0.9,fib:0.6,tags:['anti-ox','immune']},
+    {name:'りんご',icon:'🍎',xp:12,kcal:54,prot:0.2,fib:1.5,tags:['anti-ox','fiber']},
+    {name:'みかん',icon:'🍊',xp:12,kcal:46,prot:0.7,fib:1.0,tags:['anti-ox','immune']},
+    {name:'バナナ',icon:'🍌',xp:10,kcal:86,prot:1.1,fib:1.1,tags:[]},
+    {name:'いちご',icon:'🍓',xp:14,kcal:34,prot:0.9,fib:1.4,tags:['anti-ox','immune']},
+    {name:'ブルーベリー',icon:'🫐',xp:16,kcal:49,prot:0.5,fib:3.3,tags:['anti-ox','anti-inf'],note:'抗酸化No.1'},
+    {name:'ぶどう',icon:'🍇',xp:12,kcal:59,prot:0.4,fib:0.5,tags:['anti-ox']},
+    {name:'キウイ',icon:'🥝',xp:14,kcal:53,prot:1.0,fib:2.5,tags:['anti-ox','immune']},
+    {name:'スイカ',icon:'🍉',xp:10,kcal:37,prot:0.6,fib:0.3,tags:['anti-ox']},
+    {name:'梨',icon:'🍐',xp:11,kcal:43,prot:0.3,fib:0.9,tags:[]},
+    {name:'柿',icon:'🍑',xp:13,kcal:60,prot:0.4,fib:1.6,tags:['anti-ox']},
+    {name:'桃',icon:'🍑',xp:12,kcal:40,prot:0.6,fib:1.3,tags:[]},
+    {name:'グレープフルーツ',icon:'🍊',xp:13,kcal:38,prot:0.9,fib:0.6,tags:['anti-ox','immune']},
   ],
   protein:[
-    // 験 螟ｧ雎・｣ｽ蜩・ｼ磯ｫ蝋P繝ｻ謗ｨ螂ｨ・・
-    {name:'雎・・',icon:'ｫ・,xp:22,subtype:'soy',kcal:72,prot:6.6,fib:0.4,tags:['anti-inf','immune']},
-    {name:'邏崎ｱ・,icon:'ｫ・,xp:22,subtype:'soy',kcal:200,prot:16.5,fib:6.7,tags:['fermented','anti-inf','immune']},
-    {name:'雎・ｹｳ',icon:'･・,xp:18,subtype:'soy',kcal:46,prot:3.6,fib:0.2,note:'鬟ｲ縺ｿ迚ｩ',tags:['anti-inf']},
-    {name:'譫晁ｱ・,icon:'ｫ・,xp:18,subtype:'soy',kcal:135,prot:11.7,fib:5.0,tags:['anti-inf','fiber']},
-    {name:'蜴壽恕縺・,icon:'洵',xp:20,subtype:'soy',kcal:150,prot:10.7,fib:0.7,tags:['anti-inf']},
-    // 澄 鬲壻ｻ矩｡橸ｼ域怙鬮蝋P繝ｻ譛蜆ｪ蜈茨ｼ・
-    {name:'縺輔￠',icon:'澄',xp:25,subtype:'fish',kcal:140,prot:22.0,fib:0,tags:['omega3','anti-inf'],note:'EPA繝ｻDHA繝ｻ繧｢繧ｹ繧ｿ繧ｭ繧ｵ繝ｳ繝√Φ'},
-    {name:'縺輔・',icon:'澄',xp:25,subtype:'fish',kcal:200,prot:21.0,fib:0,note:'EPA繝ｻDHA雎雁ｯ・,tags:['omega3','anti-inf']},
-    {name:'縺ｾ縺舌ｍ',icon:'摺',xp:24,subtype:'fish',kcal:125,prot:26.0,fib:0,tags:['omega3','anti-inf']},
-    {name:'縺・ｏ縺・,icon:'澄',xp:25,subtype:'fish',kcal:170,prot:19.0,fib:0,note:'EPA雎雁ｯ・,tags:['omega3','anti-inf']},
-    {name:'縺ゅ§',icon:'澄',xp:24,subtype:'fish',kcal:120,prot:19.0,fib:0,tags:['omega3','anti-inf']},
-    {name:'縺ｶ繧・,icon:'澄',xp:23,subtype:'fish',kcal:255,prot:21.4,fib:0,tags:['omega3','anti-inf']},
-    {name:'縺医・',icon:'ｦ・,xp:18,subtype:'fish',kcal:80,prot:18.0,fib:0,tags:['anti-ox']},
-    {name:'縺溘％',icon:'杉',xp:18,subtype:'fish',kcal:75,prot:16.0,fib:0,tags:[]},
-    {name:'縺・°',icon:'ｦ・,xp:17,subtype:'fish',kcal:80,prot:18.0,fib:0,tags:[]},
-    // 縺昴・莉悶◆繧薙・縺剰ｳｪ
-    {name:'鮓上・縺ｭ閧・,icon:'漉',xp:15,kcal:108,prot:22.0,fib:0,tags:[]},
-    {name:'鮓上ｂ繧りｉ',icon:'漉',xp:13,kcal:200,prot:17.0,fib:0,tags:[]},
-    {name:'縺輔＆縺ｿ',icon:'漉',xp:16,kcal:105,prot:23.0,fib:0,tags:[]},
-    {name:'繧・〒蜊ｵ',icon:'･・,xp:12,kcal:80,prot:6.5,fib:0,tags:[]},
-    {name:'繝ｨ繝ｼ繧ｰ繝ｫ繝・,icon:'･・,xp:10,kcal:60,prot:3.6,fib:0,tags:['fermented','immune']},
-    {name:'繝√・繧ｺ',icon:'ｧ',xp:10,kcal:80,prot:5.5,fib:0,tags:['fermented']},
-    {name:'迚帑ｹｳ',icon:'･・,xp:9,kcal:67,prot:3.3,fib:0,note:'鬟ｲ縺ｿ迚ｩ',tags:[]},
+    // 🌱 大豆製品（高XP・推奨）
+    {name:'豆腐',icon:'🫘',xp:22,subtype:'soy',kcal:72,prot:6.6,fib:0.4,tags:['anti-inf','immune']},
+    {name:'納豆',icon:'🫘',xp:22,subtype:'soy',kcal:200,prot:16.5,fib:6.7,tags:['fermented','anti-inf','immune']},
+    {name:'豆乳',icon:'🥛',xp:18,subtype:'soy',kcal:46,prot:3.6,fib:0.2,note:'飲み物',tags:['anti-inf']},
+    {name:'枝豆',icon:'🫘',xp:18,subtype:'soy',kcal:135,prot:11.7,fib:5.0,tags:['anti-inf','fiber']},
+    {name:'厚揚げ',icon:'🟫',xp:20,subtype:'soy',kcal:150,prot:10.7,fib:0.7,tags:['anti-inf']},
+    // 🐟 魚介類（最高XP・最優先）
+    {name:'さけ',icon:'🐟',xp:25,subtype:'fish',kcal:140,prot:22.0,fib:0,tags:['omega3','anti-inf'],note:'EPA・DHA・アスタキサンチン'},
+    {name:'さば',icon:'🐟',xp:25,subtype:'fish',kcal:200,prot:21.0,fib:0,note:'EPA・DHA豊富',tags:['omega3','anti-inf']},
+    {name:'まぐろ',icon:'🐠',xp:24,subtype:'fish',kcal:125,prot:26.0,fib:0,tags:['omega3','anti-inf']},
+    {name:'いわし',icon:'🐟',xp:25,subtype:'fish',kcal:170,prot:19.0,fib:0,note:'EPA豊富',tags:['omega3','anti-inf']},
+    {name:'あじ',icon:'🐟',xp:24,subtype:'fish',kcal:120,prot:19.0,fib:0,tags:['omega3','anti-inf']},
+    {name:'ぶり',icon:'🐟',xp:23,subtype:'fish',kcal:255,prot:21.4,fib:0,tags:['omega3','anti-inf']},
+    {name:'えび',icon:'🦐',xp:18,subtype:'fish',kcal:80,prot:18.0,fib:0,tags:['anti-ox']},
+    {name:'たこ',icon:'🐙',xp:18,subtype:'fish',kcal:75,prot:16.0,fib:0,tags:[]},
+    {name:'いか',icon:'🦑',xp:17,subtype:'fish',kcal:80,prot:18.0,fib:0,tags:[]},
+    // その他たんぱく質
+    {name:'鶏むね肉',icon:'🍗',xp:15,kcal:108,prot:22.0,fib:0,tags:[]},
+    {name:'鶏もも肉',icon:'🍗',xp:13,kcal:200,prot:17.0,fib:0,tags:[]},
+    {name:'ささみ',icon:'🍗',xp:16,kcal:105,prot:23.0,fib:0,tags:[]},
+    {name:'ゆで卵',icon:'🥚',xp:12,kcal:80,prot:6.5,fib:0,tags:[]},
+    {name:'ヨーグルト',icon:'🥛',xp:10,kcal:60,prot:3.6,fib:0,tags:['fermented','immune']},
+    {name:'チーズ',icon:'🧀',xp:10,kcal:80,prot:5.5,fib:0,tags:['fermented']},
+    {name:'牛乳',icon:'🥛',xp:9,kcal:67,prot:3.3,fib:0,note:'飲み物',tags:[]},
   ],
   grain:[
-    {name:'邇・ｱｳ縺秘｣ｯ',icon:'忽',xp:15,kcal:165,prot:2.8,fib:1.4},
-    {name:'逋ｽ邀ｳ縺秘｣ｯ',icon:'忽',xp:6,kcal:170,prot:2.5,fib:0.3,note:'鬟溽黄郢顔ｶｭ蟆代↑繧・},
-    {name:'髮醍ｩ邀ｳ',icon:'忽',xp:16,kcal:170,prot:3.5,fib:2.0},
-    {name:'繧ゅ■鮗ｦ縺秘｣ｯ',icon:'言',xp:17,kcal:155,prot:2.8,fib:3.5,note:'ﾎｲ繧ｰ繝ｫ繧ｫ繝ｳ雎雁ｯ・},
-    {name:'蜈ｨ邊堤ｲ峨ヱ繝ｳ',icon:'込',xp:14,kcal:200,prot:7.5,fib:5.5},
-    {name:'繧ｪ繝ｼ繝医Α繝ｼ繝ｫ',icon:'言',xp:16,kcal:160,prot:5.5,fib:4.5,note:'ﾎｲ繧ｰ繝ｫ繧ｫ繝ｳ'},
-    {name:'縺昴・',icon:'骨',xp:12,kcal:295,prot:9.6,fib:2.0},
-    {name:'蜈ｨ邊堤ｲ峨ヱ繧ｹ繧ｿ',icon:'狛',xp:13,kcal:330,prot:11.5,fib:6.0},
-    {name:'縺輔▽縺ｾ縺・ｂ',icon:'頃',xp:13,kcal:130,prot:1.2,fib:2.3},
+    {name:'玄米ご飯',icon:'🍚',xp:15,kcal:165,prot:2.8,fib:1.4},
+    {name:'白米ご飯',icon:'🍚',xp:6,kcal:170,prot:2.5,fib:0.3,note:'食物繊維少なめ'},
+    {name:'雑穀米',icon:'🍚',xp:16,kcal:170,prot:3.5,fib:2.0},
+    {name:'もち麦ご飯',icon:'🌾',xp:17,kcal:155,prot:2.8,fib:3.5,note:'βグルカン豊富'},
+    {name:'全粒粉パン',icon:'🍞',xp:14,kcal:200,prot:7.5,fib:5.5},
+    {name:'オートミール',icon:'🌾',xp:16,kcal:160,prot:5.5,fib:4.5,note:'βグルカン'},
+    {name:'そば',icon:'🍜',xp:12,kcal:295,prot:9.6,fib:2.0},
+    {name:'全粒粉パスタ',icon:'🍝',xp:13,kcal:330,prot:11.5,fib:6.0},
+    {name:'さつまいも',icon:'🍠',xp:13,kcal:130,prot:1.2,fib:2.3},
   ],
-  // ・ 鬟ｲ縺ｿ迚ｩ繧ｫ繝・ざ繝ｪ
+  // 🆕 飲み物カテゴリ
   drink:[
-    {name:'豌ｴ',icon:'挑',xp:5,kcal:0,prot:0,fib:0,tags:[]},
-    {name:'縺願幻・育ｷ題幻・・,icon:'嵯',xp:10,kcal:2,prot:0.2,fib:0,note:'繧ｫ繝・く繝ｳ繝ｻ謚鈴・蛹・,tags:['anti-ox','anti-inf']},
-    {name:'鮗ｦ闌ｶ',icon:'嵯',xp:8,kcal:1,prot:0,fib:0,tags:['anti-ox']},
-    {name:'縺ｻ縺・§闌ｶ',icon:'嵯',xp:9,kcal:0,prot:0,fib:0,tags:['anti-ox']},
-    {name:'邏・幻・育┌邉厄ｼ・,icon:'笘・,xp:7,kcal:1,prot:0.1,fib:0,tags:['anti-ox']},
-    {name:'繧ｳ繝ｼ繝偵・・育┌邉厄ｼ・,icon:'笘・,xp:6,kcal:4,prot:0.2,fib:0,tags:['anti-ox']},
-    {name:'髱呈ｱ・,icon:'･ｬ',xp:14,kcal:15,prot:1.0,fib:1.5,tags:['anti-ox','immune']},
-    {name:'驥手除繧ｸ繝･繝ｼ繧ｹ',icon:'･､',xp:8,kcal:30,prot:0.7,fib:0.5,note:'邉門・豕ｨ諢・,tags:['anti-ox']},
-    {name:'繧ｹ繝昴・繝・｣ｲ譁・,icon:'･､',xp:5,kcal:25,prot:0,fib:0,note:'驕句虚譎ゅ・縺ｿ',tags:[]},
-    {name:'繧ｳ繧ｳ繧｢・育┌邉厄ｼ・,icon:'笘・,xp:8,kcal:50,prot:2.0,fib:1.5,note:'繧ｫ繧ｫ繧ｪ繝昴Μ繝輔ぉ繝弱・繝ｫ',tags:['anti-ox','anti-inf']},
+    {name:'水',icon:'💧',xp:5,kcal:0,prot:0,fib:0,tags:[]},
+    {name:'お茶（緑茶）',icon:'🍵',xp:10,kcal:2,prot:0.2,fib:0,note:'カテキン・抗酸化',tags:['anti-ox','anti-inf']},
+    {name:'麦茶',icon:'🍵',xp:8,kcal:1,prot:0,fib:0,tags:['anti-ox']},
+    {name:'ほうじ茶',icon:'🍵',xp:9,kcal:0,prot:0,fib:0,tags:['anti-ox']},
+    {name:'紅茶（無糖）',icon:'☕',xp:7,kcal:1,prot:0.1,fib:0,tags:['anti-ox']},
+    {name:'コーヒー（無糖）',icon:'☕',xp:6,kcal:4,prot:0.2,fib:0,tags:['anti-ox']},
+    {name:'青汁',icon:'🥬',xp:14,kcal:15,prot:1.0,fib:1.5,tags:['anti-ox','immune']},
+    {name:'野菜ジュース',icon:'🥤',xp:8,kcal:30,prot:0.7,fib:0.5,note:'糖分注意',tags:['anti-ox']},
+    {name:'スポーツ飲料',icon:'🥤',xp:5,kcal:25,prot:0,fib:0,note:'運動時のみ',tags:[]},
+    {name:'ココア（無糖）',icon:'☕',xp:8,kcal:50,prot:2.0,fib:1.5,note:'カカオポリフェノール',tags:['anti-ox','anti-inf']},
   ],
-  // ・ 蛛･蠎ｷ縺翫ｄ縺､
+  // 🆕 健康おやつ
   snack:[
-    {name:'邏辟ｼ縺阪リ繝・ヤ',icon:'･・,xp:14,kcal:170,prot:5.0,fib:2.5,note:'鬟溽黄郢顔ｶｭ繝ｻ繝薙ち繝溘ΦE',tags:['anti-ox','fiber']},
-    {name:'繧｢繝ｼ繝｢繝ｳ繝・,icon:'･・,xp:15,kcal:160,prot:6.0,fib:3.3,tags:['anti-ox','fiber']},
-    {name:'縺上ｋ縺ｿ',icon:'･・,xp:14,kcal:200,prot:4.5,fib:1.5,note:'繧ｪ繝｡繧ｬ3',tags:['omega3','anti-inf']},
-    {name:'繝峨Λ繧､繝輔Ν繝ｼ繝・,icon:'合',xp:11,kcal:90,prot:0.5,fib:1.5,tags:['anti-ox']},
-    {name:'繝励Ο繝・う繝ｳ繝舌・',icon:'梱',xp:9,kcal:200,prot:10,fib:3.0,tags:[]},
-    {name:'繝繝ｼ繧ｯ繝√Ι繧ｳ',icon:'梱',xp:8,kcal:60,prot:0.6,fib:0.7,note:'鬮倥き繧ｫ繧ｪ70%莉･荳・,tags:['anti-ox','anti-inf']},
-    {name:'譫晁ｱ・,icon:'ｫ・,xp:16,kcal:135,prot:11.7,fib:5.0,tags:['anti-inf','fiber']},
-    {name:'繧・〒蜊ｵ・磯俣鬟滂ｼ・,icon:'･・,xp:12,kcal:80,prot:6.5,fib:0,tags:[]},
-    {name:'縺翫＠繧・・繧頑・蟶・,icon:'穴',xp:11,kcal:5,prot:0.3,fib:1.0,tags:['fiber','immune']},
-    {name:'繝励Ξ繝ｼ繝ｳ繝ｨ繝ｼ繧ｰ繝ｫ繝・,icon:'･・,xp:10,kcal:60,prot:3.6,fib:0,tags:['fermented','immune']},
+    {name:'素焼きナッツ',icon:'🥜',xp:14,kcal:170,prot:5.0,fib:2.5,note:'食物繊維・ビタミンE',tags:['anti-ox','fiber']},
+    {name:'アーモンド',icon:'🥜',xp:15,kcal:160,prot:6.0,fib:3.3,tags:['anti-ox','fiber']},
+    {name:'くるみ',icon:'🥜',xp:14,kcal:200,prot:4.5,fib:1.5,note:'オメガ3',tags:['omega3','anti-inf']},
+    {name:'ドライフルーツ',icon:'🍇',xp:11,kcal:90,prot:0.5,fib:1.5,tags:['anti-ox']},
+    {name:'プロテインバー',icon:'🍫',xp:9,kcal:200,prot:10,fib:3.0,tags:[]},
+    {name:'ダークチョコ',icon:'🍫',xp:8,kcal:60,prot:0.6,fib:0.7,note:'高カカオ70%以上',tags:['anti-ox','anti-inf']},
+    {name:'枝豆',icon:'🫛',xp:16,kcal:135,prot:11.7,fib:5.0,tags:['anti-inf','fiber']},
+    {name:'ゆで卵（間食）',icon:'🥚',xp:12,kcal:80,prot:6.5,fib:0,tags:[]},
+    {name:'おしゃぶり昆布',icon:'🌊',xp:11,kcal:5,prot:0.3,fib:1.0,tags:['fiber','immune']},
+    {name:'プレーンヨーグルト',icon:'🥛',xp:10,kcal:60,prot:3.6,fib:0,tags:['fermented','immune']},
   ],
   limit:[
-    {name:'迚帙・雎夊ｉ・郁р霄ｫ・・,icon:'･ｩ',xp:-5,kcal:280,prot:18,fib:0},
-    {name:'繧ｦ繧､繝ｳ繝翫・',icon:'遣',xp:-8,kcal:170,prot:7,fib:0,note:'豺ｻ蜉迚ｩ'},
-    {name:'繝吶・繧ｳ繝ｳ',icon:'･・,xp:-8,kcal:180,prot:9,fib:0,note:'蝪ｩ蛻・・豺ｻ蜉迚ｩ'},
-    {name:'謠壹￡迚ｩ',icon:'此',xp:-5,kcal:300,prot:5,fib:1},
-    {name:'逕倥＞鬟ｲ縺ｿ迚ｩ',icon:'･､',xp:-5,kcal:120,prot:0,fib:0,note:'邉門・'},
-    {name:'繧｢繝ｫ繧ｳ繝ｼ繝ｫ',icon:'瑳',xp:-10,kcal:140,prot:0,fib:0,note:'閧晁ｲ諡・},
-    {name:'繝輔ぃ繧ｹ繝医ヵ繝ｼ繝・,icon:'鵠',xp:-6,kcal:500,prot:18,fib:2,note:'閼りｳｪ繝ｻ蝪ｩ蛻・},
-    {name:'繧､繝ｳ繧ｹ繧ｿ繝ｳ繝磯ｺｺ',icon:'骨',xp:-5,kcal:380,prot:8,fib:1,note:'蝪ｩ蛻・・豺ｻ蜉迚ｩ'},
-    {name:'繧ｹ繝翫ャ繧ｯ闖灘ｭ・,icon:'根',xp:-6,kcal:280,prot:3,fib:1,note:'閼りｳｪ繝ｻ蝪ｩ蛻・},
-    {name:'繧ｱ繝ｼ繧ｭ',icon:'魂',xp:-4,kcal:350,prot:5,fib:0.5,note:'邉門・'},
-    {name:'闖灘ｭ舌ヱ繝ｳ',icon:'･・,xp:-4,kcal:300,prot:6,fib:1,note:'邉門・繝ｻ閼りｳｪ'},
-    {name:'貂・ｶｼ鬟ｲ譁呎ｰｴ',icon:'･､',xp:-6,kcal:180,prot:0,fib:0,note:'遐らｳ・0%'},
+    {name:'牛・豚肉（脂身）',icon:'🥩',xp:-5,kcal:280,prot:18,fib:0},
+    {name:'ウインナー',icon:'🌭',xp:-8,kcal:170,prot:7,fib:0,note:'添加物'},
+    {name:'ベーコン',icon:'🥓',xp:-8,kcal:180,prot:9,fib:0,note:'塩分・添加物'},
+    {name:'揚げ物',icon:'🍟',xp:-5,kcal:300,prot:5,fib:1},
+    {name:'甘い飲み物',icon:'🥤',xp:-5,kcal:120,prot:0,fib:0,note:'糖分'},
+    {name:'アルコール',icon:'🍺',xp:-10,kcal:140,prot:0,fib:0,note:'肝負担'},
+    {name:'ファストフード',icon:'🍔',xp:-6,kcal:500,prot:18,fib:2,note:'脂質・塩分'},
+    {name:'インスタント麺',icon:'🍜',xp:-5,kcal:380,prot:8,fib:1,note:'塩分・添加物'},
+    {name:'スナック菓子',icon:'🍪',xp:-6,kcal:280,prot:3,fib:1,note:'脂質・塩分'},
+    {name:'ケーキ',icon:'🍰',xp:-4,kcal:350,prot:5,fib:0.5,note:'糖分'},
+    {name:'菓子パン',icon:'🥐',xp:-4,kcal:300,prot:6,fib:1,note:'糖分・脂質'},
+    {name:'清涼飲料水',icon:'🥤',xp:-6,kcal:180,prot:0,fib:0,note:'砂糖10%'},
   ]
 };
 
-// 驥丞咲紫・亥ｰ・0.6 / 荳ｭ=1.0 / 螟ｧ=1.4・・
+// 量倍率（小=0.6 / 中=1.0 / 大=1.4）
 const PORTION_MULTIPLIERS = { small:0.6, normal:1.0, large:1.4 };
-const PORTION_LABELS = { small:'蟆・, normal:'荳ｭ', large:'螟ｧ' };
-// 譎る俣蟶ｯ
-const MEAL_TIMES = { morning:'桁 譛・, lunch:'笘・・譏ｼ', dinner:'嫌 螟・, snack:'嵯 髢馴｣・ };
+const PORTION_LABELS = { small:'小', normal:'中', large:'大' };
+// 時間帯
+const MEAL_TIMES = { morning:'🌅 朝', lunch:'☀️ 昼', dinner:'🌙 夜', snack:'🍵 間食' };
 
-// 繧ｻ繝・ヨ繝懊・繝翫せ・磯｣滓攝邨・∩蜷医ｏ縺帙〒霑ｽ蜉XP・・
+// セットボーナス（食材組み合わせで追加XP）
 const SET_BONUSES = [
-  { id:'sera_perfect', name:'繧ｻ繝ｩ縺ｮ螳檎挑繝励Ξ繝ｼ繝・, xp:30, icon:'検', cond:(s)=>{
+  { id:'sera_perfect', name:'セラの完璧プレート', xp:30, icon:'🌟', cond:(s)=>{
     return s.some(x=>x.subtype==='fish') && s.some(x=>x.cat==='veg') && s.some(x=>x.subtype==='soy');
-  }, desc:'鬲夲ｼ矩㍽闖懶ｼ句､ｧ雎・ｒ1鬟溘〒' },
-  { id:'rainbow', name:'繝ｬ繧､繝ｳ繝懊・鬟溷酷', xp:25, icon:'決', cond:(s)=>{
+  }, desc:'魚＋野菜＋大豆を1食で' },
+  { id:'rainbow', name:'レインボー食卓', xp:25, icon:'🌈', cond:(s)=>{
     const cats = new Set(s.filter(x=>!x.components).map(x=>x.cat));
     return cats.has('veg') && cats.has('fruit') && cats.has('protein') && cats.has('grain');
-  }, desc:'4繧ｫ繝・ざ繝ｪ謠・＞雕上∩' },
-  { id:'omega3', name:'繧ｪ繝｡繧ｬ3謌ｦ螢ｫ', xp:20, icon:'澄', cond:(s)=>{
+  }, desc:'4カテゴリ揃い踏み' },
+  { id:'omega3', name:'オメガ3戦士', xp:20, icon:'🐟', cond:(s)=>{
     return s.filter(x=>x.subtype==='fish').length >= 2;
-  }, desc:'鬲壹ｒ2鬟滉ｻ･荳・ },
-  { id:'green', name:'邱代・謌ｦ螢ｫ', xp:15, icon:'･ｬ', cond:(s)=>{
+  }, desc:'魚を2食以上' },
+  { id:'green', name:'緑の戦士', xp:15, icon:'🥬', cond:(s)=>{
     return s.filter(x=>x.cat==='veg').length >= 5;
-  }, desc:'驥手除5逧ｿ莉･荳・ },
-  { id:'fermented', name:'逋ｺ驟ｵ繝代Ρ繝ｼ', xp:18, icon:'ｦ', cond:(s)=>{
-    return s.some(x=>x.name==='邏崎ｱ・ || x.name==='繝ｨ繝ｼ繧ｰ繝ｫ繝・ || x.name==='繝励Ξ繝ｼ繝ｳ繝ｨ繝ｼ繧ｰ繝ｫ繝・);
-  }, desc:'逋ｺ驟ｵ鬟溷刀繧貞叙繧雁・繧後◆' },
-  { id:'hydro', name:'繝上う繝峨Ο繝槭せ繧ｿ繝ｼ', xp:12, icon:'挑', cond:(s)=>{
+  }, desc:'野菜5皿以上' },
+  { id:'fermented', name:'発酵パワー', xp:18, icon:'🦠', cond:(s)=>{
+    return s.some(x=>x.name==='納豆' || x.name==='ヨーグルト' || x.name==='プレーンヨーグルト');
+  }, desc:'発酵食品を取り入れた' },
+  { id:'hydro', name:'ハイドロマスター', xp:12, icon:'💧', cond:(s)=>{
     return s.filter(x=>x.cat==='drink').length >= 3;
-  }, desc:'鬟ｲ縺ｿ迚ｩ3譚ｯ莉･荳・ },
-  { id:'no_limit', name:'繧ｯ繝ｪ繝ｼ繝ｳ繧､繝ｼ繝医ョ繧､', xp:25, icon:'笨ｨ', cond:(s)=>{
+  }, desc:'飲み物3杯以上' },
+  { id:'no_limit', name:'クリーンイートデイ', xp:25, icon:'✨', cond:(s)=>{
     return s.length>=4 && s.filter(x=>x.cat==='limit').length === 0;
-  }, desc:'4蜩∬ｨ倬鹸縺ｧ蛻ｶ髯宣｣溷刀繧ｼ繝ｭ' },
-  // ・ 謚鈴・蛹悶・謚礼ｎ逞・・蜈咲稔蜉帙・繝ｼ繝翫せ
-  { id:'anti_ox', name:'謚鈴・蛹悶・繧､繧ｹ繧ｿ繝ｼ', xp:20, icon:'孱・・, cond:(s)=>{
+  }, desc:'4品記録で制限食品ゼロ' },
+  // 🆕 抗酸化・抗炎症・免疫力ボーナス
+  { id:'anti_ox', name:'抗酸化マイスター', xp:20, icon:'🛡️', cond:(s)=>{
     return s.filter(x=>(x.tags||[]).includes('anti-ox')).length >= 4;
-  }, desc:'謚鈴・蛹夜｣溷刀4蜩∽ｻ･荳・ },
-  { id:'anti_inf', name:'謚礼ｎ逞・・繧ｹ繧ｿ繝ｼ', xp:22, icon:'笶・ｸ・, cond:(s)=>{
+  }, desc:'抗酸化食品4品以上' },
+  { id:'anti_inf', name:'抗炎症マスター', xp:22, icon:'❄️', cond:(s)=>{
     return s.filter(x=>(x.tags||[]).includes('anti-inf')).length >= 3;
-  }, desc:'謚礼ｎ逞・｣溷刀3蜩∽ｻ･荳・ },
-  { id:'immune', name:'蜈咲稔繧｢繝・・', xp:25, icon:'検', cond:(s)=>{
+  }, desc:'抗炎症食品3品以上' },
+  { id:'immune', name:'免疫アップ', xp:25, icon:'🌟', cond:(s)=>{
     return s.filter(x=>(x.tags||[]).includes('immune')).length >= 3;
-  }, desc:'蜈咲稔繧ｵ繝昴・繝磯｣溷刀3蜩∽ｻ･荳・ },
-  { id:'omega3_master', name:'繧ｪ繝｡繧ｬ3繝槭せ繧ｿ繝ｼ', xp:22, icon:'澄', cond:(s)=>{
+  }, desc:'免疫サポート食品3品以上' },
+  { id:'omega3_master', name:'オメガ3マスター', xp:22, icon:'🐟', cond:(s)=>{
     return s.filter(x=>(x.tags||[]).includes('omega3')).length >= 1
         && s.filter(x=>(x.tags||[]).includes('anti-ox')).length >= 2;
-  }, desc:'繧ｪ繝｡繧ｬ3+謚鈴・蛹・蜩∽ｻ･荳・ },
+  }, desc:'オメガ3+抗酸化2品以上' },
 ];
 
-// ===== 縺翫☆縺吶ａ迪ｮ遶九ョ繝ｼ繧ｿ =====
+// ===== おすすめ献立データ =====
 const MENUS={
   morning:[
-    {name:'蜥梧悃鬟溘そ繝・ヨ',      icon:'些', items:[
-      {name:'邇・ｱｳ縺秘｣ｯ',  icon:'忽',cat:'grain',  xp:15},
-      {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',    xp:15},
-      {name:'邏崎ｱ・,      icon:'ｫ・,cat:'protein', xp:18},
-      {name:'縺ｿ縺九ｓ',    icon:'濠',cat:'fruit',  xp:12},
+    {name:'和朝食セット',      icon:'🍱', items:[
+      {name:'玄米ご飯',  icon:'🍚',cat:'grain',  xp:15},
+      {name:'ほうれん草',icon:'🥬',cat:'veg',    xp:15},
+      {name:'納豆',      icon:'🫘',cat:'protein', xp:18},
+      {name:'みかん',    icon:'🍊',cat:'fruit',  xp:12},
     ]},
-    {name:'豢区悃鬟溘そ繝・ヨ',      icon:'･・, items:[
-      {name:'蜈ｨ邊堤ｲ峨ヱ繝ｳ',icon:'込',cat:'grain',  xp:14},
-      {name:'繧・〒蜊ｵ',    icon:'･・,cat:'protein', xp:12},
-      {name:'繝医・繝・,    icon:'劫',cat:'veg',    xp:12},
-      {name:'繝舌リ繝・,    icon:'轟',cat:'fruit',  xp:10},
+    {name:'洋朝食セット',      icon:'🥐', items:[
+      {name:'全粒粉パン',icon:'🍞',cat:'grain',  xp:14},
+      {name:'ゆで卵',    icon:'🥚',cat:'protein', xp:12},
+      {name:'トマト',    icon:'🍅',cat:'veg',    xp:12},
+      {name:'バナナ',    icon:'🍌',cat:'fruit',  xp:10},
     ]},
-    {name:'繧ｪ繝ｼ繝医Α繝ｼ繝ｫ譛晞｣・,   icon:'言', items:[
-      {name:'繧ｪ繝ｼ繝医Α繝ｼ繝ｫ',  icon:'言',cat:'grain',  xp:16},
-      {name:'繝悶Ν繝ｼ繝吶Μ繝ｼ',  icon:'ｫ・,cat:'fruit',  xp:16},
-      {name:'繝舌リ繝・,        icon:'轟',cat:'fruit',  xp:10},
-      {name:'繝ｨ繝ｼ繧ｰ繝ｫ繝・,    icon:'･・,cat:'protein', xp:10},
+    {name:'オートミール朝食',   icon:'🌾', items:[
+      {name:'オートミール',  icon:'🌾',cat:'grain',  xp:16},
+      {name:'ブルーベリー',  icon:'🫐',cat:'fruit',  xp:16},
+      {name:'バナナ',        icon:'🍌',cat:'fruit',  xp:10},
+      {name:'ヨーグルト',    icon:'🥛',cat:'protein', xp:10},
     ]},
-    {name:'邇・ｱｳ繝ｻ縺ｿ縺晄ｱ∵悃鬟・,   icon:'忽', items:[
-      {name:'邇・ｱｳ縺秘｣ｯ',  icon:'忽',cat:'grain',  xp:15},
-      {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',    xp:15},
-      {name:'雎・・繝ｻ螟ｧ雎・,icon:'ｫ・,cat:'protein', xp:18},
-      {name:'繧翫ｓ縺・,    icon:'克',cat:'fruit',  xp:12},
+    {name:'玄米・みそ汁朝食',   icon:'🍚', items:[
+      {name:'玄米ご飯',  icon:'🍚',cat:'grain',  xp:15},
+      {name:'ほうれん草',icon:'🥬',cat:'veg',    xp:15},
+      {name:'豆腐・大豆',icon:'🫘',cat:'protein', xp:18},
+      {name:'りんご',    icon:'🍎',cat:'fruit',  xp:12},
     ]},
   ],
   lunch:[
-    {name:'魄ｭ螳夐｣・,           icon:'澄', items:[
-      {name:'縺輔￠',      icon:'澄',cat:'protein', xp:20},
-      {name:'邇・ｱｳ縺秘｣ｯ',  icon:'忽',cat:'grain',  xp:15},
-      {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',cat:'veg',  xp:18},
-      {name:'繧ｭ繝｣繝吶ヤ',  icon:'･・,cat:'veg',    xp:10},
+    {name:'鮭定食',           icon:'🐟', items:[
+      {name:'さけ',      icon:'🐟',cat:'protein', xp:20},
+      {name:'玄米ご飯',  icon:'🍚',cat:'grain',  xp:15},
+      {name:'ブロッコリー',icon:'🥦',cat:'veg',  xp:18},
+      {name:'キャベツ',  icon:'🥗',cat:'veg',    xp:10},
     ]},
-    {name:'雎・・繧ｵ繝ｩ繝繝ｩ繝ｳ繝・,   icon:'･・, items:[
-      {name:'雎・・繝ｻ螟ｧ雎・,icon:'ｫ・,cat:'protein', xp:18},
-      {name:'繝医・繝・,    icon:'劫',cat:'veg',    xp:12},
-      {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',    xp:15},
-      {name:'蜈ｨ邊堤ｲ峨ヱ繝ｳ',icon:'込',cat:'grain',  xp:14},
+    {name:'豆腐サラダランチ',   icon:'🥗', items:[
+      {name:'豆腐・大豆',icon:'🫘',cat:'protein', xp:18},
+      {name:'トマト',    icon:'🍅',cat:'veg',    xp:12},
+      {name:'ほうれん草',icon:'🥬',cat:'veg',    xp:15},
+      {name:'全粒粉パン',icon:'🍞',cat:'grain',  xp:14},
     ]},
-    {name:'縺昴・螳夐｣・,          icon:'骨', items:[
-      {name:'縺昴・',      icon:'骨',cat:'grain',  xp:12},
-      {name:'縺阪・縺馴｡・,  icon:'剛',cat:'veg',    xp:14},
-      {name:'縺ｪ縺・,      icon:'号',cat:'veg',    xp:10},
-      {name:'鮓上・縺ｭ閧・,  icon:'漉',cat:'protein', xp:18},
+    {name:'そば定食',          icon:'🍜', items:[
+      {name:'そば',      icon:'🍜',cat:'grain',  xp:12},
+      {name:'きのこ類',  icon:'🍄',cat:'veg',    xp:14},
+      {name:'なす',      icon:'🍆',cat:'veg',    xp:10},
+      {name:'鶏むね肉',  icon:'🍗',cat:'protein', xp:18},
     ]},
-    {name:'繝代せ繧ｿ繝ｩ繝ｳ繝・,       icon:'狛', items:[
-      {name:'蜈ｨ邊堤ｲ峨ヱ繧ｹ繧ｿ',icon:'狛',cat:'grain', xp:13},
-      {name:'繝医・繝・,    icon:'劫',cat:'veg',    xp:12},
-      {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',cat:'veg',  xp:18},
-      {name:'縺医・',      icon:'ｦ・,cat:'protein', xp:15},
+    {name:'パスタランチ',       icon:'🍝', items:[
+      {name:'全粒粉パスタ',icon:'🍝',cat:'grain', xp:13},
+      {name:'トマト',    icon:'🍅',cat:'veg',    xp:12},
+      {name:'ブロッコリー',icon:'🥦',cat:'veg',  xp:18},
+      {name:'えび',      icon:'🦐',cat:'protein', xp:15},
     ]},
   ],
   dinner:[
-    {name:'縺輔・螳夐｣・,          icon:'澄', items:[
-      {name:'縺輔・',      icon:'澄',cat:'protein', xp:20},
-      {name:'邇・ｱｳ縺秘｣ｯ',  icon:'忽',cat:'grain',  xp:15},
-      {name:'縺九⊂縺｡繧・,  icon:'祉',cat:'veg',    xp:15},
-      {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',    xp:15},
+    {name:'さば定食',          icon:'🐟', items:[
+      {name:'さば',      icon:'🐟',cat:'protein', xp:20},
+      {name:'玄米ご飯',  icon:'🍚',cat:'grain',  xp:15},
+      {name:'かぼちゃ',  icon:'🎃',cat:'veg',    xp:15},
+      {name:'ほうれん草',icon:'🥬',cat:'veg',    xp:15},
     ]},
-    {name:'鮓上・縺ｭ閧蛾㍽闖懃ｒ繧・,   icon:'漉', items:[
-      {name:'鮓上・縺ｭ閧・,  icon:'漉',cat:'protein', xp:18},
-      {name:'繝斐・繝槭Φ',  icon:'ｫ・,cat:'veg',    xp:12},
-      {name:'縺ｫ繧薙§繧・,  icon:'･・,cat:'veg',    xp:12},
-      {name:'邇・ｱｳ縺秘｣ｯ',  icon:'忽',cat:'grain',  xp:15},
+    {name:'鶏むね肉野菜炒め',   icon:'🍗', items:[
+      {name:'鶏むね肉',  icon:'🍗',cat:'protein', xp:18},
+      {name:'ピーマン',  icon:'🫑',cat:'veg',    xp:12},
+      {name:'にんじん',  icon:'🥕',cat:'veg',    xp:12},
+      {name:'玄米ご飯',  icon:'🍚',cat:'grain',  xp:15},
     ]},
-    {name:'豬ｷ魄ｮ骰・,            icon:'佐', items:[
-      {name:'縺医・',      icon:'ｦ・,cat:'protein', xp:15},
-      {name:'縺ｾ縺舌ｍ',    icon:'摺',cat:'protein', xp:18},
-      {name:'縺阪・縺馴｡・,  icon:'剛',cat:'veg',    xp:14},
-      {name:'縺縺・％繧・,  icon:'ｫ・,cat:'veg',    xp:8},
+    {name:'海鮮鍋',            icon:'🍲', items:[
+      {name:'えび',      icon:'🦐',cat:'protein', xp:15},
+      {name:'まぐろ',    icon:'🐠',cat:'protein', xp:18},
+      {name:'きのこ類',  icon:'🍄',cat:'veg',    xp:14},
+      {name:'だいこん',  icon:'🫚',cat:'veg',    xp:8},
     ]},
-    {name:'雎・・繧ｹ繝・・繧ｭ螳夐｣・,   icon:'ｫ・, items:[
-      {name:'雎・・繝ｻ螟ｧ雎・,icon:'ｫ・,cat:'protein', xp:18},
-      {name:'邇・ｱｳ縺秘｣ｯ',  icon:'忽',cat:'grain',  xp:15},
-      {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',cat:'veg',  xp:18},
-      {name:'縺ｪ縺・,      icon:'号',cat:'veg',    xp:10},
+    {name:'豆腐ステーキ定食',   icon:'🫘', items:[
+      {name:'豆腐・大豆',icon:'🫘',cat:'protein', xp:18},
+      {name:'玄米ご飯',  icon:'🍚',cat:'grain',  xp:15},
+      {name:'ブロッコリー',icon:'🥦',cat:'veg',  xp:18},
+      {name:'なす',      icon:'🍆',cat:'veg',    xp:10},
     ]},
   ],
   snack:[
-    {name:'繝輔Ν繝ｼ繝・Κ繝ｼ繧ｰ繝ｫ繝・, icon:'･・, items:[
-      {name:'繝ｨ繝ｼ繧ｰ繝ｫ繝・,  icon:'･・,cat:'protein', xp:10},
-      {name:'縺・■縺・,      icon:'酷',cat:'fruit',  xp:14},
-      {name:'繝悶Ν繝ｼ繝吶Μ繝ｼ',icon:'ｫ・,cat:'fruit',  xp:16},
+    {name:'フルーツヨーグルト', icon:'🥛', items:[
+      {name:'ヨーグルト',  icon:'🥛',cat:'protein', xp:10},
+      {name:'いちご',      icon:'🍓',cat:'fruit',  xp:14},
+      {name:'ブルーベリー',icon:'🫐',cat:'fruit',  xp:16},
     ]},
-    {name:'繝輔Ν繝ｼ繝・Α繝・け繧ｹ',   icon:'克', items:[
-      {name:'繧翫ｓ縺・,  icon:'克',cat:'fruit',  xp:12},
-      {name:'繧ｭ繧ｦ繧､',  icon:'･・,cat:'fruit',  xp:14},
-      {name:'繝舌リ繝・,  icon:'轟',cat:'fruit',  xp:10},
+    {name:'フルーツミックス',   icon:'🍎', items:[
+      {name:'りんご',  icon:'🍎',cat:'fruit',  xp:12},
+      {name:'キウイ',  icon:'🥝',cat:'fruit',  xp:14},
+      {name:'バナナ',  icon:'🍌',cat:'fruit',  xp:10},
     ]},
-    {name:'繝翫ャ繝・ｼ・メ繝ｼ繧ｺ',     icon:'ｧ', items:[
-      {name:'繝√・繧ｺ',      icon:'ｧ',cat:'protein', xp:10},
-      {name:'縺ｿ縺九ｓ',      icon:'濠',cat:'fruit',  xp:12},
-      {name:'繝悶Ν繝ｼ繝吶Μ繝ｼ',icon:'ｫ・,cat:'fruit',  xp:16},
+    {name:'ナッツ＆チーズ',     icon:'🧀', items:[
+      {name:'チーズ',      icon:'🧀',cat:'protein', xp:10},
+      {name:'みかん',      icon:'🍊',cat:'fruit',  xp:12},
+      {name:'ブルーベリー',icon:'🫐',cat:'fruit',  xp:16},
     ]},
-    {name:'繧ｹ繝繝ｼ繧ｸ繝ｼ鬚ｨ',       icon:'ｫ・, items:[
-      {name:'繝舌リ繝・,      icon:'轟',cat:'fruit',  xp:10},
-      {name:'縺・■縺・,      icon:'酷',cat:'fruit',  xp:14},
-      {name:'繝ｨ繝ｼ繧ｰ繝ｫ繝・,  icon:'･・,cat:'protein', xp:10},
+    {name:'スムージー風',       icon:'🫐', items:[
+      {name:'バナナ',      icon:'🍌',cat:'fruit',  xp:10},
+      {name:'いちご',      icon:'🍓',cat:'fruit',  xp:14},
+      {name:'ヨーグルト',  icon:'🥛',cat:'protein', xp:10},
     ]},
   ],
 };
 
 const LEVELS=[
-  {lv:1,name:'隕狗ｿ偵＞骭ｬ驥題｡灘ｸｫ',xp:0},
-  {lv:2,name:'闕峨・鬲疲ｳ穂ｽｿ縺・,  xp:200},
-  {lv:3,name:'阮ｬ闕牙ｸｫ',        xp:500},
-  {lv:4,name:'螟ｧ雉｢閠・・蠑溷ｭ・,  xp:900},
-  {lv:5,name:'鬟溘・螟ｧ鬲泌ｰ主｣ｫ',  xp:1400},
+  {lv:1,name:'見習い錬金術師',xp:0},
+  {lv:2,name:'草の魔法使い',  xp:200},
+  {lv:3,name:'薬草師',        xp:500},
+  {lv:4,name:'大賢者の弟子',  xp:900},
+  {lv:5,name:'食の大魔導士',  xp:1400},
 ];
 
-// ===== 迥ｶ諷・=====
+// ===== 状態 =====
 let uid='', sessions=[], prevLv=1;
 function getCounts(){
   const c={veg:0,fruit:0,protein:0,grain:0,drink:0,snack:0,limit:0};
@@ -2164,9 +2162,9 @@ function totalXp(){
 function getLv(xp){ let r=LEVELS[0]; for(const l of LEVELS){if(xp>=l.xp)r=l;} return r; }
 function nextXp(xp){ for(const l of LEVELS){if(l.xp>xp)return l.xp;} return null; }
 
-// ===== 騾ｱ繧ｭ繝ｼ =====
+// ===== 週キー =====
 function weekKey(){ const d=new Date(),j=new Date(d.getFullYear(),0,1),w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7); return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`; }
-function weekLabel(){ const d=new Date(); const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1); const e=new Date(s); e.setDate(s.getDate()+6); const f=x=>`${x.getMonth()+1}/${x.getDate()}`; const j=new Date(d.getFullYear(),0,1); const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7); return `隨ｬ${w}騾ｱ (${f(s)}縲・{f(e)})`; }
+function weekLabel(){ const d=new Date(); const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1); const e=new Date(s); e.setDate(s.getDate()+6); const f=x=>`${x.getMonth()+1}/${x.getDate()}`; const j=new Date(d.getFullYear(),0,1); const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7); return `第${w}週 (${f(s)}〜${f(e)})`; }
 function storeKey(wk){ return `vn_${uid}_${wk||weekKey()}`; }
 function getQuestScore(){ try{ const raw=localStorage.getItem(`vq_${uid}_${weekKey()}`); if(raw) return JSON.parse(raw).score||0; }catch(e){} return 0; }
 function histKey(){    return `vn_hist_${uid}`; }
@@ -2174,17 +2172,17 @@ function bonusKey(){   return `vn_bonus_${uid}`; }
 function achKey(){     return `vn_ach_${uid}`; }
 function streakSKey(){ return `vn_streak_${uid}`; }
 
-// ===== 螳溽ｸｾ =====
+// ===== 実績 =====
 const ACHV=[
-  {id:'first',    icon:'験', name:'蛻晁ｪｿ蜷・,   cond:'蛻昴ａ縺ｦ縺ｮ險倬鹸'},
-  {id:'veg7',     icon:'･ｦ', name:'驥手除菴ｿ縺・, cond:'驥手除7逧ｿ/騾ｱ驕疲・'},
-  {id:'veg_goal', icon:'丁', name:'驥手除縺ｮ驕比ｺｺ',cond:'驥手除21逧ｿ/騾ｱ驕疲・'},
-  {id:'fruit_g',  icon:'克', name:'譫懃黄鬲碑｡灘ｸｫ',cond:'譫懃黄10逧ｿ/騾ｱ驕疲・'},
-  {id:'no_limit', icon:'笨ｨ', name:'貂・ｻ峨↑鬟溷酷',cond:'蛻ｶ髯宣｣溷刀0蝗・},
-  {id:'all_half', icon:'笞暦ｸ・, name:'繝舌Λ繝ｳ繧ｹ骭ｬ謌・,cond:'蜈ｨ繧ｫ繝・ざ繝ｪ50%莉･荳・},
-  {id:'streak3',  icon:'套', name:'3騾ｱ騾｣邯・, cond:'3騾ｱ髢馴｣邯夊ｨ倬鹸'},
-  {id:'lv5',      icon:'荘', name:'螟ｧ鬲泌ｰ主｣ｫ', cond:'Lv5蛻ｰ驕・},
-  {id:'season12', icon:'醇', name:'繧ｷ繝ｼ繧ｺ繝ｳ螳瑚ｵｰ', cond:'12騾ｱ髢薙・險倬鹸繧帝＃謌・},
+  {id:'first',    icon:'🌱', name:'初調合',   cond:'初めての記録'},
+  {id:'veg7',     icon:'🥦', name:'野菜使い', cond:'野菜7皿/週達成'},
+  {id:'veg_goal', icon:'💚', name:'野菜の達人',cond:'野菜21皿/週達成'},
+  {id:'fruit_g',  icon:'🍎', name:'果物魔術師',cond:'果物10皿/週達成'},
+  {id:'no_limit', icon:'✨', name:'清廉な食卓',cond:'制限食品0回'},
+  {id:'all_half', icon:'⚗️', name:'バランス錬成',cond:'全カテゴリ50%以上'},
+  {id:'streak3',  icon:'📅', name:'3週連続', cond:'3週間連続記録'},
+  {id:'lv5',      icon:'👑', name:'大魔導士', cond:'Lv5到達'},
+  {id:'season12', icon:'🏆', name:'シーズン完走', cond:'12週間の記録を達成'},
 ];
 function getAch(){ try{return JSON.parse(localStorage.getItem(achKey())||'{}');}catch(e){return{};} }
 function setAch(a){ localStorage.setItem(achKey(),JSON.stringify(a)); }
@@ -2225,14 +2223,14 @@ function checkAch(){
   if(!a.season12 && nHist.length>=12)                           unlock('season12');
 }
 
-// ===== 繧ｹ繝医Μ繝ｼ繧ｯ =====
+// ===== ストリーク =====
 function getStreak(){ try{return JSON.parse(localStorage.getItem(streakSKey())||'{"count":0,"best":0,"lastWk":""}');}catch(e){return{count:0,best:0,lastWk:''};} }
 function checkStreakWarning(){
   const s=getStreak(); if(!s.count) return;
   if(!!localStorage.getItem(storeKey())) return;
   const dow=new Date().getDay();
   if(dow<4) return;
-  showSaveToast('櫨',`繧ｹ繝医Μ繝ｼ繧ｯ${s.count}騾ｱ騾｣邯壻ｸｭ・√≠縺ｨ${7-dow}譌･縺ｧ險倬鹸縺励※縺ｭ`);
+  showSaveToast('🔥',`ストリーク${s.count}週連続中！あと${7-dow}日で記録してね`);
 }
 function prevWeekKey(){
   const d=new Date(); d.setDate(d.getDate()-7);
@@ -2256,12 +2254,12 @@ function renderStreak(s){
   const best=document.getElementById('streak-best');
   if(!n) return;
   n.textContent=s.count||0;
-  const msgs=['縺ｾ縺・騾ｱ逶ｮ縺九ｉ・・,'1騾ｱ逶ｮ繧ｹ繧ｿ繝ｼ繝茨ｼ・,'2騾ｱ騾｣邯夲ｼ・,'3騾ｱ騾｣邯夲ｼ√☆縺斐＞・・,'4騾ｱ騾｣邯夲ｼ・,'5騾ｱ騾｣邯夲ｼ・];
+  const msgs=['まず1週目から！','1週目スタート！','2週連続！','3週連続！すごい！','4週連続！','5週連続！'];
   sub.textContent=msgs[Math.min(s.count,msgs.length-1)];
-  best.textContent=s.best>1?`譛鬮・${s.best}騾ｱ`:'';
+  best.textContent=s.best>1?`最高 ${s.best}週`:'';
 }
 
-// ===== 繝ｭ繧ｰ繧､繝ｳ繝懊・繝翫せ =====
+// ===== ログインボーナス =====
 function checkLoginBonus(){
   const dayKey=`vn_day_${uid}`, today=new Date().toDateString();
   if(localStorage.getItem(dayKey)===today) return;
@@ -2271,12 +2269,12 @@ function checkLoginBonus(){
   updateUI();
   const el=document.createElement('div');
   el.className='bonus-toast';
-  el.innerHTML='<div class="bt-head">笨ｦ 繝・う繝ｪ繝ｼ繝懊・繝翫せ 笨ｦ</div><div class="bt-body">莉頑律繧ゅΧ繧｣繧ｿ繝ｪ繧｢縺ｸ・・+30XP</div>';
+  el.innerHTML='<div class="bt-head">✦ デイリーボーナス ✦</div><div class="bt-body">今日もヴィタリアへ！ +30XP</div>';
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),3700);
 }
 
-// ===== UI譖ｴ譁ｰ =====
+// ===== UI更新 =====
 function updateUI(){
   const c=getCounts();
   const xp=totalXp();
@@ -2285,29 +2283,29 @@ function updateUI(){
   const prev=LEVELS.find(l=>l.lv===lv.lv-1)||lv;
   const barPct=nxt ? Math.round((xp-prev.xp)/(nxt-prev.xp)*100) : 100;
 
-  // XP繝舌・
+  // XPバー
   document.getElementById('xp-fill').style.width=barPct+'%';
   document.getElementById('xp-now').textContent=xp;
-  document.getElementById('xp-next').textContent=nxt?nxt-xp:'譛螟ｧ';
+  document.getElementById('xp-next').textContent=nxt?nxt-xp:'最大';
   document.getElementById('lv-n').textContent=lv.lv;
   document.getElementById('lv-name').textContent=lv.name;
 
-  // 繧ｹ繝・・繧ｿ繧ｹ繝舌・
+  // ステータスバー
   const pVeg  =Math.min(100,Math.round(c.veg/21*100));
   const pFruit=Math.min(100,Math.round(c.fruit/10*100));
   const pProt =Math.min(100,Math.round(c.protein/14*100));
   const pGrain=Math.min(100,Math.round(c.grain/14*100));
-  document.getElementById('veg-count').textContent    =c.veg+'逧ｿ';
-  document.getElementById('fruit-count').textContent  =c.fruit+'逧ｿ';
-  document.getElementById('protein-count').textContent=c.protein+'鬟・;
-  document.getElementById('grain-count').textContent  =c.grain+'鬟・;
-  document.getElementById('limit-count').textContent  =c.limit+'鬟・;
+  document.getElementById('veg-count').textContent    =c.veg+'皿';
+  document.getElementById('fruit-count').textContent  =c.fruit+'皿';
+  document.getElementById('protein-count').textContent=c.protein+'食';
+  document.getElementById('grain-count').textContent  =c.grain+'食';
+  document.getElementById('limit-count').textContent  =c.limit+'食';
   document.getElementById('veg-bar').style.width    =pVeg+'%';
   document.getElementById('fruit-bar').style.width  =pFruit+'%';
   document.getElementById('protein-bar').style.width=pProt+'%';
   document.getElementById('grain-bar').style.width  =pGrain+'%';
 
-  // 譬・､雁粋險茨ｼ・cal/繧ｿ繝ｳ繝代け/鬟溽黄郢顔ｶｭ・・
+  // 栄養合計（kcal/タンパク/食物繊維）
   let totalKcal=0, totalProt=0, totalFib=0;
   sessions.forEach(s=>{
     if(s.components){
@@ -2327,7 +2325,7 @@ function updateUI(){
   if(nsProt) nsProt.textContent = totalProt.toFixed(0);
   if(nsFib)  nsFib.textContent  = totalFib.toFixed(0);
 
-  // 繧ｻ繝・ヨ繝懊・繝翫せ讀懷・
+  // セットボーナス検出
   const bonusEl = document.getElementById('ns-bonuses');
   if(bonusEl){
     bonusEl.innerHTML = '';
@@ -2342,7 +2340,7 @@ function updateUI(){
     });
   }
 
-  // 繝ｬ繝吶Ν繧｢繝・・
+  // レベルアップ
   if(lv.lv>prevLv){
     showLvUp(lv.lv, lv.name);
     const b=document.getElementById('lv-badge');
@@ -2351,7 +2349,7 @@ function updateUI(){
   }
   updateCardCounts();
 
-  // 繧ｻ繝ｩ縺ｮ繧ｳ繝｡繝ｳ繝茨ｼ玖｡ｨ諠・ｷｮ蛻・峩譁ｰ
+  // セラのコメント＋表情差分更新
   const sc=document.getElementById('sera-comment');
   const sf=document.getElementById('sera-face');
   if(sc){
@@ -2359,17 +2357,17 @@ function updateUI(){
     const questScore=getQuestScore();
     let msg,face;
     if(c.veg===0&&c.fruit===0&&c.protein===0){
-      msg='莉企ｱ縺ｮ鬟滉ｺ九ｒ險倬鹸縺励※縲・ｭ泌鴨繧定｣懷・縺励ｈ縺・ｼ・;                          face=3; // 髮・ｸｭ
+      msg='今週の食事を記録して、魔力を補充しよう！';                          face=3; // 集中
     } else if(score<10){
-      msg='蟆代＠縺壹▽縺ｧ繧りｨ倬鹸縺ｧ縺阪※縺・ｋ繧医らｶ壹￠繧九％縺ｨ縺悟､ｧ莠具ｼ・;                  face=1; // 騾壼ｸｸ
+      msg='少しずつでも記録できているよ。続けることが大事！';                  face=1; // 通常
     } else if(score<20){
-      msg='縺・＞隱ｿ蟄撰ｼ√≠縺ｨ蟆代＠縺ｧXP繝懊・繝翫せ縺檎匱蜍輔☆繧九ｈ縲・;                      face=2; // 蝟懊・
+      msg='いい調子！あと少しでXPボーナスが発動するよ。';                      face=2; // 喜び
     } else if(score>=20 && questScore===0){
-      msg='譬・､翫・螳檎挑・・°蜍輔け繧ｨ繧ｹ繝医ｂ險倬鹸縺吶ｋ縺ｨXP繝懊・繝翫せ縺悟粋繧上＆繧九ｈ縲・;      face=5; // 鬩壹″
+      msg='栄養は完璧！運動クエストも記録するとXPボーナスが合わさるよ。';      face=5; // 驚き
     } else if(score>=20){
-      msg='鬲泌鴨貅繧ｿ繝ｳ・・°蜍輔け繧ｨ繧ｹ繝医→蜷医ｏ縺帙※XP繝懊・繝翫せ縺檎匱蜍穂ｸｭ縺繧医・;        face=2; // 蝟懊・
+      msg='魔力満タン！運動クエストと合わせてXPボーナスが発動中だよ。';        face=2; // 喜び
     } else {
-      msg='險倬鹸繧堤ｶ壹￠繧九⊇縺ｩ縲・ｭ泌鴨縺碁ｫ倥∪縺｣縺ｦ縺・￥繧茨ｼ・;                          face=4; // 逵溷殴
+      msg='記録を続けるほど、魔力が高まっていくよ！';                          face=4; // 真剣
     }
     sc.textContent=msg;
     if(sf) sf.src=`./image/sera-sabun%20(${face}).png`;
@@ -2379,30 +2377,30 @@ function updateUI(){
 
 const KNOWLEDGE={
   1:{
-    theme:'縺薙・繧｢繝励Μ縺ｧ縺ｧ縺阪ｋ縺薙→',
-    body:`繧医≧縺薙◎縲・strong>繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</strong>縺ｸ縲・br><br>
-    縺薙・繧｢繝励Μ縺ｧ縺ｯ縲∵ｯ朱ｱ縺ｮ<strong>鬟滉ｺ玖ｨ倬鹸繧堤ｩ阪∩驥阪・繧・/strong>縺薙→縺ｧ縲√≠縺ｪ縺溘・鬟溽ｿ呈・縺ｮ螟牙喧繧定ｿｽ霍｡縺励∪縺吶・br><br>
-    險倬鹸縺吶ｋ縺溘・縺ｫXP縺瑚ｲｯ縺ｾ繧翫√Ξ繝吶Ν縺御ｸ翫′繧九＃縺ｨ縺ｫ<strong>譬・､翫↓髢｢縺吶ｋ遏･隴・/strong>縺瑚ｧ｣謾ｾ縺輔ｌ縺ｾ縺吶よ焚騾ｱ髢灘ｾ後∬・蛻・・螟牙喧繧呈険繧願ｿ斐▲縺溘→縺坂補輔◎繧後′縲√％縺ｮ蜀帝匱縺ｮ譛ｬ蠖薙・蝣ｱ驟ｬ縺ｧ縺吶Ａ
+    theme:'このアプリでできること',
+    body:`ようこそ、<strong>ヴィタリア転生録</strong>へ。<br><br>
+    このアプリでは、毎週の<strong>食事記録を積み重ねる</strong>ことで、あなたの食習慣の変化を追跡します。<br><br>
+    記録するたびにXPが貯まり、レベルが上がるごとに<strong>栄養に関する知識</strong>が解放されます。数週間後、自分の変化を振り返ったとき――それが、この冒険の本当の報酬です。`
   },
   2:{
-    theme:'驥手除繝ｻ譫懃黄縺ｮ繝√き繝ｩ',
-    body:`驥手除繧・棡迚ｩ縺ｫ蜷ｫ縺ｾ繧後ｋ<strong>繝輔ぃ繧､繝医こ繝溘き繝ｫ・域､咲黄蛹門ｭｦ迚ｩ雉ｪ・・/strong>縺ｯ縲∽ｽ灘・縺ｮ驟ｸ蛹悶せ繝医Ξ繧ｹ繧呈椛縺医∫ｴｰ閭槭ｒ螳医ｊ縺ｾ縺吶・br><br>
-    縺後ｓ豐ｻ逋ょｾ後・菴薙・驟ｸ蛹悶せ繝医Ξ繧ｹ縺ｮ蠖ｱ髻ｿ繧貞女縺代ｄ縺吶＞迥ｶ諷九〒縺吶・strong>1譌･5逧ｿ莉･荳翫・驥手除繝ｻ譫懃黄</strong>繧堤岼螳峨↓縺吶ｋ縺薙→縺ｧ縲∽ｽ薙・蝗槫ｾｩ繧偵し繝昴・繝医☆繧九％縺ｨ縺梧悄蠕・〒縺阪∪縺吶Ａ
+    theme:'野菜・果物のチカラ',
+    body:`野菜や果物に含まれる<strong>ファイトケミカル（植物化学物質）</strong>は、体内の酸化ストレスを抑え、細胞を守ります。<br><br>
+    がん治療後の体は酸化ストレスの影響を受けやすい状態です。<strong>1日5皿以上の野菜・果物</strong>を目安にすることで、体の回復をサポートすることが期待できます。`
   },
   3:{
-    theme:'縺後ｓ邨碁ｨ楢・・譬・､顔ｮ｡逅・,
-    body:`縺後ｓ豐ｻ逋ゑｼ亥喧蟄ｦ逋よｳ輔・謾ｾ蟆・ｷ夲ｼ峨・閻ｸ蜀・腸蠅・↓蠖ｱ髻ｿ繧剃ｸ弱∴繧九％縺ｨ縺後≠繧翫∪縺吶・strong>鬟溽黄郢顔ｶｭ繝ｻ逋ｺ驟ｵ鬟溷刀繝ｻ螟壽ｧ倥↑鬟滓攝</strong>繧呈曹繧九％縺ｨ縺ｧ閻ｸ蜀・ｴｰ闖後・繝舌Λ繝ｳ繧ｹ繧呈紛縺医∝・逍ｫ讖溯・縺ｮ蝗槫ｾｩ繧貞勧縺代∪縺吶・br><br>
-    豈朱ｱ縺ｮ譬・､願ｨ倬鹸縺ｯ縲√≠縺ｪ縺溯・霄ｫ縺ｮ鬟溘ヱ繧ｿ繝ｼ繝ｳ繧偵瑚ｦ九∴繧句喧縲阪☆繧・strong>繧ｻ繝ｫ繝輔Δ繝九ち繝ｪ繝ｳ繧ｰ</strong>縺ｧ縺吶ゅ％繧瑚・菴薙′陦悟虚螟牙ｮｹ縺ｮ譛牙柑縺ｪ謇区ｮｵ縺ｧ縺吶Ａ
+    theme:'がん経験者の栄養管理',
+    body:`がん治療（化学療法・放射線）は腸内環境に影響を与えることがあります。<strong>食物繊維・発酵食品・多様な食材</strong>を摂ることで腸内細菌のバランスを整え、免疫機能の回復を助けます。<br><br>
+    毎週の栄養記録は、あなた自身の食パターンを「見える化」する<strong>セルフモニタリング</strong>です。これ自体が行動変容の有効な手段です。`
   },
   4:{
-    theme:'縺溘ｓ縺ｱ縺剰ｳｪ縺ｨ遲玖ｉ縺ｮ蝗槫ｾｩ',
-    body:`縺後ｓ豐ｻ逋ょｾ後・遲玖ｉ驥上′菴惹ｸ九＠繧・☆縺・憾諷九↓縺ｪ繧九％縺ｨ縺後≠繧翫∪縺吶・strong>濶ｯ雉ｪ縺ｪ縺溘ｓ縺ｱ縺剰ｳｪ・郁ｉ繝ｻ鬲壹・蜊ｵ繝ｻ螟ｧ雎・ｼ峨ｒ豈朱｣滓曹繧・/strong>縺薙→縺ｧ縲∫ｭ玖ｉ縺ｮ邯ｭ謖√・蝗槫ｾｩ繧貞勧縺代∪縺吶・br><br>
-    驕句虚・医け繧ｨ繧ｹ繝茨ｼ峨→譬・､顔ｮ｡逅・・<strong>邨・∩蜷医ｏ縺・/strong>縺後∽ｽ灘鴨蝗槫ｾｩ縺ｫ譛繧ょ柑譫懃噪縺ｨ縺輔ｌ縺ｦ縺・∪縺吶Ａ
+    theme:'たんぱく質と筋肉の回復',
+    body:`がん治療後は筋肉量が低下しやすい状態になることがあります。<strong>良質なたんぱく質（肉・魚・卵・大豆）を毎食摂る</strong>ことで、筋肉の維持・回復を助けます。<br><br>
+    運動（クエスト）と栄養管理の<strong>組み合わせ</strong>が、体力回復に最も効果的とされています。`
   },
   5:{
-    theme:'鬟溽ｿ呈・縺ｨ髟ｷ譛溽噪縺ｪ蛛･蠎ｷ',
-    body:`<strong>驥手除繝ｻ譫懃黄繝ｻ蜈ｨ邊堤ｩ迚ｩ繝ｻ鬲壹ｒ荳ｭ蠢・→縺励◆鬟滉ｺ九ヱ繧ｿ繝ｼ繝ｳ</strong>縺ｯ縲・聞譛溽噪縺ｪQOL縺ｮ邯ｭ謖√→髢｢騾｣縺励※縺・∪縺吶・br><br>
-    縺ゅ↑縺溘′莉顔ｩ阪∩驥阪・縺ｦ縺・ｋ鬟溘・鄙呈・縺ｯ縲・strong>菴募香蟷ｴ蠕後°縺ｮ閾ｪ蛻・∈縺ｮ繧ｮ繝輔ヨ</strong>縺ｧ縺吶Ａ
+    theme:'食習慣と長期的な健康',
+    body:`<strong>野菜・果物・全粒穀物・魚を中心とした食事パターン</strong>は、長期的なQOLの維持と関連しています。<br><br>
+    あなたが今積み重ねている食の習慣は、<strong>何十年後かの自分へのギフト</strong>です。`
   }
 };
 function spawnParticles(){
@@ -2424,13 +2422,13 @@ function showLvUp(lvNum, name){
   const k=KNOWLEDGE[lvNum];
   if(k){
     document.getElementById('km-lvname').textContent=name;
-    document.getElementById('km-lvnum').textContent=`Lv ${lvNum} 縺ｫ蛻ｰ驕覗;
+    document.getElementById('km-lvnum').textContent=`Lv ${lvNum} に到達`;
     document.getElementById('km-theme').textContent=k.theme;
     document.getElementById('km-body').innerHTML=k.body;
     document.getElementById('knowledge-modal').classList.add('open');
   } else {
     const t=document.getElementById('lv-toast');
-    document.getElementById('lt-body').textContent=`遘ｰ蜿ｷ縺後・{name}縲阪↓螟峨ｏ縺｣縺滂ｼ～;
+    document.getElementById('lt-body').textContent=`称号が「${name}」に変わった！`;
     t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
   }
 }
@@ -2438,7 +2436,7 @@ document.getElementById('km-close').addEventListener('click',()=>{
   document.getElementById('knowledge-modal').classList.remove('open');
 });
 
-// ===== 繧､繝ｳ繝輔か繝ｼ繝繝峨さ繝ｳ繧ｻ繝ｳ繝・=====
+// ===== インフォームドコンセント =====
 const CONSENT_KEY='vn_consent_done';
 if(!localStorage.getItem(CONSENT_KEY)){
   document.getElementById('consent-modal').style.display='flex';
@@ -2452,8 +2450,8 @@ document.getElementById('consent-btn').addEventListener('click',()=>{
   document.getElementById('consent-modal').style.display='none';
 });
 
-// ===== 繝ｭ繧ｰ =====
-const catLabel={veg:'驥手除',fruit:'譫懃黄',protein:'縺溘ｓ縺ｱ縺剰ｳｪ',grain:'蜈ｨ邊堤ｩ迚ｩ',drink:'鬟ｲ縺ｿ迚ｩ',snack:'縺翫ｄ縺､',limit:'蛻ｶ髯宣｣溷刀'};
+// ===== ログ =====
+const catLabel={veg:'野菜',fruit:'果物',protein:'たんぱく質',grain:'全粒穀物',drink:'飲み物',snack:'おやつ',limit:'制限食品'};
 const catColor ={veg:'var(--hp)',fruit:'var(--mp)',protein:'var(--atk)',grain:'var(--def)',drink:'#5ca0e0',snack:'#f0b450',limit:'var(--debuff)'};
 function renderLog(){
   const ul=document.getElementById('log-list');
@@ -2463,27 +2461,27 @@ function renderLog(){
     if(s.components){
       const totalXp=s.components.reduce((a,c)=>a+c.xp*c.count,0);
       const xpStr=totalXp>=0?`+${totalXp}XP`:`${totalXp}XP`;
-      const compTags=s.components.map(c=>`<span class="li-comp-tag" style="background:${catColor[c.cat]}22;color:${catColor[c.cat]};border:1px solid ${catColor[c.cat]}55">${catLabel[c.cat]}${c.count>1?'ﾃ・+c.count:''}</span>`).join('');
+      const compTags=s.components.map(c=>`<span class="li-comp-tag" style="background:${catColor[c.cat]}22;color:${catColor[c.cat]};border:1px solid ${catColor[c.cat]}55">${catLabel[c.cat]}${c.count>1?'×'+c.count:''}</span>`).join('');
       li.innerHTML=`
         <span class="li-icon">${s.icon}</span>
         <span class="li-name">${s.name}<br>
           <span class="li-comp-tags">${compTags}</span>
-          ${s.caution?`<span class="li-caution">笞・・{s.caution}</span>`:''}
+          ${s.caution?`<span class="li-caution">⚠️${s.caution}</span>`:''}
         </span>
         <span class="li-xp" style="color:${totalXp>=0?'var(--green)':'var(--debuff)'}">${xpStr}</span>
-        <button class="li-del" data-i="${i}">笨・/button>`;
+        <button class="li-del" data-i="${i}">✕</button>`;
     } else {
       const xpStr=s.xp>0 ? `+${s.xp}XP` : `${s.xp}XP`;
-      const portionLbl = s.portion && s.portion!=='normal' ? `・・{PORTION_LABELS[s.portion]||s.portion}・荏 : '';
-      const mealLbl = s.mealTime ? ` ﾂｷ ${(MEAL_TIMES[s.mealTime]||'').slice(0,2)}` : '';
-      const kcalLbl = s.kcal>0 ? ` ﾂｷ ${s.kcal}kcal` : '';
+      const portionLbl = s.portion && s.portion!=='normal' ? `（${PORTION_LABELS[s.portion]||s.portion}）` : '';
+      const mealLbl = s.mealTime ? ` · ${(MEAL_TIMES[s.mealTime]||'').slice(0,2)}` : '';
+      const kcalLbl = s.kcal>0 ? ` · ${s.kcal}kcal` : '';
       li.innerHTML=`
         <span class="li-icon">${s.icon}</span>
         <span class="li-name">${s.name}${portionLbl}<br>
           <span class="li-sub">${catLabel[s.cat]||s.cat}${mealLbl}${kcalLbl}</span>
         </span>
         <span class="li-xp" style="color:${catColor[s.cat]||'var(--gold)'}">${xpStr}</span>
-        <button class="li-del" data-i="${i}">笨・/button>`;
+        <button class="li-del" data-i="${i}">✕</button>`;
     }
     ul.appendChild(li);
   });
@@ -2500,7 +2498,7 @@ function updateCardCounts(){
   });
 }
 
-// ===== +1繝輔Ο繝ｼ繝医い繝九Γ =====
+// ===== +1フロートアニメ =====
 function spawnPlus(e, text, color){
   const el=document.createElement('div');
   el.className='plus-float';
@@ -2512,24 +2510,24 @@ function spawnPlus(e, text, color){
   setTimeout(()=>el.remove(),900);
 }
 
-// ===== 繧医￥鬟溘∋繧九ｂ縺ｮ =====
+// ===== よく食べるもの =====
 const QUICK_FOODS=[
-  {name:'縺斐・繧・,    icon:'忽',cat:'grain',  xp:15},
-  {name:'鬟溘ヱ繝ｳ',    icon:'込',cat:'grain',  xp:12},
-  {name:'縺・←繧・,    icon:'骨',cat:'grain',  xp:10},
-  {name:'蜊ｵ',        icon:'･・,cat:'protein',xp:12},
-  {name:'雎・・',      icon:'ｫ・,cat:'protein',xp:18},
-  {name:'邏崎ｱ・,      icon:'ｫ・,cat:'protein',xp:18},
-  {name:'縺輔￠',      icon:'澄',cat:'protein',xp:20},
-  {name:'鮓上・縺ｭ閧・,  icon:'漉',cat:'protein',xp:18},
-  {name:'繝医・繝・,    icon:'劫',cat:'veg',    xp:12},
-  {name:'繧ｭ繝｣繝吶ヤ',  icon:'･・,cat:'veg',    xp:10},
-  {name:'縺ｫ繧薙§繧・,  icon:'･・,cat:'veg',    xp:12},
-  {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',    xp:15},
-  {name:'繝舌リ繝・,    icon:'轟',cat:'fruit',  xp:10},
-  {name:'縺ｿ縺九ｓ',    icon:'濠',cat:'fruit',  xp:12},
-  {name:'繝ｨ繝ｼ繧ｰ繝ｫ繝・,icon:'･・,cat:'protein',xp:10},
-  {name:'繝√・繧ｺ',    icon:'ｧ',cat:'protein',xp:10},
+  {name:'ごはん',    icon:'🍚',cat:'grain',  xp:15},
+  {name:'食パン',    icon:'🍞',cat:'grain',  xp:12},
+  {name:'うどん',    icon:'🍜',cat:'grain',  xp:10},
+  {name:'卵',        icon:'🥚',cat:'protein',xp:12},
+  {name:'豆腐',      icon:'🫘',cat:'protein',xp:18},
+  {name:'納豆',      icon:'🫘',cat:'protein',xp:18},
+  {name:'さけ',      icon:'🐟',cat:'protein',xp:20},
+  {name:'鶏むね肉',  icon:'🍗',cat:'protein',xp:18},
+  {name:'トマト',    icon:'🍅',cat:'veg',    xp:12},
+  {name:'キャベツ',  icon:'🥗',cat:'veg',    xp:10},
+  {name:'にんじん',  icon:'🥕',cat:'veg',    xp:12},
+  {name:'ほうれん草',icon:'🥬',cat:'veg',    xp:15},
+  {name:'バナナ',    icon:'🍌',cat:'fruit',  xp:10},
+  {name:'みかん',    icon:'🍊',cat:'fruit',  xp:12},
+  {name:'ヨーグルト',icon:'🥛',cat:'protein',xp:10},
+  {name:'チーズ',    icon:'🧀',cat:'protein',xp:10},
 ];
 function buildQuickBoard(){
   const grid=document.getElementById('quick-grid');
@@ -2538,14 +2536,14 @@ function buildQuickBoard(){
     const c=document.createElement('div');
     c.className=`food-card fc-${f.cat}`;
     c.dataset.name=f.name;
-    const unit=f.cat==='veg'||f.cat==='fruit'?'逧ｿ':'鬟・;
+    const unit=f.cat==='veg'||f.cat==='fruit'?'皿':'食';
     const label=f.xp>=0?`+${f.xp}XP`:`${f.xp}XP`;
     c.innerHTML=`
       <span class="f-icon">${f.icon}</span>
       <span class="f-name">${f.name}</span>
       <span class="f-unit">1${unit}</span>
       <span class="f-count">0</span>
-      <button class="f-dec">竏・/button>`;
+      <button class="f-dec">−</button>`;
     c.addEventListener('click',(e)=>{
       sessions.push({name:f.name,icon:f.icon,cat:f.cat,xp:f.xp});
       spawnPlus(e,label,catColor[f.cat]);
@@ -2561,69 +2559,69 @@ function buildQuickBoard(){
   });
 }
 
-// ===== 螟夜｣・0蜩・=====
+// ===== 外食50品 =====
 const POPULAR_DISHES=[
-  // 鮗ｺ鬘・10)
-  {name:'繝ｩ繝ｼ繝｡繝ｳ・医＠繧・≧繧・ｼ・,icon:'骨',grp:'鮗ｺ鬘・,kcal:500,protein:18,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}],caution:'蝪ｩ蛻・ｴ・g'},
-  {name:'繝ｩ繝ｼ繝｡繝ｳ・医∩縺晢ｼ・,    icon:'骨',grp:'鮗ｺ鬘・,kcal:560,protein:19,fiber:2.5,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}],caution:'蝪ｩ蛻・ｴ・g'},
-  {name:'繝ｩ繝ｼ繝｡繝ｳ・医→繧薙％縺､・・,icon:'骨',grp:'鮗ｺ鬘・,kcal:620,protein:22,fiber:1.5,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}],caution:'閼りｳｪ繝ｻ蝪ｩ蛻・､壹ａ'},
-  {name:'諡・・ｺｺ',             icon:'骨',grp:'鮗ｺ鬘・,kcal:580,protein:20,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}],caution:'閼りｳｪ繝ｻ蝪ｩ蛻・､壹ａ'},
-  {name:'縺､縺鷹ｺｺ',             icon:'骨',grp:'鮗ｺ鬘・,kcal:680,protein:26,fiber:3.0,components:[{cat:'grain',count:2,xp:16},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  {name:'縺阪▽縺ｭ縺・←繧・,        icon:'骨',grp:'鮗ｺ鬘・,kcal:380,protein:14,fiber:2.0,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10}]},
-  {name:'螟ｩ縺ｷ繧峨≧縺ｩ繧・,        icon:'骨',grp:'鮗ｺ鬘・,kcal:500,protein:16,fiber:2.5,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'繧ｫ繝ｬ繝ｼ縺・←繧・,        icon:'骨',grp:'鮗ｺ鬘・,kcal:520,protein:16,fiber:3.0,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'縺悶ｋ縺昴・',            icon:'骨',grp:'鮗ｺ鬘・,kcal:290,protein:13,fiber:3.0,components:[{cat:'grain',count:1,xp:12}]},
-  {name:'辟ｼ縺阪◎縺ｰ',            icon:'骨',grp:'鮗ｺ鬘・,kcal:500,protein:14,fiber:3.0,components:[{cat:'grain',count:1,xp:6},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  // 荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ(10)
-  {name:'迚帑ｸｼ・井ｸｦ・・,     icon:'忽',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:650,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:16},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  {name:'隕ｪ蟄蝉ｸｼ',         icon:'忽',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:600,protein:28,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24}]},
-  {name:'繧ｫ繝・ｸｼ',         icon:'忽',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:800,protein:30,fiber:1.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24},{cat:'limit',count:1,xp:-4}]},
-  {name:'螟ｩ荳ｼ',           icon:'忽',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:720,protein:20,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-5}]},
-  {name:'豬ｷ魄ｮ荳ｼ',         icon:'澄',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:550,protein:32,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:28}]},
-  {name:'繧ｫ繝ｬ繝ｼ繝ｩ繧､繧ｹ',    icon:'惚',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:700,protein:18,fiber:4.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10}]},
-  {name:'繝√く繝ｳ繧ｫ繝ｬ繝ｼ',    icon:'惚',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:680,protein:25,fiber:4.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10}]},
-  {name:'繧ｫ繝・き繝ｬ繝ｼ',      icon:'惚',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:900,protein:28,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}]},
-  {name:'繝薙・繝輔き繝ｬ繝ｼ',    icon:'惚',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:750,protein:22,fiber:3.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'荳芽牡荳ｼ',         icon:'忽',grp:'荳ｼ繝ｻ繧ｫ繝ｬ繝ｼ',kcal:580,protein:24,fiber:1.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22}]},
-  // 螳夐｣・12)
-  {name:'縺ｨ繧薙°縺､螳夐｣・,    icon:'些',grp:'螳夐｣・,kcal:800,protein:30,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:2,xp:-8}]},
-  {name:'蜚先恕縺貞ｮ夐｣・,      icon:'些',grp:'螳夐｣・,kcal:750,protein:32,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'辟ｼ縺埼ｭ壼ｮ夐｣・,      icon:'些',grp:'螳夐｣・,kcal:550,protein:28,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24},{cat:'veg',count:1,xp:10}]},
-  {name:'魄ｭ螳夐｣・,          icon:'些',grp:'螳夐｣・,kcal:600,protein:30,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:26},{cat:'veg',count:1,xp:10}]},
-  {name:'繝上Φ繝舌・繧ｰ螳夐｣・,  icon:'些',grp:'螳夐｣・,kcal:750,protein:28,fiber:2.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'逕溷ｧ懃┥縺榊ｮ夐｣・,    icon:'些',grp:'螳夐｣・,kcal:700,protein:26,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'蛻ｺ霄ｫ螳夐｣・,        icon:'些',grp:'螳夐｣・,kcal:500,protein:30,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:26},{cat:'veg',count:1,xp:10}]},
-  {name:'繝√く繝ｳ蜊苓岼螳夐｣・,  icon:'些',grp:'螳夐｣・,kcal:780,protein:30,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-5}]},
-  {name:'繧ｨ繝薙ヵ繝ｩ繧､螳夐｣・,  icon:'些',grp:'螳夐｣・,kcal:700,protein:24,fiber:2.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'鮗ｻ蟀・ｱ・・螳夐｣・,    icon:'些',grp:'螳夐｣・,kcal:600,protein:24,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'鬢・ｭ仙ｮ夐｣・,        icon:'些',grp:'螳夐｣・,kcal:650,protein:22,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:18},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'繝√Ε繝ｼ繝上Φ',      icon:'叉',grp:'螳夐｣・,kcal:550,protein:16,fiber:1.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  // 蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ(6)
-  {name:'蝗櫁ｻ｢蟇ｿ蜿ｸ・・0逧ｿ・・,icon:'坤',grp:'蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ',kcal:500,protein:30,fiber:0.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:2,xp:24}]},
-  {name:'縺ｫ縺弱ｊ蟇ｿ蜿ｸ・井ｸｦ・・,icon:'坤',grp:'蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ',kcal:450,protein:26,fiber:0.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:2,xp:22}]},
-  {name:'螟ｩ縺ｷ繧臥屁繧雁粋繧上○',icon:'墾',grp:'蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ',kcal:550,protein:18,fiber:2.0,components:[{cat:'protein',count:1,xp:14},{cat:'veg',count:1,xp:10},{cat:'limit',count:2,xp:-8}]},
-  {name:'縺雁･ｽ縺ｿ辟ｼ縺・,      icon:'･・,grp:'蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ',kcal:480,protein:16,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
-  {name:'縺溘％辟ｼ縺搾ｼ・蛟具ｼ・, icon:'杉',grp:'蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ',kcal:290,protein:10,fiber:1.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-3}]},
-  {name:'辟ｼ閧会ｼ育央繧ｫ繝ｫ繝難ｼ・,icon:'･ｩ',grp:'蟇ｿ蜿ｸ繝ｻ豬ｷ魄ｮ',kcal:600,protein:28,fiber:0.0,components:[{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}],caution:'閼りｳｪ螟壹ａ'},
-  // 繝輔ぃ繧ｹ繝医・繝√ぉ繝ｼ繝ｳ(12)
-  {name:'繝薙ャ繧ｰ繝槭ャ繧ｯ',    icon:'鵠',grp:'繝輔ぃ繧ｹ繝・,kcal:530,protein:26,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-10}]},
-  {name:'繝・Μ繝､繧ｭ繝舌・繧ｬ繝ｼ',icon:'鵠',grp:'繝輔ぃ繧ｹ繝・,kcal:490,protein:22,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:16},{cat:'limit',count:2,xp:-10}]},
-  {name:'繝輔Λ繧､繝峨・繝・ヨ(M)',icon:'此',grp:'繝輔ぃ繧ｹ繝・,kcal:330,protein:4, fiber:3.0,components:[{cat:'veg',count:1,xp:6},{cat:'limit',count:2,xp:-10}]},
-  {name:'繝舌・繧ｬ繝ｼ繧ｻ繝・ヨ',  icon:'鵠',grp:'繝輔ぃ繧ｹ繝・,kcal:880,protein:30,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:6},{cat:'limit',count:3,xp:-14}]},
-  {name:'譚ｾ螻・迚帙ａ縺暦ｼ井ｸｦ・・,icon:'忽',grp:'繝輔ぃ繧ｹ繝・,kcal:620,protein:20,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  {name:'蜷蛾㍽螳ｶ 迚帑ｸｼ・井ｸｦ・・,icon:'忽',grp:'繝輔ぃ繧ｹ繝・,kcal:625,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  {name:'縺吶″螳ｶ 迚帑ｸｼ・井ｸｦ・・,icon:'忽',grp:'繝輔ぃ繧ｹ繝・,kcal:640,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  {name:'繧ｱ繝ｳ繧ｿ繝・く繝ｼ・・譛ｬ・・,icon:'漉',grp:'繝輔ぃ繧ｹ繝・,kcal:450,protein:28,fiber:0.0,components:[{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}],caution:'陦｣縺ｮ蝪ｩ蛻・・閼りｳｪ'},
-  {name:'繧ｳ繝ｳ繝薙ル縺翫↓縺弱ｊ',icon:'甑',grp:'繝輔ぃ繧ｹ繝・,kcal:200,protein:6, fiber:1.0,components:[{cat:'grain',count:1,xp:8}]},
-  {name:'繧ｳ繝ｳ繝薙ル蠑∝ｽ・,    icon:'些',grp:'繝輔ぃ繧ｹ繝・,kcal:700,protein:20,fiber:2.0,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}]},
-  {name:'繧ｳ繝ｳ繝薙ル繧ｵ繝ｳ繝・,  icon:'･ｪ',grp:'繝輔ぃ繧ｹ繝・,kcal:350,protein:14,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
-  {name:'繧ｫ繝・・鮗ｺ',        icon:'骨',grp:'繝輔ぃ繧ｹ繝・,kcal:360,protein:10,fiber:1.0,components:[{cat:'grain',count:1,xp:6},{cat:'limit',count:3,xp:-12}],caution:'蝪ｩ蛻・・豺ｻ蜉迚ｩ螟壹ａ'},
+  // 麺類(10)
+  {name:'ラーメン（しょうゆ）',icon:'🍜',grp:'麺類',kcal:500,protein:18,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}],caution:'塩分約5g'},
+  {name:'ラーメン（みそ）',    icon:'🍜',grp:'麺類',kcal:560,protein:19,fiber:2.5,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}],caution:'塩分約6g'},
+  {name:'ラーメン（とんこつ）',icon:'🍜',grp:'麺類',kcal:620,protein:22,fiber:1.5,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}],caution:'脂質・塩分多め'},
+  {name:'担々麺',             icon:'🍜',grp:'麺類',kcal:580,protein:20,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}],caution:'脂質・塩分多め'},
+  {name:'つけ麺',             icon:'🍜',grp:'麺類',kcal:680,protein:26,fiber:3.0,components:[{cat:'grain',count:2,xp:16},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'きつねうどん',        icon:'🍜',grp:'麺類',kcal:380,protein:14,fiber:2.0,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10}]},
+  {name:'天ぷらうどん',        icon:'🍜',grp:'麺類',kcal:500,protein:16,fiber:2.5,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'カレーうどん',        icon:'🍜',grp:'麺類',kcal:520,protein:16,fiber:3.0,components:[{cat:'grain',count:1,xp:6},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'ざるそば',            icon:'🍜',grp:'麺類',kcal:290,protein:13,fiber:3.0,components:[{cat:'grain',count:1,xp:12}]},
+  {name:'焼きそば',            icon:'🍜',grp:'麺類',kcal:500,protein:14,fiber:3.0,components:[{cat:'grain',count:1,xp:6},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  // 丼・カレー(10)
+  {name:'牛丼（並）',     icon:'🍚',grp:'丼・カレー',kcal:650,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:16},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'親子丼',         icon:'🍚',grp:'丼・カレー',kcal:600,protein:28,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24}]},
+  {name:'カツ丼',         icon:'🍚',grp:'丼・カレー',kcal:800,protein:30,fiber:1.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24},{cat:'limit',count:1,xp:-4}]},
+  {name:'天丼',           icon:'🍚',grp:'丼・カレー',kcal:720,protein:20,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-5}]},
+  {name:'海鮮丼',         icon:'🐟',grp:'丼・カレー',kcal:550,protein:32,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:28}]},
+  {name:'カレーライス',    icon:'🍛',grp:'丼・カレー',kcal:700,protein:18,fiber:4.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10}]},
+  {name:'チキンカレー',    icon:'🍛',grp:'丼・カレー',kcal:680,protein:25,fiber:4.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10}]},
+  {name:'カツカレー',      icon:'🍛',grp:'丼・カレー',kcal:900,protein:28,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}]},
+  {name:'ビーフカレー',    icon:'🍛',grp:'丼・カレー',kcal:750,protein:22,fiber:3.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'三色丼',         icon:'🍚',grp:'丼・カレー',kcal:580,protein:24,fiber:1.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22}]},
+  // 定食(12)
+  {name:'とんかつ定食',    icon:'🍱',grp:'定食',kcal:800,protein:30,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:2,xp:-8}]},
+  {name:'唐揚げ定食',      icon:'🍱',grp:'定食',kcal:750,protein:32,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'焼き魚定食',      icon:'🍱',grp:'定食',kcal:550,protein:28,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:24},{cat:'veg',count:1,xp:10}]},
+  {name:'鮭定食',          icon:'🍱',grp:'定食',kcal:600,protein:30,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:26},{cat:'veg',count:1,xp:10}]},
+  {name:'ハンバーグ定食',  icon:'🍱',grp:'定食',kcal:750,protein:28,fiber:2.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'生姜焼き定食',    icon:'🍱',grp:'定食',kcal:700,protein:26,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'刺身定食',        icon:'🍱',grp:'定食',kcal:500,protein:30,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:26},{cat:'veg',count:1,xp:10}]},
+  {name:'チキン南蛮定食',  icon:'🍱',grp:'定食',kcal:780,protein:30,fiber:2.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-5}]},
+  {name:'エビフライ定食',  icon:'🍱',grp:'定食',kcal:700,protein:24,fiber:2.5,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'麻婆豆腐定食',    icon:'🍱',grp:'定食',kcal:600,protein:24,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:22},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'餃子定食',        icon:'🍱',grp:'定食',kcal:650,protein:22,fiber:3.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:2,xp:18},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'チャーハン',      icon:'🍳',grp:'定食',kcal:550,protein:16,fiber:1.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  // 寿司・海鮮(6)
+  {name:'回転寿司（10皿）',icon:'🍣',grp:'寿司・海鮮',kcal:500,protein:30,fiber:0.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:2,xp:24}]},
+  {name:'にぎり寿司（並）',icon:'🍣',grp:'寿司・海鮮',kcal:450,protein:26,fiber:0.5,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:2,xp:22}]},
+  {name:'天ぷら盛り合わせ',icon:'🍤',grp:'寿司・海鮮',kcal:550,protein:18,fiber:2.0,components:[{cat:'protein',count:1,xp:14},{cat:'veg',count:1,xp:10},{cat:'limit',count:2,xp:-8}]},
+  {name:'お好み焼き',      icon:'🥞',grp:'寿司・海鮮',kcal:480,protein:16,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'veg',count:1,xp:10},{cat:'limit',count:1,xp:-4}]},
+  {name:'たこ焼き（8個）', icon:'🐙',grp:'寿司・海鮮',kcal:290,protein:10,fiber:1.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:10},{cat:'limit',count:1,xp:-3}]},
+  {name:'焼肉（牛カルビ）',icon:'🥩',grp:'寿司・海鮮',kcal:600,protein:28,fiber:0.0,components:[{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}],caution:'脂質多め'},
+  // ファスト・チェーン(12)
+  {name:'ビッグマック',    icon:'🍔',grp:'ファスト',kcal:530,protein:26,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-10}]},
+  {name:'テリヤキバーガー',icon:'🍔',grp:'ファスト',kcal:490,protein:22,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:16},{cat:'limit',count:2,xp:-10}]},
+  {name:'フライドポテト(M)',icon:'🍟',grp:'ファスト',kcal:330,protein:4, fiber:3.0,components:[{cat:'veg',count:1,xp:6},{cat:'limit',count:2,xp:-10}]},
+  {name:'バーガーセット',  icon:'🍔',grp:'ファスト',kcal:880,protein:30,fiber:3.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:2,xp:20},{cat:'veg',count:1,xp:6},{cat:'limit',count:3,xp:-14}]},
+  {name:'松屋 牛めし（並）',icon:'🍚',grp:'ファスト',kcal:620,protein:20,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'吉野家 牛丼（並）',icon:'🍚',grp:'ファスト',kcal:625,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'すき家 牛丼（並）',icon:'🍚',grp:'ファスト',kcal:640,protein:22,fiber:1.0,components:[{cat:'grain',count:2,xp:14},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'ケンタッキー（2本）',icon:'🍗',grp:'ファスト',kcal:450,protein:28,fiber:0.0,components:[{cat:'protein',count:2,xp:20},{cat:'limit',count:2,xp:-8}],caution:'衣の塩分・脂質'},
+  {name:'コンビニおにぎり',icon:'🍙',grp:'ファスト',kcal:200,protein:6, fiber:1.0,components:[{cat:'grain',count:1,xp:8}]},
+  {name:'コンビニ弁当',    icon:'🍱',grp:'ファスト',kcal:700,protein:20,fiber:2.0,components:[{cat:'grain',count:2,xp:12},{cat:'protein',count:1,xp:12},{cat:'limit',count:2,xp:-8}]},
+  {name:'コンビニサンド',  icon:'🥪',grp:'ファスト',kcal:350,protein:14,fiber:2.0,components:[{cat:'grain',count:1,xp:8},{cat:'protein',count:1,xp:12},{cat:'limit',count:1,xp:-4}]},
+  {name:'カップ麺',        icon:'🍜',grp:'ファスト',kcal:360,protein:10,fiber:1.0,components:[{cat:'grain',count:1,xp:6},{cat:'limit',count:3,xp:-12}],caution:'塩分・添加物多め'},
 ];
 
-let _restoGrp='縺吶∋縺ｦ';
+let _restoGrp='すべて';
 function buildRestaurantBoard(){
   const grid=document.getElementById('resto-grid');
-  const list=_restoGrp==='縺吶∋縺ｦ' ? POPULAR_DISHES : POPULAR_DISHES.filter(d=>d.grp===_restoGrp);
+  const list=_restoGrp==='すべて' ? POPULAR_DISHES : POPULAR_DISHES.filter(d=>d.grp===_restoGrp);
   grid.innerHTML='';
   list.forEach(d=>{
     const totalXp=d.components.reduce((a,c)=>a+c.xp*c.count,0);
@@ -2652,7 +2650,7 @@ document.getElementById('resto-tabs').addEventListener('click',e=>{
   buildRestaurantBoard();
 });
 
-// ===== 繝懊・繝画ｧ狗ｯ・=====
+// ===== ボード構築 =====
 function buildBoard(id, items, cat, cls){
   const grid=document.getElementById(id);
   if(!grid) return;
@@ -2663,23 +2661,23 @@ function buildBoard(id, items, cat, cls){
     if(f.subtype==='fish') c.classList.add('is-fish');
     if(f.subtype==='soy')  c.classList.add('is-soy');
     c.dataset.name=f.name;
-    const recommend = f.subtype==='fish' ? `<span class="f-recommend">澄 謗ｨ螂ｨ</span>`
-                    : f.subtype==='soy'  ? `<span class="f-recommend">験 謗ｨ螂ｨ</span>`
+    const recommend = f.subtype==='fish' ? `<span class="f-recommend">🐟 推奨</span>`
+                    : f.subtype==='soy'  ? `<span class="f-recommend">🌱 推奨</span>`
                     : '';
-    const unitLabel = cat==='veg'||cat==='fruit' ? '逧ｿ'
-                    : cat==='drink' ? '譚ｯ'
-                    : cat==='snack' ? '蝗・
-                    : '鬟・;
+    const unitLabel = cat==='veg'||cat==='fruit' ? '皿'
+                    : cat==='drink' ? '杯'
+                    : cat==='snack' ? '回'
+                    : '食';
     const kcalLabel = (f.kcal!=null) ? `${f.kcal}kcal` : '';
     const noteLabel = f.note ? `<span class="f-note">${f.note}</span>` : '';
     const tagBadges = (f.tags||[]).slice(0,3).map(t=>{
       const map = {
-        'anti-ox':   {label:'謚鈴・蛹・,  color:'#a8c8f0'},
-        'anti-inf':  {label:'謚礼ｎ逞・,  color:'#a8e8c0'},
-        'immune':    {label:'蜈咲稔蜉帚・', color:'#f0d48a'},
-        'omega3':    {label:'繧ｪ繝｡繧ｬ3', color:'#c0a0f0'},
-        'fiber':     {label:'鬟溽黄郢顔ｶｭ', color:'#d8a878'},
-        'fermented': {label:'逋ｺ驟ｵ',    color:'#f0a0c8'},
+        'anti-ox':   {label:'抗酸化',  color:'#a8c8f0'},
+        'anti-inf':  {label:'抗炎症',  color:'#a8e8c0'},
+        'immune':    {label:'免疫力↑', color:'#f0d48a'},
+        'omega3':    {label:'オメガ3', color:'#c0a0f0'},
+        'fiber':     {label:'食物繊維', color:'#d8a878'},
+        'fermented': {label:'発酵',    color:'#f0a0c8'},
       };
       const info = map[t]; if(!info) return '';
       return `<span class="f-tag" style="color:${info.color};border-color:${info.color}66;">${info.label}</span>`;
@@ -2688,11 +2686,11 @@ function buildBoard(id, items, cat, cls){
       ${recommend}
       <span class="f-icon">${f.icon}</span>
       <span class="f-name">${f.name}</span>
-      <span class="f-unit">1${unitLabel}繝ｻ${kcalLabel}</span>
+      <span class="f-unit">1${unitLabel}・${kcalLabel}</span>
       ${tagBadges?`<span class="f-tags">${tagBadges}</span>`:''}
       ${noteLabel}
       <span class="f-count">0</span>
-      <button class="f-dec">竏・/button>`;
+      <button class="f-dec">−</button>`;
     c.addEventListener('click',(e)=>{
       const doRecord=()=>{
         const portion = currentPortion();
@@ -2716,8 +2714,8 @@ function buildBoard(id, items, cat, cls){
         const profile = window.AppSafety?.getClinicalProfile();
         const warnings = window.AppSafety?.getFoodInteractionWarnings(profile, f.name) || [];
         if(warnings.length > 0){
-          const msg = warnings.map(w => (w.level==='warn'?'笞 ':'邃ｹ ')+w.text).join('\n\n');
-          showConfirm(`${f.name} 縺ｫ縺､縺・※・喀n\n${msg}\n\n縺薙・縺ｾ縺ｾ險倬鹸縺励∪縺吶°・歔, doRecord);
+          const msg = warnings.map(w => (w.level==='warn'?'⚠ ':'ℹ ')+w.text).join('\n\n');
+          showConfirm(`${f.name} について：\n\n${msg}\n\nこのまま記録しますか？`, doRecord);
           return;
         }
       }catch(err){}
@@ -2732,7 +2730,7 @@ function buildBoard(id, items, cat, cls){
   });
 }
 
-// 迴ｾ蝨ｨ驕ｸ謚槭＆繧後※縺・ｋ驥上・譎る俣蟶ｯ
+// 現在選択されている量・時間帯
 function currentPortion(){
   const sel = document.querySelector('input[name="portion"]:checked');
   return sel ? sel.value : 'normal';
@@ -2742,7 +2740,7 @@ function currentMealTime(){
   return sel ? sel.value : 'lunch';
 }
 
-// ===== 鬟滓攝讀懃ｴ｢ =====
+// ===== 食材検索 =====
 let _foodsDB=[], _dishesDB=[];
 async function loadFoodsDB(){
   try{
@@ -2752,7 +2750,7 @@ async function loadFoodsDB(){
   }catch(e){ _foodsDB=[]; _dishesDB=[]; }
 }
 
-const catLabel2={veg:'驥手除',fruit:'譫懃黄',protein:'縺溘ｓ縺ｱ縺剰ｳｪ',grain:'遨迚ｩ',limit:'蛻ｶ髯宣｣溷刀'};
+const catLabel2={veg:'野菜',fruit:'果物',protein:'たんぱく質',grain:'穀物',limit:'制限食品'};
 
 function renderSearchResults(q){
   const box=document.getElementById('search-results');
@@ -2763,13 +2761,13 @@ function renderSearchResults(q){
   const totalHits=foodHits.length+dishHits.length;
   box.innerHTML='';
   if(totalHits===0){
-    box.innerHTML=`<div class="sr-empty">縲・{q}縲阪・隕九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆</div>`;
+    box.innerHTML=`<div class="sr-empty">「${q}」は見つかりませんでした</div>`;
   } else {
-    // 譁咏炊DB邨先棡
+    // 料理DB結果
     dishHits.forEach(d=>{
       const totalXp=d.components.reduce((a,c)=>a+c.xp*c.count,0);
       const xpSign=totalXp>=0?'+':'';
-      const compTags=d.components.map(c=>`<span class="sr-comp-tag sr-cat-${c.cat}">${catLabel2[c.cat]}${c.count>1?'ﾃ・+c.count:''}</span>`).join('');
+      const compTags=d.components.map(c=>`<span class="sr-comp-tag sr-cat-${c.cat}">${catLabel2[c.cat]}${c.count>1?'×'+c.count:''}</span>`).join('');
       const div=document.createElement('div');
       div.className='sr-item sr-dish';
       div.innerHTML=`
@@ -2779,11 +2777,11 @@ function renderSearchResults(q){
           <div class="sr-comp-tags">${compTags}</div>
           <div class="sr-nutrition">
             <span class="sr-nut"><strong>${d.kcal}</strong>kcal</span>
-            <span class="sr-nut">縺溘ｓ縺ｱ縺剰ｳｪ <strong>${d.protein}g</strong></span>
-            <span class="sr-nut">鬟溽黄郢顔ｶｭ <strong>${d.fiber}g</strong></span>
-            ${d.caution?`<span class="sr-caution">笞・・{d.caution}</span>`:''}
+            <span class="sr-nut">たんぱく質 <strong>${d.protein}g</strong></span>
+            <span class="sr-nut">食物繊維 <strong>${d.fiber}g</strong></span>
+            ${d.caution?`<span class="sr-caution">⚠️${d.caution}</span>`:''}
           </div>
-          ${d.tip?`<div class="sr-tip">庁${d.tip}</div>`:''}
+          ${d.tip?`<div class="sr-tip">💡${d.tip}</div>`:''}
         </div>
         <span class="sr-xp ${totalXp>=0?'pos':'neg'}">${xpSign}${totalXp}XP</span>`;
       div.addEventListener('click',e=>{
@@ -2797,7 +2795,7 @@ function renderSearchResults(q){
       });
       box.appendChild(div);
     });
-    // 鬟滓攝DB邨先棡
+    // 食材DB結果
     foodHits.forEach(f=>{
       const xpSign=f.xp>=0?'+':'';
       const div=document.createElement('div');
@@ -2809,8 +2807,8 @@ function renderSearchResults(q){
           <div class="sr-unit">${f.unit}</div>
           <div class="sr-nutrition">
             <span class="sr-nut"><strong>${f.kcal}</strong>kcal</span>
-            <span class="sr-nut">縺溘ｓ縺ｱ縺剰ｳｪ <strong>${f.protein}g</strong></span>
-            <span class="sr-nut">鬟溽黄郢顔ｶｭ <strong>${f.fiber}g</strong></span>
+            <span class="sr-nut">たんぱく質 <strong>${f.protein}g</strong></span>
+            <span class="sr-nut">食物繊維 <strong>${f.fiber}g</strong></span>
           </div>
         </div>
         <span class="sr-xp ${f.xp>=0?'pos':'neg'}">${xpSign}${f.xp}XP</span>`;
@@ -2825,36 +2823,36 @@ function renderSearchResults(q){
       box.appendChild(div);
     });
   }
-  // 繧ｫ繧ｹ繧ｿ繝霑ｽ蜉
+  // カスタム追加
   const custom=document.createElement('div');
   custom.className='sr-custom';
-  custom.innerHTML=`<span style="font-size:1rem;">筐・/span><span class="sr-custom-text">縲・{q}縲阪ｒ繧ｫ繧ｹ繧ｿ繝霑ｽ蜉窶ｦ</span>`;
+  custom.innerHTML=`<span style="font-size:1rem;">➕</span><span class="sr-custom-text">「${q}」をカスタム追加…</span>`;
   custom.addEventListener('click',()=>openCustomAdd(q));
   box.appendChild(custom);
   box.classList.add('open');
 }
 
-// 繧ｫ繧ｹ繧ｿ繝鬟滓攝霑ｽ蜉
+// カスタム食材追加
 function openCustomAdd(prefill){
   const name=prefill||'';
-  const icons={'veg':'･ｬ','fruit':'克','protein':'漉','grain':'忽','limit':'笞・・};
+  const icons={'veg':'🥬','fruit':'🍎','protein':'🍗','grain':'🍚','limit':'⚠️'};
   const xpDef={'veg':12,'fruit':12,'protein':15,'grain':12,'limit':-5};
   const ov=document.createElement('div');
   Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});
   ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;">
-    <p style="color:#0a2a40;font-size:.88rem;font-weight:700;margin-bottom:14px;">縲・{name}縲阪・繧ｫ繝・ざ繝ｪ</p>
+    <p style="color:#0a2a40;font-size:.88rem;font-weight:700;margin-bottom:14px;">「${name}」のカテゴリ</p>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;">
-      ${[['veg','･ｬ 驥手除'],['fruit','克 譫懃黄'],['protein','漉 縺溘ｓ縺ｱ縺剰ｳｪ'],['grain','忽 遨迚ｩ'],['limit','笞・・蛻ｶ髯宣｣溷刀']].map(([v,l])=>`<label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #b0cfdf;border-radius:8px;cursor:pointer;font-size:.85rem;color:#0a2a40;"><input type="radio" name="_cat" value="${v}" style="accent-color:#1e7fa4;"> ${l}</label>`).join('')}
+      ${[['veg','🥬 野菜'],['fruit','🍎 果物'],['protein','🍗 たんぱく質'],['grain','🍚 穀物'],['limit','⚠️ 制限食品']].map(([v,l])=>`<label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #b0cfdf;border-radius:8px;cursor:pointer;font-size:.85rem;color:#0a2a40;"><input type="radio" name="_cat" value="${v}" style="accent-color:#1e7fa4;"> ${l}</label>`).join('')}
     </div>
     <div style="display:flex;gap:10px;justify-content:center;">
-      <button id="_catCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">繧ｭ繝｣繝ｳ繧ｻ繝ｫ</button>
-      <button id="_catOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">霑ｽ蜉</button>
+      <button id="_catCancel" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button>
+      <button id="_catOk" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">追加</button>
     </div></div>`;
   document.body.appendChild(ov);
   ov.querySelector('#_catCancel').onclick=()=>ov.remove();
   ov.querySelector('#_catOk').onclick=()=>{
     const sel=ov.querySelector('input[name="_cat"]:checked');
-    if(!sel){showToast('繧ｫ繝・ざ繝ｪ繧帝∈繧薙〒縺上□縺輔＞');return;}
+    if(!sel){showToast('カテゴリを選んでください');return;}
     const c=sel.value;
     ov.remove();
     sessions.push({name,icon:icons[c],cat:c,xp:xpDef[c]});
@@ -2884,25 +2882,25 @@ document.addEventListener('click',e=>{
 
 // ===== Gemini Vision =====
 const GEMINI_KEY_STORE='vitalia_gemini_key';
-const GEMINI_VISION_PROMPT=`縺薙・鬟滉ｺ九・蜀咏悄繧貞・譫舌＠縺ｦ縺上□縺輔＞縲ょ性縺ｾ繧後ｋ譁咏炊繝ｻ鬟滓攝繧偵☆縺ｹ縺ｦ迚ｹ螳壹＠縲∽ｻ･荳九・JSON縺ｮ縺ｿ縺ｧ霑皮ｭ斐＠縺ｦ縺上□縺輔＞縲ゆｽ吝・縺ｪ繝・く繧ｹ繝医・荳崎ｦ√〒縺吶・
+const GEMINI_VISION_PROMPT=`この食事の写真を分析してください。含まれる料理・食材をすべて特定し、以下のJSONのみで返答してください。余分なテキストは不要です。
 
 {
   "items": [
     {
-      "name": "譁咏炊蜷阪∪縺溘・鬟滓攝蜷搾ｼ域律譛ｬ隱橸ｼ・,
-      "icon": "邨ｵ譁・ｭ・譁・ｭ・,
-      "kcal": 謗ｨ螳壹き繝ｭ繝ｪ繝ｼ謨ｰ蛟､,
-      "protein": 謗ｨ螳壹◆繧薙・縺剰ｳｪg謨ｰ蛟､,
-      "fiber": 謗ｨ螳夐｣溽黄郢顔ｶｭg謨ｰ蛟､,
-      "cat": "veg|fruit|protein|grain|limit縺ｮ縺・★繧後°",
-      "xp": 謨ｴ謨ｰ
+      "name": "料理名または食材名（日本語）",
+      "icon": "絵文字1文字",
+      "kcal": 推定カロリー数値,
+      "protein": 推定たんぱく質g数値,
+      "fiber": 推定食物繊維g数値,
+      "cat": "veg|fruit|protein|grain|limitのいずれか",
+      "xp": 整数
     }
   ],
-  "comment": "縺薙・鬟滉ｺ九・譬・､翫ヰ繝ｩ繝ｳ繧ｹ縺ｫ縺､縺・※縺ｮ遏ｭ縺・さ繝｡繝ｳ繝茨ｼ域律譛ｬ隱・縲・譁・ｼ・
+  "comment": "この食事の栄養バランスについての短いコメント（日本語1〜2文）"
 }
 
-cat蛻・｡橸ｼ嘛eg=驥手除鬘・ fruit=譫懃黄鬘・ protein=閧蛾ｭ壼嵯雎・・, grain=邀ｳ繝代Φ鮗ｺ, limit=謠夂黄闖灘ｭ仙｡ｩ蛻・らｳ門､壹ａ
-xp逶ｮ螳会ｼ嘛eg+12, fruit+12, protein+15, grain+10, limit-5`;
+cat分類：veg=野菜類, fruit=果物類, protein=肉魚卵豆腐, grain=米パン麺, limit=揚物菓子塩分砂糖多め
+xp目安：veg+12, fruit+12, protein+15, grain+10, limit-5`;
 
 let _visionItems=[];
 
@@ -2926,15 +2924,15 @@ function openVisionModal(file){
   const addBtn=document.getElementById('vm-add-btn');
   _visionItems=[];
   addBtn.disabled=true;
-  addBtn.textContent='驕ｸ謚槭＠縺滄｣滉ｺ九ｒ險倬鹸縺吶ｋ';
-  body.innerHTML=`<div class="vm-analyzing"><div class="vm-spin">筺ｳ</div><br>隗｣譫蝉ｸｭ窶ｦ</div>`;
+  addBtn.textContent='選択した食事を記録する';
+  body.innerHTML=`<div class="vm-analyzing"><div class="vm-spin">⟳</div><br>解析中…</div>`;
   preview.style.display='block';
   preview.src=URL.createObjectURL(file);
   const keySection=document.getElementById('vm-key-section');
   if(keySection) keySection.style.display='none';
   modal.classList.add('open');
 
-  // 繧ｵ繝ｼ繝舌・蛛ｴ繝励Ο繧ｭ繧ｷ邨檎罰縺ｧ隗｣譫撰ｼ・PI繧ｭ繝ｼ蜈･蜉帙・荳崎ｦ・ｼ・
+  // サーバー側プロキシ経由で解析（APIキー入力は不要）
   analyzeViaProxy(file);
 }
 
@@ -2958,7 +2956,7 @@ async function analyzeViaProxy(file){
     const parsed=JSON.parse(jsonStr);
     renderVisionResults(parsed);
   }catch(err){
-    body.innerHTML=`<div class="vm-error">隗｣譫舌↓螟ｱ謨励＠縺ｾ縺励◆・・{err.message}<br><small>蟆代＠譎る俣繧堤ｽｮ縺・※繧ゅ≧荳蠎ｦ縺願ｩｦ縺励￥縺縺輔＞</small></div>`;
+    body.innerHTML=`<div class="vm-error">解析に失敗しました：${err.message}<br><small>少し時間を置いてもう一度お試しください</small></div>`;
   }
 }
 
@@ -2976,20 +2974,20 @@ function renderVisionResults(parsed){
   const addBtn=document.getElementById('vm-add-btn');
   _visionItems=parsed.items||[];
   let html='';
-  if(parsed.comment) html+=`<div class="vm-comment">町 ${parsed.comment}</div>`;
+  if(parsed.comment) html+=`<div class="vm-comment">💬 ${parsed.comment}</div>`;
   if(_visionItems.length===0){
-    html+='<div class="vm-analyzing" style="padding:12px 0">鬟滉ｺ九′讀懷・縺ｧ縺阪∪縺帙ｓ縺ｧ縺励◆</div>';
+    html+='<div class="vm-analyzing" style="padding:12px 0">食事が検出できませんでした</div>';
     body.innerHTML=html; return;
   }
-  html+=`<div class="vm-select-hint">霑ｽ蜉縺吶ｋ鬟滉ｺ九ｒ繧ｿ繝・・縺ｧ驕ｸ謚・/div><div class="vm-items" id="vm-items-list">`;
+  html+=`<div class="vm-select-hint">追加する食事をタップで選択</div><div class="vm-items" id="vm-items-list">`;
   _visionItems.forEach((item,i)=>{
     const xpSign=item.xp>=0?'+':'';
     const col=catColor[item.cat]||'var(--text)';
     html+=`<div class="vm-item" data-i="${i}">
-      <span class="vm-item-icon">${item.icon||'鎖'}</span>
+      <span class="vm-item-icon">${item.icon||'🍽'}</span>
       <div class="vm-item-info">
         <div class="vm-item-name">${item.name}</div>
-        <div class="vm-item-meta">${item.kcal}kcal ﾂｷ 縺溘ｓ縺ｱ縺剰ｳｪ${item.protein}g ﾂｷ 鬟溽黄郢顔ｶｭ${item.fiber}g</div>
+        <div class="vm-item-meta">${item.kcal}kcal · たんぱく質${item.protein}g · 食物繊維${item.fiber}g</div>
       </div>
       <span class="vm-item-xp" style="color:${col}">${xpSign}${item.xp}XP</span>
     </div>`;
@@ -3004,14 +3002,14 @@ function renderVisionResults(parsed){
     });
   });
   addBtn.disabled=true;
-  addBtn.textContent='驕ｸ謚槭＠縺滄｣滉ｺ九ｒ險倬鹸縺吶ｋ';
+  addBtn.textContent='選択した食事を記録する';
   addBtn.onclick=confirmVisionAdd;
 }
 
 function confirmVisionAdd(){
   const selected=[...document.querySelectorAll('.vm-item.selected')].map(el=>_visionItems[+el.dataset.i]);
   selected.forEach(item=>{
-    sessions.push({name:item.name,icon:item.icon||'鎖',cat:item.cat||'protein',xp:item.xp||0,kcal:item.kcal,_ai:true});
+    sessions.push({name:item.name,icon:item.icon||'🍽',cat:item.cat||'protein',xp:item.xp||0,kcal:item.kcal,_ai:true});
   });
   renderLog(); updateUI(); updateCardCounts();
   document.getElementById('vision-modal').classList.remove('open');
@@ -3026,7 +3024,7 @@ document.getElementById('vision-modal').addEventListener('click',e=>{
   if(e.target===document.getElementById('vision-modal')) document.getElementById('vision-modal').classList.remove('open');
 });
 
-// ===== 縺翫☆縺吶ａ迪ｮ遶・=====
+// ===== おすすめ献立 =====
 let _menuTime='morning';
 function buildMenuBoard(){
   const cards=document.getElementById('menu-cards');
@@ -3044,7 +3042,7 @@ function buildMenuBoard(){
       <div class="menu-card-tags">${
         m.items.map(i=>`<span class="menu-tag menu-tag-${i.cat}">${i.icon} ${i.name}</span>`).join('')
       }</div>
-      <button class="menu-card-btn">笨ｦ 縺ｾ縺ｨ繧√※險倬鹸縺吶ｋ</button>`;
+      <button class="menu-card-btn">✦ まとめて記録する</button>`;
     div.querySelector('.menu-card-btn').addEventListener('click',e=>{
       e.stopPropagation();
       m.items.forEach(i=>sessions.push({name:i.name,icon:i.icon,cat:i.cat,xp:i.xp}));
@@ -3066,12 +3064,12 @@ document.getElementById('menu-toggle').addEventListener('click',()=>{
   document.getElementById('menu-board-section').classList.toggle('open');
 });
 
-// ===== 菫晏ｭ倥・隱ｭ霎ｼ =====
+// ===== 保存・読込 =====
 async function saveWeek(){
   const isFirst=!localStorage.getItem(`vn_firstsave_${uid}`);
   const c=getCounts();
   const xp=totalXp(), lv=getLv(xp);
-  // 螻･豁ｴ縺ｫ縺ｯ繧ｻ繝・す繝ｧ繝ｳ+繧ｻ繝・ヨ繝懊・繝翫せXP縺ｮ縺ｿ菫晏ｭ假ｼ医Ο繧ｰ繧､繝ｳ繝懊・繝翫せ縺ｯ vn_bonus_uid 縺ｧ蛻･邂｡逅・ｼ・
+  // 履歴にはセッション+セットボーナスXPのみ保存（ログインボーナスは vn_bonus_uid で別管理）
   const sessionXp=sessions.reduce((sum,s)=>{ if(s.components) return sum+s.components.reduce((a,c2)=>a+c2.xp,0); return sum+(s.xp||0); },0)+setBonusXp();
   const score=Math.round((c.veg/21+c.fruit/10+c.protein/14+c.grain/14)*25);
   const data={...c,sessions,xp:Math.max(0,sessionXp),lv:lv.lv,lvName:lv.name,savedAt:new Date().toLocaleString('ja-JP'),week:weekLabel()};
@@ -3080,14 +3078,14 @@ async function saveWeek(){
   checkAch();
   const s=applyStreak(); renderStreak(s);
 
-  // Firestore縺ｫ繧ゆｿ晏ｭ假ｼ育皮ｩｶ繝・・繧ｿ蜿朱寔・上が繝輔Λ繧､繝ｳ譎ゅ・繧ｭ繝･繝ｼ・・
-  // 譬・､雁粋險医ｒ險育ｮ・
+  // Firestoreにも保存（研究データ収集／オフライン時はキュー）
+  // 栄養合計を計算
   let totKcal=0, totProt=0, totFib=0;
   sessions.forEach(s=>{
     if(s.components){ totKcal += s.kcal||0; totProt += s.protein||0; totFib += s.fiber||0; }
     else { totKcal += s.kcal||0; totProt += s.prot||0; totFib += s.fib||0; }
   });
-  // 繧ｻ繝・ヨ繝懊・繝翫せ蜿門ｾ・
+  // セットボーナス取得
   const earnedBonuses = SET_BONUSES.filter(b=>b.cond(sessions)).map(b=>({id:b.id, name:b.name, xp:b.xp}));
 
   const recordPayload = {
@@ -3120,12 +3118,12 @@ async function saveWeek(){
   }
 
   document.getElementById('save-msg').textContent='';
-  showSaveToast('笨・,'險倬鹸繧剃ｿ晏ｭ倥＠縺ｾ縺励◆');
+  showSaveToast('✅','記録を保存しました');
   const nutritionScore=Math.round(((sessions.filter(s=>s.cat==='veg').length/21)+(sessions.filter(s=>s.cat==='fruit').length/10)+(sessions.filter(s=>s.cat==='protein').length/14)+(sessions.filter(s=>s.cat==='grain').length/14))*25);
   if(nutritionScore>=20) setTimeout(showGoalCelebration,400);
   if(isFirst){
     localStorage.setItem(`vn_firstsave_${uid}`,'1');
-    setTimeout(()=>showLvUp(1,'隕狗ｿ偵＞骭ｬ驥題｡灘ｸｫ'), 800);
+    setTimeout(()=>showLvUp(1,'見習い錬金術師'), 800);
   }
 }
 function showSaveToast(icon,msg){
@@ -3180,7 +3178,7 @@ function wkToMonthLabel(wk){
     const d=jan4.getDay()||7;
     const mon=new Date(jan4); mon.setDate(jan4.getDate()-d+1+(w-1)*7);
     const thu=new Date(mon); thu.setDate(mon.getDate()+3);
-    return `${thu.getFullYear()}蟷ｴ${thu.getMonth()+1}譛・;
+    return `${thu.getFullYear()}年${thu.getMonth()+1}月`;
   }catch(e){ return wk; }
 }
 function renderHistory(){
@@ -3189,7 +3187,7 @@ function renderHistory(){
   const el=document.getElementById('hist-list');
   el.innerHTML='';
   if(!hist.length){
-    el.innerHTML='<div class="hist-empty">縺ｾ縺險倬鹸縺後≠繧翫∪縺帙ｓ</div>';
+    el.innerHTML='<div class="hist-empty">まだ記録がありません</div>';
     document.getElementById('monthly-panel').style.display='none';
     return;
   }
@@ -3202,7 +3200,7 @@ function renderHistory(){
       <span class="hist-score">${h.score||0}pt</span>`;
     el.appendChild(div);
   });
-  // 譛域ｬ｡繧ｵ繝槭Μ繝ｼ・域・､翫せ繧ｳ繧｢縺ｮ譛亥粋險茨ｼ・
+  // 月次サマリー（栄養スコアの月合計）
   const goalPt=25;
   const monthly=new Map();
   hist.forEach(h=>{
@@ -3218,9 +3216,9 @@ function renderHistory(){
     div.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(78,201,138,.12);border-radius:8px;padding:8px 10px;font-size:.72rem;';
     div.innerHTML=`<div style="font-weight:700;color:#7ee8b0;margin-bottom:4px;">${lbl}</div>`+
       `<div style="display:flex;gap:12px;color:rgba(200,215,235,.7);">`+
-      `<span>蜷郁ｨ・<strong style="color:#fff;">${m.total}pt</strong></span>`+
-      `<span>險倬鹸 <strong style="color:#fff;">${m.weeks}騾ｱ</strong></span>`+
-      `<span>驕疲・ <strong style="color:var(--green);">${m.achieved}蝗・/strong></span></div>`;
+      `<span>合計 <strong style="color:#fff;">${m.total}pt</strong></span>`+
+      `<span>記録 <strong style="color:#fff;">${m.weeks}週</strong></span>`+
+      `<span>達成 <strong style="color:var(--green);">${m.achieved}回</strong></span></div>`;
     mList.appendChild(div);
   });
   document.getElementById('monthly-panel').style.display='block';
@@ -3229,16 +3227,16 @@ function renderHistory(){
 // ===== Auth =====
 function authErrMsg(code){
   const map={
-    'auth/user-not-found':'縺薙・繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｯ逋ｻ骭ｲ縺輔ｌ縺ｦ縺・∪縺帙ｓ縲・,
-    'auth/wrong-password':'繝代せ繝ｯ繝ｼ繝峨′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・,
-    'auth/invalid-credential':'繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｾ縺溘・繝代せ繝ｯ繝ｼ繝峨′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・,
-    'auth/invalid-email':'繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｮ蠖｢蠑上′豁｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・,
-    'auth/too-many-requests':'隧ｦ陦悟屓謨ｰ縺悟､壹☆縺弱∪縺吶ゅ＠縺ｰ繧峨￥蠕後↓縺願ｩｦ縺励￥縺縺輔＞縲・,
-    'auth/email-already-in-use':'縺薙・繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｯ縺吶〒縺ｫ逋ｻ骭ｲ縺輔ｌ縺ｦ縺・∪縺吶・,
-    'auth/weak-password':'繝代せ繝ｯ繝ｼ繝峨・6譁・ｭ嶺ｻ･荳翫↓縺励※縺上□縺輔＞縲・,
-    'auth/network-request-failed':'騾壻ｿ｡繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺ｾ縺励◆縲よ磁邯壹ｒ遒ｺ隱阪＠縺ｦ縺上□縺輔＞縲・,
+    'auth/user-not-found':'このメールアドレスは登録されていません。',
+    'auth/wrong-password':'パスワードが正しくありません。',
+    'auth/invalid-credential':'メールアドレスまたはパスワードが正しくありません。',
+    'auth/invalid-email':'メールアドレスの形式が正しくありません。',
+    'auth/too-many-requests':'試行回数が多すぎます。しばらく後にお試しください。',
+    'auth/email-already-in-use':'このメールアドレスはすでに登録されています。',
+    'auth/weak-password':'パスワードは6文字以上にしてください。',
+    'auth/network-request-failed':'通信エラーが発生しました。接続を確認してください。',
   };
-  return map[code]||'繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺ｾ縺励◆縲ゅｂ縺・ｸ蠎ｦ縺願ｩｦ縺励￥縺縺輔＞縲・;
+  return map[code]||'エラーが発生しました。もう一度お試しください。';
 }
 function showAuthError(msg){ const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
 function clearAuthError(){ const el=document.getElementById('auth-error'); el.style.display='none'; }
@@ -3246,23 +3244,23 @@ function clearAuthError(){ const el=document.getElementById('auth-error'); el.st
 document.getElementById('login-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim(), p=document.getElementById('password').value;
   clearAuthError();
-  if(!e||!p){ showAuthError('繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｨ繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞縲・); return; }
+  if(!e||!p){ showAuthError('メールアドレスとパスワードを入力してください。'); return; }
   signInWithEmailAndPassword(auth,e,p).catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('register-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim(), p=document.getElementById('password').value;
   clearAuthError();
-  if(!e||!p){ showAuthError('繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ縺ｨ繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞縲・); return; }
+  if(!e||!p){ showAuthError('メールアドレスとパスワードを入力してください。'); return; }
   createUserWithEmailAndPassword(auth,e,p)
-    .then(()=>showAuthError('笨・繧｢繧ｫ繧ｦ繝ｳ繝医ｒ菴懈・縺励∪縺励◆・√Ο繧ｰ繧､繝ｳ縺励∪縺吮ｦ'))
+    .then(()=>showAuthError('✓ アカウントを作成しました！ログインします…'))
     .catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('reset-pw-btn').addEventListener('click',()=>{
   const e=document.getElementById('email').value.trim();
   clearAuthError();
-  if(!e){ showAuthError('繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ繧貞・蜉帙＠縺ｦ縺九ｉ謚ｼ縺励※縺上□縺輔＞縲・); return; }
+  if(!e){ showAuthError('メールアドレスを入力してから押してください。'); return; }
   sendPasswordResetEmail(auth,e)
-    .then(()=>showAuthError('笨・繝代せ繝ｯ繝ｼ繝峨Μ繧ｻ繝・ヨ繝｡繝ｼ繝ｫ繧帝∽ｿ｡縺励∪縺励◆縲・))
+    .then(()=>showAuthError('✓ パスワードリセットメールを送信しました。'))
     .catch(err=>showAuthError(authErrMsg(err.code)));
 });
 document.getElementById('logout-btn').addEventListener('click',()=>{
@@ -3271,7 +3269,7 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
 });
 document.getElementById('save-btn').addEventListener('click',saveWeek);
 document.getElementById('reset-btn').addEventListener('click',()=>{
-  showConfirm('莉企ｱ縺ｮ繧ｿ繝・・蜈･蜉帙ｒ縺吶∋縺ｦ繝ｪ繧ｻ繝・ヨ縺励∪縺吶°・歃n・井ｿ晏ｭ俶ｸ医∩繝・・繧ｿ縺ｯ谿九ｊ縺ｾ縺呻ｼ・, ()=>{
+  showConfirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）', ()=>{
     sessions=[];
     localStorage.removeItem(storeKey());
     document.querySelectorAll('.food-card').forEach(c=>{
@@ -3279,7 +3277,7 @@ document.getElementById('reset-btn').addEventListener('click',()=>{
       const el=c.querySelector('.f-count'); if(el) el.textContent='';
     });
     updateUI();
-    document.getElementById('save-msg').textContent='繝ｪ繧ｻ繝・ヨ縺励∪縺励◆';
+    document.getElementById('save-msg').textContent='リセットしました';
     setTimeout(()=>{ document.getElementById('save-msg').textContent=''; },2000);
   });
 });
@@ -3289,14 +3287,14 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('login-screen').style.display='';
   document.getElementById('main-screen').classList.remove('hidden');
   document.getElementById('main-screen').style.display='flex';
-  document.getElementById('user-display').textContent='繧ｲ繧ｹ繝茨ｼ医ョ繝｢・・;
-  document.getElementById('week-lbl').textContent='套 '+weekLabel()+'縺ｮ鬲泌鴨險倬鹸';
+  document.getElementById('user-display').textContent='ゲスト（デモ）';
+  document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
   document.getElementById('coach-fab').classList.add('visible');
 });
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 
-const _authDelay=900;
+const _authDelay=localStorage.getItem('vitalia_uid_hint') ? 8000 : 2000;
 const _authTO=setTimeout(()=>{
   document.getElementById('loading-screen').classList.add('hidden');
   document.getElementById('login-screen').classList.remove('hidden');
@@ -3313,7 +3311,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('main-screen').classList.remove('hidden');
     document.getElementById('main-screen').style.display='flex';
     document.getElementById('user-display').textContent=user.email;
-    document.getElementById('week-lbl').textContent='套 '+weekLabel()+'縺ｮ鬲泌鴨險倬鹸';
+    document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
     if(window.AppEnhance) window.AppEnhance.init(uid);
     buildQuickBoard();
     buildRestaurantBoard();
@@ -3348,7 +3346,7 @@ onAuthStateChanged(auth,user=>{
   }
 });
 
-// ===== 騾｣蜍輔せ繝・・繧ｿ繧ｹ譖ｴ譁ｰ =====
+// ===== 連動ステータス更新 =====
 function updateLinked(){
   const cnt={veg:0,fruit:0,protein:0,grain:0};
   let fishCnt=0, soyCnt=0;
@@ -3357,19 +3355,19 @@ function updateLinked(){
     if(s.subtype==='fish') fishCnt++;
     if(s.subtype==='soy')  soyCnt++;
   });
-  // 謗ｨ螂ｨ縺溘ｓ縺ｱ縺剰ｳｪ繝懊・繝翫せ・夐ｭ壹・2蛟阪き繧ｦ繝ｳ繝医∝､ｧ雎・・1.5蛟阪き繧ｦ繝ｳ繝医〒譬・､翫せ繧ｳ繧｢縺ｫ蟇・ｸ・
+  // 推奨たんぱく質ボーナス：魚は2倍カウント、大豆は1.5倍カウントで栄養スコアに寄与
   const proteinScore = (cnt.protein - fishCnt - soyCnt) + fishCnt*2 + soyCnt*1.5;
   const ns=Math.round(((cnt.veg)/21+(cnt.fruit)/10+(proteinScore)/14+(cnt.grain)/14)*25);
   const nPct=Math.min(100,ns*4);
   document.getElementById('ls-n-fill').style.width=nPct+'%';
   document.getElementById('ls-n-val').textContent=ns+'/25';
-  // 鬲壹・螟ｧ雎・き繧ｦ繝ｳ繧ｿ繧・localStorage 縺ｫ繧りｨ倬鹸・医せ繝医Μ繝ｼ繧ｯ蛻､螳夂畑・・
+  // 魚・大豆カウンタを localStorage にも記録（ストリーク判定用）
   try{
     const wk=weekKey();
     localStorage.setItem(`vn_fish_${uid}_${wk}`, String(fishCnt));
     localStorage.setItem(`vn_soy_${uid}_${wk}`, String(soyCnt));
   }catch(e){}
-  // 逕ｻ髱｢縺ｫ鬲壹・螟ｧ雎・き繧ｦ繝ｳ繧ｿ陦ｨ遉ｺ・郁ｦ∫ｴ縺後≠繧後・・・
+  // 画面に魚・大豆カウンタ表示（要素があれば）
   const fishEl=document.getElementById('cnt-fish');
   if(fishEl) fishEl.textContent=fishCnt;
   const soyEl=document.getElementById('cnt-soy');
@@ -3387,100 +3385,100 @@ function updateLinked(){
   }catch(e){}
 }
 
-// ===== 繧ｻ繝ｩ縺ｮ縺翫☆縺吶ａ繝ｬ繧ｷ繝費ｼ域ｯ取律繝ｭ繝ｼ繝・・繧ｷ繝ｧ繝ｳ・・=====
+// ===== セラのおすすめレシピ（毎日ローテーション） =====
 const SERA_RECIPES=[
-  {icon:'澄', name:'魄ｭ縺ｮ繝帙う繝ｫ辟ｼ縺・, items:[
-    {name:'縺輔￠',icon:'澄',cat:'protein',xp:25,subtype:'fish'},
-    {name:'縺阪・縺馴｡・,icon:'剛',cat:'veg',xp:14},
-    {name:'縺溘∪縺ｭ縺・,icon:'ｧ・,cat:'veg',xp:10},
-  ], note:'鬲堙鈴㍽闖懊・鮟・≡繧ｳ繝ｳ繝薙ゅヰ繧ｿ繝ｼ縺ｧ繧ｳ繧ｯUP', quote:'縲碁ｮｭ縺ｯ繝薙ち繝溘ΦD繧りｱ雁ｯ後るｪｨ繧貞ｼｷ縺上＠縺ｾ縺吶ｈ縲・},
+  {icon:'🐟', name:'鮭のホイル焼き', items:[
+    {name:'さけ',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'きのこ類',icon:'🍄',cat:'veg',xp:14},
+    {name:'たまねぎ',icon:'🧅',cat:'veg',xp:10},
+  ], note:'魚×野菜の黄金コンビ。バターでコクUP', quote:'「鮭はビタミンDも豊富。骨を強くしますよ」'},
 
-  {icon:'些', name:'雎・・繧ｹ繝・・繧ｭ螳夐｣・, items:[
-    {name:'雎・・繝ｻ螟ｧ雎・,icon:'ｫ・,cat:'protein',xp:22,subtype:'soy'},
-    {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',xp:15},
-    {name:'邇・ｱｳ縺秘｣ｯ',icon:'忽',cat:'grain',xp:15},
-  ], note:'濶ｯ雉ｪ縺ｪ讀咲黄諤ｧ縺溘ｓ縺ｱ縺上→驩・・', quote:'縲悟､ｧ雎・・螳我ｾ｡縺ｧ邯壹￠繧・☆縺・ｼｷ縺・袖譁ｹ縺ｧ縺吶・},
+  {icon:'🍱', name:'豆腐ステーキ定食', items:[
+    {name:'豆腐・大豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'ほうれん草',icon:'🥬',cat:'veg',xp:15},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+  ], note:'良質な植物性たんぱくと鉄分', quote:'「大豆は安価で続けやすい強い味方です」'},
 
-  {icon:'澄', name:'縺輔・縺ｮ蜻ｳ蝎檎・', items:[
-    {name:'縺輔・',icon:'澄',cat:'protein',xp:25,subtype:'fish'},
-    {name:'縺縺・％繧・,icon:'ｫ・,cat:'veg',xp:8},
-    {name:'邇・ｱｳ縺秘｣ｯ',icon:'忽',cat:'grain',xp:15},
-  ], note:'髱帝ｭ壹・DHA縺ｧ閼ｳ縺ｨ蠢・ｒ蛛･繧・°縺ｫ', quote:'縲碁搨鬲壹・騾ｱ2蝗槭∝ｿ・・螳牙ｮ壹↓繧ょ柑縺阪∪縺吶・},
+  {icon:'🐟', name:'さばの味噌煮', items:[
+    {name:'さば',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'だいこん',icon:'🫚',cat:'veg',xp:8},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+  ], note:'青魚のDHAで脳と心を健やかに', quote:'「青魚は週2回、心の安定にも効きます」'},
 
-  {icon:'･・, name:'邏崎ｱ・が繧ｯ繝ｩ繧ｵ繝ｩ繝', items:[
-    {name:'邏崎ｱ・,icon:'ｫ・,cat:'protein',xp:22,subtype:'soy'},
-    {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',cat:'veg',xp:18},
-    {name:'繝医・繝・,icon:'劫',cat:'veg',xp:12},
-  ], note:'繝阪ヰ繝阪ヰ鬟滓攝縺ｧ閻ｸ蜀・腸蠅・ｒ謨ｴ縺医ｋ', quote:'縲瑚・縺梧紛縺医・縲∝・逍ｫ繧よ紛縺・∪縺吶・},
+  {icon:'🥗', name:'納豆オクラサラダ', items:[
+    {name:'納豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'ブロッコリー',icon:'🥦',cat:'veg',xp:18},
+    {name:'トマト',icon:'🍅',cat:'veg',xp:12},
+  ], note:'ネバネバ食材で腸内環境を整える', quote:'「腸が整えば、免疫も整います」'},
 
-  {icon:'澄', name:'縺ｾ縺舌ｍ縺ｮ貍ｬ縺台ｸｼ', items:[
-    {name:'縺ｾ縺舌ｍ',icon:'摺',cat:'protein',xp:24,subtype:'fish'},
-    {name:'邇・ｱｳ縺秘｣ｯ',icon:'忽',cat:'grain',xp:15},
-    {name:'蟆乗收闖・,icon:'･ｬ',cat:'veg',xp:15},
-  ], note:'濶ｯ雉ｪ縺ｪ縺溘ｓ縺ｱ縺剰ｳｪ縺ｨ驩・・縺ｮ繧ｻ繝・ヨ', quote:'縲悟ｿ吶＠縺・律縺ｯ縲∽ｸｼ1譚ｯ縺ｧ繧らｫ区ｴｾ縺ｪ譬・､願｣懃ｵｦ縺ｧ縺吶・},
+  {icon:'🐟', name:'まぐろの漬け丼', items:[
+    {name:'まぐろ',icon:'🐠',cat:'protein',xp:24,subtype:'fish'},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+    {name:'小松菜',icon:'🥬',cat:'veg',xp:15},
+  ], note:'良質なたんぱく質と鉄分のセット', quote:'「忙しい日は、丼1杯でも立派な栄養補給です」'},
 
-  {icon:'･・, name:'縺・ｏ縺励・縺､縺ｿ繧梧ｱ・, items:[
-    {name:'縺・ｏ縺・,icon:'澄',cat:'protein',xp:25,subtype:'fish'},
-    {name:'縺ｫ繧薙§繧・,icon:'･・,cat:'veg',xp:12},
-    {name:'縺縺・％繧・,icon:'ｫ・,cat:'veg',xp:8},
-  ], note:'繧ｹ繝ｼ繝励〒譬・､翫ｒ騾・＆縺壼精蜿・, quote:'縲後＞繧上＠縺ｯ蟆城ｪｨ縺斐→繧ｫ繝ｫ繧ｷ繧ｦ繝貅舌↓縲・},
+  {icon:'🥘', name:'いわしのつみれ汁', items:[
+    {name:'いわし',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+    {name:'だいこん',icon:'🫚',cat:'veg',xp:8},
+  ], note:'スープで栄養を逃さず吸収', quote:'「いわしは小骨ごとカルシウム源に」'},
 
-  {icon:'叉', name:'鮓上・縺ｭ閧峨→驥手除縺ｮ闥ｸ縺礼黄', items:[
-    {name:'鮓上・縺ｭ閧・,icon:'漉',cat:'protein',xp:15},
-    {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',cat:'veg',xp:18},
-    {name:'縺ｫ繧薙§繧・,icon:'･・,cat:'veg',xp:12},
-  ], note:'鬮倥◆繧薙・縺丈ｽ手р雉ｪ縺ｮ蜆ｪ遲臥函', quote:'縲碁ｭ壹′闍ｦ謇九↑譌･縺ｯ縺薙ｌ縺ｧ縲・},
+  {icon:'🍳', name:'鶏むね肉と野菜の蒸し物', items:[
+    {name:'鶏むね肉',icon:'🍗',cat:'protein',xp:15},
+    {name:'ブロッコリー',icon:'🥦',cat:'veg',xp:18},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+  ], note:'高たんぱく低脂質の優等生', quote:'「魚が苦手な日はこれで」'},
 
-  // ===== 霑ｽ蜉繝ｬ繧ｷ繝・=====
-  {icon:'坤', name:'魃悶・蝪ｩ辟ｼ縺阪→譬ｹ闖・, items:[
-    {name:'縺輔・',icon:'澄',cat:'protein',xp:25,subtype:'fish'},
-    {name:'縺縺・％繧・,icon:'ｫ・,cat:'veg',xp:8},
-    {name:'縺ｫ繧薙§繧・,icon:'･・,cat:'veg',xp:12},
-  ], note:'髱帝ｭ壹・閼ゅ〒險俶・蜉婉P', quote:'縲後す繝ｳ繝励Ν縺御ｸ逡ｪ縺ｧ縺吶・縲・},
+  // ===== 追加レシピ =====
+  {icon:'🍣', name:'鯖の塩焼きと根菜', items:[
+    {name:'さば',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'だいこん',icon:'🫚',cat:'veg',xp:8},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+  ], note:'青魚の脂で記憶力UP', quote:'「シンプルが一番ですね」'},
 
-  {icon:'･・, name:'雎・・縺ｨ繧｢繝懊き繝峨・繧ｵ繝ｩ繝', items:[
-    {name:'雎・・繝ｻ螟ｧ雎・,icon:'ｫ・,cat:'protein',xp:22,subtype:'soy'},
-    {name:'繝悶Ο繝・さ繝ｪ繝ｼ',icon:'･ｦ',cat:'veg',xp:18},
-    {name:'繝医・繝・,icon:'劫',cat:'veg',xp:12},
-  ], note:'濶ｯ雉ｪ縺ｪ閼りｳｪ縺ｨ讀咲黄諤ｧ縺溘ｓ縺ｱ縺・, quote:'縲碁｣溽黄郢顔ｶｭ繧りｱ雁ｯ鯉ｼ√・},
+  {icon:'🥗', name:'豆腐とアボカドのサラダ', items:[
+    {name:'豆腐・大豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'ブロッコリー',icon:'🥦',cat:'veg',xp:18},
+    {name:'トマト',icon:'🍅',cat:'veg',xp:12},
+  ], note:'良質な脂質と植物性たんぱく', quote:'「食物繊維も豊富！」'},
 
-  {icon:'･｢', name:'縺医・縺ｨ縺阪・縺薙・轤偵ａ迚ｩ', items:[
-    {name:'縺医・',icon:'ｦ・,cat:'protein',xp:18,subtype:'fish'},
-    {name:'縺阪・縺馴｡・,icon:'剛',cat:'veg',xp:14},
-    {name:'繝斐・繝槭Φ',icon:'ｫ・,cat:'veg',xp:12},
-  ], note:'菴弱き繝ｭ繝ｪ繝ｼ鬮倥◆繧薙・縺・, quote:'縲瑚ャ縺ｫ繧・＆縺励＞荳蜩√・},
+  {icon:'🥢', name:'えびときのこの炒め物', items:[
+    {name:'えび',icon:'🦐',cat:'protein',xp:18,subtype:'fish'},
+    {name:'きのこ類',icon:'🍄',cat:'veg',xp:14},
+    {name:'ピーマン',icon:'🫑',cat:'veg',xp:12},
+  ], note:'低カロリー高たんぱく', quote:'「胃にやさしい一品」'},
 
-  {icon:'忽', name:'縺励ｉ縺吶→蜊ｵ縺ｮ邇・ｱｳ荳ｼ', items:[
-    {name:'縺・ｏ縺・,icon:'澄',cat:'protein',xp:25,subtype:'fish'},
-    {name:'繧・〒蜊ｵ',icon:'･・,cat:'protein',xp:12},
-    {name:'邇・ｱｳ縺秘｣ｯ',icon:'忽',cat:'grain',xp:15},
-  ], note:'繧ｫ繝ｫ繧ｷ繧ｦ繝縺ｨ螳悟・譬・､・, quote:'縲悟ｿ吶＠縺・律縺ｮ縺雁勧縺台ｸｼ縲・},
+  {icon:'🍚', name:'しらすと卵の玄米丼', items:[
+    {name:'いわし',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'ゆで卵',icon:'🥚',cat:'protein',xp:12},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+  ], note:'カルシウムと完全栄養', quote:'「忙しい日のお助け丼」'},
 
-  {icon:'･ｬ', name:'縺ｻ縺・ｌ繧楢拷縺ｨ邏崎ｱ・・縺翫・縺溘＠', items:[
-    {name:'邏崎ｱ・,icon:'ｫ・,cat:'protein',xp:22,subtype:'soy'},
-    {name:'縺ｻ縺・ｌ繧楢拷',icon:'･ｬ',cat:'veg',xp:15},
-    {name:'縺ｫ繧薙§繧・,icon:'･・,cat:'veg',xp:12},
-  ], note:'驩・・繝ｻ闡蛾・繝ｻ縺溘ｓ縺ｱ縺剰ｳｪ繝医Μ繝励Ν', quote:'縲瑚ｲｧ陦豌怜袖縺ｮ譁ｹ縺ｫ縲・},
+  {icon:'🥬', name:'ほうれん草と納豆のおひたし', items:[
+    {name:'納豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'ほうれん草',icon:'🥬',cat:'veg',xp:15},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+  ], note:'鉄分・葉酸・たんぱく質トリプル', quote:'「貧血気味の方に」'},
 
-  {icon:'骨', name:'縺代ｓ縺｡繧薙◎縺ｰ', items:[
-    {name:'雎・・繝ｻ螟ｧ雎・,icon:'ｫ・,cat:'protein',xp:22,subtype:'soy'},
-    {name:'縺ｫ繧薙§繧・,icon:'･・,cat:'veg',xp:12},
-    {name:'縺阪・縺馴｡・,icon:'剛',cat:'veg',xp:14},
-    {name:'縺昴・',icon:'骨',cat:'grain',xp:12},
-  ], note:'貂ｩ縺九＞荳譚ｯ縺ｧ霄ｫ菴薙ｒ謨ｴ縺医ｋ', quote:'縲悟・縺域ｧ縺ｫ繧や落縲・},
+  {icon:'🍜', name:'けんちんそば', items:[
+    {name:'豆腐・大豆',icon:'🫘',cat:'protein',xp:22,subtype:'soy'},
+    {name:'にんじん',icon:'🥕',cat:'veg',xp:12},
+    {name:'きのこ類',icon:'🍄',cat:'veg',xp:14},
+    {name:'そば',icon:'🍜',cat:'grain',xp:12},
+  ], note:'温かい一杯で身体を整える', quote:'「冷え性にも◎」'},
 
-  {icon:'些', name:'縺ｶ繧雁､ｧ譬ｹ蠑∝ｽ・, items:[
-    {name:'縺輔・',icon:'澄',cat:'protein',xp:25,subtype:'fish'},
-    {name:'縺縺・％繧・,icon:'ｫ・,cat:'veg',xp:8},
-    {name:'邇・ｱｳ縺秘｣ｯ',icon:'忽',cat:'grain',xp:15},
-    {name:'繧翫ｓ縺・,icon:'克',cat:'fruit',xp:12},
-  ], note:'鬲夲ｼ区ｹ闖懶ｼ区棡迚ｩ縺ｮ繝輔Ν繧ｻ繝・ヨ', quote:'縲後♀蠑∝ｽ薙・蜆ｪ遲臥函・√・},
+  {icon:'🍱', name:'ぶり大根弁当', items:[
+    {name:'さば',icon:'🐟',cat:'protein',xp:25,subtype:'fish'},
+    {name:'だいこん',icon:'🫚',cat:'veg',xp:8},
+    {name:'玄米ご飯',icon:'🍚',cat:'grain',xp:15},
+    {name:'りんご',icon:'🍎',cat:'fruit',xp:12},
+  ], note:'魚＋根菜＋果物のフルセット', quote:'「お弁当の優等生！」'},
 ];
 
 function renderSeraRecipe(){
   const banner=document.getElementById('sera-recipe-banner');
   if(!banner) return;
-  // 譌･譖ｿ繧上ｊ縺ｧ驕ｸ縺ｶ・域律莉倥・繝ｼ繧ｹ・・
+  // 日替わりで選ぶ（日付ベース）
   const day=Math.floor(Date.now()/86400000);
   const idx=day%SERA_RECIPES.length;
   const r=SERA_RECIPES[idx];
@@ -3488,7 +3486,7 @@ function renderSeraRecipe(){
 
   document.getElementById('srb-icon').textContent=r.icon;
   document.getElementById('srb-name').textContent=r.name;
-  document.getElementById('srb-xp').textContent=`+${totalXp}XP・・{r.items.length}蜩・ｼ荏;
+  document.getElementById('srb-xp').textContent=`+${totalXp}XP（${r.items.length}品）`;
   document.getElementById('srb-note').textContent=r.note;
   document.getElementById('srb-quote').textContent=r.quote;
 
@@ -3498,7 +3496,7 @@ function renderSeraRecipe(){
     });
     if(typeof renderLog==='function') renderLog();
     if(typeof updateUI==='function') updateUI();
-    // 險倬鹸縺励◆諢溘ｒ蜃ｺ縺吶い繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ
+    // 記録した感を出すアニメーション
     const card=document.getElementById('srb-card');
     card.style.transition='transform .25s';
     card.style.transform='scale(1.04)';
@@ -3506,9 +3504,9 @@ function renderSeraRecipe(){
   };
 }
 
-// ===== AI Coach: 繝帙・繝逕ｻ髱｢縺ｮ繝ｫ繝翫メ繝｣繝・ヨ縺ｸ驕ｷ遘ｻ =====
+// ===== AI Coach: ホーム画面のルナチャットへ遷移 =====
 document.getElementById('coach-fab').addEventListener('click',()=>{
-  // 繝ｫ繝翫→縺ｮ譛ｬ譬ｼ繝√Ε繝・ヨ縺ｯ game.html 縺ｫ髮・ｴ・ｼ・ROW繝｢繝・Ν・季emini騾｣謳ｺ・・
+  // ルナとの本格チャットは game.html に集約（GROWモデル＋Gemini連携）
   window.location.href='./game.html#coach';
 });
 document.getElementById('coach-close')?.addEventListener('click',()=>{
@@ -3520,38 +3518,38 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
 });
 </script>
 
-<!-- 繝懊ヨ繝繝翫ン -->
+<!-- ボトムナビ -->
 <nav class="bottom-nav" id="bottom-nav" style="display:none;">
-  <a href="./game.html" class="bn-tab"><span class="bn-icon">匠</span><span class="bn-label">繝帙・繝</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">繧ｯ繧ｨ繧ｹ繝・/span></a>
-  <a href="./nutrition.html" class="bn-tab active"><span class="bn-icon">諺</span><span class="bn-label">譬・､・/span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">亮</span><span class="bn-label">蜀帝匱</span></a>
-  <a href="./settings.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">險ｭ螳・/span></a>
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab active"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
 </nav>
 
 <!-- AI Coach FAB -->
-<button id="coach-fab" aria-label="繝ｫ繝翫・繧ｳ繝ｼ繝√Φ繧ｰ繧帝幕縺・>
-  <img src="./image/runa-sabun%20(1).png" alt="繝ｫ繝・>
-  笨ｦ 繝ｫ繝翫↓隧ｱ縺・
+<button id="coach-fab" aria-label="ルナのコーチングを開く">
+  <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+  ✦ ルナに話す
 </button>
 
-<!-- Gemini Vision 繝｢繝ｼ繝繝ｫ -->
+<!-- Gemini Vision モーダル -->
 <div id="vision-modal">
   <div class="vm-sheet">
     <div class="vm-handle"></div>
-    <div class="vm-title">､・AI譬・､願ｧ｣譫・/div>
-    <div class="vm-subtitle">蜀咏悄縺九ｉAI縺碁｣滉ｺ句・螳ｹ繧呈耳螳壹＠縺ｾ縺・/div>
+    <div class="vm-title">🤖 AI栄養解析</div>
+    <div class="vm-subtitle">写真からAIが食事内容を推定します</div>
     <div id="vm-key-section" class="vm-key-wrap" style="display:none">
-      <div class="vm-key-label">Gemini API繧ｭ繝ｼ繧貞・蜉帙＠縺ｦ縺上□縺輔＞・亥・蝗槭・縺ｿ・・/div>
+      <div class="vm-key-label">Gemini APIキーを入力してください（初回のみ）</div>
       <input type="password" class="vm-key-input" id="vm-key-input" placeholder="AIzaSy...">
-      <div class="vm-key-hint">Google AI Studio 縺ｧ蜿門ｾ励〒縺阪∪縺吶ゅ％縺ｮ繝・ヰ繧､繧ｹ縺ｫ縺ｮ縺ｿ菫晏ｭ倥＆繧後∪縺吶・/div>
+      <div class="vm-key-hint">Google AI Studio で取得できます。このデバイスにのみ保存されます。</div>
     </div>
-    <img class="vm-preview" id="vm-preview" src="" alt="繝励Ξ繝薙Η繝ｼ" style="display:none">
+    <img class="vm-preview" id="vm-preview" src="" alt="プレビュー" style="display:none">
     <div id="vm-body">
-      <div class="vm-analyzing"><div class="vm-spin">筺ｳ</div><br>隗｣譫蝉ｸｭ窶ｦ</div>
+      <div class="vm-analyzing"><div class="vm-spin">⟳</div><br>解析中…</div>
     </div>
-    <button class="vm-add-btn" id="vm-add-btn" disabled>驕ｸ謚槭＠縺滄｣滉ｺ九ｒ險倬鹸縺吶ｋ</button>
-    <button class="vm-close" id="vm-close">髢峨§繧・/button>
+    <button class="vm-add-btn" id="vm-add-btn" disabled>選択した食事を記録する</button>
+    <button class="vm-close" id="vm-close">閉じる</button>
   </div>
 </div>
 </body>

@@ -394,7 +394,6 @@
 
   // ===== Battle launcher FAB =====
   function installFab(){
-    return;
     const fab = document.createElement('button');
     fab.className = 'vrpg-fab';
     fab.setAttribute('aria-label','戦闘を開始');

@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>繝倥Ν繝励・FAQ ・・繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</title>
+<title>ヘルプ・FAQ ｜ ヴィタリア転生録</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="./manifest.json">
@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="繝ｴ繧｣繧ｿ繝ｪ繧｢">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <style>
 :root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -55,11 +55,11 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 }
 .faq-q:hover{color:var(--gold2);}
 .faq-q::before{
-  content:'・・;color:var(--gold);font-size:1rem;line-height:1.3;
+  content:'＋';color:var(--gold);font-size:1rem;line-height:1.3;
   flex-shrink:0;width:18px;font-weight:900;
   transition:transform .25s;
 }
-.faq-item.open .faq-q::before{content:'・・;}
+.faq-item.open .faq-q::before{content:'－';}
 .faq-a{
   display:none;padding:0 8px 14px 36px;font-size:.78rem;line-height:1.85;
   color:rgba(220,225,245,.85);
@@ -143,7 +143,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
 .bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
 
-/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ蜊企乗・閭梧勹繧堤區繝吶・繧ｹ縺ｫ蜿崎ｻ｢ 笏笏 */
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
 [style*="rgba(255,255,255,.04)"],
 [style*="rgba(255,255,255,.05)"],
 [style*="rgba(255,255,255,.06)"],
@@ -157,7 +157,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   border-color: rgba(30,127,164,.25) !important;
   color: #0a2a40 !important;
 }
-/* 笏笏 繝繝ｼ繧ｯ蜑肴署縺ｮ逋ｽ繝・く繧ｹ繝医ｒ證励￥縺吶ｋ 笏笏 */
+/* ── ダーク前提の白テキストを暗くする ── */
 [style*="color:rgba(220,225,245"],
 [style*="color:rgba(170,188,216"],
 [style*="color:#d4dcf0"],
@@ -169,7 +169,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   color: #0a2a40 !important;
   -webkit-text-fill-color: #0a2a40 !important;
 }
-/* 笏笏 繧ｫ繝ｼ繝峨・繝代ロ繝ｫ邉ｻ繧ｯ繝ｩ繧ｹ蜈ｱ騾・笏笏 */
+/* ── カード・パネル系クラス共通 ── */
 .card, .panel, .section, .q-card, .stat-card,
 .info-card, .intro-card, .section-card, .week-card,
 .mission-card, .achievement-card, .skill, .entry,
@@ -178,7 +178,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   border-color: rgba(30,127,164,.22) !important;
   color: #0a2a40 !important;
 }
-/* 笏笏 繝倥ャ繝繝ｼ繝ｻ繝翫ン 笏笏 */
+/* ── ヘッダー・ナビ ── */
 header, nav:not(.bottom-nav){
   background: rgba(200,228,244,.97) !important;
   border-bottom-color: #b0cfdf !important;
@@ -187,11 +187,11 @@ header a, nav a:not(.bn-tab){
   color: #0a4870 !important;
   -webkit-text-fill-color: #0a4870 !important;
 }
-/* 笏笏 繝・く繧ｹ繝亥庄隱ｭ諤ｧ縺ｮ蠎穂ｸ翫￡ 笏笏 */
+/* ── テキスト可読性の底上げ ── */
 p, span, div, label, li, td, th, h1, h2, h3, h4{
   color: inherit;
 }
-/* 笏笏 faq.html 蝗ｺ譛峨け繝ｩ繧ｹ 笏笏 */
+/* ── faq.html 固有クラス ── */
 .page-sub{color:rgba(10,42,64,.55) !important;}
 .faq-tab{background:rgba(255,255,255,.7) !important;border-color:rgba(30,127,164,.25) !important;color:#0a2a40 !important;}
 .faq-tab.active{background:#1e7fa4 !important;color:#fff !important;}
@@ -205,212 +205,211 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 .faq-a{color:rgba(10,42,64,.85) !important;}
 </style>
 
-<!-- 笨ｦ Vitalia RPG Lite (bottom-nav redesign) 笨ｦ -->
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
 <link rel="stylesheet" href="./vitalia-rpg-lite.css">
 <script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
-<script defer src="./vitalia-nav.js"></script>
 </head>
 <body>
 <header>
-  <a href="./game.html" class="brand">筺ｵ 繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸</a>
-  <a href="./settings.html" class="back-btn">險ｭ螳壹∈</a>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./settings.html" class="back-btn">設定へ</a>
 </header>
 
 <main class="page">
-  <h1 class="page-title">繝倥Ν繝励・FAQ</h1>
-  <div class="page-sub">繧医￥縺ゅｋ雉ｪ蝠上・繝医Λ繝悶Ν繧ｷ繝･繝ｼ繝・ぅ繝ｳ繧ｰ</div>
+  <h1 class="page-title">ヘルプ・FAQ</h1>
+  <div class="page-sub">よくある質問・トラブルシューティング</div>
 
   <div class="search-wrap">
-    <input type="text" class="search-input" id="faq-search" placeholder="剥 雉ｪ蝠上ｒ讀懃ｴ｢・井ｾ・ 險倬鹸縲、I縲√ョ繝舌う繧ｹ窶ｦ・・>
+    <input type="text" class="search-input" id="faq-search" placeholder="🔍 質問を検索（例: 記録、AI、デバイス…）">
   </div>
 
   <div class="cat-tabs" id="cat-tabs">
-    <button class="cat-tab active" data-cat="all">縺吶∋縺ｦ</button>
-    <button class="cat-tab" data-cat="basics">蝓ｺ譛ｬ</button>
-    <button class="cat-tab" data-cat="record">險倬鹸</button>
-    <button class="cat-tab" data-cat="ai">AI繧ｳ繝ｼ繝・/button>
-    <button class="cat-tab" data-cat="game">繧ｲ繝ｼ繝</button>
-    <button class="cat-tab" data-cat="data">繝・・繧ｿ繝ｻ蜷梧悄</button>
-    <button class="cat-tab" data-cat="trouble">荳榊・蜷・/button>
-    <button class="cat-tab" data-cat="research">遐皮ｩｶ蜿ょ刈</button>
+    <button class="cat-tab active" data-cat="all">すべて</button>
+    <button class="cat-tab" data-cat="basics">基本</button>
+    <button class="cat-tab" data-cat="record">記録</button>
+    <button class="cat-tab" data-cat="ai">AIコーチ</button>
+    <button class="cat-tab" data-cat="game">ゲーム</button>
+    <button class="cat-tab" data-cat="data">データ・同期</button>
+    <button class="cat-tab" data-cat="trouble">不具合</button>
+    <button class="cat-tab" data-cat="research">研究参加</button>
   </div>
 
-  <!-- 蝓ｺ譛ｬ -->
+  <!-- 基本 -->
   <section class="faq-section" data-cat="basics">
-    <div class="faq-section-title">当 蝓ｺ譛ｬ</div>
+    <div class="faq-section-title">📖 基本</div>
     <div class="faq-item">
-      <div class="faq-q">繝ｴ繧｣繧ｿ繝ｪ繧｢霆｢逕滄鹸縺｣縺ｦ縺ｪ縺ｫ・・/div>
-      <div class="faq-a">蟆丞・縺後ｓ繧堤ｵ碁ｨ薙＠縺滓婿縺ｮ蛛･蠎ｷ鄙呈・繧偵ヽPG縺ｮ荳也阜隕ｳ縺ｧ讌ｽ縺励￥邯壹￠繧九◆繧√・繧｢繝励Μ縺ｧ縺吶る°蜍輔・鬟滉ｺ九・QOL繧定ｨ倬鹸縺吶ｋ縺ｨ縲√く繝｣繝ｩ縲後き繧､繝医阪後そ繝ｩ縲阪後Ν繝翫阪後ヴ繧ｯ繧ｻ縲阪′謌宣聞縺励√・繧ｹ縺ｫ謖第姶縺ｧ縺阪∪縺吶・div class="note">蛹ｻ逋り｡檎ぜ縺ｧ縺ｯ縺ｪ縺上∫皮ｩｶ逶ｮ逧・・閾ｪ蟾ｱ繝｢繝九ち繝ｪ繝ｳ繧ｰ縺ｨ陦悟虚螟牙ｮｹ謾ｯ謠ｴ繧呈署萓帙＠縺ｾ縺吶・/div></div>
+      <div class="faq-q">ヴィタリア転生録ってなに？</div>
+      <div class="faq-a">小児がんを経験した方の健康習慣を、RPGの世界観で楽しく続けるためのアプリです。運動・食事・QOLを記録すると、キャラ「カイト」「セラ」「ルナ」「ピクセ」が成長し、ボスに挑戦できます。<div class="note">医療行為ではなく、研究目的の自己モニタリングと行動変容支援を提供します。</div></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">辟｡譁吶〒菴ｿ縺医∪縺吶°・・/div>
-      <div class="faq-a">縺ｯ縺・∫皮ｩｶ譛滄俣荳ｭ縺ｯ螳悟・縺ｫ辟｡譁吶〒縺吶ょｺ・相繧ゆｸ蛻・｡ｨ遉ｺ縺輔ｌ縺ｾ縺帙ｓ縲・/div>
+      <div class="faq-q">無料で使えますか？</div>
+      <div class="faq-a">はい、研究期間中は完全に無料です。広告も一切表示されません。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">蟇ｾ雎｡蟷ｴ鮨｢縺ｯ・・/div>
-      <div class="faq-a">荳ｻ縺ｫAYA荳紋ｻ｣・・5縲・9豁ｳ・峨・蟆丞・縺後ｓ邨碁ｨ楢・ｒ蟇ｾ雎｡縺ｫ縺励※縺・∪縺吶・8豁ｳ譛ｪ貅縺ｮ譁ｹ縺ｯ菫晁ｭｷ閠・・蜷梧э縺ｮ縺・∴縺泌茜逕ｨ縺上□縺輔＞縲・/div>
+      <div class="faq-q">対象年齢は？</div>
+      <div class="faq-a">主にAYA世代（15〜39歳）の小児がん経験者を対象にしています。18歳未満の方は保護者の同意のうえご利用ください。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">縺ｩ縺ｮ繝・ヰ繧､繧ｹ縺ｧ菴ｿ縺医∪縺吶°・・/div>
-      <div class="faq-a">繧ｹ繝槭・繝医ヵ繧ｩ繝ｳ・・OS/Android・峨√ち繝悶Ξ繝・ヨ縲￣C縲√＞縺壹ｌ繧ゅヶ繝ｩ繧ｦ繧ｶ縺ｧ蜍穂ｽ懊＠縺ｾ縺吶・hrome / Safari / Edge 縺ｮ譛譁ｰ迚医ｒ謗ｨ螂ｨ縺励∪縺吶・/div>
+      <div class="faq-q">どのデバイスで使えますか？</div>
+      <div class="faq-a">スマートフォン（iOS/Android）、タブレット、PC、いずれもブラウザで動作します。Chrome / Safari / Edge の最新版を推奨します。</div>
     </div>
   </section>
 
-  <!-- 險倬鹸 -->
+  <!-- 記録 -->
   <section class="faq-section" data-cat="record">
-    <div class="faq-section-title">笞・險倬鹸縺ｮ縺励°縺・/div>
+    <div class="faq-section-title">⚔ 記録のしかた</div>
     <div class="faq-item">
-      <div class="faq-q">驕句虚縺ｮ蠑ｷ蠎ｦ縺ｯ菴輔ｒ驕ｸ縺ｹ縺ｰ縺・＞・・/div>
-      <div class="faq-a">菴捺─縺ｧ驕ｸ繧薙〒OK縺ｧ縺吶・ul><li><strong>菴・/strong>・壽淵豁ｩ縲√せ繝医Ξ繝・メ縲√Κ繧ｬ縺ｪ縺ｩ・域・縺ｯ荵ｱ繧後↑縺・ｼ・/li><li><strong>荳ｭ</strong>・壽掠豁ｩ縺阪∬ｻｽ縺・ず繝ｧ繧ｮ繝ｳ繧ｰ縲∫ｭ九ヨ繝ｬ・亥ｰ代＠諱ｯ縺悟ｼｾ繧・・/li><li><strong>鬮・/strong>・壹Λ繝ｳ繝九Φ繧ｰ縲？IIT縲√せ繝昴・繝・ｼ医＠縺｣縺九ｊ諱ｯ縺御ｸ翫′繧具ｼ・/li></ul>蠑ｷ蠎ｦ縺碁ｫ倥＞縺ｻ縺ｩXP縺悟､壹￥繧ゅｉ縺医∪縺吶・/div>
+      <div class="faq-q">運動の強度は何を選べばいい？</div>
+      <div class="faq-a">体感で選んでOKです。<ul><li><strong>低</strong>：散歩、ストレッチ、ヨガなど（息は乱れない）</li><li><strong>中</strong>：早歩き、軽いジョギング、筋トレ（少し息が弾む）</li><li><strong>高</strong>：ランニング、HIIT、スポーツ（しっかり息が上がる）</li></ul>強度が高いほどXPが多くもらえます。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">鬟滉ｺ九・縺ｩ縺薙∪縺ｧ邏ｰ縺九￥險倬鹸縺吶ｌ縺ｰ縺・＞・・/div>
-      <div class="faq-a">繧ｫ繝・ざ繝ｪ・磯㍽闖懊・譫懃黄繝ｻ繧ｿ繝ｳ繝代け雉ｪ繝ｻ荳ｻ鬟滂ｼ峨→縲∝庄閭ｽ縺ｪ繧峨し繝悶ち繧､繝暦ｼ磯ｭ壹・螟ｧ雎・・鮓上↑縺ｩ・峨ｒ驕ｸ縺ｹ縺ｰOK縺ｧ縺吶ょｮ檎挑繧呈ｱゅａ縺壹√後□縺・◆縺・阪〒邯壹￠縺ｾ縺励ｇ縺・・/div>
+      <div class="faq-q">食事はどこまで細かく記録すればいい？</div>
+      <div class="faq-a">カテゴリ（野菜・果物・タンパク質・主食）と、可能ならサブタイプ（魚・大豆・鶏など）を選べばOKです。完璧を求めず、「だいたい」で続けましょう。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">險倬鹸繧貞ｿ倥ｌ縺滓律縺後≠縺｣縺溘ｉ縺ｩ縺・↑繧具ｼ・/div>
-      <div class="faq-a">螟ｧ荳亥､ｫ縺ｧ縺吶る｣邯夊ｨ倬鹸・医せ繝医Μ繝ｼ繧ｯ・峨・繝ｪ繧ｻ繝・ヨ縺輔ｌ縺ｾ縺吶′縲√＞縺､縺ｧ繧ょ・髢九〒縺阪∪縺吶ゅ檎↓繧堤ｵｶ繧・＆縺ｪ縺・％縺ｨ縲阪ｈ繧翫檎㏍繧・＠逶ｴ縺吶％縺ｨ縲阪・縺ｻ縺・′螟ｧ蛻・〒縺吶・/div>
+      <div class="faq-q">記録を忘れた日があったらどうなる？</div>
+      <div class="faq-a">大丈夫です。連続記録（ストリーク）はリセットされますが、いつでも再開できます。「火を絶やさないこと」より「燃やし直すこと」のほうが大切です。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">驕主悉縺ｮ譌･莉倥・險倬鹸縺ｯ縺ｧ縺阪∪縺吶°・・/div>
-      <div class="faq-a">迴ｾ蝨ｨ縺ｯ縲御ｻ頑律縺ｮ險倬鹸縲阪・縺ｿ蟇ｾ蠢懊＠縺ｦ縺・∪縺吶る｣邯壽ｧ縺檎皮ｩｶ繝・・繧ｿ縺ｨ縺励※驥崎ｦ√↑縺溘ａ縲∝ｽ捺律蜈･蜉帙ｒ縺企｡倥＞縺励※縺・∪縺吶・/div>
+      <div class="faq-q">過去の日付の記録はできますか？</div>
+      <div class="faq-a">現在は「今日の記録」のみ対応しています。連続性が研究データとして重要なため、当日入力をお願いしています。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">QOL縺ｮ縲御ｽ楢ｪｿ繝ｻ豌怜・繝ｻ豢ｻ蜉帙阪▲縺ｦ菴輔′驕輔≧・・/div>
-      <div class="faq-a"><ul><li><strong>菴楢ｪｿ</strong>・夊ｺｫ菴薙・隱ｿ蟄撰ｼ育李縺ｿ繝ｻ縺繧九＆繝ｻ逹｡逵・・/li><li><strong>豌怜・</strong>・壽─諠・擇・域･ｽ縺励＞繝ｻ關ｽ縺｡霎ｼ縺ｿ・・/li><li><strong>豢ｻ蜉・/strong>・壹お繝阪Ν繧ｮ繝ｼ驥擾ｼ医ｄ繧区ｰ励・蜈・ｰ励＆・・/li></ul>3縺､繧貞・縺代ｋ縺薙→縺ｧ縲∝だ蜷代′隕九∴繧・☆縺上↑繧翫∪縺吶・/div>
+      <div class="faq-q">QOLの「体調・気分・活力」って何が違う？</div>
+      <div class="faq-a"><ul><li><strong>体調</strong>：身体の調子（痛み・だるさ・睡眠）</li><li><strong>気分</strong>：感情面（楽しい・落ち込み）</li><li><strong>活力</strong>：エネルギー量（やる気・元気さ）</li></ul>3つを分けることで、傾向が見えやすくなります。</div>
     </div>
   </section>
 
   <!-- AI -->
   <section class="faq-section" data-cat="ai">
-    <div class="faq-section-title">嫌 AI繧ｳ繝ｼ繝√後Ν繝翫・/div>
+    <div class="faq-section-title">🌙 AIコーチ「ルナ」</div>
     <div class="faq-item">
-      <div class="faq-q">繝ｫ繝翫▲縺ｦ縺ｩ繧薙↑繧ｳ繝ｼ繝√〒縺吶°・・/div>
-      <div class="faq-a">GROW繝｢繝・Ν・・oal/Reality/Options/Will・峨↓豐ｿ縺｣縺ｦ縲∫岼讓吶ｒ荳邱偵↓謨ｴ逅・＠縺ｦ縺上ｌ繧帰I繧ｳ繝ｼ繝√〒縺吶よ欠遉ｺ縺吶ｋ縺ｮ縺ｧ縺ｯ縺ｪ縺上√≠縺ｪ縺溘′閾ｪ蛻・〒豌励▼縺阪∵ｱｺ繧√ｉ繧後ｋ繧医≧蝠上＞縺九￠縺ｾ縺吶・/div>
+      <div class="faq-q">ルナってどんなコーチですか？</div>
+      <div class="faq-a">GROWモデル（Goal/Reality/Options/Will）に沿って、目標を一緒に整理してくれるAIコーチです。指示するのではなく、あなたが自分で気づき、決められるよう問いかけます。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繝ｫ繝翫′豐ｻ逋ゅｄ阮ｬ縺ｮ蜉ｩ險繧偵＠縺ｦ縺上ｌ繧具ｼ・/div>
-      <div class="faq-a"><div class="warn">縺・＞縺医ゅΝ繝翫・蛹ｻ逋ょ勧險繧呈署萓帙＠縺ｾ縺帙ｓ縲りｨｺ譁ｭ繝ｻ豐ｻ逋ゅ・譛崎脈縺ｫ髢｢繧上ｋ雉ｪ蝠上・縲∝ｿ・★荳ｻ豐ｻ蛹ｻ繝ｻ蟆る摩螳ｶ縺ｫ縺皮嶌隲・￥縺縺輔＞縲・/div>繝ｫ繝翫・逕滓ｴｻ鄙呈・繝ｻ繝｢繝√・繝ｼ繧ｷ繝ｧ繝ｳ繝ｻ逶ｮ讓呵ｨｭ險医・繧ｵ繝昴・繝医ｒ陦後＞縺ｾ縺吶・/div>
+      <div class="faq-q">ルナが治療や薬の助言をしてくれる？</div>
+      <div class="faq-a"><div class="warn">いいえ。ルナは医療助言を提供しません。診断・治療・服薬に関わる質問は、必ず主治医・専門家にご相談ください。</div>ルナは生活習慣・モチベーション・目標設計のサポートを行います。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">莨夊ｩｱ蜀・ｮｹ縺ｯ隱ｰ縺瑚ｦ九ｉ繧後ｋ・・/div>
-      <div class="faq-a">縺ゅ↑縺溯・霄ｫ縲√♀繧医・遐皮ｩｶ縺ｮ蛟ｫ逅・ｯｩ譟ｻ繧堤ｵ後◆遐皮ｩｶ閠・・縺ｿ縺悟盾辣ｧ蜿ｯ閭ｽ縺ｧ縺呻ｼ亥諺蜷榊喧縺輔ｌ縺溷ｽ｢縺ｧ隗｣譫撰ｼ峨らｬｬ荳芽・・莉悶・繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ縺ｯ荳蛻・ｦ九∴縺ｾ縺帙ｓ縲・emini API 縺ｸ縺ｮ騾∽ｿ｡縺ｯ縲∝ｿ懃ｭ皮函謌舌・縺ｿ縺ｫ菴ｿ逕ｨ縺輔ｌ縲、I縺ｮ蟄ｦ鄙偵↓縺ｯ菴ｿ繧上ｌ縺ｾ縺帙ｓ縲・/div>
+      <div class="faq-q">会話内容は誰が見られる？</div>
+      <div class="faq-a">あなた自身、および研究の倫理審査を経た研究者のみが参照可能です（匿名化された形で解析）。第三者・他のユーザーには一切見えません。Gemini API への送信は、応答生成のみに使用され、AIの学習には使われません。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繝ｫ繝翫・霑皮ｭ斐′驕・＞・剰ｿ斐▲縺ｦ縺薙↑縺・/div>
-      <div class="faq-a">繝阪ャ繝医Ρ繝ｼ繧ｯ迥ｶ豕√ｄ縲；emini API蛛ｴ縺ｮ豺ｷ髮代′蜴溷屏縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧翫∪縺吶・ol><li>Wi-Fi/騾壻ｿ｡迥ｶ豕√ｒ遒ｺ隱・/li><li>1蛻・⊇縺ｩ蠕・▲縺ｦ蜀埼∽ｿ｡</li><li>繝悶Λ繧ｦ繧ｶ繧貞・隱ｭ縺ｿ霎ｼ縺ｿ</li></ol>縺昴ｌ縺ｧ繧よ隼蝟・＠縺ｪ縺・ｴ蜷医・縲∽ｸ榊・蜷医ち繝悶・蝠上＞蜷医ｏ縺帙ヵ繧ｩ繝ｼ繝縺九ｉ騾｣邨｡縺励※縺上□縺輔＞縲・/div>
+      <div class="faq-q">ルナの返答が遅い／返ってこない</div>
+      <div class="faq-a">ネットワーク状況や、Gemini API側の混雑が原因の可能性があります。<ol><li>Wi-Fi/通信状況を確認</li><li>1分ほど待って再送信</li><li>ブラウザを再読み込み</li></ol>それでも改善しない場合は、不具合タブの問い合わせフォームから連絡してください。</div>
     </div>
   </section>
 
-  <!-- 繧ｲ繝ｼ繝 -->
+  <!-- ゲーム -->
   <section class="faq-section" data-cat="game">
-    <div class="faq-section-title">式 繧ｲ繝ｼ繝隕∫ｴ</div>
+    <div class="faq-section-title">🎮 ゲーム要素</div>
     <div class="faq-item">
-      <div class="faq-q">XP繧・Ξ繝吶Ν縺ｯ菴輔・縺溘ａ・・/div>
-      <div class="faq-a">陦悟虚螟牙ｮｹ逅・ｫ悶↓繧ゅ→縺･縺上檎洒譛溽噪繝輔ぅ繝ｼ繝峨ヰ繝・け縲阪〒縺吶りｨ倬鹸縺ｮ縺溘・縺ｫ蟆上＆縺ｪ驕疲・諢溘ｒ蠕励ｉ繧後ｋ縺薙→縺ｧ縲∫ｿ呈・縺ｮ邯咏ｶ夂紫縺御ｸ翫′繧九→縺輔ｌ縺ｦ縺・∪縺吶・/div>
+      <div class="faq-q">XPやレベルは何のため？</div>
+      <div class="faq-a">行動変容理論にもとづく「短期的フィードバック」です。記録のたびに小さな達成感を得られることで、習慣の継続率が上がるとされています。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">蜀帝匱・医い繝峨・繝ｳ繝√Ε繝ｼ・峨・縺ｩ縺・ｲ繧√・縺・＞・・/div>
-      <div class="faq-a">12騾ｱ髢薙〒1蜻ｨ縺吶ｋ險ｭ險医〒縺吶らｬｬ1縲・遶縺ｯ繝√Η繝ｼ繝医Μ繧｢繝ｫ縺ｨ謌宣聞繝懊せ縲∫ｬｬ5縲・1遶縺ｯ7縺､縺ｮ隧ｦ邱ｴ・井ｸ・▽縺ｮ螟ｧ鄂ｪ・峨∫ｬｬ12遶縺ｯ譛邨ゅ・繧ｹ縺ｧ縺吶りｨ倬鹸繧堤ｶ壹￠繧九％縺ｨ縺ｧ閾ｪ蜍慕噪縺ｫ繝繝｡繝ｼ繧ｸ縺瑚塘遨阪＠縲√・繧ｹ繧貞偵○縺ｾ縺吶・/div>
+      <div class="faq-q">冒険（アドベンチャー）はどう進めばいい？</div>
+      <div class="faq-a">12週間で1周する設計です。第1〜4章はチュートリアルと成長ボス、第5〜11章は7つの試練（七つの大罪）、第12章は最終ボスです。記録を続けることで自動的にダメージが蓄積し、ボスを倒せます。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">螳溽ｸｾ・医い繝√・繝悶Γ繝ｳ繝茨ｼ峨・菴慕ｨｮ鬘橸ｼ・/div>
-      <div class="faq-a">驕句虚繝ｻ譬・､翫・騾｣邯夊ｨ倬鹸繝ｻQOL險倬鹸縺ｪ縺ｩ縺ｮ繧ｫ繝・ざ繝ｪ縺ｧ20遞ｮ鬘樔ｻ･荳翫ｒ逕ｨ諢上＠縺ｦ縺・∪縺吶りｧ｣謾ｾ縺輔ｌ繧九→逕ｻ髱｢荳企Κ縺ｫ繝医・繧ｹ繝医′陦ｨ遉ｺ縺輔ｌ縲√さ繝ｳ繝輔ぉ繝・ユ繧｣縺瑚・縺・∪縺咀沁・/div>
+      <div class="faq-q">実績（アチーブメント）は何種類？</div>
+      <div class="faq-a">運動・栄養・連続記録・QOL記録などのカテゴリで20種類以上を用意しています。解放されると画面上部にトーストが表示され、コンフェッティが舞います🎉</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繝ｭ繧ｰ繧､繝ｳ繝懊・繝翫せ縺ｯ菴墓律縺ｧ菴輔′繧ゅｉ縺医ｋ・・/div>
-      <div class="faq-a"><ul><li>3譌･騾｣邯夲ｼ・20XP</li><li>7譌･騾｣邯夲ｼ・50XP</li><li>14譌･騾｣邯夲ｼ・100XP</li><li>28譌･騾｣邯夲ｼ・300XP</li></ul></div>
+      <div class="faq-q">ログインボーナスは何日で何がもらえる？</div>
+      <div class="faq-a"><ul><li>3日連続：+20XP</li><li>7日連続：+50XP</li><li>14日連続：+100XP</li><li>28日連続：+300XP</li></ul></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">諡帛ｾ・さ繝ｼ繝峨▲縺ｦ・・/div>
-      <div class="faq-a">險ｭ螳夂判髱｢縺ｧ6譁・ｭ励・諡帛ｾ・さ繝ｼ繝峨ｒ逋ｺ陦後〒縺阪∪縺吶ょ暑莠ｺ縺後％縺ｮ繧ｳ繝ｼ繝峨ｒ縲後さ繝ｼ繝峨ｒ菴ｿ縺・肴ｬ・↓蜈･蜉帙☆繧九→縲∽ｺ偵＞縺ｫ+100XP縺後ｂ繧峨∴縺ｾ縺吶ら皮ｩｶ縺ｨ縺励※縺ｯ縲∫ｴｹ莉狗ｵ瑚ｷｯ縺ｮ霑ｽ霍｡縺ｫ繧ゆｽｿ繧上ｌ縺ｾ縺吶・/div>
+      <div class="faq-q">招待コードって？</div>
+      <div class="faq-a">設定画面で6文字の招待コードを発行できます。友人がこのコードを「コードを使う」欄に入力すると、互いに+100XPがもらえます。研究としては、紹介経路の追跡にも使われます。</div>
     </div>
   </section>
 
-  <!-- 繝・・繧ｿ -->
+  <!-- データ -->
   <section class="faq-section" data-cat="data">
-    <div class="faq-section-title">沈 繝・・繧ｿ縺ｨ蜷梧悄</div>
+    <div class="faq-section-title">💾 データと同期</div>
     <div class="faq-item">
-      <div class="faq-q">讖溽ｨｮ螟画峩縺励◆繧峨ョ繝ｼ繧ｿ縺ｯ蠑輔″邯吶￡繧具ｼ・/div>
-      <div class="faq-a">縺ｯ縺・・irebase隱崎ｨｼ・医Γ繝ｼ繝ｫ+繝代せ繝ｯ繝ｼ繝会ｼ峨〒繝ｭ繧ｰ繧､繝ｳ縺吶ｌ縺ｰ縲∵眠縺励＞遶ｯ譛ｫ縺ｧ繧ょ・繝・・繧ｿ縺悟ｾｩ蜈・＆繧後∪縺吶ゅΟ繝ｼ繧ｫ繝ｫ繧ｹ繝医Ξ繝ｼ繧ｸ縺ｮ縺ｿ縺ｮ繝・・繧ｿ・育ｫｯ譛ｫ蛻･縺ｮ陦ｨ遉ｺ險ｭ螳壹↑縺ｩ・峨・蠑輔″邯吶′繧後∪縺帙ｓ縲・/div>
+      <div class="faq-q">機種変更したらデータは引き継げる？</div>
+      <div class="faq-a">はい。Firebase認証（メール+パスワード）でログインすれば、新しい端末でも全データが復元されます。ローカルストレージのみのデータ（端末別の表示設定など）は引き継がれません。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繧ｪ繝輔Λ繧､繝ｳ縺ｧ繧ゆｽｿ縺医ｋ・・/div>
-      <div class="faq-a">險倬鹸縺ｮ蜈･蜉帙・繧ｪ繝輔Λ繧､繝ｳ縺ｧ繧ょ庄閭ｽ縺ｧ縲∽ｸ譎ら噪縺ｫ繝ｭ繝ｼ繧ｫ繝ｫ縺ｫ菫晏ｭ倥＆繧後∪縺吶よｬ｡縺ｫ繧ｪ繝ｳ繝ｩ繧､繝ｳ縺ｫ縺ｪ縺｣縺滓凾轤ｹ縺ｧ閾ｪ蜍慕噪縺ｫ繧ｯ繝ｩ繧ｦ繝牙酔譛溘＆繧後∪縺吶・/div>
+      <div class="faq-q">オフラインでも使える？</div>
+      <div class="faq-a">記録の入力はオフラインでも可能で、一時的にローカルに保存されます。次にオンラインになった時点で自動的にクラウド同期されます。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繝・・繧ｿ繧偵お繧ｯ繧ｹ繝昴・繝医〒縺阪∪縺吶°・・/div>
-      <div class="faq-a">縺ｯ縺・りｨｭ螳夂判髱｢縺九ｉ CSV 縺ｾ縺溘・ JSON 蠖｢蠑上〒繝繧ｦ繝ｳ繝ｭ繝ｼ繝牙庄閭ｽ縺ｧ縺吶ら皮ｩｶ繧帝屬閼ｱ縺吶ｋ髫帙↓繧ゅ√＃閾ｪ霄ｫ縺ｮ險倬鹸繧剃ｿ晏ｭ倥〒縺阪∪縺吶・/div>
+      <div class="faq-q">データをエクスポートできますか？</div>
+      <div class="faq-a">はい。設定画面から CSV または JSON 形式でダウンロード可能です。研究を離脱する際にも、ご自身の記録を保存できます。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繧｢繧ｫ繧ｦ繝ｳ繝医ｒ蜑企勁縺励◆縺・/div>
-      <div class="faq-a">險ｭ螳夂判髱｢縺ｮ縲後Ο繝ｼ繧ｫ繝ｫ繝・・繧ｿ繧偵け繝ｪ繧｢縲阪〒縺薙・遶ｯ譛ｫ縺九ｉ縺ｯ豸亥悉縺ｧ縺阪∪縺吶ゅし繝ｼ繝蝉ｸ翫・繝・・繧ｿ繧ょｮ悟・縺ｫ蜑企勁縺励◆縺・ｴ蜷医・縲∫皮ｩｶ蝠上＞蜷医ｏ縺帷ｪ灘哨縺ｾ縺ｧ縺秘｣邨｡縺上□縺輔＞縲ょｫ逅・ｦ冗ｨ九↓蝓ｺ縺･縺阪・溘ｄ縺九↓蜑企勁縺励∪縺吶・/div>
+      <div class="faq-q">アカウントを削除したい</div>
+      <div class="faq-a">設定画面の「ローカルデータをクリア」でこの端末からは消去できます。サーバ上のデータも完全に削除したい場合は、研究問い合わせ窓口までご連絡ください。倫理規程に基づき、速やかに削除します。</div>
     </div>
   </section>
 
-  <!-- 荳榊・蜷・-->
+  <!-- 不具合 -->
   <section class="faq-section" data-cat="trouble">
-    <div class="faq-section-title">屏 荳榊・蜷医・繝医Λ繝悶Ν</div>
+    <div class="faq-section-title">🛠 不具合・トラブル</div>
     <div class="faq-item">
-      <div class="faq-q">逕ｻ髱｢縺檎悄縺｣逋ｽ・剰ｪｭ縺ｿ霎ｼ縺ｾ繧後↑縺・/div>
-      <div class="faq-a"><ol><li>繝悶Λ繧ｦ繧ｶ縺ｮ蜀崎ｪｭ縺ｿ霎ｼ縺ｿ・・trl/Cmd + R・・/li><li>繧ｭ繝｣繝・す繝･蜑企勁・郁ｨｭ螳・竊・繝励Λ繧､繝舌す繝ｼ 竊・髢ｲ隕ｧ繝・・繧ｿ蜑企勁・・/li><li>繧ｷ繝ｼ繧ｯ繝ｬ繝・ヨ繝｢繝ｼ繝峨〒髢九＞縺ｦ蜀咲樟遒ｺ隱・/li><li>蛻･縺ｮ繝悶Λ繧ｦ繧ｶ・・hrome / Safari / Edge・峨〒隧ｦ縺・/li></ol></div>
+      <div class="faq-q">画面が真っ白／読み込まれない</div>
+      <div class="faq-a"><ol><li>ブラウザの再読み込み（Ctrl/Cmd + R）</li><li>キャッシュ削除（設定 → プライバシー → 閲覧データ削除）</li><li>シークレットモードで開いて再現確認</li><li>別のブラウザ（Chrome / Safari / Edge）で試す</li></ol></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繧ｹ繝槭・縺ｧ蜿ｳ蛛ｴ縺悟・繧後※隕九∴繧・/div>
-      <div class="faq-a">繝悶Λ繧ｦ繧ｶ縺ｮ諡｡螟ｧ邇・ｨｭ螳壹′蜴溷屏縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧翫∪縺吶りｨｭ螳壺・縲後し繧､繝医・繧ｺ繝ｼ繝縲阪ｒ100%縺ｫ縺励※縲∝・隱ｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞縲ゅ◎繧後〒繧ら峩繧峨↑縺・ｴ蜷医・縲∬ｨｭ螳壺・繧｢繧ｯ繧ｻ繧ｷ繝薙Μ繝・ぅ竊偵梧枚蟄励ｒ螟ｧ縺阪￥縲阪ｒ繧ｪ繝輔↓縺励※縺ｿ縺ｦ縺上□縺輔＞縲・/div>
+      <div class="faq-q">スマホで右側が切れて見える</div>
+      <div class="faq-a">ブラウザの拡大率設定が原因の可能性があります。設定→「サイトのズーム」を100%にして、再読み込みしてください。それでも直らない場合は、設定→アクセシビリティ→「文字を大きく」をオフにしてみてください。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繝舌う繝悶Ξ繝ｼ繧ｷ繝ｧ繝ｳ繝ｻ蜉ｹ譫憺浹縺碁ｳｴ繧峨↑縺・/div>
-      <div class="faq-a">險ｭ螳夂判髱｢縺ｧ縲悟柑譫憺浹縲阪後ヰ繧､繝悶Ξ繝ｼ繧ｷ繝ｧ繝ｳ縲阪′繧ｪ繝ｳ縺ｫ縺ｪ縺｣縺ｦ縺・ｋ縺狗｢ｺ隱阪＠縺ｦ縺上□縺輔＞縲ＪPhone縺ｮ蝣ｴ蜷医√し繧､繝ｬ繝ｳ繝医Δ繝ｼ繝峨〒縺ｯ繝舌う繝悶′魑ｴ繧峨↑縺・ｻ墓ｧ倥〒縺吶・/div>
+      <div class="faq-q">バイブレーション・効果音が鳴らない</div>
+      <div class="faq-a">設定画面で「効果音」「バイブレーション」がオンになっているか確認してください。iPhoneの場合、サイレントモードではバイブが鳴らない仕様です。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">騾夂衍縺梧擂縺ｪ縺・/div>
-      <div class="faq-a">險ｭ螳夂判髱｢縺ｧ騾夂衍繧偵が繝励ヨ繧､繝ｳ縺励√ヶ繝ｩ繧ｦ繧ｶ蛛ｴ縺ｧ繧る夂衍險ｱ蜿ｯ繧貞・縺励※縺上□縺輔＞縲ＪOS縺ｮ蝣ｴ蜷医￣WA繧偵・繝ｼ繝逕ｻ髱｢縺ｫ霑ｽ蜉縺励◆迥ｶ諷九〒縺ｮ縺ｿ騾夂衍縺悟ｱ翫″縺ｾ縺呻ｼ・OS 16.4莉･髯搾ｼ峨・/div>
+      <div class="faq-q">通知が来ない</div>
+      <div class="faq-a">設定画面で通知をオプトインし、ブラウザ側でも通知許可を出してください。iOSの場合、PWAをホーム画面に追加した状態でのみ通知が届きます（iOS 16.4以降）。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">險倬鹸縺梧ｶ医∴縺滂ｼ丞渚譏縺輔ｌ縺ｪ縺・/div>
-      <div class="faq-a"><ol><li>繝ｭ繧ｰ繧､繝ｳ縺励※縺・ｋ縺狗｢ｺ隱搾ｼ亥承荳翫・繧｢繧ｫ繧ｦ繝ｳ繝医い繧､繧ｳ繝ｳ・・/li><li>繝悶Λ繧ｦ繧ｶ繧貞・隱ｭ縺ｿ霎ｼ縺ｿ</li><li>30遘偵⊇縺ｩ蠕・▲縺ｦ縺九ｉ蜀咲｢ｺ隱搾ｼ亥酔譛溘↓譎る俣縺後°縺九ｋ蝣ｴ蜷医′縺ゅｊ縺ｾ縺呻ｼ・/li></ol>縺昴ｌ縺ｧ繧よｶ医∴縺ｦ縺・ｋ蝣ｴ蜷医・縲∽ｸ榊・蜷医ち繝悶・騾｣邨｡蜈医∪縺ｧ縺泌ｱ蜻翫￥縺縺輔＞縲・/div>
+      <div class="faq-q">記録が消えた／反映されない</div>
+      <div class="faq-a"><ol><li>ログインしているか確認（右上のアカウントアイコン）</li><li>ブラウザを再読み込み</li><li>30秒ほど待ってから再確認（同期に時間がかかる場合があります）</li></ol>それでも消えている場合は、不具合タブの連絡先までご報告ください。</div>
     </div>
   </section>
 
-  <!-- 遐皮ｩｶ蜿ょ刈 -->
+  <!-- 研究参加 -->
   <section class="faq-section" data-cat="research">
-    <div class="faq-section-title">溌 遐皮ｩｶ蜿ょ刈縺ｫ縺､縺・※</div>
+    <div class="faq-section-title">🔬 研究参加について</div>
     <div class="faq-item">
-      <div class="faq-q">縺薙・遐皮ｩｶ縺ｮ逶ｮ逧・・・・/div>
-      <div class="faq-a">蟆丞・縺後ｓ邨碁ｨ楢・・蛛･蠎ｷ陦悟虚邯咏ｶ壹ｒ縲√ご繝ｼ繝溘ヵ繧｣繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ縺ｨAI繧ｳ繝ｼ繝√〒謾ｯ謠ｴ縺ｧ縺阪ｋ縺九ｒ讀懆ｨｼ縺吶ｋ遐皮ｩｶ縺ｧ縺吶ゆｿｮ螢ｫ隲匁枚縺ｨ縺励※蜈ｬ陦ｨ莠亥ｮ壹〒縲∫ｵ先棡縺ｯ蟄ｦ莨壹・隲匁枚縺ｮ蠖｢縺ｧ遉ｾ莨壹↓驍・・縺輔ｌ縺ｾ縺吶・/div>
+      <div class="faq-q">この研究の目的は？</div>
+      <div class="faq-a">小児がん経験者の健康行動継続を、ゲーミフィケーションとAIコーチで支援できるかを検証する研究です。修士論文として公表予定で、結果は学会・論文の形で社会に還元されます。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">蜿ょ刈縺吶ｋ縺ｨ縺ｩ繧薙↑繝｡繝ｪ繝・ヨ・上ョ繝｡繝ｪ繝・ヨ縺後≠繧具ｼ・/div>
-      <div class="faq-a"><strong>繝｡繝ｪ繝・ヨ</strong>・夊・蛻・・蛛･蠎ｷ鄙呈・繧貞庄隕門喧縺ｧ縺阪ｋ縲、I繧ｳ繝ｼ繝√↓逶ｸ隲・〒縺阪ｋ縲∫皮ｩｶ謌先棡縺ｨ縺励※蟆・擂縺ｮ謔｣閠・＆繧薙↓蠖ｹ遶九▽縲・br><strong>繝・Γ繝ｪ繝・ヨ</strong>・夊ｨ倬鹸縺ｫ譎る俣縺後°縺九ｋ縲∫判髱｢繧定ｦ九ｋ譎る俣縺悟｢励∴繧九√ョ繝ｼ繧ｿ繧堤皮ｩｶ逶ｮ逧・〒蛻ｩ逕ｨ縺輔ｌ繧九・div class="note">縺・▽縺ｧ繧ら皮ｩｶ髮｢閼ｱ縺悟庄閭ｽ縺ｧ縲∽ｸ榊茜逶翫・縺ゅｊ縺ｾ縺帙ｓ縲・/div></div>
+      <div class="faq-q">参加するとどんなメリット／デメリットがある？</div>
+      <div class="faq-a"><strong>メリット</strong>：自分の健康習慣を可視化できる、AIコーチに相談できる、研究成果として将来の患者さんに役立つ。<br><strong>デメリット</strong>：記録に時間がかかる、画面を見る時間が増える、データを研究目的で利用される。<div class="note">いつでも研究離脱が可能で、不利益はありません。</div></div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">遐皮ｩｶ繧帝比ｸｭ縺ｧ繧・ａ縺溘＞</div>
-      <div class="faq-a">縺・▽縺ｧ繧り・逕ｱ縺ｫ繧・ａ繧峨ｌ縺ｾ縺吶りｨｭ螳夂判髱｢縺ｾ縺溘・蝠上＞蜷医ｏ縺帙ヵ繧ｩ繝ｼ繝縺九ｉ縲檎皮ｩｶ髮｢閼ｱ縲阪ｒ縺秘｣邨｡縺上□縺輔＞縲る屬閼ｱ蠕後√＃蟶梧悍縺ｫ蠢懊§縺ｦ繝・・繧ｿ繧貞炎髯､縺励∪縺吶・/div>
+      <div class="faq-q">研究を途中でやめたい</div>
+      <div class="faq-a">いつでも自由にやめられます。設定画面または問い合わせフォームから「研究離脱」をご連絡ください。離脱後、ご希望に応じてデータを削除します。</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">繝励Λ繧､繝舌す繝ｼ縺ｯ螳医ｉ繧後∪縺吶°・・/div>
-      <div class="faq-a">縺ｯ縺・りｩｳ邏ｰ縺ｯ<a href="./privacy.html">繝励Λ繧､繝舌す繝ｼ繝昴Μ繧ｷ繝ｼ</a>繧偵＃隕ｧ縺上□縺輔＞縲ゅョ繝ｼ繧ｿ縺ｯ蛟倶ｺｺ繧堤音螳壹〒縺阪↑縺・ｽ｢縺ｧ髮・ｨ医・隗｣譫舌＆繧後∪縺吶・/div>
+      <div class="faq-q">プライバシーは守られますか？</div>
+      <div class="faq-a">はい。詳細は<a href="./privacy.html">プライバシーポリシー</a>をご覧ください。データは個人を特定できない形で集計・解析されます。</div>
     </div>
   </section>
 
-  <div class="no-result" id="no-result" style="display:none;">隧ｲ蠖薙☆繧玖ｳｪ蝠上′隕九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・/div>
+  <div class="no-result" id="no-result" style="display:none;">該当する質問が見つかりませんでした。</div>
 
   <div class="contact-foot">
-    <h3>柱 隗｣豎ｺ縺励↑縺・→縺阪・</h3>
-    <p>縺薙・FAQ縺ｧ隗｣豎ｺ縺励↑縺・撫鬘後′縺ゅｌ縺ｰ縲∫皮ｩｶ蝠上＞蜷医ｏ縺帷ｪ灘哨縺ｾ縺ｧ縺秘｣邨｡縺上□縺輔＞縲ゅ↑繧九∋縺丞・菴鍋噪縺ｫ縲後←縺ｮ逕ｻ髱｢縺ｧ繝ｻ縺ｩ縺ｮ謫堺ｽ懊ｒ縺励◆繧峨・菴輔′襍ｷ縺阪◆縺九阪ｒ縺顔衍繧峨○縺・◆縺縺代ｋ縺ｨ蜉ｩ縺九ｊ縺ｾ縺吶・/p>
+    <h3>💌 解決しないときは</h3>
+    <p>このFAQで解決しない問題があれば、研究問い合わせ窓口までご連絡ください。なるべく具体的に「どの画面で・どの操作をしたら・何が起きたか」をお知らせいただけると助かります。</p>
   </div>
 </main>
 
 <script>
-// 繧｢繧ｳ繝ｼ繝・ぅ繧ｪ繝ｳ
+// アコーディオン
 document.querySelectorAll('.faq-q').forEach(q=>{
   q.addEventListener('click',()=>{
     q.parentElement.classList.toggle('open');
   });
 });
 
-// 繧ｫ繝・ざ繝ｪ繧ｿ繝・
+// カテゴリタブ
 const tabs=document.querySelectorAll('.cat-tab');
 const sections=document.querySelectorAll('.faq-section');
 tabs.forEach(t=>{
@@ -431,7 +430,7 @@ tabs.forEach(t=>{
   });
 });
 
-// 讀懃ｴ｢
+// 検索
 document.getElementById('faq-search').addEventListener('input',(e)=>{
   const q=e.target.value.trim().toLowerCase();
   if(!q){
@@ -459,11 +458,11 @@ document.getElementById('faq-search').addEventListener('input',(e)=>{
 </script>
 
 <nav class="bottom-nav">
-  <a href="./game.html" class="bn-tab"><span class="bn-icon">匠</span><span class="bn-label">繝帙・繝</span></a>
-  <a href="./quest.html" class="bn-tab"><span class="bn-icon">笞・/span><span class="bn-label">繧ｯ繧ｨ繧ｹ繝・/span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">諺</span><span class="bn-label">譬・､・/span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">亮</span><span class="bn-label">蜀帝匱</span></a>
-  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">笞・/span><span class="bn-label">險ｭ螳・/span></a>
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
 </nav>
 </body>
 </html>
