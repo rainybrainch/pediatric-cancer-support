@@ -4040,7 +4040,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <div class="lp-ch ch-sera">
         <div class="lp-ch-face"><img src="./image/sera-sabun%20(1).png" alt="セラ" style="object-position:center 16%;"></div>
         <div class="lp-ch-name">セラ</div>
-        <div class="lp-ch-role">栄養の巫女</div>
+        <div class="lp-ch-role">食事サポート</div>
       </div>
     </div>
 
@@ -4115,7 +4115,6 @@ body:not(.app-active) .jump-fab{ display: none !important; }
     </a>
     <div class="g-spacer"></div>
     <span class="g-user" id="user-display"></span>
-    <a href="./account.html" class="g-btn">👤 マイページ</a>
     <a href="./settings.html" class="g-btn">⚙ 設定</a>
     <button class="g-btn" id="logout-btn">退場</button>
   </header>
@@ -4197,12 +4196,12 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="hc-bar"><div class="hc-bar-fill hc-bar-ex" id="hc-bar-ex" style="width:0%"></div></div>
           <div class="hc-cta">⚔ 運動を記録 →</div>
         </a>
-        <a href="./nutrition.html" class="hc-card hc-sera" aria-label="栄養の巫女 セラに学ぶ">
+        <a href="./nutrition.html" class="hc-card hc-sera" aria-label="食事サポート セラに学ぶ">
           <div class="hc-portrait">
             <img src="./image/sera-sabun%20(1).png" alt="セラ">
           </div>
           <div class="hc-name">セラ</div>
-          <div class="hc-role">栄養の巫女</div>
+          <div class="hc-role">食事サポート</div>
           <div class="hc-stat" id="hc-stat-nu">野菜 — 皿 / 魚 — 食</div>
           <div class="hc-bar"><div class="hc-bar-fill hc-bar-nu" id="hc-bar-nu" style="width:0%"></div></div>
           <div class="hc-cta">🌿 食事を記録 →</div>
@@ -4750,7 +4749,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <button id="coach-send" aria-label="送信">▶</button>
       </div>
       <div class="coach-disclaimer">
-        ※ 会話は研究用にFirebaseに保存され、応答生成にGemini APIを使用します。診断・治療助言はできません。
+        ※ ルナはGROWモデルで考えを整理する支援です。診断・治療助言はできません。
       </div>
     </div>
   </div>
@@ -5355,6 +5354,10 @@ function buildCoachContext(){
 }
 
 async function callCoachProxy(userText){
+  const remoteEnabled = localStorage.getItem('vitalia_remote_coach') === '1';
+  if(!remoteEnabled){
+    return localLunaGrowReply(userText);
+  }
   const payload={
     history:_coachState.history,
     userText,

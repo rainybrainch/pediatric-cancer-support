@@ -1093,7 +1093,13 @@ body.vp-page-game.app-active .hc-card,
 body.vp-page-game.app-active .sh-summary,
 body.vp-page-game.app-active .sh-adv,
 body.vp-page-game.app-active .sh-mission,
-body.vp-page-game.app-active .sh-rec-btn{
+body.vp-page-game.app-active .sh-rec-btn,
+body.vp-page-game.app-active #main-screen .sh-rec-btn,
+body.vp-page-game.app-active #main-screen .sh-rec-btn.rec-qol,
+body.vp-page-game.app-active #main-screen .sh-rec-btn.rec-ex,
+body.vp-page-game.app-active #main-screen .sh-rec-btn.rec-nu,
+body.vp-page-game.app-active #main-screen .sh-rec-btn.rec-co,
+body.vp-page-game.app-active #main-screen #sh-rec-qol{
   background:#fff !important;
   background-image:none !important;
   border:1px solid var(--clean-line) !important;
@@ -1109,7 +1115,10 @@ body.vp-page-game.app-active .hc-card *,
 body.vp-page-game.app-active .sh-summary *,
 body.vp-page-game.app-active .sh-adv *,
 body.vp-page-game.app-active .sh-mission *,
-body.vp-page-game.app-active .sh-rec-btn *{
+body.vp-page-game.app-active .sh-rec-btn *,
+body.vp-page-game.app-active #main-screen .sh-rec-btn *,
+body.vp-page-game.app-active #main-screen .sh-rec-btn.rec-qol *,
+body.vp-page-game.app-active #main-screen #sh-rec-qol *{
   color:var(--clean-ink) !important;
   -webkit-text-fill-color:var(--clean-ink) !important;
   text-shadow:none !important;
@@ -1131,10 +1140,30 @@ body.vp-page-game.app-active .xp-note *,
 body.vp-page-game.app-active .hc-role,
 body.vp-page-game.app-active .hc-stat,
 body.vp-page-game.app-active .sh-rec-meta,
+body.vp-page-game.app-active #main-screen .sh-rec-meta,
+body.vp-page-game.app-active #main-screen #sh-meta-qol,
 body.vp-page-game.app-active .sh-sum-lbl,
 body.vp-page-game.app-active .qol-trend-empty{
   color:var(--clean-muted) !important;
   -webkit-text-fill-color:var(--clean-muted) !important;
+}
+
+body.vp-page-game.app-active #main-screen #sh-rec-qol{
+  min-height:76px !important;
+  border-radius:16px !important;
+}
+
+body.vp-page-game.app-active #main-screen #sh-rec-qol .sh-rec-name,
+body.vp-page-game.app-active #main-screen #sh-rec-qol .sh-rec-arrow{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+body.vp-page-game.app-active #main-screen #sh-rec-qol .sh-rec-icon{
+  background:#eef8fc !important;
+  border:1px solid #d2e8f1 !important;
+  color:var(--clean-cyan) !important;
+  -webkit-text-fill-color:var(--clean-cyan) !important;
 }
 
 body.vp-page-game.app-active .hc-card{
