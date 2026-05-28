@@ -67,6 +67,12 @@
     if(nav) nav.hidden = shouldHideOnLogin();
   }
 
+  var visibilityTimer = 0;
+  function requestSyncVisibility(){
+    window.clearTimeout(visibilityTimer);
+    visibilityTimer = window.setTimeout(syncVisibility, 80);
+  }
+
   function install(){
     addPageClass();
     document.querySelectorAll(".bottom-nav").forEach(function(n){
@@ -95,8 +101,8 @@
     document.body.appendChild(nav);
     syncVisibility();
 
-    var mo = new MutationObserver(syncVisibility);
-    mo.observe(document.body,{ attributes:true, attributeFilter:["class"], childList:true, subtree:true });
+    var mo = new MutationObserver(requestSyncVisibility);
+    mo.observe(document.body,{ attributes:true, attributeFilter:["class","style"], childList:true, subtree:true });
     [250, 900, 1800, 3200].forEach(function(ms){ setTimeout(syncVisibility, ms); });
   }
 

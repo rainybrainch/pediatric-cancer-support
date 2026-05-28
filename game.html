@@ -5741,6 +5741,7 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
 });
 document.getElementById('guest-btn').addEventListener('click',()=>{
   uid='guest';
+  localStorage.setItem('vitalia_uid_hint',uid);
   document.body.classList.add('app-active');
   document.getElementById('login-screen').style.display='none';
   document.getElementById('main-screen').style.display='flex';

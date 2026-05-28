@@ -1317,8 +1317,12 @@ onAuthStateChanged(auth, user => {
   if (user) {
     loadAccount(user);
   } else {
-    $('account-loading').textContent = 'ログインが必要です。';
-    setTimeout(() => { location.href = './game.html'; }, 1200);
+    $('account-loading').style.display = 'none';
+    $('account-info').style.display = 'block';
+    $('acct-username').textContent = 'ゲスト（デモ）';
+    $('acct-uid').textContent = 'guest';
+    $('acct-email').textContent = '未登録';
+    $('add-email-form').style.display = 'none';
   }
 });
 </script>
