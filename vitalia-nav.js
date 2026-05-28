@@ -26,6 +26,14 @@
     return "home";
   }
 
+  function pageName(){
+    return (location.pathname.split("/").pop() || "game.html").replace(/\.html$/,"");
+  }
+
+  function addPageClass(){
+    document.body.classList.add("vp-page-" + pageName());
+  }
+
   function cleanupOldLinks(){
     document.querySelectorAll('a[href*="account.html"]').forEach(function(a){
       a.setAttribute("href","./settings.html");
@@ -49,6 +57,7 @@
   }
 
   function install(){
+    addPageClass();
     document.querySelectorAll(".bottom-nav").forEach(function(n){ n.remove(); });
     cleanupOldLinks();
 

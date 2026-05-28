@@ -20,6 +20,26 @@ body,
   color:var(--clean-ink) !important;
 }
 
+body[class*="vp-page-"]{
+  min-height:100vh !important;
+  background:
+    linear-gradient(180deg,#f7fcff 0%,#eef8fd 52%,#f5fbff 100%) !important;
+  color:var(--clean-ink) !important;
+  text-shadow:none !important;
+}
+
+body[class*="vp-page-"] *{
+  text-shadow:none !important;
+}
+
+.vp-page-game #main-app,
+.vp-page-quest #main-app,
+.vp-page-nutrition #main-app,
+.vp-page-adventure #main-app,
+.vp-page-settings .page{
+  background:transparent !important;
+}
+
 #vitalia-forest-bg{
   position:fixed;
   inset:0;
@@ -38,12 +58,14 @@ body,
 
 .vp-page-adventure.vp-forest-ready #vitalia-forest-bg,
 .vp-page-game.vp-forest-ready #vitalia-forest-bg{
-  opacity:.22;
+  opacity:.08;
+  filter:saturate(.7) brightness(1.18);
 }
 
 .vp-page-quest,
-.vp-page-nutrition{
-  background:#f5fbff !important;
+.vp-page-nutrition,
+.vp-page-settings{
+  background:#f7fcff !important;
 }
 
 body::before,
@@ -181,6 +203,17 @@ main{
 }
 
 .player-card,
+.page,
+.section,
+.goal-card,
+.bmi-card,
+.toggle-row,
+.acct-card,
+.summary-card,
+.stat-card,
+.progress-card,
+.achievement-item,
+.settings-card,
 .quest-hero,
 .side-panel,
 .linked-panel,
@@ -218,6 +251,94 @@ fieldset{
   box-shadow:var(--clean-shadow) !important;
   color:var(--clean-ink) !important;
   -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+.page{
+  width:min(980px,100%) !important;
+  margin:0 auto !important;
+  padding:18px 14px 112px !important;
+  box-shadow:none !important;
+  border:0 !important;
+}
+
+.section{
+  padding:18px !important;
+  margin:0 0 16px !important;
+}
+
+.page-title,
+.page-sub,
+.section-title,
+.toggle-label,
+.toggle-desc,
+.goal-title,
+.goal-desc,
+.acct-lbl,
+.acct-val,
+.form-hint,
+.save-msg{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+.page-sub,
+.toggle-desc,
+.goal-desc,
+.form-hint{
+  color:var(--clean-muted) !important;
+  -webkit-text-fill-color:var(--clean-muted) !important;
+}
+
+.lp-hero,
+.lp-ch,
+.lp-badge{
+  text-shadow:none !important;
+}
+
+.lp-rune,
+.lp-subtitle{
+  color:#1e7fa4 !important;
+  -webkit-text-fill-color:#1e7fa4 !important;
+}
+
+.lp-title{
+  color:#0a4870 !important;
+  -webkit-text-fill-color:#0a4870 !important;
+  background:none !important;
+}
+
+#login-screen .lp-title,
+#loading-screen .ls-title{
+  color:#0a4870 !important;
+  -webkit-text-fill-color:#0a4870 !important;
+  background:none !important;
+  animation:none !important;
+  filter:none !important;
+}
+
+.lp-tagline,
+.lp-tagline *,
+.lp-ch-role{
+  color:#4f6e82 !important;
+  -webkit-text-fill-color:#4f6e82 !important;
+}
+
+.lp-ch{
+  background:rgba(255,255,255,.94) !important;
+  border:1px solid var(--clean-line) !important;
+  box-shadow:0 10px 28px rgba(20,70,100,.14) !important;
+}
+
+.lp-ch-name{
+  color:#0a4870 !important;
+  -webkit-text-fill-color:#0a4870 !important;
+}
+
+.lp-badge{
+  background:#ffffff !important;
+  border:1px solid var(--clean-line) !important;
+  color:#1e7fa4 !important;
+  -webkit-text-fill-color:#1e7fa4 !important;
 }
 
 .quest-hero,
@@ -390,6 +511,16 @@ h1,h2,h3,h4,label,legend{
   align-items:center !important;
   gap:10px !important;
   margin-bottom:12px !important;
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+}
+
+.section-label,
+.panel-head,
+.linked-head,
+.section-title{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
 }
 
 .section-icon{
@@ -497,6 +628,7 @@ textarea::placeholder{
 .vcn-tab{
   flex:1 1 0;
   min-width:0;
+  max-width:160px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -539,8 +671,8 @@ textarea::placeholder{
 
 .vcn-tab.is-active{
   color:var(--clean-cyan);
-  background:linear-gradient(180deg,#eaf9ff 0%,#f8fdff 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  background:linear-gradient(180deg,#e6f8ff 0%,#f8fdff 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 -2px 12px rgba(30,127,164,.12);
   transform:translateY(-2px);
 }
 
@@ -765,7 +897,7 @@ textarea::placeholder{
     gap:14px !important;
   }
   .quest-side{
-    order:2 !important;
+    order:0 !important;
   }
   .quest-board,
   .food-board{
@@ -803,12 +935,17 @@ textarea::placeholder{
   #vitalia-common-nav{
     bottom:0;
     width:100%;
-    height:64px;
+    height:70px;
     border-radius:0;
     padding:0 6px env(safe-area-inset-bottom);
   }
   .vcn-tab{
-    font-size:12px;
+    font-size:11px;
+    gap:4px;
+  }
+  .vcn-mark{
+    width:21px;
+    height:21px;
   }
   .vcn-icon{
     display:none !important;
