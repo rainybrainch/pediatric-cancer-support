@@ -1363,6 +1363,13 @@ footer{
   .gap-scard{padding:16px 14px;}
 }
 
+@media(max-width:820px){
+  .overview-gap{
+    grid-template-columns:1fr !important;
+    margin-bottom:28px !important;
+  }
+}
+
 /* ========== 研究の強み ========== */
 .strengths{
   padding:80px 0;
@@ -3782,7 +3789,29 @@ footer{
     <div class="section-head reveal">
       <div class="chapter-label">RESEARCH OVERVIEW — 研究について</div>
       <h2 class="section-title">なぜ、<span class="accent">このツールが必要</span>なのか</h2>
-      <p class="section-desc">小児がん経験者を取り巻く健康課題と、本研究プロジェクトの取り組みを紹介します。</p>
+      <p class="section-desc">小児がん経験者を取り巻く健康課題と、既存支援の空白に対する本研究プロジェクトの取り組みを紹介します。</p>
+    </div>
+
+    <div class="overview-gap reveal" style="display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch;margin:0 auto 34px;max-width:980px;">
+      <div style="background:rgba(255,255,255,.9);border:1px solid rgba(30,127,164,.18);border-radius:18px;padding:22px;box-shadow:0 14px 34px rgba(20,70,100,.10);">
+        <div style="font-size:.72rem;font-weight:900;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;">Why Now</div>
+        <h3 style="font-family:'Noto Serif JP',serif;font-size:clamp(1.25rem,2.4vw,1.75rem);line-height:1.45;color:#10243a;margin-bottom:10px;">生存率の向上後に残る「その後をどう生きるか」という課題</h3>
+        <p style="font-size:.9rem;line-height:1.9;color:#486174;">小児がん経験者では、晩期合併症リスクや運動習慣の継続が重要な課題です。一方で、日本国内では小児がん経験者に対して、ゲーミフィケーションとAIコーチングを組み合わせて健康行動を支援する研究はまだ限られています。</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr;gap:10px;">
+        <div style="background:#fff;border:1px solid rgba(30,127,164,.16);border-radius:14px;padding:14px 16px;box-shadow:0 8px 22px rgba(20,70,100,.08);">
+          <strong style="display:block;font-size:1.35rem;color:#1e7fa4;">2〜5倍</strong>
+          <span style="display:block;font-size:.78rem;color:#536d7f;line-height:1.6;">晩期合併症リスクが一般集団より高い</span>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(30,127,164,.16);border-radius:14px;padding:14px 16px;box-shadow:0 8px 22px rgba(20,70,100,.08);">
+          <strong style="display:block;font-size:1.35rem;color:#1e7fa4;">30%</strong>
+          <span style="display:block;font-size:.78rem;color:#536d7f;line-height:1.6;">WHO推奨週150分の運動達成率は十分ではない</span>
+        </div>
+        <div style="background:#fff;border:1px solid rgba(30,127,164,.16);border-radius:14px;padding:14px 16px;box-shadow:0 8px 22px rgba(20,70,100,.08);">
+          <strong style="display:block;font-size:1.35rem;color:#1e7fa4;">小児がん経験者 × ゲーム × AI</strong>
+          <span style="display:block;font-size:.78rem;color:#536d7f;line-height:1.6;">この3要素を統合し、行動変容を支える点が本研究の特徴です</span>
+        </div>
+      </div>
     </div>
 
     <!-- #30 統計サブヘッダー -->
@@ -3890,7 +3919,7 @@ footer{
 
 
 <!-- ========== なぜ今この研究か（ギャップ） ========== -->
-<section class="gap-section">
+<section class="gap-section" hidden style="display:none!important;">
   <div class="section-inner">
     <div class="section-head reveal">
       <div class="chapter-label">— Research Gap —</div>
