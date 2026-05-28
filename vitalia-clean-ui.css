@@ -482,11 +482,12 @@ textarea::placeholder{
   justify-content:center;
   gap:0;
   padding:0 max(8px, env(safe-area-inset-left)) env(safe-area-inset-bottom) max(8px, env(safe-area-inset-right));
-  background:#ffffff;
+  background:rgba(255,255,255,.96);
   border-top:1px solid #c9dde8;
   border-radius:0;
-  box-shadow:0 -4px 18px rgba(20,70,100,.10);
-  backdrop-filter:none;
+  box-shadow:0 -8px 26px rgba(20,70,100,.16);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
 }
 
 #vitalia-common-nav[hidden]{
@@ -497,21 +498,31 @@ textarea::placeholder{
   flex:1 1 0;
   min-width:0;
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
+  gap:4px;
   text-decoration:none;
   color:var(--clean-muted);
-  font-size:13px;
+  font-size:11px;
   font-weight:800;
   letter-spacing:0;
-  border-radius:0;
+  border-radius:12px 12px 0 0;
   position:relative;
-  transition:color .18s ease;
+  transition:background .18s ease, color .18s ease, transform .18s ease;
 }
 
 .vcn-icon{
   display:none !important;
+}
+
+.vcn-mark{
+  width:22px;
+  height:22px;
+  position:relative;
+  display:block;
+  color:currentColor;
+  opacity:.9;
 }
 
 .vcn-label{
@@ -519,14 +530,23 @@ textarea::placeholder{
   white-space:nowrap;
 }
 
+.vcn-tab:hover,
+.vcn-tab:focus-visible{
+  background:#eef8fd;
+  color:var(--clean-cyan);
+  outline:none;
+}
+
 .vcn-tab.is-active{
   color:var(--clean-cyan);
-  background:#f0f9fd;
-  box-shadow:none;
+  background:linear-gradient(180deg,#eaf9ff 0%,#f8fdff 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  transform:translateY(-2px);
 }
 
 .vcn-tab.is-active .vcn-icon,
-.vcn-tab.is-active .vcn-label{
+.vcn-tab.is-active .vcn-label,
+.vcn-tab.is-active .vcn-mark{
   color:var(--clean-cyan);
   -webkit-text-fill-color:var(--clean-cyan);
 }
@@ -544,6 +564,124 @@ textarea::placeholder{
   height:3px;
   border-radius:0 0 3px 3px;
   background:var(--clean-cyan);
+}
+
+.vcn-tab[data-tab="home"] .vcn-mark::before{
+  content:"";
+  position:absolute;
+  left:3px;
+  top:5px;
+  width:15px;
+  height:15px;
+  border:2px solid currentColor;
+  border-top:0;
+  border-radius:3px;
+}
+
+.vcn-tab[data-tab="home"] .vcn-mark::after{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:1px;
+  width:13px;
+  height:13px;
+  border-left:2px solid currentColor;
+  border-top:2px solid currentColor;
+  transform:rotate(45deg);
+  border-radius:2px;
+}
+
+.vcn-tab[data-tab="exercise"] .vcn-mark::before{
+  content:"";
+  position:absolute;
+  left:3px;
+  right:3px;
+  top:10px;
+  height:3px;
+  border-radius:999px;
+  background:currentColor;
+}
+
+.vcn-tab[data-tab="exercise"] .vcn-mark::after{
+  content:"";
+  position:absolute;
+  left:0;
+  top:6px;
+  width:22px;
+  height:11px;
+  border-left:5px solid currentColor;
+  border-right:5px solid currentColor;
+  border-radius:4px;
+}
+
+.vcn-tab[data-tab="nutrition"] .vcn-mark::before{
+  content:"";
+  position:absolute;
+  left:5px;
+  top:3px;
+  width:14px;
+  height:16px;
+  border:2px solid currentColor;
+  border-radius:14px 2px 14px 2px;
+  transform:rotate(-18deg);
+}
+
+.vcn-tab[data-tab="nutrition"] .vcn-mark::after{
+  content:"";
+  position:absolute;
+  left:10px;
+  top:8px;
+  width:2px;
+  height:12px;
+  border-radius:999px;
+  background:currentColor;
+  transform:rotate(38deg);
+}
+
+.vcn-tab[data-tab="adventure"] .vcn-mark::before{
+  content:"";
+  position:absolute;
+  left:3px;
+  top:2px;
+  width:16px;
+  height:18px;
+  border:2px solid currentColor;
+  border-radius:8px 8px 10px 10px;
+  clip-path:polygon(50% 0,100% 14%,90% 78%,50% 100%,10% 78%,0 14%);
+}
+
+.vcn-tab[data-tab="adventure"] .vcn-mark::after{
+  content:"";
+  position:absolute;
+  left:9px;
+  top:6px;
+  width:4px;
+  height:9px;
+  border-radius:999px;
+  background:currentColor;
+}
+
+.vcn-tab[data-tab="settings"] .vcn-mark::before{
+  content:"";
+  position:absolute;
+  left:3px;
+  top:3px;
+  width:16px;
+  height:16px;
+  border:2px solid currentColor;
+  border-radius:50%;
+  box-shadow:0 -5px 0 -3px currentColor,0 5px 0 -3px currentColor,5px 0 0 -3px currentColor,-5px 0 0 -3px currentColor;
+}
+
+.vcn-tab[data-tab="settings"] .vcn-mark::after{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:8px;
+  width:6px;
+  height:6px;
+  border:2px solid currentColor;
+  border-radius:50%;
 }
 
 .vitalia-ai-open{

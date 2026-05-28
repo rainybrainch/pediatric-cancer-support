@@ -63,8 +63,9 @@
     tabs.forEach(function(tab){
       var a = document.createElement("a");
       a.className = "vcn-tab" + (tab.key === active ? " is-active" : "");
+      a.dataset.tab = tab.key;
       a.href = tab.href;
-      a.textContent = tab.label;
+      a.innerHTML = '<span class="vcn-mark" aria-hidden="true"></span><span class="vcn-label">'+tab.label+'</span>';
       nav.appendChild(a);
     });
 
