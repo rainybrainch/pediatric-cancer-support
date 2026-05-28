@@ -36,8 +36,8 @@
 
   function cleanupOldLinks(){
     document.querySelectorAll('a[href*="account.html"]').forEach(function(a){
-      a.setAttribute("href","./settings.html");
-      a.textContent = labels.settings;
+      a.hidden = true;
+      a.style.display = "none";
     });
     document.querySelectorAll('a[href*="party.html"]').forEach(function(a){
       a.hidden = true;
@@ -58,7 +58,10 @@
 
   function install(){
     addPageClass();
-    document.querySelectorAll(".bottom-nav").forEach(function(n){ n.remove(); });
+    document.querySelectorAll(".bottom-nav").forEach(function(n){
+      n.hidden = true;
+      n.style.display = "none";
+    });
     cleanupOldLinks();
 
     var old = document.getElementById("vitalia-common-nav");
