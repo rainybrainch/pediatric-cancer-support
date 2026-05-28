@@ -49,6 +49,7 @@ body,
 body::before,
 .aurora-stage,
 #loading-screen,
+#login-screen #loading-screen,
 #goal-banner,
 .goal-banner,
 #save-toast,
@@ -64,6 +65,11 @@ body::before,
   display:none !important;
   opacity:0 !important;
   pointer-events:none !important;
+}
+
+#loading-screen.hidden,
+#loading-screen:not(.show){
+  display:none !important;
 }
 
 .bottom-nav{
@@ -491,33 +497,21 @@ textarea::placeholder{
   flex:1 1 0;
   min-width:0;
   display:flex;
-  flex-direction:column;
+  flex-direction:row;
   align-items:center;
   justify-content:center;
-  gap:3px;
   text-decoration:none;
   color:var(--clean-muted);
-  font-size:12px;
+  font-size:13px;
   font-weight:800;
+  letter-spacing:0;
   border-radius:0;
   position:relative;
   transition:color .18s ease;
 }
 
 .vcn-icon{
-  width:24px;
-  height:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:0;
-  line-height:1;
-  border-radius:0;
-  background:transparent;
-  color:var(--clean-cyan);
-  -webkit-text-fill-color:var(--clean-cyan);
+  display:none !important;
 }
 
 .vcn-label{
@@ -676,11 +670,9 @@ textarea::placeholder{
     padding:0 6px env(safe-area-inset-bottom);
   }
   .vcn-tab{
-    font-size:11px;
+    font-size:12px;
   }
   .vcn-icon{
-    width:24px;
-    height:20px;
-    font-size:11px;
+    display:none !important;
   }
 }

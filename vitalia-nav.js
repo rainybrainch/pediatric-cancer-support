@@ -10,11 +10,11 @@
   };
 
   var tabs = [
-    { key:"home", href:"./game.html", icon:"\u5bb6", label:labels.home },
-    { key:"exercise", href:"./quest.html", icon:"\u904b", label:labels.exercise },
-    { key:"nutrition", href:"./nutrition.html", icon:"\u6804", label:labels.nutrition },
-    { key:"adventure", href:"./adventure.html", icon:"\u5192", label:labels.adventure },
-    { key:"settings", href:"./settings.html", icon:"\u8a2d", label:labels.settings }
+    { key:"home", href:"./game.html", label:labels.home },
+    { key:"exercise", href:"./quest.html", label:labels.exercise },
+    { key:"nutrition", href:"./nutrition.html", label:labels.nutrition },
+    { key:"adventure", href:"./adventure.html", label:labels.adventure },
+    { key:"settings", href:"./settings.html", label:labels.settings }
   ];
 
   function currentKey(){
@@ -64,7 +64,7 @@
       var a = document.createElement("a");
       a.className = "vcn-tab" + (tab.key === active ? " is-active" : "");
       a.href = tab.href;
-      a.innerHTML = '<span class="vcn-icon" aria-hidden="true">'+tab.icon+'</span><span class="vcn-label">'+tab.label+'</span>';
+      a.textContent = tab.label;
       nav.appendChild(a);
     });
 
