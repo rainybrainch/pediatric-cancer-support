@@ -1030,3 +1030,192 @@ textarea::placeholder{
     display:none !important;
   }
 }
+
+/* Home contrast hardening: keep the playable home readable on light UI. */
+body.vp-page-game.app-active,
+body.vp-page-game.app-active #main-screen{
+  background:
+    linear-gradient(180deg,#f7fcff 0%,#edf8fd 48%,#f5fbff 100%) !important;
+  color:var(--clean-ink) !important;
+}
+
+body.vp-page-game.app-active #main-screen{
+  min-height:100vh !important;
+  padding-bottom:calc(96px + env(safe-area-inset-bottom, 0)) !important;
+}
+
+body.vp-page-game.app-active .g-main{
+  width:min(1040px,100%) !important;
+  margin:0 auto !important;
+  padding:16px 14px 112px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:14px !important;
+}
+
+body.vp-page-game.app-active #vitalia-forest-bg{
+  opacity:.07 !important;
+  filter:saturate(.75) brightness(1.2) !important;
+}
+
+body.vp-page-game.app-active .g-header{
+  background:rgba(255,255,255,.96) !important;
+  border-bottom:1px solid var(--clean-line) !important;
+  box-shadow:0 6px 24px rgba(20,70,100,.10) !important;
+}
+
+body.vp-page-game.app-active .g-header *,
+body.vp-page-game.app-active .g-logo *,
+body.vp-page-game.app-active .gold-text{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+  background:none !important;
+  text-shadow:none !important;
+}
+
+body.vp-page-game.app-active .g-btn{
+  background:#fff !important;
+  border:1px solid var(--clean-line) !important;
+  color:var(--clean-cyan) !important;
+  -webkit-text-fill-color:var(--clean-cyan) !important;
+  box-shadow:0 4px 14px rgba(20,70,100,.08) !important;
+}
+
+body.vp-page-game.app-active .simple-home{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:14px !important;
+}
+
+body.vp-page-game.app-active .player-card,
+body.vp-page-game.app-active .qol-trend-card,
+body.vp-page-game.app-active .hc-card,
+body.vp-page-game.app-active .sh-summary,
+body.vp-page-game.app-active .sh-adv,
+body.vp-page-game.app-active .sh-mission,
+body.vp-page-game.app-active .sh-rec-btn{
+  background:#fff !important;
+  background-image:none !important;
+  border:1px solid var(--clean-line) !important;
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+  text-shadow:none !important;
+  box-shadow:var(--clean-shadow) !important;
+}
+
+body.vp-page-game.app-active .player-card *,
+body.vp-page-game.app-active .qol-trend-card *,
+body.vp-page-game.app-active .hc-card *,
+body.vp-page-game.app-active .sh-summary *,
+body.vp-page-game.app-active .sh-adv *,
+body.vp-page-game.app-active .sh-mission *,
+body.vp-page-game.app-active .sh-rec-btn *{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+  text-shadow:none !important;
+}
+
+body.vp-page-game.app-active .player-name,
+body.vp-page-game.app-active .hc-name,
+body.vp-page-game.app-active .sh-rec-name,
+body.vp-page-game.app-active .sh-sum-val,
+body.vp-page-game.app-active .qol-trend-head{
+  color:var(--clean-ink) !important;
+  -webkit-text-fill-color:var(--clean-ink) !important;
+  font-weight:900 !important;
+}
+
+body.vp-page-game.app-active .lv-title,
+body.vp-page-game.app-active .xp-note,
+body.vp-page-game.app-active .xp-note *,
+body.vp-page-game.app-active .hc-role,
+body.vp-page-game.app-active .hc-stat,
+body.vp-page-game.app-active .sh-rec-meta,
+body.vp-page-game.app-active .sh-sum-lbl,
+body.vp-page-game.app-active .qol-trend-empty{
+  color:var(--clean-muted) !important;
+  -webkit-text-fill-color:var(--clean-muted) !important;
+}
+
+body.vp-page-game.app-active .hc-card{
+  grid-template-columns:76px minmax(0,1fr) !important;
+  grid-template-areas:
+    "portrait name"
+    "portrait role"
+    "portrait stat"
+    "portrait bar" !important;
+  min-height:118px !important;
+  padding:14px !important;
+}
+
+body.vp-page-game.app-active .hc-card > .hc-portrait{ grid-area:portrait !important; }
+body.vp-page-game.app-active .hc-card > .hc-name{ grid-area:name !important; align-self:end !important; }
+body.vp-page-game.app-active .hc-card > .hc-role{ grid-area:role !important; }
+body.vp-page-game.app-active .hc-card > .hc-stat{ grid-area:stat !important; }
+body.vp-page-game.app-active .hc-card > .hc-bar{ grid-area:bar !important; }
+body.vp-page-game.app-active .hc-card > .hc-cta{ display:none !important; }
+
+body.vp-page-game.app-active .sh-sum-bar,
+body.vp-page-game.app-active .xp-bar,
+body.vp-page-game.app-active .player-card-bar,
+body.vp-page-game.app-active .hc-bar{
+  background:#e8f3f8 !important;
+}
+
+body.vp-page-game.app-active .sh-sum-fill,
+body.vp-page-game.app-active .xp-fill,
+body.vp-page-game.app-active .player-card-bar-fill,
+body.vp-page-game.app-active .hc-bar-fill{
+  background:linear-gradient(90deg,#1e7fa4,#5fd0e8) !important;
+}
+
+body.vp-page-game.app-active .sh-m-done,
+body.vp-page-game.app-active button.sh-m-done{
+  background:linear-gradient(135deg,#1f8a66,#35b884) !important;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  border:0 !important;
+}
+
+body.vp-page-game.app-active #vitalia-common-nav{
+  background:rgba(255,255,255,.98) !important;
+  border-top:1px solid #bdd8e6 !important;
+  box-shadow:0 -10px 28px rgba(20,70,100,.18) !important;
+}
+
+.vcn-icon{
+  display:block !important;
+  font-size:20px !important;
+  line-height:1 !important;
+}
+
+.vcn-mark{
+  display:block !important;
+}
+
+@media (max-width:820px){
+  body.vp-page-game.app-active .g-main{
+    max-width:560px !important;
+    padding:12px 12px 108px !important;
+  }
+  body.vp-page-game.app-active .home-char-trio{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:10px !important;
+  }
+  body.vp-page-game.app-active .hc-card{
+    grid-template-columns:64px minmax(0,1fr) !important;
+    min-height:104px !important;
+    border-radius:14px !important;
+  }
+  body.vp-page-game.app-active .player-stats{
+    display:none !important;
+  }
+  body.vp-page-game.app-active .g-header{
+    gap:8px !important;
+    overflow-x:auto !important;
+  }
+  body.vp-page-game.app-active .g-user{
+    display:none !important;
+  }
+}
