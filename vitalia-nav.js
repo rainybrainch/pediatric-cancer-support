@@ -45,10 +45,21 @@
     });
   }
 
+  function isVisible(el){
+    if(!el) return false;
+    var cs = getComputedStyle(el);
+    return cs.display !== "none" && cs.visibility !== "hidden" && !el.classList.contains("hidden");
+  }
+
   function shouldHideOnLogin(){
     var path = location.pathname.split("/").pop() || "game.html";
-    if(path !== "game.html") return false;
-    return !document.body.classList.contains("app-active");
+    var login = document.getElementById("login-screen");
+    var consent = document.getElementById("consent-modal");
+    var main = document.getElementById("main-screen");
+    if(path === "game.html") return !document.body.classList.contains("app-active");
+    if(isVisible(consent) || isVisible(login)) return true;
+    if(main && !isVisible(main)) return true;
+    return false;
   }
 
   function syncVisibility(){
@@ -85,7 +96,8 @@
     syncVisibility();
 
     var mo = new MutationObserver(syncVisibility);
-    mo.observe(document.body,{ attributes:true, attributeFilter:["class"] });
+    mo.observe(document.body,{ attributes:true, attributeFilter:["class"], childList:true, subtree:true });
+    [250, 900, 1800, 3200].forEach(function(ms){ setTimeout(syncVisibility, ms); });
   }
 
   if(document.readyState === "loading"){
