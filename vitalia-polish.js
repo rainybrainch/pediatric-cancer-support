@@ -34,7 +34,7 @@
 
   function init(){
     addPageClass();
-    if(["game","quest","nutrition","adventure"].includes(pageName())) addForest();
+    if(["game","adventure"].includes(pageName())) addForest();
     simplifyQuestChrome();
   }
 
