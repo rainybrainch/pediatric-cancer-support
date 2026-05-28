@@ -10,11 +10,11 @@
   };
 
   var tabs = [
-    { key:"home", href:"./game.html", icon:"\u2302", label:labels.home },
-    { key:"exercise", href:"./quest.html", icon:"\u2694", label:labels.exercise },
-    { key:"nutrition", href:"./nutrition.html", icon:"\u273f", label:labels.nutrition },
-    { key:"adventure", href:"./adventure.html", icon:"\u2726", label:labels.adventure },
-    { key:"settings", href:"./settings.html", icon:"\u2699", label:labels.settings }
+    { key:"home", href:"./game.html", icon:"H", label:labels.home },
+    { key:"exercise", href:"./quest.html", icon:"Ex", label:labels.exercise },
+    { key:"nutrition", href:"./nutrition.html", icon:"Nu", label:labels.nutrition },
+    { key:"adventure", href:"./adventure.html", icon:"Ad", label:labels.adventure },
+    { key:"settings", href:"./settings.html", icon:"Se", label:labels.settings }
   ];
 
   function currentKey(){
