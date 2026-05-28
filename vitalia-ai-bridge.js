@@ -49,6 +49,14 @@
       e.stopPropagation();
       if(e.stopImmediatePropagation) e.stopImmediatePropagation();
     }
+    if(typeof window.VitaliaLunaOpen === "function"){
+      window.VitaliaLunaOpen();
+      return;
+    }
+    if(typeof window.openCoach === "function"){
+      window.openCoach();
+      return;
+    }
     var overlay = makeOverlay();
     var frame = overlay.querySelector(".vai-frame");
     if(frame && frame.src !== DIFY_URL) frame.src = DIFY_URL;
@@ -79,7 +87,12 @@
     bind();
     var mo = new MutationObserver(bind);
     mo.observe(document.body,{ childList:true, subtree:true });
-    window.VitaliaAI = { open:openAI, close:closeAI, url:DIFY_URL };
+    window.VitaliaAI = { open:openAI, openDify:function(){
+      var nativeOpen = window.VitaliaLunaOpen;
+      window.VitaliaLunaOpen = null;
+      openAI();
+      window.VitaliaLunaOpen = nativeOpen;
+    }, close:closeAI, url:DIFY_URL };
   }
 
   if(document.readyState === "loading"){

@@ -4709,7 +4709,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <img src="./image/runa-sabun%20(1).png" alt="ルナ" id="coach-luna-img">
       <div class="coach-char-info">
         <div class="coach-char-name">ルナ — 転生の女神</div>
-        <div class="coach-char-sub">GROWモデル AIコーチ ／ Gemini連携</div>
+        <div class="coach-char-sub">GROWモデル AIコーチ</div>
       </div>
     </div>
 
@@ -5568,6 +5568,8 @@ function openCoach(){
   updatePresetVisibility();
   setTimeout(()=>document.getElementById('coach-input').focus(),250);
 }
+window.VitaliaLunaOpen = openCoach;
+window.openCoach = openCoach;
 
 document.getElementById('coach-tile').addEventListener('click',openCoach);
 document.getElementById('coach-close').addEventListener('click',()=>document.getElementById('coach-modal').classList.remove('open'));
