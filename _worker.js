@@ -134,9 +134,16 @@ const CRISIS_REPLY = `あなたが、いまそういう気持ちでいること�
 // Workers の単一インスタンス内でのみ動作する best-effort 実装
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1分
-const RATE_LIMIT_MAX_REQS = 20;          // 1分20リクエスト
-const RATE_LIMIT_DAILY_MAX = 200;        // 1日200リクエスト
+const RATE_LIMIT_MAX_REQS = 6;           // 1分6リクエスト
+const RATE_LIMIT_DAILY_MAX = 30;         // 1日30リクエスト
 const DAILY_WINDOW_MS = 24 * 60 * 60 * 1000;
+const GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const ALLOWED_ORIGINS = new Set([
+  'https://rainybrainch.github.io',
+  'https://aya-health-quest.rainybrain-ch.workers.dev',
+  'http://127.0.0.1:8765',
+  'http://localhost:8765'
+]);
 
 function getClientIp(request){
   return request.headers.get('CF-Connecting-IP')
@@ -177,20 +184,41 @@ function checkRateLimit(ip){
   return { ok: true };
 }
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
+const BASE_CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Content-Type': 'application/json; charset=utf-8',
 };
 
-function jsonResponse(status, body, extraHeaders = {}) {
-  return new Response(JSON.stringify(body), { status, headers: { ...CORS, ...extraHeaders } });
+function getCorsHeaders(request) {
+  const origin = request.headers.get('Origin') || '';
+  return {
+    ...BASE_CORS,
+    'Access-Control-Allow-Origin': ALLOWED_ORIGINS.has(origin) ? origin : 'https://rainybrainch.github.io',
+    'Vary': 'Origin'
+  };
+}
+
+function isAllowedRequest(request) {
+  const origin = request.headers.get('Origin') || '';
+  const referer = request.headers.get('Referer') || '';
+  if (origin && ALLOWED_ORIGINS.has(origin)) return true;
+  if (!origin && referer) {
+    try { return ALLOWED_ORIGINS.has(new URL(referer).origin); }
+    catch (e) { return false; }
+  }
+  return false;
+}
+
+function jsonResponse(status, body, extraHeaders = {}, request = null) {
+  const headers = request ? getCorsHeaders(request) : { ...BASE_CORS, 'Access-Control-Allow-Origin': 'https://rainybrainch.github.io', 'Vary': 'Origin' };
+  return new Response(JSON.stringify(body), { status, headers: { ...headers, ...extraHeaders } });
 }
 
 async function handleCoach(request, env) {
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
-  if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed' });
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: getCorsHeaders(request) });
+  if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed' }, {}, request);
+  if (!isAllowedRequest(request)) return jsonResponse(403, { error: 'Origin not allowed' }, {}, request);
 
   // レート制限
   const ip = getClientIp(request);
@@ -278,7 +306,7 @@ async function handleCoach(request, env) {
 
   contents.push({ role: 'user', parts: [{ text: userText }] });
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   try {
     const res = await fetch(url, {
@@ -287,7 +315,7 @@ async function handleCoach(request, env) {
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents,
-        generationConfig: { temperature: 0.85, maxOutputTokens: 512, topP: 0.95 },
+        generationConfig: { temperature: 0.75, maxOutputTokens: 384, topP: 0.9 },
         safetySettings: [
           { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
           { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
@@ -316,8 +344,9 @@ async function handleCoach(request, env) {
 }
 
 async function handleVision(request, env) {
-  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
-  if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed' });
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: getCorsHeaders(request) });
+  if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed' }, {}, request);
+  if (!isAllowedRequest(request)) return jsonResponse(403, { error: 'Origin not allowed' }, {}, request);
 
   // レート制限（Visionは軽め）
   const ip = getClientIp(request);
@@ -344,7 +373,7 @@ async function handleVision(request, env) {
     return jsonResponse(400, { error: 'unsupported mime' });
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   try {
     const res = await fetch(url, {
@@ -355,7 +384,7 @@ async function handleVision(request, env) {
           { inline_data: { mime_type: mime, data: base64 } },
           { text: VISION_PROMPT },
         ]}],
-        generationConfig: { temperature: 0.2, maxOutputTokens: 1024 },
+        generationConfig: { temperature: 0.2, maxOutputTokens: 512 },
       }),
     });
     if (!res.ok) {
