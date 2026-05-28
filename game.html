@@ -5140,8 +5140,11 @@ function renderAchv(ach){
   }).join('');
 }
 
-// ===== AI Coach (Netlify Functions プロキシ経由 RPG チャット) =====
+// ===== AI Coach (server proxy first, local GROW fallback) =====
 const COACH_PROXY_URL='/api/gemini-coach';
+const COACH_PROXY_FALLBACK_URLS=[
+  'https://aya-health-quest.netlify.app/api/gemini-coach'
+];
 const COACH_HIST_KEY=()=>`vc_hist_${uid||'guest'}`;
 const COACH_STEP_KEY=()=>`vc_step_${uid||'guest'}`;
 
@@ -5352,23 +5355,60 @@ function buildCoachContext(){
 }
 
 async function callCoachProxy(userText){
-  const res=await fetch(COACH_PROXY_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      history:_coachState.history,
-      userText,
-      context: buildCoachContext()
-    })
-  });
-  if(!res.ok){
-    const err=await res.json().catch(()=>({}));
-    const msg=err.error||`HTTP ${res.status}`;
-    const detail=err.detail?` (${String(err.detail).slice(0,200)})`:'';
-    throw new Error(msg+detail);
+  const payload={
+    history:_coachState.history,
+    userText,
+    context: buildCoachContext()
+  };
+  const urls=[];
+  if(!/github\.io$/i.test(location.hostname)) urls.push(COACH_PROXY_URL);
+  COACH_PROXY_FALLBACK_URLS.forEach(url=>urls.push(url));
+
+  const failures=[];
+  for(const url of urls){
+    try{
+      const res=await fetch(url,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(payload)
+      });
+      if(!res.ok){
+        const err=await res.json().catch(()=>({}));
+        const msg=err.error||`HTTP ${res.status}`;
+        const detail=err.detail?` (${String(err.detail).slice(0,120)})`:'';
+        failures.push(`${url}: ${msg}${detail}`);
+        continue;
+      }
+      const data=await res.json();
+      if(data.text) return data.text;
+      failures.push(`${url}: empty response`);
+    }catch(e){
+      failures.push(`${url}: ${e.message}`);
+    }
   }
-  const data=await res.json();
-  return data.text||'';
+  console.warn('Luna proxy unavailable; using local GROW fallback', failures);
+  return localLunaGrowReply(userText);
+}
+
+function localLunaGrowReply(userText){
+  const t=String(userText||'').trim();
+  if(window.AppSafety?.detectCrisis?.(t)){
+    return '言葉にしてくれてありがとうございます。今は一人で抱えず、緊急時は119、相談先としてよりそいホットライン0120-279-338やいのちの電話0570-783-556につながってください。あなたの安全が最優先です。今この場で、近くに連絡できる人はいますか？ [STEP:R]';
+  }
+
+  const step=_coachState.step || 'G';
+  if(step==='G'){
+    return '続かないと感じている中でも、ここで話してくれたこと自体が大切な一歩です。まずは大きな目標ではなく、今週できそうな小さな健康行動を一つに絞ってみましょう。今の生活では、何がいちばん妨げになっていますか？ [STEP:R]';
+  }
+  if(step==='R'){
+    const focus=/食|野菜|魚|栄養|ごはん|食事/.test(t) ? '食事' : /睡眠|寝|眠/.test(t) ? '睡眠' : '運動';
+    return `${focus}について考えているのですね。できていない部分だけでなく、少しでもできている日や、できそうな時間帯を一緒に見つけたいです。小さく試すなら、どんな工夫ができそうですか？ [STEP:O]`;
+  }
+  if(step==='O'){
+    return '状況を教えてくれてありがとうございます。選択肢は小さいほど続けやすいので、1分だけ動く、ついでに階段を使う、食事に一品足す、のような形でも十分です。この中で、今週実際にやってみるならどれにしますか？ [STEP:W]';
+  }
+  const goal=t.length>30 ? t.slice(0,30) : t || '小さな健康行動を1つ行う';
+  return `それなら無理なく始められそうです。完璧にできるかより、あなたが自分で選んだ行動を一度試すことを大切にしましょう。今週は「${goal}」を試す、という形で記録しておきますね。いつ実行しますか？ [STEP:W] [GOAL:${goal}]`;
 }
 
 function parseStepTag(text){
