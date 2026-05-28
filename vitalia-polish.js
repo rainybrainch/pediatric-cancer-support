@@ -32,10 +32,48 @@
     });
   }
 
+  function addNutritionHero(){
+    if(pageName() !== "nutrition") return;
+    var board = document.querySelector(".food-board");
+    if(!board || board.querySelector(".quest-hero")) return;
+
+    var hero = document.createElement("div");
+    hero.className = "quest-hero clean-nutrition-hero";
+    hero.innerHTML = [
+      '<div class="qh-char">',
+        '<img src="./image/sera-sabun%20(1).png" alt="セラ">',
+      '</div>',
+      '<div class="qh-info">',
+        '<div class="qh-role">Nutrition Quest — 栄養クエスト</div>',
+        '<div class="qh-name">セラ — 栄養の巫女</div>',
+        '<div class="qh-bar-row">',
+          '<span class="qh-bar-lbl">今週</span>',
+          '<div class="qh-bar"><div class="qh-bar-fill" id="clean-nutrition-fill" style="width:0%"></div></div>',
+          '<span class="qh-bar-val"><span id="clean-nutrition-now">0</span>pt</span>',
+        '</div>',
+        '<div class="qh-week-lbl" id="clean-nutrition-lbl">食事記録を入力して、栄養バランスを整えよう</div>',
+      '</div>',
+      '<div class="qh-stats">',
+        '<div class="qh-stat">',
+          '<div class="qh-stat-num" id="clean-nutrition-streak">0</div>',
+          '<div class="qh-stat-lbl">連続週</div>',
+        '</div>',
+        '<div class="qh-stat-div"></div>',
+        '<div class="qh-stat">',
+          '<div class="qh-stat-num" id="clean-nutrition-xp">0</div>',
+          '<div class="qh-stat-lbl">今日XP</div>',
+        '</div>',
+      '</div>'
+    ].join("");
+
+    board.insertBefore(hero, board.firstElementChild);
+  }
+
   function init(){
     addPageClass();
     if(["game","adventure"].includes(pageName())) addForest();
     simplifyQuestChrome();
+    addNutritionHero();
   }
 
   if(document.readyState === "loading"){
