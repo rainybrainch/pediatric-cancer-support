@@ -131,7 +131,16 @@
       "#sh-mission",
       ".sh-foot",
       ".qol-trend-card",
-      ".qol-card"
+      ".qol-card",
+      "#battle-card",
+      ".battle-card",
+      ".history-card",
+      "#boss-tap-wrap",
+      "#boss-tap-btn",
+      "#_toast",
+      ".bonus-toast",
+      "#save-toast",
+      "#lv-toast"
     ].forEach(function(selector){
       document.querySelectorAll(selector).forEach(function(el){
         if(!el.hidden) el.hidden = true;
@@ -142,12 +151,52 @@
     });
   }
 
+  function hideSettingsNotificationSection(){
+    if(pageName() !== "settings") return;
+    document.querySelectorAll(".section").forEach(function(section){
+      if(/通知設定|Notification|通知を/.test(section.textContent || "")){
+        section.hidden = true;
+        section.style.setProperty("display", "none", "important");
+      }
+    });
+  }
+
+  function simplifySidePanels(){
+    if(pageName() !== "quest" && pageName() !== "nutrition") return;
+    var noisy = /討伐|敵HP|与ダメージ|実績|連続記録|過去の記録|歩数計|毒素|ボーナス|魔力記録|冒険記録/;
+    document.querySelectorAll(".quest-side > *").forEach(function(panel){
+      if(noisy.test(panel.textContent || "")){
+        panel.hidden = true;
+        panel.style.setProperty("display", "none", "important");
+      }
+    });
+  }
+
+  function softenAdventureCopy(){
+    if(pageName() !== "adventure") return;
+    document.querySelectorAll("#history-count, #enemy-hp-text, #atk-ex, #atk-nu, #atk-co").forEach(function(el){
+      el.textContent = "";
+    });
+    document.querySelectorAll(".global-progress, .chapter-card").forEach(function(el){
+      el.innerHTML = el.innerHTML
+        .replace(/戦 制覇/g, "章 進行")
+        .replace(/累計 [^<\\n]*与ダメージ/g, "累計記録を反映")
+        .replace(/与ダメージ/g, "記録")
+        .replace(/戦闘中/g, "進行中")
+        .replace(/直接攻撃モード（1日1回）/g, "")
+        .replace(/敵HP/g, "進捗");
+    });
+  }
+
   function sync(){
     decorateNav();
     normalizeCoach();
     patchCoachBubbles();
     normalizeCopy();
     hideNoisyHomeBlocks();
+    hideSettingsNotificationSection();
+    simplifySidePanels();
+    softenAdventureCopy();
   }
 
   var syncTimer = 0;
