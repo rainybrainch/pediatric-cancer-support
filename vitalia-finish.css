@@ -78,6 +78,16 @@ body.vp-page-settings .page{
   padding:18px clamp(12px,2vw,22px) 112px !important;
 }
 
+body.vp-page-game.app-active .g-main{
+  padding-top:28px !important;
+}
+
+body.vp-page-game.app-active .home-char-trio{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:16px !important;
+}
+
 body.vp-page-quest .main-content,
 body.vp-page-nutrition .main-content{
   display:grid !important;
@@ -164,6 +174,46 @@ body.vp-page-nutrition .quest-hero{
   align-items:center !important;
   min-height:124px !important;
   padding:18px !important;
+}
+
+body.vp-page-game.app-active .home-char-trio > .hc-card{
+  display:grid !important;
+  grid-template-columns:82px minmax(0,1fr) !important;
+  grid-template-areas:
+    "portrait name"
+    "portrait role"
+    "portrait stat"
+    "portrait bar" !important;
+  align-items:center !important;
+  min-height:132px !important;
+  padding:18px !important;
+  gap:6px 16px !important;
+}
+
+body.vp-page-game.app-active .home-char-trio > .hc-card > .hc-portrait{ grid-area:portrait !important; }
+body.vp-page-game.app-active .home-char-trio > .hc-card > .hc-name{ grid-area:name !important; }
+body.vp-page-game.app-active .home-char-trio > .hc-card > .hc-role{ grid-area:role !important; }
+body.vp-page-game.app-active .home-char-trio > .hc-card > .hc-stat{ grid-area:stat !important; }
+body.vp-page-game.app-active .home-char-trio > .hc-card > .hc-bar{ grid-area:bar !important; }
+body.vp-page-game.app-active .home-char-trio > .hc-card > .hc-cta{ display:none !important; }
+
+body.vp-page-game.app-active .hc-name{
+  font-size:1.1rem !important;
+  line-height:1.25 !important;
+}
+
+body.vp-page-game.app-active .hc-role,
+body.vp-page-game.app-active .hc-stat{
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  line-height:1.45 !important;
+  font-size:.78rem !important;
+}
+
+body.vp-page-game.app-active .hc-bar{
+  width:100% !important;
+  min-width:0 !important;
 }
 
 body.vp-page-quest .quest-hero > *,
@@ -266,6 +316,16 @@ body.vp-page-nutrition .quest-side{
   overflow:auto !important;
 }
 
+body.vp-page-quest .quest-side > *,
+body.vp-page-nutrition .quest-side > *{
+  max-height:none !important;
+}
+
+body.vp-page-quest .quest-side > *:not(:has(button)):not(:has(input)):not(:has(textarea)),
+body.vp-page-nutrition .quest-side > *:not(:has(button)):not(:has(input)):not(:has(textarea)){
+  display:none !important;
+}
+
 body.vp-page-quest .ex-card,
 body.vp-page-nutrition .food-card,
 body.vp-page-nutrition .rc,
@@ -299,10 +359,12 @@ body.vp-page-adventure .adv-main{
 
 body.vp-page-adventure .chapter-card{
   min-height:360px !important;
+  padding:24px !important;
 }
 
 body.vp-page-adventure .global-progress{
   align-self:start !important;
+  padding:18px !important;
 }
 
 body.vp-page-adventure .chapter-card,
@@ -315,6 +377,15 @@ body.vp-page-adventure .chapter-card em,
 body.vp-page-adventure .chapter-card strong{
   color:var(--vf-purple) !important;
   -webkit-text-fill-color:var(--vf-purple) !important;
+}
+
+body.vp-page-adventure .pixe-dialog,
+body.vp-page-adventure [class*="dialog"],
+body.vp-page-adventure [class*="speech"]{
+  background:linear-gradient(145deg,#f8fffb,#ffffff) !important;
+  border-color:rgba(31,138,102,.18) !important;
+  color:var(--vf-ink) !important;
+  -webkit-text-fill-color:var(--vf-ink) !important;
 }
 
 body.vp-page-game.app-active .xp-bar,
@@ -519,6 +590,17 @@ body.vp-page-nutrition #guest-btn{
   body.vp-page-settings .page{
     max-width:560px !important;
     padding:12px 12px 108px !important;
+  }
+
+  body.vp-page-game.app-active .home-char-trio{
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+  }
+
+  body.vp-page-game.app-active .home-char-trio > .hc-card{
+    grid-template-columns:64px minmax(0,1fr) !important;
+    min-height:108px !important;
+    padding:14px !important;
   }
 
   body.vp-page-quest .main-content,
