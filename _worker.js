@@ -81,6 +81,8 @@ Goal → Reality → Options → Will の順序を厳守。各ステップで質
 【厳守ルール — 形式】
 ・1回の返答は3〜5文以内。質問は1つだけ
 ・各返答の最後に [STEP:G] [STEP:R] [STEP:O] [STEP:W] のいずれかを付ける（プレイヤーには見せない）
+・[STEP:A] は絶対に出力しない。状況確認が必要な場合も [STEP:R] を使う
+・最新のユーザー発言に必ず直接返答する。「今週の調子はいかがですか？」だけで終わらせない
 ・STEP:W に到達したら [GOAL:〜] で今週やると決めた行動を30文字以内で要約する。例：[GOAL:火・木の朝に10分散歩する]`;
 
 const VISION_PROMPT = `この食事の写真を分析してください。含まれる料理・食材をすべて特定し、以下のJSONのみで返答してください。余分なテキストは不要です。
@@ -137,7 +139,7 @@ const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1分
 const RATE_LIMIT_MAX_REQS = 6;           // 1分6リクエスト
 const RATE_LIMIT_DAILY_MAX = 30;         // 1日30リクエスト
 const DAILY_WINDOW_MS = 24 * 60 * 60 * 1000;
-const GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 const ALLOWED_ORIGINS = new Set([
   'https://rainybrainch.github.io',
   'https://aya-health-quest.rainybrain-ch.workers.dev',
@@ -304,7 +306,11 @@ async function handleCoach(request, env) {
   }
   const systemPrompt = LUNA_SYSTEM_PROMPT + systemAddendum;
 
-  contents.push({ role: 'user', parts: [{ text: userText }] });
+  const latestUserPrompt =
+    `最新のユーザー発言に直接返答してください。` +
+    `「今週の調子はいかがですか？」だけで返さず、発言内容を受け止めてGROWの次の質問を1つだけしてください。\n\n` +
+    `最新のユーザー発言:\n${userText}`;
+  contents.push({ role: 'user', parts: [{ text: latestUserPrompt }] });
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
@@ -315,7 +321,7 @@ async function handleCoach(request, env) {
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents,
-        generationConfig: { temperature: 0.75, maxOutputTokens: 384, topP: 0.9 },
+        generationConfig: { temperature: 0.75, maxOutputTokens: 512, topP: 0.9, thinkingConfig: { thinkingBudget: 0 } },
         safetySettings: [
           { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
           { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },

@@ -3927,10 +3927,12 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 <!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
 <link rel="stylesheet" href="./vitalia-rpg-lite.css">
 <link rel="stylesheet" href="./vitalia-clean-ui.css">
+<link rel="stylesheet" href="./vitalia-finish.css">
 <script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
 <script defer src="./vitalia-nav.js"></script>
 <script defer src="./vitalia-ai-bridge.js"></script>
 <script defer src="./vitalia-polish.js"></script>
+<script defer src="./vitalia-finish.js"></script>
 </head>
 <body>
 
@@ -5142,7 +5144,7 @@ function renderAchv(ach){
 // ===== AI Coach (server proxy first, local GROW fallback) =====
 const COACH_PROXY_URL='/api/gemini-coach';
 const COACH_PROXY_FALLBACK_URLS=[
-  'https://aya-health-quest.netlify.app/api/gemini-coach'
+  'https://aya-health-quest.rainybrain-ch.workers.dev/api/gemini-coach'
 ];
 const COACH_HIST_KEY=()=>`vc_hist_${uid||'guest'}`;
 const COACH_STEP_KEY=()=>`vc_step_${uid||'guest'}`;
@@ -5354,10 +5356,6 @@ function buildCoachContext(){
 }
 
 async function callCoachProxy(userText){
-  const remoteEnabled = localStorage.getItem('vitalia_remote_coach') === '1';
-  if(!remoteEnabled){
-    return localLunaGrowReply(userText);
-  }
   const payload={
     history:_coachState.history,
     userText,
@@ -5435,7 +5433,7 @@ function parseStepTag(text){
     _coachState.justSetGoal = goalText;
   }
   // タグを応答テキストから除去
-  cleaned = cleaned.replace(/\s*\[STEP:[GROW]\]\s*/g,'').replace(/\s*\[GOAL:[^\]]+\]\s*/g,'').trim();
+  cleaned = cleaned.replace(/\s*\[STEP:[A-Z]\]\s*/g,'').replace(/\s*\[GOAL:[^\]]+\]\s*/g,'').trim();
   return cleaned;
 }
 
