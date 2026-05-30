@@ -3771,19 +3771,20 @@ body.app-active .pstat{
 }
 body.app-active .pstat-num{
   font-size: 1.85rem !important;
-  background: linear-gradient(180deg, #f0d48a 0%, #c9a84c 100%);
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-  text-shadow: 0 0 16px rgba(240,212,138,.3);
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 900;
   letter-spacing: -.01em;
   line-height: 1 !important;
 }
 body.app-active .pstat-label{
   font-size: .68rem !important;
-  color: #88c8e0 !important;
-  -webkit-text-fill-color: #88c8e0 !important;
+  color: #557190 !important;
+  -webkit-text-fill-color: #557190 !important;
   margin-top: 6px !important;
   font-weight: 700;
   letter-spacing: .04em;
@@ -8435,55 +8436,55 @@ window.addEventListener('load', ()=>{
 </div>
 
 <!-- 週次サマリーモーダル -->
-<div id="weekly-modal" style="display:none;position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:280;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px);">
-  <div style="background:linear-gradient(160deg,#0d1225 0%,#101830 60%,#0a0d1c 100%);border:1px solid rgba(201,168,76,.35);border-radius:22px;padding:0;max-width:420px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(201,168,76,.06);position:relative;animation:modalIn .4s cubic-bezier(.22,1,.36,1);">
-    <div style="padding:24px 24px 16px;text-align:center;border-bottom:1px solid rgba(201,168,76,.12);position:relative;">
-      <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid rgba(201,168,76,.55);box-shadow:0 0 28px rgba(201,168,76,.25);margin:0 auto 12px;animation:float 3s ease-in-out infinite;">
+<div id="weekly-modal" style="display:none;position:fixed;inset:0;background:rgba(2,8,24,.88);z-index:280;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(10px);">
+  <div style="background:linear-gradient(160deg,#0d1e34 0%,#112540 60%,#0c1a2e 100%);border:1px solid rgba(41,182,232,.30);border-radius:22px;padding:0;max-width:420px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,8,30,.75),0 0 50px rgba(41,182,232,.08);position:relative;animation:modalIn .4s cubic-bezier(.22,1,.36,1);">
+    <div style="padding:24px 24px 16px;text-align:center;border-bottom:1px solid rgba(41,182,232,.12);position:relative;">
+      <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid rgba(41,182,232,.50);box-shadow:0 0 24px rgba(41,182,232,.22);margin:0 auto 12px;animation:float 3s ease-in-out infinite;">
         <img id="weekly-luna-img" src="./image/runa-sabun%20(2).png" alt="ルナ" style="width:100%;height:100%;object-fit:cover;object-position:center 14%;">
       </div>
-      <div style="font-size:.6rem;color:rgba(201,168,76,.55);letter-spacing:.18em;font-weight:700;margin-bottom:4px;">— LAST WEEK SUMMARY —</div>
-      <h2 style="font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;color:var(--gold2);margin:0;">先週の冒険記録</h2>
-      <div id="weekly-week-lbl" style="font-size:.66rem;color:rgba(170,188,216,.5);margin-top:4px;"></div>
+      <div style="font-size:.6rem;color:rgba(127,216,244,.55);letter-spacing:.18em;font-weight:700;margin-bottom:4px;">— LAST WEEK SUMMARY —</div>
+      <h2 style="font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;color:#7fd8f4;margin:0;">先週の冒険記録</h2>
+      <div id="weekly-week-lbl" style="font-size:.66rem;color:rgba(127,216,244,.45);margin-top:4px;"></div>
     </div>
 
     <div style="padding:20px 22px;">
       <!-- ルナのコメント -->
-      <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.2);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
-        <div style="font-size:.55rem;color:rgba(200,180,255,.5);font-weight:700;letter-spacing:.06em;margin-bottom:4px;">ルナ</div>
-        <div id="weekly-luna-msg" style="font-size:.78rem;color:rgba(220,210,250,.85);line-height:1.75;">…</div>
+      <div style="background:rgba(255,255,255,.95);border:1px solid rgba(41,182,232,.22);border-radius:12px;padding:12px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(20,60,100,.10);">
+        <div style="font-size:.55rem;color:#557190;font-weight:700;letter-spacing:.06em;margin-bottom:4px;">ルナ</div>
+        <div id="weekly-luna-msg" style="font-size:.78rem;color:#0a2a40;line-height:1.75;">…</div>
       </div>
 
       <!-- 統計 -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-        <div style="background:rgba(224,92,92,.08);border:1px solid rgba(224,92,92,.22);border-radius:10px;padding:10px 12px;">
-          <div style="font-size:.55rem;color:rgba(240,160,160,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">⚔ 運動</div>
-          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#f0a0a0;line-height:1;" id="weekly-ex-num">—</div>
-          <div style="font-size:.6rem;color:rgba(240,160,160,.4);margin-top:2px;" id="weekly-ex-sub">—</div>
+        <div style="background:rgba(255,255,255,.95);border:1.5px solid rgba(41,182,232,.30);border-radius:10px;padding:10px 12px;box-shadow:0 2px 6px rgba(20,60,100,.08);">
+          <div style="font-size:.55rem;color:#1e7fa4;font-weight:700;letter-spacing:.06em;margin-bottom:3px;">⚔ 運動</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#0a4870;line-height:1;" id="weekly-ex-num">—</div>
+          <div style="font-size:.6rem;color:#557190;margin-top:2px;" id="weekly-ex-sub">—</div>
         </div>
-        <div style="background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.22);border-radius:10px;padding:10px 12px;">
-          <div style="font-size:.55rem;color:rgba(160,240,190,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">🌿 栄養</div>
-          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#a0f0c0;line-height:1;" id="weekly-nu-num">—</div>
-          <div style="font-size:.6rem;color:rgba(160,240,190,.4);margin-top:2px;" id="weekly-nu-sub">—</div>
+        <div style="background:rgba(255,255,255,.95);border:1.5px solid rgba(78,201,138,.30);border-radius:10px;padding:10px 12px;box-shadow:0 2px 6px rgba(20,60,100,.08);">
+          <div style="font-size:.55rem;color:#1f8a66;font-weight:700;letter-spacing:.06em;margin-bottom:3px;">🌿 栄養</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#155040;line-height:1;" id="weekly-nu-num">—</div>
+          <div style="font-size:.6rem;color:#557190;margin-top:2px;" id="weekly-nu-sub">—</div>
         </div>
-        <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.22);border-radius:10px;padding:10px 12px;">
-          <div style="font-size:.55rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">⭐ 獲得XP</div>
-          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:var(--gold2);line-height:1;" id="weekly-xp-num">—</div>
-          <div style="font-size:.6rem;color:rgba(201,168,76,.4);margin-top:2px;">先週合計</div>
+        <div style="background:rgba(255,255,255,.95);border:1.5px solid rgba(41,182,232,.30);border-radius:10px;padding:10px 12px;box-shadow:0 2px 6px rgba(20,60,100,.08);">
+          <div style="font-size:.55rem;color:#1e7fa4;font-weight:700;letter-spacing:.06em;margin-bottom:3px;">⭐ 獲得XP</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#0a4870;line-height:1;" id="weekly-xp-num">—</div>
+          <div style="font-size:.6rem;color:#557190;margin-top:2px;">先週合計</div>
         </div>
-        <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.22);border-radius:10px;padding:10px 12px;">
-          <div style="font-size:.55rem;color:rgba(200,180,255,.6);font-weight:700;letter-spacing:.06em;margin-bottom:3px;">🔥 連続週</div>
-          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#c0a0f0;line-height:1;" id="weekly-streak-num">—</div>
-          <div style="font-size:.6rem;color:rgba(200,180,255,.4);margin-top:2px;">記録ストリーク</div>
+        <div style="background:rgba(255,255,255,.95);border:1.5px solid rgba(41,182,232,.30);border-radius:10px;padding:10px 12px;box-shadow:0 2px 6px rgba(20,60,100,.08);">
+          <div style="font-size:.55rem;color:#1e7fa4;font-weight:700;letter-spacing:.06em;margin-bottom:3px;">🔥 連続週</div>
+          <div style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#0a4870;line-height:1;" id="weekly-streak-num">—</div>
+          <div style="font-size:.6rem;color:#557190;margin-top:2px;">記録ストリーク</div>
         </div>
       </div>
 
       <!-- 今週への提案 -->
-      <div style="background:rgba(201,168,76,.05);border-left:3px solid rgba(201,168,76,.4);border-radius:6px;padding:10px 14px;margin-bottom:18px;">
-        <div style="font-size:.6rem;color:rgba(201,168,76,.6);font-weight:700;letter-spacing:.06em;margin-bottom:4px;">📅 今週の冒険指針</div>
-        <div id="weekly-suggestion" style="font-size:.74rem;color:rgba(220,210,180,.8);line-height:1.7;">…</div>
+      <div style="background:rgba(255,255,255,.95);border-left:3px solid #29b6e8;border-radius:6px;padding:10px 14px;margin-bottom:18px;box-shadow:0 2px 6px rgba(20,60,100,.08);">
+        <div style="font-size:.6rem;color:#1e7fa4;font-weight:700;letter-spacing:.06em;margin-bottom:4px;">📅 今週の冒険指針</div>
+        <div id="weekly-suggestion" style="font-size:.74rem;color:#0a2a40;line-height:1.7;">…</div>
       </div>
 
-      <button id="weekly-close" style="width:100%;background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));border:1px solid rgba(201,168,76,.5);border-radius:12px;padding:11px;color:var(--gold2);font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;cursor:pointer;">今週も冒険を続ける ✦</button>
+      <button id="weekly-close" style="width:100%;background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;border-radius:12px;padding:12px;color:#fff;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(41,182,232,.35);">今週も冒険を続ける ✦</button>
     </div>
   </div>
 </div>

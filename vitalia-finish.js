@@ -128,8 +128,6 @@
     [
       "#sh-rec-qol",
       ".rec-qol",
-      "#sh-mission",
-      ".sh-foot",
       ".qol-trend-card",
       ".qol-card",
       "#battle-card",
