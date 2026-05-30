@@ -411,13 +411,10 @@ body.vp-page-nutrition .qh-bar-fill{
   border-radius:99px !important;
 }
 
-body.vp-page-game.app-active .sh-mission,
-body.vp-page-game.app-active #daily-mission,
 body.vp-page-game.app-active .rec-qol,
 body.vp-page-game.app-active #sh-rec-qol,
 body.vp-page-game.app-active .qol-trend-card,
 body.vp-page-game.app-active .qol-card,
-body.vp-page-game.app-active .sh-foot,
 body.vp-page-adventure #battle-card,
 body.vp-page-adventure .battle-card,
 body.vp-page-adventure .history-card,
@@ -445,10 +442,8 @@ body.vp-page-game.app-active #login-screen,
 body.vp-page-game.app-active #loading-screen,
 body.vp-page-quest #login-screen,
 body.vp-page-nutrition #login-screen{
-  color:var(--vf-ink) !important;
-  background:
-    radial-gradient(circle at 20% 5%, rgba(126,232,176,.20), transparent 30%),
-    linear-gradient(180deg,#f8fdff,#eef8fd) !important;
+  color:#d4e8f8 !important;
+  background:transparent !important;
 }
 
 body.vp-page-quest #consent-modal,
