@@ -1,14 +1,14 @@
 /* Safe participant-facing UI cleanup. ASCII-only file to avoid encoding drift. */
 :root{
-  --clean-bg:#f5fbff;
-  --clean-bg-2:#eaf6fb;
+  --clean-bg:#0c1a2e;
+  --clean-bg-2:#102540;
   --clean-panel:#ffffff;
-  --clean-ink:#0a2a40;
-  --clean-muted:#557185;
-  --clean-line:#b8d5e4;
-  --clean-cyan:#1e7fa4;
-  --clean-green:#1f8a66;
-  --clean-shadow:0 10px 28px rgba(20,70,100,.10);
+  --clean-ink:#d4e8f8;
+  --clean-muted:#88aec8;
+  --clean-line:#1e4870;
+  --clean-cyan:#29b6e8;
+  --clean-green:#4ec98a;
+  --clean-shadow:0 10px 28px rgba(0,20,60,.35);
 }
 
 html,
@@ -16,15 +16,19 @@ body,
 #main-screen,
 #main-app{
   background:
-    linear-gradient(180deg,rgba(245,251,255,.92) 0%,rgba(234,246,251,.94) 100%) !important;
-  color:var(--clean-ink) !important;
+    linear-gradient(180deg,#0c1a2e 0%,#102540 50%,#163050 100%) !important;
+  background-attachment:fixed !important;
+  color:#d4e8f8 !important;
 }
 
 body[class*="vp-page-"]{
   min-height:100vh !important;
   background:
-    linear-gradient(180deg,#f7fcff 0%,#eef8fd 52%,#f5fbff 100%) !important;
-  color:var(--clean-ink) !important;
+    radial-gradient(ellipse 80% 40% at 20% 0%,rgba(41,182,232,.10) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 35% at 80% 15%,rgba(127,216,244,.08) 0%,transparent 50%),
+    linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;
+  background-attachment:fixed !important;
+  color:#d4e8f8 !important;
   text-shadow:none !important;
 }
 
