@@ -3,8 +3,8 @@
   --vf-bg:#0c1a2e;
   --vf-bg-soft:#102540;
   --vf-panel:rgba(255,255,255,.96);
-  --vf-ink:#d4e8f8;
-  --vf-muted:#88aec8;
+  --vf-ink:#0b2940;
+  --vf-muted:#557190;
   --vf-line:rgba(30,127,164,.22);
   --vf-cyan:#1e7fa4;
   --vf-green:#1f8a66;
@@ -61,11 +61,11 @@ body.vp-page-nutrition .main-header,
 body.vp-page-adventure .adv-header,
 body.vp-page-settings > header{
   min-height:64px !important;
-  background:rgba(255,255,255,.92) !important;
-  border-bottom:1px solid var(--vf-line) !important;
-  box-shadow:0 10px 30px rgba(20,70,100,.10) !important;
-  backdrop-filter:blur(18px) saturate(1.12) !important;
-  -webkit-backdrop-filter:blur(18px) saturate(1.12) !important;
+  background:rgba(10,22,48,.88) !important;
+  border-bottom:1px solid rgba(41,182,232,.20) !important;
+  box-shadow:0 4px 20px rgba(0,10,30,.35) !important;
+  backdrop-filter:blur(20px) saturate(1.2) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.2) !important;
 }
 
 body.vp-page-game.app-active .g-main,
@@ -145,10 +145,15 @@ body.vp-page-quest .h-title,
 body.vp-page-nutrition .h-title,
 body.vp-page-adventure .adv-title,
 body.vp-page-settings .page-title,
-body.vp-page-settings .section-title,
 body.vp-page-quest .qh-name,
 body.vp-page-nutrition .qh-name,
 body.vp-page-adventure .chapter-title{
+  font-family:"Noto Serif JP","Yu Mincho",serif !important;
+  color:#d4e8f8 !important;
+  -webkit-text-fill-color:#d4e8f8 !important;
+  font-weight:900 !important;
+}
+body.vp-page-settings .section-title{
   font-family:"Noto Serif JP","Yu Mincho",serif !important;
   color:var(--vf-ink) !important;
   -webkit-text-fill-color:var(--vf-ink) !important;
