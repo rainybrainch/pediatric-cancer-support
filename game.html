@@ -623,10 +623,11 @@ body.detail-mode #compact-home{display:none !important;}
   height:3px;background:rgba(255,255,255,.06);border-radius:20px 20px 0 0;overflow:hidden;
 }
 .player-card-bar-fill{
-  height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a,#c9a84c);
+  height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#f0d48a,#29b6e8);
   background-size:200% auto;
   animation:shimmer 3s linear infinite;
   transition:width .8s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(41,182,232,.4);
 }
 .player-card-inner{
   display:flex;align-items:center;gap:20px;padding:18px 22px 18px;
@@ -659,10 +660,10 @@ body.detail-mode #compact-home{display:none !important;}
 }
 .lv-badge .lv-n{font-size:1.05rem;font-weight:900;margin:0 2px;}
 .lv-title{font-size:.75rem;color:var(--silver);}
-.xp-bar{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
-.xp-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .8s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(201,168,76,.5);}
+.xp-bar{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;}
+.xp-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#f0d48a);transition:width .8s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px rgba(41,182,232,.5);}
 .xp-note{display:flex;justify-content:space-between;font-size:.6rem;color:var(--muted);margin-top:4px;}
-.xp-note strong{color:var(--gold);}
+.xp-note strong{color:var(--cyan2);}
 /* モバイル用スタッツ行 */
 .player-stats-mobile{display:none;flex-wrap:wrap;gap:5px;margin-top:8px;}
 .psm-badge{
@@ -712,9 +713,9 @@ body.detail-mode #compact-home{display:none !important;}
 .qc-sub{font-size:.58rem;color:var(--muted);margin-bottom:6px;}
 .qc-bar{height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
 .qc-bar-fill{height:100%;border-radius:99px;transition:width .7s ease;}
-.qc-bar-fill-ex{background:linear-gradient(90deg,#e05c5c,#e08a3c);}
-.qc-bar-fill-nu{background:linear-gradient(90deg,#4ec98a,#a8e060);}
-.qc-bar-fill-co{background:linear-gradient(90deg,#9c72e0,#c0a0f0);}
+.qc-bar-fill-ex{background:linear-gradient(90deg,#29b6e8,#7fd8f4);box-shadow:0 0 6px rgba(41,182,232,.4);}
+.qc-bar-fill-nu{background:linear-gradient(90deg,#4ec98a,#a8e8c0);box-shadow:0 0 6px rgba(78,201,138,.3);}
+.qc-bar-fill-co{background:linear-gradient(90deg,#f0c548,#f0d48a);box-shadow:0 0 6px rgba(240,197,72,.3);}
 .qc-note{font-size:.5rem;color:var(--muted);margin-top:2px;text-align:right;}
 
 /* ボディ */
