@@ -279,15 +279,16 @@ body::before{
 
 /* 今週の進捗 */
 .sh-summary{
-  background:rgba(14,18,32,.7);border:1px solid rgba(201,168,76,.2);
-  border-radius:11px;padding:11px 14px;display:flex;flex-direction:column;gap:8px;
+  background:rgba(255,255,255,.95);border:1.5px solid #b0d4e8;
+  border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;
+  box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 12px rgba(20,60,100,.08);
 }
-.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:rgba(220,225,245,.85);}
-.sh-sum-lbl{color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
-.sh-sum-val{flex:1;font-weight:700;color:#f0e4d4;}
-.sh-sum-bar{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
-.sh-sum-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a);border-radius:99px;transition:width .5s;}
-.sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:var(--gold2);font-size:.78rem;min-width:40px;text-align:right;}
+.sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:#1a4860;}
+.sh-sum-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
+.sh-sum-val{flex:1;font-weight:700;color:#0a2a40;}
+.sh-sum-bar{flex:1;height:6px;background:rgba(30,80,110,.10);border-radius:99px;overflow:hidden;}
+.sh-sum-fill{height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4);border-radius:99px;transition:width .5s;box-shadow:0 0 6px rgba(41,182,232,.3);}
+.sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:#1e7fa4;font-size:.78rem;min-width:40px;text-align:right;}
 
 /* 冒険1行 */
 .sh-adv{
