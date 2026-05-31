@@ -102,7 +102,7 @@ body::before{
 .ls-char{
   width:110px;height:110px;border-radius:50%;overflow:hidden;
   border:2px solid rgba(78,201,138,.45);
-  box-shadow:0 0 40px rgba(78,201,138,.2),0 0 80px rgba(201,168,76,.08);
+  box-shadow:0 0 40px rgba(78,201,138,.2),0 0 80px rgba(41,182,232,.08);
   animation:float 3s ease-in-out infinite;
   margin-bottom:20px;position:relative;z-index:1;
 }
@@ -218,10 +218,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 /* ===== 左：食材ボード ===== */
 .food-board{display:flex;flex-direction:column;gap:0;}
 .board-section{margin-bottom:28px;}
-.quick-note{font-size:.65rem;color:rgba(201,168,76,.55);margin-top:10px;line-height:1.6;padding:8px 10px;background:rgba(201,168,76,.04);border-radius:8px;border:1px solid rgba(201,168,76,.1);}
-.icon-quick{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border:1px solid rgba(201,168,76,.4);}
-#quick-grid .food-card{border-color:rgba(201,168,76,.18);}
-#quick-grid .food-card:hover{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
+.quick-note{font-size:.65rem;color:rgba(41,182,232,.55);margin-top:10px;line-height:1.6;padding:8px 10px;background:rgba(41,182,232,.04);border-radius:8px;border:1px solid rgba(41,182,232,.1);}
+.icon-quick{background:linear-gradient(135deg,rgba(41,182,232,.25),rgba(41,182,232,.1));border:1px solid rgba(41,182,232,.4);}
+#quick-grid .food-card{border-color:rgba(41,182,232,.18);}
+#quick-grid .food-card:hover{border-color:rgba(41,182,232,.5);background:rgba(41,182,232,.06);}
 /* ===== 外食パネル ===== */
 .icon-resto{background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.1));border:1px solid rgba(92,140,212,.4);}
 .resto-tabs{display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
@@ -238,7 +238,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .rc-xp{font-size:.57rem;font-weight:700;padding:1px 5px;border-radius:4px;margin-top:1px;}
 .rc-xp.pos{background:rgba(78,201,138,.1);color:#7ee8b0;}
 .rc-xp.neg{background:rgba(224,92,92,.1);color:rgba(240,140,140,.8);}
-.rc-xp.mix{background:rgba(201,168,76,.1);color:rgba(230,200,120,.8);}
+.rc-xp.mix{background:rgba(41,182,232,.1);color:rgba(230,200,120,.8);}
 .section-head{
   display:flex;align-items:center;gap:10px;margin-bottom:14px;
   padding-bottom:10px;border-bottom:1px solid rgba(78,201,138,.12);
@@ -283,20 +283,20 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 
 /* 量・時間帯セレクター */
 .portion-bar{
-  background:rgba(20,26,44,.7);border:1px solid rgba(201,168,76,.18);
+  background:rgba(20,26,44,.7);border:1px solid rgba(41,182,232,.18);
   border-radius:12px;padding:10px 14px;margin-bottom:10px;
   display:flex;gap:18px;flex-wrap:wrap;
 }
 .portion-block{display:flex;align-items:center;gap:10px;flex:1;min-width:200px;}
-.portion-lbl{font-size:.65rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.06em;flex-shrink:0;}
+.portion-lbl{font-size:.65rem;color:rgba(41,182,232,.7);font-weight:700;letter-spacing:.06em;flex-shrink:0;}
 .portion-radios{display:flex;gap:5px;flex:1;flex-wrap:wrap;}
 .portion-radios label{
   display:flex;flex-direction:column;align-items:center;gap:1px;
   cursor:pointer;flex:1;min-width:42px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.15);
+  background:rgba(255,255,255,.04);border:1px solid rgba(41,182,232,.15);
   border-radius:7px;padding:5px 4px;transition:all .15s;
 }
-.portion-radios label:has(input:checked){background:rgba(201,168,76,.18);border-color:rgba(201,168,76,.5);}
+.portion-radios label:has(input:checked){background:rgba(41,182,232,.18);border-color:rgba(41,182,232,.5);}
 .portion-radios input{display:none;}
 .portion-radios span{font-size:.72rem;color:#0a2a40;font-weight:700;}
 .portion-radios em{font-size:.5rem;color:rgba(30,80,110,.7);font-style:normal;}
@@ -313,8 +313,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ns-lbl{display:block;font-size:.55rem;color:rgba(168,232,192,.6);margin-top:2px;}
 .ns-bonuses{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;min-height:0;}
 .ns-bonus{
-  background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(201,168,76,.1));
-  border:1px solid rgba(240,212,138,.4);color:#f0d48a;
+  background:linear-gradient(135deg,rgba(127,216,244,.18),rgba(41,182,232,.1));
+  border:1px solid rgba(127,216,244,.4);color:#f0d48a;
   font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:99px;
   display:flex;align-items:center;gap:4px;animation:bonusIn .35s ease both;
 }
@@ -365,7 +365,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   background:linear-gradient(135deg,#f0d48a,#c9a84c);
   color:#1a1200;font-size:.5rem;font-weight:900;
   padding:2px 6px;border-radius:99px;letter-spacing:.04em;
-  box-shadow:0 2px 6px rgba(201,168,76,.4);
+  box-shadow:0 2px 6px rgba(41,182,232,.4);
   z-index:2;
   pointer-events:none;
 }
@@ -452,22 +452,22 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .debuff-note{font-size:.62rem;color:rgba(96,112,160,.5);margin-top:3px;}
 
 /* ===== おすすめ献立 ===== */
-.menu-board-section{margin-bottom:24px;background:rgba(255,255,255,.92);border:1px solid rgba(201,168,76,.2);border-radius:14px;overflow:hidden;}
+.menu-board-section{margin-bottom:24px;background:rgba(255,255,255,.92);border:1px solid rgba(41,182,232,.2);border-radius:14px;overflow:hidden;}
 .menu-section-toggle{width:100%;background:none;border:none;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;gap:8px;}
 .menu-toggle-head{display:flex;align-items:center;gap:10px;}
-.menu-toggle-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.06));border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.menu-toggle-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,rgba(41,182,232,.18),rgba(41,182,232,.06));border:1px solid rgba(41,182,232,.3);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .menu-toggle-label{font-size:.88rem;font-weight:700;color:var(--gold2);text-align:left;}
 .menu-toggle-sub{font-size:.6rem;color:var(--muted);text-align:left;}
-.menu-toggle-arrow{font-size:.7rem;color:rgba(201,168,76,.5);transition:transform .2s;flex-shrink:0;}
+.menu-toggle-arrow{font-size:.7rem;color:rgba(41,182,232,.5);transition:transform .2s;flex-shrink:0;}
 .menu-board-section.open .menu-toggle-arrow{transform:rotate(90deg);}
 .menu-content{display:none;padding:0 14px 14px;}
 .menu-board-section.open .menu-content{display:block;}
 .menu-tabs{display:flex;gap:5px;margin-bottom:10px;}
 .menu-tab{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:5px 10px;font-family:inherit;font-size:.66rem;font-weight:700;color:rgba(30,80,110,.7);cursor:pointer;transition:all .15s;white-space:nowrap;}
-.menu-tab.active{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.32);color:var(--gold2);}
+.menu-tab.active{background:rgba(41,182,232,.12);border-color:rgba(41,182,232,.32);color:var(--gold2);}
 .menu-cards{display:flex;flex-direction:column;gap:7px;}
 .menu-card{background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s;}
-.menu-card:hover{border-color:rgba(201,168,76,.25);}
+.menu-card:hover{border-color:rgba(41,182,232,.25);}
 .menu-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .menu-card-name{font-size:.8rem;font-weight:700;color:var(--text);}
 .menu-card-xp{font-size:.62rem;color:var(--gold2);font-weight:700;white-space:nowrap;}
@@ -477,8 +477,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .menu-tag-fruit{background:rgba(41,182,232,rgba(41,182,232,.1)_tmp;color:rgba(200,165,240,.9);border:1px solid rgba(41,182,232,rgba(41,182,232,.18)_tmp;}
 .menu-tag-protein{background:rgba(224,138,60,.1);color:rgba(240,185,125,.9);border:1px solid rgba(224,138,60,.18);}
 .menu-tag-grain{background:rgba(78,201,138,.1);color:rgba(160,230,190,.9);border:1px solid rgba(78,201,138,.18);}
-.menu-card-btn{width:100%;padding:6px;border-radius:7px;background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.06));border:1px solid rgba(201,168,76,.25);color:var(--gold2);font-family:inherit;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .2s;}
-.menu-card-btn:hover{background:linear-gradient(90deg,rgba(201,168,76,.28),rgba(201,168,76,.14));}
+.menu-card-btn{width:100%;padding:6px;border-radius:7px;background:linear-gradient(90deg,rgba(41,182,232,.14),rgba(41,182,232,.06));border:1px solid rgba(41,182,232,.25);color:var(--gold2);font-family:inherit;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .2s;}
+.menu-card-btn:hover{background:linear-gradient(90deg,rgba(41,182,232,.28),rgba(41,182,232,.14));}
 
 /* ログリスト */
 #log-list{list-style:none;display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;}
@@ -662,8 +662,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ls-fill-q{background:linear-gradient(90deg,#e05c5c,#e08c3c);}
 .ls-fill-n{background:linear-gradient(90deg,#4ec98a,#2a9060);}
 .ls-val{font-size:.6rem;color:rgba(30,80,110,.7);width:40px;text-align:right;flex-shrink:0;}
-.ls-link{font-size:.6rem;color:rgba(201,168,76,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
-.ls-link:hover{color:rgba(201,168,76,.9);}
+.ls-link{font-size:.6rem;color:rgba(41,182,232,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
+.ls-link:hover{color:rgba(41,182,232,.9);}
 
 /* ===== AI Coach FAB ===== */
 #coach-fab{
@@ -702,8 +702,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   background:rgba(12,14,28,.98);
   border-bottom:1px solid rgba(41,182,232,rgba(41,182,232,.2)_tmp;flex-shrink:0;
 }
-.coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(201,168,76,.4);}
-.coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(201,168,76,.95);}
+.coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(41,182,232,.4);}
+.coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(41,182,232,.95);}
 .coach-ph-sub{font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;letter-spacing:.06em;}
 #coach-close{background:none;border:none;color:rgba(30,80,110,.7);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
 #coach-close:hover{color:rgba(30,80,110,.7);}
@@ -751,9 +751,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .sr-cat-grain  {background:rgba(78,201,138,.1); color:rgba(160,230,190,.9);}
 .sr-cat-limit  {background:rgba(96,112,160,.1); color:rgba(30,80,110,.7);}
 .sr-empty{padding:16px;text-align:center;font-size:.75rem;color:var(--muted);}
-.sr-custom{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;background:rgba(201,168,76,.04);transition:background .12s;}
-.sr-custom:hover{background:rgba(201,168,76,.1);}
-.sr-custom-text{font-size:.78rem;color:rgba(201,168,76,.7);}
+.sr-custom{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;background:rgba(41,182,232,.04);transition:background .12s;}
+.sr-custom:hover{background:rgba(41,182,232,.1);}
+.sr-custom-text{font-size:.78rem;color:rgba(41,182,232,.7);}
 /* 料理DB専用スタイル */
 .sr-dish{background:rgba(92,140,212,.03);}
 .sr-dish:hover{background:rgba(92,140,212,.08);}
@@ -1686,7 +1686,7 @@ setTimeout(function(){
             </div>
           </div>
           <div style="font-size:.55rem;color:rgba(30,80,110,.7);margin-top:10px;line-height:1.7;">
-            ※ 我慢ではなく「動いた分は食べていい」が基本。出典: <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(201,168,76,.6);">厚労省METs表</a> / <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">ダノン</a>
+            ※ 我慢ではなく「動いた分は食べていい」が基本。出典: <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(41,182,232,.6);">厚労省METs表</a> / <a href="https://www.danone-institute.or.jp/gohagen/nutrition/053/" target="_blank" rel="noopener" style="color:rgba(30,80,110,.7);">ダノン</a>
           </div>
         </div>
       </div>
