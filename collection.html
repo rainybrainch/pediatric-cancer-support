@@ -31,19 +31,19 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 
 .page{max-width:760px;margin:0 auto;padding:20px 18px 80px;}
 .intro{text-align:center;margin-bottom:24px;}
-.intro h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;color:var(--gold2);margin-bottom:6px;}
+.intro h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;color:#7fd8f4;margin-bottom:6px;}
 .intro p{font-size:.78rem;color:rgba(220,225,245,.7);}
 .progress{margin-top:14px;background:rgba(0,0,0,.3);border-radius:99px;overflow:hidden;height:10px;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a);border-radius:99px;transition:width .5s;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4);border-radius:99px;transition:width .5s;}
 .progress-meta{font-size:.62rem;color:rgba(240,212,138,.7);margin-top:5px;text-align:center;}
 
 .rarity-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px;}
 .rarity-tab{background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.2);color:rgba(220,225,245,.7);font-family:inherit;font-size:.72rem;font-weight:700;padding:6px 14px;border-radius:99px;cursor:pointer;}
-.rarity-tab.active{background:rgba(41,182,232,.18);border-color:var(--gold2);color:var(--gold2);}
+.rarity-tab.active{background:rgba(41,182,232,.18);border-color:#29b6e8;color:#1e7fa4;}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
 .card{
-  position:relative;background:linear-gradient(160deg,rgba(20,16,40,.85),rgba(8,6,20,.95));
+  position:relative;background:rgba(255,255,255,.96);
   border:2px solid var(--c-color,rgba(170,188,216,.2));border-radius:14px;
   padding:14px 10px 10px;text-align:center;
   transition:all .25s;
@@ -54,7 +54,7 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 .card-rarity{font-size:.5rem;letter-spacing:.18em;font-weight:900;color:var(--c-color);margin-bottom:6px;text-transform:uppercase;}
 .card-icon{font-size:2.5rem;line-height:1;margin-bottom:8px;filter:drop-shadow(0 0 12px var(--c-color));}
 .card-name{font-family:'Noto Serif JP',serif;font-size:.82rem;font-weight:900;color:var(--c-color);margin-bottom:5px;line-height:1.3;}
-.card-desc{font-size:.6rem;color:rgba(220,225,245,.7);line-height:1.5;min-height:24px;}
+.card-desc{font-size:.6rem;color:#557190;line-height:1.5;min-height:24px;}
 .card-count{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);color:var(--c-color);font-size:.6rem;font-weight:900;padding:2px 7px;border-radius:99px;}
 .card-locked-icon{font-size:1.5rem;color:rgba(170,188,216,.5);}
 .card-actions{display:flex;gap:4px;margin-top:8px;justify-content:center;}
@@ -72,7 +72,7 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 .equip-head{font-size:.62rem;letter-spacing:.12em;color:rgba(168,232,192,.78);font-weight:700;text-transform:uppercase;margin-bottom:8px;}
 .equip-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .equip-slot{aspect-ratio:1;background:rgba(0,0,0,.3);border:1.5px dashed rgba(168,232,192,.25);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.6rem;color:rgba(170,188,216,.4);}
-.equip-slot.filled{border-style:solid;border-color:var(--c-color);background:linear-gradient(160deg,rgba(20,16,40,.85),rgba(8,6,20,.95));color:var(--c-color);}
+.equip-slot.filled{border-style:solid;border-color:var(--c-color);background:rgba(255,255,255,.96);color:var(--c-color);}
 .equip-slot-icon{font-size:1.6rem;line-height:1;}
 .equip-slot-name{font-family:'Noto Serif JP',serif;font-size:.62rem;margin-top:3px;font-weight:700;}
 
