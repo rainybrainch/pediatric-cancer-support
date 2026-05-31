@@ -217,7 +217,7 @@ body::before{
   width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(41,182,232,.22);
   border-radius:10px;padding:10px 13px;color:#d4e8f8;font-family:inherit;font-size:.88rem;
 }
-#login-screen .login-field input:focus{outline:none;border-color:rgba(201,168,76,.45);}
+#login-screen .login-field input:focus{outline:none;border-color:rgba(41,182,232,.55);}
 .btn-login{
   width:100%;
   background:linear-gradient(135deg,#1e7fa4,#29b6e8);
@@ -814,13 +814,14 @@ body.detail-mode #compact-home{display:none !important;}
 .pwa-desc{font-size:.62rem;color:rgba(170,188,216,.55);line-height:1.55;}
 .pwa-btns{display:flex;flex-direction:column;gap:5px;flex-shrink:0;}
 .pwa-install{
-  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.22));
-  border:1px solid rgba(201,168,76,.5);
-  border-radius:8px;padding:6px 14px;
-  color:var(--gold2);font-family:inherit;font-size:.7rem;font-weight:700;
-  cursor:pointer;white-space:nowrap;transition:background .2s;
+  background:linear-gradient(135deg,#1e7fa4,#29b6e8);
+  border:none;
+  border-radius:8px;padding:7px 14px;
+  color:#fff;font-family:inherit;font-size:.7rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;transition:opacity .2s;
+  box-shadow:0 3px 10px rgba(41,182,232,.3);
 }
-.pwa-install:hover{background:linear-gradient(135deg,rgba(201,168,76,.55),rgba(201,168,76,.3));}
+.pwa-install:hover{opacity:.9;}
 .pwa-dismiss{
   background:none;border:1px solid rgba(170,188,216,.15);
   border-radius:8px;padding:4px 10px;
