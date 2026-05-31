@@ -3,12 +3,11 @@
 
   var DIFY_URL = "https://udify.app/chat/KXoLEteQQnrlbz1P";
   var selectors = [
-    "#coach-tile",
     "#sh-rec-luna",
-    "#ch-card-luna",
     "[data-open-luna-ai]"
   ];
-  // #hc-luna-card は onclick 属性で直接 openCoach() を呼ぶため除外
+  // Luna 系ボタンは onclick/addEventListener で直接 openCoach() を呼ぶため除外
+  // (#hc-luna-card, #ch-card-luna, #coach-tile)
 
   function txt(s){
     return s;
