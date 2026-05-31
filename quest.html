@@ -17,7 +17,7 @@
   --bg:#c8e4f4; --bg2:#c8e4f4; --bg3:#141929;
   --gold:#c9a84c; --gold2:#f0d48a;
   --silver:#aabcd8; --text:#d4dcf0; --muted:#6070a0;
-  --green:#4ec98a; --purple:#9c72e0; --red:#e05c5c; --orange:#e08a3c;
+  --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
@@ -660,14 +660,14 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ls-fill-q{background:linear-gradient(90deg,#e05c5c,#e08c3c);}
 .ls-fill-n{background:linear-gradient(90deg,#4ec98a,#2a9060);}
 .ls-val{font-size:.6rem;color:rgba(30,80,110,.7);width:40px;text-align:right;flex-shrink:0;}
-.ls-link{font-size:.6rem;color:rgba(156,114,224,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
-.ls-link:hover{color:rgba(156,114,224,.9);}
+.ls-link{font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;text-decoration:none;display:block;text-align:right;margin-top:5px;}
+.ls-link:hover{color:rgba(41,182,232,rgba(41,182,232,.9)_tmp;}
 
 /* ===== AI Coach FAB ===== */
 #coach-fab{
   position:fixed;bottom:76px;right:20px;z-index:150;
   background:linear-gradient(135deg,#3e2080,#5c30b0);
-  border:1.5px solid rgba(156,114,224,.5);border-radius:50px;
+  border:1.5px solid rgba(41,182,232,rgba(41,182,232,.5)_tmp;border-radius:50px;
   padding:10px 18px 10px 12px;
   display:none;align-items:center;gap:8px;
   cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;
@@ -690,7 +690,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   width:400px;max-width:calc(100vw - 32px);
   height:600px;max-height:calc(100vh - 32px);
   background:#c8e4f4;
-  border:1px solid rgba(156,114,224,.4);border-radius:20px;
+  border:1px solid rgba(41,182,232,rgba(41,182,232,.4)_tmp;border-radius:20px;
   overflow:hidden;display:flex;flex-direction:column;
   box-shadow:0 24px 64px rgba(0,0,0,.8);
   animation:modalIn .35s cubic-bezier(.22,1,.36,1);
@@ -698,11 +698,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .coach-ph{
   display:flex;align-items:center;gap:10px;padding:12px 16px;
   background:rgba(12,14,28,.98);
-  border-bottom:1px solid rgba(156,114,224,.2);flex-shrink:0;
+  border-bottom:1px solid rgba(41,182,232,rgba(41,182,232,.2)_tmp;flex-shrink:0;
 }
 .coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(201,168,76,.4);}
 .coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(201,168,76,.95);}
-.coach-ph-sub{font-size:.6rem;color:rgba(156,114,224,.7);letter-spacing:.06em;}
+.coach-ph-sub{font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;letter-spacing:.06em;}
 #coach-close{background:none;border:none;color:rgba(30,80,110,.7);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
 #coach-close:hover{color:rgba(30,80,110,.7);}
 .coach-iframe{flex:1;border:none;width:100%;background:#c8e4f4;}
@@ -883,7 +883,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   box-shadow: 0 8px 0 rgba(30,80,110,.1), 0 4px 24px rgba(30,80,110,.15) !important;
 }
 #consent-modal [style*="background:rgba(255,255,255,.04)"],
-#consent-modal [style*="background:rgba(156,114,224,.08)"]{
+#consent-modal [style*="background:rgba(41,182,232,rgba(41,182,232,.08)_tmp"]{
   background: rgba(30,127,164,.06) !important;
   border-color: rgba(30,127,164,.2) !important;
 }
@@ -905,7 +905,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   color: #8a5e10 !important;
   -webkit-text-fill-color: #8a5e10 !important;
 }
-#consent-modal [style*="color:#c0a0f0"]{
+#consent-modal [style*="color:#7fd8f4"]{
   color: #5b4ea8 !important;
   -webkit-text-fill-color: #5b4ea8 !important;
 }
@@ -920,7 +920,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
 /* 暗背景前提の薄いシアン・白系テキスト → 濃紺に */
 [style*="color:#e8f0ff"],[style*="color:#0a2a40"],[style*="color:#0a2a40"],
 [style*="color:#9ee0ee"],[style*="color:#7dd8e8"],[style*="color:#7ee8b0"],
-[style*="color:#a8e8c0"],[style*="color:#a0f0c0"],[style*="color:#b0e8ff"],[style*="color:#c0a0f0"]{
+[style*="color:#a8e8c0"],[style*="color:#a0f0c0"],[style*="color:#b0e8ff"],[style*="color:#7fd8f4"]{
   color: #0a3050 !important;
   -webkit-text-fill-color: #0a3050 !important;
 }
@@ -1133,8 +1133,8 @@ setTimeout(function(){
           <li>・ AIコーチ「ルナ」との会話内容（任意利用）</li>
         </ul>
       </div>
-      <div style="background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.25);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <p style="font-weight:700;color:#c0a0f0;margin-bottom:8px;">外部サービスへの送信について</p>
+      <div style="background:rgba(41,182,232,rgba(41,182,232,.08)_tmp;border:1px solid rgba(41,182,232,rgba(41,182,232,.25)_tmp;border-radius:10px;padding:14px;margin-bottom:12px;">
+        <p style="font-weight:700;color:#7fd8f4;margin-bottom:8px;">外部サービスへの送信について</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.74rem;">
           <li>・ AIコーチング機能では、入力した文章を <strong>Google Gemini API</strong> に送信して応答を生成します</li>
           <li>・ 食事写真の自動認識でも同APIを利用します</li>
@@ -2370,7 +2370,7 @@ function showSaveToast(icon, msg){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 function spawnConfetti(){
-  const colors=['#c9a84c','#f0d48a','#4ec98a','#9c72e0','#e05c5c','#ffffff'];
+  const colors=['#c9a84c','#f0d48a','#4ec98a','#29b6e8','#e05c5c','#ffffff'];
   for(let i=0;i<60;i++){
     const c=document.createElement('div');
     c.className='confetti-piece';

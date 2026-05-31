@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c1a2e;--bg2:#112236;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
+:root{--bg:#0c1a2e;--bg2:#112236;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#29b6e8;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
 .hidden{display:none!important;}
@@ -123,7 +123,7 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
 .theme-opt.selected{border-color:rgba(201,168,76,.5);color:var(--gold2);background:rgba(201,168,76,.08);}
 .theme-opt-circle{width:36px;height:36px;margin:0 auto 6px;border-radius:50%;}
 .theme-opt-gold .theme-opt-circle{background:linear-gradient(135deg,#c9a84c,#f0d48a);}
-.theme-opt-purple .theme-opt-circle{background:linear-gradient(135deg,#9c72e0,#c0a0f0);}
+.theme-opt-purple .theme-opt-circle{background:linear-gradient(135deg,#29b6e8,#7fd8f4);}
 .theme-opt-green .theme-opt-circle{background:linear-gradient(135deg,#4ec98a,#a8e8c0);}
 
 .btn-export{
@@ -331,14 +331,14 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
       </div>
 
       <!-- 栄養スコア -->
-      <div style="background:rgba(156,114,224,.06);border:1px solid rgba(156,114,224,.2);border-radius:12px;padding:14px;">
-        <div style="font-size:.6rem;color:rgba(156,114,224,.6);font-weight:700;letter-spacing:.1em;margin-bottom:6px;">🥗 栄養クエスト</div>
+      <div style="background:rgba(41,182,232,rgba(41,182,232,.06)_tmp;border:1px solid rgba(41,182,232,rgba(41,182,232,.2)_tmp;border-radius:12px;padding:14px;">
+        <div style="font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.6)_tmp;font-weight:700;letter-spacing:.1em;margin-bottom:6px;">🥗 栄養クエスト</div>
         <div id="ns-score" style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#c5a5f0;line-height:1;">—</div>
         <div style="font-size:.6rem;color:rgba(170,188,216,.4);margin-top:2px;">/ 25点</div>
         <div style="height:4px;background:rgba(255,255,255,.07);border-radius:99px;margin:8px 0 6px;overflow:hidden;">
-          <div id="ns-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#9c72e0,#c5a5f0);border-radius:99px;transition:width .4s;"></div>
+          <div id="ns-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#29b6e8,#c5a5f0);border-radius:99px;transition:width .4s;"></div>
         </div>
-        <a href="./nutrition.html" style="font-size:.62rem;color:rgba(156,114,224,.6);text-decoration:none;">クエストへ →</a>
+        <a href="./nutrition.html" style="font-size:.62rem;color:rgba(41,182,232,rgba(41,182,232,.6)_tmp;text-decoration:none;">クエストへ →</a>
       </div>
     </div>
     <div id="progress-msg" style="margin-top:12px;font-size:.7rem;color:rgba(200,215,235,.5);text-align:center;min-height:16px;"></div>
@@ -477,7 +477,7 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
     </p>
     <button class="btn-export" id="btn-export-mydata">⬇ 自分のデータをCSVダウンロード</button>
     <button class="btn-export" id="btn-export-research" style="background:linear-gradient(135deg,rgba(78,201,138,.2),rgba(78,201,138,.1));border-color:rgba(78,201,138,.4);color:#a8e8c0;">📊 研究用データセット（ロング形式CSV）</button>
-    <button class="btn-export" id="btn-share-summary" style="background:linear-gradient(135deg,rgba(156,114,224,.2),rgba(156,114,224,.1));border-color:rgba(156,114,224,.4);color:#c0a0f0;">📤 ご家族・主治医に週次レポートを共有</button>
+    <button class="btn-export" id="btn-share-summary" style="background:linear-gradient(135deg,rgba(41,182,232,rgba(41,182,232,.2)_tmp,rgba(41,182,232,rgba(41,182,232,.1)_tmp);border-color:rgba(41,182,232,rgba(41,182,232,.4)_tmp;color:#7fd8f4;">📤 ご家族・主治医に週次レポートを共有</button>
     <button class="btn-export" id="btn-export-json" style="background:linear-gradient(135deg,rgba(92,140,212,.25),rgba(92,140,212,.12));border-color:rgba(92,140,212,.45);color:#a8c8f0;">⬇ JSON形式でバックアップ</button>
     <p style="font-size:.62rem;color:rgba(170,188,216,.4);margin-top:14px;line-height:1.7;">
       ⚠️ 「全データ削除」はこの端末上のゲーム進行・記録をリセットします（クラウド側はそのまま）。
