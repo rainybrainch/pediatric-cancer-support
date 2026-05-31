@@ -171,17 +171,17 @@ body.vrpg-density-off .vrpg-hero::before{ animation:none !important; opacity:0 !
 .vrpg-hero-portrait{
   width:64px;height:64px;border-radius:50%;
   overflow:hidden;flex-shrink:0;
-  border:2px solid var(--vrpg-gold-2);
+  border:2px solid var(--vrpg-cyan-2);
   box-shadow:
     0 0 0 3px rgba(255,255,255,.65),
-    0 0 20px rgba(240,197,72,.45),
+    0 0 20px rgba(95,208,232,.40),
     0 8px 18px -6px rgba(20,50,80,.30);
   background:#fff;
   position:relative;
 }
 .vrpg-hero-portrait::after{
   content:"";position:absolute;inset:-6px;border-radius:50%;
-  border:1px dashed rgba(240,197,72,.45);
+  border:1px dashed rgba(95,208,232,.45);
   animation:vrpg-spin 18s linear infinite;
 }
 @keyframes vrpg-spin{ to{ transform:rotate(360deg); } }
@@ -269,7 +269,7 @@ body.vrpg-on .board-section::after{
   background:linear-gradient(135deg,var(--vrpg-gold-2),var(--vrpg-gold));
   transform:rotate(45deg);
   pointer-events:none;opacity:.65;
-  box-shadow:0 0 6px rgba(240,197,72,.35);
+  box-shadow:0 0 6px rgba(95,208,232,.35);
 }
 body.vrpg-on .board-section::before{ top:-4px;left:14px;}
 body.vrpg-on .board-section::after{ top:-4px;right:14px;}
@@ -344,7 +344,7 @@ body.vrpg-on .sh-rec-btn:active{
   position:fixed;z-index:8900;
   width:8px;height:8px;border-radius:50%;
   background:radial-gradient(circle, #ffeaa0, #f0c548 60%, transparent 70%);
-  box-shadow:0 0 8px rgba(240,197,72,.9);
+  box-shadow:0 0 8px rgba(95,208,232,.7);
   pointer-events:none;
   animation:vrpg-spark-fly .9s ease-out forwards;
 }
@@ -912,7 +912,7 @@ body.vrpg-on .bottom-nav .bn-tab.active::before{
   position:absolute; top:-2px; left:50%; transform:translateX(-50%);
   width:18px; height:3px; border-radius:99px;
   background:linear-gradient(90deg, var(--vrpg-gold-2), var(--vrpg-gold));
-  box-shadow:0 0 8px rgba(240,197,72,.6);
+  box-shadow:0 0 8px rgba(95,208,232,.5);
 }
 
 /* Adjust body bottom padding so floating nav doesn't cover content */
