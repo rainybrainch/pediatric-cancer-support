@@ -132,12 +132,12 @@
     overlay.id = 'gm-gacha-modal';
     overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:rgba(4,6,12,.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:18px;`;
     overlay.innerHTML = `
-      <div style="background:linear-gradient(160deg,#1a1230,#0d0a20);border:2.5px solid rgba(240,212,138,.6);border-radius:22px;max-width:380px;width:100%;padding:26px 24px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(240,212,138,.2);">
-        <div style="font-size:.6rem;letter-spacing:.22em;color:rgba(240,212,138,.7);font-weight:900;margin-bottom:8px;">— DAILY GACHA —</div>
-        <h2 style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#f0d48a;margin-bottom:14px;">今日の宝箱</h2>
+      <div style="background:linear-gradient(160deg,#0d1e34,#0c1a2e);border:2.5px solid rgba(41,182,232,.50);border-radius:22px;max-width:380px;width:100%;padding:26px 24px;text-align:center;box-shadow:0 24px 64px rgba(0,8,30,.78),0 0 50px rgba(41,182,232,.12);backdrop-filter:blur(16px);">
+        <div style="font-size:.6rem;letter-spacing:.22em;color:rgba(127,216,244,.7);font-weight:900;margin-bottom:8px;">— DAILY GACHA —</div>
+        <h2 style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#7fd8f4;margin-bottom:14px;">今日の宝箱</h2>
         <div id="gm-gacha-stage" style="font-size:5rem;line-height:1;margin:18px 0;animation:gmGachaShake .15s ease-in-out infinite;">📦</div>
-        <p style="font-size:.78rem;color:rgba(220,225,245,.75);margin-bottom:16px;">タップして開ける（1日1回）</p>
-        <button id="gm-gacha-open" style="width:100%;background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;padding:13px;border-radius:11px;cursor:pointer;letter-spacing:.06em;">✦ 開ける ✦</button>
+        <p style="font-size:.78rem;color:rgba(200,225,245,.75);margin-bottom:16px;">タップして開ける（1日1回）</p>
+        <button id="gm-gacha-open" style="width:100%;background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;color:#fff;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;padding:13px;border-radius:11px;cursor:pointer;letter-spacing:.06em;box-shadow:0 4px 16px rgba(41,182,232,.35);">✦ 開ける ✦</button>
       </div>
     `;
     document.body.appendChild(overlay);
