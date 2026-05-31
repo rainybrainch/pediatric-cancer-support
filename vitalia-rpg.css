@@ -457,7 +457,7 @@ body.vrpg-on .sh-rec-btn:active{
 .vrpg-lvl-num{
   font-family:'Noto Serif JP',serif;
   font-size:5.5rem;font-weight:900;line-height:1;
-  background:linear-gradient(135deg,#f0d48a,#5fd0e8,#f0d48a);
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#5fd0e8,#29b6e8,#7fd8f4);
   background-size:200% auto;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:vrpg-shimmer 2s linear infinite;
@@ -473,7 +473,7 @@ body.vrpg-on .sh-rec-btn:active{
   border:3px solid #29b6e8;
   box-shadow:
     0 0 0 6px rgba(255,255,255,.15),
-    0 0 60px rgba(240,212,138,.8),
+    0 0 60px rgba(41,182,232,.6),
     0 0 120px rgba(95,208,232,.5);
   overflow:hidden;background:#fff;
   animation:vrpg-pulse 1.8s ease-in-out infinite;
@@ -647,7 +647,7 @@ body.vrpg-on .sh-rec-btn:active{
 }
 .vrpg-bt-turn{
   font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;
-  background:linear-gradient(135deg,#f0d48a,#5fd0e8,#f0d48a);
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#5fd0e8,#29b6e8,#7fd8f4);
   background-size:200% auto;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:vrpg-shimmer 4s linear infinite;
