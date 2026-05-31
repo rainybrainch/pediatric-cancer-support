@@ -143,6 +143,8 @@ const GEMINI_MODEL = 'gemini-2.5-flash';
 const ALLOWED_ORIGINS = new Set([
   'https://rainybrainch.github.io',
   'https://aya-health-quest.rainybrain-ch.workers.dev',
+  'https://aya-health-quest.pages.dev',
+  'https://pediatric-cancer-support.pages.dev',
   'http://127.0.0.1:8765',
   'http://localhost:8765'
 ]);
