@@ -56,11 +56,11 @@ body::before{
 @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
 
 .gold-text{
-  background:linear-gradient(135deg,var(--gold2),var(--gold),var(--gold2));
-  background-size:200% auto;
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#f0d48a,#29b6e8,#7fd8f4);
+  background-size:300% auto;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   background-clip:text;
-  animation:shimmer 4s linear infinite;
+  animation:shimmer 5s linear infinite;
 }
 
 /* ========== ローディング ========== */
@@ -92,9 +92,9 @@ body::before{
 .ls-char img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
 .ls-title{
   font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;
-  background:linear-gradient(135deg,#f0d48a,#c9a84c,#f0d48a);
-  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:shimmer 3s linear infinite;
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#f0d48a,#29b6e8,#7fd8f4);
+  background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 4s linear infinite;
   margin-bottom:5px;position:relative;z-index:1;
 }
 .ls-sub{font-size:.58rem;color:rgba(170,188,216,.3);letter-spacing:.18em;margin-bottom:24px;position:relative;z-index:1;text-transform:uppercase;}
@@ -130,7 +130,7 @@ body::before{
 }
 .lp-rune{
   font-size:.6rem;font-weight:700;letter-spacing:.22em;
-  color:rgba(201,168,76,.5);text-transform:uppercase;
+  color:rgba(127,216,244,.55);text-transform:uppercase;
   margin-bottom:22px;
 }
 .lp-char{
@@ -143,15 +143,15 @@ body::before{
 .lp-char img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
 .lp-title{
   font-family:'Noto Serif JP',serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;
-  background:linear-gradient(135deg,#f0d48a,#c9a84c,#e8c870,#f0d48a);
-  background-size:250% auto;
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#f0d48a,#7fd8f4,#29b6e8);
+  background-size:300% auto;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:shimmer 5s linear infinite;
+  animation:shimmer 6s linear infinite;
   line-height:1.25;margin-bottom:6px;
   letter-spacing:.04em;
 }
 .lp-subtitle{
-  font-size:.72rem;color:rgba(170,188,216,.55);letter-spacing:.14em;
+  font-size:.72rem;color:rgba(127,216,244,.55);letter-spacing:.14em;
   margin-bottom:20px;text-transform:uppercase;
 }
 .lp-tagline{
@@ -578,21 +578,21 @@ body.detail-mode #compact-home{display:none !important;}
   .pwa-banner-btn{padding:7px 11px;font-size:.72rem;}
 }
 .g-header{
-  background:rgba(8,11,20,.92);
-  border-bottom:1px solid rgba(201,168,76,.12);
+  background:rgba(8,18,40,.90);
+  border-bottom:1px solid rgba(41,182,232,.18);
   padding:0 24px;height:56px;
   display:flex;align-items:center;gap:14px;
   position:sticky;top:0;z-index:100;
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(20px);
 }
 .g-logo{
   font-family:'Noto Serif JP',serif;font-weight:900;font-size:.92rem;
   display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;
 }
 .g-logo-icon{
-  width:28px;height:28px;border:1px solid var(--gold);border-radius:50%;
+  width:28px;height:28px;border:1px solid rgba(41,182,232,.55);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:.7rem;color:var(--gold);font-family:'Noto Serif JP',serif;font-weight:900;
+  font-size:.7rem;color:#7fd8f4;font-family:'Noto Serif JP',serif;font-weight:900;
 }
 .g-spacer{flex:1;}
 .g-user{font-size:.72rem;color:var(--muted);}
@@ -650,8 +650,8 @@ body.detail-mode #compact-home{display:none !important;}
 }
 .player-avatar{
   width:72px;height:72px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  border:2px solid var(--gold);
-  box-shadow:0 0 24px rgba(201,168,76,.3),0 0 48px rgba(201,168,76,.1);
+  border:2px solid rgba(41,182,232,.55);
+  box-shadow:0 0 20px rgba(41,182,232,.25),0 0 40px rgba(41,182,232,.10);
   animation:float 3.5s ease-in-out infinite;
 }
 .player-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 14%;}
