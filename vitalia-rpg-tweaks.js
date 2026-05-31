@@ -50,7 +50,7 @@
           <button class="vrpg-tweaks-chip" data-vrpg-test="defeat">モンスター撃破</button>
         </div>
         <div class="vrpg-tweaks-row" style="margin-top:6px;">
-          <button class="vrpg-tweaks-chip" data-vrpg-test="battle" style="flex:1 1 100%;background:linear-gradient(135deg,#f0c548,#c8941a);color:#1a0e02;border-color:#8e6510;">⚔ 戦闘開始</button>
+          <button class="vrpg-tweaks-chip" data-vrpg-test="battle" style="flex:1 1 100%;background:linear-gradient(135deg,#1e7fa4,#29b6e8);color:#fff;border-color:#0a4870;">⚔ 戦闘開始</button>
         </div>
       </div>
 
