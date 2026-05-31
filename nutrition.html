@@ -15,7 +15,7 @@
 <style>
 :root{
   --bg:#c8e4f4;--bg2:#c8e4f4;--bg3:#141929;
-  --gold:#c9a84c;--gold2:#f0d48a;
+  --gold:#1e7fa4;--gold2:#7fd8f4;
   --silver:#aabcd8;--text:#d4dcf0;--muted:#6070a0;
   --green:#4ec98a;--purple:#29b6e8;--red:#e05c5c;--orange:#e08a3c;
   --blue:#5c8cd4;
@@ -362,7 +362,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .f-card{position:relative;}
 .f-recommend{
   position:absolute;top:-6px;right:-6px;
-  background:linear-gradient(135deg,#f0d48a,#c9a84c);
+  background:linear-gradient(135deg,#f0d48a,#1e7fa4);
   color:#1a1200;font-size:.5rem;font-weight:900;
   padding:2px 6px;border-radius:99px;letter-spacing:.04em;
   box-shadow:0 2px 6px rgba(41,182,232,.4);
@@ -2413,7 +2413,7 @@ const KNOWLEDGE={
   }
 };
 function spawnParticles(){
-  const colors=['#7ee8b0','#4ec98a','#ffffff','#a8f0c8','#f0d48a'];
+  const colors=['#7ee8b0','#4ec98a','#ffffff','#a8f0c8','#7fd8f4'];
   for(let i=0;i<28;i++){
     const p=document.createElement('div');
     p.className='lv-particle';
@@ -2683,7 +2683,7 @@ function buildBoard(id, items, cat, cls){
       const map = {
         'anti-ox':   {label:'抗酸化',  color:'#a8c8f0'},
         'anti-inf':  {label:'抗炎症',  color:'#a8e8c0'},
-        'immune':    {label:'免疫力↑', color:'#f0d48a'},
+        'immune':    {label:'免疫力↑', color:'#7fd8f4'},
         'omega3':    {label:'オメガ3', color:'#7fd8f4'},
         'fiber':     {label:'食物繊維', color:'#d8a878'},
         'fermented': {label:'発酵',    color:'#f0a0c8'},
@@ -3142,7 +3142,7 @@ function showSaveToast(icon,msg){
   t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
 }
 function spawnConfetti(){
-  const colors=['#4ec98a','#7ee8b0','#c9a84c','#29b6e8','#ffffff','#a8f0c8'];
+  const colors=['#4ec98a','#7ee8b0','#1e7fa4','#29b6e8','#ffffff','#a8f0c8'];
   for(let i=0;i<60;i++){
     const c=document.createElement('div');
     c.className='confetti-piece';

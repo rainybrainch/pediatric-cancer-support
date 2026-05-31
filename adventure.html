@@ -15,7 +15,7 @@
 <style>
 :root{
   --bg:#0c1a2e; --bg2:#112236; --bg3:#162840;
-  --gold:#c9a84c; --gold2:#f0d48a;
+  --gold:#c9a84c; --gold2:#7fd8f4;
   --silver:#aabcd8; --text:#d4dcf0; --muted:#7080a8;
   --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
 }
@@ -61,7 +61,7 @@ body::before{
 .adv-title{
   flex:1;text-align:center;
   font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
-  background:linear-gradient(135deg,#f0d48a,#7fd8f4,#f0d48a);
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#7fd8f4);
   background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:shimmer 4s linear infinite;
 }
@@ -103,7 +103,7 @@ body::before{
 .chapter-theme-social{background:rgba(78,201,138,.18);color:#a8e8c0;border:1px solid rgba(78,201,138,.4);}
 .chapter-theme-tutorial{background:rgba(160,170,200,.18);color:#c0c8e0;border:1px solid rgba(160,170,200,.4);}
 .chapter-theme-growth{background:rgba(92,180,240,.18);color:#a8d8ff;border:1px solid rgba(92,180,240,.4);}
-.chapter-theme-final{background:linear-gradient(90deg,rgba(240,212,138,.2),rgba(200,180,255,.2));color:#f0e0a8;border:1px solid rgba(240,212,138,.5);}
+.chapter-theme-final{background:linear-gradient(90deg,rgba(41,182,232,.2),rgba(200,180,255,.2));color:#f0e0a8;border:1px solid rgba(41,182,232,.5);}
 .chapter-title{
   font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;
   color:#f0e8ff;margin-bottom:8px;letter-spacing:.04em;position:relative;z-index:1;
@@ -366,15 +366,15 @@ body::before{
 #victory-modal.open{display:flex;}
 .victory-box{
   background:linear-gradient(160deg,rgba(40,30,80,.96),rgba(20,15,40,.96));
-  border:2px solid rgba(240,212,138,.5);border-radius:22px;
+  border:2px solid rgba(41,182,232,.5);border-radius:22px;
   max-width:420px;width:100%;padding:28px 22px;text-align:center;
-  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 80px rgba(240,212,138,.15);
+  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 80px rgba(41,182,232,.15);
   animation:fadeIn .4s ease both;
 }
 .victory-flash{font-size:3rem;animation:flash 1s ease-in-out infinite;}
 .victory-title{
   font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;
-  background:linear-gradient(135deg,#f0d48a,#fff8d8,#f0d48a);
+  background:linear-gradient(135deg,#7fd8f4,#e8f8ff,#29b6e8);
   background-size:200% auto;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:shimmer 2.5s linear infinite;
@@ -382,7 +382,7 @@ body::before{
 }
 .victory-defeated{font-size:.85rem;color:rgba(41,182,232,.85);margin-bottom:14px;}
 .victory-rewards{
-  background:rgba(0,0,0,.3);border:1px solid rgba(240,212,138,.25);
+  background:rgba(0,0,0,.3);border:1px solid rgba(41,182,232,.25);
   border-radius:12px;padding:12px;margin-bottom:14px;
   display:flex;flex-direction:column;gap:6px;font-size:.78rem;color:rgba(220,210,240,.85);
 }
@@ -392,11 +392,11 @@ body::before{
   color:rgba(200,190,235,.75);margin-bottom:18px;font-style:italic;
 }
 .victory-btn{
-  background:linear-gradient(135deg,rgba(240,212,138,.4),rgba(41,182,232,.3));
-  border:1px solid rgba(240,212,138,.6);border-radius:11px;
+  background:linear-gradient(135deg,rgba(41,182,232,.4),rgba(41,182,232,.3));
+  border:1px solid rgba(41,182,232,.6);border-radius:11px;
   padding:11px 22px;color:#1a1200;font-family:'Noto Serif JP',serif;
   font-size:.88rem;font-weight:900;cursor:pointer;
-  background-color:#f0d48a;
+  background-color:#7fd8f4;
 }
 
 /* ボトムナビ */
@@ -1589,7 +1589,7 @@ function render(){
   // ピクセのメッセージは「章の説明」+「ユーザー状態に応じた動的コメント」
   const dynamicComment = buildDynamicPixeComment();
   const pixeBase = ch.pixe.replace(/\n/g,'<br>');
-  const pixeFinal = dynamicComment ? `<div style="margin-bottom:10px;padding:8px 11px;background:rgba(240,212,138,.08);border-left:3px solid rgba(240,212,138,.6);border-radius:6px;font-size:.85em;line-height:1.7;">${dynamicComment}</div>${pixeBase}` : pixeBase;
+  const pixeFinal = dynamicComment ? `<div style="margin-bottom:10px;padding:8px 11px;background:rgba(41,182,232,.08);border-left:3px solid rgba(41,182,232,.6);border-radius:6px;font-size:.85em;line-height:1.7;">${dynamicComment}</div>${pixeBase}` : pixeBase;
   document.getElementById('pixe-msg').innerHTML=pixeFinal;
   document.getElementById('adv-progress-mini').textContent=`${state.chapterIdx+1} / ${CHAPTERS.length}章`;
 
@@ -1764,11 +1764,11 @@ function showTrueEnding(){
   overlay.id = 'true-ending-modal';
   overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at center,rgba(40,30,80,.96),rgba(0,0,0,.99));backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 1s ease both;`;
   overlay.innerHTML = `
-    <div style="background:linear-gradient(160deg,#1a1230,#0d0a20);border:3px solid rgba(240,212,138,.6);border-radius:24px;max-width:520px;width:100%;padding:32px 26px;text-align:center;box-shadow:0 0 80px rgba(240,212,138,.3),0 24px 64px rgba(0,0,0,.7);">
+    <div style="background:linear-gradient(160deg,#1a1230,#0d0a20);border:3px solid rgba(41,182,232,.6);border-radius:24px;max-width:520px;width:100%;padding:32px 26px;text-align:center;box-shadow:0 0 80px rgba(41,182,232,.3),0 24px 64px rgba(0,0,0,.7);">
       <div style="font-size:3rem;line-height:1;margin-bottom:12px;animation:floatStar 3s ease-in-out infinite;">✦</div>
       <div style="font-size:.65rem;letter-spacing:.3em;color:rgba(41,182,232,.7);font-weight:900;margin-bottom:8px;">— TRUE ENDING —</div>
       <h1 style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#0a4870;margin-bottom:20px;line-height:1.4;">12週間の冒険、完走！</h1>
-      <div style="background:rgba(0,0,0,.35);border-left:3px solid rgba(240,212,138,.6);border-radius:10px;padding:18px 18px;text-align:left;font-size:.85rem;line-height:1.95;color:#e8e4d4;">
+      <div style="background:rgba(0,0,0,.35);border-left:3px solid rgba(41,182,232,.6);border-radius:10px;padding:18px 18px;text-align:left;font-size:.85rem;line-height:1.95;color:#e8e4d4;">
         ${txt}
       </div>
       <p style="font-size:.78rem;color:rgba(220,225,245,.7);margin-top:18px;line-height:1.85;">
@@ -1787,7 +1787,7 @@ function showTrueEnding(){
     showGraduateMode();
   };
   // 大量コンフェッティ
-  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:200, duration:5000, colors:['#f0d48a','#a8e8c0','#7fd8f4','#fff8d8']}); }catch(e){}
+  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:200, duration:5000, colors:['#7fd8f4','#a8e8c0','#7fd8f4','#fff8d8']}); }catch(e){}
 }
 
 function showGraduateMode(){
@@ -1800,7 +1800,7 @@ function showGraduateMode(){
       <h2 style="font-family:'Noto Serif JP',serif;font-size:1.25rem;color:#1e7fa4;margin-bottom:8px;">🎓 卒業生・ヴィタリア</h2>
       <p style="font-size:.78rem;color:rgba(220,225,245,.85);line-height:1.85;">12週間の冒険を完走したあなた。<br>これからは、<strong style="color:#1f8a66;">習慣を「維持する」</strong> フェーズです。<br><br>記録は引き続きできますが、<strong>通知・リマインダーは控えめ</strong>に。<br>たまにルナと話したり、新しい仲間（次世代の転生者）を応援したりできます。</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px;">
-        <a href="./game.html" style="background:rgba(240,212,138,.12);border:1px solid rgba(240,212,138,.4);color:#1e7fa4;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">🏠 ホームへ</a>
+        <a href="./game.html" style="background:rgba(41,182,232,.12);border:1px solid rgba(41,182,232,.4);color:#1e7fa4;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">🏠 ホームへ</a>
         <a href="./party.html" style="background:rgba(168,232,192,.12);border:1px solid rgba(168,232,192,.4);color:#1f8a66;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">👥 仲間と繋がる</a>
       </div>
     </div>

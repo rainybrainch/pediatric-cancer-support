@@ -15,7 +15,7 @@
 <style>
 :root{
   --bg:#c8e4f4; --bg2:#c8e4f4; --bg3:#141929;
-  --gold:#c9a84c; --gold2:#f0d48a;
+  --gold:#1e7fa4; --gold2:#7fd8f4;
   --silver:#aabcd8; --text:#d4dcf0; --muted:#6070a0;
   --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
 }
@@ -200,7 +200,7 @@ body::before{
 }
 .ls-sub{font-size:.58rem;color:rgba(30,80,110,.7);letter-spacing:.18em;margin-bottom:22px;position:relative;z-index:1;text-transform:uppercase;}
 .ls-bar{width:160px;height:3px;background:rgba(41,182,232,.1);border-radius:99px;overflow:hidden;position:relative;z-index:1;}
-.ls-bar-fill{height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a,#c9a84c);background-size:200% auto;border-radius:99px;animation:shimmer 1.5s linear infinite;}
+.ls-bar-fill{height:100%;background:linear-gradient(90deg,#1e7fa4,#f0d48a,#1e7fa4);background-size:200% auto;border-radius:99px;animation:shimmer 1.5s linear infinite;}
 .ls-msg{font-size:.6rem;color:rgba(41,182,232,.35);font-family:'Noto Serif JP',serif;letter-spacing:.1em;margin-top:12px;position:relative;z-index:1;}
 .ls-dot{display:inline-block;animation:ls-fade 1.4s ease-in-out infinite;}
 .ls-dot:nth-child(2){animation-delay:.2s;}
@@ -454,7 +454,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .lv-badge.anim{animation:levelup .5s ease;}
 .lv-badge .lv-n{font-size:1rem;}
 .xp-wrap{background:rgba(255,255,255,.05);border-radius:999px;height:10px;overflow:hidden;margin-bottom:4px;}
-.xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#f0d48a);transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(41,182,232,.45);}
+.xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#7fd8f4);transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(41,182,232,.45);}
 .xp-note{font-size:.65rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;}
 .xp-note strong{color:#1e7fa4;}
 
@@ -2105,7 +2105,7 @@ const KNOWLEDGE={
 };
 
 function spawnParticles(){
-  const colors=['#f0d48a','#c9a84c','#ffffff','#e0c070','#ffeaa0'];
+  const colors=['#7fd8f4','#1e7fa4','#ffffff','#e0c070','#ffeaa0'];
   for(let i=0;i<28;i++){
     const p=document.createElement('div');
     p.className='lv-particle';
@@ -2370,7 +2370,7 @@ function showSaveToast(icon, msg){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 function spawnConfetti(){
-  const colors=['#c9a84c','#f0d48a','#4ec98a','#29b6e8','#e05c5c','#ffffff'];
+  const colors=['#1e7fa4','#7fd8f4','#4ec98a','#29b6e8','#e05c5c','#ffffff'];
   for(let i=0;i<60;i++){
     const c=document.createElement('div');
     c.className='confetti-piece';
