@@ -534,53 +534,54 @@ body.vp-page-nutrition #guest-btn{
 }
 
 #coach-modal .coach-panel{
-  background:linear-gradient(180deg,#fbfeff,#eff8fd) !important;
-  border:1px solid rgba(115,87,189,.28) !important;
-  box-shadow:0 28px 78px rgba(24,22,70,.26) !important;
+  background:linear-gradient(180deg,#0d1e34,#0c1a2e) !important;
+  border:1px solid rgba(41,182,232,.30) !important;
+  box-shadow:0 28px 70px rgba(0,8,30,.78) !important;
 }
 
 #coach-modal .coach-hdr,
 #coach-modal .coach-char,
 #coach-modal .coach-grow,
 #coach-modal .coach-input-wrap{
-  background:rgba(255,255,255,.88) !important;
-  color:var(--vf-ink) !important;
+  background:rgba(8,16,34,.88) !important;
+  color:#d4e8f8 !important;
 }
 
 #coach-modal .coach-bubble-luna{
   background:#fff !important;
-  border:1px solid rgba(115,87,189,.20) !important;
-  color:var(--vf-ink) !important;
+  border:1px solid rgba(41,182,232,.20) !important;
+  color:#0a2a40 !important;
 }
 
 #coach-modal .coach-bubble-user{
-  background:linear-gradient(135deg,#e6f8ff,#fff) !important;
-  border:1px solid rgba(30,127,164,.22) !important;
-  color:var(--vf-ink) !important;
+  background:linear-gradient(135deg,#1e7fa4,#29b6e8) !important;
+  border:none !important;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
 }
 
 #coach-modal #coach-input{
-  color:var(--vf-ink) !important;
-  -webkit-text-fill-color:var(--vf-ink) !important;
-  background:#fff !important;
-  border:1px solid rgba(30,127,164,.24) !important;
+  color:#d4e8f8 !important;
+  -webkit-text-fill-color:#d4e8f8 !important;
+  background:rgba(255,255,255,.06) !important;
+  border:1px solid rgba(41,182,232,.24) !important;
   border-radius:14px !important;
   min-height:48px !important;
 }
 
 #coach-modal #coach-input::placeholder{
-  color:#7890a0 !important;
-  -webkit-text-fill-color:#7890a0 !important;
+  color:rgba(127,216,244,.35) !important;
+  -webkit-text-fill-color:rgba(127,216,244,.35) !important;
 }
 
 #coach-modal #coach-send{
   min-width:52px !important;
   min-height:48px !important;
   border-radius:14px !important;
-  background:linear-gradient(135deg,var(--vf-purple),#9d7be2) !important;
+  background:linear-gradient(135deg,#1e7fa4,#29b6e8) !important;
   color:#fff !important;
   -webkit-text-fill-color:#fff !important;
-  box-shadow:0 12px 24px rgba(115,87,189,.24) !important;
+  box-shadow:0 4px 16px rgba(41,182,232,.32) !important;
 }
 
 @media (max-width:820px){
