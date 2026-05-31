@@ -77,18 +77,20 @@ body::before{
 
 /* 章タイトルカード */
 .chapter-card{
-  background:linear-gradient(160deg,rgba(20,15,40,.95),rgba(15,12,30,.92));
-  border:1px solid rgba(156,114,224,.3);border-radius:18px;
+  background:#ffffff;
+  border:1.5px solid #b0cfdf;border-radius:18px;
   padding:18px 20px;margin-bottom:14px;
   position:relative;overflow:hidden;
   animation:fadeIn .4s ease both;
+  box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 14px rgba(20,60,100,.08);
+  color:#0a2a40;
 }
 .chapter-card::before{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 50% at 100% 0%,rgba(156,114,224,.1) 0%,transparent 60%);
+  background:radial-gradient(ellipse 60% 50% at 100% 0%,rgba(41,182,232,.05) 0%,transparent 60%);
 }
 .chapter-num{
-  font-size:.6rem;letter-spacing:.18em;color:rgba(200,180,255,.55);
+  font-size:.6rem;letter-spacing:.18em;color:#1e7fa4;
   font-weight:700;margin-bottom:5px;text-transform:uppercase;position:relative;z-index:1;
 }
 .chapter-theme-tag{
@@ -332,23 +334,26 @@ body::before{
 
 /* 進捗ゲージ */
 .global-progress{
-  background:rgba(15,12,30,.85);
-  border:1px solid rgba(201,168,76,.2);
+  background:#ffffff;
+  border:1.5px solid #b0cfdf;
   border-radius:14px;padding:13px 16px;margin-bottom:14px;
   animation:fadeIn .4s ease both;
+  box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 12px rgba(20,60,100,.08);
+  color:#0a2a40;
 }
 .gp-head{
   display:flex;justify-content:space-between;align-items:center;
-  font-size:.62rem;color:rgba(201,168,76,.7);font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  font-size:.62rem;color:#1e7fa4;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   margin-bottom:8px;
 }
-.gp-bar{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.gp-bar{height:8px;background:rgba(30,80,110,.10);border-radius:99px;overflow:hidden;}
 .gp-fill{
-  height:100%;background:linear-gradient(90deg,#c9a84c,#f0d48a,#c0a0f0);
+  height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#4ec98a);
   background-size:200% auto;
   border-radius:99px;
   transition:width 1s cubic-bezier(.4,0,.2,1);
   animation:shimmer 4s linear infinite;
+  box-shadow:0 0 8px rgba(41,182,232,.3);
 }
 .gp-stats{display:flex;justify-content:space-between;font-size:.58rem;color:var(--muted);margin-top:5px;}
 
