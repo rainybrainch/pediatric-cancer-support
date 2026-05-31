@@ -837,26 +837,29 @@ body.detail-mode #compact-home{display:none !important;}
 }
 #ios-install-modal.open{display:flex;}
 .ios-box{
-  background:linear-gradient(160deg,#0d1225 0%,#101830 100%);
-  border:1px solid rgba(201,168,76,.4);border-radius:18px;
+  background:linear-gradient(160deg,#0d1e34 0%,#0c1a2e 100%);
+  border:1px solid rgba(41,182,232,.35);border-radius:18px;
   max-width:340px;width:100%;padding:22px;text-align:center;
   animation:modalIn .35s cubic-bezier(.22,1,.36,1);
+  backdrop-filter:blur(16px);
+  box-shadow:0 20px 60px rgba(0,8,30,.7),0 0 40px rgba(41,182,232,.08);
 }
 .ios-title{
   font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;
-  color:var(--gold2);margin-bottom:8px;
+  color:#7fd8f4;margin-bottom:8px;
 }
 .ios-step{
-  text-align:left;font-size:.78rem;color:rgba(220,225,245,.85);
+  text-align:left;font-size:.78rem;color:rgba(200,225,245,.85);
   line-height:1.85;margin:12px 0;padding:10px 14px;
-  background:rgba(255,255,255,.04);border-radius:8px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(41,182,232,.15);border-radius:8px;
 }
-.ios-step b{color:#90b8ff;}
+.ios-step b{color:#7fd8f4;}
 .ios-close{
-  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(201,168,76,.2));
-  border:1px solid rgba(201,168,76,.5);border-radius:10px;
-  padding:9px 18px;color:var(--gold2);font-family:inherit;
+  background:linear-gradient(135deg,#1e7fa4,#29b6e8);
+  border:none;border-radius:10px;
+  padding:9px 18px;color:#fff;font-family:inherit;
   font-size:.82rem;font-weight:700;cursor:pointer;margin-top:8px;
+  box-shadow:0 4px 12px rgba(41,182,232,.30);
 }
 
 /* ========== 今週のQOLトレンド ========== */
@@ -8423,17 +8426,17 @@ window.addEventListener('load', ()=>{
 </style>
 
 <!-- ログインボーナスモーダル -->
-<div id="login-bonus-modal" style="display:none;position:fixed;inset:0;background:rgba(4,6,12,.85);z-index:285;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px);">
-  <div style="background:linear-gradient(160deg,#1a1230 0%,#2a1f50 60%,#0d0a20 100%);border:2px solid rgba(240,212,138,.5);border-radius:22px;max-width:380px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.7),0 0 60px rgba(240,212,138,.15);animation:modalIn .4s cubic-bezier(.22,1,.36,1);">
+<div id="login-bonus-modal" style="display:none;position:fixed;inset:0;background:rgba(2,8,24,.88);z-index:285;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(10px);">
+  <div style="background:linear-gradient(160deg,#0d1e34 0%,#112540 60%,#0c1a2e 100%);border:2px solid rgba(41,182,232,.45);border-radius:22px;max-width:380px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 24px 64px rgba(0,8,30,.78),0 0 50px rgba(41,182,232,.12);animation:modalIn .4s cubic-bezier(.22,1,.36,1);backdrop-filter:blur(16px);">
     <div style="font-size:3rem;animation:flash 1.5s ease-in-out infinite;">🎁</div>
-    <h2 style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,#f0d48a,#fff8d8,#f0d48a);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 2.5s linear infinite;margin:8px 0 4px;letter-spacing:.06em;">ログインボーナス</h2>
-    <div id="lb-streak-text" style="font-size:.85rem;color:rgba(240,212,138,.85);margin-bottom:16px;">連続 <strong id="lb-streak-num" style="font-size:1.4rem;color:#fff;">0</strong> 日目！</div>
-    <div style="background:rgba(0,0,0,.3);border:1px solid rgba(240,212,138,.25);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
-      <div style="font-size:.6rem;color:rgba(240,212,138,.6);letter-spacing:.1em;font-weight:700;margin-bottom:5px;">本日の獲得XP</div>
-      <div id="lb-xp" style="font-family:'Noto Serif JP',serif;font-size:1.8rem;font-weight:900;color:#f0d48a;">+10 XP</div>
+    <h2 style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#7fd8f4;margin:8px 0 4px;letter-spacing:.06em;">ログインボーナス</h2>
+    <div id="lb-streak-text" style="font-size:.85rem;color:rgba(127,216,244,.85);margin-bottom:16px;">連続 <strong id="lb-streak-num" style="font-size:1.4rem;color:#fff;">0</strong> 日目！</div>
+    <div style="background:rgba(41,182,232,.08);border:1px solid rgba(41,182,232,.22);border-radius:12px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-size:.6rem;color:rgba(127,216,244,.6);letter-spacing:.1em;font-weight:700;margin-bottom:5px;">本日の獲得XP</div>
+      <div id="lb-xp" style="font-family:'Noto Serif JP',serif;font-size:1.8rem;font-weight:900;color:#7fd8f4;">+10 XP</div>
     </div>
-    <div id="lb-msg" style="font-size:.78rem;line-height:1.85;color:rgba(220,210,240,.8);margin-bottom:18px;">ピクセ：「ぴくっ！今日も来てくれてありがとう♪」</div>
-    <button id="lb-close" style="background:linear-gradient(135deg,rgba(240,212,138,.4),rgba(201,168,76,.3));border:1px solid rgba(240,212,138,.5);border-radius:11px;padding:11px 22px;color:#1a1200;background-color:#f0d48a;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;cursor:pointer;width:100%;">受け取る ✦</button>
+    <div id="lb-msg" style="font-size:.78rem;line-height:1.85;color:rgba(200,225,245,.8);margin-bottom:18px;">ピクセ：「ぴくっ！今日も来てくれてありがとう♪」</div>
+    <button id="lb-close" style="background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;border-radius:11px;padding:12px 22px;color:#fff;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:900;cursor:pointer;width:100%;box-shadow:0 4px 16px rgba(41,182,232,.35);">受け取る ✦</button>
   </div>
 </div>
 
