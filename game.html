@@ -4246,7 +4246,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="hc-bar"><div class="hc-bar-fill hc-bar-nu" id="hc-bar-nu" style="width:0%"></div></div>
           <div class="hc-cta">🌿 食事を記録 →</div>
         </a>
-        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す">
+        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="if(typeof window.openCoach==='function'){window.openCoach();}else{document.getElementById('coach-modal')?.classList.add('open');}return false;">
           <div class="hc-portrait">
             <img src="./image/runa-sabun%20(2).png" alt="ルナ">
           </div>
@@ -8684,13 +8684,18 @@ window.addEventListener('load', ()=>{
     // ルナタイル → AIコーチ起動
     const lunaCard = document.getElementById('hc-luna-card');
     if(lunaCard){
-      lunaCard.addEventListener('click', ()=>{
-        const lunaBtn = document.getElementById('sh-rec-luna') || document.querySelector('.sh-rec-btn.rec-luna');
-        if(lunaBtn){ lunaBtn.click(); }
-        else {
-          // 直接モーダル開く
-          const modal = document.getElementById('ai-coach-modal');
-          if(modal){ modal.style.display = 'flex'; }
+      lunaCard.addEventListener('click', (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        // openCoach() が定義済みなら直接呼ぶ
+        if(typeof window.openCoach === 'function'){
+          window.openCoach();
+        } else if(typeof window.VitaliaLunaOpen === 'function'){
+          window.VitaliaLunaOpen();
+        } else {
+          // フォールバック：coach-modal を直接開く
+          const modal = document.getElementById('coach-modal');
+          if(modal) modal.classList.add('open');
         }
       });
     }
