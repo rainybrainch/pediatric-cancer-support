@@ -907,7 +907,7 @@ textarea::placeholder{
   gap:10px;
   padding:8px 12px;
   border-bottom:1px solid var(--clean-line);
-  background:#f7fcff;
+  background:linear-gradient(180deg,#f0f8ff,#f7fcff);
   color:var(--clean-ink);
   flex:0 0 auto;
 }
