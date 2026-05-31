@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
 
-header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header{background:rgba(8,18,40,.92);border-bottom:1px solid rgba(41,182,232,.18);backdrop-filter:blur(16px);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
 header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
 .skip-btn{background:none;border:1px solid rgba(170,188,216,.25);color:rgba(170,188,216,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
 
@@ -34,7 +34,7 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 .progress-meta{font-size:.62rem;color:rgba(168,232,192,.6);text-align:right;}
 
 .section{
-  background:rgba(14,18,32,.85);border:1px solid rgba(201,168,76,.18);
+  background:#ffffff;border:1.5px solid #b0d4e8;
   border-radius:14px;padding:18px 20px;margin-bottom:14px;
 }
 .section.hidden{display:none;}
@@ -53,8 +53,8 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
   background:rgba(255,255,255,.04);border:1.5px solid rgba(170,188,216,.15);
   border-radius:10px;cursor:pointer;font-size:.82rem;color:#e8e4d4;transition:all .15s;
 }
-.opt-list label:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.35);}
-.opt-list label:has(input:checked){background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.5);color:var(--gold2);}
+.opt-list label:hover{background:rgba(41,182,232,.08);border-color:rgba(41,182,232,.35);}
+.opt-list label:has(input:checked){background:rgba(201,168,76,.15);border-color:#29b6e8;color:var(--gold2);}
 .opt-list input{accent-color:var(--gold);}
 
 .scale-row{display:flex;justify-content:space-between;gap:6px;margin-top:8px;}
@@ -74,21 +74,21 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900
 .input-row .form-group{display:flex;flex-direction:column;gap:4px;}
 .input-row label{font-size:.7rem;color:rgba(170,188,216,.55);}
 .input-row input,.input-row select{
-  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
+  background:rgba(255,255,255,.92);border:1px solid #b0d4e8;
   border-radius:8px;padding:8px 11px;color:#e8e4d4;font-family:inherit;font-size:.85rem;outline:none;
 }
-.input-row input:focus{border-color:rgba(201,168,76,.5);}
+.input-row input:focus{border-color:#29b6e8;}
 
 .bottom-bar{
   position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(8,11,20,.92),rgba(0,0,0,.98));
-  backdrop-filter:blur(12px);border-top:1px solid rgba(201,168,76,.2);
+  backdrop-filter:blur(12px);border-top:1px solid rgba(41,182,232,.18);
   padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;
   z-index:100;
 }
 .btn-back{background:none;border:1px solid rgba(170,188,216,.2);color:rgba(170,188,216,.7);
   font-family:inherit;font-size:.78rem;padding:9px 16px;border-radius:9px;cursor:pointer;}
 .btn-back:disabled{opacity:.3;cursor:not-allowed;}
-.btn-next{background:linear-gradient(135deg,#c9a84c,#f0d48a);border:none;color:#1a1200;
+.btn-next{background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;color:#fff;
   font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;padding:10px 22px;border-radius:10px;cursor:pointer;letter-spacing:.05em;}
 .btn-next:disabled{opacity:.4;cursor:not-allowed;}
 
@@ -549,7 +549,7 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 
     <div class="q-block">
       <div class="q-text">12週間後、自分にどんな変化を期待しますか？（自由記述・任意）</div>
-      <textarea id="hope" rows="3" maxlength="300" placeholder="例: 朝もう少し元気に起きられるようになりたい" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:9px 12px;color:#e8e4d4;font-family:inherit;font-size:.78rem;outline:none;resize:vertical;line-height:1.7;"></textarea>
+      <textarea id="hope" rows="3" maxlength="300" placeholder="例: 朝もう少し元気に起きられるようになりたい" style="width:100%;background:rgba(255,255,255,.92);border:1px solid #b0d4e8;border-radius:8px;padding:9px 12px;color:#e8e4d4;font-family:inherit;font-size:.78rem;outline:none;resize:vertical;line-height:1.7;"></textarea>
     </div>
   </div>
 </main>
