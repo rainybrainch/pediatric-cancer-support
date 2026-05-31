@@ -3308,7 +3308,7 @@ body:not(.app-active) .defeated-foes{ display: none !important; }
   border: 2px solid rgba(95,208,232,.4) !important;
   box-shadow: 0 0 18px -4px rgba(95,208,232,.4);
 }
-.lp-ch-name{ color: #f0d48a !important; -webkit-text-fill-color: #f0d48a !important; font-family: 'Noto Serif JP', serif; }
+.lp-ch-name{ color: #7fd8f4 !important; -webkit-text-fill-color: #7fd8f4 !important; font-family: 'Noto Serif JP', serif; }
 .lp-ch-role{ color: #7ae0f0 !important; -webkit-text-fill-color: #7ae0f0 !important; }
 .lp-ch-sep{
   color: rgba(95,208,232,.5) !important;
@@ -3760,8 +3760,8 @@ body.app-active .xp-note{
   margin-top: 8px !important;
 }
 body.app-active .xp-note strong{
-  color: #f0d48a !important;
-  -webkit-text-fill-color: #f0d48a !important;
+  color: #1e7fa4 !important;
+  -webkit-text-fill-color: #1e7fa4 !important;
   font-weight: 900;
   font-family: 'Noto Serif JP', serif;
   font-size: 1.05em;
@@ -6924,12 +6924,12 @@ function showCharBackstory(c){
   `;
   // CSS変数で色を渡す
   const colorMap = { kaito:'#f08080', sera:'#a8e8c0', luna:'#7fd8f4', pixe:'#f0d48a' };
-  overlay.style.setProperty('--c-color', colorMap[c.key]||'#f0d48a');
-  overlay.querySelector('[data-char]').style.setProperty('--c-color', colorMap[c.key]||'#f0d48a');
+  overlay.style.setProperty('--c-color', colorMap[c.key]||'#29b6e8');
+  overlay.querySelector('[data-char]').style.setProperty('--c-color', colorMap[c.key]||'#29b6e8');
   document.body.appendChild(overlay);
   document.getElementById('cbm-close').addEventListener('click', ()=>overlay.remove());
   // 演出
-  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:35, duration:1800, colors:[colorMap[c.key]||'#f0d48a','#fff8d8']}); }catch(e){}
+  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:35, duration:1800, colors:[colorMap[c.key]||'#29b6e8','#fff8d8']}); }catch(e){}
 }
 
 // ===== Tiny Habits（BJ Fogg "Tiny Habits"理論ベース） =====
@@ -7071,7 +7071,7 @@ function escapeHopeHtml(s){
 // ===== クラスバッジ表示 =====
 const CLASS_DATA = {
   witch:      { name:'魔女っ子',   icon:'🧙‍♀️', color:'#7fd8f4' },
-  hero:       { name:'勇者',       icon:'⚔',   color:'#f0d48a' },
+  hero:       { name:'勇者',       icon:'⚔',   color:'#29b6e8' },
   saint:      { name:'聖女',       icon:'⛪',   color:'#a8e8c0' },
   villainess: { name:'悪役令嬢',   icon:'👑',   color:'#f0a0c8' },
   prince:     { name:'王子',       icon:'🤴',   color:'#a8c8f0' },
