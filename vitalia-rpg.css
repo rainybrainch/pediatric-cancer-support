@@ -407,7 +407,7 @@ body.vrpg-on .sh-rec-btn:active{
   border:1px solid rgba(200,148,26,.4);
   border-radius:10px;padding:8px 14px;min-width:80px;
 }
-.vrpg-qc-stat b{display:block;font-size:1.4rem;color:#8e6510;line-height:1;}
+.vrpg-qc-stat b{display:block;font-size:1.4rem;color:#0a4870;line-height:1;}
 .vrpg-qc-stat span{font-size:.6rem;letter-spacing:.15em;color:#a07c30;font-weight:700;margin-top:3px;display:block;}
 .vrpg-qc-close{
   display:block;width:100%;margin-top:16px;
