@@ -38,13 +38,13 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:90
   padding:11px 22px;border-radius:99px;cursor:pointer;transition:all .25s;
   display:flex;align-items:center;gap:8px;
 }
-.story-tab:hover{border-color:rgba(201,168,76,.4);color:#1e7fa4;}
+.story-tab:hover{border-color:rgba(41,182,232,.45);color:#1e7fa4;}
 .story-tab.active{background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border-color:var(--gold2);color:#1e7fa4;box-shadow:0 0 24px rgba(201,168,76,.2);}
 .story-tab.active.villainess{background:linear-gradient(135deg,rgba(240,160,200,.22),rgba(41,182,232,.12));border-color:var(--rose);color:var(--rose);box-shadow:0 0 24px rgba(240,160,200,.2);}
 
 .story-desc{
   text-align:center;font-size:.78rem;color:rgba(220,220,250,.65);
-  background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.18);border-radius:12px;
+  background:rgba(0,0,0,.25);border:1px solid rgba(41,182,232,.18);border-radius:12px;
   padding:12px 18px;max-width:680px;margin:0 auto 28px;line-height:1.85;
 }
 
@@ -66,8 +66,8 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:90
   background:radial-gradient(ellipse 60% 80% at 50% 0%, var(--accent-color, rgba(201,168,76,.15)) 0%, transparent 60%);
   opacity:.5;
 }
-.class-card:hover{transform:translateY(-4px);border-color:var(--accent-color, var(--gold2));box-shadow:0 12px 36px rgba(0,0,0,.5), 0 0 32px var(--accent-glow, rgba(201,168,76,.2));}
-.class-card.selected{border-color:var(--accent-color, var(--gold2));border-width:3px;box-shadow:0 0 40px var(--accent-glow, rgba(201,168,76,.4));}
+.class-card:hover{transform:translateY(-4px);border-color:var(--accent-color, var(--gold2));box-shadow:0 12px 36px rgba(0,0,0,.5), 0 0 32px var(--accent-glow, rgba(41,182,232,.20));}
+.class-card.selected{border-color:var(--accent-color, rgba(41,182,232,.7));border-width:3px;box-shadow:0 0 40px var(--accent-glow, rgba(41,182,232,.35));}
 .class-card.selected::after{
   content:'✓ 選択中';position:absolute;top:10px;right:10px;
   background:var(--accent-color, var(--gold2));color:#1a1200;font-size:.6rem;font-weight:900;
@@ -80,7 +80,7 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:90
   display:flex;align-items:center;justify-content:center;
   font-size:5rem;line-height:1;margin-bottom:10px;
   position:relative;z-index:1;
-  border:1.5px solid var(--accent-color, rgba(201,168,76,.3));
+  border:1.5px solid var(--accent-color, rgba(41,182,232,.30));
 }
 .cc-name{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;color:var(--accent-color, var(--gold2));margin-bottom:3px;text-align:center;position:relative;z-index:1;}
 .cc-title{font-size:.6rem;letter-spacing:.14em;color:#557190;text-transform:uppercase;text-align:center;margin-bottom:10px;position:relative;z-index:1;}
@@ -95,7 +95,7 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:90
 
 /* クラスごとのアクセントカラー */
 .class-card.witch    {--accent-color:#7fd8f4;--accent-glow:rgba(41,182,232,.3);}
-.class-card.hero     {--accent-color:#f0d48a;--accent-glow:rgba(240,212,138,.3);}
+.class-card.hero     {--accent-color:#29b6e8;--accent-glow:rgba(41,182,232,.3);}
 .class-card.saint    {--accent-color:#a8e8c0;--accent-glow:rgba(168,232,192,.3);}
 .class-card.villainess{--accent-color:#f0a0c8;--accent-glow:rgba(240,160,200,.3);}
 .class-card.prince   {--accent-color:#a8c8f0;--accent-glow:rgba(168,200,240,.3);}
@@ -104,7 +104,7 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:90
 .confirm-bar{
   position:fixed;bottom:0;left:0;right:0;
   background:linear-gradient(180deg, rgba(20,16,40,.92), rgba(8,6,20,.98));
-  backdrop-filter:blur(12px);border-top:1px solid rgba(201,168,76,.25);
+  backdrop-filter:blur(12px);border-top:1px solid rgba(41,182,232,.25);
   padding:14px 18px;display:flex;justify-content:center;align-items:center;gap:12px;
   z-index:100;flex-wrap:wrap;
 }
@@ -114,7 +114,7 @@ header a.brand{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:90
   background:linear-gradient(135deg, #c9a84c, #f0d48a);border:none;color:#1a1200;
   font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:900;
   padding:11px 28px;border-radius:12px;cursor:pointer;letter-spacing:.06em;
-  box-shadow:0 6px 20px rgba(201,168,76,.3);
+  box-shadow:0 6px 20px rgba(41,182,232,.25);
 }
 .confirm-btn:disabled{opacity:.4;cursor:not-allowed;}
 
