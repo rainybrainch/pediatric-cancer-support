@@ -119,7 +119,7 @@ body.vrpg-on::after{
     /* 微細パターン（紋章ドット） */
     radial-gradient(1px 1px at 12% 18%, rgba(30,127,164,.18) 0%, transparent 100%),
     radial-gradient(1px 1px at 78% 30%, rgba(30,127,164,.14) 0%, transparent 100%),
-    radial-gradient(1px 1px at 45% 60%, rgba(200,148,26,.14) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 60%, rgba(30,127,164,.14) 0%, transparent 100%),
     radial-gradient(1px 1px at 88% 78%, rgba(30,127,164,.16) 0%, transparent 100%);
 }
 
@@ -157,7 +157,7 @@ body.vrpg-density-off .vrpg-hero::before{ animation:none !important; opacity:0 !
   background:
     /* オーロラ風リボン */
     linear-gradient(90deg, transparent 0%, rgba(95,208,232,.18) 22%, transparent 40%),
-    linear-gradient(75deg, transparent 30%, rgba(240,197,72,.16) 55%, transparent 70%);
+    linear-gradient(75deg, transparent 30%, rgba(41,182,232,.12) 55%, transparent 70%);
   mix-blend-mode:screen;
   animation:vrpg-aurora 14s ease-in-out infinite alternate;
 }
