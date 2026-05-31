@@ -55,7 +55,7 @@
     { id:'lg1', name:'ヴィタリアの心', rarity:'legendary', icon:'💎', desc:'XP+200・ボスHP-50', effect:{xp:200, nextBossDmg:50} },
   ];
   const RARITY_WEIGHTS = { common:60, uncommon:25, rare:10, epic:4, legendary:1 };
-  const RARITY_COLORS = { common:'#8a9a8a', uncommon:'#5878a8', rare:'#9c72e0', epic:'#f0a040', legendary:'#f0d048' };
+  const RARITY_COLORS = { common:'#8a9a8a', uncommon:'#5878a8', rare:'#29b6e8', epic:'#f0a040', legendary:'#f0d048' };
 
   function rollLootDrop(){
     // 30%でドロップ
