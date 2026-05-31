@@ -14,9 +14,9 @@
   --vrpg-paper-2:    #eef6fb;
   --vrpg-paper-edge: #b6d3e3;
 
-  --vrpg-gold:       #c8941a;
-  --vrpg-gold-2:     #f0c548;
-  --vrpg-gold-3:     #8e6510;
+  --vrpg-gold:       #1e7fa4;
+  --vrpg-gold-2:     #29b6e8;
+  --vrpg-gold-3:     #0a4870;
 
   --vrpg-cyan:       #1e7fa4;
   --vrpg-cyan-2:     #5fd0e8;
@@ -343,7 +343,7 @@ body.vrpg-on .sh-rec-btn:active{
 .vrpg-fx-spark{
   position:fixed;z-index:8900;
   width:8px;height:8px;border-radius:50%;
-  background:radial-gradient(circle, #ffeaa0, #f0c548 60%, transparent 70%);
+  background:radial-gradient(circle, #b8ecff, #29b6e8 60%, transparent 70%);
   box-shadow:0 0 8px rgba(95,208,232,.7);
   pointer-events:none;
   animation:vrpg-spark-fly .9s ease-out forwards;
@@ -664,12 +664,12 @@ body.vrpg-on .sh-rec-btn:active{
 }
 .vrpg-bt-foe-name{
   font-family:'Noto Serif JP',serif;
-  font-size:1.05rem;font-weight:900;color:#f0d48a;
+  font-size:1.05rem;font-weight:900;color:#0a4870;
   letter-spacing:.06em;
-  text-shadow:0 0 12px rgba(240,212,138,.55);
+  text-shadow:none;
 }
 .vrpg-bt-foe-tag{
-  font-size:.6rem;letter-spacing:.2em;color:rgba(240,212,138,.7);font-weight:700;
+  font-size:.6rem;letter-spacing:.2em;color:rgba(41,182,232,.8);font-weight:700;
   text-transform:uppercase;margin-bottom:6px;
 }
 .vrpg-bt-foe-sprite{

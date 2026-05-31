@@ -271,7 +271,7 @@
     skip.id = 'skip-link';
     skip.href = '#main';
     skip.textContent = 'メインコンテンツへスキップ';
-    skip.style.cssText = `position:absolute;left:-9999px;top:0;z-index:9500;background:#f0d48a;color:#1a1200;padding:8px 14px;font-weight:700;border-radius:0 0 8px 0;text-decoration:none;`;
+    skip.style.cssText = `position:absolute;left:-9999px;top:0;z-index:9500;background:#1e7fa4;color:#fff;padding:8px 14px;font-weight:700;border-radius:0 0 8px 0;text-decoration:none;`;
     skip.addEventListener('focus', ()=>{ skip.style.left='0'; });
     skip.addEventListener('blur', ()=>{ skip.style.left='-9999px'; });
     document.addEventListener('DOMContentLoaded', ()=>{

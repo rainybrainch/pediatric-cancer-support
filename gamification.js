@@ -181,11 +181,11 @@
       <div style="text-align:center;width:100%;max-width:380px;">
         <div style="font-size:.6rem;letter-spacing:.22em;color:#f0a0a0;font-weight:900;margin-bottom:6px;">— BOSS BLITZ —</div>
         <h2 style="font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#fff;margin-bottom:16px;">30秒間タップ連打！</h2>
-        <div id="gm-mini-status" style="font-size:1rem;color:#f0d48a;margin-bottom:14px;font-family:'Noto Serif JP',serif;font-weight:900;">準備…</div>
+        <div id="gm-mini-status" style="font-size:1rem;color:#7fd8f4;margin-bottom:14px;font-family:'Noto Serif JP',serif;font-weight:900;">準備…</div>
         <div id="gm-mini-stage" style="position:relative;width:240px;height:240px;margin:0 auto 20px;background:radial-gradient(circle,rgba(224,92,92,.18),transparent);border:3px solid rgba(224,92,92,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;transition:transform .08s;">
           <img id="gm-mini-img" src="${boss.img||'./image/A1-Photoroom.png'}" style="width:80%;height:80%;object-fit:contain;pointer-events:none;">
         </div>
-        <div style="font-size:.85rem;color:rgba(220,225,245,.85);">タップ数: <strong id="gm-mini-count" style="font-size:1.4rem;color:#f0d48a;font-family:'Noto Serif JP',serif;">0</strong></div>
+        <div style="font-size:.85rem;color:rgba(220,225,245,.85);">タップ数: <strong id="gm-mini-count" style="font-size:1.4rem;color:#7fd8f4;font-family:'Noto Serif JP',serif;">0</strong></div>
         <div style="font-size:.85rem;color:rgba(220,225,245,.85);margin-top:4px;">ボーナス: <strong id="gm-mini-bonus" style="font-size:1.4rem;color:#a8e8c0;font-family:'Noto Serif JP',serif;">0</strong>pt</div>
         <button id="gm-mini-cancel" style="margin-top:16px;background:none;border:1px solid rgba(170,188,216,.3);color:rgba(170,188,216,.7);padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.7rem;">中止</button>
       </div>
