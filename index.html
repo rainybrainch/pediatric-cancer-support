@@ -255,6 +255,18 @@ body::before{
   transition:all .25s;
 }
 .btn-ghost:hover{border-color:#2845c8;color:#2845c8;}
+.btn-external{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  color:#2845c8;
+  border:1.5px solid #2845c8;
+  font-family:inherit;font-size:.9rem;font-weight:700;
+  padding:13px 28px;border-radius:99px;
+  text-decoration:none;
+  transition:all .25s;
+}
+.btn-external::after{content:'↗';font-size:.8em;opacity:.7;}
+.btn-external:hover{background:rgba(40,69,200,.06);transform:translateY(-2px);}
 /* スマホモックアップ（アプリプレビュー用） */
 .hero-mockup{
   display:flex;justify-content:center;align-items:center;
@@ -3906,7 +3918,7 @@ footer{
 
     <!-- #34 研究参加CTAボタン -->
     <div style="text-align:center;margin-top:36px;" class="reveal">
-      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" class="btn-study-cta">📧 研究参加のお問い合わせ</a>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" class="btn-external">📧 研究参加のお問い合わせ</a>
       <p style="font-size:.7rem;color:var(--muted);margin-top:10px;">メールにてご連絡ください。担当者よりご返信いたします。</p>
     </div>
   </div>
@@ -4178,7 +4190,7 @@ footer{
       </div>
     </div>
     <div style="text-align:center;margin-top:40px;">
-      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#1f4dc4,#2855d4);color:#fff;padding:13px 32px;border-radius:99px;font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:800;text-decoration:none;box-shadow:0 8px 24px -6px rgba(31,77,196,.4);transition:transform .25s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">📧 研究参加・お問い合わせはこちら</a>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" class="btn-external">📧 研究参加のお問い合わせ</a>
     </div>
   </div>
 </section>
@@ -4342,9 +4354,7 @@ footer{
         カイト・セラ・ルナ・ピクセが、12週間の冒険を共に歩みます。
       </p>
       <div style="display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-        <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#1a4dc4,#2855d4);border:1px solid rgba(40,100,200,.55);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:800;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 12px 28px -8px rgba(26,77,196,.5);transition:transform .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-          📧 お問い合わせはこちら
-        </a>
+        <a href="#contact" class="btn-primary">📧 お問い合わせへ</a>
       </div>
     </div>
 
@@ -4557,7 +4567,7 @@ footer{
       以下のお問い合わせ先までお気軽にご連絡ください。
     </p>
     <div class="cta-btns reveal">
-      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】お問い合わせ" class="btn-primary" style="font-size:1rem;">📧 お問い合わせはこちら</a>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】お問い合わせ" class="btn-external" style="font-size:1rem;">📧 お問い合わせはこちら</a>
     </div>
   </div>
   <div class="warning">
