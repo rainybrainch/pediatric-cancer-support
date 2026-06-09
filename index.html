@@ -86,15 +86,13 @@ body::before{
 }
 
 /* ========== NAV ========== */
-#research-banner{position:fixed;top:0;left:0;right:0;z-index:101;}
 #navbar{
-  position:fixed;top:37px;left:0;right:0;z-index:100;
-  background:rgba(14,20,52,.97);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(100,120,220,.2);
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:#0d1535 !important;
+  border-bottom:1px solid rgba(100,120,220,.3);
   padding:0 32px;
   display:flex;align-items:center;justify-content:space-between;
-  height:62px;
+  height:68px;
 }
 .logo{
   display:flex;align-items:center;gap:10px;
@@ -152,7 +150,7 @@ body::before{
 /* #11 モバイルメニュー top: バナー37px + ナビ62px = 99px */
 #mobile-menu{
   display:none;
-  position:fixed;top:99px;left:0;right:0;
+  position:fixed;top:68px;left:0;right:0;
   background:rgba(14,20,52,.99);
   border-bottom:1px solid rgba(100,120,220,.2);
   z-index:99;
@@ -679,7 +677,7 @@ section{position:relative;z-index:1;}
   height:100%;object-fit:contain;object-position:center bottom;
   width:auto;max-width:100%;
 }
-.trial-body{padding:24px 26px 28px;flex:1;display:flex;flex-direction:column;}
+.trial-body{padding:16px 18px 20px;flex:1;display:flex;flex-direction:column;}
 .trial-num{
   font-family:'Noto Serif JP',serif;
   font-size:3rem;font-weight:900;
@@ -1433,11 +1431,12 @@ footer{
   #research-banner .banner-long-text{display:none;}
   #research-banner{flex-wrap:nowrap;padding:5px 16px;}
   /* バナーが短くなるので navbar の top も下げる */
-  #navbar{padding:0 16px;top:32px;}
+  #navbar{padding:0 16px;top:0;}
   /* HERO の padding-top = navbar-top(32) + navbar-height(62) + 余白(26) */
   .hero{padding-top:130px;}
   .nav-links{display:none;}
   #menu-btn{display:block;}
+
 
   /* HERO: 1カラム、テキスト先頭・モックアップ後ろ */
   .hero{
@@ -1458,10 +1457,11 @@ footer{
   .hero-stats{justify-content:center;}
 
   /* その他レイアウト */
-  .trials-grid{grid-template-columns:1fr;}
-  .stat-grid,.study-grid{grid-template-columns:1fr;}
-  .flow-steps{grid-template-columns:1fr;gap:20px;}
-  .flow-steps::before{display:none;}
+  .trials-grid{grid-template-columns:repeat(3,1fr);}
+  .stat-grid{grid-template-columns:repeat(3,1fr);gap:12px;}
+  .study-grid{grid-template-columns:1fr 1fr;gap:12px;}
+  .flow-steps{grid-template-columns:repeat(3,1fr);gap:12px;}
+
   .message-inner{grid-template-columns:1fr!important;text-align:center;}
   .message-char img{max-width:160px;}
   .bubble-box::before,.bubble-box::after{display:none;}
@@ -2486,11 +2486,9 @@ a:focus-visible, button:focus-visible{
 
 /* ---------- ナビバー（メインヘッダー） ---------- */
 #navbar{
-  background: rgba(255,255,255,.78) !important;
-  backdrop-filter: saturate(180%) blur(22px);
-  -webkit-backdrop-filter: saturate(180%) blur(22px);
-  border-bottom: 1px solid rgba(80,100,160,.10) !important;
-  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 6px 24px -12px rgba(20,40,100,.12);
+  background: #0d1535 !important;
+  border-bottom: 1px solid rgba(100,120,220,.3) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,.3);
 }
 .logo-icon{
   background: linear-gradient(135deg, rgba(31,77,196,.10), rgba(106,74,224,.10));
@@ -2906,10 +2904,12 @@ a:focus-visible, button:focus-visible{
 .trial-link{
   color: #1f4dc4 !important;
   background: rgba(31,77,196,.06);
-  padding: 8px 16px;
+  padding: 7px 12px;
   border-radius: 99px;
   border: 1px solid rgba(31,77,196,.18);
   align-self: flex-start;
+  font-size: .76rem !important;
+  white-space: nowrap;
   transition: all .25s;
 }
 .trial-link:hover{ background: rgba(31,77,196,.12); border-color: rgba(31,77,196,.4); gap: 8px; }
@@ -3134,7 +3134,7 @@ footer{
   .hero-title{ font-size: clamp(1.6rem, 3vw, 2.4rem) !important; }
   .phone-frame{ width: 220px !important; }
 
-  .trials-grid{ grid-template-columns: 1fr 1fr !important; }
+  .trials-grid{ grid-template-columns: repeat(3,1fr) !important; }
   .trials-grid > :nth-child(3){
     grid-column: 1 / -1;
     max-width: 520px;
@@ -3165,7 +3165,7 @@ footer{
   #navbar{
     height: 60px !important;
     padding: 0 16px !important;
-    top: 32px !important;
+    top: 0 !important;
   }
   .logo-text{ font-size: .96rem !important; }
   .logo-icon{ width: 34px !important; height: 34px !important; font-size: .95rem !important; }
@@ -3196,8 +3196,8 @@ footer{
   .section-head{ margin-bottom: 36px !important; }
 
   /* グリッド */
-  .trials-grid{ grid-template-columns: 1fr !important; gap: 18px !important; }
-  .trial-card{ max-width: 480px; margin-left: auto; margin-right: auto; }
+  .trials-grid{ grid-template-columns: repeat(3,1fr) !important; gap: 10px !important; }
+  .trial-card{ max-width: 100%; }
   .stat-grid{ grid-template-columns: 1fr !important; gap: 14px !important; }
   .study-grid{ grid-template-columns: 1fr !important; gap: 14px !important; }
   .chars-grid{ grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
@@ -3216,8 +3216,7 @@ footer{
   .prologue-grid{ grid-template-columns: 1fr !important; gap: 24px !important; }
 
   /* フローステップ */
-  .flow-steps{ grid-template-columns: 1fr !important; gap: 20px; }
-  .flow-steps::before{ display: none; }
+  .flow-steps{ grid-template-columns: repeat(3,1fr) !important; gap: 8px; }
 
   /* GROWステップ */
   .steps{ grid-template-columns: 1fr 1fr !important; gap: 28px; }
@@ -3338,6 +3337,10 @@ footer{
 /* ---------- 共通：text-wrap pretty for long Japanese lines ---------- */
 .trial-title, .study-card-title, .str-title, .char-name, .cta-title{ text-wrap: pretty; }
 
+/* ---------- ナビ：常にハンバーガーに統一 ---------- */
+.nav-links{display:none !important;}
+#menu-btn{display:block !important;}
+
 </style>
 </head>
 <body>
@@ -3346,23 +3349,15 @@ footer{
 <a href="#top" class="skip-link">コンテンツへスキップ</a>
 
 <!-- ========== NAV ========== -->
-<!-- #21 研究バナー — パルスドット + 参加受付中 -->
-<div id="research-banner" style="background:rgba(14,18,32,.98);border-bottom:1px solid rgba(201,168,76,.2);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative;z-index:101;">
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-    <span style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:.6rem;font-weight:700;letter-spacing:.12em;padding:2px 10px;border-radius:4px;white-space:nowrap;">研究プロジェクト</span>
-    <span style="background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.35);color:#7ee8aa;font-size:.6rem;font-weight:700;padding:2px 10px;border-radius:4px;white-space:nowrap;"><span class="pulse-dot"></span>参加受付中</span>
-    <span class="banner-long-text" style="font-size:.7rem;color:rgba(170,188,216,.7);letter-spacing:.04em;">小児がん経験者の健康行動継続支援に関する研究 ／ 研究責任者：<strong style="color:rgba(201,168,76,.9);">福井 郁子</strong>（大学看護教員）</span>
-  </div>
-  <span class="banner-long-text" style="font-size:.62rem;color:rgba(170,188,216,.35);white-space:nowrap;">※ 本サイトは研究目的のツールです</span>
-</div>
-
 <nav id="navbar">
   <a href="#" class="logo">
     <div class="logo-icon">✦</div>
     <div>
       <span class="logo-text">ヴィタリア転生録</span>
-      <!-- #22 ロゴサブテキスト研究フォーカス -->
-      <span class="logo-sub">健康行動支援 研究プロジェクト</span>
+      <div style="display:flex;gap:5px;align-items:center;margin-top:2px;flex-wrap:wrap;">
+        <span style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:.52rem;font-weight:700;letter-spacing:.1em;padding:1px 7px;border-radius:4px;white-space:nowrap;">研究プロジェクト</span>
+        <span style="background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.35);color:#7ee8aa;font-size:.52rem;font-weight:700;padding:1px 7px;border-radius:4px;white-space:nowrap;"><span class="pulse-dot"></span>お問い合わせ受付中</span>
+      </div>
     </div>
   </a>
   <div class="nav-links">
@@ -3373,7 +3368,7 @@ footer{
     <a href="#grow">AIコーチング</a>
     <a href="#faq">FAQ</a>
     <a href="./research.html">詳細資料</a>
-    <a href="./game.html" class="btn-nav" style="background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.1));border-color:rgba(201,168,76,.5);color:#f0d48a;">⚔ 参加者ゲーム入口 →</a>
+    <a href="#contact" class="btn-nav" style="background:linear-gradient(135deg,rgba(40,100,200,.22),rgba(40,100,200,.1));border-color:rgba(40,100,200,.5);color:#a0c0f0;">📧 お問い合わせ</a>
   </div>
   <!-- #23 aria-label でアクセシビリティ向上 -->
   <button id="menu-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu">☰</button>
@@ -3387,7 +3382,7 @@ footer{
   <a href="#grow"            onclick="closeMobile()">AIコーチング</a>
   <a href="#faq"             onclick="closeMobile()">FAQ</a>
   <a href="./research.html"  onclick="closeMobile()">詳細資料</a>
-  <a href="./game.html" style="border-color:rgba(201,168,76,.5);color:#f0d48a;background:rgba(201,168,76,.08);" onclick="closeMobile()">⚔ 参加者ゲーム入口 →</a>
+  <a href="#contact" style="border-color:rgba(40,100,200,.5);color:#a0c0f0;background:rgba(40,100,200,.08);" onclick="closeMobile()">📧 お問い合わせ</a>
 </div>
 
 
@@ -3410,7 +3405,7 @@ footer{
     </p>
     <div class="hero-buttons">
       <a href="#study" class="btn-primary">🔬 研究概要・倫理情報を見る</a>
-      <a href="./game.html" class="btn-ghost" style="border-color:rgba(201,168,76,.4);color:#c9a84c;">⚔ 参加者はゲームへ →</a>
+      <a href="#contact" class="btn-ghost">📧 参加・お問い合わせ</a>
     </div>
     <div class="hero-stats" style="border-top:1px solid #d0daf0;">
       <div class="hero-stat">
@@ -3745,8 +3740,8 @@ footer{
   </div>
 
   <div style="text-align:center;margin-top:24px;position:relative;z-index:1;">
-    <a href="./game.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:12px 28px;color:#f0d48a;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .2s;">
-      ⚔ 実際にプレイしてみる →
+    <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(40,100,200,.2),rgba(40,100,200,.08));border:1px solid rgba(40,100,200,.4);border-radius:12px;padding:12px 28px;color:#a0c0f0;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .2s;">
+      📧 研究参加のお問い合わせ →
     </a>
   </div>
 </section>
@@ -3911,8 +3906,8 @@ footer{
 
     <!-- #34 研究参加CTAボタン -->
     <div style="text-align:center;margin-top:36px;" class="reveal">
-      <a href="./game.html" class="btn-study-cta">🔬 研究に参加する（無料・登録3分）</a>
-      <p style="font-size:.7rem;color:var(--muted);margin-top:10px;">参加登録はメールアドレスのみ。いつでも退会可。</p>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" class="btn-study-cta">📧 研究参加のお問い合わせ</a>
+      <p style="font-size:.7rem;color:var(--muted);margin-top:10px;">メールにてご連絡ください。担当者よりご返信いたします。</p>
     </div>
   </div>
 </section>
@@ -4027,8 +4022,7 @@ footer{
 
       <div class="trial-card reveal">
         <div class="trial-img">
-          <!-- #38 loading lazy for non-hero images -->
-          <img src="./image/kaito-2-Photoroom.png" alt="カイト — 運動クエスト" loading="lazy">
+          <video src="./image/kaito-stay.mp4" autoplay loop muted playsinline style="height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom;display:block;margin:0 auto;will-change:transform;transform:translateZ(0);"></video>
         </div>
         <div class="trial-body">
           <span class="trial-num">01</span>
@@ -4038,13 +4032,12 @@ footer{
             「道具なし・細切れ10分でもOK！」カイトが一緒に鍛えてくれる。<br>
             アメリカがん協会推奨の週150〜300分を、無理なく達成するためのプランをAIが提案。
           </p>
-          <a href="./quest.html" class="trial-link">クエストを始める →</a>
         </div>
       </div>
 
       <div class="trial-card reveal" style="transition-delay:.1s">
         <div class="trial-img">
-          <img src="./image/sera-2-Photoroom.png" alt="セラ — 栄養クエスト" loading="lazy">
+          <video src="./image/sera-stay.mp4" autoplay loop muted playsinline style="height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom;display:block;margin:0 auto;will-change:transform;transform:translateZ(0);"></video>
         </div>
         <div class="trial-body">
           <span class="trial-num">02</span>
@@ -4055,13 +4048,12 @@ footer{
             カラフルな野菜・魚を日々の食卓に。物価高でも続けられるコツをAIがナビゲート。
           </p>
           <!-- #36 栄養カードのリンクテキスト統一 -->
-          <a href="./nutrition.html" class="trial-link">クエストを始める →</a>
         </div>
       </div>
 
       <div class="trial-card reveal" style="transition-delay:.2s">
         <div class="trial-img">
-          <img src="./image/runa-2-Photoroom.png" alt="ルナ — AIコーチング" loading="lazy">
+          <video src="./image/runa-stay.mp4" autoplay loop muted playsinline style="height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom;display:block;margin:0 auto;will-change:transform;transform:translateZ(0);"></video>
         </div>
         <div class="trial-body">
           <span class="trial-num">03</span>
@@ -4071,7 +4063,6 @@ footer{
             GROWモデルによる構造化対話。批判なし・評価なし。<br>
             「現状→過去→変えたい行動→目標」の4ステップで、あなただけの答えを見つける。
           </p>
-          <a href="./game.html" class="trial-link">コーチングを始める →</a>
         </div>
       </div>
 
@@ -4110,17 +4101,7 @@ footer{
           <p class="char-desc">
             ヴィタリアの月光を統べる賢者。転生した者を最初に迎える案内役として、AIコーチとして対話相手を務める。批判せず、ありのままを受け止め、あなた自身が答えを見つけるまで寄り添う。
           </p>
-          <div class="char-faces">
-            <div><div class="face-sprite"><img src="./image/runa-sabun%20(1).png" alt="通常" loading="lazy"></div><div class="face-label">通常</div></div>
-            <div><div class="face-sprite"><img src="./image/runa-sabun%20(2).png" alt="喜び" loading="lazy"></div><div class="face-label">喜び</div></div>
-            <div><div class="face-sprite"><img src="./image/runa-sabun%20(3).png" alt="目閉じ" loading="lazy"></div><div class="face-label">目閉じ</div></div>
-            <div><div class="face-sprite"><img src="./image/runa-sabun%20(4).png" alt="照れ" loading="lazy"></div><div class="face-label">照れ</div></div>
-            <div><div class="face-sprite"><img src="./image/runa-sabun%20(5).png" alt="驚き" loading="lazy"></div><div class="face-label">驚き</div></div>
-            <div><div class="face-sprite"><img src="./image/runa-sabun%20(6).png" alt="真剣" loading="lazy"></div><div class="face-label">真剣</div></div>
-          </div>
           <div class="char-quote">「あなたの前世の勇気は、ここでも確かに輝いています」</div>
-          <div class="char-hover-quote" data-char="luna"></div>
-          <a href="./ai-coach/index.html" class="char-link">✦ コーチングを受ける →</a>
         </div>
       </div>
 
@@ -4144,16 +4125,7 @@ footer{
           <p class="char-desc">
             ヴィタリアの若き剣士。「身体強化の試練」を担当し、週の運動習慣づくりへと導く。「細切れでいい、まず動こう」という信念を持ち、無理のないペースで一緒に鍛えてくれる。
           </p>
-          <div class="char-faces">
-            <div><div class="face-sprite"><img src="./image/kaito-sabun%20(1).png" alt="笑顔" loading="lazy"></div><div class="face-label">笑顔</div></div>
-            <div><div class="face-sprite"><img src="./image/kaito-sabun%20(3).png" alt="拗ね" loading="lazy"></div><div class="face-label">拗ね</div></div>
-            <div><div class="face-sprite"><img src="./image/kaito-sabun%20(4).png" alt="思案" loading="lazy"></div><div class="face-label">思案</div></div>
-            <div><div class="face-sprite"><img src="./image/kaito-sabun%20(5).png" alt="驚き" loading="lazy"></div><div class="face-label">驚き</div></div>
-            <div><div class="face-sprite"><img src="./image/kaito-sabun%20(6).png" alt="照れ" loading="lazy"></div><div class="face-label">照れ</div></div>
-          </div>
           <div class="char-quote">「細切れでもOK！一緒に動けば、絶対強くなれる！」</div>
-          <div class="char-hover-quote" data-char="kaito"></div>
-          <a href="./quest.html" class="char-link">⚔ 運動クエストへ →</a>
         </div>
       </div>
 
@@ -4177,16 +4149,7 @@ footer{
           <p class="char-desc">
             植物魔法を研究する賢者の弟子。「魔力回復の試練」として食・栄養習慣のクエストを担当。「食べることは魔法の補充」という独自理論で、楽しみながら食習慣を整えるヒントをくれる。
           </p>
-          <div class="char-faces">
-            <div><div class="face-sprite"><img src="./image/sera-sabun%20(1).png" alt="通常" loading="lazy"></div><div class="face-label">通常</div></div>
-            <div><div class="face-sprite"><img src="./image/sera-sabun%20(3).png" alt="集中" loading="lazy"></div><div class="face-label">集中</div></div>
-            <div><div class="face-sprite"><img src="./image/sera-sabun%20(4).png" alt="真剣" loading="lazy"></div><div class="face-label">真剣</div></div>
-            <div><div class="face-sprite"><img src="./image/sera-sabun%20(5).png" alt="驚き" loading="lazy"></div><div class="face-label">驚き</div></div>
-            <div><div class="face-sprite"><img src="./image/sera-sabun%20(6).png" alt="眠そう" loading="lazy"></div><div class="face-label">眠そう</div></div>
-          </div>
           <div class="char-quote">「食べることは魔力の補充。一緒に錬金術を学ぼう」</div>
-          <div class="char-hover-quote" data-char="sera"></div>
-          <a href="./nutrition.html" class="char-link">🌿 栄養の試練へ →</a>
         </div>
       </div>
 
@@ -4210,20 +4173,12 @@ footer{
           <p class="char-desc">
             古代の森に住む小さな妖精。冒険の記録係として旅人に寄り添い、メンタルケアを担当する。失敗を責めない性格で、「またやってみよう」と笑顔で背中を押してくれる存在。
           </p>
-          <div class="char-faces">
-            <div><div class="face-sprite"><img src="./image/pikuse-sabun%20(1).png" alt="大喜び" loading="lazy"></div><div class="face-label">大喜び</div></div>
-            <div><div class="face-sprite"><img src="./image/pikuse-sabun%20(2).png" alt="驚き" loading="lazy"></div><div class="face-label">驚き</div></div>
-            <div><div class="face-sprite"><img src="./image/pikuse-sabun%20(3).png" alt="怒り" loading="lazy"></div><div class="face-label">怒り</div></div>
-            <div><div class="face-sprite"><img src="./image/pikuse-sabun%20(4).png" alt="悲しみ" loading="lazy"></div><div class="face-label">悲しみ</div></div>
-            <div><div class="face-sprite"><img src="./image/pikuse-sabun%20(5).png" alt="疑問" loading="lazy"></div><div class="face-label">疑問</div></div>
-            <div><div class="face-sprite"><img src="./image/pikuse-sabun%20(6).png" alt="眠い" loading="lazy"></div><div class="face-label">眠い</div></div>
-          </div>
           <div class="char-quote">「ぴくっ！サボっても怒らないよ。また一緒に始めよ？」</div>
-          <div class="char-hover-quote" data-char="pixe"></div>
-          <a href="./quest.html" class="char-link">🌟 クエストへ →</a>
         </div>
       </div>
-
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#1f4dc4,#2855d4);color:#fff;padding:13px 32px;border-radius:99px;font-family:'Noto Serif JP',serif;font-size:.92rem;font-weight:800;text-decoration:none;box-shadow:0 8px 24px -6px rgba(31,77,196,.4);transition:transform .25s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">📧 研究参加・お問い合わせはこちら</a>
     </div>
   </div>
 </section>
@@ -4387,8 +4342,8 @@ footer{
         カイト・セラ・ルナ・ピクセが、12週間の冒険を共に歩みます。
       </p>
       <div style="display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-        <a href="./game.html" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#b07a1a,#d99b2b);border:1px solid rgba(201,168,76,.55);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:800;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 12px 28px -8px rgba(176,122,26,.5);transition:transform .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-          ⚔ 冒険を始める
+        <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のお問い合わせ" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#1a4dc4,#2855d4);border:1px solid rgba(40,100,200,.55);color:#fff;padding:13px 28px;border-radius:99px;font-family:'Noto Serif JP',serif;font-size:.88rem;font-weight:800;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 12px 28px -8px rgba(26,77,196,.5);transition:transform .25s,box-shadow .25s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+          📧 研究参加のお問い合わせ
         </a>
         <a href="#research" style="display:inline-flex;align-items:center;gap:8px;background:rgba(220,200,255,.08);border:1px solid rgba(220,200,255,.25);backdrop-filter:blur(10px);color:rgba(220,210,250,.9);padding:13px 24px;border-radius:99px;font-size:.84rem;font-weight:700;text-decoration:none;transition:all .25s;" onmouseover="this.style.background='rgba(220,200,255,.15)'" onmouseout="this.style.background='rgba(220,200,255,.08)'">
           🎓 研究者のメッセージを読む →
@@ -4597,19 +4552,21 @@ footer{
     <div class="cta-bubble">「ぴくっ！待ってたよ！一緒に冒険しよ！」</div>
     <span class="cta-arrow">▼</span>
     <!-- #39 CTAタイトル研究フレーミング -->
-    <h2 class="cta-title reveal">
-      あなたの<span class="accent">参加</span>が、<br>研究を動かす。
+    <h2 class="cta-title reveal" id="contact">
+      研究への<span class="accent">参加・お問い合わせ</span>
     </h2>
     <p class="cta-desc reveal">
-      登録無料・いつでも退会OK・参加3分。<br>
-      あなたの記録が、未来の小児がん経験者を支えるエビデンスになります。
+      研究参加のご希望・共同研究のご相談・資料請求など、<br>
+      以下のお問い合わせ先までお気軽にご連絡ください。
     </p>
     <div class="cta-btns reveal">
-      <a href="./game.html" class="btn-primary" style="background:linear-gradient(135deg,rgba(201,168,76,.28),rgba(201,168,76,.12));border-color:rgba(201,168,76,.5);color:#f0d48a;">⚔ 参加者はゲームへ →</a>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のご相談" class="btn-primary" style="font-size:1rem;">🔬 研究参加のご相談はこちら</a>
       <a href="./research.html" class="btn-ghost">📄 研究者向け詳細資料 →</a>
     </div>
     <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px;">
-      <span class="cta-entry cta-entry-purple" style="opacity:.5;">📧 研究者・共同研究のお問い合わせ（連絡先準備中）</span>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】研究参加のご相談" class="cta-entry cta-entry-purple" style="text-decoration:none;">🔬 研究参加のご相談</a>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】共同研究のご提案" class="cta-entry cta-entry-purple" style="text-decoration:none;">🤝 共同研究のご提案</a>
+      <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】資料請求" class="cta-entry cta-entry-purple" style="text-decoration:none;">📚 資料請求</a>
     </div>
   </div>
   <div class="warning">
@@ -4636,14 +4593,11 @@ footer{
     <a href="#grow">冒険の手引き</a>
     <a href="#study">研究概要</a>
     <a href="./research.html">研究について</a>
-    <a href="./quest.html">健康クエスト</a>
-    <a href="./nutrition.html">栄養クエスト</a>
-    <a href="./game.html">ゲームを始める</a>
-    <!-- 管理者リンク（研究者用） -->
-    <a href="./admin.html" style="opacity:.4;font-size:.68rem;">管理者</a>
+    <a href="#contact">お問い合わせ</a>
+    <a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】お問い合わせ">お問い合わせ</a>
   </div>
   <p class="footer-note">
-    研究代表者：福井 郁子（看護学 ／ 大学教員） ／ 連絡先：準備中<br>
+    研究代表者：福井 郁子（看護学 ／ 大学教員） ／ 連絡先：<a href="mailto:ikuko-fukui@ks.kyorin-u.ac.jp?subject=【ヴィタリア転生録】お問い合わせ" style="color:inherit;text-decoration:underline;">ikuko-fukui@ks.kyorin-u.ac.jp</a><br>
     ⚠️ このサービスはAIによるコーチングです。医療診断・治療は行いません。<br>
     キャラクターはAI技術（Google Gemini）により生成されています。<br>
     <!-- 著作権年修正 2025→2025-2026 -->
