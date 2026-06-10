@@ -14,10 +14,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#c8e4f4;--bg2:#c8e4f4;--bg3:#141929;
-  --gold:#1e7fa4;--gold2:#7fd8f4;
-  --silver:#aabcd8;--text:#d4dcf0;--muted:#6070a0;
-  --green:#4ec98a;--purple:#29b6e8;--red:#e05c5c;--orange:#e08a3c;
+  --bg:#0c2240;--bg2:#103458;--bg3:#141929;
+  --gold:#f0d48a;--gold2:#7fd8f4;
+  --silver:#aabcd8;--text:#e4f0fc;--muted:#88a4c8;
+  --green:#4ec98a;--purple:#9c72e0;--red:#e05c5c;--orange:#e08a3c;
   --blue:#5c8cd4;
   /* 栄養ステータスカラー */
   --hp:#e05c5c;    /* 生命力（野菜） */
@@ -27,7 +27,7 @@
   --debuff:#6070a0;/* 毒素（制限食品） */
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:linear-gradient(180deg,#0c2240,#103458,#1a4870);color:var(--text);min-height:100vh;overflow-x:hidden;}
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
@@ -348,9 +348,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .fc-veg .f-unit{color:rgba(224,92,92,.7);}
 .fc-veg .f-count{background:var(--hp);}
 
-.fc-fruit{border-color:rgba(41,182,232,rgba(41,182,232,.22)_tmp;}
-.fc-fruit:hover{border-color:rgba(41,182,232,rgba(41,182,232,.55)_tmp;background:rgba(41,182,232,rgba(41,182,232,.07)_tmp;box-shadow:0 4px 14px rgba(41,182,232,rgba(41,182,232,.1)_tmp;}
-.fc-fruit .f-unit{color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;}
+.fc-fruit{border-color:rgba(41,182,232,.22);}
+.fc-fruit:hover{border-color:rgba(41,182,232,.55);background:rgba(41,182,232,.07);box-shadow:0 4px 14px rgba(41,182,232,.1);}
+.fc-fruit .f-unit{color:rgba(41,182,232,.7);}
 .fc-fruit .f-count{background:var(--mp);}
 
 .fc-protein{border-color:rgba(224,138,60,.22);}
@@ -474,7 +474,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .menu-card-tags{display:flex;flex-wrap:wrap;gap:4px;}
 .menu-tag{display:inline-flex;align-items:center;gap:2px;font-size:.6rem;padding:2px 6px;border-radius:5px;font-weight:600;}
 .menu-tag-veg{background:rgba(224,92,92,.1);color:rgba(245,160,140,.9);border:1px solid rgba(224,92,92,.18);}
-.menu-tag-fruit{background:rgba(41,182,232,rgba(41,182,232,.1)_tmp;color:rgba(200,165,240,.9);border:1px solid rgba(41,182,232,rgba(41,182,232,.18)_tmp;}
+.menu-tag-fruit{background:rgba(41,182,232,.1);color:rgba(200,165,240,.9);border:1px solid rgba(41,182,232,.18);}
 .menu-tag-protein{background:rgba(224,138,60,.1);color:rgba(240,185,125,.9);border:1px solid rgba(224,138,60,.18);}
 .menu-tag-grain{background:rgba(78,201,138,.1);color:rgba(160,230,190,.9);border:1px solid rgba(78,201,138,.18);}
 .menu-card-btn{width:100%;padding:6px;border-radius:7px;background:linear-gradient(90deg,rgba(41,182,232,.14),rgba(41,182,232,.06));border:1px solid rgba(41,182,232,.25);color:#1e7fa4;font-family:inherit;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .2s;}
@@ -669,7 +669,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #coach-fab{
   position:fixed;bottom:76px;right:20px;z-index:150;
   background:linear-gradient(135deg,#3e2080,#5c30b0);
-  border:1.5px solid rgba(41,182,232,rgba(41,182,232,.5)_tmp;border-radius:50px;
+  border:1.5px solid rgba(41,182,232,.5);border-radius:50px;
   padding:10px 18px 10px 12px;
   display:none;align-items:center;gap:8px;
   cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;
@@ -692,7 +692,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   width:400px;max-width:calc(100vw - 32px);
   height:600px;max-height:calc(100vh - 32px);
   background:#c8e4f4;
-  border:1px solid rgba(41,182,232,rgba(41,182,232,.4)_tmp;border-radius:20px;
+  border:1px solid rgba(41,182,232,.4);border-radius:20px;
   overflow:hidden;display:flex;flex-direction:column;
   box-shadow:0 24px 64px rgba(0,0,0,.8);
   animation:modalIn .35s cubic-bezier(.22,1,.36,1);
@@ -700,11 +700,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .coach-ph{
   display:flex;align-items:center;gap:10px;padding:12px 16px;
   background:rgba(12,14,28,.98);
-  border-bottom:1px solid rgba(41,182,232,rgba(41,182,232,.2)_tmp;flex-shrink:0;
+  border-bottom:1px solid rgba(41,182,232,.2);flex-shrink:0;
 }
 .coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(41,182,232,.4);}
 .coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(41,182,232,.95);}
-.coach-ph-sub{font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;letter-spacing:.06em;}
+.coach-ph-sub{font-size:.6rem;color:rgba(41,182,232,.7);letter-spacing:.06em;}
 #coach-close{background:none;border:none;color:rgba(30,80,110,.7);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
 #coach-close:hover{color:rgba(30,80,110,.7);}
 .coach-iframe{flex:1;border:none;width:100%;background:#c8e4f4;}
@@ -746,7 +746,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .sr-xp.neg{background:rgba(224,92,92,.1);color:rgba(240,140,140,.8);border:1px solid rgba(224,92,92,.18);}
 .sr-cat-badge{font-size:.55rem;padding:1px 6px;border-radius:4px;font-weight:700;flex-shrink:0;}
 .sr-cat-veg    {background:rgba(224,92,92,.1);  color:rgba(245,160,140,.9);}
-.sr-cat-fruit  {background:rgba(41,182,232,rgba(41,182,232,.1)_tmp;color:rgba(200,165,240,.9);}
+.sr-cat-fruit  {background:rgba(41,182,232,.1);color:rgba(200,165,240,.9);}
 .sr-cat-protein{background:rgba(224,138,60,.1); color:rgba(240,185,125,.9);}
 .sr-cat-grain  {background:rgba(78,201,138,.1); color:rgba(160,230,190,.9);}
 .sr-cat-limit  {background:rgba(96,112,160,.1); color:rgba(30,80,110,.7);}
@@ -1329,7 +1329,7 @@ setTimeout(function(){
           <li>・ AIコーチ「ルナ」との会話内容（任意利用）</li>
         </ul>
       </div>
-      <div style="background:rgba(41,182,232,rgba(41,182,232,.08)_tmp;border:1px solid rgba(41,182,232,rgba(41,182,232,.25)_tmp;border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="background:rgba(41,182,232,.08);border:1px solid rgba(41,182,232,.25);border-radius:10px;padding:14px;margin-bottom:12px;">
         <p style="font-weight:700;color:#7fd8f4;margin-bottom:8px;">外部サービスへの送信について</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.74rem;">
           <li>・ 食事写真の自動認識・AIコーチング機能では、入力データを <strong>Google Gemini API</strong> に送信して応答を生成します</li>
@@ -1536,7 +1536,7 @@ setTimeout(function(){
       <!-- 果物 -->
       <div class="board-section">
         <div class="section-head">
-          <div class="section-icon" style="background:rgba(41,182,232,rgba(41,182,232,.15)_tmp;border:1px solid rgba(41,182,232,rgba(41,182,232,.35)_tmp;">🍎</div>
+          <div class="section-icon" style="background:rgba(41,182,232,.15);border:1px solid rgba(41,182,232,.35);">🍎</div>
           <div>
             <div class="section-label">果物の魔法素材</div>
             <div class="section-note">1タップ＝1皿（150g）｜ 魔力UP ｜ 目標: 1日1.5皿・週10皿</div>

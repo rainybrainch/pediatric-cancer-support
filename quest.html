@@ -14,13 +14,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#c8e4f4; --bg2:#c8e4f4; --bg3:#141929;
-  --gold:#1e7fa4; --gold2:#7fd8f4;
-  --silver:#aabcd8; --text:#d4dcf0; --muted:#6070a0;
-  --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
+  --bg:#0c2240; --bg2:#103458; --bg3:#141929;
+  --gold:#f0d48a; --gold2:#7fd8f4;
+  --silver:#aabcd8; --text:#e4f0fc; --muted:#88a4c8;
+  --green:#4ec98a; --purple:#9c72e0; --red:#e05c5c; --orange:#e08a3c;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:linear-gradient(180deg,#0c2240,#103458,#1a4870);color:var(--text);min-height:100vh;overflow-x:hidden;}
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
@@ -107,11 +107,18 @@ body::before{
 /* 目標達成バナー */
 #goal-banner{
   position:fixed;top:0;left:0;right:0;z-index:350;
-  background:linear-gradient(90deg,rgba(41,182,232,.9),rgba(127,216,244,.95),rgba(41,182,232,.9));
-  color:#1a1200;text-align:center;
-  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.88rem;letter-spacing:.1em;
-  padding:10px;
-  transform:translateY(-100%);transition:transform .5s cubic-bezier(.22,1,.36,1);
+  background:linear-gradient(90deg,rgba(10,24,55,.96),rgba(20,48,90,.98),rgba(10,24,55,.96));
+  border-bottom:1px solid rgba(240,212,138,.4);
+  text-align:center;
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:.9rem;letter-spacing:.12em;
+  padding:12px 16px;
+  transform:translateY(-100%);transition:transform .55s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 4px 32px rgba(240,212,138,.18);
+}
+#goal-banner .gbnr-text{
+  background:linear-gradient(135deg,#f0d48a,#5fd0e8,#f0d48a);background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 3s linear infinite;
 }
 #goal-banner.show{transform:translateY(0);}
 .confetti-piece{
@@ -132,19 +139,19 @@ body::before{
   font-weight:900;margin-bottom:4px;
 }
 .km-subtitle{
-  text-align:center;font-size:.75rem;color:rgba(30,80,110,.7);
+  text-align:center;font-size:.75rem;color:rgba(136,164,200,.75);
   margin-bottom:22px;letter-spacing:.05em;
 }
-.km-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(41,182,232,.3),transparent);margin-bottom:20px;}
+.km-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(95,208,232,.35),transparent);margin-bottom:20px;}
 .km-theme{
-  display:inline-block;background:rgba(41,182,232,.1);border:1px solid rgba(41,182,232,.25);
-  color:#1e7fa4;font-size:.65rem;font-weight:700;letter-spacing:.1em;
+  display:inline-block;background:rgba(95,208,232,.1);border:1px solid rgba(95,208,232,.3);
+  color:#5fd0e8;font-size:.65rem;font-weight:700;letter-spacing:.1em;
   padding:3px 10px;border-radius:999px;margin-bottom:12px;
 }
 .km-body{
-  font-size:.82rem;line-height:1.85;color:#1a4860;margin-bottom:16px;
+  font-size:.82rem;line-height:1.85;color:rgba(196,220,244,.9);margin-bottom:16px;
 }
-.km-body strong{color:#1e7fa4;}
+.km-body strong{color:#f0d48a;}
 .km-source{
   font-size:.63rem;color:rgba(30,80,110,.7);border-top:1px solid rgba(255,255,255,.06);
   padding-top:10px;margin-top:4px;
@@ -447,16 +454,124 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .level-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .lv-badge{
   display:inline-flex;align-items:center;gap:4px;
-  background:rgba(41,182,232,.12);border:1px solid rgba(41,182,232,.32);
+  background:rgba(240,212,138,.12);border:1px solid rgba(240,212,138,.35);
   border-radius:999px;padding:3px 12px;
-  font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;color:#1e7fa4;
+  font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;
+  color:#f0d48a;text-shadow:0 0 8px rgba(240,212,138,.4);
 }
 .lv-badge.anim{animation:levelup .5s ease;}
 .lv-badge .lv-n{font-size:1rem;}
-.xp-wrap{background:rgba(255,255,255,.05);border-radius:999px;height:10px;overflow:hidden;margin-bottom:4px;}
-.xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#7fd8f4);transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(41,182,232,.45);}
-.xp-note{font-size:.65rem;color:rgba(30,80,110,.7);display:flex;justify-content:space-between;}
-.xp-note strong{color:#1e7fa4;}
+.xp-wrap{background:rgba(255,255,255,.05);border-radius:999px;height:10px;overflow:hidden;margin-bottom:4px;position:relative;}
+.xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#5fd0e8,#9ce8f4,#f0d48a);background-size:200% auto;animation:shimmer 3s linear infinite;transition:width .6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px rgba(95,208,232,.55),0 0 20px rgba(240,212,138,.2);}
+.xp-note{font-size:.65rem;color:rgba(136,164,200,.7);display:flex;justify-content:space-between;}
+.xp-note strong{color:#5fd0e8;}
+/* XP取得フロート */
+.xp-float{
+  position:fixed;pointer-events:none;z-index:5500;
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:1.1rem;
+  color:#f0d48a;text-shadow:0 0 12px rgba(240,212,138,.8),0 0 24px rgba(240,212,138,.4);
+  animation:xpFloatUp 1.6s ease-out forwards;
+}
+@keyframes xpFloatUp{
+  0%{opacity:0;transform:translateY(0) scale(.7);}
+  15%{opacity:1;transform:translateY(-8px) scale(1.1);}
+  70%{opacity:1;transform:translateY(-50px) scale(1);}
+  100%{opacity:0;transform:translateY(-80px) scale(.9);}
+}
+/* ===== ボス討伐セレモニー ===== */
+#boss-defeat-ceremony{
+  position:fixed;inset:0;z-index:8000;
+  background:rgba(4,8,20,.96);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;text-align:center;
+}
+#boss-defeat-ceremony.show{display:flex;animation:ceremonyIn .6s cubic-bezier(.22,1,.36,1);}
+@keyframes ceremonyIn{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+.cer-subtitle{font-size:.6rem;letter-spacing:.25em;color:rgba(95,208,232,.7);font-weight:700;margin-bottom:16px;text-transform:uppercase;}
+.cer-icon{font-size:5rem;line-height:1;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(240,212,138,.5));animation:cerIconFloat 3s ease-in-out infinite;}
+@keyframes cerIconFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-12px) scale(1.05);}}
+.cer-boss-name{
+  font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;
+  background:linear-gradient(135deg,#f0d48a,#5fd0e8,#f0d48a);background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 2s linear infinite;margin-bottom:4px;letter-spacing:.05em;
+}
+.cer-defeated-text{font-size:.75rem;color:rgba(95,208,232,.8);letter-spacing:.15em;margin-bottom:28px;}
+.cer-rewards{display:flex;gap:16px;margin-bottom:28px;flex-wrap:wrap;justify-content:center;}
+.cer-reward-card{
+  background:linear-gradient(160deg,rgba(240,212,138,.12),rgba(95,208,232,.08));
+  border:1px solid rgba(240,212,138,.3);border-radius:14px;padding:14px 20px;
+  min-width:100px;
+}
+.cer-reward-icon{font-size:1.5rem;margin-bottom:6px;}
+.cer-reward-value{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:#f0d48a;}
+.cer-reward-label{font-size:.55rem;color:rgba(136,164,200,.7);letter-spacing:.08em;margin-top:2px;}
+.cer-msg{
+  font-size:.82rem;line-height:1.8;color:rgba(196,220,244,.9);
+  background:rgba(255,255,255,.03);border:1px solid rgba(95,208,232,.12);
+  border-radius:12px;padding:14px 20px;max-width:320px;margin-bottom:28px;
+}
+.cer-btn{
+  background:linear-gradient(135deg,#f0d48a,#e0a830);border:none;border-radius:12px;
+  padding:14px 40px;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
+  color:#1a1200;cursor:pointer;letter-spacing:.06em;
+  box-shadow:0 8px 28px rgba(240,212,138,.35);transition:opacity .15s,transform .15s;
+}
+.cer-btn:hover{opacity:.9;transform:translateY(-2px);}
+.cer-milestone{
+  background:linear-gradient(135deg,rgba(156,114,224,.15),rgba(95,208,232,.1));
+  border:1px solid rgba(156,114,224,.4);border-radius:12px;
+  padding:10px 20px;margin-bottom:20px;font-size:.8rem;color:#c09ce0;
+  display:none;
+}
+.cer-milestone.show{display:block;}
+/* ボスヒットシェイク */
+@keyframes bossHit{
+  0%,100%{transform:translateX(0);}
+  15%{transform:translateX(-5px) scale(1.02);}
+  35%{transform:translateX(5px) scale(.99);}
+  55%{transform:translateX(-3px);}
+  75%{transform:translateX(3px);}
+}
+.boss-hit{animation:bossHit .4s ease!important;}
+/* ボス討伐バナー */
+.boss-defeated-inner{
+  text-align:center;padding:16px 8px;
+  background:linear-gradient(160deg,rgba(95,208,232,.08),rgba(240,212,138,.06));
+  border:1px solid rgba(95,208,232,.25);border-radius:14px;
+  position:relative;overflow:hidden;
+}
+.boss-defeated-inner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(240,212,138,.15),transparent 60%);
+}
+.boss-defeated-title{
+  font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;
+  background:linear-gradient(135deg,#f0d48a,#5fd0e8,#f0d48a);background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 3s linear infinite;letter-spacing:.05em;margin-bottom:6px;
+}
+.boss-defeated-sub{font-size:.65rem;color:rgba(95,208,232,.8);letter-spacing:.08em;}
+/* 討伐バッジパネル */
+.badge-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.boss-badge{
+  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;border:1px solid rgba(95,208,232,.2);background:rgba(255,255,255,.03);
+  position:relative;cursor:default;transition:transform .15s;
+}
+.boss-badge.defeated{
+  background:linear-gradient(135deg,rgba(240,212,138,.15),rgba(95,208,232,.1));
+  border-color:rgba(240,212,138,.4);
+  filter:drop-shadow(0 0 6px rgba(240,212,138,.3));
+}
+.boss-badge:not(.defeated){filter:grayscale(1);opacity:.35;}
+.boss-badge-tooltip{
+  position:absolute;bottom:110%;left:50%;transform:translateX(-50%);
+  background:rgba(8,16,36,.95);border:1px solid rgba(95,208,232,.25);
+  border-radius:8px;padding:5px 10px;font-size:.6rem;white-space:nowrap;
+  color:#c8dff0;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;
+}
+.boss-badge:hover .boss-badge-tooltip{opacity:1;}
 
 /* 研究指標 */
 .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
@@ -505,7 +620,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .li-icon{font-size:.85rem;flex-shrink:0;}
 .li-name{flex:1;font-size:.72rem;color:var(--silver);line-height:1.3;}
 .li-sub{font-size:.6rem;color:rgba(30,80,110,.7);}
-.li-xp{font-size:.68rem;font-weight:700;color:#1e7fa4;flex-shrink:0;}
+.li-xp{font-size:.68rem;font-weight:700;color:#f0d48a;flex-shrink:0;text-shadow:0 0 6px rgba(240,212,138,.4);}
 .li-del{
   background:none;border:none;cursor:pointer;color:rgba(30,80,110,.7);
   font-size:.75rem;padding:2px 4px;transition:color .15s;flex-shrink:0;
@@ -660,14 +775,14 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ls-fill-q{background:linear-gradient(90deg,#e05c5c,#e08c3c);}
 .ls-fill-n{background:linear-gradient(90deg,#4ec98a,#2a9060);}
 .ls-val{font-size:.6rem;color:rgba(30,80,110,.7);width:40px;text-align:right;flex-shrink:0;}
-.ls-link{font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;text-decoration:none;display:block;text-align:right;margin-top:5px;}
-.ls-link:hover{color:rgba(41,182,232,rgba(41,182,232,.9)_tmp;}
+.ls-link{font-size:.6rem;color:rgba(41,182,232,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
+.ls-link:hover{color:rgba(41,182,232,.9);}
 
 /* ===== AI Coach FAB ===== */
 #coach-fab{
   position:fixed;bottom:76px;right:20px;z-index:150;
   background:linear-gradient(135deg,#3e2080,#5c30b0);
-  border:1.5px solid rgba(41,182,232,rgba(41,182,232,.5)_tmp;border-radius:50px;
+  border:1.5px solid rgba(41,182,232,.5);border-radius:50px;
   padding:10px 18px 10px 12px;
   display:none;align-items:center;gap:8px;
   cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;
@@ -690,7 +805,7 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   width:400px;max-width:calc(100vw - 32px);
   height:600px;max-height:calc(100vh - 32px);
   background:#c8e4f4;
-  border:1px solid rgba(41,182,232,rgba(41,182,232,.4)_tmp;border-radius:20px;
+  border:1px solid rgba(41,182,232,.4);border-radius:20px;
   overflow:hidden;display:flex;flex-direction:column;
   box-shadow:0 24px 64px rgba(0,0,0,.8);
   animation:modalIn .35s cubic-bezier(.22,1,.36,1);
@@ -698,11 +813,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .coach-ph{
   display:flex;align-items:center;gap:10px;padding:12px 16px;
   background:rgba(12,14,28,.98);
-  border-bottom:1px solid rgba(41,182,232,rgba(41,182,232,.2)_tmp;flex-shrink:0;
+  border-bottom:1px solid rgba(41,182,232,.2);flex-shrink:0;
 }
 .coach-ph img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 14%;border:1.5px solid rgba(41,182,232,.4);}
 .coach-ph-name{flex:1;font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:700;color:rgba(41,182,232,.95);}
-.coach-ph-sub{font-size:.6rem;color:rgba(41,182,232,rgba(41,182,232,.7)_tmp;letter-spacing:.06em;}
+.coach-ph-sub{font-size:.6rem;color:rgba(41,182,232,.7);letter-spacing:.06em;}
 #coach-close{background:none;border:none;color:rgba(30,80,110,.7);font-size:1.3rem;cursor:pointer;padding:4px 8px;line-height:1;}
 #coach-close:hover{color:rgba(30,80,110,.7);}
 .coach-iframe{flex:1;border:none;width:100%;background:#c8e4f4;}
@@ -883,7 +998,7 @@ body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
   box-shadow: 0 8px 0 rgba(30,80,110,.1), 0 4px 24px rgba(30,80,110,.15) !important;
 }
 #consent-modal [style*="background:rgba(255,255,255,.04)"],
-#consent-modal [style*="background:rgba(41,182,232,rgba(41,182,232,.08)_tmp"]{
+#consent-modal [style*="background:rgba(41,182,232,.08)"]{
   background: rgba(30,127,164,.06) !important;
   border-color: rgba(30,127,164,.2) !important;
 }
@@ -1133,7 +1248,7 @@ setTimeout(function(){
           <li>・ AIコーチ「ルナ」との会話内容（任意利用）</li>
         </ul>
       </div>
-      <div style="background:rgba(41,182,232,rgba(41,182,232,.08)_tmp;border:1px solid rgba(41,182,232,rgba(41,182,232,.25)_tmp;border-radius:10px;padding:14px;margin-bottom:12px;">
+      <div style="background:rgba(41,182,232,.08);border:1px solid rgba(41,182,232,.25);border-radius:10px;padding:14px;margin-bottom:12px;">
         <p style="font-weight:700;color:#7fd8f4;margin-bottom:8px;">外部サービスへの送信について</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.74rem;">
           <li>・ AIコーチング機能では、入力した文章を <strong>Google Gemini API</strong> に送信して応答を生成します</li>
@@ -1230,7 +1345,29 @@ setTimeout(function(){
   <span class="st-icon">✅</span><span class="st-text" id="st-text">記録を保存しました</span>
 </div>
 <!-- 目標達成バナー -->
-<div id="goal-banner">⚔ 今週の目標 150分達成！クエストクリア ✦ おめでとう！</div>
+<!-- ボス討伐セレモニー -->
+<div id="boss-defeat-ceremony">
+  <div class="cer-subtitle">✦ BOSS DEFEATED ✦</div>
+  <div class="cer-icon" id="cer-icon">👾</div>
+  <div class="cer-boss-name" id="cer-boss-name">ボス名</div>
+  <div class="cer-defeated-text">討伐完了</div>
+  <div class="cer-milestone" id="cer-milestone"></div>
+  <div class="cer-rewards">
+    <div class="cer-reward-card">
+      <div class="cer-reward-icon">⚡</div>
+      <div class="cer-reward-value" id="cer-xp">+200</div>
+      <div class="cer-reward-label">ボーナスXP</div>
+    </div>
+    <div class="cer-reward-card">
+      <div class="cer-reward-icon" id="cer-badge-icon">🏅</div>
+      <div class="cer-reward-value" id="cer-badge-name">討伐バッジ</div>
+      <div class="cer-reward-label">コレクション追加</div>
+    </div>
+  </div>
+  <div class="cer-msg" id="cer-msg">メッセージ</div>
+  <button class="cer-btn" id="cer-close-btn">次の冒険へ ⚔</button>
+</div>
+<div id="goal-banner"><span class="gbnr-text">⚔ 週間目標クリア ── 今週のボスに致命傷を与えた ✦</span></div>
 
 <!-- メイン -->
 <div id="main-screen" class="hidden">
@@ -1351,7 +1488,7 @@ setTimeout(function(){
             <input id="mc-min" type="number" inputmode="numeric" min="1" max="600" step="5" value="30" style="width:100%;margin-top:3px;padding:7px 8px;background:rgba(255,255,255,.92);border:1px solid rgba(125,216,232,.25);border-radius:7px;color:#0a2a40;font-size:.78rem;">
           </label>
         </div>
-        <div id="mc-out" style="margin-top:10px;font-size:.82rem;color:#ffe28a;font-weight:700;text-align:center;letter-spacing:.04em;">体重を入れると消費kcalが出ます</div>
+        <div id="mc-out" style="margin-top:10px;font-size:.82rem;color:#ffe28a;font-weight:700;text-align:center;letter-spacing:.04em;">体重・運動強度・時間を入力すると消費カロリーが表示されます</div>
         <div style="font-size:.55rem;color:rgba(30,80,110,.7);text-align:center;padding:10px 4px 0;line-height:1.7;">
           消費kcal = METs × 体重(kg) × 時間(h) × 1.05<br>
           ※ 数値は目安。METs値は <a href="https://www.nibiohn.go.jp/eiken/programs/2011mets.pdf" target="_blank" rel="noopener" style="color:rgba(41,182,232,.7);">厚労省「身体活動のメッツ表」改訂版</a>（国立健康・栄養研究所）に準拠。<br>
@@ -1437,13 +1574,21 @@ setTimeout(function(){
               <div id="boss-hp-bar" style="height:100%;width:100%;background:linear-gradient(90deg,#e05c5c,#e08c3c);border-radius:99px;transition:width .6s ease;"></div>
             </div>
           </div>
-          <div id="boss-damage-msg" style="font-size:.7rem;color:rgba(224,92,92,.7);text-align:center;min-height:16px;"></div>
-          <div id="boss-defeated" class="hidden" style="text-align:center;padding:12px 0;">
-            <div style="font-size:1.4rem;margin-bottom:4px;">🎉</div>
-            <div style="font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:#1e7fa4;">討伐完了！</div>
-            <div style="font-size:.68rem;color:rgba(78,201,138,.7);margin-top:4px;">今週の目標を達成しました</div>
+          <div id="boss-damage-msg" style="font-size:.7rem;color:rgba(240,212,138,.75);text-align:center;min-height:16px;font-weight:700;letter-spacing:.05em;"></div>
+          <div id="boss-defeated" class="hidden">
+            <div class="boss-defeated-inner">
+              <div style="font-size:1.6rem;margin-bottom:6px;filter:drop-shadow(0 0 8px rgba(240,212,138,.6));">⚔️</div>
+              <div class="boss-defeated-title">討伐完了！</div>
+              <div class="boss-defeated-sub">週間目標クリア — 次の冒険へ</div>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- 討伐バッジ -->
+      <div class="side-panel">
+        <div class="panel-head">⚔ 討伐実績</div>
+        <div class="badge-grid" id="badge-grid"></div>
       </div>
 
       <!-- ストリーク -->
@@ -1585,7 +1730,7 @@ setTimeout(function(){
             <span id="step-count">0</span><span style="font-size:.65rem;color:rgba(168,232,192,.6);"> 歩</span>
           </div>
           <button id="step-toggle" style="background:linear-gradient(135deg,rgba(78,201,138,.4),rgba(78,201,138,.22));border:1px solid rgba(78,201,138,.55);color:#a8e8c0;font-family:inherit;font-size:.78rem;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;">▶ スタート</button>
-          <button id="step-import" style="display:none;background:rgba(41,182,232,.15);border:1px solid rgba(41,182,232,.3);color:#1e7fa4;font-family:inherit;font-size:.7rem;font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer;">分に変換</button>
+          <button id="step-import" style="display:none;background:rgba(41,182,232,.15);border:1px solid rgba(41,182,232,.3);color:#1e7fa4;font-family:inherit;font-size:.7rem;font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer;">歩数→運動時間に変換</button>
         </div>
         <div style="font-size:.58rem;color:rgba(30,80,110,.7);margin-top:6px;line-height:1.5;">スマホをポケットに入れて歩くと自動カウント。1000歩 ≈ 10分換算で運動セッションに追加できます。</div>
       </div>
@@ -1914,7 +2059,7 @@ function checkLoginBonus(){
 function totalXp(){
   const sXp=sessions.reduce((s,x)=>s+x.xp,0);
   const bXp=parseInt(localStorage.getItem(bonusKey())||'0');
-  return sXp+bXp;
+  return sXp+bXp+getBossXpBonus();
 }
 function getLv(xp){
   let r=LEVELS[0];
@@ -1926,7 +2071,8 @@ function nextLvXp(xp){
   return null;
 }
 function xpForActivity(mets,type){
-  return type==='high' ? Math.round(mets*10*2) : Math.round(mets*10);
+  const base = type==='high' ? Math.round(mets*10*2) : Math.round(mets*10);
+  return Math.round(base * getClassXpBonus(type));
 }
 
 // ===== UI更新 =====
@@ -1972,6 +2118,22 @@ function updateUI(){
     try{ const st=JSON.parse(localStorage.getItem(`vq_streak_${uid}`)||'{}'); qhStreak.textContent=st.count||0; }catch(e){}
   }
 
+  // XPフロート演出
+  const _prevXp = parseInt(document.getElementById('xp-now').textContent)||0;
+  if(xp > _prevXp && _prevXp > 0){
+    const gain = xp - _prevXp;
+    const xpEl = document.getElementById('xp-fill');
+    const rect = xpEl ? xpEl.getBoundingClientRect() : null;
+    if(rect){
+      const fl = document.createElement('div');
+      fl.className = 'xp-float';
+      fl.textContent = `+${gain} XP`;
+      fl.style.left = (rect.left + rect.width/2) + 'px';
+      fl.style.top  = (rect.top) + 'px';
+      document.body.appendChild(fl);
+      setTimeout(()=>fl.remove(), 1700);
+    }
+  }
   document.getElementById('xp-fill').style.width  = barPct+'%';
   document.getElementById('xp-now').textContent   = xp;
   document.getElementById('xp-next').textContent  = nxt ? nxt-xp : '最大';
@@ -2029,21 +2191,47 @@ function updateUI(){
   updateLinked();
 }
 
+// ===== クラスXPボーナス =====
+function getClassXpBonus(type){
+  const cls = localStorage.getItem('vt_class') || 'hero';
+  const bonuses = {
+    hero:      { mod:1.05, high:1.15 },
+    knight:    { mod:1.10, high:1.05 },
+    saint:     { mod:1.08, high:1.08 },
+    witch:     { mod:1.05, high:1.20 },
+    villainess:{ mod:1.12, high:1.08 },
+    prince:    { mod:1.06, high:1.06 },
+  };
+  return (bonuses[cls] || bonuses.hero)[type] || 1.0;
+}
+
 // ===== ボス戦システム =====
 const BOSSES=[
-  {icon:'👾',name:'ナマケ・グリム',    type:'怠惰の魔獣 ／ 弱点：有酸素運動'},
-  {icon:'🐌',name:'スロース・ワーム', type:'停滞の虫 ／ 弱点：継続的な中強度運動'},
-  {icon:'💤',name:'ドロウジー卿',     type:'睡眠過多の騎士 ／ 弱点：ウォーキング'},
-  {icon:'🦥',name:'ズボラ大公',       type:'運動回避の貴族 ／ 弱点：筋力トレーニング'},
-  {icon:'🌫',name:'モヤ・フォグ',     type:'霧の精霊 ／ 弱点：高強度運動'},
-  {icon:'🕸',name:'クモノス・クイーン',type:'習慣を絡め取る女王 ／ 弱点：週3回以上の運動'},
-  {icon:'🪨',name:'ロック・ゴーレム', type:'惰性の巨人 ／ 弱点：歩数増加'},
-  {icon:'🌊',name:'デプレシア・タイド',type:'倦怠の波 ／ 弱点：軽運動の継続'},
+  {icon:'👾',name:'ナマケ・グリム',    type:'怠惰の魔獣',     weakness:'mod', hpMult:0.9,  xpReward:120, defeatMsg:'怠惰の幻が晴れた…！継続の力がお前を強くした。',   badgeIcon:'🏅'},
+  {icon:'🐌',name:'スロース・ワーム', type:'停滞の虫',       weakness:'mod', hpMult:1.0,  xpReward:140, defeatMsg:'停滞の呪いが解けた。一歩ずつ進むお前は止まらない。', badgeIcon:'🥈'},
+  {icon:'💤',name:'ドロウジー卿',     type:'眠りの騎士',     weakness:'mod', hpMult:1.0,  xpReward:150, defeatMsg:'眠りの魔法を破った！目覚めたお前に敵はいない。',       badgeIcon:'⚔'},
+  {icon:'🦥',name:'ズボラ大公',       type:'回避の貴族',     weakness:'high',hpMult:1.1,  xpReward:170, defeatMsg:'大公の玉座が崩れ落ちた。お前の意志が勝った！',         badgeIcon:'🛡'},
+  {icon:'🌫',name:'モヤ・フォグ',     type:'霧の精霊',       weakness:'high',hpMult:1.1,  xpReward:180, defeatMsg:'霧が晴れ、真実の道が現れた。高い壁を越えたぞ！',       badgeIcon:'💫'},
+  {icon:'🕸',name:'クモノス・クイーン',type:'習慣の女王',     weakness:'high',hpMult:1.2,  xpReward:200, defeatMsg:'習慣の呪縛から解放された！お前は自由だ。',             badgeIcon:'👑'},
+  {icon:'🪨',name:'ロック・ゴーレム', type:'惰性の巨人',     weakness:'mod', hpMult:1.25, xpReward:220, defeatMsg:'岩の巨人が砕けた！お前の粘り強さが奇跡を起こした。',   badgeIcon:'⭐'},
+  {icon:'🌊',name:'デプレシア・タイド',type:'倦怠の波',       weakness:'mod', hpMult:1.3,  xpReward:250, defeatMsg:'暗い波を乗り越えた。この経験は一生の財産だ。',         badgeIcon:'🌟'},
 ];
 function getBoss(){
   const wk=weekKey(); // "2026-W19" 形式
   const n=parseInt(wk.replace(/\D/g,''))%BOSSES.length;
   return BOSSES[n];
+}
+function renderBadgePanel(){
+  const grid=document.getElementById('badge-grid');
+  if(!grid) return;
+  const defeated=getDefeatedBossBadges();
+  grid.innerHTML='';
+  BOSSES.forEach((boss,i)=>{
+    const d=document.createElement('div');
+    d.className='boss-badge'+(defeated.includes(i)?' defeated':'');
+    d.innerHTML=`${boss.icon}<span class="boss-badge-tooltip">${boss.name}</span>`;
+    grid.appendChild(d);
+  });
 }
 function renderBoss(score){
   const goal=getWeeklyGoal();
@@ -2056,14 +2244,44 @@ function renderBoss(score){
   document.getElementById('boss-hp-now').textContent=hp;
   document.getElementById('boss-hp-max').textContent=goal;
   document.getElementById('boss-hp-bar').style.width=pct+'%';
-  const hpColor=hp<=50?'linear-gradient(90deg,#4ec98a,#7ee8b0)':
-                hp<=100?'linear-gradient(90deg,#e0a03c,#e0c03c)':
-                        'linear-gradient(90deg,#e05c5c,#e08c3c)';
-  document.getElementById('boss-hp-bar').style.background=hpColor;
+  const hpBar=document.getElementById('boss-hp-bar');
+  const hpColor=hp<=50?'linear-gradient(90deg,#4ec98a,#7ee8b0,#4ec98a)':
+                hp<=100?'linear-gradient(90deg,#f0d48a,#e0c03c,#f0d48a)':
+                        'linear-gradient(90deg,#e05c5c,#e08c3c,#e05c5c)';
+  hpBar.style.background=hpColor;
+  hpBar.style.backgroundSize='200% auto';
+  hpBar.style.animation='shimmer 1.5s linear infinite';
+  // HP低下でグロー強度を上げる
+  hpBar.style.boxShadow=hp<=50?'0 0 12px rgba(78,201,138,.7)':
+                        hp<=100?'0 0 10px rgba(240,212,138,.6)':
+                                '0 0 8px rgba(224,92,92,.5)';
   const defeated=document.getElementById('boss-defeated');
   if(hp===0){
     defeated.classList.remove('hidden');
     document.getElementById('boss-area').querySelector('div').style.opacity='.4';
+    // ボス討伐セレモニー（まだ討伐記録がない場合のみ）
+    const bossIdx=parseInt(weekKey().replace(/\D/g,''))%BOSSES.length;
+    if(!getDefeatedBossBadges().includes(bossIdx)){
+      setTimeout(()=>showBossDefeatCeremony(bossIdx), 500);
+    }
+    // ボス討伐をgame.htmlの撃破ギャラリーに記録
+    (function(){
+      const FOE_IMAGES=['./image/A1-Photoroom.png','./image/A2-Photoroom.png','./image/A3-Photoroom.png',
+        './image/A4-Photoroom.png','./image/A5-Photoroom.png','./image/A6-Photoroom.png','./image/A7-Photoroom.png'];
+      const wk=weekKey();
+      const bossIdx=parseInt(wk.replace(/\D/g,''))%BOSSES.length;
+      const foeIdx=bossIdx%FOE_IMAGES.length;
+      const src=FOE_IMAGES[foeIdx];
+      try{
+        const foes=JSON.parse(localStorage.getItem('vitalia_defeated_foes')||'[]');
+        if(!foes.includes(src)){
+          foes.push(src);
+          localStorage.setItem('vitalia_defeated_foes',JSON.stringify(foes));
+        }
+      }catch(e){}
+      // game.html上で window.vitaliaDefeatFoe が使える場合は委譲
+      if(typeof window.vitaliaDefeatFoe==='function') window.vitaliaDefeatFoe(foeIdx);
+    })();
   } else {
     defeated.classList.add('hidden');
   }
@@ -2104,18 +2322,88 @@ const KNOWLEDGE={
   }
 };
 
+// ===== 討伐済みボスバッジ =====
+function getDefeatedBossBadges(){
+  try{ return JSON.parse(localStorage.getItem(`vt_boss_badges_${uid}`)||'[]'); }catch(e){ return []; }
+}
+function addBossBadge(bossIndex){
+  const badges=getDefeatedBossBadges();
+  if(!badges.includes(bossIndex)){
+    badges.push(bossIndex);
+    localStorage.setItem(`vt_boss_badges_${uid}`,JSON.stringify(badges));
+  }
+  return badges;
+}
+// マイルストーンチェック
+function checkBossMilestone(badges){
+  const count=badges.length;
+  const milestones={
+    3:{xp:300, msg:'3体討伐達成！「英雄候補」の称号を獲得した！', icon:'🗡'},
+    5:{xp:500, msg:'5体討伐！「七大罪の半分を制した者」の称号を手に入れた！', icon:'⚔'},
+    7:{xp:800, msg:'全七大罪を制覇！「混沌の覇者」の伝説の称号を獲得！', icon:'👑'},
+  };
+  if(milestones[count] && !localStorage.getItem(`vt_milestone_${uid}_${count}`)){
+    localStorage.setItem(`vt_milestone_${uid}_${count}`,'1');
+    return milestones[count];
+  }
+  return null;
+}
+// ボスXPをlocalStorageに追記してUI更新に反映
+function addBossXpBonus(xp){
+  try{
+    const k=`vq_bossxp_${uid}`;
+    const cur=parseInt(localStorage.getItem(k)||'0');
+    localStorage.setItem(k, cur+xp);
+  }catch(e){}
+}
+function getBossXpBonus(){
+  try{ return parseInt(localStorage.getItem(`vq_bossxp_${uid}`)||'0'); }catch(e){ return 0; }
+}
+
+// ===== ボス討伐セレモニー =====
+let _ceremonyShown=false;
+function showBossDefeatCeremony(bossIndex){
+  if(_ceremonyShown) return;
+  _ceremonyShown=true;
+  const boss=BOSSES[bossIndex];
+  if(!boss) return;
+  const badges=addBossBadge(bossIndex);
+  const milestone=checkBossMilestone(badges);
+  const xpReward=boss.xpReward||150;
+  addBossXpBonus(xpReward);
+  // DOM更新
+  document.getElementById('cer-icon').textContent=boss.icon;
+  document.getElementById('cer-boss-name').textContent=boss.name;
+  document.getElementById('cer-xp').textContent='+'+xpReward;
+  document.getElementById('cer-badge-icon').textContent=boss.badgeIcon||'🏅';
+  document.getElementById('cer-badge-name').textContent=boss.name+' バッジ';
+  document.getElementById('cer-msg').textContent=boss.defeatMsg||'見事な討伐だ！';
+  const milEl=document.getElementById('cer-milestone');
+  if(milestone){
+    milEl.textContent=milestone.icon+' '+milestone.msg+' ＋'+milestone.xp+'XP';
+    milEl.classList.add('show');
+    addBossXpBonus(milestone.xp);
+  } else {
+    milEl.classList.remove('show');
+  }
+  const cer=document.getElementById('boss-defeat-ceremony');
+  cer.classList.add('show');
+  spawnConfetti();
+  try{ if(navigator.vibrate) navigator.vibrate([40,60,40,60,120]); }catch(e){}
+}
+
 function spawnParticles(){
-  const colors=['#7fd8f4','#1e7fa4','#ffffff','#e0c070','#ffeaa0'];
-  for(let i=0;i<28;i++){
+  const colors=['#5fd0e8','#f0d48a','#ffffff','#9ce8f4','#ffe8a0','#4ec98a'];
+  for(let i=0;i<36;i++){
     const p=document.createElement('div');
     p.className='lv-particle';
-    const angle=(i/28)*360+(Math.random()-0.5)*20;
-    const dist=90+Math.random()*130;
+    const angle=(i/36)*360+(Math.random()-0.5)*20;
+    const dist=100+Math.random()*150;
     const tx=Math.cos(angle*Math.PI/180)*dist;
     const ty=Math.sin(angle*Math.PI/180)*dist;
-    p.style.cssText=`--tx:${tx}px;--ty:${ty}px;background:${colors[i%colors.length]};animation-delay:${Math.random()*.25}s;`;
+    p.style.cssText=`--tx:${tx}px;--ty:${ty}px;background:${colors[i%colors.length]};animation-delay:${Math.random()*.3}s;`;
     document.body.appendChild(p);
-    setTimeout(()=>p.remove(),1400);
+    setTimeout(()=>p.remove(),1500);
   }
 }
 function showLvUp(lvNum, name){
@@ -2134,6 +2422,12 @@ function showLvUp(lvNum, name){
     setTimeout(()=>t.classList.remove('show'),3000);
   }
 }
+document.getElementById('cer-close-btn').addEventListener('click',()=>{
+  document.getElementById('boss-defeat-ceremony').classList.remove('show');
+  _ceremonyShown=false;
+  updateUI(); // ボーナスXP反映
+  renderBadgePanel();
+});
 document.getElementById('km-close').addEventListener('click',()=>{
   document.getElementById('knowledge-modal').classList.remove('open');
 });
@@ -2239,8 +2533,11 @@ function addSession(name,icon,mets,type,minutes){
   sessions.push({name,icon,mets,type,xp,minutes:min,kcal});
   if(type==='high') highMin+=min; else modMin+=min;
   renderLog(); updateUI();
-  // 拡張：演出・コンボ・デイリー・ダメージ
-  if(window.AppEnhance) window.AppEnhance.onExerciseRecord(10, type);
+  // 拡張：演出・コンボ・デイリー・ダメージ（実際の分数を渡す）
+  if(window.AppEnhance) window.AppEnhance.onExerciseRecord(min, type);
+  // ボスパネルシェイク
+  const bossPanel=document.getElementById('boss-panel');
+  if(bossPanel){ bossPanel.classList.remove('boss-hit'); void bossPanel.offsetWidth; bossPanel.classList.add('boss-hit'); setTimeout(()=>bossPanel.classList.remove('boss-hit'),450); }
   if(mult>1 && !window._nutBonusShown){
     window._nutBonusShown=true;
     const pct=mult===1.15?'+15%':'+8%';
@@ -2370,7 +2667,7 @@ function showSaveToast(icon, msg){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 function spawnConfetti(){
-  const colors=['#1e7fa4','#7fd8f4','#4ec98a','#29b6e8','#e05c5c','#ffffff'];
+  const colors=['#f0d48a','#5fd0e8','#4ec98a','#9ce8f4','#ffffff','#ffe8a0','#e05c5c'];
   for(let i=0;i<60;i++){
     const c=document.createElement('div');
     c.className='confetti-piece';
@@ -2637,6 +2934,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   buildBoard('high-board',EXERCISES.high,'high');
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
   renderBoss(0);
+  renderBadgePanel();
   document.getElementById('coach-fab').classList.add('visible');
   document.getElementById('bottom-nav').style.display='flex';
 });

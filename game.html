@@ -4350,7 +4350,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
             <div class="ch-card-name">栄養</div>
             <div class="ch-card-meta" id="ch-meta-nu">— セラと —</div>
           </a>
-          <button class="ch-card ch-card-co" id="ch-card-luna" type="button" onclick="if(typeof window.openCoach===function){window.openCoach();}else{document.getElementById(coach-modal)?.classList.add(open);}return false;">
+          <button class="ch-card ch-card-co" id="ch-card-luna" type="button" onclick="if(typeof window.openCoach==='function'){window.openCoach();}else{document.getElementById('coach-modal')?.classList.add('open');}return false;">
             <div class="ch-card-img"><img src="./image/runa-sabun%20(2).png" alt="" style="object-position:center 14%;"></div>
             <div class="ch-card-name">ルナ対話</div>
             <div class="ch-card-meta">— GROWで —</div>
@@ -4582,7 +4582,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           </div>
           <div class="qc-info">
             <div class="qc-name qc-name-ex">カイト — 鍛錬の剣士</div>
-            <div class="qc-sub">今週目標: 150分</div>
+            <div class="qc-sub" id="qc-ex-goal-label">今週目標: 150分</div>
             <div class="qc-bar"><div class="qc-bar-fill qc-bar-fill-ex" id="qc-ex-fill" style="width:0%"></div></div>
             <div class="qc-note" id="qc-ex-note">0 / 150 分</div>
           </div>
@@ -4940,6 +4940,7 @@ function updateUI(){
   const qPct=Math.min(100,Math.round(d.qScore/d.qGoal*100));
   document.getElementById('qc-ex-fill').style.width=qPct+'%';
   document.getElementById('qc-ex-note').textContent=`${d.qScore} / ${d.qGoal} 分`;
+  document.getElementById('qc-ex-goal-label').textContent=`今週目標: ${d.qGoal}分`;
   document.getElementById('qc-ex-row1').style.width=Math.min(qPct*0.65,100)+'%';
   document.getElementById('qc-ex-row1-val').textContent=d.qScore>0?`${Math.round(d.qScore*0.4)}分`:'—';
   document.getElementById('qc-ex-row2').style.width=qPct+'%';
