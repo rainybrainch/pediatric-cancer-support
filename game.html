@@ -303,6 +303,10 @@ body::before{
 .sh-cal-dot.today-has{background:linear-gradient(135deg,#2da366,#4ec98a);color:#fff;box-shadow:0 2px 4px rgba(78,201,138,.4);}
 .sh-cal-dot.empty{background:rgba(30,80,110,.08);color:rgba(30,80,110,.35);border:1px solid rgba(30,80,110,.12);}
 .sh-qol-streak{font-size:.58rem;font-weight:800;color:#2da366;background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.3);padding:2px 7px;border-radius:99px;white-space:nowrap;margin-left:4px;}
+.sh-hyd-plus{background:linear-gradient(135deg,rgba(41,182,232,.2),rgba(41,182,232,.1));border:1px solid rgba(41,182,232,.4);border-radius:99px;color:#29b6e8;font-size:.62rem;font-weight:900;padding:3px 10px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.sh-hyd-plus:hover{background:rgba(41,182,232,.3);transform:scale(1.07);}
+.sh-hyd-plus:active{transform:scale(.95);}
+.sh-hyd-plus.done{background:rgba(78,201,138,.15);border-color:rgba(78,201,138,.4);color:#4ec98a;cursor:default;}
 
 /* 冒険1行 */
 .sh-adv{
@@ -2953,6 +2957,8 @@ a:focus-visible, button:focus-visible{
 .sh-cal-dot.empty{ background: rgba(95,208,232,.08) !important; border-color: rgba(95,208,232,.15) !important; color: rgba(95,208,232,.35) !important; -webkit-text-fill-color: rgba(95,208,232,.35) !important; }
 .sh-streak-badge{ color: #ffa060 !important; -webkit-text-fill-color: #ffa060 !important; background: rgba(255,160,96,.12) !important; border-color: rgba(255,160,96,.25) !important; }
 .sh-qol-streak{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.3) !important; }
+.sh-hyd-plus{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; background: rgba(95,208,232,.12) !important; border-color: rgba(95,208,232,.35) !important; }
+.sh-hyd-plus.done{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.35) !important; }
 
 /* ---------- 冒険プログレス / ミッション ---------- */
 .sh-adv{
@@ -4353,6 +4359,11 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <span class="sh-sum-lbl">12週進捗</span>
           <div class="sh-sum-bar"><div class="sh-sum-fill" id="sh-sum-fill" style="width:0%"></div></div>
           <span class="sh-sum-pct" id="sh-sum-pct">0%</span>
+        </div>
+        <div class="sh-sum-row sh-hyd-row" id="sh-hyd-row">
+          <span class="sh-sum-lbl">💧 水分</span>
+          <span class="sh-sum-val" id="sh-hyd-val">0 / 8杯</span>
+          <button class="sh-hyd-plus" id="sh-hyd-plus" type="button">+1</button>
         </div>
         <div class="sh-cal">
           <span class="sh-cal-lbl">7日記録</span>
@@ -6643,6 +6654,20 @@ function renderCompactHome(){
     document.getElementById('sh-sum-pct').textContent = pct + '%';
   }catch(e){}
 
+  // 水分行更新
+  try{
+    const hc = (typeof getHydCount === 'function') ? getHydCount() : 0;
+    const hydVal = document.getElementById('sh-hyd-val');
+    const hydPlus = document.getElementById('sh-hyd-plus');
+    if(hydVal) hydVal.textContent = `${hc} / ${HYDRATION_GOAL}杯`;
+    if(hydPlus){
+      const done = hc >= HYDRATION_GOAL;
+      hydPlus.classList.toggle('done', done);
+      hydPlus.textContent = done ? '達成 ✓' : '+1';
+      hydPlus.disabled = done;
+    }
+  }catch(e){}
+
   // 冒険プログレス
   try{
     const adv = JSON.parse(localStorage.getItem(`va_state_${uid}`)||'{"chapterIdx":0,"defeated":[]}');
@@ -6855,6 +6880,26 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   } else {
     showGameToast('QOLトラッカーが見つかりませんでした。ページを再読込してください。',4000);
   }
+});
+document.getElementById('sh-hyd-plus')?.addEventListener('click', ()=>{
+  if(!uid || uid==='guest'){ showGameToast('ログイン後にご利用ください'); return; }
+  if(typeof setHydCount !== 'function' || typeof getHydCount !== 'function') return;
+  const cur = getHydCount();
+  if(cur >= HYDRATION_GOAL){ showGameToast('今日の水分目標は達成済みです 💧', 2000); return; }
+  setHydCount(cur + 1);
+  const next = cur + 1;
+  const hydVal = document.getElementById('sh-hyd-val');
+  if(hydVal) hydVal.textContent = `${next} / ${HYDRATION_GOAL}杯`;
+  if(next >= HYDRATION_GOAL){
+    const btn = document.getElementById('sh-hyd-plus');
+    if(btn){ btn.textContent = '達成 ✓'; btn.classList.add('done'); btn.disabled = true; }
+  }
+  if(next === HYDRATION_GOAL){
+    showGameToast('💧 今日の水分目標達成！ 代謝・解毒に貢献', 3000);
+  } else {
+    showGameToast(`💧 ${next}杯目 ・ あと${HYDRATION_GOAL-next}杯`, 1500);
+  }
+  try{ renderHydration(); }catch(e){}
 });
 document.getElementById('sh-m-done')?.addEventListener('click', ()=>{
   const btn = document.getElementById('th-done');
