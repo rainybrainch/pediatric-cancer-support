@@ -906,6 +906,11 @@ body.detail-mode #compact-home{display:none !important;}
   font-size:.6rem;color:rgba(168,232,192,.6);text-align:center;
 }
 .qol-trend-empty{font-size:.7rem;color:rgba(170,188,216,.4);text-align:center;padding:8px;}
+.qol-spark-row{display:flex;justify-content:space-between;align-items:flex-end;margin:6px 2px 4px;height:32px;}
+.qol-spark-col{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;}
+.qol-spark-bar{width:60%;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s ease;}
+.qol-spark-bar.empty{background:rgba(168,232,192,.12);}
+.qol-spark-lbl{font-size:.42rem;color:rgba(168,232,192,.4);}
 
 /* ========== ゲームアクション（ガチャ・コレクション・スキル）========== */
 .game-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
@@ -6429,13 +6434,16 @@ function renderHydration(){
     c.className = 'hyd-cup' + (i < n ? ' full' : '');
     cups.appendChild(c);
   }
-  // 達成で実績
+  // 達成で実績・トースト
   if(n === HYDRATION_GOAL){
     const seen = `vt_hyd_ach_${uid}_${new Date().toISOString().slice(0,10)}`;
     if(!localStorage.getItem(seen)){
       localStorage.setItem(seen, '1');
       window.AppEnhance?.achievement?.('💧 水分補給達成！', '💧');
+      showGameToast('💧 今日の水分目標達成！ 代謝・解毒に貢献', 3000);
     }
+  } else if(n === Math.floor(HYDRATION_GOAL/2)){
+    showGameToast(`💧 折り返し ${n}杯！あと${HYDRATION_GOAL-n}杯`, 1800);
   }
 }
 document.getElementById('hyd-add')?.addEventListener('click', ()=>{
@@ -7087,6 +7095,9 @@ document.getElementById('th-done')?.addEventListener('click', ()=>{
   // バイブ＋演出
   try{ if(navigator.vibrate) navigator.vibrate([15,40,15]); }catch(e){}
   try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:25, duration:1500}); }catch(e){}
+  const tinyStreak2 = parseInt(localStorage.getItem(tinyStreakKey())||'0',10);
+  const msg = tinyStreak2>=7?`🔥 ${tinyStreak2}日連続！ ミッション完了 +5XP`:tinyStreak2>=3?`✨ ${tinyStreak2}日連続！ +5XP`:'✅ ミッション完了！ +5XP';
+  showGameToast(msg, 2500);
   renderTinyHabit();
 });
 document.getElementById('th-skip')?.addEventListener('click', ()=>{
@@ -7436,6 +7447,30 @@ function renderQolTrend(){
     return '😞';
   };
 
+  // 7日スパークライン（過去7日順、新→古）
+  const sparkDays=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const raw=localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(raw){
+        const v=JSON.parse(raw);
+        sparkDays.push({total:(v.condition||0)+(v.mood||0)+(v.energy||0), date:d});
+      } else {
+        sparkDays.push(null);
+      }
+    }catch(e){ sparkDays.push(null); }
+  }
+  const dayLbls=['日','月','火','水','木','金','土'];
+  const sparkHTML=sparkDays.map((s,i)=>{
+    const d=new Date(Date.now()-(6-i)*86400000);
+    const lbl=dayLbls[d.getDay()];
+    if(!s) return `<div class="qol-spark-col"><div class="qol-spark-bar empty" style="height:4px"></div><div class="qol-spark-lbl">${lbl}</div></div>`;
+    const pct=Math.round(s.total/15*100);
+    const color=s.total>=10?'#4ec98a':s.total>=6?'#7fd8f4':'#e08a3c';
+    return `<div class="qol-spark-col"><div class="qol-spark-bar" style="height:${4+Math.round(pct*0.24)}px;background:${color};opacity:.85;"></div><div class="qol-spark-lbl">${lbl}</div></div>`;
+  }).join('');
+
   target.innerHTML=`
     <div class="qol-trend-row">
       <div class="qol-trend-cell">
@@ -7454,6 +7489,7 @@ function renderQolTrend(){
         <div class="qol-trend-lbl">活力</div>
       </div>
     </div>
+    <div class="qol-spark-row">${sparkHTML}</div>
     <div class="qol-trend-streak">${streak>=3?`🔥 ${streak}日連続記録中 ・ `:''}過去 ${records.length} 日分の平均（5段階）</div>
   `;
 }
@@ -8833,9 +8869,12 @@ window.addEventListener('load', ()=>{
         const metaEx = document.getElementById('sh-meta-ex');
         const statEx = document.getElementById('hc-stat-ex');
         if(metaEx && statEx) statEx.textContent = metaEx.textContent || '今週 — / 150分';
-        // 運動の進捗（分）から bar幅を計算
-        const exMin = parseInt((metaEx?.textContent || '').match(/(\d+)\s*\/\s*150/)?.[1] || '0', 10);
-        const exPct = Math.min(100, Math.round(exMin / 150 * 100));
+        // 運動の進捗（分）から bar幅を計算（目標達成テキストにも対応）
+        const exTxt = metaEx?.textContent || '';
+        const exGoalMatch = exTxt.match(/(\d+)\s*\/\s*(\d+)/);
+        const exMin = exGoalMatch ? parseInt(exGoalMatch[1],10) : (exTxt.includes('達成') ? 150 : 0);
+        const exGoalN = exGoalMatch ? parseInt(exGoalMatch[2],10) : 150;
+        const exPct = Math.min(100, Math.round(exMin / exGoalN * 100));
         const barEx = document.getElementById('hc-bar-ex');
         if(barEx) barEx.style.width = exPct + '%';
 
@@ -8847,6 +8886,26 @@ window.addEventListener('load', ()=>{
         const nuPct = Math.min(100, Math.round(vegN / 30 * 100));
         const barNu = document.getElementById('hc-bar-nu');
         if(barNu) barNu.style.width = nuPct + '%';
+
+        // ルナのstat：コーチターン累積 or 最終対話日
+        const statLuna = document.getElementById('hc-stat-luna');
+        const barLuna = document.getElementById('hc-bar-luna');
+        if(statLuna){
+          try{
+            const uid2 = (typeof uid !== 'undefined') ? uid : '';
+            if(uid2 && uid2!=='guest'){
+              const hist = JSON.parse(localStorage.getItem(`vc_hist_${uid2}`)||'[]');
+              const turns = hist.filter(m=>m.role==='user').length;
+              if(turns > 0){
+                const lastTs = hist[0]?.ts || 0;
+                const daysAgo = lastTs ? Math.floor((Date.now()-lastTs)/86400000) : null;
+                const dayStr = daysAgo===0?'今日':daysAgo===1?'昨日':(daysAgo!=null?`${daysAgo}日前`:'');
+                statLuna.textContent = `${turns}回対話${dayStr?' ・ '+dayStr:''}`;
+                if(barLuna) barLuna.style.width = Math.min(100, Math.round(turns/30*100))+'%';
+              }
+            }
+          }catch(e){}
+        }
       }catch(e){ console.warn('hc-stat sync', e); }
     }
     syncCharStats();
