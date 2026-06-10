@@ -291,6 +291,7 @@ body::before{
 .sh-sum-row{display:flex;align-items:center;gap:9px;font-size:.7rem;color:#1a4860;}
 .sh-sum-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
 .sh-sum-val{flex:1;font-weight:700;color:#0a2a40;}
+.sh-streak-badge{font-size:.58rem;font-weight:800;color:#ff7c2a;background:rgba(255,124,42,.1);border:1px solid rgba(255,124,42,.25);padding:2px 7px;border-radius:99px;white-space:nowrap;}
 .sh-sum-bar{flex:1;height:6px;background:rgba(30,80,110,.10);border-radius:99px;overflow:hidden;}
 .sh-sum-fill{height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4);border-radius:99px;transition:width .5s;box-shadow:0 0 6px rgba(41,182,232,.3);}
 .sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:#1e7fa4;font-size:.78rem;min-width:40px;text-align:right;}
@@ -301,6 +302,7 @@ body::before{
 .sh-cal-dot.has{background:linear-gradient(135deg,#29b6e8,#4ab0d4);color:#fff;box-shadow:0 2px 4px rgba(41,182,232,.35);}
 .sh-cal-dot.today-has{background:linear-gradient(135deg,#2da366,#4ec98a);color:#fff;box-shadow:0 2px 4px rgba(78,201,138,.4);}
 .sh-cal-dot.empty{background:rgba(30,80,110,.08);color:rgba(30,80,110,.35);border:1px solid rgba(30,80,110,.12);}
+.sh-qol-streak{font-size:.58rem;font-weight:800;color:#2da366;background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.3);padding:2px 7px;border-radius:99px;white-space:nowrap;margin-left:4px;}
 
 /* 冒険1行 */
 .sh-adv{
@@ -2949,6 +2951,8 @@ a:focus-visible, button:focus-visible{
 
 .sh-cal-lbl{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; }
 .sh-cal-dot.empty{ background: rgba(95,208,232,.08) !important; border-color: rgba(95,208,232,.15) !important; color: rgba(95,208,232,.35) !important; -webkit-text-fill-color: rgba(95,208,232,.35) !important; }
+.sh-streak-badge{ color: #ffa060 !important; -webkit-text-fill-color: #ffa060 !important; background: rgba(255,160,96,.12) !important; border-color: rgba(255,160,96,.25) !important; }
+.sh-qol-streak{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.3) !important; }
 
 /* ---------- 冒険プログレス / ミッション ---------- */
 .sh-adv{
@@ -4343,6 +4347,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <div class="sh-sum-row">
           <span class="sh-sum-lbl">今週</span>
           <span class="sh-sum-val" id="sh-sum-week">記録なし</span>
+          <span class="sh-streak-badge" id="sh-streak-badge" style="display:none;"></span>
         </div>
         <div class="sh-sum-row">
           <span class="sh-sum-lbl">12週進捗</span>
@@ -4352,6 +4357,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <div class="sh-cal">
           <span class="sh-cal-lbl">7日記録</span>
           <div class="sh-cal-dots" id="sh-cal-dots"></div>
+          <span class="sh-qol-streak" id="sh-qol-streak" style="display:none;"></span>
         </div>
       </div>
 
@@ -6531,7 +6537,8 @@ function renderCompactHome(){
   try{
     const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}');
     exMin = exData.score || 0;
-    const exGoal = parseInt(localStorage.getItem(`vt_ex_goal_${uid}`)||'150', 10);
+    const _gs = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+    const exGoal = parseInt(_gs.weeklyGoal || localStorage.getItem(`vt_ex_goal_${uid}`) || '150', 10);
     const exDone = exMin >= exGoal;
     document.getElementById('sh-meta-ex').textContent = exDone
       ? `✅ 今週 ${exMin}分 目標達成！`
@@ -6554,7 +6561,7 @@ function renderCompactHome(){
     const dotsEl = document.getElementById('sh-cal-dots');
     if(dotsEl && uid && uid!=='guest'){
       const dayLabels=['日','月','火','水','木','金','土'];
-      let html='';
+      let html='', qolStreak=0;
       for(let i=6;i>=0;i--){
         const d=new Date(Date.now()-i*86400000);
         const ds=d.toISOString().slice(0,10);
@@ -6564,7 +6571,18 @@ function renderCompactHome(){
         const cls=has?(isToday?'today-has':'has'):'empty';
         html+=`<div class="sh-cal-dot ${cls}" title="${ds}">${lbl}</div>`;
       }
+      // 連続ストリーク計算（今日から遡って連続している日数）
+      for(let i=0;i<=30;i++){
+        const ds=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+        if(localStorage.getItem(`vt_qol_${uid}_${ds}`)) qolStreak++;
+        else break;
+      }
       dotsEl.innerHTML=html;
+      const streakBadge = document.getElementById('sh-qol-streak');
+      if(streakBadge){
+        if(qolStreak >= 2){ streakBadge.textContent=`${qolStreak}連`; streakBadge.style.display='inline'; }
+        else { streakBadge.style.display='none'; }
+      }
     }
   }catch(e){}
 
@@ -6573,9 +6591,29 @@ function renderCompactHome(){
     let summary = [];
     if(exMin > 0) summary.push(`運動${exMin}分`);
     if(vegC > 0) summary.push(`野菜${vegC}皿`);
-    if(qolDone) summary.push('QOL記録済');
+    if(qolDone) summary.push('QOL✓');
+    // 昨夜の睡眠
+    try{
+      const yd = new Date(Date.now()-86400000).toISOString().slice(0,10);
+      const sr = localStorage.getItem(`vt_sleep_${uid}_${yd}`);
+      if(sr){ const sv=JSON.parse(sr); if(sv.hours) summary.push(`睡眠${sv.hours}h`); }
+    }catch(e2){}
+    // 今日の水分
+    try{
+      const hc = getHydCount();
+      if(hc > 0) summary.push(`💧${hc}/${HYDRATION_GOAL}`);
+    }catch(e2){}
     const sumEl = document.getElementById('sh-sum-week');
     if(sumEl) sumEl.textContent = summary.length ? summary.join(' ・ ') : '今週はまだ記録なし';
+    // ログインストリーク表示
+    try{
+      const streak = parseInt(localStorage.getItem(`vt_login_streak_${uid}`)||'0',10);
+      const streakEl = document.getElementById('sh-streak-badge');
+      if(streakEl){
+        if(streak >= 3){ streakEl.textContent = `🔥 ${streak}日連続`; streakEl.style.display='inline'; }
+        else { streakEl.style.display='none'; }
+      }
+    }catch(e2){}
   }catch(e){}
 
   // 12週進捗バー
@@ -7550,6 +7588,18 @@ function maybeShowQolTracker(){
   saveBtn.disabled=true; saveBtn.style.opacity='.5';
   const noteEl=document.getElementById('qol-note');
   if(noteEl){ noteEl.value=''; document.getElementById('qol-note-count').textContent='0/120'; }
+  // 前日スコア参考表示
+  try{
+    const ydKey=`vt_qol_${uid}_${new Date(Date.now()-86400000).toISOString().slice(0,10)}`;
+    const ydRaw=localStorage.getItem(ydKey);
+    const refEl=document.getElementById('qol-yesterday-ref');
+    if(refEl && ydRaw){
+      const yd=JSON.parse(ydRaw);
+      const emojis=['','😢','😕','😐','🙂','😊'];
+      refEl.textContent=`昨日: 体調${emojis[yd.condition]||yd.condition} 気分${emojis[yd.mood]||yd.mood} 活力${emojis[yd.energy]||yd.energy}`;
+      refEl.style.display='block';
+    } else if(refEl){ refEl.style.display='none'; }
+  }catch(e){}
   document.getElementById('qol-modal').style.display='flex';
 }
 
@@ -8540,6 +8590,7 @@ window.addEventListener('load', ()=>{
       <div style="font-size:.6rem;letter-spacing:.18em;color:rgba(168,232,192,.65);font-weight:700;margin-bottom:4px;">— DAILY CHECK-IN —</div>
       <h2 style="font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:#a8e8c0;">今日の調子はいかがですか？</h2>
       <p style="font-size:.7rem;color:rgba(170,188,216,.55);margin-top:4px;">3問・約20秒（記録で +15XP）</p>
+      <div id="qol-yesterday-ref" style="display:none;font-size:.62rem;color:rgba(170,188,216,.5);margin-top:5px;background:rgba(255,255,255,.04);border-radius:8px;padding:4px 10px;"></div>
     </div>
 
     <div class="qol-q" data-key="condition" style="margin-bottom:14px;">
@@ -8872,8 +8923,9 @@ window.addEventListener('load', ()=>{
         // 運動の進捗（分）から bar幅を計算（目標達成テキストにも対応）
         const exTxt = metaEx?.textContent || '';
         const exGoalMatch = exTxt.match(/(\d+)\s*\/\s*(\d+)/);
-        const exMin = exGoalMatch ? parseInt(exGoalMatch[1],10) : (exTxt.includes('達成') ? 150 : 0);
-        const exGoalN = exGoalMatch ? parseInt(exGoalMatch[2],10) : 150;
+        const _defGoal = parseInt((JSON.parse(localStorage.getItem('vitalia_settings')||'{}')).weeklyGoal||'150',10);
+        const exMin = exGoalMatch ? parseInt(exGoalMatch[1],10) : (exTxt.includes('達成') ? _defGoal : 0);
+        const exGoalN = exGoalMatch ? parseInt(exGoalMatch[2],10) : _defGoal;
         const exPct = Math.min(100, Math.round(exMin / exGoalN * 100));
         const barEx = document.getElementById('hc-bar-ex');
         if(barEx) barEx.style.width = exPct + '%';
@@ -8892,7 +8944,7 @@ window.addEventListener('load', ()=>{
         const barLuna = document.getElementById('hc-bar-luna');
         if(statLuna){
           try{
-            const uid2 = (typeof uid !== 'undefined') ? uid : '';
+            const uid2 = localStorage.getItem('vitalia_uid_hint') || '';
             if(uid2 && uid2!=='guest'){
               const hist = JSON.parse(localStorage.getItem(`vc_hist_${uid2}`)||'[]');
               const turns = hist.filter(m=>m.role==='user').length;
