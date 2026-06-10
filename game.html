@@ -279,6 +279,8 @@ body::before{
 .rec-qol:hover{border-color:rgba(168,200,240,.8);box-shadow:0 6px 18px rgba(168,200,240,.15);}
 .rec-qol.done{opacity:.6;}
 .rec-qol.done .sh-rec-meta::after{content:' ・ ✓今日記録済み';color:#a8e8c0;font-weight:700;}
+.rec-ex.done{opacity:.75;}
+.rec-ex.done .sh-rec-name::after{content:' 🏆';}
 
 /* 今週の進捗 */
 .sh-summary{
@@ -6521,7 +6523,12 @@ function renderCompactHome(){
   try{
     const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}');
     exMin = exData.score || 0;
-    document.getElementById('sh-meta-ex').textContent = `今週 ${exMin} / 150分`;
+    const exGoal = parseInt(localStorage.getItem(`vt_ex_goal_${uid}`)||'150', 10);
+    const exDone = exMin >= exGoal;
+    document.getElementById('sh-meta-ex').textContent = exDone
+      ? `✅ 今週 ${exMin}分 目標達成！`
+      : `今週 ${exMin} / ${exGoal}分`;
+    document.querySelector('.rec-ex')?.classList.toggle('done', exDone);
   }catch(e){}
   try{
     const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
