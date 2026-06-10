@@ -138,6 +138,18 @@ header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color
   color:#f0a0a0;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;
   margin-top:8px;
 }
+#s-toast{
+  position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:linear-gradient(135deg,#1a2e4a,#0d1f38);
+  color:#d4e8f8;font-weight:700;font-size:.82rem;
+  padding:10px 22px;border-radius:99px;
+  border:1px solid rgba(41,182,232,.35);
+  box-shadow:0 8px 28px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;
+  z-index:9999;white-space:nowrap;
+}
+#s-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 <script src="./app-safety.js"></script>
 <script src="./quest-enhance.js" defer></script>
@@ -1031,7 +1043,7 @@ document.getElementById('btn-share-summary').addEventListener('click', ()=>{
     navigator.share({ title:'ヴィタリア転生録 — 週次レポート', url }).catch(()=>{});
   } else {
     navigator.clipboard.writeText(url).then(()=>{
-      alert('✓ 共有リンクをコピーしました。\nLINE・メールなどに貼り付けて送信してください。\n\n' + url);
+      showToast('✓ 共有リンクをコピーしました。LINE・メールに貼り付けて送れます。',4000);
     });
   }
 });
@@ -1106,11 +1118,11 @@ notifyToggle.addEventListener('click', async ()=>{
   if(!('Notification' in window)) return;
   if(Notification.permission==='granted'){
     // 通知をOFFにはブラウザ設定で。ここでは案内のみ
-    alert('通知をOFFにするには、ブラウザ設定 > サイト設定 > 通知 から「許可しない」に変更してください。');
+    showToast('OFFにするにはブラウザ設定 > サイト設定 > 通知 から変更してください',5000);
     return;
   }
   if(Notification.permission==='denied'){
-    alert('通知がブロックされています。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください。');
+    showToast('通知がブロック中。ブラウザ設定 > サイト設定 > 通知 から「許可」に変更してください',5000);
     return;
   }
   const result=await Notification.requestPermission();
@@ -1142,7 +1154,7 @@ reminderToggle.addEventListener('click',()=>{
   const on=reminderToggle.classList.toggle('on');
   reminderTimeRow.style.display=on?'flex':'none';
   if(on && Notification.permission!=='granted'){
-    alert('通知を先に許可してください（上のトグル）。');
+    showToast('通知を先に許可してください（上のトグル）');
     reminderToggle.classList.remove('on');
     reminderTimeRow.style.display='none';
     return;
@@ -1199,7 +1211,7 @@ document.getElementById('btn-clear-all').addEventListener('click',()=>{
     if(k && /^v[abchnqtw]_/.test(k)) keysToDelete.push(k);
   }
   keysToDelete.forEach(k=>localStorage.removeItem(k));
-  alert(`${keysToDelete.length}件のローカルデータを削除しました。`);
+  showToast(`${keysToDelete.length}件のローカルデータを削除しました`);
   location.href='./index.html';
 });
 </script>
@@ -1325,6 +1337,14 @@ onAuthStateChanged(auth, user => {
     $('add-email-form').style.display = 'none';
   }
 });
+
+function showToast(text,ms=3200){
+  let t=document.getElementById('s-toast');
+  if(!t){t=document.createElement('div');t.id='s-toast';document.body.appendChild(t);}
+  t.textContent=text;t.classList.add('show');
+  clearTimeout(showToast._tid);
+  showToast._tid=setTimeout(()=>t.classList.remove('show'),ms);
+}
 </script>
 
 </body>

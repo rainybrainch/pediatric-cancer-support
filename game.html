@@ -5847,7 +5847,7 @@ onAuthStateChanged(auth, async user=>{
           }
           localStorage.removeItem('vitalia_uid_hint');
         }catch(e){}
-        alert('✓ 削除リクエストを送信しました。\n\n72時間以内にクラウド側のデータも削除されます。\nご協力ありがとうございました。');
+        showGameToast('✓ 削除リクエストを送信しました。72時間以内にクラウド側も削除されます。',5000);
         await signOut(auth);
         location.href='./homepage.html';
         return;
@@ -6452,7 +6452,7 @@ document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
   if(!uid||uid==='guest'){ showGameToast('ログイン後にご利用ください'); return; }
   const h = parseFloat(document.getElementById('sleep-hours').value);
   const q = parseInt(document.getElementById('sleep-quality').value, 10);
-  if(!h || h<=0 || h>24){ alert('睡眠時間を0〜24で入力してください'); return; }
+  if(!h || h<=0 || h>24){ showGameToast('睡眠時間を0〜24の数値で入力してください'); return; }
   const data = { hours: h, quality: q||null, ts: Date.now() };
   localStorage.setItem(sleepKey(), JSON.stringify(data));
   // Firestore にも（オフラインキュー対応）
@@ -7430,8 +7430,8 @@ let _qolPhotoData = null;
 document.getElementById('qol-photo-input')?.addEventListener('change', async (e)=>{
   const file = e.target.files?.[0];
   if(!file) return;
-  if(!file.type.startsWith('image/')){ alert('画像ファイルを選んでください'); return; }
-  if(file.size > 10*1024*1024){ alert('10MB以下の画像を選んでください'); return; }
+  if(!file.type.startsWith('image/')){ showGameToast('画像ファイルを選んでください'); return; }
+  if(file.size > 10*1024*1024){ showGameToast('10MB以下の画像を選んでください'); return; }
   try{
     const resized = await resizeImage(file, 800, 800, 0.7);
     _qolPhotoData = resized;
@@ -7441,7 +7441,7 @@ document.getElementById('qol-photo-input')?.addEventListener('change', async (e)
     document.getElementById('qol-photo-status').textContent = `✓ ${(resized.length/1024).toFixed(0)}KB`;
     document.getElementById('qol-photo-clear').style.display = 'inline-block';
   }catch(err){
-    alert('画像の処理に失敗しました: '+err.message);
+    showGameToast('画像の処理に失敗しました: '+err.message,4000);
   }
 });
 document.getElementById('qol-photo-clear')?.addEventListener('click', ()=>{
@@ -7769,8 +7769,11 @@ function maybeShowPwaBanner(){
   if(isIOS){
     document.getElementById('pwa-banner-sub').textContent='共有ボタン → "ホーム画面に追加" でアプリ化できます';
     const btn=document.getElementById('pwa-install-btn');
-    btn.textContent='方法';
-    btn.onclick=()=>alert('iOSの場合：\n1. Safariの共有ボタン（□↑）をタップ\n2. 「ホーム画面に追加」を選択\n3. ホーム画面のアイコンから起動できます');
+    btn.textContent='手順';
+    btn.onclick=()=>{
+      document.getElementById('pwa-banner-sub').innerHTML='① 下の共有ボタン（□↑）→ ② 「ホーム画面に追加」→ ③ 完了';
+      btn.style.display='none';
+    };
   } else if(_deferredPrompt){
     document.getElementById('pwa-install-btn').onclick=async ()=>{
       _deferredPrompt.prompt();
