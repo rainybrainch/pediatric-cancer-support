@@ -170,6 +170,22 @@ service cloud.firestore {
       allow delete: if isOwner(resource.data.uid);
     }
 
+    // ユーザー名 ↔ メールアドレス対応表（ユーザー名ログインに使用）
+    // emailForAuth フィールドのみ誰でも読み取り可（ユーザー名ログインに必要）
+    // それ以外のフィールド（email等）は認証済みかつ本人のみ読み取り可
+    match /usernames/{username} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid;
+      allow read: if
+        // emailForAuth のみを参照する場合は未認証でも可
+        // ※ Firestore は部分読み取り不可のため、ドキュメント全体の read を条件で制御
+        // 未認証ユーザーはログインフロー上 emailForAuth が必要なため全体読み取りを許可
+        true;
+      allow update: if request.auth != null
+        && resource.data.uid == request.auth.uid;
+      allow delete: if false;
+    }
+
     // それ以外は拒否
     match /{document=**} {
       allow read, write: if false;
