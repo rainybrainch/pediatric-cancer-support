@@ -39,31 +39,42 @@
     style.id='qe-styles';
     style.textContent=`
       .qe-boss-banner{
-        background:linear-gradient(135deg,rgba(40,15,40,.85),rgba(20,12,40,.9));
-        border:1px solid rgba(180,80,160,.35);border-radius:14px;
+        background:linear-gradient(135deg,rgba(10,20,50,.88),rgba(5,12,36,.94));
+        border:1px solid rgba(95,208,232,.28);border-radius:14px;
         padding:11px 14px;margin-bottom:12px;
         display:flex;align-items:center;gap:12px;
         position:relative;overflow:hidden;
+        box-shadow:0 0 20px rgba(95,208,232,.08) inset,0 8px 24px rgba(0,0,0,.35);
+      }
+      .qe-boss-banner::before{
+        content:'';position:absolute;inset:0;pointer-events:none;
+        background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(95,208,232,.08),transparent 70%);
       }
       .qe-boss-img{
         width:54px;height:54px;flex-shrink:0;border-radius:50%;
-        background:radial-gradient(circle,rgba(180,80,160,.3),transparent 70%);
+        background:radial-gradient(circle,rgba(95,208,232,.2),transparent 70%);
+        border:1px solid rgba(95,208,232,.3);
         display:flex;align-items:center;justify-content:center;
         overflow:hidden;
       }
       .qe-boss-img img{width:100%;height:100%;object-fit:contain;
-        filter:drop-shadow(0 0 8px rgba(180,80,160,.5));}
+        filter:drop-shadow(0 0 8px rgba(224,92,92,.6));}
       .qe-boss-info{flex:1;min-width:0;}
-      .qe-boss-lbl{font-size:.55rem;letter-spacing:.12em;color:rgba(220,160,210,.65);
+      .qe-boss-lbl{font-size:.55rem;letter-spacing:.12em;color:rgba(95,208,232,.6);
         font-weight:700;text-transform:uppercase;margin-bottom:3px;}
-      .qe-boss-name{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:#f0d0e8;line-height:1.3;}
+      .qe-boss-name{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;
+        background:linear-gradient(135deg,#f0d48a,#e08a3c);-webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;}
       .qe-hp-bar{
-        height:8px;background:rgba(0,0,0,.5);border:1px solid rgba(180,80,160,.4);
+        height:8px;background:rgba(0,0,0,.5);border:1px solid rgba(95,208,232,.2);
         border-radius:99px;margin-top:6px;position:relative;overflow:hidden;
       }
-      .qe-hp-fill{height:100%;background:linear-gradient(90deg,#e05c5c,#e08a3c);
-        border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);}
-      .qe-hp-text{font-size:.55rem;color:rgba(240,200,220,.8);margin-top:3px;}
+      .qe-hp-fill{height:100%;background:linear-gradient(90deg,#e05c5c,#e08a3c,#f0d48a);
+        background-size:200% auto;animation:qeHpShimmer 2s linear infinite;
+        border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);
+        box-shadow:0 0 6px rgba(224,92,92,.5);}
+      @keyframes qeHpShimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+      .qe-hp-text{font-size:.55rem;color:rgba(136,164,200,.75);margin-top:3px;}
 
       /* ダメージ演出 */
       .qe-damage-pop{
