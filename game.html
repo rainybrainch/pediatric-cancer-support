@@ -7349,6 +7349,24 @@ function renderAffinity(){
     });
   });
 
+  // 好感度レベルアップ通知
+  try{
+    const prevKey = `vt_aff_lv_${uid}`;
+    const prev = JSON.parse(localStorage.getItem(prevKey)||'{}');
+    chars.forEach(c=>{
+      const prevLv = prev[c.key]||0;
+      if(prevLv > 0 && c.stats.lv > prevLv){
+        const milestoneLines = {1:'「…また会えた」',3:'「悪くない、お前は」',5:'「…信頼してもいいか？」',8:'「永遠の仲間だ」',10:'「最高の絆だ」'};
+        const quote = milestoneLines[c.stats.lv] || c.quotes[c.stats.lv]||'';
+        setTimeout(()=>{
+          showGameToast(`💞 ${c.name} との絆が Lv.${c.stats.lv} に！ ${quote}`, 4000);
+        }, (chars.indexOf(c)+1)*500);
+      }
+      prev[c.key] = c.stats.lv;
+    });
+    localStorage.setItem(prevKey, JSON.stringify(prev));
+  }catch(e){}
+
   const totalLv = chars.reduce((s,c)=>s+c.stats.lv,0);
   foot.textContent = `絆ポイント計 ${totalLv}/40`;
 }
