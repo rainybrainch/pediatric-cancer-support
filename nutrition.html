@@ -3499,17 +3499,22 @@ function renderSeraRecipe(){
   document.getElementById('srb-note').textContent=r.note;
   document.getElementById('srb-quote').textContent=r.quote;
 
-  document.getElementById('srb-add').onclick=()=>{
+  const srbBtn=document.getElementById('srb-add');
+  srbBtn.onclick=()=>{
     r.items.forEach(it=>{
       sessions.push({name:it.name,icon:it.icon,cat:it.cat,xp:it.xp,subtype:it.subtype||null});
     });
     if(typeof renderLog==='function') renderLog();
     if(typeof updateUI==='function') updateUI();
-    // 記録した感を出すアニメーション
     const card=document.getElementById('srb-card');
     card.style.transition='transform .25s';
     card.style.transform='scale(1.04)';
     setTimeout(()=>{card.style.transform='';}, 250);
+    const totalXp=r.items.reduce((s,i)=>s+i.xp,0);
+    showToast(`✅ ${r.name}を記録しました ＋${totalXp}XP`);
+    srbBtn.textContent='✓ 記録済み';
+    srbBtn.disabled=true;
+    srbBtn.style.opacity='.5';
   };
 }
 
