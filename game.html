@@ -1740,6 +1740,20 @@ body.detail-mode #compact-home{display:none !important;}
   opacity:1;transform:translateX(-50%) translateY(0);
 }
 
+/* ========== ゲーム汎用トースト ========== */
+#game-toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:linear-gradient(135deg,#1a2e4a,#0d1f38);
+  color:#d4e8f8;font-weight:700;font-size:.82rem;
+  padding:10px 22px;border-radius:99px;
+  border:1px solid rgba(41,182,232,.35);
+  box-shadow:0 8px 28px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;
+  z-index:9999;white-space:nowrap;
+}
+#game-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 /* ========== チュートリアル ========== */
 #tutorial-overlay{position:fixed;inset:0;background:rgba(10,42,64,.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px);}
 #tutorial-box{
@@ -4246,7 +4260,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="hc-bar"><div class="hc-bar-fill hc-bar-nu" id="hc-bar-nu" style="width:0%"></div></div>
           <div class="hc-cta">🌿 食事を記録 →</div>
         </a>
-        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="if(typeof window.openCoach==='function'){window.openCoach();}else{document.getElementById('coach-modal')?.classList.add('open');}return false;">
+        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="openCoach();return false;">
           <div class="hc-portrait">
             <img src="./image/runa-sabun%20(2).png" alt="ルナ">
           </div>
@@ -4350,7 +4364,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
             <div class="ch-card-name">栄養</div>
             <div class="ch-card-meta" id="ch-meta-nu">— セラと —</div>
           </a>
-          <button class="ch-card ch-card-co" id="ch-card-luna" type="button" onclick="if(typeof window.openCoach==='function'){window.openCoach();}else{document.getElementById('coach-modal')?.classList.add('open');}return false;">
+          <button class="ch-card ch-card-co" id="ch-card-luna" type="button" onclick="openCoach();return false;">
             <div class="ch-card-img"><img src="./image/runa-sabun%20(2).png" alt="" style="object-position:center 14%;"></div>
             <div class="ch-card-name">ルナ対話</div>
             <div class="ch-card-meta">— GROWで —</div>
@@ -4676,7 +4690,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       </a>
 
       <!-- AIコーチ（全幅） -->
-      <div class="qcard qcard-co qcard-coach-wrap" id="coach-tile" onclick="if(typeof window.openCoach==='function'){window.openCoach();}else{document.getElementById('coach-modal')?.classList.add('open');}" style="cursor:pointer;">
+      <div class="qcard qcard-co qcard-coach-wrap" id="coach-tile" style="cursor:pointer;">
         <div class="qc-hero qc-hero-co">
           <div class="qc-face qc-face-co">
             <img src="./image/runa-sabun%20(1).png" alt="ルナ" id="luna-face" style="object-position:center 14%;">
@@ -5290,6 +5304,14 @@ function awardCoachAchievements(){
     // ホーム画面の実績バッジも更新（UI再描画）
     if(typeof updateUI==='function') updateUI();
   }
+}
+
+function showGameToast(text,ms=3000){
+  let t=document.getElementById('game-toast');
+  if(!t){t=document.createElement('div');t.id='game-toast';document.body.appendChild(t);}
+  t.textContent=text;t.classList.add('show');
+  clearTimeout(showGameToast._tid);
+  showGameToast._tid=setTimeout(()=>t.classList.remove('show'),ms);
 }
 
 function showCoachToast(text){
@@ -6427,7 +6449,7 @@ function renderSleep(){
   }catch(e){}
 }
 document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
-  if(!uid||uid==='guest'){ alert('ログイン後にご利用ください'); return; }
+  if(!uid||uid==='guest'){ showGameToast('ログイン後にご利用ください'); return; }
   const h = parseFloat(document.getElementById('sleep-hours').value);
   const q = parseInt(document.getElementById('sleep-quality').value, 10);
   if(!h || h<=0 || h>24){ alert('睡眠時間を0〜24で入力してください'); return; }
@@ -6710,7 +6732,7 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   if(modal){
     modal.style.display = 'flex';
   } else {
-    alert('QOLトラッカーが見つかりませんでした。ページを再読込してみてください。');
+    showGameToast('QOLトラッカーが見つかりませんでした。ページを再読込してください。',4000);
   }
 });
 document.getElementById('sh-m-done')?.addEventListener('click', ()=>{
@@ -7343,7 +7365,7 @@ document.getElementById('qol-trend-record')?.addEventListener('click',()=>{
   const today=new Date().toISOString().slice(0,10);
   const k=`vt_qol_${uid}_${today}`;
   if(localStorage.getItem(k)){
-    alert('今日はすでに記録済みです✓');
+    showGameToast('今日はすでに記録済みです ✓');
     return;
   }
   // skip フラグを消して表示
