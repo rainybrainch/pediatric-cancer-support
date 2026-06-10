@@ -4877,6 +4877,11 @@ function weekKey(){
   const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
   return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
 }
+function prevWeekKey(){
+  const d=new Date(Date.now()-7*86400000), j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
 function weekLabel(){
   const d=new Date();
   const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1);
@@ -6540,9 +6545,18 @@ function renderCompactHome(){
     const _gs = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
     const exGoal = parseInt(_gs.weeklyGoal || localStorage.getItem(`vt_ex_goal_${uid}`) || '150', 10);
     const exDone = exMin >= exGoal;
+    // 先週比
+    let exCompare = '';
+    try{
+      const prevEx = JSON.parse(localStorage.getItem(`vq_${uid}_${prevWeekKey()}`)||'{}').score||0;
+      if(prevEx > 0 && exMin > 0){
+        const diff = exMin - prevEx;
+        exCompare = diff > 0 ? ` ↑${diff}` : diff < 0 ? ` ↓${Math.abs(diff)}` : '';
+      }
+    }catch(e2){}
     document.getElementById('sh-meta-ex').textContent = exDone
       ? `✅ 今週 ${exMin}分 目標達成！`
-      : `今週 ${exMin} / ${exGoal}分`;
+      : `今週 ${exMin} / ${exGoal}分${exCompare}`;
     document.querySelector('.rec-ex')?.classList.toggle('done', exDone);
   }catch(e){}
   try{
@@ -7744,6 +7758,7 @@ document.getElementById('qol-save').addEventListener('click',async ()=>{
     }, 600);
   }
   if(typeof updateUI==='function') updateUI();
+  try{ renderCompactHome(); }catch(e){}
 });
 document.getElementById('qol-skip').addEventListener('click',()=>{
   const today=new Date().toISOString().slice(0,10);
