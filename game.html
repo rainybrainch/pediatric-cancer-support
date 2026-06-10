@@ -6256,9 +6256,11 @@ function renderDailyQuiz(){
             const cur=parseInt(localStorage.getItem(xpKey)||'0',10);
             localStorage.setItem(xpKey, String(cur+10));
           }catch(e){}
+          showGameToast('🎯 正解！ +10XP', 2000);
         } else {
           b.classList.add('wrong');
           opts.querySelectorAll('.qb-opt')[q.ans].classList.add('correct');
+          showGameToast('❌ 不正解…正解を確認しよう', 2500);
         }
         try{ localStorage.setItem(seenKey, i===q.ans?'correct':'wrong'); }catch(e){}
         explain.textContent='💡 '+q.ex;
@@ -6503,6 +6505,9 @@ document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
   btn.textContent = '✓ 保存';
   btn.style.background = 'rgba(78,201,138,.4)';
   setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; }, 1500);
+  const qualityLabel=['','悪','やや悪','普通','やや良','良'];
+  const qTxt = data.quality ? ` ・ 質: ${qualityLabel[data.quality]||''}` : '';
+  showGameToast(`🌙 睡眠記録: ${data.hours}h${qTxt}`, 2500);
   renderSleep();
 });
 
