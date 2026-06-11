@@ -4445,8 +4445,12 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <span class="sh-qol-streak" id="sh-qol-streak" style="display:none;"></span>
         </div>
         <div class="sh-sparkline" id="sh-sparkline" style="display:none;">
-          <span class="sh-spark-lbl">📈 週活動</span>
+          <span class="sh-spark-lbl">⚔ 週運動</span>
           <div class="sh-spark-bars" id="sh-spark-bars"></div>
+        </div>
+        <div class="sh-sparkline" id="sh-nu-sparkline" style="display:none;">
+          <span class="sh-spark-lbl">🌿 週栄養</span>
+          <div class="sh-spark-bars" id="sh-nu-spark-bars"></div>
         </div>
         <div class="sh-advice" id="sh-advice" style="display:none;"></div>
       </div>
@@ -6796,6 +6800,37 @@ function renderCompactHome(){
         sparkWrap.style.display = 'flex';
       } else {
         sparkWrap.style.display = 'none';
+      }
+    }
+  }catch(e){}
+
+  // 栄養スパークライン
+  try{
+    const nuSparkEl=document.getElementById('sh-nu-spark-bars');
+    const nuSparkWrap=document.getElementById('sh-nu-sparkline');
+    if(nuSparkEl && nuSparkWrap && uid && uid!=='guest'){
+      const nuScores=[];
+      for(let i=5;i>=0;i--){
+        const d=new Date(Date.now()-i*7*86400000);
+        const j=new Date(d.getFullYear(),0,1);
+        const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+        const wk=`${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+        const raw=localStorage.getItem(`vn_${uid}_${wk}`);
+        let sc=null;
+        if(raw){ try{ const d2=JSON.parse(raw); sc=d2.xp||((d2.counts?.veg||0)+(d2.counts?.fruit||0)+(d2.counts?.protein||0)); }catch(e2){} }
+        nuScores.push({wk,sc,isThis:i===0});
+      }
+      const hasAnyNu=nuScores.some(s=>s.sc!=null&&s.sc>0);
+      if(hasAnyNu){
+        const maxNu=Math.max(...nuScores.map(s=>s.sc||0),1);
+        nuSparkEl.innerHTML=nuScores.map(s=>{
+          const h=s.sc!=null&&s.sc>0?Math.round((s.sc/maxNu)*100):5;
+          const cls=s.isThis?'this-week':(s.sc!=null&&s.sc>0?'has-data':'');
+          return `<div class="sh-spark-bar ${cls}" style="height:${h}%;background:${s.isThis?'linear-gradient(180deg,#4ec98a,#1e7fa4)':''};" title="${s.wk}: ${s.sc||0}pt"></div>`;
+        }).join('');
+        nuSparkWrap.style.display='flex';
+      } else {
+        nuSparkWrap.style.display='none';
       }
     }
   }catch(e){}
