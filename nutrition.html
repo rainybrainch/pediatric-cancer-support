@@ -1464,7 +1464,10 @@ setTimeout(function(){
 
       <!-- 週間バランスバー -->
       <div id="nu-balance-card" style="display:none;background:rgba(78,201,138,.04);border:1px solid rgba(78,201,138,.15);border-radius:10px;padding:8px 12px;margin-bottom:10px;">
-        <div style="font-size:.6rem;color:rgba(30,80,110,.6);margin-bottom:5px;font-weight:700;">今週の栄養バランス</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:.6rem;color:rgba(30,80,110,.6);font-weight:700;">今週の栄養バランス</span>
+          <span id="nu-variety-badge" style="display:none;font-size:.56rem;color:rgba(78,201,138,.8);background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.2);border-radius:99px;padding:1px 7px;">食材 0種類</span>
+        </div>
         <div id="nu-balance-rows"></div>
       </div>
 
@@ -2515,8 +2518,20 @@ function updateUI(){
           ${showHint?`<div style="font-size:.55rem;color:rgba(30,80,110,.5);padding-left:66px;margin-top:1px;">${nuHints[label]||''}</div>`:''}
         </div>`;
       }).join('');
+      // 食材バリエーション
+      const varBadge=document.getElementById('nu-variety-badge');
+      if(varBadge){
+        const uniqueNames=new Set(sessions.map(s=>s.name||'').filter(n=>n));
+        const v=uniqueNames.size;
+        if(v>0){
+          varBadge.textContent=`食材 ${v}種類`;
+          varBadge.style.color=v>=10?'#4ec98a':v>=5?'rgba(78,201,138,.7)':'rgba(30,80,110,.5)';
+          varBadge.style.display='inline';
+        } else { varBadge.style.display='none'; }
+      }
       balCard.style.display='block';
     } else if(balCard){
+      document.getElementById('nu-variety-badge')?.style && (document.getElementById('nu-variety-badge').style.display='none');
       balCard.style.display='none';
     }
   }catch(e2){}
