@@ -3128,7 +3128,10 @@ function appendHistory(data){
   try{ hist=JSON.parse(localStorage.getItem(histKey())||'[]'); }catch(e){}
   const wk=weekKey();
   const idx=hist.findIndex(h=>h.wkKey===wk);
-  const entry={wkKey:wk,week:data.week,score:data.score,xp:data.xp||0,lv:data.lv,savedAt:data.savedAt};
+  const freq={};
+  (data.sessions||[]).forEach(s=>{ if(!freq[s.name]) freq[s.name]={icon:s.icon||'🏃',min:0}; freq[s.name].min+=(s.minutes||0); });
+  const topEx=Object.entries(freq).sort((a,b)=>b[1].min-a[1].min).slice(0,2).map(([n,d])=>d.icon+n);
+  const entry={wkKey:wk,week:data.week,score:data.score,xp:data.xp||0,lv:data.lv,savedAt:data.savedAt,topEx:topEx.length?topEx:undefined};
   if(idx>=0) hist[idx]=entry; else hist.unshift(entry);
   hist=hist.slice(0,12); // 最大12週
   localStorage.setItem(histKey(),JSON.stringify(hist));
@@ -3164,12 +3167,14 @@ function renderHistory(){
     const isBest = sc>0 && sc===maxScore;
     const div=document.createElement('div');
     div.className='hist-item'+(achieved?' hist-achieved':'')+(isBest?' hist-best':'');
+    const topExStr=h.topEx&&h.topEx.length?`<div style="font-size:.55rem;color:rgba(30,80,110,.55);padding-top:2px;">${h.topEx.join(' · ')}</div>`:'';
     div.innerHTML=`
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
       <span class="hist-score">${sc}分</span>
       ${isBest?'<span class="hist-ach-best">🏆PB</span>':''}
-      <span class="hist-ach">${achieved?'✅':''}</span>`;
+      <span class="hist-ach">${achieved?'✅':''}</span>
+      ${topExStr}`;
     el.appendChild(div);
   });
   // 月次サマリー
