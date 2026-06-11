@@ -311,6 +311,7 @@ body::before{
 .sh-sum-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
 .sh-sum-val{flex:1;font-weight:700;color:#0a2a40;}
 .sh-streak-badge{font-size:.58rem;font-weight:800;color:#ff7c2a;background:rgba(255,124,42,.1);border:1px solid rgba(255,124,42,.25);padding:2px 7px;border-radius:99px;white-space:nowrap;}
+.sh-xp-badge{font-size:.58rem;font-weight:800;color:#c8a030;background:rgba(240,212,138,.1);border:1px solid rgba(240,212,138,.3);padding:2px 7px;border-radius:99px;white-space:nowrap;}
 .sh-sum-bar{flex:1;height:6px;background:rgba(30,80,110,.10);border-radius:99px;overflow:hidden;}
 .sh-sum-fill{height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4);border-radius:99px;transition:width .5s;box-shadow:0 0 6px rgba(41,182,232,.3);}
 .sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:#1e7fa4;font-size:.78rem;min-width:40px;text-align:right;}
@@ -4399,6 +4400,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <div class="sh-sum-row">
           <span class="sh-sum-lbl">今週</span>
           <span class="sh-sum-val" id="sh-sum-week">記録なし</span>
+          <span class="sh-xp-badge" id="sh-xp-badge" style="display:none;"></span>
           <span class="sh-streak-badge" id="sh-streak-badge" style="display:none;"></span>
         </div>
         <div class="sh-sum-row">
@@ -6795,6 +6797,21 @@ function renderCompactHome(){
       if(streakEl){
         if(streak >= 3){ streakEl.textContent = `🔥 ${streak}日連続`; streakEl.style.display='inline'; }
         else { streakEl.style.display='none'; }
+      }
+    }catch(e2){}
+    // 今週の合計XPバッジ
+    try{
+      const xpBadgeEl = document.getElementById('sh-xp-badge');
+      if(xpBadgeEl){
+        const exXp = exData.xp || (exData.sessions||[]).reduce((s,x)=>s+(x.xp||0),0);
+        const nuXp = nuData.xp || (nuData.sessions||[]).reduce((s,x)=>s+(x.xp||0),0);
+        const totalXp = (exXp||0) + (nuXp||0);
+        if(totalXp > 0){
+          xpBadgeEl.textContent = `+${totalXp}XP`;
+          xpBadgeEl.style.display = 'inline';
+        } else {
+          xpBadgeEl.style.display = 'none';
+        }
       }
     }catch(e2){}
   }catch(e){}
