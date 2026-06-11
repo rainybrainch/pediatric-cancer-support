@@ -710,6 +710,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .coach-iframe{flex:1;border:none;width:100%;background:#c8e4f4;}
 
 /* ===== 食材検索 ===== */
+.cat-chips{display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;margin-bottom:8px;scrollbar-width:none;}
+.cat-chips::-webkit-scrollbar{display:none;}
+.cat-chip{flex-shrink:0;background:rgba(30,80,110,.08);border:1px solid rgba(30,80,110,.18);border-radius:99px;padding:5px 12px;font-size:.7rem;font-weight:700;color:#1e7fa4;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.cat-chip:hover{background:rgba(41,182,232,.15);border-color:rgba(41,182,232,.4);}
+.cat-chip:active{transform:scale(.95);}
 .food-search-wrap{position:relative;margin-bottom:20px;}
 .food-search-box{
   width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.25);
@@ -1421,6 +1426,16 @@ setTimeout(function(){
           <button class="srb-add" id="srb-add">+ 記録</button>
         </div>
         <div class="srb-quote" id="srb-quote">「魚は週2回が目標です。今日いかがですか？」</div>
+      </div>
+
+      <!-- カテゴリクイックジャンプ -->
+      <div class="cat-chips" id="cat-chips">
+        <button class="cat-chip" data-target="veg-grid">🥦 野菜</button>
+        <button class="cat-chip" data-target="fruit-grid">🍎 果物</button>
+        <button class="cat-chip" data-target="protein-grid">🍗 タンパク</button>
+        <button class="cat-chip" data-target="grain-grid">🌾 穀物</button>
+        <button class="cat-chip" data-target="drink-grid">☕ 飲料</button>
+        <button class="cat-chip" data-target="snack-grid">🍪 おやつ</button>
       </div>
 
       <!-- 食材検索 -->
@@ -2871,6 +2886,15 @@ function openCustomAdd(prefill){
     document.getElementById('search-results').classList.remove('open');
   };
 }
+
+// カテゴリチップジャンプ
+document.querySelectorAll('.cat-chip').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const targetId = btn.dataset.target;
+    const el = document.getElementById(targetId);
+    if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
 
 document.getElementById('food-search').addEventListener('input',e=>{
   const v=e.target.value;
