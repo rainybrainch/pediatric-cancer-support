@@ -6607,6 +6607,7 @@ function renderCompactHome(){
   try{
     const today = new Date().toISOString().slice(0,10);
     const todayQolRaw = localStorage.getItem(`vt_qol_${uid}_${today}`);
+    const metaEl = document.getElementById('sh-meta-qol');
     if(todayQolRaw){
       qolDone = true;
       document.querySelector('.rec-qol')?.classList.add('done');
@@ -6614,8 +6615,19 @@ function renderCompactHome(){
         const qd = JSON.parse(todayQolRaw);
         const total = (qd.condition||0)+(qd.mood||0)+(qd.energy||0);
         const avg = (total/3).toFixed(1);
-        const metaEl = document.getElementById('sh-meta-qol');
         if(metaEl) metaEl.textContent = `今日 ${avg}点 記録済み ✓`;
+      }catch(e2){}
+    } else {
+      // 未記録なら昨日の値を参考表示
+      try{
+        const yd = new Date(Date.now()-86400000).toISOString().slice(0,10);
+        const ydRaw = localStorage.getItem(`vt_qol_${uid}_${yd}`);
+        if(ydRaw && metaEl){
+          const yd2 = JSON.parse(ydRaw);
+          const ydTotal = (yd2.condition||0)+(yd2.mood||0)+(yd2.energy||0);
+          const ydAvg = (ydTotal/3).toFixed(1);
+          metaEl.textContent = `昨日 ${ydAvg}点 → 今日は？（+15XP）`;
+        }
       }catch(e2){}
     }
     const dotsEl = document.getElementById('sh-cal-dots');
