@@ -546,6 +546,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   60%{opacity:.9;}
   100%{opacity:0;transform:translateY(-90px) scale(.5);}
 }
+@keyframes plusFloat{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-38px);}}
+.plus-float{position:fixed;font-size:.82rem;font-weight:900;pointer-events:none;z-index:999;animation:plusFloat .75s ease forwards;}
 /* ===== ボス討伐セレモニー ===== */
 #boss-defeat-ceremony{
   position:fixed;inset:0;z-index:8000;
@@ -2773,7 +2775,17 @@ function saveDraft(){
 function clearDraft(){
   try{ localStorage.removeItem(`vq_draft_${uid}`); }catch(e){}
 }
-function addSession(name,icon,mets,type,minutes){
+function spawnPlus(e, text, color){
+  const el=document.createElement('div');
+  el.className='plus-float';
+  el.textContent=text;
+  el.style.color=color||'#4ec98a';
+  el.style.left=(e.clientX||e.x||window.innerWidth/2)+'px';
+  el.style.top =(e.clientY||e.y||200)+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),850);
+}
+function addSession(name,icon,mets,type,minutes,triggerEvent){
   const min = minutes || 10;
   const baseXp=xpForActivity(mets,type);
   const nutScore=getNutritionScore();
@@ -2781,6 +2793,7 @@ function addSession(name,icon,mets,type,minutes){
   const xp=Math.round(baseXp*mult);
   const kcal = calcCaloriesBurned(mets, min);
   const h=new Date().getHours();
+  if(triggerEvent){ const clr=type==='high'?'#f09550':'#4ec98a'; spawnPlus(triggerEvent,`+${xp} XP`,clr); }
   const timeSlot=h<6?'🌙夜':h<11?'🌅朝':h<14?'☀️昼':h<18?'🌤午後':h<22?'🌆夕方':'🌙夜';
   sessions.push({name,icon,mets,type,xp,minutes:min,kcal,timeSlot});
   if(type==='high') highMin+=min; else modMin+=min;
@@ -2903,7 +2916,7 @@ function buildBoard(id,groups,type){
         <span class="e-min">${tapMinutes}分</span>
         <span class="ex-count">0</span>
         <button class="ex-dec">−</button>`;
-      c.addEventListener('click',()=>addSession(ex.name,ex.icon,g.mets,type,tapMinutes));
+      c.addEventListener('click',(e)=>addSession(ex.name,ex.icon,g.mets,type,tapMinutes,e));
       c.querySelector('.ex-dec').addEventListener('click',e=>{
         e.stopPropagation();
         decrementSession(ex.name);
