@@ -1465,7 +1465,7 @@ setTimeout(function(){
       <!-- 週間バランスバー -->
       <div id="nu-balance-card" style="display:none;background:rgba(78,201,138,.04);border:1px solid rgba(78,201,138,.15);border-radius:10px;padding:8px 12px;margin-bottom:10px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
-          <span style="font-size:.6rem;color:rgba(30,80,110,.6);font-weight:700;">今週の栄養バランス</span>
+          <span style="font-size:.6rem;color:rgba(30,80,110,.6);font-weight:700;">今週の栄養バランス <span id="nu-week-score" style="display:none;color:rgba(78,201,138,.8);">0/25点</span></span>
           <span id="nu-variety-badge" style="display:none;font-size:.56rem;color:rgba(78,201,138,.8);background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.2);border-radius:99px;padding:1px 7px;">食材 0種類</span>
         </div>
         <div id="nu-balance-rows"></div>
@@ -2518,6 +2518,14 @@ function updateUI(){
           ${showHint?`<div style="font-size:.55rem;color:rgba(30,80,110,.5);padding-left:66px;margin-top:1px;">${nuHints[label]||''}</div>`:''}
         </div>`;
       }).join('');
+      // 週間スコア表示
+      const scoreEl=document.getElementById('nu-week-score');
+      if(scoreEl){
+        const wkScore=Math.round((c.veg/21+c.fruit/10+c.protein/14+c.grain/14)*25);
+        scoreEl.textContent=`${wkScore}/25点`;
+        scoreEl.style.color=wkScore>=25?'#4ec98a':wkScore>=15?'rgba(78,201,138,.75)':'rgba(78,201,138,.5)';
+        scoreEl.style.display='inline';
+      }
       // 食材バリエーション
       const varBadge=document.getElementById('nu-variety-badge');
       if(varBadge){
