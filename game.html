@@ -5324,6 +5324,7 @@ function saveCoachHistory(){
   try{
     localStorage.setItem(COACH_HIST_KEY(),JSON.stringify(_coachState.history.slice(-40)));
     localStorage.setItem(COACH_STEP_KEY(),_coachState.step);
+    localStorage.setItem(`vc_last_${uid||'guest'}`,new Date().toISOString().slice(0,10));
   }catch(e){}
 }
 
@@ -6941,6 +6942,17 @@ function renderCompactHome(){
     // ショップ：所持コイン
     const coins = window.Gamification?.getCoins?.();
     if(coins != null) document.getElementById('ch-meta-sh').textContent = `${coins} 🪙`;
+  }catch(e){}
+  try{
+    // ルナ：最後に話した日
+    const lastChat = localStorage.getItem(`vc_last_${uid}`);
+    const lunaEl = document.getElementById('hc-stat-luna');
+    if(lunaEl && lastChat){
+      const diffDays = Math.floor((Date.now()-new Date(lastChat).getTime())/86400000);
+      if(diffDays===0) lunaEl.textContent='今日も話せるよ ✓';
+      else if(diffDays===1) lunaEl.textContent='昨日話した — また話そう';
+      else lunaEl.textContent=`${diffDays}日ぶり — 近況を話そう`;
+    }
   }catch(e){}
 
   // メインボタンのバッジ：何かアクションある時に !
