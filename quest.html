@@ -719,6 +719,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .hist-achieved .hist-bar{background:linear-gradient(90deg,#2da366,#4ec98a);}
 .hist-achieved .hist-score{color:#2da366;}
 .hist-empty{font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:8px 0;}
+.hist-best .hist-score{color:#f0d48a;}
+.hist-best .hist-bar{background:linear-gradient(90deg,#e8a030,#f0d48a);}
+.hist-ach-best{font-size:.65rem;flex-shrink:0;background:rgba(240,212,138,.15);border:1px solid rgba(240,212,138,.3);border-radius:4px;padding:1px 4px;color:#f0d48a;white-space:nowrap;}
 
 /* ===== ストリーク ===== */
 .streak-row{display:flex;align-items:center;gap:12px;}
@@ -2881,16 +2884,19 @@ function renderHistory(){
     return;
   }
   const goal=getWeeklyGoal();
+  const maxScore = Math.max(...hist.map(h=>h.score||0), 0);
   hist.forEach(h=>{
-    const pct=Math.min(100,Math.round((h.score||0)/goal*100));
+    const sc=h.score||0;
+    const pct=Math.min(100,Math.round(sc/goal*100));
+    const achieved = sc >= goal;
+    const isBest = sc>0 && sc===maxScore;
     const div=document.createElement('div');
-    div.className='hist-item';
-    const achieved = (h.score||0) >= goal;
-    div.className='hist-item'+(achieved?' hist-achieved':'');
+    div.className='hist-item'+(achieved?' hist-achieved':'')+(isBest?' hist-best':'');
     div.innerHTML=`
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
-      <span class="hist-score">${h.score||0}分</span>
+      <span class="hist-score">${sc}分</span>
+      ${isBest?'<span class="hist-ach-best">🏆PB</span>':''}
       <span class="hist-ach">${achieved?'✅':''}</span>`;
     el.appendChild(div);
   });
