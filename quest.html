@@ -1523,6 +1523,14 @@ setTimeout(function(){
         </div>
       </div>
 
+      <!-- 運動検索 -->
+      <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid rgba(41,182,232,.12);border-radius:10px;padding:7px 10px;">
+        <span style="font-size:.85rem;">🔍</span>
+        <input type="text" id="ex-search" placeholder="種目を検索…" autocomplete="off"
+          style="flex:1;background:none;border:none;outline:none;font-size:.78rem;color:var(--silver);font-family:inherit;">
+        <button id="ex-search-clear" type="button" style="background:none;border:none;color:rgba(30,80,110,.5);font-size:.8rem;cursor:pointer;display:none;">✕</button>
+      </div>
+
       <!-- 日常の動き -->
       <div class="board-section is-daily">
         <div class="section-head">
@@ -3321,6 +3329,27 @@ document.querySelectorAll('.tt-btn').forEach(btn=>{
     updateUI();
   });
 });
+
+// ===== 運動種目検索 =====
+(()=>{
+  const inp=document.getElementById('ex-search');
+  const clr=document.getElementById('ex-search-clear');
+  if(!inp) return;
+  const filter=(q)=>{
+    const lc=q.toLowerCase().trim();
+    document.querySelectorAll('.ex-card').forEach(c=>{
+      const name=(c.dataset.name||'').toLowerCase();
+      c.style.display=(!lc||name.includes(lc))?'':'none';
+    });
+    document.querySelectorAll('.board-section').forEach(sec=>{
+      const visible=sec.querySelectorAll('.ex-card:not([style*="display: none"])').length;
+      sec.style.display=(!lc||visible>0)?'':'none';
+    });
+    if(clr) clr.style.display=lc?'block':'none';
+  };
+  inp.addEventListener('input',()=>filter(inp.value));
+  if(clr) clr.addEventListener('click',()=>{ inp.value=''; filter(''); inp.focus(); });
+})();
 
 // ===== AI Coach: ホーム画面のルナチャットへ遷移 =====
 document.getElementById('coach-fab').addEventListener('click',()=>{
