@@ -6009,6 +6009,8 @@ onAuthStateChanged(auth, async user=>{
     setTimeout(maybeMilestoneReminder, 7000);
     // ドロップアウトリスク介入（リスク高いとき）
     setTimeout(maybeDropoutIntervention, 8000);
+    // 週中盤（木・金）リマインダー
+    setTimeout(maybeMidWeekReminder, 10000);
     // PWAインストール案内（ユーザー閉じる/インストール後は再表示しない）
     setTimeout(maybeShowPwaBanner, 5000);
     // デイリーリマインダー（設定があれば登録）
@@ -8305,6 +8307,27 @@ function maybeDropoutIntervention(){
   if(action){
     location.href = './quest.html';
   }
+}
+
+// ===== 週中盤リマインダー（木・金曜に進捗50%未満） =====
+function maybeMidWeekReminder(){
+  if(!uid || uid==='guest') return;
+  const dow = new Date().getDay();
+  if(dow !== 4 && dow !== 5) return; // 木・金のみ
+  const seenKey = `vt_midweek_reminder_${uid}_${weekKey()}`;
+  if(localStorage.getItem(seenKey)) return;
+  try{
+    const _gs = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+    const goal = parseInt(_gs.weeklyGoal || '150', 10);
+    const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${weekKey()}`)||'{}');
+    const score = exData.score || 0;
+    const pct = score / goal * 100;
+    if(pct >= 50) return; // 50%以上なら表示しない
+    localStorage.setItem(seenKey, '1');
+    const remain = goal - score;
+    const dayStr = dow === 4 ? '木曜日' : '金曜日';
+    showGameToast(`📅 ${dayStr}：今週あと${remain}分で目標達成！ quest.htmlで記録しよう`, 5000);
+  }catch(e){}
 }
 
 // ===== ユーザー設定の双方向同期（Firestore <-> localStorage） =====
