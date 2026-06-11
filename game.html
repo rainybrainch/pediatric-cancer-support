@@ -6959,7 +6959,14 @@ function renderCompactHome(){
         const sv = JSON.parse(sr);
         const qMap={'5':'😄','4':'😊','3':'😐','2':'😕','1':'😞'};
         const qEmoji = sv.quality ? (qMap[String(sv.quality)]||'') : '';
-        sleepVal.textContent = `昨夜 ${sv.hours}h${qEmoji?' '+qEmoji:''}`;
+        // 7日平均も計算して表示
+        let sleepSum=0, sleepCnt=0;
+        for(let i=1;i<=7;i++){
+          const ds=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+          try{ const s2=JSON.parse(localStorage.getItem(`vt_sleep_${uid}_${ds}`)||'null'); if(s2&&s2.hours){ sleepSum+=parseFloat(s2.hours); sleepCnt++; } }catch(e2){}
+        }
+        const avgStr=sleepCnt>1?` / 平均${(sleepSum/sleepCnt).toFixed(1)}h`:'';
+        sleepVal.textContent = `昨夜 ${sv.hours}h${qEmoji?' '+qEmoji:''}${avgStr}`;
         sleepEditBtn.textContent = '修正';
         sleepEditBtn.classList.add('done');
       } else {
