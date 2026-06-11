@@ -6715,15 +6715,35 @@ function renderCompactHome(){
   }catch(e){}
   try{
     const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
-    vegC = nuData.counts?.veg || 0;
-    fishC = nuData.counts?.protein || 0;
+    // 栄養ドラフトがあれば優先表示
+    let nuIsDraft = false;
+    let effectiveNuData = nuData;
+    try{
+      const nuDraftRaw = localStorage.getItem(`vn_draft_${uid}`);
+      if(nuDraftRaw && !nuData.savedAt){
+        const nuDraft = JSON.parse(nuDraftRaw);
+        if((nuDraft.sessions||[]).length > 0){ effectiveNuData = nuDraft; nuIsDraft = true; }
+      }
+    }catch(e2){}
+    vegC = effectiveNuData.counts?.veg || (()=>{
+      // ドラフトはcountsがない場合があるのでsessionsから計算
+      let v=0;
+      (effectiveNuData.sessions||[]).forEach(s=>{ v+=(s.count?.veg||0)+(s.qty&&s.category==='veg'?s.qty:0); });
+      return v;
+    })();
+    // countsがある場合はそちらを優先
+    if(effectiveNuData.counts?.veg!=null) vegC=effectiveNuData.counts.veg;
+    fishC = effectiveNuData.counts?.protein || 0;
     const vegGoalReached = vegC >= 21;
     const vegRemaining = 21 - vegC;
+    const nuDraftMark = nuIsDraft ? '📝 ' : '';
     let nuMeta;
     if(vegGoalReached){
-      nuMeta = `✅ 野菜 ${vegC}皿 目標超え！ / タンパク ${fishC}食`;
+      nuMeta = `${nuDraftMark}✅ 野菜 ${vegC}皿 目標超え！ / タンパク ${fishC}食`;
     } else if(vegC > 0 && vegRemaining <= 3){
-      nuMeta = `🌿 あと${vegRemaining}皿で達成！（${vegC}/21皿）`;
+      nuMeta = `${nuDraftMark}🌿 あと${vegRemaining}皿で達成！（${vegC}/21皿）`;
+    } else if(vegC > 0){
+      nuMeta = `${nuDraftMark}野菜 ${vegC}/21皿 ・ タンパク ${fishC}食`;
     } else {
       nuMeta = `野菜 ${vegC}/21皿 ・ タンパク ${fishC}食`;
     }
@@ -6734,7 +6754,7 @@ function renderCompactHome(){
     try{
       const nuChipsEl=document.getElementById('sh-nu-chips');
       if(nuChipsEl){
-        const nuSessions=nuData.sessions||[];
+        const nuSessions=effectiveNuData.sessions||[];
         if(nuSessions.length>0){
           const nuFreq={};
           nuSessions.forEach(s=>{
