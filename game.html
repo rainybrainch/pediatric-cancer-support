@@ -6590,9 +6590,18 @@ function renderCompactHome(){
         exCompare = diff > 0 ? ` ↑${diff}` : diff < 0 ? ` ↓${Math.abs(diff)}` : '';
       }
     }catch(e2){}
-    document.getElementById('sh-meta-ex').textContent = exDone
-      ? `✅ 今週 ${exMin}分 目標達成！`
-      : `今週 ${exMin} / ${exGoal}分${exCompare}`;
+    const remaining = exGoal - exMin;
+    let exMetaText;
+    if(exDone){
+      exMetaText = `✅ 今週 ${exMin}分 目標達成！`;
+    } else if(exMin > 0 && remaining <= 30){
+      exMetaText = `🔥 あと${remaining}分で達成！（${exMin}/${exGoal}分）`;
+    } else if(exMin > 0 && remaining <= Math.round(exGoal*0.2)){
+      exMetaText = `⚡ もう少し！${exMin}/${exGoal}分${exCompare}`;
+    } else {
+      exMetaText = `今週 ${exMin} / ${exGoal}分${exCompare}`;
+    }
+    document.getElementById('sh-meta-ex').textContent = exMetaText;
     document.querySelector('.rec-ex')?.classList.toggle('done', exDone);
   }catch(e){}
   try{
@@ -6600,9 +6609,15 @@ function renderCompactHome(){
     vegC = nuData.counts?.veg || 0;
     fishC = nuData.counts?.protein || 0;
     const vegGoalReached = vegC >= 21;
-    const nuMeta = vegGoalReached
-      ? `✅ 野菜 ${vegC}皿 目標超え！ / タンパク ${fishC}食`
-      : `野菜 ${vegC}/21皿 ・ タンパク ${fishC}食`;
+    const vegRemaining = 21 - vegC;
+    let nuMeta;
+    if(vegGoalReached){
+      nuMeta = `✅ 野菜 ${vegC}皿 目標超え！ / タンパク ${fishC}食`;
+    } else if(vegC > 0 && vegRemaining <= 3){
+      nuMeta = `🌿 あと${vegRemaining}皿で達成！（${vegC}/21皿）`;
+    } else {
+      nuMeta = `野菜 ${vegC}/21皿 ・ タンパク ${fishC}食`;
+    }
     document.getElementById('sh-meta-nu').textContent = nuMeta;
     document.querySelector('.rec-nu')?.classList.toggle('done', vegGoalReached);
   }catch(e){}
