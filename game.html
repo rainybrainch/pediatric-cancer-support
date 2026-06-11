@@ -6651,7 +6651,21 @@ function renderCompactHome(){
   let exMin = 0, vegC=0, fishC=0, qolDone=false;
   try{
     const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${wk}`)||'{}');
-    exMin = exData.score || 0;
+    // ドラフトがあれば優先表示
+    let isDraft = false;
+    let effectiveExData = exData;
+    try{
+      const draftRaw = localStorage.getItem(`vq_draft_${uid}`);
+      if(draftRaw && !exData.savedAt){
+        const draft = JSON.parse(draftRaw);
+        const draftScore = (draft.sessions||[]).reduce((s,x)=>{
+          const mets=x.mets||3.5; const mins=x.minutes||0;
+          return s + (mets>=6?mins*2:mins);
+        },0);
+        if(draftScore > 0){ effectiveExData = {...draft, score:draftScore}; isDraft=true; }
+      }
+    }catch(e2){}
+    exMin = effectiveExData.score || 0;
     const _gs = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
     const exGoal = parseInt(_gs.weeklyGoal || localStorage.getItem(`vt_ex_goal_${uid}`) || '150', 10);
     const exDone = exMin >= exGoal;
@@ -6665,13 +6679,16 @@ function renderCompactHome(){
       }
     }catch(e2){}
     const remaining = exGoal - exMin;
+    const draftMark = isDraft ? '📝 ' : '';
     let exMetaText;
     if(exDone){
-      exMetaText = `✅ 今週 ${exMin}分 目標達成！`;
+      exMetaText = `${draftMark}✅ 今週 ${exMin}分 目標達成！`;
     } else if(exMin > 0 && remaining <= 30){
-      exMetaText = `🔥 あと${remaining}分で達成！（${exMin}/${exGoal}分）`;
+      exMetaText = `${draftMark}🔥 あと${remaining}分で達成！（${exMin}/${exGoal}分）`;
     } else if(exMin > 0 && remaining <= Math.round(exGoal*0.2)){
-      exMetaText = `⚡ もう少し！${exMin}/${exGoal}分${exCompare}`;
+      exMetaText = `${draftMark}⚡ もう少し！${exMin}/${exGoal}分${exCompare}`;
+    } else if(exMin > 0){
+      exMetaText = `${draftMark}今週 ${exMin} / ${exGoal}分${exCompare}`;
     } else {
       exMetaText = `今週 ${exMin} / ${exGoal}分${exCompare}`;
     }
@@ -6682,7 +6699,7 @@ function renderCompactHome(){
     try{
       const chipsEl = document.getElementById('sh-ex-chips');
       if(chipsEl){
-        const sessions = exData.sessions || [];
+        const sessions = effectiveExData.sessions || [];
         const freq = {};
         sessions.forEach(s=>{
           if(!freq[s.name]) freq[s.name]={icon:s.icon||'🏃',count:0,min:0};
