@@ -694,6 +694,13 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #_undo-toast.hidden{opacity:0;pointer-events:none;}
 #_undo-btn{background:rgba(41,182,232,.25);border:1px solid rgba(41,182,232,.5);color:#a0d8f0;border-radius:6px;padding:3px 10px;font-size:.74rem;font-weight:700;cursor:pointer;}
 
+/* 強度内訳バー */
+.int-bar-wrap{margin-top:6px;display:flex;flex-direction:column;gap:2px;}
+.int-bar-label{font-size:.58rem;color:rgba(30,80,110,.65);display:flex;justify-content:space-between;}
+.int-bar-track{height:6px;background:rgba(30,80,110,.1);border-radius:99px;overflow:hidden;display:flex;}
+.int-bar-mod{background:linear-gradient(90deg,#29b6e8,#4ec98a);height:100%;transition:width .4s ease;}
+.int-bar-high{background:linear-gradient(90deg,#f0954a,#f04a7a);height:100%;transition:width .4s ease;}
+
 /* 保存 */
 .save-area{display:flex;flex-direction:column;gap:6px;}
 .btn-save{
@@ -2623,9 +2630,22 @@ function renderLog(){
         agg[s.name].kcal+=s.kcal!=null?s.kcal:calcCaloriesBurned(s.mets,s.minutes||10);
       });
       const sorted=Object.entries(agg).sort((a,b)=>b[1].min-a[1].min);
+      const modTotalMin = sessions.filter(s=>s.type!=='high').reduce((s,x)=>s+(x.minutes||10),0);
+      const highTotalMin = sessions.filter(s=>s.type==='high').reduce((s,x)=>s+(x.minutes||10),0);
+      const totalMin = modTotalMin + highTotalMin;
+      const modPct = totalMin>0 ? Math.round(modTotalMin/totalMin*100) : 0;
+      const highPct = 100 - modPct;
+      const intBarHtml = totalMin>0 ? `
+        <div class="int-bar-wrap">
+          <div class="int-bar-label"><span>🌊中 ${modTotalMin}分</span><span>🔥高 ${highTotalMin}分</span></div>
+          <div class="int-bar-track">
+            <div class="int-bar-mod" style="width:${modPct}%"></div>
+            <div class="int-bar-high" style="width:${highPct}%"></div>
+          </div>
+        </div>` : '';
       sumEl.innerHTML=sorted.map(([name,d])=>
         `<span style="display:inline-flex;align-items:center;gap:3px;font-size:.6rem;color:rgba(30,80,110,.75);margin:1px 4px 1px 0;">${d.icon}<b>${name}</b> ${d.min}分・🔥${Math.round(d.kcal)}kcal</span>`
-      ).join('');
+      ).join('')+intBarHtml;
       sumEl.style.display='block';
     } else {
       sumEl.style.display='none';
