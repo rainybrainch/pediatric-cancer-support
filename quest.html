@@ -2667,7 +2667,7 @@ function renderLog(){
     li.innerHTML=`
       <span class="li-icon">${s.icon}</span>
       <span class="li-name">${s.name}<br>
-        <span class="li-sub">${s.type==='high'?'高強度':'中強度'} ${s.mets}METs · ${min}分 · 🔥${kcal}kcal</span>
+        <span class="li-sub">${s.type==='high'?'高強度':'中強度'} ${s.mets}METs · ${min}分 · 🔥${kcal}kcal${s.timeSlot?` · ${s.timeSlot}`:''}</span>
       </span>
       <span class="li-xp">+${s.xp}XP</span>
       <button class="li-del" data-i="${i}">✕</button>`;
@@ -2772,7 +2772,9 @@ function addSession(name,icon,mets,type,minutes){
   const mult=getNutritionMult(nutScore);
   const xp=Math.round(baseXp*mult);
   const kcal = calcCaloriesBurned(mets, min);
-  sessions.push({name,icon,mets,type,xp,minutes:min,kcal});
+  const h=new Date().getHours();
+  const timeSlot=h<6?'🌙夜':h<11?'🌅朝':h<14?'☀️昼':h<18?'🌤午後':h<22?'🌆夕方':'🌙夜';
+  sessions.push({name,icon,mets,type,xp,minutes:min,kcal,timeSlot});
   if(type==='high') highMin+=min; else modMin+=min;
   saveDraft();
   renderLog(); updateUI();
