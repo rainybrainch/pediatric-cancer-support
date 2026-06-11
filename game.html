@@ -307,6 +307,13 @@ body::before{
 .sh-hyd-plus:hover{background:rgba(41,182,232,.3);transform:scale(1.07);}
 .sh-hyd-plus:active{transform:scale(.95);}
 .sh-hyd-plus.done{background:rgba(78,201,138,.15);border-color:rgba(78,201,138,.4);color:#4ec98a;cursor:default;}
+.sh-sleep-edit-btn{background:rgba(140,114,224,.15);border:1px solid rgba(140,114,224,.35);border-radius:99px;color:#a08ce8;font-size:.62rem;font-weight:900;padding:3px 10px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.sh-sleep-edit-btn:hover{background:rgba(140,114,224,.28);transform:scale(1.07);}
+.sh-sleep-edit-btn.done{background:rgba(78,201,138,.12);border-color:rgba(78,201,138,.35);color:#4ec98a;cursor:default;}
+.sh-sleep-input-wrap{display:flex;align-items:center;gap:4px;}
+.sh-sleep-input{width:52px;background:rgba(140,114,224,.12);border:1px solid rgba(140,114,224,.4);border-radius:8px;color:#c8b8f4;font-size:.72rem;font-weight:700;padding:3px 6px;text-align:center;outline:none;}
+.sh-sleep-save-btn{background:rgba(140,114,224,.2);border:1px solid rgba(140,114,224,.4);border-radius:99px;color:#c8b8f4;font-size:.6rem;font-weight:900;padding:3px 9px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.sh-sleep-save-btn:hover{background:rgba(140,114,224,.35);}
 
 /* 冒険1行 */
 .sh-adv{
@@ -2959,6 +2966,10 @@ a:focus-visible, button:focus-visible{
 .sh-qol-streak{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.3) !important; }
 .sh-hyd-plus{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; background: rgba(95,208,232,.12) !important; border-color: rgba(95,208,232,.35) !important; }
 .sh-hyd-plus.done{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.35) !important; }
+.sh-sleep-edit-btn{ color: #b8a0f0 !important; -webkit-text-fill-color: #b8a0f0 !important; background: rgba(160,140,232,.12) !important; border-color: rgba(160,140,232,.3) !important; }
+.sh-sleep-edit-btn.done{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.3) !important; }
+.sh-sleep-input{ color: #c8b8f4 !important; -webkit-text-fill-color: #c8b8f4 !important; background: rgba(140,114,224,.15) !important; border-color: rgba(140,114,224,.4) !important; }
+.sh-sleep-save-btn{ color: #c8b8f4 !important; -webkit-text-fill-color: #c8b8f4 !important; background: rgba(140,114,224,.2) !important; border-color: rgba(140,114,224,.4) !important; }
 
 /* ---------- 冒険プログレス / ミッション ---------- */
 .sh-adv{
@@ -4364,6 +4375,15 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <span class="sh-sum-lbl">💧 水分</span>
           <span class="sh-sum-val" id="sh-hyd-val">0 / 8杯</span>
           <button class="sh-hyd-plus" id="sh-hyd-plus" type="button">+1</button>
+        </div>
+        <div class="sh-sum-row sh-sleep-row" id="sh-sleep-row">
+          <span class="sh-sum-lbl">🌙 睡眠</span>
+          <span class="sh-sum-val" id="sh-sleep-val">昨夜 —h</span>
+          <div class="sh-sleep-input-wrap" id="sh-sleep-input-wrap" style="display:none;">
+            <input type="number" class="sh-sleep-input" id="sh-sleep-quick" min="0" max="24" step="0.5" placeholder="h">
+            <button class="sh-sleep-save-btn" id="sh-sleep-save-btn" type="button">保存</button>
+          </div>
+          <button class="sh-sleep-edit-btn" id="sh-sleep-edit-btn" type="button">記録</button>
         </div>
         <div class="sh-cal">
           <span class="sh-cal-lbl">7日記録</span>
@@ -6623,11 +6643,7 @@ function renderCompactHome(){
       const sr = localStorage.getItem(`vt_sleep_${uid}_${yd}`);
       if(sr){ const sv=JSON.parse(sr); if(sv.hours) summary.push(`睡眠${sv.hours}h`); }
     }catch(e2){}
-    // 今日の水分
-    try{
-      const hc = getHydCount();
-      if(hc > 0) summary.push(`💧${hc}/${HYDRATION_GOAL}`);
-    }catch(e2){}
+    // 水分は専用行(sh-hyd-row)で表示するためここでは省略
     const sumEl = document.getElementById('sh-sum-week');
     if(sumEl) sumEl.textContent = summary.length ? summary.join(' ・ ') : '今週はまだ記録なし';
     // ログインストリーク表示
@@ -6652,6 +6668,26 @@ function renderCompactHome(){
     const pct = Math.min(100, Math.round(days / (12*7) * 100));
     document.getElementById('sh-sum-fill').style.width = pct + '%';
     document.getElementById('sh-sum-pct').textContent = pct + '%';
+  }catch(e){}
+
+  // 睡眠行更新
+  try{
+    const yd = new Date(Date.now()-86400000).toISOString().slice(0,10);
+    const sr = localStorage.getItem(`vt_sleep_${uid}_${yd}`);
+    const sleepVal = document.getElementById('sh-sleep-val');
+    const sleepEditBtn = document.getElementById('sh-sleep-edit-btn');
+    if(sleepVal && sleepEditBtn){
+      if(sr){
+        const sv = JSON.parse(sr);
+        sleepVal.textContent = `昨夜 ${sv.hours}h`;
+        sleepEditBtn.textContent = '修正';
+        sleepEditBtn.classList.add('done');
+      } else {
+        sleepVal.textContent = '昨夜 —h';
+        sleepEditBtn.textContent = '記録';
+        sleepEditBtn.classList.remove('done');
+      }
+    }
   }catch(e){}
 
   // 水分行更新
@@ -6880,6 +6916,48 @@ document.getElementById('sh-rec-qol')?.addEventListener('click', ()=>{
   } else {
     showGameToast('QOLトラッカーが見つかりませんでした。ページを再読込してください。',4000);
   }
+});
+document.getElementById('sh-sleep-edit-btn')?.addEventListener('click', ()=>{
+  const wrap = document.getElementById('sh-sleep-input-wrap');
+  const editBtn = document.getElementById('sh-sleep-edit-btn');
+  if(!wrap) return;
+  const isOpen = wrap.style.display !== 'none';
+  wrap.style.display = isOpen ? 'none' : 'flex';
+  if(!isOpen){
+    editBtn.style.display = 'none';
+    // 既存値をプリフィル
+    try{
+      const yd = new Date(Date.now()-86400000).toISOString().slice(0,10);
+      const sr = localStorage.getItem(`vt_sleep_${uid}_${yd}`);
+      if(sr){ const sv=JSON.parse(sr); document.getElementById('sh-sleep-quick').value = sv.hours||''; }
+    }catch(e){}
+    setTimeout(()=> document.getElementById('sh-sleep-quick')?.focus(), 50);
+  } else {
+    editBtn.style.display = '';
+  }
+});
+document.getElementById('sh-sleep-save-btn')?.addEventListener('click', async ()=>{
+  if(!uid || uid==='guest'){ showGameToast('ログイン後にご利用ください'); return; }
+  const h = parseFloat(document.getElementById('sh-sleep-quick')?.value);
+  if(!h || h < 0 || h > 24){ showGameToast('時間を正しく入力してください（例: 7.5）'); return; }
+  const yd = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const data = { hours: h, date: yd, savedAt: Date.now() };
+  try{ localStorage.setItem(`vt_sleep_${uid}_${yd}`, JSON.stringify(data)); }catch(e){}
+  try{
+    if(db && uid){
+      const { addDoc, collection, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+      await addDoc(collection(db,'sleep_records'),{ uid, ...data, ts: serverTimestamp() });
+    }
+  }catch(e){}
+  // UI更新
+  document.getElementById('sh-sleep-input-wrap').style.display = 'none';
+  document.getElementById('sh-sleep-edit-btn').style.display = '';
+  const sleepVal = document.getElementById('sh-sleep-val');
+  if(sleepVal) sleepVal.textContent = `昨夜 ${h}h`;
+  document.getElementById('sh-sleep-edit-btn')?.classList.add('done');
+  document.getElementById('sh-sleep-edit-btn').textContent = '修正';
+  showGameToast(`🌙 睡眠記録: ${h}h`, 2200);
+  try{ renderSleep(); }catch(e){}
 });
 document.getElementById('sh-hyd-plus')?.addEventListener('click', ()=>{
   if(!uid || uid==='guest'){ showGameToast('ログイン後にご利用ください'); return; }
