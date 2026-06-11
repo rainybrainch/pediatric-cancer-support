@@ -281,6 +281,8 @@ body::before{
 .rec-qol.done .sh-rec-meta::after{content:' ・ ✓今日記録済み';color:#a8e8c0;font-weight:700;}
 .rec-ex.done{opacity:.75;}
 .rec-ex.done .sh-rec-name::after{content:' 🏆';}
+.rec-nu.done{opacity:.75;}
+.rec-nu.done .sh-rec-name::after{content:' 🌿';}
 
 /* 今週の進捗 */
 .sh-summary{
@@ -6594,7 +6596,12 @@ function renderCompactHome(){
     const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
     vegC = nuData.counts?.veg || 0;
     fishC = nuData.counts?.protein || 0;
-    document.getElementById('sh-meta-nu').textContent = `野菜 ${vegC} 皿 / タンパク ${fishC} 食`;
+    const vegGoalReached = vegC >= 21;
+    const nuMeta = vegGoalReached
+      ? `✅ 野菜 ${vegC}皿 目標超え！ / タンパク ${fishC}食`
+      : `野菜 ${vegC}/21皿 ・ タンパク ${fishC}食`;
+    document.getElementById('sh-meta-nu').textContent = nuMeta;
+    document.querySelector('.rec-nu')?.classList.toggle('done', vegGoalReached);
   }catch(e){}
   // 今日のQOL記録済みか + 7日カレンダードット
   try{
