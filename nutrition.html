@@ -3051,6 +3051,12 @@ function currentMealTime(){
   const sel = document.querySelector('input[name="meal-time"]:checked');
   return sel ? sel.value : 'lunch';
 }
+function autoSelectMealTime(){
+  const h=new Date().getHours();
+  const mt=h<10?'morning':h<14?'lunch':h<19?'dinner':'snack';
+  const radio=document.querySelector(`input[name="meal-time"][value="${mt}"]`);
+  if(radio){ radio.checked=true; }
+}
 
 // ===== 食材検索 =====
 let _foodsDB=[], _dishesDB=[];
@@ -3684,6 +3690,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('user-display').textContent='ゲスト（デモ）';
   document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
+  autoSelectMealTime();
   document.getElementById('coach-fab').classList.add('visible');
 });
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
@@ -3724,6 +3731,7 @@ onAuthStateChanged(auth,user=>{
     renderAch();
     renderStreak(getStreak());
     checkLoginBonus();
+    autoSelectMealTime();
     document.getElementById('coach-fab').classList.add('visible');
     document.getElementById('bottom-nav').style.display='flex';
     checkStreakWarning();
