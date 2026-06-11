@@ -1828,6 +1828,7 @@ setTimeout(function(){
 
       <!-- 保存 -->
       <div class="save-area">
+        <div id="save-preview" style="display:none;font-size:.62rem;color:rgba(30,80,110,.7);background:rgba(30,80,110,.05);border:1px solid rgba(30,80,110,.12);border-radius:8px;padding:7px 10px;line-height:1.8;margin-bottom:4px;"></div>
         <button class="btn-save" id="save-btn">✦ 今週の記録を保存する ✦</button>
         <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">↺ 今週の入力をリセット</button>
         <div class="save-msg" id="save-msg"></div>
@@ -2291,6 +2292,18 @@ function updateUI(){
     prevLv=lv.lv;
   }
   updateLinked();
+  // 保存プレビュー
+  try{
+    const prev=document.getElementById('save-preview');
+    if(prev && sessions.length>0){
+      const totalKcal=sessions.reduce((s,x)=>s+(x.kcal!=null?x.kcal:calcCaloriesBurned(x.mets,x.minutes||10)),0);
+      const xp=totalXp();
+      prev.innerHTML=`📋 保存内容プレビュー：<b>${sessions.length}件</b>のセッション ・ 合計<b>${score}分</b> ・ 消費<b>${totalKcal}kcal</b> ・ <b>+${xp}XP</b>`;
+      prev.style.display='block';
+    } else if(prev){
+      prev.style.display='none';
+    }
+  }catch(e2){}
 }
 
 // ===== クラスXPボーナス =====
