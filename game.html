@@ -4389,6 +4389,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="sh-rec-body">
             <div class="sh-rec-name">食事を記録</div>
             <div class="sh-rec-meta" id="sh-meta-nu">野菜 — 皿 / 魚 — 食</div>
+            <div class="sh-ex-chips" id="sh-nu-chips"></div>
           </div>
           <div class="sh-rec-arrow">→</div>
         </a>
@@ -6712,6 +6713,26 @@ function renderCompactHome(){
     document.getElementById('sh-meta-nu').textContent = nuMeta;
     document.querySelector('.rec-nu')?.classList.toggle('done', vegGoalReached);
     _vegDone = vegGoalReached;
+    // 今週よく食べた食材チップ
+    try{
+      const nuChipsEl=document.getElementById('sh-nu-chips');
+      if(nuChipsEl){
+        const nuSessions=nuData.sessions||[];
+        if(nuSessions.length>0){
+          const nuFreq={};
+          nuSessions.forEach(s=>{
+            const k=s.name||'';
+            if(!k) return;
+            if(!nuFreq[k]) nuFreq[k]={icon:s.icon||'🍽',cnt:0};
+            nuFreq[k].cnt++;
+          });
+          const nuTop=Object.entries(nuFreq).sort((a,b)=>b[1].cnt-a[1].cnt).slice(0,3);
+          nuChipsEl.innerHTML=nuTop.map(([name,d])=>
+            `<span class="sh-ex-chip"><span class="sec-icon">${d.icon}</span>${name}</span>`
+          ).join('');
+        } else { nuChipsEl.innerHTML=''; }
+      }
+    }catch(e2){}
   }catch(e){}
   // 完璧週バナー + 連続ストリーク
   try{
