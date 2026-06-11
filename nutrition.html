@@ -526,6 +526,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .hist-item.expanded .hist-detail{display:flex;flex-wrap:wrap;gap:5px 10px;}
 .hist-cnt-badge{font-size:.6rem;color:rgba(200,230,210,.85);white-space:nowrap;}
 .hist-cnt-badge b{color:#a0f0c0;}
+.hist-best .hist-score{color:#f0d48a;}
+.hist-best .hist-bar{background:linear-gradient(90deg,#e8a030,#f0d48a);}
+.hist-ach-best{font-size:.6rem;flex-shrink:0;background:rgba(240,212,138,.12);border:1px solid rgba(240,212,138,.25);border-radius:4px;padding:1px 4px;color:#f0d48a;white-space:nowrap;}
 
 /* ===== ストリーク ===== */
 .streak-row{display:flex;align-items:center;gap:12px;}
@@ -3329,9 +3332,12 @@ function renderHistory(){
     document.getElementById('monthly-panel').style.display='none';
     return;
   }
+  const maxScore=Math.max(...hist.map(h=>h.score||0),0);
   hist.forEach(h=>{
-    const pct=Math.min(100,h.score||0);
-    const achieved=(h.score||0)>=25;
+    const sc=h.score||0;
+    const pct=Math.min(100,sc);
+    const achieved=sc>=25;
+    const isBest=sc>0&&sc===maxScore;
     const c=h.counts||{};
     const detailBadges=[
       c.veg!=null   ?`<span class="hist-cnt-badge">🥦 野菜 <b>${c.veg}</b>/21</span>`:'',
@@ -3339,11 +3345,12 @@ function renderHistory(){
       c.protein!=null?`<span class="hist-cnt-badge">🐟 タンパク <b>${c.protein}</b>/14</span>`:'',
       c.grain!=null ?`<span class="hist-cnt-badge">🌾 穀類 <b>${c.grain}</b>/14</span>`:'',
     ].filter(Boolean).join('');
-    const div=document.createElement('div'); div.className='hist-item'+(achieved?' hist-achieved':'');
+    const div=document.createElement('div'); div.className='hist-item'+(achieved?' hist-achieved':'')+(isBest?' hist-best':'');
     div.innerHTML=`
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
-      <span class="hist-score">${h.score||0}pt</span>
+      <span class="hist-score">${sc}pt</span>
+      ${isBest?'<span class="hist-ach-best">🏆PB</span>':''}
       <span class="hist-ach">${achieved?'✅':''}</span>
       ${detailBadges?`<div class="hist-detail">${detailBadges}</div>`:''}`;
     div.addEventListener('click',()=>div.classList.toggle('expanded'));
