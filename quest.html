@@ -2913,6 +2913,14 @@ function getQol(){
   return { qol1:v(1), qol2:v(2), qol3:v(3) };
 }
 async function saveWeek(){
+  const saveBtn=document.getElementById('save-btn');
+  if(saveBtn?.disabled) return;
+  if(saveBtn){ saveBtn.disabled=true; saveBtn.textContent='保存中…'; }
+  try{ await _saveWeekCore(); }finally{
+    if(saveBtn){ saveBtn.disabled=false; saveBtn.textContent='✦ 今週の記録を保存する ✦'; }
+  }
+}
+async function _saveWeekCore(){
   const isFirst=!localStorage.getItem(`vq_firstsave_${uid}`);
   const xp=totalXp(), lv=getLv(xp);
   // 履歴にはセッションXPのみ保存（ログインボーナスは vq_bonus_uid で別管理）
