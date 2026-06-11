@@ -2857,7 +2857,10 @@ function renderSearchResults(q){
   const kw=q.trim().toLowerCase();
   const foodHits=_foodsDB.filter(f=>f.name.includes(q)||f.name.toLowerCase().includes(kw)).slice(0,5);
   const dishHits=_dishesDB.filter(d=>d.name.includes(q)||d.name.toLowerCase().includes(kw)||d.group.includes(q)).slice(0,5);
-  const totalHits=foodHits.length+dishHits.length;
+  // 固定食品カードからも検索
+  const allFixed=[...FOODS.veg,...FOODS.fruit,...FOODS.protein,...FOODS.grain,...FOODS.drink,...FOODS.snack,...FOODS.limit];
+  const fixedHits=foodHits.length<3 ? allFixed.filter(f=>f.name.includes(q)||f.name.toLowerCase().includes(kw)).slice(0,3-foodHits.length) : [];
+  const totalHits=foodHits.length+dishHits.length+fixedHits.length;
   box.innerHTML='';
   if(totalHits===0){
     box.innerHTML=`<div class="sr-empty">「${q}」は見つかりませんでした</div>`;
@@ -2922,6 +2925,27 @@ function renderSearchResults(q){
       box.appendChild(div);
     });
   }
+    // 固定食品カード結果
+    fixedHits.forEach(f=>{
+      const xpSign=f.xp>=0?'+':'';
+      const div=document.createElement('div');
+      div.className='sr-item';
+      div.innerHTML=`
+        <span class="sr-icon">${f.icon}</span>
+        <div class="sr-info">
+          <div class="sr-name">${f.name} <span class="sr-cat-badge sr-cat-${f.cat}">${catLabel2[f.cat]}</span></div>
+        </div>
+        <span class="sr-xp ${f.xp>=0?'pos':'neg'}">${xpSign}${f.xp}XP</span>`;
+      div.addEventListener('click',e=>{
+        sessions.push({name:f.name,icon:f.icon,cat:f.cat,xp:f.xp});
+        spawnPlus(e,`${xpSign}${f.xp}XP`,catColor[f.cat]);
+        renderLog(); updateUI(); updateCardCounts();
+        document.getElementById('food-search').value='';
+        document.getElementById('search-clear').classList.remove('visible');
+        box.classList.remove('open');
+      });
+      box.appendChild(div);
+    });
   // カスタム追加
   const custom=document.createElement('div');
   custom.className='sr-custom';
