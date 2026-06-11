@@ -2184,7 +2184,17 @@ function updateUI(){
   document.getElementById('goal-pct').textContent = pct;
   document.getElementById('goal-msg').style.display= score>=goal ? 'block' : 'none';
   const goalLbl=document.getElementById('goal-label');
-  if(goalLbl) goalLbl.textContent=`週${goal}分目標`;
+  if(goalLbl){
+    if(score>=goal){
+      goalLbl.textContent='🏆 今週の目標達成！';
+    } else {
+      const dow=new Date().getDay(); // 0=日
+      const daysLeft=dow===0?0:7-dow; // 今日含む残り日数（月=6, 火=5, ...日=0）
+      const remain=goal-score;
+      const perDay=daysLeft>0?Math.ceil(remain/daysLeft):remain;
+      goalLbl.textContent=daysLeft>0?`残${daysLeft}日・1日${perDay}分ペース`:`週${goal}分目標`;
+    }
+  }
   const goalNote=document.getElementById('goal-section-note');
   if(goalNote) goalNote.textContent=`1タップ＝${tapMinutes}分 ｜ あなたの週間目標：${goal}分`;
 
