@@ -2457,12 +2457,23 @@ function updateUI(){
     const pvEl=document.getElementById('nu-prev-compare');
     if(pvEl && uid){
       const prevRec=JSON.parse(localStorage.getItem(storeKey(prevWeekKey()))||'null');
-      if(prevRec){
+      if(prevRec && sessions.length>0){
         const pveg=prevRec.veg||0, pfruit=prevRec.fruit||0, pprot=prevRec.protein||0;
         const dv=c.veg-pveg, df=c.fruit-pfruit, dp=c.protein-pprot;
         const fmt=(n)=> n>0?`+${n}`:n<0?`${n}`:`±0`;
         const arrow=(n)=> n>0?'↑':n<0?'↓':'→';
         pvEl.innerHTML=`📈 先週比: 野菜${arrow(dv)}${fmt(dv)}皿 ／ 果物${arrow(df)}${fmt(df)}皿 ／ タンパク${arrow(dp)}${fmt(dp)}食`;
+        pvEl.style.display='block';
+      } else if(prevRec && sessions.length===0){
+        const pveg=prevRec.veg||0;
+        const nuGoal=21;
+        if(pveg>=nuGoal){
+          pvEl.innerHTML=`🏆 先週は野菜目標達成（${pveg}皿）！今週も食事を記録しよう`;
+        } else if(pveg>0){
+          pvEl.innerHTML=`🌿 先週は野菜${pveg}皿。今週は${nuGoal}皿を目指そう！`;
+        } else {
+          pvEl.innerHTML=`🌱 今週の食事記録を始めよう！`;
+        }
         pvEl.style.display='block';
       } else { pvEl.style.display='none'; }
     }
