@@ -7173,6 +7173,16 @@ function renderCompactHome(){
       else if(exMin2>=exGoal*0.7 && vegC2>=14) tip=`🎯 あと少し！運動${exRemain}分 + 野菜${vegRemain2}皿で完璧週が狙える。`;
       else if(qolStreak2>=3) tip=`${qolStreak2}日連続で調子を記録中。この習慣を大切に。`;
       else if(exMin2>0 && vegC2>0) tip=`今週: 運動${exMin2}/${exGoal}分・野菜${vegC2}/21皿。あと${exRemain}分と${vegRemain2}皿！`;
+      // 週末セーブリマインダー（木曜以降に今週の記録が未保存なら追記）
+      try{
+        const dow=new Date().getDay(); // 0=日, 4=木
+        const hasSaved=!!localStorage.getItem(`vq_${uid}_${weekKey()}`);
+        const hasDraft=!!localStorage.getItem(`vq_draft_${uid}`);
+        if(dow>=4 && !hasSaved && hasDraft){
+          const daysLeft=[3,2,1,0,6,5,4][dow]; // 日曜まで何日か
+          tip=(tip?tip+' ':'')+ `⚠️ 今週の運動記録がまだ未保存です（残り${daysLeft||0}日）。`;
+        }
+      }catch(e2){}
       if(tip){ advEl.textContent='💡 '+tip; advEl.style.display='block'; }
       else { advEl.style.display='none'; }
     }
