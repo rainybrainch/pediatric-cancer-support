@@ -699,6 +699,23 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #coach-fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(60,20,120,.65);}
 #coach-fab img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:center 14%;flex-shrink:0;}
 
+/* ===== 保存FAB ===== */
+@keyframes saveFabIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+#nu-save-fab{
+  position:fixed;bottom:24px;right:20px;z-index:149;
+  background:linear-gradient(135deg,#1e6e4a,#2da366);
+  border:1.5px solid rgba(78,201,138,.5);border-radius:50px;
+  padding:9px 16px;gap:6px;
+  display:none;align-items:center;
+  cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:.78rem;font-weight:800;color:#e8fff5;
+  box-shadow:0 6px 20px rgba(30,110,74,.5);
+  transition:transform .2s,box-shadow .2s;
+}
+#nu-save-fab.visible{display:flex;animation:saveFabIn .25s ease;}
+#nu-save-fab:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(30,110,74,.65);}
+#nu-save-fab-count{font-size:.68rem;font-weight:700;color:rgba(200,255,220,.75);}
+
 /* ===== AI Coach モーダル ===== */
 #coach-modal{
   position:fixed;inset:0;background:rgba(4,6,12,.7);z-index:200;
@@ -2569,6 +2586,8 @@ function updateUI(){
     if(nowNuGoalMet && !_prevNuGoalMet) nuGoalCelebrate();
     _prevNuGoalMet=nowNuGoalMet;
   }catch(e2){}
+  // 保存FAB更新
+  try{ window._nuRefreshFab?.(); }catch(e2){}
 }
 
 const KNOWLEDGE={
@@ -3950,6 +3969,39 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
   if(e.target===document.getElementById('coach-modal'))
     document.getElementById('coach-modal').classList.remove('open');
 });
+
+// ===== 保存FAB（セーブボタンが画面外に出たら表示） =====
+(()=>{
+  const fab=document.getElementById('nu-save-fab');
+  const saveBtnEl=document.getElementById('save-btn');
+  const fabCount=document.getElementById('nu-save-fab-count');
+  if(!fab||!saveBtnEl) return;
+  let btnOffscreen=false;
+  const obs=new IntersectionObserver(entries=>{
+    btnOffscreen=!entries[0].isIntersecting;
+    const hasSessions=sessions.length>0;
+    if(btnOffscreen && hasSessions) fab.classList.add('visible');
+    else fab.classList.remove('visible');
+  },{threshold:0.1});
+  obs.observe(saveBtnEl);
+  function refreshFab(){
+    const hasSessions=sessions.length>0;
+    if(btnOffscreen && hasSessions){
+      fab.classList.add('visible');
+      if(fabCount) fabCount.textContent=`(${sessions.length}件)`;
+    } else {
+      fab.classList.remove('visible');
+    }
+  }
+  // updateUI呼出し後にFABを更新するためにイベント委譲
+  const origUpdateUI=window.updateUI||updateUI;
+  fab.addEventListener('click',()=>{
+    saveBtnEl.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>saveBtnEl.focus(),350);
+  });
+  // refreshFabをグローバルに公開してupdateUIから呼べるようにする
+  window._nuRefreshFab=refreshFab;
+})();
 </script>
 
 <!-- ボトムナビ -->
@@ -3960,6 +4012,11 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
   <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
 </nav>
+
+<!-- 保存FAB -->
+<button id="nu-save-fab" aria-label="今週の食事記録を保存する">
+  💾 今週を保存 <span id="nu-save-fab-count"></span>
+</button>
 
 <!-- AI Coach FAB -->
 <button id="coach-fab" aria-label="ルナのコーチングを開く">
