@@ -738,6 +738,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .rfb-chip:hover{background:rgba(78,201,138,.15);border-color:rgba(78,201,138,.5);}
 .rfb-chip:active{transform:scale(.94);}
 .rfb-chip .rc-cnt{font-size:.58rem;color:rgba(78,201,138,.6);background:rgba(78,201,138,.1);border-radius:8px;padding:0 4px;line-height:1.5;}
+.rfb-chip.rfb-recorded{background:rgba(78,201,138,.12);border-color:rgba(78,201,138,.4);}
+.rfb-chip .rc-done{font-size:.62rem;color:rgba(78,201,138,.9);font-weight:900;}
 .food-search-wrap{position:relative;margin-bottom:20px;}
 .food-search-box{
   width:100%;background:rgba(255,255,255,.92);border:1px solid rgba(78,201,138,.25);
@@ -2672,15 +2674,23 @@ function renderRecentFoods(){
   const sorted=Object.entries(freq).sort((a,b)=>b[1].count-a[1].count).slice(0,6);
   if(sorted.length===0){ bar.style.display='none'; return; }
   chips.innerHTML='';
+  // 今週すでに記録した食品名セット
+  const thisWeekNames=new Set(sessions.filter(s=>!s.components).map(s=>s.name));
   sorted.forEach(([name,d])=>{
+    const recorded=thisWeekNames.has(name);
     const btn=document.createElement('button');
-    btn.className='rfb-chip';
-    btn.innerHTML=`<span>${d.icon}</span><span>${name}</span><span class="rc-cnt">${d.count}回</span>`;
+    btn.className='rfb-chip'+(recorded?' rfb-recorded':'');
+    btn.dataset.rfbName=name;
+    btn.innerHTML=`<span>${d.icon}</span><span>${name}</span>${recorded?'<span class="rc-done">✓</span>':'<span class="rc-cnt">'+d.count+'回</span>'}`;
     btn.addEventListener('click',(e)=>{
       sessions.push({name,icon:d.icon,cat:d.cat,xp:d.xp});
       const label=d.xp>0?`+${d.xp}XP`:`${d.xp}XP`;
       spawnPlus(e,label,catColor[d.cat]||'var(--green)');
       renderLog(); updateUI(); updateCardCounts();
+      // チップ状態更新
+      btn.classList.add('rfb-recorded');
+      btn.querySelector('span:last-child').className='rc-done';
+      btn.querySelector('span:last-child').textContent='✓';
     });
     chips.appendChild(btn);
   });
