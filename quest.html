@@ -877,6 +877,22 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ls-link{font-size:.6rem;color:rgba(41,182,232,.7);text-decoration:none;display:block;text-align:right;margin-top:5px;}
 .ls-link:hover{color:rgba(41,182,232,.9);}
 
+/* ===== 保存FAB ===== */
+@keyframes qSaveFabIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+#q-save-fab{
+  position:fixed;bottom:24px;right:20px;z-index:149;
+  background:linear-gradient(135deg,#1a5980,#1e7fa4);
+  border:1.5px solid rgba(41,182,232,.5);border-radius:50px;
+  padding:9px 16px;gap:6px;
+  display:none;align-items:center;
+  cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:.78rem;font-weight:800;color:#e8f8ff;
+  box-shadow:0 6px 20px rgba(26,89,128,.5);
+  transition:transform .2s,box-shadow .2s;
+}
+#q-save-fab.visible{display:flex;animation:qSaveFabIn .25s ease;}
+#q-save-fab:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,89,128,.65);}
+
 /* ===== AI Coach FAB ===== */
 #coach-fab{
   position:fixed;bottom:76px;right:20px;z-index:150;
@@ -2442,6 +2458,8 @@ function updateUI(){
       }
     }
   }catch(e2){}
+  // 保存FAB更新
+  try{ window._qRefreshFab?.(); }catch(e2){}
 }
 
 // ===== クラスXPボーナス =====
@@ -3540,6 +3558,30 @@ onAuthStateChanged(auth,user=>{
     if(bar.classList.contains('visible')) updateSPB();
   };
 })();
+
+// ===== 保存FAB（セーブボタンが画面外に出たら表示） =====
+(()=>{
+  const fab=document.getElementById('q-save-fab');
+  const saveBtnEl=document.querySelector('.save-area .btn-save')||document.querySelector('.btn-save');
+  if(!fab||!saveBtnEl) return;
+  let btnOffscreen=false;
+  const obs=new IntersectionObserver(entries=>{
+    btnOffscreen=!entries[0].isIntersecting;
+    const hasSessions=(typeof sessions!=='undefined' && sessions.length>0);
+    if(btnOffscreen && hasSessions) fab.classList.add('visible');
+    else fab.classList.remove('visible');
+  },{threshold:0.1});
+  obs.observe(saveBtnEl);
+  fab.addEventListener('click',()=>{
+    saveBtnEl.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>saveBtnEl.focus(),350);
+  });
+  window._qRefreshFab=function(){
+    const hasSessions=(typeof sessions!=='undefined' && sessions.length>0);
+    if(btnOffscreen && hasSessions) fab.classList.add('visible');
+    else fab.classList.remove('visible');
+  };
+})();
 </script>
 
 <!-- ボトムナビ -->
@@ -3550,6 +3592,11 @@ onAuthStateChanged(auth,user=>{
   <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
   <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
 </nav>
+
+<!-- 保存FAB -->
+<button id="q-save-fab" aria-label="今週の運動記録を保存する">
+  💾 今週を保存
+</button>
 
 <!-- AI Coach FAB -->
 <button id="coach-fab" aria-label="ルナのコーチングを開く">
