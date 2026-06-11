@@ -6808,7 +6808,9 @@ function renderCompactHome(){
     if(sleepVal && sleepEditBtn){
       if(sr){
         const sv = JSON.parse(sr);
-        sleepVal.textContent = `昨夜 ${sv.hours}h`;
+        const qMap={'5':'😄','4':'😊','3':'😐','2':'😕','1':'😞'};
+        const qEmoji = sv.quality ? (qMap[String(sv.quality)]||'') : '';
+        sleepVal.textContent = `昨夜 ${sv.hours}h${qEmoji?' '+qEmoji:''}`;
         sleepEditBtn.textContent = '修正';
         sleepEditBtn.classList.add('done');
       } else {
