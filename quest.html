@@ -469,6 +469,31 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #recent-ex-bar.light-mode .reb-head{color:#0a5f8c;}
 #recent-ex-bar.light-mode .reb-chip{background:rgba(30,127,164,.08);border-color:rgba(30,127,164,.2);color:#0a5f8c;}
 
+/* ===== 1タップ時間セレクター ===== */
+.tap-time-row{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(30,127,164,.18);
+  border-radius:12px;padding:8px 12px;margin-bottom:14px;
+}
+.tt-lbl{font-size:.63rem;font-weight:700;color:#1e7fa4;white-space:nowrap;letter-spacing:.04em;}
+.tt-btns{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}
+.tt-btns::-webkit-scrollbar{display:none;}
+.tt-btn{
+  flex-shrink:0;
+  background:rgba(30,127,164,.08);
+  border:1px solid rgba(30,127,164,.2);
+  border-radius:99px;padding:4px 11px;
+  font-size:.68rem;font-weight:700;color:#1e7fa4;
+  cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap;
+}
+.tt-btn:hover{background:rgba(30,127,164,.18);border-color:rgba(30,127,164,.4);}
+.tt-btn.active{
+  background:linear-gradient(135deg,rgba(30,127,164,.85),rgba(41,182,232,.7));
+  border-color:transparent;color:#fff;
+  box-shadow:0 2px 8px rgba(30,127,164,.3);
+}
+
 /* ===== 右：ステータス ===== */
 .quest-side{display:flex;flex-direction:column;gap:14px;}
 
@@ -1461,6 +1486,18 @@ setTimeout(function(){
         <div class="reb-chips" id="reb-chips"></div>
       </div>
 
+      <!-- 1タップ時間セレクター -->
+      <div class="tap-time-row">
+        <span class="tt-lbl">1タップ</span>
+        <div class="tt-btns">
+          <button class="tt-btn active" data-min="10">10分</button>
+          <button class="tt-btn" data-min="20">20分</button>
+          <button class="tt-btn" data-min="30">30分</button>
+          <button class="tt-btn" data-min="45">45分</button>
+          <button class="tt-btn" data-min="60">60分</button>
+        </div>
+      </div>
+
       <!-- 日常の動き -->
       <div class="board-section is-daily">
         <div class="section-head">
@@ -1951,6 +1988,7 @@ const LEVELS=[
 
 // ===== 状態 =====
 let uid='', sessions=[], modMin=0, highMin=0, prevLv=1;
+let tapMinutes = 10;
 
 // ===== 週キー =====
 function weekKey(){
@@ -2632,7 +2670,7 @@ function renderRecentExercises(){
     const btn=document.createElement('button');
     btn.className='reb-chip';
     btn.innerHTML=`<span class="rc-icon">${d.icon||'🏃'}</span><span>${name}</span><span class="rc-cnt">${d.count}回</span>`;
-    btn.addEventListener('click',()=>addSession(name,d.icon||'🏃',d.mets||3.5,d.type||'moderate'));
+    btn.addEventListener('click',()=>addSession(name,d.icon||'🏃',d.mets||3.5,d.type||'moderate',tapMinutes));
     chips.appendChild(btn);
   });
   bar.style.display='block';
@@ -2655,10 +2693,10 @@ function buildBoard(id,groups,type){
       c.innerHTML=`
         <span class="e-icon">${ex.icon}</span>
         <span class="e-name">${ex.name}</span>
-        <span class="e-min">10分</span>
+        <span class="e-min">${tapMinutes}分</span>
         <span class="ex-count">0</span>
         <button class="ex-dec">−</button>`;
-      c.addEventListener('click',()=>addSession(ex.name,ex.icon,g.mets,type));
+      c.addEventListener('click',()=>addSession(ex.name,ex.icon,g.mets,type,tapMinutes));
       c.querySelector('.ex-dec').addEventListener('click',e=>{
         e.stopPropagation();
         decrementSession(ex.name);
@@ -3038,6 +3076,18 @@ function updateLinked(){
     }
   }catch(e){}
 }
+
+// ===== 1タップ時間セレクター =====
+document.querySelectorAll('.tt-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    tapMinutes = parseInt(btn.dataset.min, 10);
+    document.querySelectorAll('.tt-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    document.querySelectorAll('.ex-card .e-min').forEach(el=>{ el.textContent = tapMinutes+'分'; });
+    document.querySelectorAll('.reb-chip').forEach(chip=>{
+      chip.dataset.min = tapMinutes;
+    });
+  });
+});
 
 // ===== AI Coach: ホーム画面のルナチャットへ遷移 =====
 document.getElementById('coach-fab').addEventListener('click',()=>{
