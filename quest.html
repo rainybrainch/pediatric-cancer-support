@@ -1800,7 +1800,7 @@ setTimeout(function(){
       <div class="side-panel">
         <div class="panel-head" style="display:flex;justify-content:space-between;align-items:center;">
           <span>📜 今週の記録</span>
-          <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">🔥 合計 <span id="total-kcal-burn">0</span> kcal</span>
+          <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">🔥 合計 <span id="total-kcal-burn">0</span> kcal<span id="kcal-food-equiv" style="display:none;font-size:.55rem;font-weight:400;color:rgba(224,138,80,.65);margin-left:3px;"></span></span>
         </div>
         <ul id="log-list"></ul>
         <div id="vs-last-week" style="display:none;margin-top:6px;font-size:.6rem;color:rgba(30,80,110,.7);padding:4px 10px;border-radius:8px;background:rgba(30,80,110,.04);border:1px solid rgba(30,80,110,.1);"></div>
@@ -2671,7 +2671,24 @@ function renderLog(){
   ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>removeSession(+b.dataset.i)));
   // 合計カロリー消費表示
   const kcalEl = document.getElementById('total-kcal-burn');
-  if(kcalEl) kcalEl.textContent = totalKcal;
+  if(kcalEl){
+    kcalEl.textContent = totalKcal;
+    // kcalの食品換算ラベル
+    const kcalCtx = document.getElementById('kcal-food-equiv');
+    if(kcalCtx && totalKcal>0){
+      let equiv='';
+      if(totalKcal>=1200) equiv='お弁当2個分';
+      else if(totalKcal>=600) equiv='お弁当1個分';
+      else if(totalKcal>=300) equiv='おにぎり2個分';
+      else if(totalKcal>=150) equiv='おにぎり1個分';
+      else if(totalKcal>=80) equiv='バナナ1本分';
+      else equiv='キャンディ数個分';
+      kcalCtx.textContent=`（${equiv}相当）`;
+      kcalCtx.style.display='inline';
+    } else if(kcalCtx){
+      kcalCtx.style.display='none';
+    }
+  }
   // 種目別サマリー
   const sumEl = document.getElementById('ex-summary');
   if(sumEl){
