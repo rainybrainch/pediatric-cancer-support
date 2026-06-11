@@ -272,6 +272,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   color:#fff;
 }
 .food-card.counted .f-count{display:flex;}
+.food-card.wk-recorded{border-color:rgba(78,201,138,.45);background:rgba(78,201,138,.03);}
+.food-card.wk-recorded .f-name{color:rgba(45,163,102,.9);}
 .food-card .f-dec{
   position:absolute;bottom:-7px;right:-7px;
   width:20px;height:20px;border-radius:50%;
@@ -2683,6 +2685,7 @@ function updateCardCounts(){
     const n=c.dataset.name,v=cnt[n]||0;
     c.querySelector('.f-count').textContent=v;
     c.classList.toggle('counted',v>0);
+    c.classList.toggle('wk-recorded',v>0);
   });
   // カテゴリ別達成数バッジ更新
   const catTotals={veg:0,fruit:0,protein:0,grain:0};
