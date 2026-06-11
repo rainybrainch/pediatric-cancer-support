@@ -7090,12 +7090,23 @@ function renderCompactHome(){
       const vegC2 = nuData.counts?.veg||0;
       const exData2= JSON.parse(localStorage.getItem(`vq_${uid}_${weekKey()}`)||'{}');
       const exMin2 = exData2.score||0;
+      // QOLストリーク
+      let qolStreak2=0;
+      try{
+        for(let i=0;i<=30;i++){
+          const ds=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+          if(localStorage.getItem(`vt_qol_${uid}_${ds}`)) qolStreak2++;
+          else break;
+        }
+      }catch(e2){}
       let tip='';
-      if(exMin2===0 && vegC2===0) tip='まだ今週の記録がありません。まず運動か食事から始めよう！';
+      if(qolStreak2>=7) tip=`🔥 ${qolStreak2}日連続で調子を記録中！継続が最強の薬です。`;
+      else if(exMin2===0 && vegC2===0) tip='まだ今週の記録がありません。まず運動か食事から始めよう！';
       else if(exMin2<exGoal*0.3 && vegC2>=10) tip='食事は順調！運動の記録も増やせると相乗効果が出るよ。';
       else if(vegC2<7 && exMin2>=exGoal*0.5) tip='運動は順調！野菜・果物の記録も増やすと栄養XPボーナスが上がるよ。';
       else if(exMin2>=exGoal && vegC2>=18) tip='今週は運動・食事ともに絶好調！この調子をキープしよう。';
       else if(exMin2>=exGoal*0.7 && vegC2>=14) tip='あと少しで完璧週！どちらも達成できそうな良いペースです。';
+      else if(qolStreak2>=3) tip=`${qolStreak2}日連続で調子を記録中。この習慣を大切に。`;
       if(tip){ advEl.textContent='💡 '+tip; advEl.style.display='block'; }
       else { advEl.style.display='none'; }
     }
