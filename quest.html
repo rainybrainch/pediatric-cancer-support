@@ -1554,6 +1554,9 @@ setTimeout(function(){
         <button id="ex-search-clear" type="button" style="background:none;border:none;color:rgba(30,80,110,.5);font-size:.8rem;cursor:pointer;display:none;">✕</button>
       </div>
 
+      <!-- QOL体調ガイダンス -->
+      <div id="qol-guidance" style="display:none;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:.7rem;line-height:1.6;border:1px solid rgba(41,182,232,.2);background:rgba(41,182,232,.05);"></div>
+
       <!-- 日常の動き -->
       <div class="board-section is-daily">
         <div class="section-head">
@@ -2055,6 +2058,32 @@ function weekKey(){
   const d=new Date(), j=new Date(d.getFullYear(),0,1);
   const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
   return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+function showQolGuidance(){
+  try{
+    const el=document.getElementById('qol-guidance');
+    if(!el||!uid) return;
+    const today=new Date().toISOString().slice(0,10);
+    const raw=localStorage.getItem(`vt_qol_${uid}_${today}`);
+    if(!raw){ el.style.display='none'; return; }
+    const q=JSON.parse(raw);
+    const cond=q.condition||3;
+    if(cond<=2){
+      el.innerHTML='💙 <b>今日は体調が低め</b>です。ゆっくり散歩やストレッチなど「日常の動き」から始めましょう。無理は禁物。5分でもOK！';
+      el.style.background='rgba(140,114,224,.08)';
+      el.style.borderColor='rgba(140,114,224,.3)';
+      el.style.color='rgba(180,160,230,.9)';
+      el.style.display='block';
+    } else if(cond>=4){
+      el.innerHTML='⚡ <b>今日は体調が良好</b>です！中〜高強度のエクササイズに挑戦するチャンス。しっかり動いてXPを稼ごう！';
+      el.style.background='rgba(78,201,138,.06)';
+      el.style.borderColor='rgba(78,201,138,.25)';
+      el.style.color='rgba(100,220,150,.9)';
+      el.style.display='block';
+    } else {
+      el.style.display='none';
+    }
+  }catch(e){}
 }
 function checkStreakWarning(){
   const s=getStreak(); if(!s.count) return;
@@ -3336,6 +3365,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
   renderBoss(0);
   renderBadgePanel();
+  showQolGuidance();
   document.getElementById('coach-fab').classList.add('visible');
   document.getElementById('bottom-nav').style.display='flex';
 });
@@ -3451,6 +3481,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('coach-fab').classList.add('visible');
     document.getElementById('bottom-nav').style.display='flex';
     checkStreakWarning();
+    showQolGuidance();
   } else {
     uid=''; sessions=[]; modMin=0; highMin=0; prevLv=1;
     localStorage.removeItem('vitalia_uid_hint');
