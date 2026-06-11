@@ -6978,7 +6978,11 @@ function renderCompactHome(){
     const stepsVal=document.getElementById('sh-steps-val');
     if(stepsRow && stepsVal){
       if(steps>0){
-        stepsVal.textContent=`${steps.toLocaleString()}歩`;
+        const stepsGoal=70000;
+        const stepsPct=Math.min(100,Math.round(steps/stepsGoal*100));
+        const stepsIcon=steps>=stepsGoal?'✅':steps>=35000?'🔥':steps>=14000?'👟':'👣';
+        const stepsGoalTxt=steps>=stepsGoal?'' :` / 70,000歩（${stepsPct}%）`;
+        stepsVal.textContent=`${stepsIcon} ${steps.toLocaleString()}歩${stepsGoalTxt}`;
         stepsRow.style.display='flex';
       } else { stepsRow.style.display='none'; }
     }
