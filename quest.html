@@ -1504,7 +1504,7 @@ setTimeout(function(){
           <div class="section-icon icon-daily">🚶</div>
           <div>
             <div class="section-label" style="color:#7dd8e8">日常の動き</div>
-            <div class="section-note">1タップ＝10分 ｜ スポーツじゃなくてもOK！ まずはここから</div>
+            <div class="section-note" id="daily-section-note">1タップ＝10分 ｜ スポーツじゃなくてもOK！ まずはここから</div>
           </div>
         </div>
         <div id="daily-board"></div>
@@ -2175,7 +2175,7 @@ function updateUI(){
   const goalLbl=document.getElementById('goal-label');
   if(goalLbl) goalLbl.textContent=`週${goal}分目標`;
   const goalNote=document.getElementById('goal-section-note');
-  if(goalNote) goalNote.textContent=`1タップ＝10分 ｜ あなたの週間目標：${goal}分`;
+  if(goalNote) goalNote.textContent=`1タップ＝${tapMinutes}分 ｜ あなたの週間目標：${goal}分`;
 
   // ヒーローバナー更新
   const qhFill=document.getElementById('qh-bar-fill');
@@ -3083,9 +3083,9 @@ document.querySelectorAll('.tt-btn').forEach(btn=>{
     tapMinutes = parseInt(btn.dataset.min, 10);
     document.querySelectorAll('.tt-btn').forEach(b=>b.classList.toggle('active', b===btn));
     document.querySelectorAll('.ex-card .e-min').forEach(el=>{ el.textContent = tapMinutes+'分'; });
-    document.querySelectorAll('.reb-chip').forEach(chip=>{
-      chip.dataset.min = tapMinutes;
-    });
+    const dn=document.getElementById('daily-section-note');
+    if(dn) dn.textContent=`1タップ＝${tapMinutes}分 ｜ スポーツじゃなくてもOK！ まずはここから`;
+    updateUI();
   });
 });
 
