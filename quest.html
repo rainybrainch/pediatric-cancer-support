@@ -3181,20 +3181,27 @@ function renderHistory(){
   const monthly=new Map();
   hist.forEach(h=>{
     const lbl=wkToMonthLabel(h.wkKey||h.week||'');
-    if(!monthly.has(lbl)) monthly.set(lbl,{total:0,weeks:0,achieved:0});
+    if(!monthly.has(lbl)) monthly.set(lbl,{total:0,weeks:0,achieved:0,best:0});
     const m=monthly.get(lbl);
-    m.total+=(h.score||0); m.weeks++; if((h.score||0)>=goal) m.achieved++;
+    const sc=h.score||0;
+    m.total+=sc; m.weeks++; if(sc>=goal) m.achieved++;
+    if(sc>m.best) m.best=sc;
   });
   const mList=document.getElementById('monthly-list');
   mList.innerHTML='';
   monthly.forEach((m,lbl)=>{
+    const avg=m.weeks>0?Math.round(m.total/m.weeks):0;
+    const achRate=m.weeks>0?Math.round(m.achieved/m.weeks*100):0;
+    const achColor=achRate>=80?'#4ec98a':achRate>=50?'#f0c430':'rgba(200,215,235,.5)';
     const div=document.createElement('div');
     div.style.cssText='background:rgba(255,255,255,.03);border:1px solid rgba(41,182,232,.12);border-radius:8px;padding:8px 10px;font-size:.72rem;';
-    div.innerHTML=`<div style="font-weight:700;color:#1e7fa4;margin-bottom:4px;">${lbl}</div>`+
-      `<div style="display:flex;gap:12px;color:rgba(200,215,235,.7);">`+
+    div.innerHTML=`<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">`+
+      `<span style="font-weight:700;color:#1e7fa4;flex:1;">${lbl}</span>`+
+      `<span style="font-size:.55rem;font-weight:700;color:${achColor};background:rgba(255,255,255,.05);border:1px solid ${achColor}44;border-radius:99px;padding:1px 7px;">達成率 ${achRate}%</span></div>`+
+      `<div style="display:flex;gap:10px;flex-wrap:wrap;color:rgba(200,215,235,.7);">`+
       `<span>合計 <strong style="color:#fff;">${m.total}分</strong></span>`+
-      `<span>記録 <strong style="color:#fff;">${m.weeks}週</strong></span>`+
-      `<span>達成 <strong style="color:var(--green);">${m.achieved}回</strong></span></div>`;
+      `<span>平均 <strong style="color:#7fd8f4;">${avg}分</strong>/週</span>`+
+      `<span>最高 <strong style="color:#f0d48a;">${m.best}分</strong></span></div>`;
     mList.appendChild(div);
   });
   document.getElementById('monthly-panel').style.display='block';
