@@ -1461,10 +1461,10 @@ setTimeout(function(){
 
       <!-- カテゴリクイックジャンプ -->
       <div class="cat-chips" id="cat-chips">
-        <button class="cat-chip" data-target="veg-grid">🥦 野菜</button>
-        <button class="cat-chip" data-target="fruit-grid">🍎 果物</button>
-        <button class="cat-chip" data-target="protein-grid">🍗 タンパク</button>
-        <button class="cat-chip" data-target="grain-grid">🌾 穀物</button>
+        <button class="cat-chip" data-target="veg-grid" data-cat="veg" data-label="🥦 野菜" data-goal="21">🥦 野菜</button>
+        <button class="cat-chip" data-target="fruit-grid" data-cat="fruit" data-label="🍎 果物" data-goal="10">🍎 果物</button>
+        <button class="cat-chip" data-target="protein-grid" data-cat="protein" data-label="🍗 タンパク" data-goal="14">🍗 タンパク</button>
+        <button class="cat-chip" data-target="grain-grid" data-cat="grain" data-label="🌾 穀物" data-goal="14">🌾 穀物</button>
         <button class="cat-chip" data-target="drink-grid">☕ 飲料</button>
         <button class="cat-chip" data-target="snack-grid">🍪 おやつ</button>
       </div>
@@ -2633,6 +2633,13 @@ function updateCardCounts(){
     } else {
       el.style.display='none';
     }
+  });
+  // カテゴリジャンプチップのラベルに達成数を反映
+  document.querySelectorAll('.cat-chip[data-cat]').forEach(btn=>{
+    const cat=btn.dataset.cat, goal=parseInt(btn.dataset.goal||'0',10);
+    const total=catTotals[cat]||0;
+    const base=btn.dataset.label||btn.textContent.split(' ')[0];
+    btn.textContent = total>0 ? `${base} ${total}/${goal}` : base;
   });
 }
 
