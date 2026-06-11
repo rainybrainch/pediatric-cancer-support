@@ -283,6 +283,10 @@ body::before{
 .rec-ex.done .sh-rec-name::after{content:' 🏆';}
 .rec-nu.done{opacity:.75;}
 .rec-nu.done .sh-rec-name::after{content:' 🌿';}
+/* 今週の種目チップ */
+.sh-ex-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.sh-ex-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(224,92,92,.12);border:1px solid rgba(224,92,92,.25);border-radius:20px;font-size:.6rem;color:rgba(180,80,80,.9);white-space:nowrap;}
+.sh-ex-chip .sec-icon{font-size:.75rem;}
 
 /* 今週の進捗 */
 .sh-summary{
@@ -4334,6 +4338,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="sh-rec-body">
             <div class="sh-rec-name">運動を記録</div>
             <div class="sh-rec-meta" id="sh-meta-ex">今週 — / 150分</div>
+            <div class="sh-ex-chips" id="sh-ex-chips"></div>
           </div>
           <div class="sh-rec-arrow">→</div>
         </a>
@@ -6605,6 +6610,23 @@ function renderCompactHome(){
     }
     document.getElementById('sh-meta-ex').textContent = exMetaText;
     document.querySelector('.rec-ex')?.classList.toggle('done', exDone);
+    // 今週の種目チップ
+    try{
+      const chipsEl = document.getElementById('sh-ex-chips');
+      if(chipsEl){
+        const sessions = exData.sessions || [];
+        const freq = {};
+        sessions.forEach(s=>{
+          if(!freq[s.name]) freq[s.name]={icon:s.icon||'🏃',count:0,min:0};
+          freq[s.name].count++;
+          freq[s.name].min += s.minutes||0;
+        });
+        const top = Object.entries(freq).sort((a,b)=>b[1].min-a[1].min).slice(0,4);
+        chipsEl.innerHTML = top.map(([name,d])=>
+          `<span class="sh-ex-chip"><span class="sec-icon">${d.icon}</span>${name} ${d.min}分</span>`
+        ).join('');
+      }
+    }catch(e2){}
   }catch(e){}
   try{
     const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${wk}`)||'{}');
