@@ -1842,6 +1842,7 @@ setTimeout(function(){
 
       <!-- 保存 -->
       <div>
+        <div id="nu-save-preview" style="display:none;font-size:.62rem;color:rgba(30,80,110,.7);background:rgba(78,201,138,.05);border:1px solid rgba(78,201,138,.15);border-radius:8px;padding:7px 10px;line-height:1.8;margin-bottom:4px;"></div>
         <button class="btn-save" id="save-btn">✦ 今週の記録を保存する ✦</button>
         <button id="reset-btn" style="background:none;border:1px solid rgba(224,92,92,.3);color:rgba(224,92,92,.6);font-size:.72rem;padding:7px 16px;border-radius:8px;cursor:pointer;font-family:inherit;margin-top:6px;width:100%;">↺ 今週の入力をリセット</button>
         <div class="save-msg" id="save-msg"></div>
@@ -2443,6 +2444,25 @@ function updateUI(){
   }catch(e){}
 
   updateLinked();
+  // 保存プレビュー
+  try{
+    const prev=document.getElementById('nu-save-preview');
+    if(prev){
+      const simpleCount=sessions.filter(s=>!s.components).length;
+      const dishCount=sessions.filter(s=>s.components).length;
+      const xp=totalXp();
+      if(sessions.length>0){
+        const parts=[];
+        if(simpleCount>0) parts.push(`${simpleCount}品`);
+        if(dishCount>0) parts.push(`献立${dishCount}品`);
+        const c=getCounts();
+        prev.innerHTML=`📋 保存内容：${parts.join('+')}（野菜${c.veg}・果物${c.fruit}・タンパク${c.protein}・穀類${c.grain}）<b>+${xp}XP</b>`;
+        prev.style.display='block';
+      } else {
+        prev.style.display='none';
+      }
+    }
+  }catch(e2){}
 }
 
 const KNOWLEDGE={
