@@ -7153,14 +7153,19 @@ function renderCompactHome(){
           else break;
         }
       }catch(e2){}
+      const exRemain = Math.max(0, exGoal - exMin2);
+      const vegRemain2 = Math.max(0, 21 - vegC2);
       let tip='';
       if(qolStreak2>=7) tip=`🔥 ${qolStreak2}日連続で調子を記録中！継続が最強の薬です。`;
       else if(exMin2===0 && vegC2===0) tip='まだ今週の記録がありません。まず運動か食事から始めよう！';
-      else if(exMin2<exGoal*0.3 && vegC2>=10) tip='食事は順調！運動の記録も増やせると相乗効果が出るよ。';
-      else if(vegC2<7 && exMin2>=exGoal*0.5) tip='運動は順調！野菜・果物の記録も増やすと栄養XPボーナスが上がるよ。';
-      else if(exMin2>=exGoal && vegC2>=18) tip='今週は運動・食事ともに絶好調！この調子をキープしよう。';
-      else if(exMin2>=exGoal*0.7 && vegC2>=14) tip='あと少しで完璧週！どちらも達成できそうな良いペースです。';
+      else if(exMin2>=exGoal && vegC2>=21) tip='✅ 今週は運動・食事どちらも目標達成！素晴らしい週です。';
+      else if(exMin2>=exGoal && vegRemain2>0) tip=`⚔ 運動目標達成（${exMin2}分）！野菜があと${vegRemain2}皿で完璧週。`;
+      else if(vegC2>=21 && exRemain>0) tip=`🥦 野菜目標達成（${vegC2}皿）！運動はあと${exRemain}分でゴール 🎯`;
+      else if(exMin2<exGoal*0.3 && vegC2>=10) tip=`🌿 食事は順調（野菜${vegC2}皿）！運動はあと${exRemain}分でゴール。`;
+      else if(vegC2<7 && exMin2>=exGoal*0.5) tip=`⚡ 運動は${exMin2}分達成中！野菜があと${vegRemain2}皿で栄養ボーナスが解放。`;
+      else if(exMin2>=exGoal*0.7 && vegC2>=14) tip=`🎯 あと少し！運動${exRemain}分 + 野菜${vegRemain2}皿で完璧週が狙える。`;
       else if(qolStreak2>=3) tip=`${qolStreak2}日連続で調子を記録中。この習慣を大切に。`;
+      else if(exMin2>0 && vegC2>0) tip=`今週: 運動${exMin2}/${exGoal}分・野菜${vegC2}/21皿。あと${exRemain}分と${vegRemain2}皿！`;
       if(tip){ advEl.textContent='💡 '+tip; advEl.style.display='block'; }
       else { advEl.style.display='none'; }
     }
