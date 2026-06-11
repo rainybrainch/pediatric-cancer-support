@@ -493,6 +493,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .li-sub{font-size:.6rem;color:rgba(30,80,110,.7);}
 .li-xp{font-size:.68rem;font-weight:700;flex-shrink:0;}
 .li-del{background:none;border:none;cursor:pointer;color:rgba(30,80,110,.7);font-size:.75rem;padding:2px 4px;transition:color .15s;flex-shrink:0;}
+#_nu-undo-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(10,42,64,.94);color:#e8f4fb;padding:10px 16px;border-radius:10px;font-size:.78rem;z-index:9999;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,.3);border:1px solid rgba(78,201,138,.3);white-space:nowrap;transition:opacity .3s;}
+#_nu-undo-toast.hidden{opacity:0;pointer-events:none;}
+#_nu-undo-btn{background:rgba(78,201,138,.2);border:1px solid rgba(78,201,138,.4);color:#a0f0c0;border-radius:6px;padding:3px 10px;font-size:.74rem;font-weight:700;cursor:pointer;}
 .li-del:hover{color:var(--red);}
 
 /* 保存 */
@@ -2552,7 +2555,36 @@ function renderLog(){
     }
     ul.appendChild(li);
   });
-  ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>{ sessions.splice(+b.dataset.i,1); renderLog(); updateUI(); }));
+  ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>{
+    const idx=+b.dataset.i;
+    const removed=sessions.splice(idx,1)[0];
+    renderLog(); updateUI();
+    showNuUndoToast(removed,idx);
+  }));
+}
+
+let _nuUndo=null, _nuUndoIdx=null, _nuUndoTid=null;
+function showNuUndoToast(session,idx){
+  let el=document.getElementById('_nu-undo-toast');
+  if(!el){
+    el=document.createElement('div'); el.id='_nu-undo-toast'; el.className='hidden';
+    el.innerHTML=`<span id="_nu-undo-msg"></span><button id="_nu-undo-btn" type="button">元に戻す</button>`;
+    document.body.appendChild(el);
+    el.querySelector('#_nu-undo-btn').addEventListener('click',()=>{
+      if(_nuUndo!==null){
+        sessions.splice(_nuUndoIdx,0,_nuUndo);
+        _nuUndo=null; _nuUndoIdx=null;
+        renderLog(); updateUI(); updateCardCounts();
+      }
+      el.classList.add('hidden');
+      clearTimeout(_nuUndoTid);
+    });
+  }
+  el.querySelector('#_nu-undo-msg').textContent=`${session.icon||''}${session.name} を削除`;
+  _nuUndo=session; _nuUndoIdx=idx;
+  el.classList.remove('hidden');
+  clearTimeout(_nuUndoTid);
+  _nuUndoTid=setTimeout(()=>{ el.classList.add('hidden'); _nuUndo=null; },5000);
 }
 
 function updateCardCounts(){
