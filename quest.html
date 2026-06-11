@@ -434,6 +434,41 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 }
 .ex-card.counted .ex-dec{display:flex;}
 
+/* ===== よく使う種目クイックバー ===== */
+#recent-ex-bar{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(41,182,232,.2);
+  border-radius:14px;
+  padding:12px 14px;
+  margin-bottom:14px;
+}
+#recent-ex-bar .reb-head{
+  font-size:.68rem;font-weight:700;color:#1e7fa4;
+  letter-spacing:.04em;margin-bottom:9px;
+}
+.reb-chips{display:flex;flex-wrap:wrap;gap:7px;}
+.reb-chip{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(30,127,164,.09);
+  border:1px solid rgba(30,127,164,.25);
+  border-radius:20px;
+  padding:6px 11px;
+  font-size:.7rem;font-weight:700;color:#1e7fa4;
+  cursor:pointer;transition:background .15s,border-color .15s;
+  font-family:inherit;
+}
+.reb-chip:hover{background:rgba(30,127,164,.18);border-color:rgba(30,127,164,.5);}
+.reb-chip:active{transform:scale(.94);}
+.reb-chip .rc-icon{font-size:1rem;}
+.reb-chip .rc-cnt{
+  font-size:.6rem;color:rgba(30,127,164,.6);
+  background:rgba(30,127,164,.12);
+  border-radius:8px;padding:0 5px;line-height:1.5;
+}
+#recent-ex-bar.light-mode{background:#f0f8ff;border-color:#b0cfdf;}
+#recent-ex-bar.light-mode .reb-head{color:#0a5f8c;}
+#recent-ex-bar.light-mode .reb-chip{background:rgba(30,127,164,.08);border-color:rgba(30,127,164,.2);color:#0a5f8c;}
+
 /* ===== 右：ステータス ===== */
 .quest-side{display:flex;flex-direction:column;gap:14px;}
 
@@ -1418,6 +1453,12 @@ setTimeout(function(){
             <div class="qh-stat-lbl">今日XP</div>
           </div>
         </div>
+      </div>
+
+      <!-- よく使う種目クイックバー -->
+      <div id="recent-ex-bar" style="display:none;">
+        <div class="reb-head">⚡ よく使う種目</div>
+        <div class="reb-chips" id="reb-chips"></div>
       </div>
 
       <!-- 日常の動き -->
@@ -2562,6 +2603,41 @@ function removeSession(i){
   renderLog(); updateUI();
 }
 
+// ===== よく使う種目クイックバー =====
+function getRecentExMap(){
+  const freq={};
+  for(let w=0;w<8;w++){
+    const d=new Date(Date.now()-w*7*86400000);
+    const j=new Date(d.getFullYear(),0,1);
+    const wn=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+    const key=`vq_${uid}_${d.getFullYear()}_W${String(wn).padStart(2,'0')}`;
+    try{
+      const rec=JSON.parse(localStorage.getItem(key)||'{}');
+      if(Array.isArray(rec.sessions)){
+        rec.sessions.forEach(s=>{ freq[s.name]=(freq[s.name]||{count:0,icon:s.icon,mets:s.mets,type:s.type}); freq[s.name].count++; });
+      }
+    }catch(e){}
+  }
+  return freq;
+}
+function renderRecentExercises(){
+  const bar=document.getElementById('recent-ex-bar');
+  const chips=document.getElementById('reb-chips');
+  if(!bar||!chips||!uid) return;
+  const freq=getRecentExMap();
+  const sorted=Object.entries(freq).sort((a,b)=>b[1].count-a[1].count).slice(0,5);
+  if(sorted.length===0){ bar.style.display='none'; return; }
+  chips.innerHTML='';
+  sorted.forEach(([name,d])=>{
+    const btn=document.createElement('button');
+    btn.className='reb-chip';
+    btn.innerHTML=`<span class="rc-icon">${d.icon||'🏃'}</span><span>${name}</span><span class="rc-cnt">${d.count}回</span>`;
+    btn.addEventListener('click',()=>addSession(name,d.icon||'🏃',d.mets||3.5,d.type||'moderate'));
+    chips.appendChild(btn);
+  });
+  bar.style.display='block';
+}
+
 // ===== ボード構築 =====
 function buildBoard(id,groups,type){
   const wrap=document.getElementById(id);
@@ -2933,6 +3009,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
   buildBoard('mod-board',EXERCISES.moderate,'moderate');
   buildBoard('high-board',EXERCISES.high,'high');
+  renderRecentExercises();
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
   renderBoss(0);
   renderBadgePanel();
@@ -2997,6 +3074,7 @@ onAuthStateChanged(auth,user=>{
     buildBoard('daily-board',EXERCISES.daily,'moderate');
     buildBoard('mod-board',EXERCISES.moderate,'moderate');
     buildBoard('high-board',EXERCISES.high,'high');
+    renderRecentExercises();
     loadWeek();
     renderHistory();
     renderAch();
