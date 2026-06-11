@@ -4350,6 +4350,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="hc-name">ルナ</div>
           <div class="hc-role">AIコーチ</div>
           <div class="hc-stat" id="hc-stat-luna">GROWモデルで対話</div>
+          <div id="hc-luna-quote" style="font-size:.55rem;color:rgba(41,182,232,.65);line-height:1.4;margin-top:2px;font-style:italic;display:none;"></div>
           <div class="hc-bar"><div class="hc-bar-fill hc-bar-luna" id="hc-bar-luna" style="width:30%"></div></div>
           <div class="hc-cta">🌙 話しかける →</div>
         </button>
@@ -6993,7 +6994,27 @@ function renderCompactHome(){
     if(coins != null) document.getElementById('ch-meta-sh').textContent = `${coins} 🪙`;
   }catch(e){}
   try{
-    // ルナ：最後に話した日
+    // ルナ：最後に話した日 + 日替わり一言
+    const LUNA_QUOTES = [
+      '小さな一歩が、大きな変化の始まりです',
+      '今日の記録が、未来の自分への贈り物',
+      '体の声を丁寧に聞いてあげましょう',
+      '完璧じゃなくていい。続けることが大切',
+      '今日も、ここにいてくれてありがとう',
+      '焦らず、ゆっくり、着実に',
+      'あなたのペースで進んでいいんです',
+      '休むことも、回復の一部です',
+      '昨日より少しだけ、それで十分',
+      '記録することで、自分の変化が見えてくる',
+      '今日の気分はどう？話しかけてね',
+      '毎週の積み重ねが、体を変えていきます',
+    ];
+    const today = new Date().toISOString().slice(0,10);
+    const qSeed = today.split('-').reduce((a,b)=>a+parseInt(b,10),0);
+    const quote = LUNA_QUOTES[qSeed % LUNA_QUOTES.length];
+    const quoteEl = document.getElementById('hc-luna-quote');
+    if(quoteEl){ quoteEl.textContent=`"${quote}"`; quoteEl.style.display='block'; }
+
     const lastChat = localStorage.getItem(`vc_last_${uid}`);
     const lunaEl = document.getElementById('hc-stat-luna');
     if(lunaEl && lastChat){
