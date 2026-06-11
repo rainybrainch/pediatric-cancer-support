@@ -288,6 +288,16 @@ body::before{
 .sh-ex-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(224,92,92,.12);border:1px solid rgba(224,92,92,.25);border-radius:20px;font-size:.6rem;color:rgba(180,80,80,.9);white-space:nowrap;}
 .sh-ex-chip .sec-icon{font-size:.75rem;}
 
+/* 完璧週バナー */
+.sh-perfect-banner{
+  background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(78,201,138,.14));
+  border:1.5px solid rgba(240,212,138,.4);border-radius:12px;
+  padding:9px 14px;text-align:center;
+  font-size:.74rem;font-weight:800;color:#c8a030;letter-spacing:.04em;
+  display:none;
+  box-shadow:0 2px 8px rgba(240,212,138,.15);
+}
+
 /* 今週の進捗 */
 .sh-summary{
   background:rgba(255,255,255,.95);border:1.5px solid #b0d4e8;
@@ -4338,6 +4348,9 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         </button>
       </div>
 
+      <!-- 完璧週バナー -->
+      <div class="sh-perfect-banner" id="sh-perfect-banner">✨ 今週は運動・食事どちらも達成！すばらしい週です！</div>
+
       <!-- 3大記録ボタン（最優先） -->
       <div class="sh-record">
         <a href="./quest.html" class="sh-rec-btn rec-ex">
@@ -6591,6 +6604,7 @@ document.getElementById('sleep-save')?.addEventListener('click', async ()=>{
 function renderCompactHome(){
   if(!uid || uid==='guest') return;
 
+  let _exDone=false, _vegDone=false;
   // 今週の運動・栄養
   const wk = weekKey();
   let exMin = 0, vegC=0, fishC=0, qolDone=false;
@@ -6622,6 +6636,7 @@ function renderCompactHome(){
     }
     document.getElementById('sh-meta-ex').textContent = exMetaText;
     document.querySelector('.rec-ex')?.classList.toggle('done', exDone);
+    _exDone = exDone;
     // 今週の種目チップ
     try{
       const chipsEl = document.getElementById('sh-ex-chips');
@@ -6656,6 +6671,12 @@ function renderCompactHome(){
     }
     document.getElementById('sh-meta-nu').textContent = nuMeta;
     document.querySelector('.rec-nu')?.classList.toggle('done', vegGoalReached);
+    _vegDone = vegGoalReached;
+  }catch(e){}
+  // 完璧週バナー
+  try{
+    const pb = document.getElementById('sh-perfect-banner');
+    if(pb) pb.style.display = (_exDone && _vegDone) ? 'block' : 'none';
   }catch(e){}
   // 今日のQOL記録済みか + 7日カレンダードット
   try{
