@@ -289,13 +289,16 @@ body::before{
 .sh-ex-chip .sec-icon{font-size:.75rem;}
 
 /* 完璧週バナー */
+@keyframes perfectShimmer{0%{background-position:200% center}100%{background-position:-200% center}}
 .sh-perfect-banner{
-  background:linear-gradient(135deg,rgba(240,212,138,.18),rgba(78,201,138,.14));
+  background:linear-gradient(90deg,rgba(240,212,138,.15),rgba(78,201,138,.2),rgba(240,212,138,.15));
+  background-size:200% auto;
   border:1.5px solid rgba(240,212,138,.4);border-radius:12px;
   padding:9px 14px;text-align:center;
   font-size:.74rem;font-weight:800;color:#c8a030;letter-spacing:.04em;
   display:none;
   box-shadow:0 2px 8px rgba(240,212,138,.15);
+  animation:perfectShimmer 3s linear infinite;
 }
 
 /* 今週の進捗 */
