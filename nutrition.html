@@ -3364,6 +3364,14 @@ document.getElementById('menu-toggle').addEventListener('click',()=>{
 
 // ===== 保存・読込 =====
 async function saveWeek(){
+  const saveBtn=document.getElementById('save-btn');
+  if(saveBtn?.disabled) return;
+  if(saveBtn){ saveBtn.disabled=true; saveBtn.textContent='保存中…'; }
+  try{ await _saveWeekCore(); }finally{
+    if(saveBtn){ saveBtn.disabled=false; saveBtn.textContent='✦ 今週の記録を保存する ✦'; }
+  }
+}
+async function _saveWeekCore(){
   const isFirst=!localStorage.getItem(`vn_firstsave_${uid}`);
   const c=getCounts();
   const xp=totalXp(), lv=getLv(xp);
