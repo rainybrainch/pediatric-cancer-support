@@ -1798,6 +1798,7 @@ setTimeout(function(){
           <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">🔥 合計 <span id="total-kcal-burn">0</span> kcal</span>
         </div>
         <ul id="log-list"></ul>
+        <div id="vs-last-week" style="display:none;margin-top:6px;font-size:.6rem;color:rgba(30,80,110,.7);padding:4px 10px;border-radius:8px;background:rgba(30,80,110,.04);border:1px solid rgba(30,80,110,.1);"></div>
         <div id="ex-summary" style="display:none;margin-top:8px;padding:6px 8px;background:rgba(41,182,232,.05);border-radius:8px;border:1px solid rgba(41,182,232,.12);"></div>
       </div>
 
@@ -2311,6 +2312,29 @@ function updateUI(){
       prev.style.display='block';
     } else if(prev){
       prev.style.display='none';
+    }
+  }catch(e2){}
+  // 先週比
+  try{
+    const vsEl=document.getElementById('vs-last-week');
+    if(vsEl){
+      const prevData=JSON.parse(localStorage.getItem(`vq_${uid}_${prevWeekKey()}`)||'null');
+      if(prevData && score>0){
+        const prevScore=prevData.score||0;
+        const diff=score-prevScore;
+        if(diff>0){
+          vsEl.innerHTML=`📈 先週より <b style="color:#4ec98a;">+${diff}分</b> ペース`;
+          vsEl.style.display='block';
+        } else if(diff<0){
+          vsEl.innerHTML=`📉 先週より <b style="color:rgba(224,92,92,.85);">${diff}分</b>（先週：${prevScore}分）`;
+          vsEl.style.display='block';
+        } else {
+          vsEl.innerHTML=`➡️ 先週と同じペース（${prevScore}分）`;
+          vsEl.style.display='block';
+        }
+      } else {
+        vsEl.style.display='none';
+      }
     }
   }catch(e2){}
 }
