@@ -1698,6 +1698,9 @@ setTimeout(function(){
         </div>
       </div>
 
+      <!-- QOL体調ガイダンス -->
+      <div id="nu-qol-guidance" style="display:none;border-radius:10px;padding:8px 12px;font-size:.65rem;font-weight:700;line-height:1.6;margin-bottom:10px;"></div>
+
       <!-- 週・レベル -->
       <div class="side-panel">
         <div class="week-label" id="week-lbl"></div>
@@ -3099,6 +3102,26 @@ function autoSelectMealTime(){
   const radio=document.querySelector(`input[name="meal-time"][value="${mt}"]`);
   if(radio){ radio.checked=true; }
 }
+function showNuQolGuidance(){
+  const el=document.getElementById('nu-qol-guidance');
+  if(!el || !uid || uid==='guest') return;
+  const today=new Date().toISOString().slice(0,10);
+  const raw=localStorage.getItem(`vt_qol_${uid}_${today}`);
+  if(!raw){ el.style.display='none'; return; }
+  try{
+    const q=JSON.parse(raw);
+    const cond=q.condition||3;
+    if(cond<=2){
+      el.style.cssText='display:block;border-radius:10px;padding:8px 12px;font-size:.65rem;font-weight:700;line-height:1.6;margin-bottom:10px;background:rgba(120,80,200,.1);border:1px solid rgba(120,80,200,.25);color:rgba(180,140,240,.9);';
+      el.textContent='💜 体調が低めです。消化しやすいもの（おかゆ・スープ・豆腐）を中心に、無理なく栄養を摂りましょう。';
+    } else if(cond>=4){
+      el.style.cssText='display:block;border-radius:10px;padding:8px 12px;font-size:.65rem;font-weight:700;line-height:1.6;margin-bottom:10px;background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.25);color:rgba(78,201,138,.9);';
+      el.textContent='💚 体調が良好です！しっかり食べて活力を補充しましょう。野菜・タンパク・穀類をバランスよく。';
+    } else {
+      el.style.display='none';
+    }
+  }catch(e){ el.style.display='none'; }
+}
 
 // ===== 食材検索 =====
 let _foodsDB=[], _dishesDB=[];
@@ -3785,7 +3808,7 @@ onAuthStateChanged(auth,user=>{
     renderAch();
     renderStreak(getStreak());
     checkLoginBonus();
-    autoSelectMealTime();
+    autoSelectMealTime(); showNuQolGuidance();
     document.getElementById('coach-fab').classList.add('visible');
     document.getElementById('bottom-nav').style.display='flex';
     checkStreakWarning();
