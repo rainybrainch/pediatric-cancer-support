@@ -297,6 +297,7 @@ body::before{
 .sh-sum-bar{flex:1;height:6px;background:rgba(30,80,110,.10);border-radius:99px;overflow:hidden;}
 .sh-sum-fill{height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4);border-radius:99px;transition:width .5s;box-shadow:0 0 6px rgba(41,182,232,.3);}
 .sh-sum-pct{font-family:'Noto Serif JP',serif;font-weight:900;color:#1e7fa4;font-size:.78rem;min-width:40px;text-align:right;}
+.sh-days-left{font-size:.55rem;color:rgba(30,80,110,.5);white-space:nowrap;}
 .sh-cal{display:flex;gap:5px;align-items:center;margin-top:2px;}
 .sh-cal-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;}
 .sh-cal-dots{display:flex;gap:4px;}
@@ -2964,6 +2965,7 @@ a:focus-visible, button:focus-visible{
 
 .sh-cal-lbl{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; }
 .sh-cal-dot.empty{ background: rgba(95,208,232,.08) !important; border-color: rgba(95,208,232,.15) !important; color: rgba(95,208,232,.35) !important; -webkit-text-fill-color: rgba(95,208,232,.35) !important; }
+.sh-days-left{ color: rgba(95,208,232,.4) !important; -webkit-text-fill-color: rgba(95,208,232,.4) !important; }
 .sh-streak-badge{ color: #ffa060 !important; -webkit-text-fill-color: #ffa060 !important; background: rgba(255,160,96,.12) !important; border-color: rgba(255,160,96,.25) !important; }
 .sh-qol-streak{ color: #4ec98a !important; -webkit-text-fill-color: #4ec98a !important; background: rgba(78,201,138,.12) !important; border-color: rgba(78,201,138,.3) !important; }
 .sh-hyd-plus{ color: #5fd0e8 !important; -webkit-text-fill-color: #5fd0e8 !important; background: rgba(95,208,232,.12) !important; border-color: rgba(95,208,232,.35) !important; }
@@ -4372,6 +4374,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <span class="sh-sum-lbl">12週進捗</span>
           <div class="sh-sum-bar"><div class="sh-sum-fill" id="sh-sum-fill" style="width:0%"></div></div>
           <span class="sh-sum-pct" id="sh-sum-pct">0%</span>
+          <span class="sh-days-left" id="sh-days-left"></span>
         </div>
         <div class="sh-sum-row sh-hyd-row" id="sh-hyd-row">
           <span class="sh-sum-lbl">💧 水分</span>
@@ -6695,6 +6698,11 @@ function renderCompactHome(){
     const pct = Math.min(100, Math.round(days / (12*7) * 100));
     document.getElementById('sh-sum-fill').style.width = pct + '%';
     document.getElementById('sh-sum-pct').textContent = pct + '%';
+    const remaining = Math.max(0, 84 - days);
+    const daysLeftEl = document.getElementById('sh-days-left');
+    if(daysLeftEl){
+      daysLeftEl.textContent = pct >= 100 ? '🎉 完走！' : `残${remaining}日`;
+    }
   }catch(e){}
 
   // 睡眠行更新
