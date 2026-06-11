@@ -1459,6 +1459,12 @@ setTimeout(function(){
         <div class="rfb-chips" id="rfb-chips"></div>
       </div>
 
+      <!-- 週間バランスバー -->
+      <div id="nu-balance-card" style="display:none;background:rgba(78,201,138,.04);border:1px solid rgba(78,201,138,.15);border-radius:10px;padding:8px 12px;margin-bottom:10px;">
+        <div style="font-size:.6rem;color:rgba(30,80,110,.6);margin-bottom:5px;font-weight:700;">今週の栄養バランス</div>
+        <div id="nu-balance-rows"></div>
+      </div>
+
       <!-- カテゴリクイックジャンプ -->
       <div class="cat-chips" id="cat-chips">
         <button class="cat-chip" data-target="veg-grid" data-cat="veg" data-label="🥦 野菜" data-goal="21">🥦 野菜</button>
@@ -2446,6 +2452,34 @@ function updateUI(){
   }catch(e){}
 
   updateLinked();
+  // 週間バランスバー更新
+  try{
+    const balCard=document.getElementById('nu-balance-card');
+    const balRows=document.getElementById('nu-balance-rows');
+    if(balCard && balRows && sessions.length>0){
+      const c=getCounts();
+      const cats=[
+        {icon:'🥦',label:'野菜',val:c.veg,goal:21,color:'#4ec98a'},
+        {icon:'🍎',label:'果物',val:c.fruit,goal:10,color:'#f0954a'},
+        {icon:'🍗',label:'タンパク',val:c.protein,goal:14,color:'#29b6e8'},
+        {icon:'🌾',label:'穀物',val:c.grain,goal:14,color:'#c8a030'},
+      ];
+      balRows.innerHTML=cats.map(({icon,label,val,goal,color})=>{
+        const pct=Math.min(100,Math.round(val/goal*100));
+        const reached=pct>=100;
+        return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+          <span style="font-size:.65rem;width:60px;color:rgba(30,80,110,.8);flex-shrink:0;">${icon}${label}</span>
+          <div style="flex:1;height:5px;background:rgba(30,80,110,.1);border-radius:99px;overflow:hidden;">
+            <div style="width:${pct}%;height:100%;background:${reached?'linear-gradient(90deg,'+color+',#a0e8c0)':color};border-radius:99px;transition:width .4s;"></div>
+          </div>
+          <span style="font-size:.58rem;color:${reached?'#4ec98a':'rgba(30,80,110,.6)'};width:38px;text-align:right;flex-shrink:0;">${reached?'✓達成':`${val}/${goal}`}</span>
+        </div>`;
+      }).join('');
+      balCard.style.display='block';
+    } else if(balCard){
+      balCard.style.display='none';
+    }
+  }catch(e2){}
   // 保存プレビュー
   try{
     const prev=document.getElementById('nu-save-preview');
