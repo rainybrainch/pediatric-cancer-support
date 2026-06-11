@@ -2754,6 +2754,12 @@ function calcCaloriesBurned(mets, minutes){
 }
 
 // ===== セッション操作 =====
+function saveDraft(){
+  try{ localStorage.setItem(`vq_draft_${uid}`, JSON.stringify({sessions,modMin,highMin,date:new Date().toISOString()})); }catch(e){}
+}
+function clearDraft(){
+  try{ localStorage.removeItem(`vq_draft_${uid}`); }catch(e){}
+}
 function addSession(name,icon,mets,type,minutes){
   const min = minutes || 10;
   const baseXp=xpForActivity(mets,type);
@@ -2763,6 +2769,7 @@ function addSession(name,icon,mets,type,minutes){
   const kcal = calcCaloriesBurned(mets, min);
   sessions.push({name,icon,mets,type,xp,minutes:min,kcal});
   if(type==='high') highMin+=min; else modMin+=min;
+  saveDraft();
   renderLog(); updateUI();
   // 拡張：演出・コンボ・デイリー・ダメージ（実際の分数を渡す）
   if(window.AppEnhance) window.AppEnhance.onExerciseRecord(min, type);
@@ -2814,6 +2821,7 @@ function removeSession(i){
   else                modMin =Math.max(0,modMin-min);
   _undoSession={...s}; _undoIdx=i;
   sessions.splice(i,1);
+  saveDraft();
   renderLog(); updateUI();
   showUndoToast(s.name);
 }
@@ -2949,6 +2957,7 @@ async function saveWeek(){
     }
   }
 
+  clearDraft();
   document.getElementById('save-msg').textContent='';
   showSaveToast('✅', '記録を保存しました');
   const achieved = data.score >= getWeeklyGoal();
@@ -2988,7 +2997,23 @@ function showGoalCelebration(){
 }
 function loadWeek(){
   const raw=localStorage.getItem(storeKey());
-  if(!raw) return;
+  if(!raw){
+    // 下書きがある場合は復元を提案
+    try{
+      const draft=JSON.parse(localStorage.getItem(`vq_draft_${uid}`)||'null');
+      if(draft && Array.isArray(draft.sessions) && draft.sessions.length>0){
+        const draftDate=new Date(draft.date);
+        const diffH=Math.floor((Date.now()-draftDate)/3600000);
+        if(diffH<48){
+          if(confirm(`未保存の記録が${draft.sessions.length}件あります（${diffH}時間前）。\n復元しますか？`)){
+            sessions=draft.sessions; modMin=draft.modMin||0; highMin=draft.highMin||0;
+            renderLog(); updateUI();
+          } else { clearDraft(); }
+        } else { clearDraft(); }
+      }
+    }catch(e){}
+    return;
+  }
   try{
     const d=JSON.parse(raw);
     document.getElementById('bmi-val').value  =d.bmi||'';
@@ -2997,6 +3022,8 @@ function loadWeek(){
     prevLv=d.lv||1;
     [1,2,3].forEach(n=>{ if(d[`qol${n}`]){ const el=document.querySelector(`input[name="qol${n}"][value="${d[`qol${n}`]}"]`); if(el) el.checked=true; } });
     renderLog(); updateUI();
+    // 保存済みウィークのドラフトはクリア
+    clearDraft();
   }catch(e){}
 }
 function appendHistory(data){
