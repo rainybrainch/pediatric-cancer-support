@@ -469,6 +469,8 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 #recent-ex-bar.light-mode{background:#f0f8ff;border-color:#b0cfdf;}
 #recent-ex-bar.light-mode .reb-head{color:#0a5f8c;}
 #recent-ex-bar.light-mode .reb-chip{background:rgba(30,127,164,.08);border-color:rgba(30,127,164,.2);color:#0a5f8c;}
+.reb-chip.reb-recorded{background:rgba(30,127,164,.18);border-color:rgba(30,127,164,.45);}
+.reb-chip .rc-done{font-size:.62rem;color:rgba(30,127,164,.9);font-weight:900;}
 
 /* ===== 1タップ時間セレクター ===== */
 .tap-time-row{
@@ -2751,11 +2753,18 @@ function renderRecentExercises(){
   const sorted=Object.entries(freq).sort((a,b)=>b[1].count-a[1].count).slice(0,5);
   if(sorted.length===0){ bar.style.display='none'; return; }
   chips.innerHTML='';
+  const thisWeekNames=new Set(sessions.map(s=>s.name));
   sorted.forEach(([name,d])=>{
+    const recorded=thisWeekNames.has(name);
     const btn=document.createElement('button');
-    btn.className='reb-chip';
-    btn.innerHTML=`<span class="rc-icon">${d.icon||'🏃'}</span><span>${name}</span><span class="rc-cnt">${d.count}回</span>`;
-    btn.addEventListener('click',()=>addSession(name,d.icon||'🏃',d.mets||3.5,d.type||'moderate',tapMinutes));
+    btn.className='reb-chip'+(recorded?' reb-recorded':'');
+    btn.innerHTML=`<span class="rc-icon">${d.icon||'🏃'}</span><span>${name}</span>${recorded?'<span class="rc-done">✓</span>':`<span class="rc-cnt">${d.count}回</span>`}`;
+    btn.addEventListener('click',()=>{
+      addSession(name,d.icon||'🏃',d.mets||3.5,d.type||'moderate',tapMinutes);
+      btn.classList.add('reb-recorded');
+      const last=btn.querySelector('span:last-child');
+      if(last){last.className='rc-done';last.textContent='✓';}
+    });
     chips.appendChild(btn);
   });
   bar.style.display='block';
