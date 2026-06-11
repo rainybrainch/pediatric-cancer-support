@@ -516,6 +516,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .hist-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;}
 .hist-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),#a0f0c0);}
 .hist-score{font-size:.7rem;font-weight:700;color:var(--green);flex-shrink:0;}
+.hist-ach{font-size:.75rem;flex-shrink:0;width:16px;text-align:center;}
+.hist-achieved .hist-bar{background:linear-gradient(90deg,#2da366,#4ec98a);}
+.hist-achieved .hist-score{color:#2da366;}
 .hist-empty{font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:8px 0;}
 
 /* ===== ストリーク ===== */
@@ -3298,11 +3301,13 @@ function renderHistory(){
   }
   hist.forEach(h=>{
     const pct=Math.min(100,h.score||0);
-    const div=document.createElement('div'); div.className='hist-item';
+    const achieved=(h.score||0)>=25;
+    const div=document.createElement('div'); div.className='hist-item'+(achieved?' hist-achieved':'');
     div.innerHTML=`
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
-      <span class="hist-score">${h.score||0}pt</span>`;
+      <span class="hist-score">${h.score||0}pt</span>
+      <span class="hist-ach">${achieved?'✅':''}</span>`;
     el.appendChild(div);
   });
   // 月次サマリー（栄養スコアの月合計）
