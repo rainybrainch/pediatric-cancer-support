@@ -46,6 +46,7 @@ body::before{
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
 @keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes goalParticle{0%{opacity:1;transform:translateY(0) scale(1);}60%{opacity:.9;}100%{opacity:0;transform:translateY(-90px) scale(.5);}}
 @keyframes logIn{from{opacity:0;transform:translateX(8px);}to{opacity:1;transform:translateX(0);}}
 @keyframes barPulse{0%,100%{opacity:1;}50%{opacity:.7;}}
 @keyframes plusFloat{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-30px);}}
@@ -2337,6 +2338,20 @@ function checkLoginBonus(){
   setTimeout(()=>el.remove(),3700);
 }
 
+// ===== 栄養目標達成セレブレーション =====
+function nuGoalCelebrate(){
+  const emojis=['🥦','🍎','🍗','🌾','✨','⭐','🎊','💚'];
+  const cx=window.innerWidth/2, cy=window.innerHeight*0.4;
+  for(let i=0;i<14;i++){
+    const el=document.createElement('div');
+    el.textContent=emojis[i%emojis.length];
+    el.style.cssText=`position:fixed;left:${cx+(Math.random()-0.5)*180}px;top:${cy+Math.random()*20}px;font-size:${1.1+Math.random()*.8}rem;pointer-events:none;z-index:9000;animation:goalParticle ${0.9+Math.random()*.7}s ease-out forwards;animation-delay:${i*60}ms;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2200);
+  }
+  showToast('🏆 今週の栄養目標コンプリート！素晴らしい！', 3500);
+}
+
 // ===== UI更新 =====
 function updateUI(){
   const c=getCounts();
@@ -2499,6 +2514,13 @@ function updateUI(){
       }
     }
   }catch(e2){}
+  // 全カテゴリ達成チェック（初回のみ演出）
+  try{
+    const c2=getCounts();
+    const nowNuGoalMet=(c2.veg>=21 && c2.fruit>=10 && c2.protein>=14 && c2.grain>=14);
+    if(nowNuGoalMet && !_prevNuGoalMet) nuGoalCelebrate();
+    _prevNuGoalMet=nowNuGoalMet;
+  }catch(e2){}
 }
 
 const KNOWLEDGE={
@@ -2620,6 +2642,7 @@ function renderLog(){
 }
 
 let _nuUndo=null, _nuUndoIdx=null, _nuUndoTid=null;
+let _prevNuGoalMet=false;
 function showNuUndoToast(session,idx){
   let el=document.getElementById('_nu-undo-toast');
   if(!el){
