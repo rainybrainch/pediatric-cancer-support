@@ -301,6 +301,14 @@ body::before{
   animation:perfectShimmer 3s linear infinite;
 }
 
+.sh-perfect-streak{
+  display:none;
+  font-size:.58rem;font-weight:800;color:#f0d48a;
+  background:rgba(240,212,138,.1);border:1px solid rgba(240,212,138,.25);
+  border-radius:99px;padding:2px 10px;text-align:center;margin-top:5px;
+  letter-spacing:.04em;
+}
+
 /* 今週の進捗 */
 .sh-summary{
   background:rgba(255,255,255,.95);border:1.5px solid #b0d4e8;
@@ -4363,6 +4371,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
       <!-- 完璧週バナー -->
       <div class="sh-perfect-banner" id="sh-perfect-banner">✨ 今週は運動・食事どちらも達成！すばらしい週です！</div>
+      <div class="sh-perfect-streak" id="sh-perfect-streak"></div>
 
       <!-- 3大記録ボタン（最優先） -->
       <div class="sh-record">
@@ -6704,10 +6713,37 @@ function renderCompactHome(){
     document.querySelector('.rec-nu')?.classList.toggle('done', vegGoalReached);
     _vegDone = vegGoalReached;
   }catch(e){}
-  // 完璧週バナー
+  // 完璧週バナー + 連続ストリーク
   try{
     const pb = document.getElementById('sh-perfect-banner');
     if(pb) pb.style.display = (_exDone && _vegDone) ? 'block' : 'none';
+    const strEl = document.getElementById('sh-perfect-streak');
+    if(strEl && uid && uid!=='guest'){
+      let perfStreak = 0;
+      const _gs2 = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+      const _exGoal2 = parseInt(_gs2.weeklyGoal || localStorage.getItem(`vt_ex_goal_${uid}`) || '150', 10);
+      for(let i=0; i<=11; i++){
+        const d=new Date(Date.now()-i*7*86400000);
+        const j2=new Date(d.getFullYear(),0,1);
+        const w2=Math.ceil(((d-j2)/86400000+j2.getDay()+1)/7);
+        const wk2=`${d.getFullYear()}_W${String(w2).padStart(2,'0')}`;
+        const exRaw2=localStorage.getItem(`vq_${uid}_${wk2}`);
+        const nuRaw2=localStorage.getItem(`vn_${uid}_${wk2}`);
+        if(!exRaw2 || !nuRaw2) break;
+        try{
+          const exSc2=JSON.parse(exRaw2).score||0;
+          const nuVeg2=JSON.parse(nuRaw2).counts?.veg||0;
+          if(exSc2>=_exGoal2 && nuVeg2>=21) perfStreak++;
+          else break;
+        }catch(e2){ break; }
+      }
+      if(perfStreak>=2){
+        strEl.textContent=`🏆 完璧週 ${perfStreak}連続！`;
+        strEl.style.display='block';
+      } else {
+        strEl.style.display='none';
+      }
+    }
   }catch(e){}
   // 今日のQOL記録済みか + 7日カレンダードット
   try{
