@@ -320,6 +320,9 @@ body::before{
 .sh-cal-dot.today-has{background:linear-gradient(135deg,#2da366,#4ec98a);color:#fff;box-shadow:0 2px 4px rgba(78,201,138,.4);}
 .sh-cal-dot.empty{background:rgba(30,80,110,.08);color:rgba(30,80,110,.35);border:1px solid rgba(30,80,110,.12);}
 .sh-qol-streak{font-size:.58rem;font-weight:800;color:#2da366;background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.3);padding:2px 7px;border-radius:99px;white-space:nowrap;margin-left:4px;}
+/* 今週のアドバイス */
+.sh-advice{font-size:.62rem;color:rgba(41,182,232,.75);background:rgba(41,182,232,.06);border:1px solid rgba(41,182,232,.15);border-radius:8px;padding:5px 10px;line-height:1.6;margin-top:2px;}
+
 /* 週XPスパークライン */
 .sh-sparkline{display:flex;gap:5px;align-items:flex-end;margin-top:2px;}
 .sh-spark-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;align-self:center;}
@@ -4424,6 +4427,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <span class="sh-spark-lbl">📈 週活動</span>
           <div class="sh-spark-bars" id="sh-spark-bars"></div>
         </div>
+        <div class="sh-advice" id="sh-advice" style="display:none;"></div>
       </div>
 
       <!-- 冒険プログレス（1行コンパクト・任意） -->
@@ -6985,6 +6989,26 @@ function renderCompactHome(){
     const hasAction = canGacha || skPts > 0;
     const mb = document.getElementById('ch-mb-badge');
     if(mb) mb.style.display = hasAction ? 'flex' : 'none';
+  }catch(e){}
+  // 今週のアドバイス
+  try{
+    const advEl = document.getElementById('sh-advice');
+    if(advEl && uid && uid!=='guest'){
+      const _gs = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+      const exGoal = parseInt(_gs.weeklyGoal||'150',10);
+      const nuData = JSON.parse(localStorage.getItem(`vn_${uid}_${weekKey()}`)||'{}');
+      const vegC2 = nuData.counts?.veg||0;
+      const exData2= JSON.parse(localStorage.getItem(`vq_${uid}_${weekKey()}`)||'{}');
+      const exMin2 = exData2.score||0;
+      let tip='';
+      if(exMin2===0 && vegC2===0) tip='まだ今週の記録がありません。まず運動か食事から始めよう！';
+      else if(exMin2<exGoal*0.3 && vegC2>=10) tip='食事は順調！運動の記録も増やせると相乗効果が出るよ。';
+      else if(vegC2<7 && exMin2>=exGoal*0.5) tip='運動は順調！野菜・果物の記録も増やすと栄養XPボーナスが上がるよ。';
+      else if(exMin2>=exGoal && vegC2>=18) tip='今週は運動・食事ともに絶好調！この調子をキープしよう。';
+      else if(exMin2>=exGoal*0.7 && vegC2>=14) tip='あと少しで完璧週！どちらも達成できそうな良いペースです。';
+      if(tip){ advEl.textContent='💡 '+tip; advEl.style.display='block'; }
+      else { advEl.style.display='none'; }
+    }
   }catch(e){}
 }
 
