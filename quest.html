@@ -2376,6 +2376,17 @@ function updateUI(){
           vsEl.innerHTML=`➡️ 先週と同じペース（${prevScore}分）`;
           vsEl.style.display='block';
         }
+      } else if(prevData && score===0){
+        const prevScore=prevData.score||0;
+        const wkGoal=getWeeklyGoal();
+        if(prevScore>=wkGoal){
+          vsEl.innerHTML=`🏆 先週は目標達成（${prevScore}分）！今週もここからスタート`;
+        } else if(prevScore>0){
+          vsEl.innerHTML=`🌱 先週は ${prevScore}分。今週は${wkGoal}分の目標に挑戦しよう！`;
+        } else {
+          vsEl.innerHTML=`✨ 今週の記録を始めよう！`;
+        }
+        vsEl.style.display='block';
       } else {
         vsEl.style.display='none';
       }
