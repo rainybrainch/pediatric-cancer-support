@@ -541,6 +541,11 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   70%{opacity:1;transform:translateY(-50px) scale(1);}
   100%{opacity:0;transform:translateY(-80px) scale(.9);}
 }
+@keyframes goalParticle{
+  0%{opacity:1;transform:translateY(0) scale(1);}
+  60%{opacity:.9;}
+  100%{opacity:0;transform:translateY(-90px) scale(.5);}
+}
 /* ===== ボス討伐セレモニー ===== */
 #boss-defeat-ceremony{
   position:fixed;inset:0;z-index:8000;
@@ -2012,6 +2017,7 @@ const LEVELS=[
 // ===== 状態 =====
 let uid='', sessions=[], modMin=0, highMin=0, prevLv=1;
 let tapMinutes = 10;
+let _prevGoalMet = false;
 
 // ===== 週キー =====
 function weekKey(){
@@ -2178,6 +2184,23 @@ function xpForActivity(mets,type){
   return Math.round(base * getClassXpBonus(type));
 }
 
+// ===== 目標達成セレブレーション =====
+function goalCelebrate(){
+  const emojis=['🎉','⭐','✨','🏆','🎊','💫','🌟'];
+  const anchor = document.getElementById('goal-msg') || document.body;
+  const rect = anchor.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top;
+  for(let i=0;i<14;i++){
+    const el=document.createElement('div');
+    el.textContent=emojis[i%emojis.length];
+    el.style.cssText=`position:fixed;left:${cx+( Math.random()-0.5)*160}px;top:${cy+Math.random()*20}px;font-size:${1.1+Math.random()*.8}rem;pointer-events:none;z-index:9000;animation:goalParticle ${0.9+Math.random()*.7}s ease-out forwards;animation-delay:${i*60}ms;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 2000);
+  }
+  showToast('🏆 週間目標達成！記録を保存して次の週へ！', 3500);
+}
+
 // ===== UI更新 =====
 function updateUI(){
   const goal=getWeeklyGoal();
@@ -2301,6 +2324,12 @@ function updateUI(){
     setTimeout(()=>badge.classList.remove('anim'),600);
     prevLv=lv.lv;
   }
+  // 目標達成セレブレーション（初回のみ）
+  const nowGoalMet = score >= goal;
+  if(nowGoalMet && !_prevGoalMet){
+    goalCelebrate();
+  }
+  _prevGoalMet = nowGoalMet;
   updateLinked();
   // 保存プレビュー
   try{
