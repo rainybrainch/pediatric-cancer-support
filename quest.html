@@ -1789,6 +1789,7 @@ setTimeout(function(){
           <span style="font-size:.62rem;color:rgba(224,138,80,.85);font-weight:700;">🔥 合計 <span id="total-kcal-burn">0</span> kcal</span>
         </div>
         <ul id="log-list"></ul>
+        <div id="ex-summary" style="display:none;margin-top:8px;padding:6px 8px;background:rgba(41,182,232,.05);border-radius:8px;border:1px solid rgba(41,182,232,.12);"></div>
       </div>
 
       <!-- 運動時間帯 + 自由記述 -->
@@ -2596,6 +2597,25 @@ function renderLog(){
   // 合計カロリー消費表示
   const kcalEl = document.getElementById('total-kcal-burn');
   if(kcalEl) kcalEl.textContent = totalKcal;
+  // 種目別サマリー
+  const sumEl = document.getElementById('ex-summary');
+  if(sumEl){
+    if(sessions.length>=2){
+      const agg={};
+      sessions.forEach(s=>{
+        if(!agg[s.name]) agg[s.name]={icon:s.icon||'🏃',min:0,kcal:0};
+        agg[s.name].min+=(s.minutes||10);
+        agg[s.name].kcal+=s.kcal!=null?s.kcal:calcCaloriesBurned(s.mets,s.minutes||10);
+      });
+      const sorted=Object.entries(agg).sort((a,b)=>b[1].min-a[1].min);
+      sumEl.innerHTML=sorted.map(([name,d])=>
+        `<span style="display:inline-flex;align-items:center;gap:3px;font-size:.6rem;color:rgba(30,80,110,.75);margin:1px 4px 1px 0;">${d.icon}<b>${name}</b> ${d.min}分・🔥${Math.round(d.kcal)}kcal</span>`
+      ).join('');
+      sumEl.style.display='block';
+    } else {
+      sumEl.style.display='none';
+    }
+  }
   updateCardCounts();
 }
 
