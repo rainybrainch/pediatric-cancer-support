@@ -6599,9 +6599,17 @@ function renderCompactHome(){
   // 今日のQOL記録済みか + 7日カレンダードット
   try{
     const today = new Date().toISOString().slice(0,10);
-    if(localStorage.getItem(`vt_qol_${uid}_${today}`)){
+    const todayQolRaw = localStorage.getItem(`vt_qol_${uid}_${today}`);
+    if(todayQolRaw){
       qolDone = true;
       document.querySelector('.rec-qol')?.classList.add('done');
+      try{
+        const qd = JSON.parse(todayQolRaw);
+        const total = (qd.condition||0)+(qd.mood||0)+(qd.energy||0);
+        const avg = (total/3).toFixed(1);
+        const metaEl = document.getElementById('sh-meta-qol');
+        if(metaEl) metaEl.textContent = `今日 ${avg}点 記録済み ✓`;
+      }catch(e2){}
     }
     const dotsEl = document.getElementById('sh-cal-dots');
     if(dotsEl && uid && uid!=='guest'){
