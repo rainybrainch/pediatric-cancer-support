@@ -2491,12 +2491,14 @@ function updateUI(){
         {icon:'🍎',label:'果物',val:c.fruit,goal:10,color:'#f0954a'},
         {icon:'🍗',label:'タンパク',val:c.protein,goal:14,color:'#29b6e8'},
         {icon:'🌾',label:'穀物',val:c.grain,goal:14,color:'#c8a030'},
+        {icon:'💧',label:'飲み物',val:c.drink,goal:14,color:'#5cb8e8'},
       ];
       const nuHints={
         '野菜':'💡 海藻・きのこも野菜！みそ汁に入れると手軽',
         '果物':'💡 缶詰やドライフルーツでもOK',
         'タンパク':'💡 卵・チーズ・豆腐で手軽に補えます',
         '穀物':'💡 パン・麺・餅も穀物カウントに入ります',
+        '飲み物':'💡 水・お茶・青汁で水分補給をこまめに',
       };
       balRows.innerHTML=cats.map(({icon,label,val,goal,color})=>{
         const pct=Math.min(100,Math.round(val/goal*100));
