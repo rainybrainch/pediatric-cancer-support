@@ -1566,7 +1566,7 @@ setTimeout(function(){
         <div class="section-head">
           <div class="section-icon" style="background:rgba(224,92,92,.15);border:1px solid rgba(224,92,92,.35);">🥦</div>
           <div>
-            <div class="section-label">野菜の魔法素材</div>
+            <div class="section-label">野菜の魔法素材 <span id="cat-count-veg" style="font-size:.62rem;font-weight:900;color:rgba(224,92,92,.8);background:rgba(224,92,92,.1);padding:1px 6px;border-radius:8px;vertical-align:middle;display:none;"></span></div>
             <div class="section-note">1タップ＝1皿（80g）｜ 生命力UP ｜ 目標: 1日3皿・週21皿</div>
           </div>
         </div>
@@ -1579,7 +1579,7 @@ setTimeout(function(){
         <div class="section-head">
           <div class="section-icon" style="background:rgba(41,182,232,.15);border:1px solid rgba(41,182,232,.35);">🍎</div>
           <div>
-            <div class="section-label">果物の魔法素材</div>
+            <div class="section-label">果物の魔法素材 <span id="cat-count-fruit" style="font-size:.62rem;font-weight:900;color:rgba(41,182,232,.8);background:rgba(41,182,232,.1);padding:1px 6px;border-radius:8px;vertical-align:middle;display:none;"></span></div>
             <div class="section-note">1タップ＝1皿（150g）｜ 魔力UP ｜ 目標: 1日1.5皿・週10皿</div>
           </div>
         </div>
@@ -1591,7 +1591,7 @@ setTimeout(function(){
         <div class="section-head">
           <div class="section-icon" style="background:rgba(224,138,60,.15);border:1px solid rgba(224,138,60,.35);">🐟</div>
           <div>
-            <div class="section-label">推奨たんぱく質素材</div>
+            <div class="section-label">推奨たんぱく質素材 <span id="cat-count-protein" style="font-size:.62rem;font-weight:900;color:rgba(224,138,60,.85);background:rgba(224,138,60,.1);padding:1px 6px;border-radius:8px;vertical-align:middle;display:none;"></span></div>
             <div class="section-note">1タップ＝1食分 ｜ 攻撃力UP ｜ 目標: 1日2食・週14食</div>
           </div>
         </div>
@@ -1604,7 +1604,7 @@ setTimeout(function(){
         <div class="section-head">
           <div class="section-icon" style="background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.35);">🌾</div>
           <div>
-            <div class="section-label">全粒穀物の素材</div>
+            <div class="section-label">全粒穀物の素材 <span id="cat-count-grain" style="font-size:.62rem;font-weight:900;color:rgba(78,201,138,.8);background:rgba(78,201,138,.1);padding:1px 6px;border-radius:8px;vertical-align:middle;display:none;"></span></div>
             <div class="section-note">1タップ＝1食分 ｜ 持久力UP ｜ 目標: 1日2食・週14食</div>
           </div>
         </div>
@@ -2562,6 +2562,23 @@ function updateCardCounts(){
     const n=c.dataset.name,v=cnt[n]||0;
     c.querySelector('.f-count').textContent=v;
     c.classList.toggle('counted',v>0);
+  });
+  // カテゴリ別達成数バッジ更新
+  const catTotals={veg:0,fruit:0,protein:0,grain:0};
+  const catGoals ={veg:21,fruit:10,protein:14,grain:14};
+  sessions.forEach(s=>{
+    if(!s.components && catTotals[s.cat]!=null) catTotals[s.cat]++;
+  });
+  Object.entries(catTotals).forEach(([cat,total])=>{
+    const el=document.getElementById(`cat-count-${cat}`);
+    if(!el) return;
+    if(total>0){
+      const goal=catGoals[cat];
+      el.textContent=`${total}/${goal}`;
+      el.style.display='inline';
+    } else {
+      el.style.display='none';
+    }
   });
 }
 
