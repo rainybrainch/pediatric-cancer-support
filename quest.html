@@ -3178,11 +3178,19 @@ function renderHistory(){
   }
   const goal=getWeeklyGoal();
   const maxScore = Math.max(...hist.map(h=>h.score||0), 0);
-  hist.forEach(h=>{
+  hist.forEach((h,i)=>{
     const sc=h.score||0;
     const pct=Math.min(100,Math.round(sc/goal*100));
     const achieved = sc >= goal;
     const isBest = sc>0 && sc===maxScore;
+    // 前週との差分（histは新→旧順なので i+1が前週）
+    const prevSc = i+1<hist.length ? (hist[i+1].score||0) : null;
+    let trendHtml='';
+    if(prevSc!=null && sc>0 && prevSc>0){
+      const diff=sc-prevSc;
+      if(diff>0) trendHtml=`<span style="font-size:.55rem;color:#4ec98a;font-weight:700;flex-shrink:0;">↑${diff}</span>`;
+      else if(diff<0) trendHtml=`<span style="font-size:.55rem;color:rgba(224,92,92,.7);font-weight:700;flex-shrink:0;">↓${Math.abs(diff)}</span>`;
+    }
     const div=document.createElement('div');
     div.className='hist-item'+(achieved?' hist-achieved':'')+(isBest?' hist-best':'');
     const topExStr=h.topEx&&h.topEx.length?`<div style="font-size:.55rem;color:rgba(30,80,110,.55);padding-top:2px;">${h.topEx.join(' · ')}</div>`:'';
@@ -3190,6 +3198,7 @@ function renderHistory(){
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
       <span class="hist-score">${sc}分</span>
+      ${trendHtml}
       ${isBest?'<span class="hist-ach-best">🏆PB</span>':''}
       <span class="hist-ach">${achieved?'✅':''}</span>
       ${topExStr}`;
