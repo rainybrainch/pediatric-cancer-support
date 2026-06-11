@@ -6045,6 +6045,8 @@ onAuthStateChanged(auth, async user=>{
     setTimeout(maybeDropoutIntervention, 8000);
     // 週中盤（木・金）リマインダー
     setTimeout(maybeMidWeekReminder, 10000);
+    // 週末（土・日）保存リマインダー
+    setTimeout(maybeWeekendSaveReminder, 12000);
     // PWAインストール案内（ユーザー閉じる/インストール後は再表示しない）
     setTimeout(maybeShowPwaBanner, 5000);
     // デイリーリマインダー（設定があれば登録）
@@ -8450,6 +8452,26 @@ function maybeMidWeekReminder(){
     const remain = goal - score;
     const dayStr = dow === 4 ? '木曜日' : '金曜日';
     showGameToast(`📅 ${dayStr}：今週あと${remain}分で目標達成！ quest.htmlで記録しよう`, 5000);
+  }catch(e){}
+}
+
+// ===== 週末保存リマインダー（土・日曜に保存を促す） =====
+function maybeWeekendSaveReminder(){
+  if(!uid || uid==='guest') return;
+  const dow = new Date().getDay();
+  if(dow !== 0 && dow !== 6) return; // 土・日のみ
+  const seenKey = `vt_weekend_save_${uid}_${weekKey()}`;
+  if(localStorage.getItem(seenKey)) return;
+  try{
+    // 今週データがあるが未保存の可能性チェック（セッション数で判断）
+    const exData = JSON.parse(localStorage.getItem(`vq_${uid}_${weekKey()}`)||'{}');
+    const sessions = exData.sessions || [];
+    if(sessions.length === 0) return; // 記録なしならスキップ
+    // quest.htmlでのsaveWeek完了フラグを確認（savedAtで判断）
+    if(exData.savedAt) return; // 既に保存済み
+    localStorage.setItem(seenKey,'1');
+    const dayStr = dow===6?'土曜日':'日曜日';
+    showGameToast(`📋 ${dayStr}：今週の記録（${sessions.length}件）を保存しよう。運動クエストページで「週を締める」ボタンを！`,6000);
   }catch(e){}
 }
 
