@@ -2651,6 +2651,7 @@ function renderLog(){
     renderLog(); updateUI();
     showNuUndoToast(removed,idx);
   }));
+  if(uid && uid!=='guest' && sessions.length>0) saveNuDraft();
 }
 
 let _nuUndo=null, _nuUndoIdx=null, _nuUndoTid=null;
@@ -3414,6 +3415,7 @@ async function saveWeek(){
     }
   }
 
+  clearNuDraft();
   document.getElementById('save-msg').textContent='';
   showSaveToast('✅','記録を保存しました');
   const nutritionScore=Math.round(((sessions.filter(s=>s.cat==='veg').length/21)+(sessions.filter(s=>s.cat==='fruit').length/10)+(sessions.filter(s=>s.cat==='protein').length/14)+(sessions.filter(s=>s.cat==='grain').length/14))*25);
@@ -3446,13 +3448,33 @@ function showGoalCelebration(){
   b.classList.add('show'); clearTimeout(_goalBannerTO);
   _goalBannerTO=setTimeout(()=>b.classList.remove('show'),5000);
 }
+function saveNuDraft(){
+  try{ localStorage.setItem(`vn_draft_${uid}`,JSON.stringify({sessions,date:new Date().toISOString()})); }catch(e){}
+}
+function clearNuDraft(){
+  try{ localStorage.removeItem(`vn_draft_${uid}`); }catch(e){}
+}
 function loadWeek(){
   const raw=localStorage.getItem(storeKey());
-  if(!raw) return;
+  if(!raw){
+    try{
+      const draft=JSON.parse(localStorage.getItem(`vn_draft_${uid}`)||'null');
+      if(draft && Array.isArray(draft.sessions) && draft.sessions.length>0){
+        const diffH=Math.floor((Date.now()-new Date(draft.date).getTime())/3600000);
+        if(diffH<48){
+          if(confirm(`未保存の食事記録が${draft.sessions.length}件あります（${diffH}時間前）。\n復元しますか？`)){
+            sessions=draft.sessions; renderLog(); updateUI();
+          } else { clearNuDraft(); }
+        } else { clearNuDraft(); }
+      }
+    }catch(e){}
+    return;
+  }
   try{
     const d=JSON.parse(raw);
     sessions=d.sessions||[]; prevLv=d.lv||1;
     renderLog(); updateUI();
+    clearNuDraft();
   }catch(e){}
 }
 function appendHistory(data){
