@@ -520,6 +520,12 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .hist-achieved .hist-bar{background:linear-gradient(90deg,#2da366,#4ec98a);}
 .hist-achieved .hist-score{color:#2da366;}
 .hist-empty{font-size:.72rem;color:rgba(30,80,110,.7);text-align:center;padding:8px 0;}
+/* 履歴アコーディオン */
+.hist-item{cursor:pointer;}
+.hist-detail{display:none;margin-top:6px;padding:6px 8px;background:rgba(255,255,255,.05);border-radius:6px;border-top:1px solid rgba(255,255,255,.06);}
+.hist-item.expanded .hist-detail{display:flex;flex-wrap:wrap;gap:5px 10px;}
+.hist-cnt-badge{font-size:.6rem;color:rgba(200,230,210,.85);white-space:nowrap;}
+.hist-cnt-badge b{color:#a0f0c0;}
 
 /* ===== ストリーク ===== */
 .streak-row{display:flex;align-items:center;gap:12px;}
@@ -3326,12 +3332,21 @@ function renderHistory(){
   hist.forEach(h=>{
     const pct=Math.min(100,h.score||0);
     const achieved=(h.score||0)>=25;
+    const c=h.counts||{};
+    const detailBadges=[
+      c.veg!=null   ?`<span class="hist-cnt-badge">🥦 野菜 <b>${c.veg}</b>/21</span>`:'',
+      c.fruit!=null ?`<span class="hist-cnt-badge">🍊 果物 <b>${c.fruit}</b>/10</span>`:'',
+      c.protein!=null?`<span class="hist-cnt-badge">🐟 タンパク <b>${c.protein}</b>/14</span>`:'',
+      c.grain!=null ?`<span class="hist-cnt-badge">🌾 穀類 <b>${c.grain}</b>/14</span>`:'',
+    ].filter(Boolean).join('');
     const div=document.createElement('div'); div.className='hist-item'+(achieved?' hist-achieved':'');
     div.innerHTML=`
       <span class="hist-week">${h.week||h.wkKey}</span>
       <div class="hist-bar-wrap"><div class="hist-bar" style="width:${pct}%"></div></div>
       <span class="hist-score">${h.score||0}pt</span>
-      <span class="hist-ach">${achieved?'✅':''}</span>`;
+      <span class="hist-ach">${achieved?'✅':''}</span>
+      ${detailBadges?`<div class="hist-detail">${detailBadges}</div>`:''}`;
+    div.addEventListener('click',()=>div.classList.toggle('expanded'));
     el.appendChild(div);
   });
   // 月次サマリー（栄養スコアの月合計）
