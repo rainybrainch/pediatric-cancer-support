@@ -6703,6 +6703,18 @@ function renderCompactHome(){
     if(daysLeftEl){
       daysLeftEl.textContent = pct >= 100 ? '🎉 完走！' : `残${remaining}日`;
     }
+    // マイルストーン到達通知（初回のみ）
+    const milestones = [[21,'🌱 3週間達成！習慣の芽が出ています'],[42,'🌿 6週間！折り返しを超えました'],[63,'✨ 9週間！ゴールが見えてきた'],[84,'🎉 12週間完走！あなたは伝説です']];
+    for(const [d, msg] of milestones){
+      if(days >= d){
+        const seenKey = `vt_ms_seen_${uid}_${d}`;
+        if(!localStorage.getItem(seenKey)){
+          localStorage.setItem(seenKey, '1');
+          setTimeout(()=>showGameToast(msg, 4500), 1200);
+          break;
+        }
+      }
+    }
   }catch(e){}
 
   // 睡眠行更新
