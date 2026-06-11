@@ -2629,7 +2629,11 @@ const catColor ={veg:'var(--hp)',fruit:'var(--mp)',protein:'var(--atk)',grain:'v
 function renderLog(){
   const ul=document.getElementById('log-list');
   ul.innerHTML='';
-  sessions.forEach((s,i)=>{
+  // 食事時間ごとにグループ化（複数の時間帯がある場合のみ）
+  const mealOrder=['morning','lunch','dinner','snack',''];
+  const uniqueMeals=new Set(sessions.map(s=>s.mealTime||''));
+  const useGroups=uniqueMeals.size>1;
+  function makeLi(s,i){
     const li=document.createElement('li'); li.className='log-item';
     if(s.components){
       const totalXp=s.components.reduce((a,c)=>a+c.xp*c.count,0);
@@ -2646,7 +2650,7 @@ function renderLog(){
     } else {
       const xpStr=s.xp>0 ? `+${s.xp}XP` : `${s.xp}XP`;
       const portionLbl = s.portion && s.portion!=='normal' ? `（${PORTION_LABELS[s.portion]||s.portion}）` : '';
-      const mealLbl = s.mealTime ? ` · ${(MEAL_TIMES[s.mealTime]||'').slice(0,2)}` : '';
+      const mealLbl = useGroups ? '' : (s.mealTime ? ` · ${(MEAL_TIMES[s.mealTime]||'').slice(0,2)}` : '');
       const kcalLbl = s.kcal>0 ? ` · ${s.kcal}kcal` : '';
       li.innerHTML=`
         <span class="li-icon">${s.icon}</span>
@@ -2656,8 +2660,23 @@ function renderLog(){
         <span class="li-xp" style="color:${catColor[s.cat]||'var(--gold)'}">${xpStr}</span>
         <button class="li-del" data-i="${i}">✕</button>`;
     }
-    ul.appendChild(li);
-  });
+    return li;
+  }
+  if(useGroups){
+    mealOrder.forEach(mt=>{
+      const group=sessions.map((s,i)=>({s,i})).filter(({s})=>(s.mealTime||'')===mt);
+      if(!group.length) return;
+      const header=document.createElement('li');
+      const groupXp=group.reduce((sum,{s})=>sum+(s.components?s.components.reduce((a,c)=>a+c.xp*c.count,0):(s.xp||0)),0);
+      const label=mt ? MEAL_TIMES[mt]||mt : '⏱ その他';
+      header.style.cssText='list-style:none;font-size:.6rem;font-weight:700;color:rgba(78,201,138,.6);padding:6px 0 2px;letter-spacing:.06em;';
+      header.textContent=`${label}  +${groupXp}XP`;
+      ul.appendChild(header);
+      group.forEach(({s,i})=>ul.appendChild(makeLi(s,i)));
+    });
+  } else {
+    sessions.forEach((s,i)=>ul.appendChild(makeLi(s,i)));
+  }
   ul.querySelectorAll('.li-del').forEach(b=>b.addEventListener('click',()=>{
     const idx=+b.dataset.i;
     const removed=sessions.splice(idx,1)[0];
