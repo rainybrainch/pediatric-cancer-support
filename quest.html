@@ -3298,6 +3298,7 @@ function updateLinked(){
 document.querySelectorAll('.tt-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     tapMinutes = parseInt(btn.dataset.min, 10);
+    try{ localStorage.setItem('vq_tap_min', tapMinutes); }catch(e){}
     document.querySelectorAll('.tt-btn').forEach(b=>b.classList.toggle('active', b===btn));
     document.querySelectorAll('.ex-card .e-min').forEach(el=>{ el.textContent = tapMinutes+'分'; });
     const dn=document.getElementById('daily-section-note');
@@ -3346,6 +3347,17 @@ onAuthStateChanged(auth,user=>{
     renderHistory();
     renderAch();
     renderStreak(getStreak());
+    // tapMinutes を前回設定から復元
+    try{
+      const savedMin = parseInt(localStorage.getItem('vq_tap_min')||'10',10);
+      if([10,20,30,45,60].includes(savedMin)){
+        tapMinutes = savedMin;
+        document.querySelectorAll('.tt-btn').forEach(b=>{
+          b.classList.toggle('active',parseInt(b.dataset.min,10)===tapMinutes);
+        });
+        document.querySelectorAll('.ex-card .e-min').forEach(el=>{ el.textContent=tapMinutes+'分'; });
+      }
+    }catch(e){}
     checkLoginBonus();
     document.getElementById('coach-fab').classList.add('visible');
     document.getElementById('bottom-nav').style.display='flex';
