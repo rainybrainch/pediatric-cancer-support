@@ -272,6 +272,18 @@ body::before{
 /* ===== メイン画面 ===== */
 #main-screen{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1;}
 
+/* スティッキー進捗バー（スクロール時に表示） */
+#scroll-progress-bar{
+  position:sticky;top:0;z-index:39;height:0;overflow:hidden;
+  background:rgba(10,20,45,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(41,182,232,.15);
+  transition:height .2s ease;
+}
+#scroll-progress-bar.visible{height:26px;}
+.spb-inner{display:flex;align-items:center;gap:8px;padding:4px 14px;height:100%;}
+.spb-track{flex:1;height:4px;background:rgba(41,182,232,.12);border-radius:99px;overflow:hidden;}
+.spb-fill{height:100%;background:linear-gradient(90deg,#29b6e8,#4ec98a);border-radius:99px;transition:width .4s ease;}
+.spb-label{font-size:.58rem;color:rgba(41,182,232,.75);white-space:nowrap;font-weight:700;}
 /* ヘッダー */
 .main-header{
   background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
@@ -1473,6 +1485,15 @@ setTimeout(function(){
       <button id="logout-btn">退場</button>
     </div>
   </header>
+
+  <!-- スクロール中に表示される進捗バー -->
+  <div id="scroll-progress-bar">
+    <div class="spb-inner">
+      <span class="spb-label" id="spb-label">0 / 150分</span>
+      <div class="spb-track"><div class="spb-fill" id="spb-fill" style="width:0%"></div></div>
+      <span class="spb-label" id="spb-pct">0%</span>
+    </div>
+  </div>
 
   <div class="main-content">
 
@@ -3443,6 +3464,39 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('bottom-nav').style.display='none';
   }
 });
+
+// ===== スクロール進捗バー =====
+(()=>{
+  const bar=document.getElementById('scroll-progress-bar');
+  const fill=document.getElementById('spb-fill');
+  const label=document.getElementById('spb-label');
+  const pctEl=document.getElementById('spb-pct');
+  if(!bar||!fill||!label||!pctEl) return;
+  function updateSPB(){
+    const goal=getWeeklyGoal();
+    const score=modMin+highMin*2;
+    const pct=Math.min(100,Math.round(score/goal*100));
+    fill.style.width=pct+'%';
+    label.textContent=`${score} / ${goal}分`;
+    pctEl.textContent=pct+'%';
+  }
+  const scoreBlock=document.querySelector('.score-block');
+  if(scoreBlock && 'IntersectionObserver' in window){
+    const obs=new IntersectionObserver(entries=>{
+      const isVisible=entries[0].isIntersecting;
+      bar.classList.toggle('visible',!isVisible);
+      if(!isVisible) updateSPB();
+    },{threshold:0.1});
+    obs.observe(scoreBlock);
+  }
+  const origUpdateUI=window._spbHook=updateUI;
+  // patch updateUI to also refresh sticky bar
+  const _origUpdateUI=updateUI;
+  window.updateUI=updateUI=function(){
+    _origUpdateUI.apply(this,arguments);
+    if(bar.classList.contains('visible')) updateSPB();
+  };
+})();
 </script>
 
 <!-- ボトムナビ -->
