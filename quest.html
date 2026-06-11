@@ -686,6 +686,10 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
   font-size:.75rem;padding:2px 4px;transition:color .15s;flex-shrink:0;
 }
 .li-del:hover{color:var(--red);}
+/* 削除アンドゥトースト */
+#_undo-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(10,42,64,.94);color:#e8f4fb;padding:10px 16px;border-radius:10px;font-size:.78rem;z-index:9999;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,.3);border:1px solid rgba(41,182,232,.3);white-space:nowrap;transition:opacity .3s;}
+#_undo-toast.hidden{opacity:0;pointer-events:none;}
+#_undo-btn{background:rgba(41,182,232,.25);border:1px solid rgba(41,182,232,.5);color:#a0d8f0;border-radius:6px;padding:3px 10px;font-size:.74rem;font-weight:700;cursor:pointer;}
 
 /* 保存 */
 .save-area{display:flex;flex-direction:column;gap:6px;}
@@ -2635,13 +2639,39 @@ function decrementSession(name){
   const i=sessions.map(s=>s.name).lastIndexOf(name);
   if(i>=0) removeSession(i);
 }
+let _undoSession=null, _undoIdx=null, _undoTid=null;
+function showUndoToast(name){
+  let el=document.getElementById('_undo-toast');
+  if(!el){
+    el=document.createElement('div'); el.id='_undo-toast'; el.className='hidden';
+    el.innerHTML=`<span id="_undo-msg"></span><button id="_undo-btn" type="button">元に戻す</button>`;
+    document.body.appendChild(el);
+    el.querySelector('#_undo-btn').addEventListener('click',()=>{
+      if(_undoSession!==null){
+        sessions.splice(_undoIdx,0,_undoSession);
+        const min=_undoSession.minutes||10;
+        if(_undoSession.type==='high') highMin+=min; else modMin+=min;
+        _undoSession=null; _undoIdx=null;
+        renderLog(); updateUI();
+      }
+      el.classList.add('hidden');
+      clearTimeout(_undoTid);
+    });
+  }
+  el.querySelector('#_undo-msg').textContent=`${name} を削除`;
+  el.classList.remove('hidden');
+  clearTimeout(_undoTid);
+  _undoTid=setTimeout(()=>{ el.classList.add('hidden'); _undoSession=null; },5000);
+}
 function removeSession(i){
   const s=sessions[i];
   const min = s.minutes || 10;
   if(s.type==='high') highMin=Math.max(0,highMin-min);
   else                modMin =Math.max(0,modMin-min);
+  _undoSession={...s}; _undoIdx=i;
   sessions.splice(i,1);
   renderLog(); updateUI();
+  showUndoToast(s.name);
 }
 
 // ===== よく使う種目クイックバー =====
