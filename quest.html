@@ -2296,21 +2296,26 @@ function updateUI(){
   const kf=document.getElementById('kaito-face');
   if(kc){
     const nutScore=getNutritionScore();
+    const pick=(arr)=>arr[Math.floor(Date.now()/60000)%arr.length];
     let msg,face;
     if(score===0){
-      msg='今週の記録を入力して、クエストを進めよう！';       face=4; // 思案
-    } else if(score<50){
-      msg='よし、動き出したな！この調子で続けていこうぜ。';   face=1; // 笑顔
-    } else if(score<100){
-      msg='いい感じだ！あと少しで目標の半分だぞ。';           face=1; // 笑顔
+      msg=pick(['今週の記録を入力して、クエストを進めよう！','まず1回タップするところから始めよう！','記録ゼロでも構わない、今日から始めれば伝説が生まれる。']); face=4;
+    } else if(score<30){
+      msg=pick(['よし、動き出したな！この調子で続けていこうぜ。','最初の一歩が一番難しい。もう超えたぞ！','小さくても、始めたことに意味がある。続けよう！']); face=1;
+    } else if(score<goal*0.3){
+      msg=pick(['いい感じだ！あと少しで目標の3割だぞ。','ボスのHPが削れてきたぞ。次の一撃が鍵だ！','コツコツ積み上げた時間は、必ず体に刻まれる。']); face=1;
+    } else if(score<goal*0.5){
+      msg=pick([`いい感じだ！あと少しで目標の半分だぞ。`,`${goal}分の折り返し手前。ここが正念場だ！`,'週の中盤が一番大事。ここを乗り越えろ！']); face=1;
+    } else if(score<goal*0.8){
+      msg=pick([`もう少しで${goal}分！最後まで諦めるな！`,'ゴールが見えてきた！あと一息だ。','ここまで来たら止まるな。最後まで突っ走れ！']); face=2;
     } else if(score<goal){
-      msg=`もう少しで${goal}分！最後まで諦めるな！`;          face=2; // 真剣
+      msg=pick([`あと${goal-score}分で目標達成だ！`,`今週の締めくくりが近い。やり遂げろ！`,'ラストスパートだ。お前ならできる！']); face=2;
     } else if(score>=goal && nutScore===0){
-      msg='運動目標達成！あとは栄養クエストも記録するとXPボーナスが増えるぞ。'; face=5; // 驚き
-    } else if(score<goal*1.7){
-      msg='目標達成！食事もバッチリならXPボーナス中だ！';     face=6; // 照れ
+      msg=pick(['運動目標達成！あとは栄養クエストも記録するとXPボーナスが増えるぞ。','運動はバッチリ！食事の記録も入れて、完全勝利を目指そう。']); face=5;
+    } else if(score<goal*1.5){
+      msg=pick(['目標達成！食事もバッチリならXPボーナス中だ！','運動も食事も順調。体が喜んでいるぞ！']); face=6;
     } else {
-      msg='すごい週だ…！この記録、ちゃんと残しておこう。';   face=1; // 笑顔
+      msg=pick(['すごい週だ…！この記録、ちゃんと残しておこう。','伝説の週になりそうだ。最後まで走りきれ！','お前の本気、見せてもらった。この調子で進め！']); face=1;
     }
     kc.textContent=msg;
     if(kf) kf.src=`./image/kaito-sabun%20(${face}).png`;
