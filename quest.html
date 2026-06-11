@@ -417,11 +417,12 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 .ex-card .e-min{font-size:.6rem;color:rgba(78,201,138,.7);}
 .ex-card.high .e-min{color:rgba(224,138,60,.7);}
 .ex-card .ex-count{
-  position:absolute;top:-6px;right:-6px;
+  position:absolute;top:-7px;right:-6px;
   min-width:18px;height:18px;border-radius:999px;
   background:var(--gold);color:#1a1200;
-  font-size:.65rem;font-weight:900;display:none;
-  align-items:center;justify-content:center;padding:0 4px;
+  font-size:.56rem;font-weight:900;display:none;
+  align-items:center;justify-content:center;padding:0 5px;
+  white-space:nowrap;
 }
 .ex-card.counted .ex-count{display:flex;}
 .ex-card .ex-dec{
@@ -2590,12 +2591,17 @@ function renderLog(){
 
 // ===== カード回数バッジ =====
 function updateCardCounts(){
-  const counts={};
-  sessions.forEach(s=>{ counts[s.name]=(counts[s.name]||0)+1; });
+  const stats={};
+  sessions.forEach(s=>{
+    if(!stats[s.name]) stats[s.name]={count:0,min:0};
+    stats[s.name].count++;
+    stats[s.name].min+=(s.minutes||10);
+  });
   document.querySelectorAll('.ex-card').forEach(c=>{
-    const n=c.dataset.name, cnt=counts[n]||0;
-    c.querySelector('.ex-count').textContent=cnt;
-    c.classList.toggle('counted', cnt>0);
+    const n=c.dataset.name, st=stats[n]||{count:0,min:0};
+    const el=c.querySelector('.ex-count');
+    if(el) el.textContent=st.count>0?`${st.count}回/${st.min}分`:'';
+    c.classList.toggle('counted', st.count>0);
   });
 }
 
