@@ -4409,6 +4409,11 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <span class="sh-xp-badge" id="sh-xp-badge" style="display:none;"></span>
           <span class="sh-streak-badge" id="sh-streak-badge" style="display:none;"></span>
         </div>
+        <div class="sh-sum-row" id="sh-health-score-row" style="display:none;">
+          <span class="sh-sum-lbl">健康スコア</span>
+          <div class="sh-sum-bar"><div class="sh-sum-fill" id="sh-health-fill" style="width:0%;background:linear-gradient(90deg,#29b6e8,#4ec98a);"></div></div>
+          <span class="sh-sum-pct" id="sh-health-pct">0%</span>
+        </div>
         <div class="sh-sum-row">
           <span class="sh-sum-lbl">12週進捗</span>
           <div class="sh-sum-bar"><div class="sh-sum-fill" id="sh-sum-fill" style="width:0%"></div></div>
@@ -6829,6 +6834,34 @@ function renderCompactHome(){
         }
       }
     }catch(e2){}
+  }catch(e){}
+
+  // 今週の総合健康スコア（運動40%+栄養40%+QOL20%）
+  try{
+    const _gs2=JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+    const _exGoal=parseInt(_gs2.weeklyGoal||'150',10);
+    const _exD=JSON.parse(localStorage.getItem(`vq_${uid}_${weekKey()}`)||'{}');
+    const _nuD=JSON.parse(localStorage.getItem(`vn_${uid}_${weekKey()}`)||'{}');
+    const exPct=Math.min(100,Math.round((_exD.score||0)/_exGoal*100));
+    const vegPct=Math.min(100,Math.round((_nuD.counts?.veg||0)/21*100));
+    const frPct=Math.min(100,Math.round((_nuD.counts?.fruit||0)/10*100));
+    const ptPct=Math.min(100,Math.round((_nuD.counts?.protein||0)/14*100));
+    const nuPct=Math.round((vegPct+frPct+ptPct)/3);
+    let qolPct=0, qolCnt=0;
+    for(let i=0;i<7;i++){
+      const ds=new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+      try{ const q=JSON.parse(localStorage.getItem(`vt_qol_${uid}_${ds}`)||'null'); if(q&&q.condition){qolPct+=q.condition/5*100; qolCnt++;} }catch(e2){}
+    }
+    const qolAvg=qolCnt>0?Math.round(qolPct/qolCnt):0;
+    const totalHasData=((_exD.score||0)>0)||((_nuD.counts?.veg||0)>0)||(qolCnt>0);
+    if(totalHasData){
+      const healthPct=Math.round(exPct*0.4+nuPct*0.4+qolAvg*0.2);
+      document.getElementById('sh-health-fill').style.width=healthPct+'%';
+      document.getElementById('sh-health-pct').textContent=healthPct+'%';
+      document.getElementById('sh-health-score-row').style.display='flex';
+    } else {
+      document.getElementById('sh-health-score-row').style.display='none';
+    }
   }catch(e){}
 
   // 12週進捗バー
