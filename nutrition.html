@@ -1810,6 +1810,7 @@ setTimeout(function(){
           </div>
           <div class="debuff-note">週7食以下が推奨目標</div>
         </div>
+        <div id="nu-prev-compare" style="display:none;margin-top:8px;font-size:.62rem;color:rgba(78,201,138,.65);background:rgba(78,201,138,.05);border-radius:8px;padding:5px 10px;line-height:1.8;"></div>
       </div>
 
       <!-- 今週の記録 -->
@@ -2410,6 +2411,22 @@ function updateUI(){
     sc.textContent=msg;
     if(sf) sf.src=`./image/sera-sabun%20(${face}).png`;
   }
+  // 先週比
+  try{
+    const pvEl=document.getElementById('nu-prev-compare');
+    if(pvEl && uid){
+      const prevRec=JSON.parse(localStorage.getItem(storeKey(prevWeekKey()))||'null');
+      if(prevRec){
+        const pveg=prevRec.veg||0, pfruit=prevRec.fruit||0, pprot=prevRec.protein||0;
+        const dv=c.veg-pveg, df=c.fruit-pfruit, dp=c.protein-pprot;
+        const fmt=(n)=> n>0?`+${n}`:n<0?`${n}`:`±0`;
+        const arrow=(n)=> n>0?'↑':n<0?'↓':'→';
+        pvEl.innerHTML=`📈 先週比: 野菜${arrow(dv)}${fmt(dv)}皿 ／ 果物${arrow(df)}${fmt(df)}皿 ／ タンパク${arrow(dp)}${fmt(dp)}食`;
+        pvEl.style.display='block';
+      } else { pvEl.style.display='none'; }
+    }
+  }catch(e){}
+
   updateLinked();
 }
 
