@@ -4434,6 +4434,11 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           </div>
           <button class="sh-sleep-edit-btn" id="sh-sleep-edit-btn" type="button">記録</button>
         </div>
+        <div class="sh-sum-row" id="sh-steps-row" style="display:none;">
+          <span class="sh-sum-lbl">👣 歩数</span>
+          <span class="sh-sum-val" id="sh-steps-val">—</span>
+          <a href="./quest.html" style="font-size:.6rem;color:rgba(41,182,232,.7);text-decoration:none;flex-shrink:0;">記録 →</a>
+        </div>
         <div class="sh-cal">
           <span class="sh-cal-lbl">7日記録</span>
           <div class="sh-cal-dots" id="sh-cal-dots"></div>
@@ -6891,6 +6896,20 @@ function renderCompactHome(){
           break;
         }
       }
+    }
+  }catch(e){}
+
+  // 歩数行更新
+  try{
+    const exDataForSteps=JSON.parse(localStorage.getItem(`vq_${uid}_${weekKey()}`)||'{}');
+    const steps=parseInt(exDataForSteps.steps||'0',10);
+    const stepsRow=document.getElementById('sh-steps-row');
+    const stepsVal=document.getElementById('sh-steps-val');
+    if(stepsRow && stepsVal){
+      if(steps>0){
+        stepsVal.textContent=`${steps.toLocaleString()}歩`;
+        stepsRow.style.display='flex';
+      } else { stepsRow.style.display='none'; }
     }
   }catch(e){}
 
