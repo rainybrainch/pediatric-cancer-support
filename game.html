@@ -310,6 +310,13 @@ body::before{
 .sh-cal-dot.today-has{background:linear-gradient(135deg,#2da366,#4ec98a);color:#fff;box-shadow:0 2px 4px rgba(78,201,138,.4);}
 .sh-cal-dot.empty{background:rgba(30,80,110,.08);color:rgba(30,80,110,.35);border:1px solid rgba(30,80,110,.12);}
 .sh-qol-streak{font-size:.58rem;font-weight:800;color:#2da366;background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.3);padding:2px 7px;border-radius:99px;white-space:nowrap;margin-left:4px;}
+/* 週XPスパークライン */
+.sh-sparkline{display:flex;gap:5px;align-items:flex-end;margin-top:2px;}
+.sh-spark-lbl{color:#1e7fa4;font-weight:700;letter-spacing:.06em;font-size:.62rem;min-width:60px;align-self:center;}
+.sh-spark-bars{display:flex;gap:3px;align-items:flex-end;height:24px;flex:1;}
+.sh-spark-bar{flex:1;min-width:6px;border-radius:3px 3px 0 0;background:rgba(30,80,110,.15);transition:height .4s;position:relative;}
+.sh-spark-bar.this-week{background:linear-gradient(180deg,#29b6e8,#1e7fa4);}
+.sh-spark-bar.has-data{background:linear-gradient(180deg,rgba(41,182,232,.6),rgba(41,182,232,.3));}
 .sh-hyd-plus{background:linear-gradient(135deg,rgba(41,182,232,.2),rgba(41,182,232,.1));border:1px solid rgba(41,182,232,.4);border-radius:99px;color:#29b6e8;font-size:.62rem;font-weight:900;padding:3px 10px;cursor:pointer;transition:all .18s;white-space:nowrap;}
 .sh-hyd-plus:hover{background:rgba(41,182,232,.3);transform:scale(1.07);}
 .sh-hyd-plus:active{transform:scale(.95);}
@@ -4400,6 +4407,10 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="sh-cal-dots" id="sh-cal-dots"></div>
           <span class="sh-qol-streak" id="sh-qol-streak" style="display:none;"></span>
         </div>
+        <div class="sh-sparkline" id="sh-sparkline" style="display:none;">
+          <span class="sh-spark-lbl">📈 週活動</span>
+          <div class="sh-spark-bars" id="sh-spark-bars"></div>
+        </div>
       </div>
 
       <!-- 冒険プログレス（1行コンパクト・任意） -->
@@ -6696,6 +6707,37 @@ function renderCompactHome(){
       if(streakBadge){
         if(qolStreak >= 2){ streakBadge.textContent=`${qolStreak}連`; streakBadge.style.display='inline'; }
         else { streakBadge.style.display='none'; }
+      }
+    }
+  }catch(e){}
+
+  // 週XPスパークライン（過去6週）
+  try{
+    const sparkEl = document.getElementById('sh-spark-bars');
+    const sparkWrap = document.getElementById('sh-sparkline');
+    if(sparkEl && sparkWrap && uid && uid!=='guest'){
+      const scores = [];
+      for(let i=5;i>=0;i--){
+        const d=new Date(Date.now()-i*7*86400000);
+        const j=new Date(d.getFullYear(),0,1);
+        const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+        const wk=`${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+        const raw=localStorage.getItem(`vq_${uid}_${wk}`);
+        const sc=raw?JSON.parse(raw).score||0:null;
+        scores.push({wk,sc,isThis:i===0});
+      }
+      const hasAny = scores.some(s=>s.sc!=null && s.sc>0);
+      if(hasAny){
+        const maxSc = Math.max(...scores.map(s=>s.sc||0), 1);
+        sparkEl.innerHTML = scores.map(s=>{
+          const h = s.sc!=null && s.sc>0 ? Math.round((s.sc/maxSc)*100) : 5;
+          const cls = s.isThis ? 'this-week' : (s.sc!=null && s.sc>0 ? 'has-data' : '');
+          const tip = s.sc!=null ? `${s.wk}: ${s.sc}分` : s.wk;
+          return `<div class="sh-spark-bar ${cls}" style="height:${h}%" title="${tip}"></div>`;
+        }).join('');
+        sparkWrap.style.display = 'flex';
+      } else {
+        sparkWrap.style.display = 'none';
       }
     }
   }catch(e){}
