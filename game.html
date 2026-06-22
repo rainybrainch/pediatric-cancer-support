@@ -8534,21 +8534,6 @@ function evaluateHealthyStreaks(){
 }
 
 // ===== 週次サマリーモーダル =====
-function prevWeekKey(){
-  const d=new Date(); d.setDate(d.getDate()-7);
-  const j=new Date(d.getFullYear(),0,1);
-  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
-  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
-}
-function prevWeekLabel(){
-  const d=new Date(); d.setDate(d.getDate()-7);
-  const s=new Date(d); s.setDate(d.getDate()-d.getDay()+1);
-  const e=new Date(s); e.setDate(s.getDate()+6);
-  const f=x=>`${x.getMonth()+1}/${x.getDate()}`;
-  const j=new Date(d.getFullYear(),0,1);
-  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
-  return `第${w}週 (${f(s)}〜${f(e)})`;
-}
 
 // ===== PWAインストール案内バナー =====
 let _deferredPrompt=null;
