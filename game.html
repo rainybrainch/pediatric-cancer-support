@@ -1871,6 +1871,8 @@ body.detail-mode #compact-home{display:none !important;}
   box-shadow:0 12px 0 rgba(30,80,110,.18),0 24px 64px rgba(30,80,110,.25);
   position:relative;overflow:hidden;
   animation:modalIn .4s cubic-bezier(.22,1,.36,1);
+  opacity:1;
+  transition:opacity .15s ease-in-out;
 }
 #tutorial-box::before{
   content:'';position:absolute;inset:0 0 auto 0;height:140px;pointer-events:none;
@@ -9174,25 +9176,38 @@ function showTutorial(force){
 }
 function renderTutStep(){
   const s=TUT_STEPS[_tutIdx];
-  document.getElementById('tut-step-num').textContent=`STEP ${_tutIdx+1} / ${TUT_STEPS.length}`;
-  document.getElementById('tut-char-img').src=s.img;
-  document.getElementById('tut-char').className='tut-char tut-char-'+s.char;
-  document.getElementById('tut-title').textContent=s.title;
-  document.getElementById('tut-desc').textContent=s.desc;
-  document.getElementById('tut-cite').textContent=s.cite||'';
-  document.getElementById('tut-next').textContent=_tutIdx===TUT_STEPS.length-1?'冒険を始める ✦':'次へ →';
-  document.querySelectorAll('.tut-dot').forEach((d,i)=>d.classList.toggle('active',i===_tutIdx));
-  // ルールブックリンク
-  const link=document.getElementById('tut-rule-link');
-  if(link){
-    if(s.rule){
-      link.href=s.rule;
-      link.textContent='📖 '+(s.ruleLabel||'ルールブックで詳しく読む')+' →';
-      link.style.display='inline-block';
-    } else {
-      link.style.display='none';
+  const box=document.getElementById('tut-box');
+  // フェードアウト
+  if(box) box.style.opacity='0.8';
+
+  setTimeout(()=>{
+    document.getElementById('tut-step-num').textContent=`STEP ${_tutIdx+1} / ${TUT_STEPS.length}`;
+    // プログレスバー更新
+    const progress=Math.round(((_tutIdx+1)/TUT_STEPS.length)*100);
+    const progressBar=document.getElementById('tut-progress');
+    if(progressBar) progressBar.style.width=progress+'%';
+
+    document.getElementById('tut-char-img').src=s.img;
+    document.getElementById('tut-char').className='tut-char tut-char-'+s.char;
+    document.getElementById('tut-title').textContent=s.title;
+    document.getElementById('tut-desc').textContent=s.desc;
+    document.getElementById('tut-cite').textContent=s.cite||'';
+    document.getElementById('tut-next').textContent=_tutIdx===TUT_STEPS.length-1?'冒険を始める ✦':'次へ →';
+    document.querySelectorAll('.tut-dot').forEach((d,i)=>d.classList.toggle('active',i===_tutIdx));
+    // ルールブックリンク
+    const link=document.getElementById('tut-rule-link');
+    if(link){
+      if(s.rule){
+        link.href=s.rule;
+        link.textContent='📖 '+(s.ruleLabel||'ルールブックで詳しく読む')+' →';
+        link.style.display='inline-block';
+      } else {
+        link.style.display='none';
+      }
     }
-  }
+    // フェードイン
+    if(box) box.style.opacity='1';
+  }, 120);
 }
 document.getElementById('tut-next').addEventListener('click',()=>{
   _tutIdx++;
@@ -9568,6 +9583,9 @@ if('PerformanceObserver' in window){
 <!-- チュートリアルオーバーレイ -->
 <div id="tutorial-overlay" style="display:none;">
   <div id="tutorial-box">
+    <div style="height:3px;background:rgba(30,127,164,.15);position:relative;overflow:hidden;">
+      <div id="tut-progress" style="height:100%;background:linear-gradient(90deg,#1e7fa4,#29b6e8);width:0%;transition:width .3s ease;"></div>
+    </div>
     <div class="tut-char-wrap">
       <div class="tut-char" id="tut-char">
         <img id="tut-char-img" src="./image/runa-sabun%20(1).png" alt="">
