@@ -1388,6 +1388,121 @@ section {
   }
 }
 
+/* スケルトン スクリーン（ローディング プレースホルダー） */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(41, 182, 232, 0.05) 25%,
+    rgba(41, 182, 232, 0.1) 50%,
+    rgba(41, 182, 232, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 1em;
+  border-radius: var(--border-radius-sm);
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.skeleton-card {
+  height: 200px;
+  border-radius: var(--border-radius-md);
+}
+
+/* ホバー・フォーカス・アクティブ状態の統一 */
+a:not(.no-hover),
+button:not(:disabled):not(.no-hover),
+[role="button"]:not(:disabled):not(.no-hover) {
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+a:hover:not(.no-hover),
+button:hover:not(:disabled):not(.no-hover) {
+  filter: brightness(1.05);
+}
+
+a:focus:not(.no-hover),
+button:focus:not(:disabled):not(.no-hover) {
+  filter: brightness(1.02);
+}
+
+a:active:not(.no-hover),
+button:active:not(:disabled):not(.no-hover) {
+  filter: brightness(0.98);
+  transform: scale(0.98);
+}
+
+/* 入力フィールドのインタラクティブ状態 */
+input:not(:disabled):hover,
+textarea:not(:disabled):hover,
+select:not(:disabled):hover {
+  border-color: rgba(41, 182, 232, 0.5);
+  box-shadow: 0 0 8px rgba(41, 182, 232, 0.1);
+}
+
+input:not(:disabled):focus,
+textarea:not(:disabled):focus,
+select:not(:disabled):focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px rgba(41, 182, 232, 0.2);
+}
+
+/* リンク・ボタンの視覚的フィードバック */
+.link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--cyan);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-normal);
+}
+
+.link-hover:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* グループ化ボタンの状態 */
+.btn-group button {
+  border-radius: 0;
+  border-right: none;
+}
+
+.btn-group button:first-child {
+  border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+}
+
+.btn-group button:last-child {
+  border-right: var(--border-width-sm) solid var(--border-color);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+.btn-group button.active {
+  background-color: rgba(41, 182, 232, 0.15);
+  border-color: var(--cyan);
+}
+
 /* レスポンシブブレークポイントヘルパー */
 @media (max-width: 480px) {
   .hide-on-mobile {
