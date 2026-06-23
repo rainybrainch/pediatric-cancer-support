@@ -11698,47 +11698,67 @@ async function callCoachProxy(userText){
   }
 
   const promise = (async ()=>{
-    // ✨ Vercel バックエンド経由で Gemini API を呼び出し
-    const payload={
-      history:_coachState.history,
-      userText,
-      context: buildCoachContext()
-    };
-    const urls=[];
-    if(!/github\.io$/i.test(location.hostname)) urls.push(COACH_PROXY_URL);
-    COACH_PROXY_FALLBACK_URLS.forEach(url=>urls.push(url));
-
-    const failures=[];
-    for(const url of urls){
-      try{
-        const controller = new AbortController();
-        const timeout = setTimeout(()=>controller.abort(), 8000);
-        const res=await fetch(url,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(payload),
-          signal: controller.signal
-        });
-        clearTimeout(timeout);
-        if(!res.ok){
-          const err=await res.json().catch(()=>({}));
-          const msg=err.error||`HTTP ${res.status}`;
-          const detail=err.detail?` (${String(err.detail).slice(0,120)})`:'';
-          failures.push(`${url}: ${msg}${detail}`);
-          continue;
-        }
-        const data=await res.json();
-        if(data.text){
-          _coachProxyCache.set(cacheKey, {text: data.text, timestamp: Date.now()});
-          return data.text;
-        }
-        failures.push(`${url}: empty response`);
-      }catch(e){
-        failures.push(`${url}: ${e.message}`);
-      }
+    // API キーをチェック
+    const apiKey = localStorage.getItem('gemini_api_key');
+    if(!apiKey){
+      const key = prompt('🔑 Luna AI を使うには Gemini API キーが必要です。\n\nhttps://ai.google.dev から取得してください：');
+      if(!key) return localLunaGrowReply(userText);
+      localStorage.setItem('gemini_api_key', key);
     }
-    console.warn('Luna proxy unavailable; using local GROW fallback', failures);
-    return localLunaGrowReply(userText);
+
+    // ✨ クライアント側で Gemini API を直接呼び出し
+    const systemPrompt = `あなたは Luna（ルナ）、がん経験者の「晩期合併症予防」と「生活課題解決」を支援する専門のAIコーチです。
+
+【基本姿勢】
+- 常に共感、傾聴、非審判的な態度で接してください
+- ユーザー自身が解決策と行動意欲を引き出すためのファシリテーターとして振る舞う
+- 優しく、簡潔に、常にユーザーの次の発言を促す形でコミュニケーションする
+
+【フェーズ4：GROWモデル（Goal→Reality→Options→Will）】
+- この順序を厳守する
+- ユーザーの発言を受けて、そのステップで最も効果的な質問を一つだけ選択し、問いかける
+- 具体的な答えではなく、ユーザー自身の気付きを引き出す質問を心がける
+
+【応答形式】1-2段落、最後に [STEP:G/R/O/W] を付ける`;
+
+    try{
+      const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + localStorage.getItem('gemini_api_key'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          system_instruction: {parts: [{text: systemPrompt}]},
+          contents: [
+            ..._coachState.history.map(m=>({
+              role: m.role==='user'?'user':'model',
+              parts: [{text: m.text}]
+            })),
+            {role: 'user', parts: [{text: userText}]}
+          ],
+          generation_config: {
+            max_output_tokens: 300,
+            temperature: 0.7,
+            top_p: 0.95
+          }
+        })
+      });
+
+      if(!res.ok){
+        const err = await res.json().catch(()=>({}));
+        console.error('Gemini API error:', err);
+        localStorage.removeItem('gemini_api_key');
+        return callCoachProxy(userText);
+      }
+
+      const data = await res.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if(!text) return localLunaGrowReply(userText);
+
+      _coachProxyCache.set(cacheKey, {text, timestamp: Date.now()});
+      return text;
+    }catch(e){
+      console.error('Luna API error:', e);
+      return localLunaGrowReply(userText);
+    }
   })();
 
   _coachProxyPending.set(cacheKey, promise);
