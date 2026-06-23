@@ -9353,6 +9353,34 @@ window.addEventListener('offline', ()=>{
   console.log('🔴 Offline detected');
   if(document.getElementById('coach-send')) document.getElementById('coach-send').style.opacity='0.6';
 });
+
+// Web Vitals 計測
+if('PerformanceObserver' in window){
+  try{
+    // LCP (Largest Contentful Paint)
+    new PerformanceObserver((list)=>{
+      const entries=list.getEntries();
+      const lastEntry=entries[entries.length-1];
+      console.log('📊 LCP:', Math.round(lastEntry.renderTime||lastEntry.loadTime)+'ms');
+    }).observe({entryTypes:['largest-contentful-paint']});
+
+    // CLS (Cumulative Layout Shift)
+    let clsValue=0;
+    new PerformanceObserver((list)=>{
+      list.getEntries().forEach(entry=>{
+        if(!entry.hadRecentInput) clsValue+=entry.value;
+      });
+      console.log('📊 CLS:', clsValue.toFixed(3));
+    }).observe({entryTypes:['layout-shift']});
+
+    // INP (Interaction to Next Paint)
+    new PerformanceObserver((list)=>{
+      list.getEntries().forEach(entry=>{
+        console.log('📊 INP:', Math.round(entry.duration)+'ms');
+      });
+    }).observe({entryTypes:['event']});
+  }catch(e){ console.log('Web Vitals unavailable'); }
+}
 </script>
 <nav class="bottom-nav" id="bottom-nav">
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
