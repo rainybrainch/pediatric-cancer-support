@@ -4438,18 +4438,20 @@ body:not(.app-active) .jump-fab{ display: none !important; }
     <button class="g-btn" id="logout-btn">退場</button>
   </header>
 
-  <main class="g-main">
+  <main class="g-main" id="main-content">
 
     <!-- プレイヤーステータス（簡潔版） -->
-    <div class="player-card" id="player-card" style="padding: 20px; text-align: center; background: rgba(8,18,38,.6); border: 1px solid rgba(41,182,232,.2); border-radius: 12px; margin-bottom: 24px;">
-      <div style="font-size: 0.8rem; color: rgba(127,216,244,.7); margin-bottom: 8px;">ようこそ、冒険者</div>
-      <div class="player-name" id="week-label-txt" style="font-size: 1.2rem; font-weight: 700; color: #7fd8f4;">ルナとの対話モード</div>
-    </div>
+    <section class="player-status-section" role="region" aria-labelledby="player-welcome">
+      <div class="player-card" id="player-card" style="padding: 20px; text-align: center; background: rgba(8,18,38,.6); border: 1px solid rgba(41,182,232,.2); border-radius: 12px; margin-bottom: 24px;">
+        <div style="font-size: 0.8rem; color: rgba(127,216,244,.7); margin-bottom: 8px;" id="player-welcome">ようこそ、冒険者</div>
+        <div class="player-name" id="week-label-txt" style="font-size: 1.2rem; font-weight: 700; color: #7fd8f4;">ルナとの対話モード</div>
+      </div>
+    </section>
 
     <!-- 今週のQOLトレンド -->
-    <div class="qol-trend-card" style="display:none;">
+    <section class="qol-trend-card" style="display:none;" role="region" aria-label="今週の調子トレンド">
       <div class="qol-trend-head">
-        <span>📊 今週の調子</span>
+        <h2 style="font-size:0.9rem;margin:0;">📊 今週の調子</h2>
         <div style="display:flex;gap:6px;">
           <a href="./journal.html" class="qol-trend-action" style="text-decoration:none;display:inline-block;">📓 ノート</a>
           <button class="qol-trend-action" id="qol-trend-record">+ 今日を記録</button>
@@ -4458,10 +4460,10 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <div id="qol-trend-content">
         <div class="qol-trend-empty">まだ記録がありません。今日の調子を入れてみよう。</div>
       </div>
-    </div>
+    </section>
 
     <!-- 🎯 シンプルホーム — 記録優先 -->
-    <div class="simple-home" id="compact-home">
+    <section class="simple-home" id="compact-home" role="region" aria-label="ホーム画面・クイックアクション">
 
       <!-- 🆕 ルナ専用カード -->
       <div class="home-char-trio" id="home-char-trio" style="display: flex; justify-content: center;">
