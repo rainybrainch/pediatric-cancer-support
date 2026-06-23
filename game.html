@@ -5486,6 +5486,9 @@ function renderCoachStep(){
 
 function appendBubble(role,text){
   const body=document.getElementById('coach-body');
+  // role 検証
+  if(!['user','luna'].includes(role)) role='luna';
+
   const b=document.createElement('div');
   b.className='coach-bubble '+(role==='user'?'coach-bubble-user':'coach-bubble-luna');
   const txtDiv=document.createElement('div');
@@ -5493,10 +5496,14 @@ function appendBubble(role,text){
   // 改行をHTMLの<br>に変換し、セキュリティのためテキストノードを使用
   const lines=String(text||'').split('\n');
   lines.forEach((line,i)=>{
+    // ユーザー入力をエスケープ
     txtDiv.appendChild(document.createTextNode(line));
     if(i<lines.length-1) txtDiv.appendChild(document.createElement('br'));
   });
-  b.innerHTML=`<div class="coach-bubble-lbl">${role==='user'?'あなた':'ルナ'}</div>`;
+  const lbl=document.createElement('div');
+  lbl.className='coach-bubble-lbl';
+  lbl.textContent=role==='user'?'あなた':'ルナ';
+  b.appendChild(lbl);
   b.appendChild(txtDiv);
   body.appendChild(b);
   // スクロール最適化：requestAnimationFrame で遅延
@@ -5875,6 +5882,26 @@ function awardCoachXp(){
   }
 
   return gained;
+}
+
+// セキュリティ・入力検証
+function escapeHtml(text){
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function sanitizeUserInput(text){
+  if(!text || typeof text !== 'string') return '';
+  // XSS 防止：特殊文字をエスケープ
+  return text
+    .slice(0, 500) // 長さ制限
+    .replace(/[<>\"']/g, c => ({
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[c]));
 }
 
 // シーズン・イベント管理
