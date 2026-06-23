@@ -998,6 +998,196 @@ section {
   word-break: break-word;
 }
 
+/* アスペクト比ユーティリティ */
+.aspect-auto {
+  aspect-ratio: auto;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-3-2 {
+  aspect-ratio: 3 / 2;
+}
+
+/* シャドウユーティリティ */
+.shadow-none {
+  box-shadow: none;
+}
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-inner {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ボーダーユーティリティ */
+.border {
+  border: var(--border-width-sm) solid var(--border-color);
+}
+
+.border-0 {
+  border: none;
+}
+
+.border-t {
+  border-top: var(--border-width-sm) solid var(--border-color);
+}
+
+.border-r {
+  border-right: var(--border-width-sm) solid var(--border-color);
+}
+
+.border-b {
+  border-bottom: var(--border-width-sm) solid var(--border-color);
+}
+
+.border-l {
+  border-left: var(--border-width-sm) solid var(--border-color);
+}
+
+.border-2 {
+  border-width: var(--border-width-md);
+}
+
+.border-cyan {
+  border-color: var(--cyan);
+}
+
+.border-green {
+  border-color: var(--green);
+}
+
+.border-red {
+  border-color: var(--red);
+}
+
+.border-gold {
+  border-color: var(--gold);
+}
+
+.rounded {
+  border-radius: var(--border-radius-md);
+}
+
+.rounded-sm {
+  border-radius: var(--border-radius-sm);
+}
+
+.rounded-lg {
+  border-radius: var(--border-radius-lg);
+}
+
+.rounded-full {
+  border-radius: var(--border-radius-full);
+}
+
+.rounded-t {
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+}
+
+.rounded-b {
+  border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
+}
+
+.rounded-l {
+  border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+}
+
+.rounded-r {
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+/* Z-index ユーティリティ */
+.z-auto {
+  z-index: auto;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-10 {
+  z-index: var(--z-dropdown);
+}
+
+.z-20 {
+  z-index: var(--z-sticky);
+}
+
+.z-90 {
+  z-index: var(--z-fixed);
+}
+
+.z-95 {
+  z-index: var(--z-modal);
+}
+
+.z-1000 {
+  z-index: var(--z-tooltip);
+}
+
+/* オブジェクトフィット制御 */
+.object-cover {
+  object-fit: cover;
+}
+
+.object-contain {
+  object-fit: contain;
+}
+
+.object-fill {
+  object-fit: fill;
+}
+
+.object-scale-down {
+  object-fit: scale-down;
+}
+
+/* オブジェクト位置制御 */
+.object-center {
+  object-position: center;
+}
+
+.object-top {
+  object-position: top;
+}
+
+.object-bottom {
+  object-position: bottom;
+}
+
+.object-left {
+  object-position: left;
+}
+
+.object-right {
+  object-position: right;
+}
+
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
 input:disabled,
