@@ -99,6 +99,19 @@ input[aria-invalid="true"]:focus {
   outline:2px solid #fff;
   outline-offset:2px;
 }
+
+/* Screen reader only text（視覚的には非表示） */
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border-width:0;
+}
 html{
   scroll-behavior:smooth;
   -webkit-user-select:none;
@@ -4439,6 +4452,8 @@ body:not(.app-active) .jump-fab{ display: none !important; }
   </header>
 
   <main class="g-main" id="main-content">
+
+    <h1 class="sr-only">ヴィタリア転生録 — ゲームホーム</h1>
 
     <!-- プレイヤーステータス（簡潔版） -->
     <section class="player-status-section" role="region" aria-labelledby="player-welcome">
