@@ -5845,6 +5845,29 @@ const COACH_XP_TURN=5;       // 1ターンあたり
 const COACH_XP_DAILY=20;     // 1日初回ボーナス
 const COACH_XP_W_GOAL=50;    // W段階で目標設定したら
 
+// ゲームバランス・スケーリング
+function getXpMultiplier(){
+  const d = loadData();
+  const lv = getLv(d.totalXp);
+
+  // レベルに応じた乗算（高いレベルほど高報酬でモチベ維持）
+  const lvMultipliers = {
+    1: 1.0,
+    2: 1.05,
+    3: 1.1,
+    4: 1.15,
+    5: 1.2
+  };
+
+  let mult = lvMultipliers[Math.min(lv.lv, 5)] || 1.2;
+
+  // ストリーク乗算（連続記録を褒める）
+  if(d.streak >= 10) mult *= 1.15; // 10週以上で +15%
+  if(d.streak >= 5) mult *= 1.1;   // 5週以上で +10%
+
+  return Math.round(mult * 100) / 100;
+}
+
 function awardCoachXp(){
   if(!uid||uid==='guest') return 0;
   const today=new Date().toISOString().slice(0,10);
@@ -5865,6 +5888,13 @@ function awardCoachXp(){
     gained+=COACH_XP_W_GOAL;
     reasons.push('🎯 目標設定 +'+COACH_XP_W_GOAL+'XP');
     _coachState.justSetGoal=null;
+  }
+
+  // スケーリング乗算を適用
+  const mult = getXpMultiplier();
+  gained = Math.round(gained * mult);
+  if(mult > 1.0){
+    reasons.push(`✨ ボーナス倍率 ×${mult.toFixed(2)}`);
   }
 
   // 週次の合計に加算
