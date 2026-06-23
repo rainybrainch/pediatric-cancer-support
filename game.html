@@ -33,6 +33,20 @@ html{
   scroll-behavior:smooth;
   -webkit-user-select:none;
   -webkit-touch-callout:none;
+  color-scheme:dark;
+}
+
+/* システム暗いモード対応 */
+@media (prefers-color-scheme: dark){
+  html{
+    color-scheme:dark;
+  }
+}
+
+@media (prefers-color-scheme: light){
+  html{
+    color-scheme:light;
+  }
 }
 body{
   font-family:'Zen Kaku Gothic New',sans-serif;
@@ -9865,6 +9879,18 @@ window.addEventListener('load', ()=>{
       showGameToast(`🐛 Debug ${newMode ? 'ON' : 'OFF'}`, 2000, newMode ? 'success' : 'info');
     }
   });
+
+  // システムダークモード検出・自動適用
+  if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    logDebug('🌓 System dark mode detected');
+  }
+
+  // ダークモード変更を監視
+  if(window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e)=>{
+      logDebug(`🌓 System theme changed to: ${e.matches ? 'dark' : 'light'}`);
+    });
+  }
 });
 
 // Navigation link animation
