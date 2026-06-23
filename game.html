@@ -4258,7 +4258,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <label>パスワード</label>
         <input type="password" id="password" placeholder="パスワード（6文字以上）" autocomplete="current-password">
       </div>
-      <div id="auth-error" class="login-err"></div>
+      <div id="auth-error" class="login-err" role="alert" aria-live="assertive" aria-hidden="true"></div>
       <button class="btn-login" id="login-btn">⚔ ログインして冒険を続ける</button>
       <button class="btn-register" id="register-btn">✨ 新規登録（研究参加・無料）</button>
       <button class="btn-register" id="reset-pw-btn" style="font-size:.7rem;opacity:.5;border-color:transparent;">パスワードを忘れた方</button>
@@ -5894,8 +5894,8 @@ function authErr(code){
   const m={'auth/user-not-found':'このメールは登録されていません。','auth/wrong-password':'パスワードが正しくありません。','auth/invalid-credential':'メールまたはパスワードが正しくありません。','auth/invalid-email':'メールの形式が正しくありません。','auth/too-many-requests':'試行回数が多すぎます。','auth/email-already-in-use':'このメールはすでに登録されています。','auth/weak-password':'パスワードは6文字以上で。'};
   return m[code]||'エラーが発生しました。';
 }
-function showErr(msg){ const e=document.getElementById('auth-error'); e.textContent=msg; e.style.display='block'; }
-function clearErr(){ document.getElementById('auth-error').style.display='none'; }
+function showErr(msg){ const e=document.getElementById('auth-error'); e.textContent=msg; e.style.display='block'; e.setAttribute('aria-hidden','false'); }
+function clearErr(){ const e=document.getElementById('auth-error'); e.style.display='none'; e.setAttribute('aria-hidden','true'); }
 
 // メール or ユーザー名 → 認証用メール解決
 async function resolveLoginEmail(identifier){
