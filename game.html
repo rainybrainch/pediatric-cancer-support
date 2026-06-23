@@ -5320,6 +5320,8 @@ function updateUI(){
       setTimeout(()=>openStory(lv.lv,true), 1500);
     }
   }
+  // マイルストーン確認
+  try{ checkAndShowMilestones(); }catch(e){}
 }
 
 // ===== 実績レンダリング =====
@@ -5831,6 +5833,43 @@ function showRewardPop(amount){
   pop.textContent='+'+amount+'XP';
   document.body.appendChild(pop);
   setTimeout(()=>pop.remove(),1300);
+}
+
+// マイルストーン判定
+function checkAndShowMilestones(){
+  const milestones=[
+    {days:7, icon:'🔥', text:'7日連続！', xp:30},
+    {days:30, icon:'⚡', text:'1ヶ月継続', xp:100},
+    {days:100, icon:'👑', text:'100日達成', xp:300},
+  ];
+
+  if(!uid || uid==='guest') return;
+
+  let streak=0;
+  try{ streak=parseInt(localStorage.getItem(`vt_login_streak_${uid}`)||'0',10); }catch(e){}
+
+  milestones.forEach(ms=>{
+    if(streak===ms.days){
+      showMilestonePopup(ms.icon, ms.text, ms.xp);
+      showGameToast(`🎉 ${ms.text}達成！ +${ms.xp}XP`, 4000, 'success');
+    }
+  });
+}
+
+function showMilestonePopup(icon, text, xp){
+  const popup=document.createElement('div');
+  popup.style.cssText=`
+    position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);
+    z-index:9997;pointer-events:none;
+    text-align:center;
+  `;
+  popup.innerHTML=`
+    <div style="font-size:4rem;margin-bottom:8px;animation:rewardPopOut 1s ease-out forwards;">${icon}</div>
+    <div style="font-size:1.8rem;font-weight:900;color:#f0d448;text-shadow:0 0 15px rgba(240,212,72,.5);animation:rewardPopOut 1.2s ease-out forwards;animation-delay:.1s;">🎊 ${text}</div>
+    <div style="font-size:1.2rem;color:#7fd8f4;margin-top:12px;animation:rewardPopOut 1.4s ease-out forwards;animation-delay:.2s;">+${xp}XP</div>
+  `;
+  document.body.appendChild(popup);
+  setTimeout(()=>popup.remove(),2000);
 }
 
 // ルナの表情を会話文脈から推定して画像を切り替え
