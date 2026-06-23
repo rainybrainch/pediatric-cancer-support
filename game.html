@@ -1646,6 +1646,7 @@ body.detail-mode #compact-home{display:none !important;}
   border:2px solid rgba(41,182,232,.5);
   object-fit:cover;object-position:center 14%;
   box-shadow:0 0 16px rgba(41,182,232,.2);
+  transition:opacity .15s ease-in-out;
 }
 .coach-char-info{flex:1;min-width:0;}
 .coach-char-name{
@@ -5764,12 +5765,12 @@ function awardCoachXp(){
 function pickLunaFace(text, step){
   const t=String(text||'');
   // 1: 通常 / 2: 嬉しい・励まし / 3: 穏やか・聞き入る / 4: 思考・真剣 / 5: 優しさ・心配 / 6: 可愛い・照れ
-  if(/(素晴ら|すばらし|やった|やりまし|達成|頑張|がんば|嬉し|うれし|✨|！！)/.test(t)) return 2;
-  if(/(辛|つら|大丈夫|心配|無理|しんどい|疲れ|休|お大事)/.test(t)) return 5;
-  if(/(♪|☺|😊|ふふ|なるほど|そうなのですね)/.test(t)) return 6;
-  if(step==='O'||/(どんな工夫|選択肢|案を|考えられ|2〜3案|2か3案)/.test(t)) return 4;
-  if(step==='R'||/(現状|今|どんな状況|どうですか|聞かせ)/.test(t)) return 3;
-  if(step==='W'||/(やってみま|始めま|決め|意志|どれを)/.test(t)) return 2;
+  if(/(素晴ら|すばらし|やった|やりまし|達成|頑張|がんば|嬉し|うれし|✨|！！|最高|素敵|良い|いいね|成功)/.test(t)) return 2;
+  if(/(辛|つら|大丈夫|心配|無理|しんどい|疲れ|休|お大事|苦しい|悪い|つらい|ダメ)/.test(t)) return 5;
+  if(/(♪|☺|😊|ふふ|なるほど|そうなのですね|いいですね|素敵)/.test(t)) return 6;
+  if(step==='O'||/(どんな工夫|選択肢|案を|考えられ|2〜3案|2か3案|方法|工夫|試す)/.test(t)) return 4;
+  if(step==='R'||/(現状|今|どんな状況|どうですか|聞かせ|教えて|説明|事情)/.test(t)) return 3;
+  if(step==='W'||/(やってみま|始めま|決め|意志|どれを|約束|挑戦|チャレンジ)/.test(t)) return 2;
   return 1;
 }
 // ルナ顔画像キャッシュ
@@ -5785,7 +5786,12 @@ function applyLunaFace(faceNum){
   const img=document.getElementById('coach-luna-img');
   if(img){
     const src=`./image/runa-sabun%20(${faceNum}).png`;
-    img.src=src;
+    // フェードトランジション
+    img.style.opacity='0.7';
+    setTimeout(()=>{
+      img.src=src;
+      img.style.opacity='1';
+    }, 100);
     preloadLunaFace((faceNum%3)+1); // 次の顔をプリロード
   }
 }
