@@ -5914,6 +5914,50 @@ function awardCoachXp(){
   return gained;
 }
 
+// 多言語対応（i18n）
+let _currentLocale = localStorage.getItem('vt_locale') || 'ja';
+
+const i18n = {
+  ja: {
+    coach_opened: 'ルナのコーチング',
+    share_twitter: 'Twitterでシェア',
+    share_line: 'LINEで共有',
+    share_clipboard: 'クリップボードにコピー',
+    milestone_7days: '7日連続！',
+    milestone_30days: '1ヶ月継続',
+    milestone_100days: '100日達成',
+    level_up: 'レベルアップ！',
+    goal_achieved: '目標達成おめでとう！',
+    streak_bonus: 'ストリークボーナス',
+  },
+  en: {
+    coach_opened: 'Luna\'s Coaching',
+    share_twitter: 'Share on Twitter',
+    share_line: 'Share via LINE',
+    share_clipboard: 'Copy to clipboard',
+    milestone_7days: '7-day streak!',
+    milestone_30days: '1 month continued',
+    milestone_100days: '100 days achieved',
+    level_up: 'Level Up!',
+    goal_achieved: 'Congratulations on achieving your goal!',
+    streak_bonus: 'Streak bonus',
+  }
+};
+
+function t(key, defaultText=key){
+  return (i18n[_currentLocale]?.[key]) || (i18n['ja']?.[key]) || defaultText;
+}
+
+function setLocale(locale){
+  if(['ja', 'en'].includes(locale)){
+    _currentLocale = locale;
+    try{ localStorage.setItem('vt_locale', locale); }catch(e){}
+    console.log(`🌐 Locale changed to: ${locale}`);
+    return true;
+  }
+  return false;
+}
+
 // ユーザー行動分析・イベントトラッキング
 function trackEvent(eventName, eventData={}){
   if(!uid || uid === 'guest') return; // ゲストは追跡しない
@@ -6199,7 +6243,7 @@ function openCoach(){
     if(used>50) console.warn(`Memory usage: ${used}MB`);
   }
   // イベント追跡
-  trackEvent('coach_opened', {step: _coachState.step});
+  trackEvent('coach_opened', {step: _coachState.step, locale: _currentLocale});
 }
 function closeCoach(){
   const modal=document.getElementById('coach-modal');
