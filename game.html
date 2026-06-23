@@ -5340,10 +5340,16 @@ function loadCoachHistory(){
 }
 function saveCoachHistory(){
   try{
-    localStorage.setItem(COACH_HIST_KEY(),JSON.stringify(_coachState.history.slice(-40)));
+    const hist=JSON.stringify(_coachState.history.slice(-40));
+    localStorage.setItem(COACH_HIST_KEY(),hist);
     localStorage.setItem(COACH_STEP_KEY(),_coachState.step);
     localStorage.setItem(`vc_last_${uid||'guest'}`,new Date().toISOString().slice(0,10));
-  }catch(e){}
+    // ストレージサイズチェック
+    const totalSize=Object.keys(localStorage).reduce((sum,key)=>sum+(localStorage[key]?.length||0),0);
+    if(totalSize>5242880) console.warn('LocalStorage near limit:',Math.round(totalSize/1024)+'KB');
+  }catch(e){
+    if(e.name==='QuotaExceededError') console.error('LocalStorage quota exceeded');
+  }
 }
 
 function renderCoachStep(){
