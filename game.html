@@ -5684,6 +5684,19 @@ function localLunaGrowReply(userText){
   return `それなら無理なく始められそうです。完璧にできるかより、あなたが自分で選んだ行動を一度試すことを大切にしましょう。今週は「${goal}」を試す、という形で記録しておきますね。いつ実行しますか？ [STEP:W] [GOAL:${goal}]`;
 }
 
+function guessStepFromText(text){
+  const lower=text.toLowerCase();
+  // Goal: 目標に関するキーワード
+  if(/目標|達成|まで|できたら|なりたい|したい|なたい|設定/.test(lower)) return 'G';
+  // Reality: 現状に関するキーワード
+  if(/現状|今|最近|今週|困|つらい|辛い|疲れ|もう/.test(lower)) return 'R';
+  // Options: 選択肢に関するキーワード
+  if(/どう|方法|何|代わり|別|他|工夫|工夫する|できる|考え/.test(lower)) return 'O';
+  // Will: 決意に関するキーワード
+  if(/頑張|続け|やる|やろう|挑戦|挑む|試す|試し|やってみ/.test(lower)) return 'W';
+  return null;
+}
+
 function parseStepTag(text){
   let cleaned=text;
   // STEP タグ抽出
@@ -5788,6 +5801,10 @@ async function sendCoachMessage(){
   sendBtn.setAttribute('aria-busy','true');
   input.value='';
   input.style.height='auto';
+
+  // ユーザー入力からステップを自動推定
+  const stepGuess=guessStepFromText(text);
+  if(stepGuess && !_coachState.history.some(m=>m.role==='user')) _coachState.step=stepGuess;
 
   appendBubble('user',text);
   _coachState.history.push({role:'user',text});
