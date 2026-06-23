@@ -112,6 +112,18 @@ input[aria-invalid="true"]:focus {
   white-space:nowrap;
   border-width:0;
 }
+
+/* ライトモード対応（OS 設定に基づく自動適用） */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-primary: #f5f7fa;
+    --text-primary: #0c1a2e;
+  }
+  body {
+    background-color: var(--bg-primary, #f5f7fa);
+    color: var(--text-primary, #0c1a2e);
+  }
+}
 html{
   scroll-behavior:smooth;
   -webkit-user-select:none;
@@ -4329,7 +4341,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 <!-- ローディング -->
 <div id="loading-screen">
   <div class="ls-char">
-    <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+    <img src="./image/runa-sabun%20(1).png" alt="ルナ" loading="lazy">
   </div>
   <div class="ls-title">✦ ヴィタリア転生録</div>
   <div class="ls-sub">Health Quest — Vitalia</div>
@@ -4344,7 +4356,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
   <div class="lp-hero">
     <div class="lp-rune">— Vitalia Tensei-roku —</div>
     <div class="lp-char">
-      <img src="./image/runa-sabun%20(1).png" alt="ルナ">
+      <img src="./image/runa-sabun%20(1).png" alt="ルナ" loading="lazy">
     </div>
     <h1 class="lp-title">ヴィタリア転生録</h1>
     <p class="lp-subtitle">Health Quest · RPG × AI Coaching</p>
@@ -4485,7 +4497,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <div style="display:none;">
         <a href="./quest.html" class="hc-card hc-kaito" aria-label="運動の師 カイトと修練">
           <div class="hc-portrait">
-            <img src="./image/kaito-sabun%20(1).png" alt="カイト">
+            <img src="./image/kaito-sabun%20(1).png" alt="カイト" loading="lazy">
           </div>
           <div class="hc-name">カイト</div>
           <div class="hc-role">運動の師</div>
@@ -4495,7 +4507,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         </a>
         <a href="./nutrition.html" class="hc-card hc-sera" aria-label="食事サポート セラに学ぶ">
           <div class="hc-portrait">
-            <img src="./image/sera-sabun%20(1).png" alt="セラ">
+            <img src="./image/sera-sabun%20(1).png" alt="セラ" loading="lazy">
           </div>
           <div class="hc-name">セラ</div>
           <div class="hc-role">食事サポート</div>
@@ -4506,7 +4518,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         </div>
         <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="openCoach();return false;" style="flex: 0 0 auto; max-width: 420px;">
           <div class="hc-portrait">
-            <img src="./image/runa-sabun%20(2).png" alt="ルナ">
+            <img src="./image/runa-sabun%20(2).png" alt="ルナ" loading="lazy">
           </div>
           <div class="hc-name">ルナ</div>
           <div class="hc-role">AIコーチ</div>
