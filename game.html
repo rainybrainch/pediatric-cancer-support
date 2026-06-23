@@ -14,12 +14,56 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
+  /* 色系 */
   --bg:#0c1a2e; --bg2:#112236; --bg3:#162840;
   --gold:#c9a84c; --gold2:#f0d48a;
   --cyan:#29b6e8; --cyan2:#7fd8f4;
   --silver:#aabcd8; --text:#e5f0f8; --muted:#7a9eb8;
   --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
   --accent:#1e7fa4; --success:#42d89f; --warning:#f5d547; --error:#ef5350;
+
+  /* スペーシング */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+
+  /* タイポグラフィ */
+  --font-sans: 'Zen Kaku Gothic New', sans-serif;
+  --font-serif: 'Noto Serif JP', serif;
+  --font-mono: 'Courier New', monospace;
+  --font-size-sm: 0.75rem;
+  --font-size-md: 0.88rem;
+  --font-size-lg: 1.1rem;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* ボーダー・角丸 */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 99px;
+  --border-color: rgba(41, 182, 232, 0.25);
+
+  /* シャドウ */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.6);
+
+  /* トランジション */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* Z-index */
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 90;
+  --z-modal: 95;
+  --z-tooltip: 1000;
 }
 html {
   scroll-behavior: smooth;
@@ -39,8 +83,8 @@ input, textarea, button, select {
 
 /* フォーカスインジケーター（WCAG 2.4.7準拠） */
 :focus-visible {
-  outline:2px solid #29b6e8;
-  outline-offset:2px;
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
 }
 
 button:focus-visible, a:focus-visible {
@@ -521,7 +565,7 @@ html{
   }
 }
 body{
-  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-family: var(--font-sans);
   background:linear-gradient(180deg,#0c1a2e 0%,#102540 45%,#163050 100%);
   background-attachment:fixed;
   color:var(--text);min-height:100vh;overflow-x:hidden;
