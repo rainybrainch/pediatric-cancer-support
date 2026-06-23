@@ -3156,6 +3156,143 @@ a[role="button"],
 
    ============================================================ */
 
+   /* ========================================
+   フォント・タイポグラフィ最終確認ガイド
+   ======================================== */
+
+   【Web Font 戦略】
+
+   ✅ フォント選定:
+   見出し: 'Noto Serif JP' (serif, 重厚感)
+   本体: システムフォント (sans-serif, 高速)
+   モノスペース: 'Monaco' / 'Courier New' (コード用)
+
+   ✅ 実装方法:
+   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&display=swap');
+
+   ✅ font-display 戦略:
+   display=swap (即座に代替フォント表示)
+   display=optional (ローカルフォント優先)
+   display=fallback (短時間は非表示)
+
+   ✅ Preconnect / DNS Prefetch:
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+   ✅ Variable Font サポート:
+   @supports (font-variation-settings: normal) {
+     h1 { font-variation-settings: 'wght' 700; }
+   }
+
+   【フォントウェイト体系】
+
+   ✅ 定義:
+   - 400 (Regular): 本体テキスト
+   - 500 (Medium): 強調テキスト
+   - 600 (Semibold): 小見出し
+   - 700 (Bold): 見出し (h2-h4)
+   - 900 (Black): 大見出し (h1)
+
+   ✅ 推奨組み合わせ:
+   h1: font-weight: 900 / font-size: 2.0rem
+   h2: font-weight: 700 / font-size: 1.6rem
+   h3: font-weight: 700 / font-size: 1.3rem
+   body: font-weight: 400 / font-size: 1.0rem
+
+   【フォントサイズスケール】
+
+   ✅ Typographic Scale (1.2x multiplier):
+   xs (320px): 0.875rem - 1.0rem
+   sm (480px): 0.9rem - 1.1rem
+   md (768px): 0.95rem - 1.2rem
+   lg (1024px): 1.0rem - 1.3rem
+   xl (1280px): 1.05rem - 1.4rem
+   2xl (1536px): 1.1rem - 1.5rem
+
+   ✅ CSS 変数化:
+   --text-xs: 0.75rem
+   --text-sm: 0.875rem
+   --text-base: 1rem
+   --text-lg: 1.125rem
+   --text-xl: 1.25rem
+   --text-2xl: 1.5rem
+   --text-3xl: 1.875rem
+   --text-4xl: 2.25rem
+
+   【行間・文字間隔】
+
+   ✅ Line Height (leading):
+   h1-h3: 1.3 (見出し・詰める)
+   body: 1.6 (本体・読みやすさ)
+   code: 1.5 (コード・詰める)
+   .caption: 1.4 (キャプション)
+
+   ✅ Letter Spacing (tracking):
+   h1: 0.04em (広い)
+   h2-h3: 0.03em (標準)
+   body: 0.02em (標準)
+   .small: 0em (詰める)
+   .wide: 0.08em (広い)
+
+   ✅ Word Spacing:
+   CJK言語 (日本語): word-spacing: 0 (推奨)
+   English: word-spacing: 0.1em (強調時)
+
+   【テキスト装飾・スタイル】
+
+   ✅ Text Transform:
+   .uppercase: text-transform: uppercase
+   .lowercase: text-transform: lowercase
+   .capitalize: text-transform: capitalize
+
+   ✅ Font Style:
+   em / i: font-style: italic
+   strong / b: font-weight: 700
+   code: font-family: 'Monaco', monospace
+
+   ✅ Text Align:
+   .text-left: text-align: left
+   .text-center: text-align: center
+   .text-right: text-align: right
+   .text-justify: text-align: justify (避ける)
+
+   ✅ Text Overflow:
+   .truncate: white-space: nowrap; overflow: hidden; text-overflow: ellipsis
+   .line-clamp-2: display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical
+
+   【タイポグラフィアクセシビリティ】
+
+   ✅ 読みやすさ基準:
+   - 最小フォントサイズ: 14px (body)
+   - 最小行間: 1.5 (body)
+   - コントラスト: 4.5:1 (WCAG AA)
+   - 最大行幅: 75-80 文字
+
+   ✅ 実装例:
+   body {
+     font-size: 1rem;
+     line-height: 1.6;
+     letter-spacing: 0.02em;
+     max-width: 60ch;
+   }
+
+   ✅ 日本語特別対応:
+   - 漢字: 標準 font-weight: 400
+   - ひらがな: 視認性重視
+   - 句読点: 自動改行回避
+
+   【最終チェックリスト】
+
+   ✅ Web Font: preconnect + display=swap 実装
+   ✅ フォントウェイト: 4 段階で統一
+   ✅ サイズスケール: 1.2x multiplier 実装
+   ✅ 行間・文字間: リード・トラッキング最適化
+   ✅ テキスト装飾: semantic HTML で実装
+   ✅ アクセシビリティ: 14px 最小・1.5 line-height
+   ✅ 実装テスト: Chrome / Safari / Firefox で確認
+
+   ============================================================ */
+
 /* ============================================================
    END OF STYLESHEET
    ============================================================ */
