@@ -367,6 +367,82 @@ select:disabled {
   }
 }
 
+/* Windows 高コントラストモード対応 */
+@media (forced-colors: active) {
+  *,
+  *::before,
+  *::after {
+    forced-color-adjust: none;
+  }
+
+  /* ボタン・リンクのボーダー強調 */
+  button,
+  a[role="button"],
+  input,
+  textarea,
+  select {
+    border: 2px solid;
+  }
+
+  /* テキストコンテンツはシステムカラー使用 */
+  body {
+    color: CanvasText;
+  }
+
+  a {
+    color: LinkText;
+  }
+
+  a:visited {
+    color: VisitedText;
+  }
+
+  button:disabled,
+  input:disabled {
+    color: GrayText;
+  }
+}
+
+/* 印刷用スタイル */
+@media print {
+  /* ナビゲーション・インタラクティブ要素は非表示 */
+  .bottom-nav,
+  .skip-link,
+  button,
+  [role="button"],
+  nav,
+  #ch-menu-overlay {
+    display: none !important;
+  }
+
+  /* ページレイアウト最適化 */
+  body {
+    background: white;
+    color: black;
+    line-height: 1.5;
+  }
+
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+
+  /* 改ページ制御 */
+  h1,
+  h2 {
+    page-break-after: avoid;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
 /* ライトモード対応（OS 設定に基づく自動適用） */
 @media (prefers-color-scheme: light) {
   :root {
