@@ -2871,6 +2871,140 @@ a[role="button"],
    ✓ touch-action: manipulation
    ✓ @supports feature detection
 
+   /* ========================================
+   セマンティック HTML・ARIA 最終確認ガイド
+   ======================================== */
+
+   【セマンティック HTML 要素の実装】
+
+   ✅ ページ構造:
+   <header> - ページヘッダー (ロゴ・ナビゲーション)
+   <main role="main"> - メインコンテンツ
+   <nav aria-label="Main"> - ナビゲーションメニュー
+   <section aria-labelledby="h2-id"> - コンテンツセクション
+   <article> - 独立した記事・カード
+   <aside> - サイドバー・関連コンテンツ
+   <footer> - ページフッター (著作権・リンク)
+
+   ✅ 見出し階層:
+   <h1> - ページタイトル (1つのみ)
+   <h2> - メインセクション
+   <h3> - サブセクション
+   <h4> - 詳細セクション
+   (h5/h6 は必要に応じて)
+
+   ✅ フォーム要素:
+   <form> - フォーム全体
+   <fieldset><legend> - グループ化
+   <label for="id"> - テキストラベル (必須)
+   <input> / <select> / <textarea> - 入力要素
+   <button type="submit/button/reset"> - ボタン
+   <output> - 計算結果表示
+
+   ✅ リスト:
+   <ul><li> - 順序なしリスト
+   <ol><li> - 順序ありリスト
+   <dl><dt><dd> - 定義リスト
+
+   【ARIA 属性の実装】
+
+   ✅ ランドマーク:
+   role="main" - メインコンテンツ領域
+   role="navigation" - ナビゲーション
+   role="complementary" - サイドバー
+   role="contentinfo" - フッター
+   role="search" - 検索フォーム
+   aria-label="Navigation" - ランドマークラベル
+
+   ✅ フォーム関連:
+   aria-label="Search" - 入力フィールド説明
+   aria-describedby="help-text" - ヘルプテキスト参照
+   aria-invalid="true" - エラー状態
+   aria-required="true" - 必須項目
+   aria-readonly - 読み取り専用
+
+   ✅ 動的コンテンツ:
+   role="alert" - 重要な通知
+   role="status" - ステータス更新
+   aria-live="polite" - ポライト更新
+   aria-live="assertive" - 緊急更新
+   aria-busy="true" - 処理中表示
+
+   ✅ 状態・プロパティ:
+   aria-current="page" - 現在ページ
+   aria-expanded="true/false" - 展開状態
+   aria-hidden="true" - 非表示 (スクリーンリーダー)
+   aria-disabled="true" - 無効状態
+   aria-selected="true" - 選択状態
+   aria-pressed="true/false" - トグルボタン
+
+   ✅ 関係性:
+   aria-owns="id1 id2" - 所有関係
+   aria-controls="id" - 制御関係
+   aria-labelledby="id1 id2" - ラベル参照
+   aria-describedby="id" - 説明参照
+
+   【スクリーンリーダー最適化】
+
+   ✅ Skip Link:
+   <a href="#main" class="sr-only">メインコンテンツへ移動</a>
+
+   ✅ スクリーンリーダーのみ表示:
+   .sr-only {
+     position: absolute;
+     width: 1px; height: 1px;
+     padding: 0; margin: -1px;
+     overflow: hidden; clip: rect(0,0,0,0);
+     white-space: nowrap;
+     border: 0;
+   }
+
+   ✅ テスト方法:
+   - NVDA / JAWS で実際に読み上げテスト
+   - axe DevTools で自動スキャン
+   - WAVE で視覚的確認
+   - Screen Reader Online で簡易テスト
+
+   【キーボードナビゲーション】
+
+   ✅ 実装済み:
+   Tab キー - 次の要素へ
+   Shift + Tab - 前の要素へ
+   Enter - ボタン実行・リンク遷移
+   Space - チェックボックス・トグル
+   Arrow Keys - ラジオボタン・メニュー
+   Escape - モーダル・メニュー閉じる
+   Alt + Key - ショートカットキー
+
+   ✅ フォーカス管理:
+   :focus-visible - キーボードフォーカスのみ表示
+   outline: 2px solid #29b6e8 - フォーカスインジケーター
+   tabindex="0" - 必要な要素のみ追加
+   tabindex="-1" - プログラマティックフォーカス用
+
+   【色覚異常・対比対応】
+
+   ✅ 対応済み:
+   色のみに依存しない (アイコン・パターンも使用)
+   コントラスト比 4.5:1 以上 (標準テキスト)
+   コントラスト比 3:1 以上 (大文字テキスト・グラフィクス)
+   高コントラストモード対応 (forced-color-adjust)
+
+   ✅ テスト:
+   Colourblind Simulator で確認
+   Chrome DevTools - Rendering タブで検証
+
+   【最終チェックリスト】
+
+   ✅ 見出し構造: h1 1つ、h2-h3 正しく階層化
+   ✅ リスト: リスト要素を正しく使用
+   ✅ フォーム: label-input 完全対応
+   ✅ ARIA: 必要な要素すべてに実装
+   ✅ キーボード: すべての機能にアクセス可能
+   ✅ スクリーンリーダー: 読み上げ確認完了
+   ✅ 色: 色覚異常対応確認
+   ✅ タッチ: 44px 以上のターゲット確保
+
    ============================================================ */
 
 /* ============================================================
