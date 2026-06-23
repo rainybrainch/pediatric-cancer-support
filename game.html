@@ -113,6 +113,19 @@ input[aria-invalid="true"]:focus {
   border-width:0;
 }
 
+/* タッチターゲット最適化（WCAG 2.5.5 — min 44×44px） */
+button,
+a[role="button"],
+.btn-login,
+.btn-register,
+.login-guest {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
 input:disabled,
@@ -120,6 +133,17 @@ textarea:disabled,
 select:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* アニメーション削減（OS 設定） */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ライトモード対応（OS 設定に基づく自動適用） */
@@ -805,8 +829,8 @@ body.detail-mode #compact-home{display:none !important;}
 .g-btn:hover{border-color:rgba(41,182,232,.5);color:#1e7fa4;}
 
 /* ========== メインコンテンツ ========== */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(8,11,20,.97);border-top:1px solid rgba(41,182,232,.15);display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);}
-.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;border-radius:4px 4px 0 0;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(8,11,20,.97);border-top:1px solid rgba(41,182,232,.15);display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);min-height:64px;}
+.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;border-radius:4px 4px 0 0;min-height:44px;min-width:44px;}
 .bn-tab:hover,.bn-tab.active{color:#1e7fa4;}
 .bn-tab:focus-visible{outline:2px solid #29b6e8;outline-offset:-2px;}
 .bn-tab.active .bn-icon{filter:drop-shadow(0 0 6px rgba(41,182,232,.6));}
