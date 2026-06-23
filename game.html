@@ -5921,6 +5921,9 @@ document.getElementById('logout-btn').addEventListener('click',()=>{
 document.getElementById('guest-btn').addEventListener('click',()=>{
   uid='guest';
   localStorage.setItem('vitalia_uid_hint',uid);
+  localStorage.setItem('vitalia_username','ゲスト冒険者');
+  localStorage.setItem('vitalia_level','1');
+  localStorage.setItem('vitalia_xp','0');
   document.body.classList.add('app-active');
   document.getElementById('login-screen').style.display='none';
   document.getElementById('main-screen').style.display='flex';
