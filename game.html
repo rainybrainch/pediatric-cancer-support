@@ -4967,6 +4967,11 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <div class="coach-disclaimer">
         ※ ルナはGROWモデルで考えを整理する支援です。診断・治療助言はできません。
       </div>
+      <div style="display:flex;gap:6px;margin-top:10px;justify-content:center;padding-top:8px;border-top:1px solid rgba(41,182,232,.15);">
+        <button onclick="shareToTwitter()" style="flex:1;padding:6px 10px;font-size:.7rem;background:rgba(29,161,242,.12);border:1px solid rgba(29,161,242,.3);border-radius:6px;color:#1da1f2;cursor:pointer;font-weight:700;" title="Twitterでシェア">𝕏 シェア</button>
+        <button onclick="shareToLine()" style="flex:1;padding:6px 10px;font-size:.7rem;background:rgba(0,200,83,.12);border:1px solid rgba(0,200,83,.3);border-radius:6px;color:#00c853;cursor:pointer;font-weight:700;" title="LINEで共有">💬 LINE</button>
+        <button onclick="shareToClipboard()" style="flex:1;padding:6px 10px;font-size:.7rem;background:rgba(200,160,100,.12);border:1px solid rgba(200,160,100,.3);border-radius:6px;color:#c8a064;cursor:pointer;font-weight:700;" title="クリップボードにコピー">📋 コピー</button>
+      </div>
     </div>
   </div>
 </div>
@@ -9511,6 +9516,42 @@ document.querySelectorAll('.bn-tab').forEach(link=>{
     }
   });
 });
+
+// Share functionality
+function generateShareText(){
+  let text = '✨ ヴィタリア転生録で健康習慣を頑張ってます！';
+  if(_coachState && _coachState.history && _coachState.history.length > 0){
+    text += '\n🎯 ルナのAIコーチングで目標設定中！';
+  }
+  if(typeof coachWeekXp !== 'undefined' && coachWeekXp > 0){
+    text += `\n💪 今週のコーチXP: ${coachWeekXp}`;
+  }
+  text += '\n\n📱 小児がん経験者の健康支援アプリ\n#ヴィタリア #健康習慣 #AI';
+  return text;
+}
+
+function shareToTwitter(){
+  const text = encodeURIComponent(generateShareText());
+  const url = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(location.href)}`;
+  window.open(url, 'twitter', 'width=600,height=400');
+  showGameToast('ツイート準備完了！', 2000, 'success');
+}
+
+function shareToLine(){
+  const text = encodeURIComponent(generateShareText());
+  const url = `https://line.me/R/msg/text/${text}`;
+  window.open(url, 'line');
+  showGameToast('LINE共有準備完了！', 2000, 'success');
+}
+
+function shareToClipboard(){
+  const text = generateShareText();
+  navigator.clipboard.writeText(text).then(()=>{
+    showGameToast('✅ コピーしました！', 2000, 'success');
+  }).catch(()=>{
+    showGameToast('❌ コピー失敗', 2000, 'error');
+  });
+}
 </script>
 <nav class="bottom-nav" id="bottom-nav">
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
