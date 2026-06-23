@@ -5829,6 +5829,17 @@ function openCoach(){
     updatePresetVisibility();
     setTimeout(()=>document.getElementById('coach-input').focus(),150);
   });
+  // メモリ監視
+  if(performance.memory){
+    const used=Math.round(performance.memory.usedJSHeapSize/1048576);
+    if(used>50) console.warn(`Memory usage: ${used}MB`);
+  }
+}
+function closeCoach(){
+  const modal=document.getElementById('coach-modal');
+  modal.classList.remove('open');
+  // ガベージコレクション hint
+  if(globalThis.gc) globalThis.gc();
 }
 window.VitaliaLunaOpen = openCoach;
 window.openCoach = openCoach;
