@@ -5502,9 +5502,26 @@ async function syncCoachToFirestore(userMsg, lunaMsg){
   }
 }
 
+function detectUserMood(text){
+  const t=String(text||'').toLowerCase();
+  if(/疲れ|つらい|辛い|しんどい|疲労|倦怠/.test(t)) return 'tired';
+  if(/楽しい|嬉しい|喜び|ポジティブ|前向き|元気/.test(t)) return 'happy';
+  if(/悩み|心配|不安|困って|困惑/.test(t)) return 'worried';
+  if(/頑張|チャレンジ|挑戦|新しい|目標/.test(t)) return 'motivated';
+  return null;
+}
+
 function buildCoachContext(){
   const ctx={};
   try{
+    // 最新メッセージから感情検出
+    if(_coachState.history.length>0){
+      const lastMsg=_coachState.history[_coachState.history.length-1];
+      if(lastMsg.role==='user'){
+        const mood=detectUserMood(lastMsg.text);
+        if(mood) ctx.userMood=mood;
+      }
+    }
     // 週番号
     const startStr = localStorage.getItem(`vt_start_date_${uid}`);
     if(startStr){
