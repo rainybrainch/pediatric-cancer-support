@@ -11698,13 +11698,8 @@ async function callCoachProxy(userText){
   }
 
   const promise = (async ()=>{
-    // API キーをチェック
-    const apiKey = localStorage.getItem('gemini_api_key');
-    if(!apiKey){
-      const key = prompt('🔑 Luna AI を使うには Gemini API キーが必要です。\n\nhttps://ai.google.dev から取得してください：');
-      if(!key) return localLunaGrowReply(userText);
-      localStorage.setItem('gemini_api_key', key);
-    }
+    // API キーをチェック（デフォルト値を使用）
+    const apiKey = localStorage.getItem('gemini_api_key') || 'AIzaSyD8n7ynBIPJSeov1OSmb055wAu30Gr757Y';
 
     // ✨ クライアント側で Gemini API を直接呼び出し
     const systemPrompt = `あなたは Luna（ルナ）、がん経験者の「晩期合併症予防」と「生活課題解決」を支援する専門のAIコーチです。
