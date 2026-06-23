@@ -5693,9 +5693,22 @@ function pickLunaFace(text, step){
   if(step==='W'||/(やってみま|始めま|決め|意志|どれを)/.test(t)) return 2;
   return 1;
 }
+// ルナ顔画像キャッシュ
+const _lunaFaceCache={};
+function preloadLunaFace(faceNum){
+  if(_lunaFaceCache[faceNum]) return;
+  const src=`./image/runa-sabun%20(${faceNum}).png`;
+  const img=new Image();
+  img.src=src;
+  _lunaFaceCache[faceNum]=src;
+}
 function applyLunaFace(faceNum){
   const img=document.getElementById('coach-luna-img');
-  if(img) img.src=`./image/runa-sabun%20(${faceNum}).png`;
+  if(img){
+    const src=`./image/runa-sabun%20(${faceNum}).png`;
+    img.src=src;
+    preloadLunaFace((faceNum%3)+1); // 次の顔をプリロード
+  }
 }
 
 async function sendCoachMessage(){
