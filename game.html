@@ -5365,8 +5365,16 @@ function appendBubble(role,text){
   const body=document.getElementById('coach-body');
   const b=document.createElement('div');
   b.className='coach-bubble '+(role==='user'?'coach-bubble-user':'coach-bubble-luna');
-  b.innerHTML=`<div class="coach-bubble-lbl">${role==='user'?'あなた':'ルナ'}</div><div class="coach-bubble-txt"></div>`;
-  b.querySelector('.coach-bubble-txt').textContent=text;
+  const txtDiv=document.createElement('div');
+  txtDiv.className='coach-bubble-txt';
+  // 改行をHTMLの<br>に変換し、セキュリティのためテキストノードを使用
+  const lines=String(text||'').split('\n');
+  lines.forEach((line,i)=>{
+    txtDiv.appendChild(document.createTextNode(line));
+    if(i<lines.length-1) txtDiv.appendChild(document.createElement('br'));
+  });
+  b.innerHTML=`<div class="coach-bubble-lbl">${role==='user'?'あなた':'ルナ'}</div>`;
+  b.appendChild(txtDiv);
   body.appendChild(b);
   body.scrollTop=body.scrollHeight;
   return b;
