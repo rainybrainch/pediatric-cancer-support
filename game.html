@@ -3980,6 +3980,11 @@ body.app-active .psm-badge{
   0%   { transform: translateY(12px) scale(.95); opacity: 0; }
   100% { transform: translateY(0) scale(1);      opacity: 1; }
 }
+@keyframes rewardPopOut{
+  0%   { transform: translate(-50%,-50%) scale(2.5);   opacity: 1; }
+  50%  { transform: translate(-50%,-80%) scale(1.1);   opacity: 1; }
+  100% { transform: translate(-50%,-120%) scale(0.8);  opacity: 0; }
+}
 
 /* ====================================================================
    ★ ログイン中は下部メニュー（bottom-nav）を隠す
@@ -5797,10 +5802,30 @@ function awardCoachXp(){
   try{ currentWeekXp=parseInt(localStorage.getItem(weekXpKey)||'0',10); }catch(e){}
   try{ localStorage.setItem(weekXpKey, String(currentWeekXp+gained)); }catch(e){}
 
-  // トースト表示
-  showCoachToast('✨ '+reasons.join(' / '));
+  // トースト表示＆リワード可視化
+  const variant = gained >= 50 ? 'success' : 'info';
+  showCoachToast('✨ '+reasons.join(' / '), 3500, variant);
+
+  // 大きなリワード時はスペシャル表示
+  if(gained >= 50){
+    showRewardPop(gained);
+  }
 
   return gained;
+}
+
+function showRewardPop(amount){
+  const pop=document.createElement('div');
+  pop.style.cssText=`
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-size:3.5rem;font-weight:900;color:#f0d448;
+    text-shadow:0 0 20px rgba(240,212,72,.6);
+    z-index:9998;pointer-events:none;
+    animation:rewardPopOut 1.2s ease-out forwards;
+  `;
+  pop.textContent='+'+amount+'XP';
+  document.body.appendChild(pop);
+  setTimeout(()=>pop.remove(),1300);
 }
 
 // ルナの表情を会話文脈から推定して画像を切り替え
