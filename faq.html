@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヘルプ・FAQ ｜ ヴィタリア転生録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1e7fa4">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<style>
+:root{--bg:#080b14;--bg2:#0e1220;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+
+header{background:rgba(10,14,24,.95);border-bottom:1px solid rgba(201,168,76,.15);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:760px;margin:0 auto;padding:32px 20px 80px;}
+.page-title{font-family:'Noto Serif JP',serif;font-size:1.45rem;font-weight:900;color:var(--gold2);margin-bottom:6px;}
+.page-sub{font-size:.72rem;color:rgba(170,188,216,.5);margin-bottom:24px;}
+
+.search-wrap{margin-bottom:24px;}
+.search-input{
+  width:100%;background:rgba(20,26,44,.7);border:1px solid rgba(201,168,76,.25);
+  border-radius:12px;padding:11px 16px;color:var(--silver);font-family:inherit;
+  font-size:.85rem;outline:none;transition:border-color .2s;
+}
+.search-input:focus{border-color:rgba(201,168,76,.6);}
+
+.cat-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.cat-tab{
+  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);
+  color:rgba(220,225,245,.7);font-family:inherit;font-size:.72rem;font-weight:700;
+  padding:7px 14px;border-radius:99px;cursor:pointer;transition:all .15s;
+}
+.cat-tab:hover{background:rgba(201,168,76,.08);color:var(--gold2);}
+.cat-tab.active{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.5);color:var(--gold2);}
+
+.faq-section{background:rgba(14,18,32,.9);border:1px solid rgba(201,168,76,.18);border-radius:14px;padding:6px 14px;margin-bottom:14px;}
+.faq-section.hidden{display:none;}
+.faq-section-title{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;color:var(--gold2);padding:14px 8px 8px;border-bottom:1px solid rgba(201,168,76,.12);margin-bottom:6px;}
+
+.faq-item{border-bottom:1px solid rgba(255,255,255,.04);}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{
+  cursor:pointer;padding:13px 8px;display:flex;align-items:flex-start;gap:10px;
+  font-size:.82rem;color:#e8e4d4;font-weight:700;line-height:1.5;
+  transition:color .15s;
+}
+.faq-q:hover{color:var(--gold2);}
+.faq-q::before{
+  content:'＋';color:var(--gold);font-size:1rem;line-height:1.3;
+  flex-shrink:0;width:18px;font-weight:900;
+  transition:transform .25s;
+}
+.faq-item.open .faq-q::before{content:'－';}
+.faq-a{
+  display:none;padding:0 8px 14px 36px;font-size:.78rem;line-height:1.85;
+  color:rgba(220,225,245,.85);
+}
+.faq-item.open .faq-a{display:block;animation:fadeIn .25s ease both;}
+.faq-a strong{color:var(--gold2);}
+.faq-a a{color:var(--gold2);text-decoration:underline;}
+.faq-a ul,.faq-a ol{padding-left:20px;margin:6px 0;}
+.faq-a li{margin-bottom:3px;}
+.faq-a .note{
+  background:rgba(78,201,138,.08);border-left:3px solid rgba(78,201,138,.5);
+  padding:8px 12px;border-radius:6px;margin:8px 0;color:rgba(168,232,192,.92);
+}
+.faq-a .warn{
+  background:rgba(224,92,92,.06);border-left:3px solid rgba(224,92,92,.5);
+  padding:8px 12px;border-radius:6px;margin:8px 0;color:rgba(240,170,170,.92);
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+.no-result{text-align:center;color:rgba(170,188,216,.5);font-size:.78rem;padding:40px 20px;}
+
+.contact-foot{background:linear-gradient(135deg,rgba(156,114,224,.08),rgba(78,201,138,.05));border:1px solid rgba(156,114,224,.25);border-radius:14px;padding:16px 18px;margin-top:24px;}
+.contact-foot h3{font-family:'Noto Serif JP',serif;font-size:.9rem;color:#e8d4ff;margin-bottom:8px;}
+.contact-foot p{font-size:.76rem;line-height:1.75;color:rgba(220,225,245,.85);}
+.contact-foot a{color:#e8d4ff;text-decoration:underline;}
+
+@media(max-width:480px){
+  .page{padding:24px 14px 60px;}
+  .page-title{font-size:1.18rem;}
+  .faq-section{padding:4px 10px;}
+  .faq-q{font-size:.78rem;padding:11px 4px;}
+  .faq-a{font-size:.74rem;padding:0 4px 12px 30px;}
+}
+</style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
+body,html{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body *{text-shadow:none !important;}
+header{background:rgba(255,255,255,.92) !important;border-bottom:1.5px solid #b0cfdf !important;backdrop-filter:blur(8px);}
+header a.brand{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
+.back-btn{color:#0a4870 !important;border-color:rgba(30,127,164,.35) !important;background:rgba(255,255,255,.6) !important;}
+.page-title{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
+.page-sub{color:#355773 !important;}
+.search-input{background:#ffffff !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.search-input::placeholder{color:#7fa8c4 !important;}
+.search-input:focus{border-color:#1e7fa4 !important;}
+.cat-tab{background:rgba(255,255,255,.8) !important;border-color:#b0cfdf !important;color:#355773 !important;}
+.cat-tab:hover{background:rgba(30,127,164,.08) !important;color:#0a4870 !important;}
+.cat-tab.active{background:rgba(30,127,164,.12) !important;border-color:#1e7fa4 !important;color:#0a4870 !important;}
+.faq-section{background:#ffffff !important;border:1.5px solid #b0cfdf !important;box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 12px rgba(30,80,110,.07) !important;}
+.faq-section-title{color:#0a4870 !important;border-bottom-color:#b0cfdf !important;}
+.faq-item{border-bottom-color:rgba(30,80,110,.1) !important;}
+.faq-q{color:#0a2a40 !important;}
+.faq-q:hover{color:#1e7fa4 !important;}
+.faq-q::before{color:#1e7fa4 !important;}
+.faq-a{color:#355773 !important;}
+.faq-a strong{color:#0a4870 !important;}
+.faq-a a{color:#1e7fa4 !important;}
+.faq-a .note{background:rgba(31,125,77,.08) !important;border-color:rgba(31,125,77,.45) !important;color:#1a5c39 !important;}
+.faq-a .warn{background:rgba(181,58,58,.07) !important;border-color:rgba(181,58,58,.45) !important;color:#7a2020 !important;}
+.no-result{color:#7fa8c4 !important;}
+.contact-foot{background:#ffffff !important;border:1.5px solid #b0cfdf !important;box-shadow:0 4px 0 rgba(30,80,110,.07) !important;}
+.contact-foot h3{color:#0a4870 !important;}
+.contact-foot p{color:#355773 !important;}
+.contact-foot a{color:#1e7fa4 !important;}
+.page{padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important;}
+/* bottom nav */
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── faq.html 固有クラス ── */
+.page-sub{color:rgba(10,42,64,.55) !important;}
+.faq-tab{background:rgba(255,255,255,.7) !important;border-color:rgba(30,127,164,.25) !important;color:#0a2a40 !important;}
+.faq-tab.active{background:#1e7fa4 !important;color:#fff !important;}
+.faq-section{background:rgba(255,255,255,.88) !important;border-color:rgba(30,127,164,.2) !important;}
+.faq-a p, .faq-a{color:rgba(10,42,64,.85) !important;}
+.no-result{color:rgba(10,42,64,.5) !important;}
+.contact-foot p{color:rgba(10,42,64,.85) !important;}
+.faq-q{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
+.cat-tab{color:#355773 !important;}
+.cat-tab.active{color:#0a4870 !important;}
+.faq-a{color:rgba(10,42,64,.85) !important;}
+</style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+</head>
+<body>
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./settings.html" class="back-btn">設定へ</a>
+</header>
+
+<main class="page">
+  <h1 class="page-title">ヘルプ・FAQ</h1>
+  <div class="page-sub">よくある質問・トラブルシューティング</div>
+
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="faq-search" placeholder="🔍 質問を検索（例: 記録、AI、デバイス…）">
+  </div>
+
+  <div class="cat-tabs" id="cat-tabs">
+    <button class="cat-tab active" data-cat="all">すべて</button>
+    <button class="cat-tab" data-cat="basics">基本</button>
+    <button class="cat-tab" data-cat="record">記録</button>
+    <button class="cat-tab" data-cat="ai">AIコーチ</button>
+    <button class="cat-tab" data-cat="game">ゲーム</button>
+    <button class="cat-tab" data-cat="data">データ・同期</button>
+    <button class="cat-tab" data-cat="trouble">不具合</button>
+    <button class="cat-tab" data-cat="research">研究参加</button>
+  </div>
+
+  <!-- 基本 -->
+  <section class="faq-section" data-cat="basics">
+    <div class="faq-section-title">📖 基本</div>
+    <div class="faq-item">
+      <div class="faq-q">ヴィタリア転生録ってなに？</div>
+      <div class="faq-a">小児がんを経験した方の健康習慣を、RPGの世界観で楽しく続けるためのアプリです。運動・食事・QOLを記録すると、キャラ「カイト」「セラ」「ルナ」「ピクセ」が成長し、ボスに挑戦できます。<div class="note">医療行為ではなく、研究目的の自己モニタリングと行動変容支援を提供します。</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">無料で使えますか？</div>
+      <div class="faq-a">はい、研究期間中は完全に無料です。広告も一切表示されません。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">対象年齢は？</div>
+      <div class="faq-a">主にAYA世代（15〜39歳）の小児がん経験者を対象にしています。18歳未満の方は保護者の同意のうえご利用ください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">どのデバイスで使えますか？</div>
+      <div class="faq-a">スマートフォン（iOS/Android）、タブレット、PC、いずれもブラウザで動作します。Chrome / Safari / Edge の最新版を推奨します。</div>
+    </div>
+  </section>
+
+  <!-- 記録 -->
+  <section class="faq-section" data-cat="record">
+    <div class="faq-section-title">⚔ 記録のしかた</div>
+    <div class="faq-item">
+      <div class="faq-q">運動の強度は何を選べばいい？</div>
+      <div class="faq-a">体感で選んでOKです。<ul><li><strong>低</strong>：散歩、ストレッチ、ヨガなど（息は乱れない）</li><li><strong>中</strong>：早歩き、軽いジョギング、筋トレ（少し息が弾む）</li><li><strong>高</strong>：ランニング、HIIT、スポーツ（しっかり息が上がる）</li></ul>強度が高いほどXPが多くもらえます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">食事はどこまで細かく記録すればいい？</div>
+      <div class="faq-a">カテゴリ（野菜・果物・タンパク質・主食）と、可能ならサブタイプ（魚・大豆・鶏など）を選べばOKです。完璧を求めず、「だいたい」で続けましょう。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">記録を忘れた日があったらどうなる？</div>
+      <div class="faq-a">大丈夫です。連続記録（ストリーク）はリセットされますが、いつでも再開できます。「火を絶やさないこと」より「燃やし直すこと」のほうが大切です。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">過去の日付の記録はできますか？</div>
+      <div class="faq-a">現在は「今日の記録」のみ対応しています。連続性が研究データとして重要なため、当日入力をお願いしています。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">QOLの「体調・気分・活力」って何が違う？</div>
+      <div class="faq-a"><ul><li><strong>体調</strong>：身体の調子（痛み・だるさ・睡眠）</li><li><strong>気分</strong>：感情面（楽しい・落ち込み）</li><li><strong>活力</strong>：エネルギー量（やる気・元気さ）</li></ul>3つを分けることで、傾向が見えやすくなります。</div>
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section class="faq-section" data-cat="ai">
+    <div class="faq-section-title">🌙 AIコーチ「ルナ」</div>
+    <div class="faq-item">
+      <div class="faq-q">ルナってどんなコーチですか？</div>
+      <div class="faq-a">GROWモデル（Goal/Reality/Options/Will）に沿って、目標を一緒に整理してくれるAIコーチです。指示するのではなく、あなたが自分で気づき、決められるよう問いかけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">ルナが治療や薬の助言をしてくれる？</div>
+      <div class="faq-a"><div class="warn">いいえ。ルナは医療助言を提供しません。診断・治療・服薬に関わる質問は、必ず主治医・専門家にご相談ください。</div>ルナは生活習慣・モチベーション・目標設計のサポートを行います。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">会話内容は誰が見られる？</div>
+      <div class="faq-a">あなた自身、および研究の倫理審査を経た研究者のみが参照可能です（匿名化された形で解析）。第三者・他のユーザーには一切見えません。Gemini API への送信は、応答生成のみに使用され、AIの学習には使われません。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">ルナの返答が遅い／返ってこない</div>
+      <div class="faq-a">ネットワーク状況や、Gemini API側の混雑が原因の可能性があります。<ol><li>Wi-Fi/通信状況を確認</li><li>1分ほど待って再送信</li><li>ブラウザを再読み込み</li></ol>それでも改善しない場合は、不具合タブの問い合わせフォームから連絡してください。</div>
+    </div>
+  </section>
+
+  <!-- ゲーム -->
+  <section class="faq-section" data-cat="game">
+    <div class="faq-section-title">🎮 ゲーム要素</div>
+    <div class="faq-item">
+      <div class="faq-q">XPやレベルは何のため？</div>
+      <div class="faq-a">行動変容理論にもとづく「短期的フィードバック」です。記録のたびに小さな達成感を得られることで、習慣の継続率が上がるとされています。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">冒険（アドベンチャー）はどう進めばいい？</div>
+      <div class="faq-a">12週間で1周する設計です。第1〜4章はチュートリアルと成長ボス、第5〜11章は7つの試練（七つの大罪）、第12章は最終ボスです。記録を続けることで自動的にダメージが蓄積し、ボスを倒せます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">実績（アチーブメント）は何種類？</div>
+      <div class="faq-a">運動・栄養・連続記録・QOL記録などのカテゴリで20種類以上を用意しています。解放されると画面上部にトーストが表示され、コンフェッティが舞います🎉</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">ログインボーナスは何日で何がもらえる？</div>
+      <div class="faq-a"><ul><li>3日連続：+20XP</li><li>7日連続：+50XP</li><li>14日連続：+100XP</li><li>28日連続：+300XP</li></ul></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">招待コードって？</div>
+      <div class="faq-a">設定画面で6文字の招待コードを発行できます。友人がこのコードを「コードを使う」欄に入力すると、互いに+100XPがもらえます。研究としては、紹介経路の追跡にも使われます。</div>
+    </div>
+  </section>
+
+  <!-- データ -->
+  <section class="faq-section" data-cat="data">
+    <div class="faq-section-title">💾 データと同期</div>
+    <div class="faq-item">
+      <div class="faq-q">機種変更したらデータは引き継げる？</div>
+      <div class="faq-a">はい。Firebase認証（メール+パスワード）でログインすれば、新しい端末でも全データが復元されます。ローカルストレージのみのデータ（端末別の表示設定など）は引き継がれません。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">オフラインでも使える？</div>
+      <div class="faq-a">記録の入力はオフラインでも可能で、一時的にローカルに保存されます。次にオンラインになった時点で自動的にクラウド同期されます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">データをエクスポートできますか？</div>
+      <div class="faq-a">はい。設定画面から CSV または JSON 形式でダウンロード可能です。研究を離脱する際にも、ご自身の記録を保存できます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">アカウントを削除したい</div>
+      <div class="faq-a">設定画面の「ローカルデータをクリア」でこの端末からは消去できます。サーバ上のデータも完全に削除したい場合は、研究問い合わせ窓口までご連絡ください。倫理規程に基づき、速やかに削除します。</div>
+    </div>
+  </section>
+
+  <!-- 不具合 -->
+  <section class="faq-section" data-cat="trouble">
+    <div class="faq-section-title">🛠 不具合・トラブル</div>
+    <div class="faq-item">
+      <div class="faq-q">画面が真っ白／読み込まれない</div>
+      <div class="faq-a"><ol><li>ブラウザの再読み込み（Ctrl/Cmd + R）</li><li>キャッシュ削除（設定 → プライバシー → 閲覧データ削除）</li><li>シークレットモードで開いて再現確認</li><li>別のブラウザ（Chrome / Safari / Edge）で試す</li></ol></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">スマホで右側が切れて見える</div>
+      <div class="faq-a">ブラウザの拡大率設定が原因の可能性があります。設定→「サイトのズーム」を100%にして、再読み込みしてください。それでも直らない場合は、設定→アクセシビリティ→「文字を大きく」をオフにしてみてください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">バイブレーション・効果音が鳴らない</div>
+      <div class="faq-a">設定画面で「効果音」「バイブレーション」がオンになっているか確認してください。iPhoneの場合、サイレントモードではバイブが鳴らない仕様です。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">通知が来ない</div>
+      <div class="faq-a">設定画面で通知をオプトインし、ブラウザ側でも通知許可を出してください。iOSの場合、PWAをホーム画面に追加した状態でのみ通知が届きます（iOS 16.4以降）。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">記録が消えた／反映されない</div>
+      <div class="faq-a"><ol><li>ログインしているか確認（右上のアカウントアイコン）</li><li>ブラウザを再読み込み</li><li>30秒ほど待ってから再確認（同期に時間がかかる場合があります）</li></ol>それでも消えている場合は、不具合タブの連絡先までご報告ください。</div>
+    </div>
+  </section>
+
+  <!-- 研究参加 -->
+  <section class="faq-section" data-cat="research">
+    <div class="faq-section-title">🔬 研究参加について</div>
+    <div class="faq-item">
+      <div class="faq-q">この研究の目的は？</div>
+      <div class="faq-a">小児がん経験者の健康行動継続を、ゲーミフィケーションとAIコーチで支援できるかを検証する研究です。修士論文として公表予定で、結果は学会・論文の形で社会に還元されます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">参加するとどんなメリット／デメリットがある？</div>
+      <div class="faq-a"><strong>メリット</strong>：自分の健康習慣を可視化できる、AIコーチに相談できる、研究成果として将来の患者さんに役立つ。<br><strong>デメリット</strong>：記録に時間がかかる、画面を見る時間が増える、データを研究目的で利用される。<div class="note">いつでも研究離脱が可能で、不利益はありません。</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">研究を途中でやめたい</div>
+      <div class="faq-a">いつでも自由にやめられます。設定画面または問い合わせフォームから「研究離脱」をご連絡ください。離脱後、ご希望に応じてデータを削除します。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">プライバシーは守られますか？</div>
+      <div class="faq-a">はい。詳細は<a href="./privacy.html">プライバシーポリシー</a>をご覧ください。データは個人を特定できない形で集計・解析されます。</div>
+    </div>
+  </section>
+
+  <div class="no-result" id="no-result" style="display:none;">該当する質問が見つかりませんでした。</div>
+
+  <div class="contact-foot">
+    <h3>💌 解決しないときは</h3>
+    <p>このFAQで解決しない問題があれば、研究問い合わせ窓口までご連絡ください。なるべく具体的に「どの画面で・どの操作をしたら・何が起きたか」をお知らせいただけると助かります。</p>
+  </div>
+</main>
+
+<script>
+// アコーディオン
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    q.parentElement.classList.toggle('open');
+  });
+});
+
+// カテゴリタブ
+const tabs=document.querySelectorAll('.cat-tab');
+const sections=document.querySelectorAll('.faq-section');
+tabs.forEach(t=>{
+  t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const cat=t.dataset.cat;
+    document.getElementById('faq-search').value='';
+    sections.forEach(s=>{
+      if(cat==='all' || s.dataset.cat===cat){
+        s.classList.remove('hidden');
+        s.querySelectorAll('.faq-item').forEach(i=>i.style.display='');
+      } else {
+        s.classList.add('hidden');
+      }
+    });
+    document.getElementById('no-result').style.display='none';
+  });
+});
+
+// 検索
+document.getElementById('faq-search').addEventListener('input',(e)=>{
+  const q=e.target.value.trim().toLowerCase();
+  if(!q){
+    sections.forEach(s=>{
+      s.classList.remove('hidden');
+      s.querySelectorAll('.faq-item').forEach(i=>i.style.display='');
+    });
+    document.getElementById('no-result').style.display='none';
+    document.querySelectorAll('.cat-tab')[0].click();
+    return;
+  }
+  let anyMatch=false;
+  sections.forEach(s=>{
+    let secMatch=false;
+    s.querySelectorAll('.faq-item').forEach(i=>{
+      const txt=i.textContent.toLowerCase();
+      const m=txt.includes(q);
+      i.style.display=m?'':'none';
+      if(m){ secMatch=true; anyMatch=true; }
+    });
+    s.classList.toggle('hidden',!secMatch);
+  });
+  document.getElementById('no-result').style.display=anyMatch?'none':'block';
+});
+</script>
+
+<nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+

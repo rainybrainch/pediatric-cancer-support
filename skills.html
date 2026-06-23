@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スキルツリー ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1a2e;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:radial-gradient(ellipse at 50% 0%,#1a1430 0%,#080b14 60%);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:#1e7fa4;text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(41,182,232,.25);color:rgba(41,182,232,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:20px 18px 80px;}
+.intro{text-align:center;margin-bottom:24px;}
+.class-badge{display:inline-block;background:rgba(41,182,232,.15);border:1px solid var(--c-color,rgba(41,182,232,.4));color:var(--c-color,var(--gold2));font-size:.6rem;letter-spacing:.18em;font-weight:700;padding:4px 14px;border-radius:99px;margin-bottom:12px;}
+.intro h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;color:#1e7fa4;margin-bottom:8px;}
+.intro p{font-size:.78rem;color:rgba(220,225,245,.75);line-height:1.85;}
+.point-card{background:linear-gradient(135deg,rgba(240,212,138,.12),rgba(41,182,232,.04));border:1.5px solid rgba(240,212,138,.4);border-radius:14px;padding:16px 18px;margin:18px 0;text-align:center;}
+.pt-num{font-family:'Noto Serif JP',serif;font-size:2.2rem;font-weight:900;color:#f0d48a;line-height:1;}
+.pt-lbl{font-size:.65rem;color:rgba(240,212,138,.7);letter-spacing:.12em;font-weight:700;margin-top:4px;}
+.pt-explain{font-size:.7rem;color:rgba(220,225,245,.6);margin-top:6px;line-height:1.7;}
+
+.skills{display:flex;flex-direction:column;gap:12px;}
+.skill{
+  background:#ffffff;
+  border:1.5px solid #b0d4e8;border-radius:14px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  transition:all .25s;
+  box-shadow:0 3px 0 rgba(30,80,110,.08),0 2px 10px rgba(20,60,100,.07);
+  color:#0a2a40;
+}
+.skill.unlocked{border-color:rgba(78,201,138,.55);background:linear-gradient(160deg,rgba(78,201,138,.06),rgba(255,255,255,.98));}
+.skill.locked{opacity:.55;}
+.sk-icon{font-size:2.2rem;line-height:1;flex-shrink:0;width:48px;text-align:center;}
+.sk-info{flex:1;min-width:0;}
+.sk-name{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;color:#0a2a40;line-height:1.3;}
+.skill.unlocked .sk-name{color:#1f7d4d;}
+.sk-desc{font-size:.7rem;color:#557190;margin-top:4px;line-height:1.6;}
+.sk-cost{font-size:.6rem;color:#1e7fa4;margin-top:5px;font-weight:700;}
+.sk-action{flex-shrink:0;}
+.btn-unlock{background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;color:#fff;font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;padding:8px 14px;border-radius:9px;cursor:pointer;box-shadow:0 3px 8px rgba(41,182,232,.25);}
+.btn-unlock:disabled{opacity:.4;cursor:not-allowed;}
+.unlocked-tag{background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.4);color:#1f7d4d;font-size:.62rem;font-weight:700;padding:6px 12px;border-radius:99px;}
+</style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;background-attachment:fixed !important;color:#d4e8f8 !important;}
+body::before{opacity:0 !important;}
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+header{ background: rgba(220,240,248,.97) !important; border-bottom: 1px solid rgba(30,127,164,.22); }
+header a{ color: #0a4870 !important; }
+.back-btn{ color: #1e7fa4 !important; border-color: rgba(30,127,164,.35) !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── skills.html 固有クラス ── */
+.intro p{color:rgba(10,42,64,.8) !important;}
+.pt-explain{color:rgba(10,42,64,.65) !important;}
+.sk-desc{color:rgba(10,42,64,.75) !important;}
+.unlocked-tag{background:rgba(31,138,102,.12) !important;border-color:rgba(31,138,102,.45) !important;color:#1f8a66 !important;}
+.pt-num{color:#1e7fa4 !important;}
+.skill.unlocked{border-color:#1f8a66 !important;}
+.skill.unlocked .sk-name{color:#1f8a66 !important;}
+.sk-cost{color:#8a5c00 !important;}
+.skill.unlocked .sk-cost{color:#1e7fa4 !important;}
+.sk-name{color:#0a2a40 !important;}
+.pt-lbl{color:rgba(10,42,64,.65) !important;}
+.back-btn{color:#1e7fa4 !important;border-color:rgba(30,127,164,.35) !important;}
+.class-badge{color:#1e7fa4 !important;border-color:rgba(30,127,164,.4) !important;background:rgba(30,127,164,.08) !important;}
+</style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+</head>
+<body>
+<header>
+  <a href="./game.html">⟵ ヴィタリア転生録</a>
+</header>
+
+<main class="page">
+  <div class="intro">
+    <div class="class-badge" id="class-badge">CLASS</div>
+    <h1>🌳 スキルツリー</h1>
+    <p>章をクリアするとスキルポイントを獲得。<br>クラス特有のスキルを解放して、自分だけの育て方を。</p>
+  </div>
+
+  <div class="point-card">
+    <div class="pt-num" id="pt-num">0</div>
+    <div class="pt-lbl">SKILL POINTS</div>
+    <div class="pt-explain">章クリアで獲得。<strong style="color:#8a5c00;">解放したスキルは即座に有効</strong>になります。</div>
+  </div>
+
+  <div class="skills" id="skills"></div>
+</main>
+
+<script>
+const CLASS_NAMES = {witch:'魔女っ子',hero:'勇者',saint:'聖女',villainess:'悪役令嬢',prince:'王子',knight:'騎士'};
+const CLASS_COLORS = {witch:'#7fd8f4',hero:'#f0d48a',saint:'#a8e8c0',villainess:'#f0a0c8',prince:'#a8c8f0',knight:'#d8a878'};
+
+function render(){
+  if(!window.Gamification){
+    document.getElementById('skills').innerHTML = '<div style="padding:30px;text-align:center;color:rgba(170,188,216,.55);">読み込み中...</div>';
+    setTimeout(render, 200);
+    return;
+  }
+  const cls = localStorage.getItem('vt_class') || 'hero';
+  const tree = window.Gamification.SKILL_TREES[cls] || [];
+  const active = window.Gamification.getActiveSkills();
+  const points = window.Gamification.getSkillPoints();
+  const color = CLASS_COLORS[cls];
+
+  const badge = document.getElementById('class-badge');
+  if(badge){
+    badge.textContent = `${CLASS_NAMES[cls]||'勇者'} TREE`;
+    badge.style.setProperty('--c-color', color);
+  }
+  const pt = document.getElementById('pt-num');
+  if(pt) pt.textContent = points;
+
+  const list = document.getElementById('skills');
+  list.innerHTML = tree.map(sk=>{
+    const unlocked = active.includes(sk.id);
+    const canUnlock = !unlocked && points >= sk.cost;
+    return `
+      <div class="skill ${unlocked?'unlocked':canUnlock?'':'locked'}">
+        <div class="sk-icon">${sk.icon}</div>
+        <div class="sk-info">
+          <div class="sk-name">${sk.name}</div>
+          <div class="sk-desc">${sk.desc}</div>
+          <div class="sk-cost">コスト: ${sk.cost}pt</div>
+        </div>
+        <div class="sk-action">
+          ${unlocked
+            ? `<span class="unlocked-tag">✓ 解放済み</span>`
+            : `<button class="btn-unlock" data-id="${sk.id}" ${canUnlock?'':'disabled'}>${canUnlock?'解放する':'pt不足'}</button>`}
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.querySelectorAll('.btn-unlock').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const id = b.dataset.id;
+      if(window.Gamification.unlockSkill(id)){
+        try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:40,colors:[color,'#fff8d8']}); }catch(e){}
+        try{ if(navigator.vibrate) navigator.vibrate([20,40,20]); }catch(e){}
+        render();
+      }
+    });
+  });
+}
+render();
+</script>
+
+<nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+

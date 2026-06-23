@@ -1,0 +1,957 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ルナのコーチング ｜ ヴィタリア転生録</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#c9a84c">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:     #080b14;
+            --bg2:    #0e1220;
+            --bg3:    #141929;
+            --gold:   #c9a84c;
+            --gold2:  #f0d48a;
+            --silver: #aabcd8;
+            --green:  #4ec98a;
+            --purple: #9c72e0;
+            --red:    #e05c5c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background: var(--bg);
+            color: var(--silver);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== 星空背景 ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(1px 1px at 15% 22%, rgba(255,255,255,0.7) 0%, transparent 100%),
+                radial-gradient(1px 1px at 35% 8%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 52% 45%, rgba(255,255,255,0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 68% 18%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 25% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 45% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 6%  55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 72% 78%, rgba(255,255,255,0.4) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== アニメーション ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes pulse-gold {
+            0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+            70%  { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+            100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .float    { animation: float 3.5s ease-in-out infinite; }
+        .fade-in  { animation: fadeIn 0.7s ease both; }
+
+        /* ===== ゴールドテキスト ===== */
+        .gold-text {
+            background: linear-gradient(90deg, var(--gold), var(--gold2), var(--gold));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ===== ローディング画面 ===== */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+        }
+        #loading-screen .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(201,168,76,0.2);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+        #loading-screen p {
+            color: var(--gold);
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+        }
+
+        /* ===== ログイン画面 ===== */
+        #login-screen {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+        }
+
+        .login-card {
+            background: rgba(14,18,32,0.95);
+            border: 1px solid rgba(201,168,76,0.35);
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(201,168,76,0.08), 0 20px 60px rgba(0,0,0,0.6);
+            padding: 44px 40px;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .login-card .runa-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .login-card .runa-wrap img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 30px rgba(201,168,76,0.3);
+        }
+
+        .login-card .login-title {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .login-card .login-title h1 {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+        .login-card .login-title .sub {
+            color: var(--gold);
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+        }
+        .login-card .login-title .note {
+            color: rgba(170,188,216,0.6);
+            font-size: 0.75rem;
+            margin-top: 6px;
+        }
+
+        /* ルナ吹き出し */
+        .luna-bubble {
+            background: rgba(156,114,224,0.1);
+            border: 1px solid rgba(156,114,224,0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.82rem;
+            color: #c8b4f0;
+            line-height: 1.7;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .luna-bubble::before {
+            content: 'ルナ';
+            position: absolute;
+            top: -9px;
+            left: 14px;
+            background: var(--bg2);
+            padding: 0 6px;
+            font-size: 0.68rem;
+            color: var(--purple);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        /* フォーム */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--silver);
+            margin-bottom: 6px;
+            letter-spacing: 0.05em;
+        }
+        .form-input {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.92rem;
+            color: #e8e8e8;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input::placeholder { color: rgba(170,188,216,0.35); }
+        .form-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* ボタン */
+        .btn-gold {
+            width: 100%;
+            background: linear-gradient(135deg, #c9a84c, #f0d48a, #c9a84c);
+            background-size: 200% auto;
+            color: #1a1200;
+            border: none;
+            border-radius: 999px;
+            padding: 14px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            font-family: 'Noto Serif JP', serif;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background-position 0.4s, transform 0.2s, box-shadow 0.2s;
+            animation: pulse-gold 2.5s infinite;
+        }
+        .btn-gold:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+        }
+
+        .btn-outline {
+            width: 100%;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid rgba(201,168,76,0.4);
+            border-radius: 999px;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            cursor: pointer;
+            letter-spacing: 0.05em;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .btn-outline:hover {
+            background: rgba(201,168,76,0.08);
+            border-color: var(--gold);
+        }
+
+        .btn-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .login-footer p {
+            font-size: 0.72rem;
+            color: rgba(170,188,216,0.5);
+            line-height: 1.7;
+        }
+        .login-footer a {
+            color: var(--gold);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .login-footer a:hover { text-decoration: underline; }
+
+        /* ===== メイン画面 ===== */
+        #main-screen {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ヘッダー */
+        .main-header {
+            background: rgba(8,11,20,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201,168,76,0.2);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-left img {
+            width: 38px;
+            height: 38px;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            box-shadow: 0 0 12px rgba(201,168,76,0.3);
+        }
+        .header-title {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--gold2);
+            line-height: 1.2;
+        }
+        .header-sub {
+            font-size: 0.7rem;
+            color: rgba(170,188,216,0.6);
+            margin-top: 2px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        #user-display {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--silver);
+        }
+        #logout-btn {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: rgba(170,188,216,0.7);
+            border: 1px solid rgba(170,188,216,0.25);
+            border-radius: 999px;
+            padding: 5px 16px;
+            background: transparent;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+        }
+        #logout-btn:hover {
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        /* コンテンツエリア */
+        .main-content {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            gap: 16px;
+            padding: 16px 20px;
+        }
+
+        /* サイドバー */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: rgba(14,18,32,0.9);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 16px;
+            overflow-y: auto;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-runa {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        /* スプライト表情フェイス */
+        #luna-face {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 24px rgba(201,168,76,0.25);
+            background-image: url('../image/runa-1-Photoroom.png');
+            background-size: 200% 300%;
+            background-position: 0% 0%;
+            background-repeat: no-repeat;
+            transition: background-position 0.35s ease;
+            animation: float 3.5s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        .sidebar-runa .name {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 900;
+            font-size: 0.9rem;
+            color: var(--gold2);
+        }
+        .sidebar-runa .role {
+            font-size: 0.68rem;
+            color: rgba(170,188,216,0.6);
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+        /* 表情切り替えボタン */
+        .expr-btns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            width: 100%;
+        }
+        .expr-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 7px;
+            padding: 5px 2px;
+            font-size: 0.62rem;
+            color: rgba(170,188,216,0.55);
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            line-height: 1.5;
+        }
+        .expr-btn:hover {
+            background: rgba(201,168,76,0.08);
+            border-color: rgba(201,168,76,0.35);
+            color: var(--silver);
+        }
+        .expr-btn.active {
+            background: rgba(201,168,76,0.14);
+            border-color: rgba(201,168,76,0.55);
+            color: var(--gold2);
+            font-weight: 700;
+        }
+
+        /* ステップ */
+        .steps-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: rgba(201,168,76,0.6);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+        }
+        .step-item.active {
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.25);
+        }
+        .step-num {
+            min-width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .step-item.active .step-num {
+            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            color: #1a1200;
+        }
+        .step-item.inactive .step-num {
+            background: rgba(255,255,255,0.06);
+            color: rgba(170,188,216,0.4);
+        }
+        .step-text {
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+        .step-item.active .step-text { color: var(--gold2); font-weight: 700; }
+        .step-item.inactive .step-text { color: rgba(170,188,216,0.45); }
+
+        /* 誓いの石板 */
+        .oath-card {
+            background: rgba(156,114,224,0.07);
+            border: 1px solid rgba(156,114,224,0.2);
+            border-radius: 12px;
+            padding: 14px;
+        }
+        .oath-card .oath-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: rgba(156,114,224,0.8);
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+        }
+        .oath-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #c8b4f0;
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+        .oath-item:last-child { margin-bottom: 0; }
+        .oath-item .star { color: var(--purple); flex-shrink: 0; }
+
+        /* 警告カード */
+        .warning-card {
+            background: rgba(224,92,92,0.07);
+            border: 1px solid rgba(224,92,92,0.2);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.74rem;
+            color: rgba(224,92,92,0.85);
+            line-height: 1.65;
+        }
+        .warning-card strong {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        /* チャットパネル */
+        .chat-panel {
+            flex: 1;
+            min-height: 0;
+            background: rgba(14,18,32,0.9);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+            flex-shrink: 0;
+        }
+        .chat-header img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+        }
+        .chat-header .ch-name {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--gold2);
+        }
+        .chat-header .ch-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.7rem;
+            color: var(--green);
+            font-weight: 700;
+        }
+        .online-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--green);
+        }
+
+        #dify-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+
+        /* ===== レスポンシブ ===== */
+        @media (max-width: 900px) {
+            .sidebar { width: 240px; }
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding: 10px 12px 50px;
+                gap: 12px;
+            }
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                max-height: none;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 14px;
+            }
+            .sidebar-runa {
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+                flex-shrink: 0;
+            }
+            #luna-face {
+                width: 64px !important;
+                height: 64px !important;
+            }
+            .expr-btns { grid-template-columns: repeat(6, 1fr); gap: 4px; flex: 1; }
+            .expr-btn { padding: 6px 4px; font-size: .6rem; }
+            .grow-steps { display: none; }
+            .chat-area {
+                height: 55vh;
+                min-height: 300px;
+            }
+            #dify-iframe { height: 100%; }
+            .login-card { padding: 28px 20px; }
+        }
+        @media (max-width: 480px) {
+            .sidebar { flex-direction: column; }
+            .sidebar-runa { width: 100%; justify-content: center; }
+            .expr-btns { grid-template-columns: repeat(3, 1fr); }
+            .chat-area { height: 50vh; }
+        }
+    </style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+header{background:rgba(200,228,244,.97) !important;border-bottom:1px solid #b0cfdf !important;}
+header a,.logo{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
+.main-container,.login-card,.sidebar,.chat-panel{background:#ffffff !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.chat-header,.sidebar-header{background:rgba(200,228,244,.9) !important;border-color:#b0cfdf !important;color:#0a4870 !important;}
+.chat-area{background:#f0f8fc !important;}
+.message.bot .bubble{background:rgba(255,255,255,.95) !important;color:#0a2a40 !important;border-color:#b0cfdf !important;}
+.message.user .bubble{background:rgba(30,127,164,.12) !important;color:#0a2a40 !important;border-color:rgba(30,127,164,.3) !important;}
+.input-area{background:rgba(200,228,244,.9) !important;border-top-color:#b0cfdf !important;}
+.chat-input{background:#ffffff !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.send-btn{background:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;color:#fff !important;}
+.sidebar-runa,.runa-card{background:rgba(255,255,255,.85) !important;border-color:#b0cfdf !important;}
+.runa-name{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
+.runa-desc,.runa-role{color:#355773 !important;}
+.expr-btn{background:rgba(255,255,255,.8) !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.expr-btn:hover{border-color:#1e7fa4 !important;color:#1e7fa4 !important;}
+[style*="color:rgba(200,215,235"],[style*="color:rgba(170,188,216"],[style*="color:#aabcd8"],[style*="color:#d4dcf0"]{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
+[style*="background:rgba(8,6,20"],[style*="background:rgba(14,18,32"],[style*="background:rgba(0,0,0"]{background:rgba(255,255,255,.85) !important;color:#0a2a40 !important;}
+</style>
+</head>
+<body>
+
+<!-- ======================================
+     ローディング画面
+     ====================================== -->
+<script>
+setTimeout(function(){
+  var ls=document.getElementById('loading-screen');
+  var lg=document.getElementById('login-screen');
+  if(ls&&!ls.classList.contains('hidden')){
+    ls.classList.add('hidden');
+    if(lg){lg.classList.remove('hidden');lg.style.display='flex';}
+  }
+},5000);
+</script>
+<div id="loading-screen">
+    <div class="spinner"></div>
+    <p>転送中 ― ヴィタリアへ...</p>
+</div>
+
+<!-- ======================================
+     ログイン画面
+     ====================================== -->
+<div id="login-screen" class="hidden">
+    <div class="login-card fade-in">
+
+        <!-- ルナ画像 -->
+        <div class="runa-wrap">
+            <img src="../image/runa-2-Photoroom.png" alt="ルナ" class="float">
+        </div>
+
+        <!-- タイトル -->
+        <div class="login-title">
+            <h1 class="gold-text">ギルドへの扉</h1>
+            <p class="sub">VITARIA — AI COACHING SANCTUM</p>
+            <p class="note">研究参加者専用 ｜ アカウントが必要です</p>
+        </div>
+
+        <!-- ルナの台詞 -->
+        <div class="luna-bubble">
+            「あなたがここへたどり着いたのは、偶然ではありません。<br>
+            扉を開く者よ――共に、あなたの物語を紡ぎましょう。」
+        </div>
+
+        <!-- フォーム -->
+        <div class="form-group">
+            <label>メールアドレス</label>
+            <input type="email" id="email" class="form-input" placeholder="例: hero@vitalia.jp">
+        </div>
+        <div class="form-group">
+            <label>パスワード（6文字以上）</label>
+            <input type="password" id="password" class="form-input" placeholder="秘密の呪文を入力">
+        </div>
+
+        <div class="btn-row">
+            <button id="login-btn" class="btn-gold">扉を開く（ログイン）</button>
+            <button id="register-btn" class="btn-outline">はじめての転生（新規登録）</button>
+        </div>
+
+        <div class="login-footer">
+            <p>このサービスはAIによるコーチングです。<br>医療診断は行いません。</p>
+            <a href="../index.html">← ヴィタリア転生録トップへ</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- ======================================
+     メイン画面
+     ====================================== -->
+<div id="main-screen" class="hidden">
+
+    <!-- ヘッダー -->
+    <header class="main-header">
+        <div class="header-left">
+            <img src="../image/runa-2-Photoroom.png" alt="ルナ">
+            <div>
+                <div class="header-title">ルナのコーチング</div>
+                <div class="header-sub">あなたの勇者の旅を、共に歩みます</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <span id="user-display"></span>
+            <button id="logout-btn">退場する</button>
+        </div>
+    </header>
+
+    <!-- コンテンツ -->
+    <div class="main-content">
+
+        <!-- サイドバー -->
+        <aside class="sidebar">
+
+            <!-- ルナ紹介＋表情切り替え -->
+            <div class="sidebar-runa">
+                <div id="luna-face"></div>
+                <div class="name">ルナ</div>
+                <div class="role">月光の賢者 ｜ AIコーチ</div>
+                <div class="expr-btns">
+                    <button class="expr-btn active" data-expr="normal"     data-pos="0% 0%">😊<br>通常</button>
+                    <button class="expr-btn"        data-expr="excited"    data-pos="100% 0%">✨<br>わくわく</button>
+                    <button class="expr-btn"        data-expr="thoughtful" data-pos="0% 50%">🤔<br>思案</button>
+                    <button class="expr-btn"        data-expr="determined" data-pos="100% 50%">💪<br>決意</button>
+                    <button class="expr-btn"        data-expr="surprised"  data-pos="0% 100%">😲<br>驚き</button>
+                    <button class="expr-btn"        data-expr="tsundere"   data-pos="100% 100%">😤<br>ツン</button>
+                </div>
+            </div>
+
+            <!-- 勇者の試練ステップ -->
+            <div>
+                <div class="steps-label">勇者の試練4つの問い</div>
+
+                <div class="step-item active">
+                    <div class="step-num">G</div>
+                    <div class="step-text">目指す場所（Goal）<br><small style="opacity:.7">どんな未来を描いていますか？</small></div>
+                </div>
+                <div class="step-item inactive">
+                    <div class="step-num">R</div>
+                    <div class="step-text">今いる場所（Reality）<br><small style="opacity:.5">現在の状況を教えてください</small></div>
+                </div>
+                <div class="step-item inactive">
+                    <div class="step-num">O</div>
+                    <div class="step-text">選べる道（Options）<br><small style="opacity:.5">どんな選択肢がありますか？</small></div>
+                </div>
+                <div class="step-item inactive">
+                    <div class="step-num">W</div>
+                    <div class="step-text">踏み出す一歩（Will）<br><small style="opacity:.5">最初に何をしますか？</small></div>
+                </div>
+            </div>
+
+            <!-- 誓いの石板 -->
+            <div class="oath-card">
+                <div class="oath-label">✦ ルナの誓い ✦</div>
+                <div class="oath-item">
+                    <span class="star">✦</span>
+                    あなたの「ありのまま」を受容します
+                </div>
+                <div class="oath-item">
+                    <span class="star">✦</span>
+                    批判も評価も一切しません
+                </div>
+                <div class="oath-item">
+                    <span class="star">✦</span>
+                    どんな小さな一歩も大切にします
+                </div>
+            </div>
+
+            <!-- 医療注意 -->
+            <div class="warning-card" style="margin-top:auto">
+                <strong>⚠ 医療的なご相談について</strong>
+                AIは医療診断を行えません。症状が2週間以上続く場合や強い痛みがある場合は、必ず主治医にご相談ください。
+            </div>
+
+        </aside>
+
+        <!-- チャットパネル -->
+        <main class="chat-panel">
+            <div class="chat-header">
+                <img src="../image/runa-2-Photoroom.png" alt="ルナ">
+                <div>
+                    <div class="ch-name">AIコーチ ルナ</div>
+                    <div class="ch-status">
+                        <span class="online-dot"></span>
+                        接続中
+                    </div>
+                </div>
+            </div>
+            <iframe
+                id="dify-iframe"
+                src=""
+                allow="microphone">
+            </iframe>
+        </main>
+
+    </div>
+</div>
+
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut }
+        from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
+        authDomain: "shounigann.firebaseapp.com",
+        projectId: "shounigann",
+        storageBucket: "shounigann.firebasestorage.app",
+        messagingSenderId: "854133989955",
+        appId: "1:854133989955:web:0924f550562f2035596af6",
+        measurementId: "G-H5CWMZRNYS"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    function showMsg(text, isError){
+      const el = document.getElementById('auth-msg') || (() => {
+        const d = document.createElement('p');
+        d.id = 'auth-msg';
+        d.style.cssText = 'margin:8px 0 0;font-size:.82rem;text-align:center;';
+        document.getElementById('login-btn')?.after(d);
+        return d;
+      })();
+      el.textContent = text;
+      el.style.color = isError ? '#c04040' : '#1f8a66';
+    }
+
+    const loadingScreen = document.getElementById('loading-screen');
+    const loginScreen   = document.getElementById('login-screen');
+    const mainScreen    = document.getElementById('main-screen');
+    const difyIframe    = document.getElementById('dify-iframe');
+    const userDisplay   = document.getElementById('user-display');
+
+    document.getElementById('register-btn').addEventListener('click', () => {
+        const email    = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => showMsg("アカウントが作成されました！", false))
+            .catch(err => showMsg("エラー: " + err.message + "（パスワードは6文字以上必要です）", true));
+    });
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+        const email    = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        signInWithEmailAndPassword(auth, email, password)
+            .catch(() => showMsg("ログインに失敗しました。メールアドレスかパスワードが間違っています。", true));
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        signOut(auth).then(() => { difyIframe.src = ""; });
+    });
+
+    // 表情切り替え
+    document.querySelectorAll('.expr-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const pos  = btn.dataset.pos;
+            const face = document.getElementById('luna-face');
+            face.style.backgroundPosition = pos;
+            document.querySelectorAll('.expr-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // 5秒でタイムアウト → ログイン画面を強制表示
+    const authTimeout = setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        loginScreen.classList.remove('hidden');
+        loginScreen.style.display = 'flex';
+    }, 5000);
+
+    onAuthStateChanged(auth, (user) => {
+        clearTimeout(authTimeout);
+        loadingScreen.classList.add('hidden');
+
+        if (user) {
+            loginScreen.classList.add('hidden');
+            loginScreen.style.display = '';
+            mainScreen.classList.remove('hidden');
+            mainScreen.style.display = 'flex';
+            userDisplay.innerText = user.email + " さん";
+            if (!difyIframe.src || difyIframe.src === window.location.href) {
+                difyIframe.src = "https://udify.app/chat/KXoLEteQQnrlbz1P";
+            }
+        } else {
+            mainScreen.classList.add('hidden');
+            mainScreen.style.display = '';
+            loginScreen.classList.remove('hidden');
+            loginScreen.style.display = 'flex';
+            document.getElementById('email').value    = "";
+            document.getElementById('password').value = "";
+        }
+    });
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+
+</body>
+</html>
+

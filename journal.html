@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思い出ノート ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1a2e;--bg2:#112236;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#29b6e8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+
+header{background:rgba(8,18,40,.92);border-bottom:1px solid rgba(41,182,232,.18);backdrop-filter:blur(16px);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:#1e7fa4;text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(41,182,232,.25);color:rgba(41,182,232,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:32px 20px 80px;}
+.page-title{font-family:'Noto Serif JP',serif;font-size:1.4rem;font-weight:900;color:#1e7fa4;margin-bottom:6px;}
+.page-sub{font-size:.72rem;color:rgba(170,188,216,.5);margin-bottom:20px;}
+
+.intro{
+  background:linear-gradient(135deg,rgba(41,182,232,.08),rgba(78,201,138,.04));
+  border:1px solid rgba(41,182,232,.22);border-radius:14px;
+  padding:14px 18px;margin-bottom:22px;font-size:.78rem;line-height:1.75;color:rgba(220,220,250,.85);
+}
+.intro strong{color:#7fd8f4;}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px;}
+.stat-cell{
+  background:#ffffff;border:1.5px solid #b0d4e8;
+  border-radius:10px;padding:11px 8px;text-align:center;
+}
+.stat-num{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#1e7fa4;line-height:1;}
+.stat-lbl{font-size:.6rem;color:rgba(170,188,216,.5);margin-top:3px;}
+
+.controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.search-input{
+  flex:1;min-width:160px;background:rgba(20,26,44,.7);border:1px solid rgba(41,182,232,.25);
+  border-radius:10px;padding:9px 14px;color:var(--silver);font-family:inherit;
+  font-size:.82rem;outline:none;
+}
+.search-input:focus{border-color:rgba(41,182,232,.6);}
+.export-btn{
+  background:rgba(78,201,138,.12);border:1px solid rgba(78,201,138,.3);
+  color:#a8e8c0;font-family:inherit;font-size:.72rem;font-weight:700;
+  padding:0 14px;border-radius:10px;cursor:pointer;
+}
+
+.entry{
+  background:#ffffff;border:1.5px solid #b0d4e8;box-shadow:0 3px 0 rgba(30,80,110,.07);
+  border-radius:12px;padding:14px 16px;margin-bottom:10px;
+  position:relative;
+}
+.entry-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.entry-date{font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:700;color:#1e7fa4;}
+.entry-day{font-size:.6rem;color:#88aec8;margin-left:6px;font-weight:400;}
+.entry-mood{font-size:1.2rem;line-height:1;}
+.entry-text{font-size:.82rem;line-height:1.75;color:#1a4860;white-space:pre-wrap;}
+.entry-photo{max-width:100%;max-height:280px;border-radius:8px;margin-top:8px;border:1px solid rgba(41,182,232,.25);cursor:pointer;display:block;}
+.entry-photo:hover{filter:brightness(1.05);}
+.entry-tags{font-size:.6rem;color:rgba(168,232,192,.6);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;}
+.entry-tag{background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.2);padding:1px 8px;border-radius:99px;}
+
+.empty{text-align:center;padding:60px 20px;color:rgba(170,188,216,.5);font-size:.85rem;line-height:1.8;}
+.empty-emoji{font-size:2.5rem;margin-bottom:10px;}
+.empty a{color:#1e7fa4;text-decoration:underline;}
+
+@media(max-width:480px){
+  .page{padding:24px 14px 60px;}
+  .page-title{font-size:1.18rem;}
+  .stat-num{font-size:1.05rem;}
+}
+</style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;background-attachment:fixed !important;color:#d4e8f8 !important;}
+body::before{opacity:0 !important;}
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+header{ background: rgba(220,240,248,.97) !important; border-bottom-color: rgba(30,127,164,.22) !important; }
+header a{ color: #0a4870 !important; }
+.back-btn{ color: #1e7fa4 !important; border-color: rgba(30,127,164,.35) !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#7fd8f4"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── journal.html 固有クラス ── */
+.page-sub{color:rgba(10,42,64,.55) !important;}
+.stat-lbl{color:rgba(10,42,64,.5) !important;}
+.entry-day{color:rgba(10,42,64,.4) !important;}
+.entry-text{color:rgba(10,42,64,.88) !important;}
+.empty{color:rgba(10,42,64,.5) !important;}
+.entry-tag{color:#1f8a66 !important;background:rgba(31,138,102,.1) !important;border-color:rgba(31,138,102,.35) !important;}
+.intro{color:rgba(10,42,64,.8) !important;}
+.intro strong{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
+.sort-btn{color:#1f8a66 !important;background:rgba(31,138,102,.08) !important;border-color:rgba(31,138,102,.35) !important;}
+.back-btn{color:#1e7fa4 !important;border-color:rgba(30,127,164,.35) !important;}
+.entry-tags{color:rgba(31,138,102,.65) !important;}
+.search-input{color:#0a2a40 !important;background:rgba(255,255,255,.85) !important;border-color:rgba(30,127,164,.3) !important;}
+.stat-cell{background:#ffffff !important;border:1.5px solid #b0d4e8 !important;box-shadow:0 3px 0 rgba(30,80,110,.08) !important;}
+.stat-num{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
+.page-title{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;background:none !important;-webkit-background-clip:initial !important;background-clip:initial !important;}
+</style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+</head>
+<body>
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./settings.html" class="back-btn">設定</a>
+</header>
+
+<main class="page">
+  <h1 class="page-title">📓 思い出ノート</h1>
+  <div class="page-sub">あなたが綴った日々の記録</div>
+
+  <div class="intro">
+    気持ち・体調・できたこと、何でも書いた <strong>「今日のひとこと」</strong> を時系列で振り返れます。<br>
+    記録は端末内に保存され、最大90日分が表示されます。
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell"><div class="stat-num" id="js-total">—</div><div class="stat-lbl">記録数</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-week">—</div><div class="stat-lbl">今週</div></div>
+    <div class="stat-cell"><div class="stat-num" id="js-streak">—</div><div class="stat-lbl">最長連続</div></div>
+  </div>
+
+  <div class="controls">
+    <input type="text" class="search-input" id="js-search" placeholder="🔍 言葉で探す">
+    <button class="export-btn" id="js-export">⬇ エクスポート</button>
+  </div>
+
+  <div id="entries-wrap"></div>
+</main>
+
+<script>
+function showToast(msg,d=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},d);}
+const uid = localStorage.getItem('vitalia_uid_hint') || '';
+const wrap = document.getElementById('entries-wrap');
+
+function loadJournal(){
+  if(!uid){
+    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">🔒</div>ログインしてからご利用ください。<br><a href="./game.html">ホームへ</a></div>`;
+    return;
+  }
+  let arr=[];
+  try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
+  if(arr.length===0){
+    wrap.innerHTML = `<div class="empty"><div class="empty-emoji">📜</div>まだ思い出がありません。<br>QOL記録のときに「今日のひとこと」を書いてみてください。<br><br><a href="./game.html">ホームへ</a></div>`;
+    document.getElementById('js-total').textContent='0';
+    document.getElementById('js-week').textContent='0';
+    document.getElementById('js-streak').textContent='0';
+    return;
+  }
+
+  // 統計
+  const today=new Date().toISOString().slice(0,10);
+  const weekAgo=new Date(Date.now()-7*86400000).toISOString().slice(0,10);
+  const weekCount=arr.filter(e=>e.date>=weekAgo).length;
+
+  // 連続記録（最長）
+  const dates=arr.map(e=>e.date).sort();
+  let maxStreak=0, cur=0, prev=null;
+  dates.forEach(d=>{
+    if(prev){
+      const diff=(new Date(d)-new Date(prev))/86400000;
+      if(diff===1) cur++;
+      else cur=1;
+    } else cur=1;
+    if(cur>maxStreak) maxStreak=cur;
+    prev=d;
+  });
+
+  document.getElementById('js-total').textContent=arr.length;
+  document.getElementById('js-week').textContent=weekCount;
+  document.getElementById('js-streak').textContent=maxStreak;
+
+  renderEntries(arr);
+}
+
+function moodEmoji(v){
+  if(v==null) return '';
+  if(v>=5) return '😄';
+  if(v>=4) return '😊';
+  if(v>=3) return '🙂';
+  if(v>=2) return '😐';
+  return '😞';
+}
+function dayLabel(dateStr){
+  const d=new Date(dateStr);
+  const days=['日','月','火','水','木','金','土'];
+  return days[d.getDay()];
+}
+
+function renderEntries(arr){
+  wrap.innerHTML = arr.map(e=>{
+    const tags=[];
+    if(e.mood!=null) tags.push(`気分${e.mood}`);
+    if(e.condition!=null) tags.push(`体調${e.condition}`);
+    const photoHtml = e.photo ? `<img class="entry-photo" src="${e.photo}" alt="思い出の写真" onclick="openPhotoLightbox(this.src)">` : '';
+    const noteHtml = e.note ? `<div class="entry-text">${escapeHtml(e.note)}</div>` : '';
+    return `
+      <div class="entry">
+        <div class="entry-head">
+          <div>
+            <span class="entry-date">${e.date}</span>
+            <span class="entry-day">(${dayLabel(e.date)})</span>
+          </div>
+          <div class="entry-mood">${moodEmoji(e.mood)}</div>
+        </div>
+        ${noteHtml}
+        ${photoHtml}
+        ${tags.length?`<div class="entry-tags">${tags.map(t=>`<span class="entry-tag">${t}</span>`).join('')}</div>`:''}
+      </div>
+    `;
+  }).join('');
+}
+
+function openPhotoLightbox(src){
+  const lb = document.createElement('div');
+  lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:14px;';
+  lb.innerHTML = `<img src="${src}" style="max-width:100%;max-height:100%;border-radius:8px;">`;
+  lb.addEventListener('click', ()=>lb.remove());
+  document.body.appendChild(lb);
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('js-search').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  let arr=[];
+  try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
+  if(!q){ renderEntries(arr); return; }
+  const filtered = arr.filter(x=>x.note.toLowerCase().includes(q) || x.date.includes(q));
+  if(filtered.length===0){
+    wrap.innerHTML=`<div class="empty"><div class="empty-emoji">🔍</div>「${escapeHtml(q)}」を含む記録は見つかりませんでした。</div>`;
+  } else {
+    renderEntries(filtered);
+  }
+});
+
+document.getElementById('js-export').addEventListener('click', ()=>{
+  let arr=[];
+  try{ arr = JSON.parse(localStorage.getItem(`vt_journal_${uid}`)||'[]'); }catch(e){}
+  if(arr.length===0){ showToast('エクスポートする記録がありません。'); return; }
+  const csv=['date,note,mood,condition,ts'].concat(
+    arr.map(e=>`"${e.date}","${(e.note||'').replace(/"/g,'""')}","${e.mood||''}","${e.condition||''}","${new Date(e.ts).toISOString()}"`)
+  ).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`journal_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+loadJournal();
+</script>
+
+<nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+

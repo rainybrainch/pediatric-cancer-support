@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ショップ ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1a2e;--gold:#f0d48a;--gold2:#7fd8f4;--silver:#aabcd8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:radial-gradient(ellipse at 50% 0%,#1a1430 0%,#080b14 60%);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+header a{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:#1e7fa4;text-decoration:none;}
+.back-btn{background:none;border:1px solid rgba(41,182,232,.25);color:rgba(41,182,232,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:20px 18px 80px;}
+.intro{text-align:center;margin-bottom:18px;}
+.intro h1{font-family:'Noto Serif JP',serif;font-size:1.5rem;color:#7fd8f4;margin-bottom:6px;}
+
+.coin-card{
+  background:linear-gradient(135deg,rgba(127,216,244,.15),rgba(41,182,232,.06));
+  border:1.5px solid rgba(127,216,244,.45);border-radius:14px;
+  padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+}
+.coin-info{font-size:.7rem;color:rgba(127,216,244,.75);}
+.coin-num{font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#7fd8f4;line-height:1;}
+.coin-meta{font-size:.55rem;color:rgba(170,188,216,.55);margin-top:2px;}
+
+.shop-list{display:flex;flex-direction:column;gap:10px;}
+.shop-item{
+  background:#ffffff;box-shadow:0 3px 0 rgba(30,80,110,.07);
+  border:1.5px solid rgba(41,182,232,.25);border-radius:12px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+}
+.si-icon{font-size:2rem;line-height:1;flex-shrink:0;width:48px;text-align:center;filter:drop-shadow(0 0 10px rgba(127,216,244,.4));}
+.si-info{flex:1;min-width:0;}
+.si-name{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;color:#0a2a40;line-height:1.3;}
+.si-desc{font-size:.72rem;color:#557190;margin-top:3px;line-height:1.5;}
+.si-cost{font-size:.7rem;color:#7fd8f4;margin-top:5px;font-weight:700;}
+.si-buy{
+  background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;color:#fff;
+  font-family:'Noto Serif JP',serif;font-size:.78rem;font-weight:900;padding:8px 14px;border-radius:9px;cursor:pointer;
+  flex-shrink:0;
+}
+.si-buy:disabled{opacity:.4;cursor:not-allowed;}
+
+.foot-note{font-size:.65rem;color:rgba(170,188,216,.5);text-align:center;margin-top:18px;line-height:1.7;}
+</style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;background-attachment:fixed !important;color:#d4e8f8 !important;}
+body::before{opacity:0 !important;}
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: #0a2a40 !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+header{ background: rgba(220,240,248,.97) !important; border-bottom: 1px solid rgba(30,127,164,.22); }
+header a{ color: #0a4870 !important; }
+.back-btn{ color: #1e7fa4 !important; border-color: rgba(30,127,164,.35) !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── shop.html 固有クラス ── */
+.coin-meta{color:rgba(10,42,64,.55) !important;}
+.si-desc{color:rgba(10,42,64,.75) !important;}
+.foot-note{color:rgba(10,42,64,.5) !important;}
+.coin-num{color:#0a4870 !important;}
+.si-name{color:#0a2a40 !important;}
+.si-cost{color:#1e7fa4 !important;font-weight:700;}
+</style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+</head>
+<body>
+<header>
+  <a href="./game.html">⟵ ヴィタリア転生録</a>
+  <a href="./collection.html" class="back-btn">コレクション</a>
+</header>
+
+<main class="page">
+  <div class="intro">
+    <h1>🛒 ヴィタリア商店</h1>
+    <p style="font-size:.78rem;color:rgba(220,225,245,.7);">累積XPで強化アイテムを購入できます。</p>
+  </div>
+
+  <div class="coin-card">
+    <div>
+      <div class="coin-info">所持コイン</div>
+      <div class="coin-num"><span id="coin-num">0</span> 🪙</div>
+      <div class="coin-meta">10 XP = 1コイン換算（累積XPの1/10）</div>
+    </div>
+  </div>
+
+  <div class="shop-list" id="shop-list"></div>
+
+  <div class="foot-note">
+    使用したアイテムは即座に効果発動します。<br>
+    <span style="color:rgba(240,180,80,.7);">⚠ コインの増加には記録の継続が必要です</span>
+  </div>
+</main>
+
+<script>
+function showToast(msg,d=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},d);}
+function showConfirm(msg,onOk){const ov=document.createElement('div');Object.assign(ov.style,{position:'fixed',inset:'0',background:'rgba(0,0,0,.5)',zIndex:'10000',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'});ov.innerHTML=`<div style="background:#fff;border-radius:14px;padding:24px 20px;max-width:320px;width:100%;text-align:center;"><p style="color:#0a2a40;font-size:.88rem;line-height:1.7;margin-bottom:20px;">${msg}</p><div style="display:flex;gap:10px;justify-content:center;"><button id="_cC" style="padding:9px 20px;border-radius:8px;border:1px solid #b0cfdf;background:#f0f8fc;color:#0a2a40;font-size:.82rem;cursor:pointer;">キャンセル</button><button id="_cO" style="padding:9px 20px;border-radius:8px;border:none;background:#1e7fa4;color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;">OK</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#_cO').onclick=()=>{ov.remove();if(onOk)onOk();};ov.querySelector('#_cC').onclick=()=>ov.remove();}
+function render(){
+  if(!window.Gamification){
+    setTimeout(render, 200);
+    return;
+  }
+  const coins = window.Gamification.getCoins();
+  document.getElementById('coin-num').textContent = coins;
+  const list = document.getElementById('shop-list');
+  list.innerHTML = window.Gamification.SHOP_ITEMS.map(item=>`
+    <div class="shop-item">
+      <div class="si-icon">${item.icon}</div>
+      <div class="si-info">
+        <div class="si-name">${item.name}</div>
+        <div class="si-desc">${item.desc}</div>
+        <div class="si-cost">${item.cost} 🪙</div>
+      </div>
+      <button class="si-buy" data-id="${item.id}" ${coins<item.cost?'disabled':''}>購入</button>
+    </div>
+  `).join('');
+  document.querySelectorAll('.si-buy').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const id = b.dataset.id;
+      showConfirm('購入してアイテムを使用します。よろしいですか？', ()=>{
+        const r = window.Gamification.buyShopItem(id);
+        if(r.ok){
+          showToast('✓ ' + r.msg);
+          try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:40,colors:['#7fd8f4','#fff8d8']}); }catch(e){}
+          try{ if(navigator.vibrate) navigator.vibrate([20,50,20]); }catch(e){}
+          render();
+        } else {
+          showToast('⚠ ' + r.msg);
+        }
+      });
+    });
+  });
+}
+render();
+</script>
+
+<nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+

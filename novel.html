@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴィタリア転生録 — 小説版</title>
+<meta name="description" content="七つの大罪を超えて、12週間で「自分の物語」を取り戻す異世界転生RPGノベル。">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1a2e;--bg2:#112236;
+  --gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;
+  --rain:#3a6fc9;--sand:#b87a2a;
+  --villainess:#f0a0c8;--hero-light:#f0d48a;
+  --serif:'Noto Serif JP',serif;
+  --sans:'Zen Kaku Gothic New',sans-serif;
+  --italic:'Cormorant Garamond',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--serif);background:var(--bg);color:#e8e4d4;
+  min-height:100vh;overflow-x:hidden;line-height:1.95;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(58,111,201,.08), transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(184,122,42,.06), transparent 50%),
+    var(--bg);
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,.4), transparent),
+    radial-gradient(1px 1px at 80% 20%, rgba(240,212,138,.3), transparent),
+    radial-gradient(1.5px 1.5px at 40% 60%, rgba(168,200,240,.4), transparent);
+  background-size: 250px 250px, 200px 200px, 300px 300px, 350px 350px;
+  opacity:.7;
+}
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(8,11,20,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,.18);
+  padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+header a.brand{font-family:var(--serif);font-size:.95rem;font-weight:900;color:var(--gold2);text-decoration:none;letter-spacing:.04em;}
+.mode-toggle{display:flex;gap:5px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:99px;padding:3px;}
+.mode-tab{font-family:var(--sans);font-size:.66rem;font-weight:700;padding:5px 11px;border-radius:99px;background:none;border:none;color:rgba(220,225,245,.6);cursor:pointer;letter-spacing:.04em;}
+.mode-tab.active{background:rgba(240,212,138,.15);color:var(--gold2);}
+.mode-tab.active.villainess-active{background:rgba(240,160,200,.18);color:var(--villainess);}
+.book{max-width:680px;margin:0 auto;padding:60px 24px 120px;position:relative;z-index:1;}
+.hero{text-align:center;padding:60px 0 80px;border-bottom:1px solid rgba(201,168,76,.15);margin-bottom:80px;}
+.hero-badge{display:inline-block;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);color:var(--gold2);font-family:var(--sans);font-size:.6rem;letter-spacing:.22em;padding:5px 16px;border-radius:99px;margin-bottom:24px;font-weight:700;}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;
+  background:linear-gradient(135deg,#f0d48a,#fff8d8 30%,#c9a84c 60%,#f0d48a);
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.04em;line-height:1.4;margin-bottom:14px;
+}
+.hero h1.villainess-h{background:linear-gradient(135deg,#f0a0c8,#fff,#c0a0f0,#f0a0c8);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-family:var(--italic);font-style:italic;font-size:1.05rem;color:rgba(220,225,245,.65);line-height:1.7;margin-bottom:18px;}
+.hero-meta{display:flex;justify-content:center;gap:16px;font-family:var(--sans);font-size:.65rem;color:rgba(170,188,216,.5);letter-spacing:.06em;flex-wrap:wrap;}
+.hero-meta span{display:flex;align-items:center;gap:5px;}
+.hero-meta strong{color:var(--gold2);font-family:var(--serif);font-weight:900;font-size:.85rem;}
+.chapter{margin-bottom:90px;animation:fadeUp .9s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.ch-num{
+  font-family:var(--italic);font-style:italic;font-size:1rem;
+  color:rgba(201,168,76,.55);letter-spacing:.18em;margin-bottom:6px;text-align:center;
+}
+.ch-title{
+  font-family:var(--serif);font-size:1.55rem;font-weight:900;color:var(--gold2);
+  text-align:center;margin-bottom:8px;line-height:1.4;letter-spacing:.02em;
+}
+.ch-pov{
+  font-family:var(--sans);font-size:.6rem;letter-spacing:.18em;
+  color:rgba(170,188,216,.5);text-align:center;margin-bottom:30px;font-weight:700;
+}
+.ch-divider{
+  width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);
+  margin:0 auto 36px;
+}
+.ch-body p{font-family:var(--serif);font-size:1.02rem;color:#e8e4d4;margin-bottom:1.4em;line-height:2.0;text-align:justify;text-justify:inter-ideograph;}
+.ch-body p.lead{font-size:1.18rem;font-weight:500;color:#f0e4d4;letter-spacing:.02em;}
+.ch-body p:first-of-type::first-letter{font-size:2.6rem;font-weight:900;float:left;line-height:1;margin:.1em .15em 0 0;color:var(--gold2);font-family:var(--italic);font-style:italic;}
+.ch-body em{font-style:normal;color:var(--gold2);font-weight:700;}
+.ch-body em.villainess-em{color:var(--villainess);}
+.ch-body em.kaito{color:#f0a0a0;}
+.ch-body em.sera{color:#a8e8c0;}
+.ch-body em.luna{color:#c0a0f0;}
+.ch-body em.pixe{color:#f0d048;}
+.ch-body blockquote{
+  margin:1.6em 0;padding:14px 20px 14px 22px;
+  background:rgba(201,168,76,.04);border-left:2.5px solid var(--gold);
+  font-family:var(--italic);font-style:italic;font-size:.98rem;color:rgba(240,212,138,.9);
+  line-height:1.85;
+}
+.ch-body blockquote.kaito-q{border-left-color:#f0a0a0;color:rgba(240,180,180,.92);background:rgba(224,92,92,.04);}
+.ch-body blockquote.sera-q{border-left-color:#a8e8c0;color:rgba(168,232,192,.92);background:rgba(78,201,138,.04);}
+.ch-body blockquote.luna-q{border-left-color:#c0a0f0;color:rgba(200,180,240,.92);background:rgba(156,114,224,.04);}
+.ch-body blockquote.pixe-q{border-left-color:#f0d048;color:rgba(240,220,140,.92);background:rgba(240,180,80,.04);}
+.ch-body blockquote.villainess-bq{border-left-color:var(--villainess);background:rgba(240,160,200,.04);color:rgba(240,200,220,.9);}
+.ch-body blockquote.boss{border-left-color:#a87858;background:rgba(160,80,60,.06);color:rgba(220,180,170,.85);font-weight:600;}
+.ch-body .pause{text-align:center;font-size:1.4rem;color:rgba(201,168,76,.4);letter-spacing:1em;margin:1.6em 0;}
+.ch-body .skill{display:inline-block;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);color:var(--gold2);font-size:.78rem;padding:0 7px;border-radius:4px;font-family:var(--sans);font-weight:700;letter-spacing:.04em;margin:0 2px;}
+body.mode-vitalia .villainess-only{display:none;}
+body.mode-villainess .vitalia-only{display:none;}
+body.mode-villainess .hero h1{display:none;}
+body.mode-vitalia .hero h1.villainess-h{display:none;}
+body.mode-villainess .hero h1.villainess-h{display:block;}
+.toc{
+  background:rgba(14,18,32,.7);border:1px solid rgba(201,168,76,.18);
+  border-radius:14px;padding:22px 24px;margin-bottom:60px;
+}
+.toc-title{font-family:var(--sans);font-size:.6rem;letter-spacing:.18em;color:rgba(201,168,76,.7);font-weight:700;text-align:center;margin-bottom:14px;}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 18px;}
+.toc-list li{font-family:var(--serif);font-size:.78rem;line-height:1.85;}
+.toc-list a{color:rgba(220,225,245,.75);text-decoration:none;display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dotted rgba(201,168,76,.15);}
+.toc-list a:hover{color:var(--gold2);}
+.toc-list a span:first-child{font-family:var(--italic);font-style:italic;font-size:.7rem;color:rgba(201,168,76,.55);min-width:2.5em;}
+.toc-list a span.sin-tag{font-size:.55rem;color:rgba(184,122,42,.7);letter-spacing:.06em;}
+.epilogue{
+  background:linear-gradient(160deg,rgba(40,30,80,.3),rgba(8,6,20,.7));
+  border:1px solid rgba(240,212,138,.25);border-radius:18px;
+  padding:50px 28px;margin-top:80px;text-align:center;
+}
+.epilogue .ch-num{color:rgba(240,212,138,.7);}
+.epilogue .ch-title{color:var(--gold2);}
+footer{
+  text-align:center;padding:50px 20px 80px;color:rgba(170,188,216,.5);font-size:.7rem;line-height:2;
+  border-top:1px solid rgba(201,168,76,.15);margin-top:60px;font-family:var(--sans);
+}
+footer a{color:var(--gold2);text-decoration:none;border-bottom:1px dotted rgba(201,168,76,.3);}
+footer .care{
+  background:rgba(78,201,138,.06);border:1px solid rgba(78,201,138,.25);
+  border-radius:10px;padding:14px 18px;margin:14px auto;max-width:420px;
+  color:rgba(168,232,192,.85);font-size:.74rem;line-height:1.85;
+}
+.scene-break{text-align:center;margin:2em 0;color:rgba(201,168,76,.5);font-size:1.1rem;letter-spacing:1em;}
+#scroll-top{
+  position:fixed;bottom:24px;right:24px;width:42px;height:42px;
+  border-radius:50%;background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.4);
+  color:var(--gold2);font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;
+  z-index:60;backdrop-filter:blur(8px);
+}
+#scroll-top.show{display:flex;}
+@media(max-width:520px){
+  .book{padding:40px 18px 100px;}
+  .hero{padding:40px 0 60px;margin-bottom:60px;}
+  .ch-title{font-size:1.3rem;}
+  .ch-body p{font-size:.95rem;line-height:1.95;}
+  .ch-body p.lead{font-size:1.08rem;}
+  header{padding:9px 14px;}
+  header a.brand{font-size:.82rem;}
+  .mode-tab{font-size:.6rem;padding:4px 9px;}
+}
+</style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;background-attachment:fixed !important;color:#d4e8f8 !important;}
+body::before{opacity:0 !important;}
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── novel.html 固有クラス ── */
+.mode-toggle{background:rgba(255,255,255,.7) !important;border-color:rgba(30,127,164,.25) !important;}
+.mode-tab{color:rgba(10,42,64,.65) !important;}
+.mode-tab.active{color:#1e7fa4 !important;}
+.hero-sub{color:rgba(10,42,64,.7) !important;}
+.hero-meta{color:rgba(10,42,64,.55) !important;}
+.mode-tab{color:rgba(10,42,64,.65) !important;}
+.toc-list a{color:#1e7fa4 !important;border-bottom-color:rgba(30,127,164,.2) !important;}
+.ch-body em.sera{color:#1f8a66 !important;}
+.ch-body em.luna{color:#5b4ea8 !important;}
+.ch-body blockquote.sera-q{border-left-color:#1f8a66 !important;color:rgba(31,138,102,.9) !important;background:rgba(31,138,102,.06) !important;}
+.ch-body blockquote.luna-q{border-left-color:#5b4ea8 !important;color:rgba(91,78,168,.9) !important;background:rgba(91,78,168,.06) !important;}
+/* ── 本文テキスト・キャラ色 ── */
+body{color:#0a2a40 !important;}
+.ch-body p,.ch-body p.lead{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
+.ch-body em.kaito{color:#b53a3a !important;}
+.ch-body em.pixe{color:#8a5c00 !important;}
+.ch-body blockquote.kaito-q{border-left-color:#b53a3a !important;color:rgba(181,58,58,.85) !important;background:rgba(181,58,58,.05) !important;}
+.ch-body blockquote.pixe-q{border-left-color:#8a5c00 !important;color:rgba(138,92,0,.85) !important;background:rgba(138,92,0,.05) !important;}
+.ch-body blockquote.villainess-bq{color:rgba(91,78,168,.85) !important;background:rgba(91,78,168,.05) !important;}
+.ch-body blockquote.boss{color:rgba(60,30,10,.8) !important;background:rgba(100,60,40,.05) !important;}
+.ch-body .pause{color:rgba(30,127,164,.5) !important;}
+.ch-body .scene-note{color:rgba(10,42,64,.65) !important;}
+.toc-title{color:#1e7fa4 !important;-webkit-text-fill-color:#1e7fa4 !important;}
+.toc-list a span:first-child{color:rgba(30,127,164,.65) !important;}
+.toc-list a span.sin-tag{color:rgba(30,80,110,.6) !important;}
+.hero-badge{color:rgba(30,127,164,.65) !important;}
+/* インライン style の薄ピンク章見出し → 濃赤 */
+[style*="color:#f0a0a0"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
+[style*="color:#a8e8c0"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
+[style*="color:#c0a0f0"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
+[style*="color:#f0d48a"],[style*="color:#f0c060"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
+</style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+</head>
+<body class="mode-vitalia">
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <div class="mode-toggle" role="radiogroup" aria-label="物語のモード">
+    <button class="mode-tab active" data-mode="vitalia">⚔ 王道編</button>
+    <button class="mode-tab" data-mode="villainess">👑 悪役令嬢編</button>
+  </div>
+</header>
+
+<main class="book">
+  <div class="hero">
+    <div class="hero-badge">— A NOVEL OF VITALIA —</div>
+    <h1>ヴィタリア転生録 — 光の章</h1>
+    <h1 class="villainess-h" style="display:none;">ヴィタリア転生録 — 影の章</h1>
+    <p class="hero-sub">砂は雨を待ち、雨は芽吹きを待つ。<br>七つの大罪を超えて、あなたは「あなた自身の物語」を取り戻す。</p>
+    <div class="hero-meta">
+      <span>📖 <strong>16</strong>章</span>
+      <span>📝 約 <strong>50,000</strong>字級</span>
+      <span>🌟 <strong>4</strong>視点</span>
+      <span>👑 <strong>2</strong>モード</span>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <div class="toc-title">— TABLE OF CONTENTS —</div>
+    <ol class="toc-list">
+      <li><a href="#prologue"><span>序</span><span>砂の朝</span></a></li>
+      <li><a href="#ch1"><span>I</span><span>迷いの霧</span></a></li>
+      <li><a href="#ch2"><span>II</span><span>剣士の沈黙</span></a></li>
+      <li><a href="#ch3"><span>III</span><span>緑のローブ</span></a></li>
+      <li><a href="#ch4"><span>IV</span><span>銀色の月</span></a></li>
+      <li><a href="#ch5"><span>V</span><span>泥の巨像 ─ 怠惰</span></a></li>
+      <li><a href="#ch6"><span>VI</span><span>甘い誘惑 ─ 暴食</span></a></li>
+      <li><a href="#ch7"><span>VII</span><span>黒い炎 ─ 憤怒</span></a></li>
+      <li><a href="#ch8"><span>VIII</span><span>砂時計の影 ─ 嫉妬</span></a></li>
+      <li><a href="#ch9"><span>IX</span><span>黄金のガラクタ ─ 強欲</span></a></li>
+      <li><a href="#ch10"><span>X</span><span>鏡の鎧 ─ 傲慢</span></a></li>
+      <li><a href="#ch11"><span>XI</span><span>夜想曲 ─ 色欲</span></a></li>
+      <li><a href="#ch12"><span>XII</span><span>真の試練</span></a></li>
+      <li><a href="#intermezzo"><span>幕</span><span>四人の小さな夜</span></a></li>
+      <li><a href="#ch13"><span>XIII</span><span>真エンディング</span></a></li>
+      <li><a href="#epilogue"><span>終</span><span>雨上がり</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- 序章 -->
+  <article class="chapter" id="prologue">
+    <div class="ch-num">— PROLOGUE —</div>
+    <h2 class="ch-title">砂の朝</h2>
+    <div class="ch-pov">語り手：ピクセ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">ヴィタリアという国がある。</p>
+      <p>地図の上には載っていない。星座の名にもなっていない。検索エンジンに名前を入れても、もちろん何も出てこない。</p>
+      <p>けれど、たしかに存在する。</p>
+      <p>しんどい朝、布団から這い出せなかった日の、そのほんの数センチ先に。<br>
+      病院の廊下、検査結果を待つあいだの、白いベンチの足元に。<br>
+      治療を終えた誰かが、もう一度、自分の人生を歩こうとする ── その最初の一歩の裏側に。</p>
+      <p>ヴィタリアは、そういう場所にある。</p>
+      <p><em>砂</em>と、<em>雨</em>と、<em>芽吹き</em>。三層からなる、目に見えない国。</p>
+      <p>地表の砂は、過去の記憶。地下の雨は、癒やしの水脈。そのあいだに、芽吹きが息をしている。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>その国の記録係が、わたしです。</p>
+      <p>名前は <em class="pixe">ピクセ</em>。羽は虫のもの、声は少しだけ歳を取った子供のもの、瞳の奥には何百年分かの記憶が沈んでいるとか、いないとか。本人(本妖精?)も忘れました。ぴくっ。</p>
+      <p>仕事は、ひとつ。<em>転生してきた誰か</em>の、12週間の冒険を、この本に綴じること。</p>
+      <p>──そう。あなたのことです。</p>
+      <p>あなたはまだ、自分がここに来た自覚がないかもしれない。気がついたら、灰色の霧のなかに立っていた。それだけしか覚えていない、というのが、ふつうです。記憶は霧と一緒に薄まる仕様になっているのです。</p>
+      <p>でも、足元を見てください。</p>
+      <p>踏み砕かれた砂時計の破片が、あるはずです。砂の粒のひとつひとつが、淡く光っている。それらは <em>あなたが過ごした日々</em> のかけら。一粒は治療の朝、一粒は退院の昼、一粒は誰にも言えなかった夜。</p>
+      <p>ヴィタリアは、それを集める国です。集めて、雨に溶かして、新しい芽の養分に変える国。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>本書は、12週間の物語です。</p>
+      <p>あなたは、四人の仲間に出会います。</p>
+      <p>沈黙の剣士、<em class="kaito">カイト</em>。<br>
+      薬草園の侍女、<em class="sera">セラ</em>。<br>
+      月光の女神官、<em class="luna">ルナ</em>。<br>
+      そして、わたし、<em class="pixe">ピクセ</em>。</p>
+      <p>あなたは、<em>七つの大罪</em>と戦います。</p>
+      <p><span class="vitalia-only">怠惰、暴食、憤怒、嫉妬、強欲、傲慢、色欲。古来、人を堕落させる七つの誘惑とされてきたもの。けれど、ヴィタリアでは少し違う意味を持ちます。それぞれが、<em>あなたの中にある「動けなさ」の名前</em>なのです。</span></p>
+      <p><span class="villainess-only">怠惰、暴食、憤怒、嫉妬、強欲、傲慢、色欲。これらは <em class="villainess-em">悪役令嬢ロザリア</em> を断罪に追いやろうとする七つの罠の名前。けれど、罠を超えた者だけが、<em class="villainess-em">真のエンディング</em> を掴めるのです。</span></p>
+      <p>そして、最後にあなたが対面するのは ── <em>もうひとりの、あなた自身</em>。</p>
+      <p>羽が、ぴくっ、と震えました。覚悟は、できていますか？</p>
+      <blockquote class="pixe-q">
+        「12週間、ご一緒できますか？<br>
+        いまのあなたが歩く、その速さで。<br>
+        それで、よろしいですか？」
+      </blockquote>
+      <p>あなたは、頷いた。<br>それは、最初の <em>選択</em> でした。</p>
+      <p>では、第一章を始めましょう。</p>
+    </div>
+  </article>
+
+  <!-- 第一章 -->
+  <article class="chapter" id="ch1">
+    <div class="ch-num">— CHAPTER I —</div>
+    <h2 class="ch-title">迷いの霧</h2>
+    <div class="ch-pov">語り手：あなた（二人称）</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">霧は、声を出すたびに少しだけ晴れる。</p>
+      <p>そう教えてくれたのはピクセだった。</p>
+      <blockquote class="pixe-q">
+        「霧の正体は、<em>「動いていいのだろうか」</em> という躊躇いの粒子です。<br>
+        身体を守るために、かつて必要だったもの。<br>
+        ……でも、いまはどうですか？」
+      </blockquote>
+      <p>あなたは答えなかった。代わりに、灰色のヴェールの向こう、見えるはずの何かを目で探した。</p>
+      <p>足元の砂は柔らかく、踏むたび小さな光を返す。<span class="vitalia-only">それは <em>あなたの病室の窓から見えた朝陽</em>の色だった。</span><span class="villainess-only">それは<em class="villainess-em">舞踏会の前夜、屋敷の窓から見上げた星空</em>の色だった。</span></p>
+      <p>『動いてもいいのだろうか』 ── 心臓のあたりで、その問いが鳴っていた。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>長いあいだ、あなたは<em>動かないこと</em>を、ひとつの戦略として選んできた。</p>
+      <p>治療を受けていた頃、無理をすれば検査値が崩れた。少し走れば家族の顔が曇った。動かないことは、責められない選択肢だった。安全だった。<em>正しかった</em>。</p>
+      <p>けれど、いつからかその「正しさ」は、薄い霧のような何かに変わっていた。<br>
+      動かないでいることが、誰かを守るためなのか、それとも自分が傷つかないためなのか、わからなくなっていた。</p>
+      <p>そして気がつけば、自分が <em>本当に動きたかった方向</em> も、霧に呑まれて見えなくなっていた。</p>
+      <p>──それが、ヴィタリアの霧の正体だった。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <p>「動かないことも、立派な戦いでした」とピクセは言う。橙のランプの灯が、霧をひとすじ削った。</p>
+      <p>「でも、いまは。動いてもいい身体を、あなたはちゃんと、手に入れているのではありませんか？」</p>
+      <p>あなたは自分の手を見つめた。指がある。腕がある。心臓は奥の方で規則正しく時を刻んでいる。それを <em>当たり前</em> と呼べるようになったのは、つい最近のことだった。</p>
+      <p>霧のなかで、あなたは ── ほんの一歩、踏み出した。</p>
+      <p>砂の粒が、ぴしゃ、と光った。</p>
+      <p>霧が、ふっと薄まった。</p>
+      <p>視界の端、何かが動いた。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>「<em>1分の散歩</em> でも、霧は晴れます」</p>
+      <p>ピクセが囁いた。</p>
+      <p>「カイトが言っていましたよ。『最初の一歩は、勝利のうちに数えていい』って」</p>
+      <p>あなたは、もう一歩、踏み出した。</p>
+      <p>そして、もう一歩。</p>
+      <p>霧の向こうから、<em class="kaito">赤いマント</em>が翻った。剣の柄を握る、無口な男の足音が、近づいていた。</p>
+      <p>──第二章へ。</p>
+    </div>
+  </article>
+
+  <!-- 第二章 -->
+  <article class="chapter" id="ch2">
+    <div class="ch-num">— CHAPTER II —</div>
+    <h2 class="ch-title">剣士の沈黙 ── 疲労の影</h2>
+    <div class="ch-pov">語り手：カイト</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">俺は、長いこと喋らない男だ。喋るより、動くほうが性に合っている。</p>
+      <p>剣士というのは、本来そういう生き物だ。言葉でなく、剣で語る。表情でなく、立ち姿で示す。──そう信じてきた。</p>
+      <p>けれど、ある時期から、その剣を握れなくなった。</p>
+      <p>原因は、いまさら明かさない。怪我だったとも言えるし、心の方が先に折れたとも言える。鏡の中の自分を見るたび、知らない男が立っていた。剣を構えるかわりに、両手で顔を覆っていた。</p>
+      <p>毎日、玄関のドアを開けるところから始めた。<br>
+      次の日は、玄関を出てみた。<br>
+      その次の日は、ポストまで歩いた。<br>
+      さらに次の日は、ポストの先まで行ってみて、それで引き返した。</p>
+      <p>三週間がそうやって過ぎた。気づいたら、剣の柄をまた握れるようになっていた。</p>
+      <p>誰にも自慢できない、地味な復帰だった。<br>
+      けれど ── あれは、俺の人生でいちばん大きな勝利だった。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>ヴィタリアの霧の境目に、青く流れる影がいた。<span class="skill">疲労ノ影</span>と呼ばれる、ヴィタリアの第一の門番。</p>
+      <p>影は、近づく者に囁く。</p>
+      <blockquote class="boss">
+        「身体が、重いだろう？<br>
+        無理をするな。<br>
+        いまの自分のままで、いいんだ⋯⋯」
+      </blockquote>
+      <p>俺は、その囁きを知っている。<br>
+      数年前、玄関で立ち尽くしていた俺の耳に、毎朝、同じ声が聞こえていた。</p>
+      <p>そして、霧のなかから、転生者さんが出てきた。</p>
+      <p>その目を見た瞬間、俺は懐かしい何かを感じた。<em>動いていいのか、まだ自信がない</em> 顔だった。あの頃の、俺の顔だった。</p>
+      <p>俺は、自分の剣を抜かなかった。代わりに、転生者さんの肩に、軽く手を置いた。</p>
+      <blockquote class="kaito-q">
+        「1分でいい。<br>
+        それだけで、霧は晴れる。<br>
+        長く続ける必要は、ない。<br>
+        ── <em>続けることと、長く動くことは、別物だ</em>」
+      </blockquote>
+      <p>転生者さんが、ゆっくり頷いた。</p>
+      <p>そして ── 歩き出した。</p>
+      <p>歩幅は短い。姿勢は少しだけ前のめり。けれど、確かに地を踏んでいた。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <p>疲労ノ影が、ぐらりと揺れた。</p>
+      <p>影は俺たちに向かって、最後の囁きを放った。</p>
+      <blockquote class="boss">
+        「⋯⋯動けるのか。動いて、いいのか？<br>
+        無理を、してはいないか？」
+      </blockquote>
+      <p>俺は剣を構えた。鞘から滑り出した刃が、霧のあいだで一瞬だけ光った。</p>
+      <blockquote class="kaito-q">
+        「無理してない。<br>
+        <em>1分だけ動いてる</em>。それだけだ。<br>
+        ⋯⋯ 1分の積み重ねが、いまの俺を作った。<br>
+        お前は、もう用済みだ」
+      </blockquote>
+      <p>剣の腹で、俺は影をひとつ、なぞるように撫でた。<br>
+      影は、ほどけて、青い霧になり、地面に染み込んだ。</p>
+      <p>あとに残ったのは、地に芽吹いた、薄い緑のひとひら。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>俺は、転生者さんの後ろを歩いた。</p>
+      <p>剣士というのは、本当は <em>前を歩く者</em> ではない。<em>後ろにいて、振り向かなくていいことを保証する者</em> のことを言う。少なくとも、俺はそう思っている。</p>
+      <p>転生者さんが、振り向かずに歩き続けるあいだ、俺は剣の柄を、いつもより少し強く握りしめていた。</p>
+      <blockquote class="kaito-q">
+        「先生 ── 俺は、いま、誰かを守れています。<br>
+        あの頃、剣を握れなかった、俺が」
+      </blockquote>
+      <p>独り言は、ヴィタリアの風に溶けた。誰にも届かなかったけれど、それでよかった。</p>
+      <p>地平線の先、緑のローブが翻る、薬草園の煙が立っていた。</p>
+    </div>
+  </article>
+
+  <!-- 第三章 -->
+  <article class="chapter" id="ch3">
+    <div class="ch-num">— CHAPTER III —</div>
+    <h2 class="ch-title">緑のローブ ── 枯渇の魔物</h2>
+    <div class="ch-pov">語り手：セラ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">わたしの母は、毒で亡くなりました。</p>
+      <p>誤解しないでください。誰かに毒を盛られたわけではありません。<br>長い闘病の末、薬と病が、母の身体を少しずつ削っていったのです。</p>
+      <p>最後の数ヶ月、母は何を食べても味がしなかったと言いました。「美味しさを、忘れちゃったみたい」と、笑いながら。あの笑顔を、わたしは一生忘れないと思います。</p>
+      <p>母が亡くなった夜、わたしは家の裏の薬草園に出ました。空には満月。地には霜。冬枯れた草の根元に、幼い手で穴を掘り、新しい種を埋めました。</p>
+      <p>『食べることは、生きることだ』 ── そう、誰にともなく決意しました。<br>誰かの食卓を、もう一度、温かい場所にしたい。母の最後のひと言を、別の誰かには言わせたくない。</p>
+      <p>それから何年もかけて、わたしは薬草を育て、レシピを習い、火の通し方を覚え、人の身体に <em>いちばん優しい量</em> を学びました。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>ヴィタリアの森の奥、枯れた木立のあいだに、茶色く萎んだ魔物が蠢いていました。<br>名は <span class="skill">枯渇ノ魔物</span>。栄養不足を、姿のある形に閉じ込めた存在です。</p>
+      <p>その魔物が囁きます。</p>
+      <blockquote class="boss">
+        「何を食べても⋯⋯力が、出ない。<br>
+        食べる気が、しないだろう？<br>
+        食卓は、もう、空っぽでいいんだよ⋯⋯」
+      </blockquote>
+      <p>わたしは、母の声を聞いた気がしました。<br>けれど、すぐに首を振りました。</p>
+      <p>母の声は、もっと、温かかった。</p>
+      <p>森の入口から、転生者さまが歩いてきました。隣には、あの寡黙な剣士。さらに、ぴくっ、と羽の音。</p>
+      <p>転生者さまは、わたしの薬草園の入口で、少しだけ立ち止まりました。<em>食べてもいいのか</em> ── そう、目で問うているようでした。</p>
+      <p>わたしは、知っています。</p>
+      <p>治療中、口にできるものが限られていた人の目を。母も、同じ目をしていました。「今日は卵だけ」「今日はおかゆだけ」「今日は何もいらない」── そんな日々を経て、ようやく自分の食卓に戻ってこられた人は、最初の一口に <em>ためらう</em> のです。</p>
+      <p>わたしは、青魚の味噌煮を小皿に盛りました。<br>EPAとDHA。抗炎症の橋を架ける材料。<br>かつおぶしの一掴み。アミノ酸の小さな魔法。<br>味噌の発酵。腸内の善玉菌への、優しい挨拶。</p>
+      <blockquote class="sera-q">
+        「魚のいちばん良いところは、<br>
+        <em>身体を造る材料</em> でありながら、<br>
+        同時に、<em>身体を癒やす材料</em> でもあるところです。<br>
+        ⋯⋯あなたの細胞が、新しく入れ替わるときに、<br>
+        この一匙が、その材料になります」
+      </blockquote>
+      <p>転生者さまは、口に運びました。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>その瞬間、枯渇ノ魔物が、苦しげに身をよじりました。</p>
+      <blockquote class="boss">
+        「やめろ⋯⋯食べるな⋯⋯<br>
+        身体を、満たすな⋯⋯」
+      </blockquote>
+      <p>わたしは、薬草園の奥から、ひと束の <em>春菊</em> を取り出しました。<br>そして、青魚と豆腐を一緒に煮込んだ小鍋を、火にかけました。</p>
+      <p><span class="skill">セラの結界</span>、と冒険者たちは呼びますが、ただの料理です。けれど、<em>ただの料理にこそ、いちばん強い魔法が宿る</em>のだと、わたしは知っています。</p>
+      <p>湯気が立ちのぼり、森のあいだに広がりました。湯気は枯渇ノ魔物の輪郭をなぞり、ふっ、と砕きました。</p>
+      <p>魔物は、最後にひと言だけ残しました。</p>
+      <blockquote class="boss">
+        「⋯⋯思い出した。<br>
+        食べることは、生きることだった、と⋯⋯」
+      </blockquote>
+      <p>そして、ほどけて、土になりました。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>わたしは、転生者さまに笑いかけました。</p>
+      <blockquote class="sera-q">
+        「あなたの食卓に、魔法が宿りましたね。<br>
+        母さまが、見てくれているような気がします」
+      </blockquote>
+      <p>胸の奥が、ふっと、温かくなりました。母の声が、いま、わたしを通して、誰かを支えていました。</p>
+      <p>森の奥、湖の方角に、銀色の光が差していました。月光の女神官、ルナの祈りの時間が、もうすぐ始まる頃でした。</p>
+    </div>
+  </article>
+
+  <!-- 第四章 -->
+  <article class="chapter" id="ch4">
+    <div class="ch-num">— CHAPTER IV —</div>
+    <h2 class="ch-title">銀色の月 ── 孤独の幽霊</h2>
+    <div class="ch-pov">語り手：ルナ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">わたくしは、長いこと、声を失っていました。</p>
+      <p>厳密に言えば、声帯は無事でした。けれど、心のなかにあったはずの言葉が、外に出ようとすると、いつも喉のあたりで凍りついてしまうのです。</p>
+      <p>誰かに「大丈夫？」と聞かれて、「大丈夫です」と答えるのが精一杯でした。<br>その「大丈夫です」のなかには、たくさんの「大丈夫じゃない」が入っていたのに、それを開いてしまうと、自分が崩れる気がしていたのです。</p>
+      <p>月の女神 ── ヴィタリアの古い神に祈り続けた年月を経て、わたくしの声は、少しずつ戻ってきました。</p>
+      <p>けれど、戻ってきたのは「叫ぶ声」ではありませんでした。<br>戻ってきたのは、<em>静かに、じっくりと、ひとつずつ言葉を選ぶ声</em> でした。</p>
+      <p>それで、よかったのだと、いまは思います。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>湖のほとり、銀の月が水面に映る場所に、青く透ける幽霊が浮かんでいました。<br><span class="skill">孤独ノ幽霊</span>。ヴィタリアの第三の試練。</p>
+      <p>幽霊は囁きます。</p>
+      <blockquote class="boss">
+        「誰にも、分かってもらえない。<br>
+        治療を経験していない人には⋯⋯<br>
+        わたしの本当の感覚は、絶対に、届かない⋯⋯」
+      </blockquote>
+      <p>その言葉が真実かどうか、わたくしは判断しません。<br>真実かどうかは、本人だけが、決められるものですから。</p>
+      <p>湖のほとりに、転生者さまが立っていました。後ろにはカイト、横にはセラ、肩にはピクセ。それでも、転生者さまの胸の奥には、孤独ノ幽霊と同じ青い光が、ひそかに灯っていました。</p>
+      <p>『仲間がいるのに、なぜ孤独なのか』 ── そう問うのは、簡単です。<br>けれど、その問いには、答えがありません。<em>仲間がいるのに孤独</em> ── その状態こそが、人の心の、根源的な仕様だからです。</p>
+      <p>わたくしは、転生者さまに四つの問いを差し出しました。</p>
+      <blockquote class="luna-q">
+        「<em>Goal</em> ── 望んでいることは、何ですか。<br>
+        <em>Reality</em> ── いまの状態を、教えていただけますか。<br>
+        <em>Options</em> ── 選べる道は、いくつくらい、思い浮かびますか。<br>
+        <em>Will</em> ── そのなかで、あなたが選びたいのは、どれですか。<br>
+        ⋯⋯GROW、と人は呼びます。古い対話の形です」
+      </blockquote>
+      <p>転生者さまは、答えに詰まりました。当然です。すぐに答えが出るような問いではないのです。</p>
+      <p>わたくしは、もうひと言だけ加えました。</p>
+      <blockquote class="luna-q">
+        「答えなくて、よろしいのです。<br>
+        言葉になるまで、待ちます。<br>
+        ⋯⋯月は、何百億年も、人類が言葉を持つのを待ちました。<br>
+        わたくしも、待ちます」
+      </blockquote>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>転生者さまは、しばらく沈黙していました。</p>
+      <p>そして、ぽつり、と。</p>
+      <p>「⋯⋯本当は、誰かに、言いたいことがある」</p>
+      <p>湖面の幽霊が、少しだけ薄くなりました。</p>
+      <p>「⋯⋯でも、何を言えばいいのかわからない」</p>
+      <p>幽霊は、もう少し薄くなりました。</p>
+      <p>「⋯⋯ただ、聞いていてほしい」</p>
+      <p>幽霊は、すっ、と空気のなかに溶けて、月光と入れ替わるようにして、消えました。</p>
+      <p>月光は、転生者さまの肩を、ふわりと包みました。</p>
+      <blockquote class="luna-q">
+        「<em>言葉にならない、ということ自体を、言葉にできた</em>。<br>
+        それで、十分なのです。<br>
+        孤独は、消えたのではなく、<br>
+        <em>分かち合われたから、形を変えた</em>のです」
+      </blockquote>
+      <p>カイトが、剣の柄を、かちゃ、と鳴らしました。<br>セラが、湯気のたつカップを、転生者さまに差し出しました。<br>ピクセが、ぴくっ、と羽を震わせました。</p>
+      <p>四人 ── いえ、転生者さまを入れて五人 ── が、湖のほとりに、揃いました。</p>
+      <p>これで、第一部は終わりです。<br>次に待つのは、<em>七つの大罪</em>。</p>
+      <p>わたくしたちの旅は、ここからが、本当の試練です。</p>
+    </div>
+  </article>
+
+  <!-- 第五章 -->
+  <article class="chapter" id="ch5">
+    <div class="ch-num">— CHAPTER V — SIN OF SLOTH</h2>
+    <h2 class="ch-title">泥の巨像 ── 怠惰</h2>
+    <div class="ch-pov">語り手：あなた（二人称）</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">ヴィタリアの森の入口に、紫の泥でできた巨人が立っていた。</p>
+      <p>身の丈は四階建ての塔ほど。表面はぬるりと光り、足元には黒く粘る沼。歩くたびにずぶずぶと音を立てる、巨大な怠惰の塊。</p>
+      <p>名は ── <em>怠惰のスロウス</em>。</p>
+      <p><span class="vitalia-only">ヴィタリアにおける、最初の大罪。「動かないこと」を究極まで突き詰めた、紫色の塊。</span></p>
+      <p><span class="villainess-only"><em class="villainess-em">ロザリア</em>、つまりあなたの目には、巨人はかつて自分自身が屋敷に閉じこもっていた頃の姿に見えた。婚約者から「お前との婚約は破棄だ」と糾弾された、あの夜以来、屋敷から一歩も出られなかった日々。あの「動けない自分」が、紫の泥として、目の前に立っていた。</span></p>
+      <p>スロウスは、身体を揺らしながら、低い声で囁いた。</p>
+      <blockquote class="boss">
+        「動けば⋯⋯疲れるだけだ。<br>
+        泥に、沈め⋯⋯<br>
+        誰にも、何も求められない場所で、<br>
+        永遠に、横になっていろ⋯⋯」
+      </blockquote>
+      <p>その声を聞いた瞬間、あなたの足が、ふっ、と地面に縫いつけられたように動かなくなった。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>『動かないことは、確かに、楽だった』──あなたは思った。</p>
+      <p>誰にも責められない。自分の限界に直面することもない。「やればできた」可能性を、いつまでも温存しておける。動かないでいるあいだ、自分はまだ <em>準備の途中</em> だと思える。</p>
+      <p>けれど、その「楽」のなかにいつも、薄い霧が漂っていた。<br>準備の途中、と言いながら、何の準備もしていなかった。動かないでいることに、慣れすぎて、<em>動き出し方を忘れていた</em>。</p>
+      <p>スロウスの泥が、ぬるり、とあなたの足首に絡みつく。</p>
+      <p>沈んでいく。膝まで。腰まで。</p>
+      <blockquote class="boss">
+        「いいだろう⋯⋯何もしなくて⋯⋯<br>
+        休んでいて、いいんだ⋯⋯<br>
+        誰も、お前を責めない⋯⋯」
+      </blockquote>
+      <p>耳の奥で、その囁きが反響した。心地よかった。<em>その心地よさが、いちばん、怖かった</em>。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>カイトが、剣を抜いた。<br>けれど、それを振るおうとはしなかった。</p>
+      <p>代わりに、剣の腹を、沼に投げ捨てた。剣は、するすると沈んだ。</p>
+      <p>「カイト、何を ── ?!」とあなたは叫んだ。</p>
+      <p>カイトは、ふっ、と笑った。剣士が、剣を捨てて笑うのを、あなたは初めて見た。</p>
+      <blockquote class="kaito-q">
+        「お前、知ってるか。<br>
+        スロウスは、激しい運動より、<br>
+        <em>1分の散歩</em>のほうが、ずっと苦手なんだ。<br>
+        ⋯⋯派手な剣で斬っても、奴は復活する。<br>
+        毎日の小さな動きこそが、奴を、本当に弱らせる」
+      </blockquote>
+      <p>カイトは、沼に膝までつかったあなたの手を、ぐい、と引き上げた。</p>
+      <p>「立て。1分でいい」</p>
+      <p>あなたは、ためらった。沼の心地よさが、肩のあたりで囁いていた。</p>
+      <p>けれど、カイトの目は、まっすぐだった。あの、玄関で立ち尽くしていた頃のカイトの目を、いま、あなたは思い出した。</p>
+      <p>あなたは、足を、抜いた。ぬぽ、と粘る音を立てて。</p>
+      <p>そして、一歩。</p>
+      <p>泥の表面に、ぴしっ、とひびが入った。</p>
+      <p>あなたが、もう一歩、踏み出した。</p>
+      <p>もうひとつ、ひびが入った。</p>
+      <p>あなたが、振り返らずに、歩き続けた。</p>
+      <p>泥が、剥がれはじめた。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>スロウスが、膝をついた。</p>
+      <blockquote class="boss">
+        「⋯⋯なぜ⋯⋯<br>
+        毎日、続けられるのだ⋯⋯」
+      </blockquote>
+      <p>その声には、どこか、羨望が混ざっていた。スロウスは、誰よりも <em>動きたかった</em> 存在なのかもしれない、と、あなたは初めて思った。</p>
+      <p>あなたは、振り返って、スロウスに、こう言った。</p>
+      <p>「<em>動けない自分</em>を、長いあいだ、許してきたから。<br>
+      その時間が、いま、わたしを支えている」</p>
+      <p>スロウスは、静かに、目を閉じた。<br>泥の身体が、ふっ、とほどけて、紫の砂になり、地面に染み込んだ。</p>
+      <p>あとに残ったのは、地に芽吹いた、薄い緑のひとひら。</p>
+      <p>カイトが、沼に沈んだ剣を拾い、鞘に収めた。</p>
+      <blockquote class="kaito-q">
+        「お前、悪くないな。<br>
+        ⋯⋯次は、暴食だ。<br>
+        セラが、待ってる」
+      </blockquote>
+      <p>森の奥、お菓子の甘い香りが、漂いはじめていた。</p>
+    </div>
+  </article>
+
+  <!-- 第六章 -->
+  <article class="chapter" id="ch6">
+    <div class="ch-num">— CHAPTER VI — SIN OF GLUTTONY</div>
+    <h2 class="ch-title">甘い誘惑 ── 暴食</h2>
+    <div class="ch-pov">語り手：あなた（二人称）／セラ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">グラトは、甘い香りで近づいてきた。</p>
+      <p>くるりとした金髪、薔薇色の頬、ふわふわと舞うレース。手にはケーキの皿、もう片方の手にはチョコレートの噴水。歩くたびに、彼女の周りには、揚げたてのフライドポテトの香りが立ちのぼった。</p>
+      <p><span class="vitalia-only">名は <em>暴食のグラト</em>。お菓子の魔女。第二の大罪。</span></p>
+      <p><span class="villainess-only">名は <em class="villainess-em">アデリード公爵令嬢</em>。<em class="villainess-em">ロザリア</em>のかつての友人。今は、舞踏会の場で、にこやかに、ロザリアを <em>太らせて社交界から葬ろう</em> としている、無邪気な刺客。</span></p>
+      <p>グラトは、にこ、と微笑んだ。</p>
+      <blockquote class="boss">
+        「お腹、すいてるでしょう？<br>
+        我慢、してきたでしょう？<br>
+        ⋯⋯もう、楽になっていいの。<br>
+        全部、食べちゃって」
+      </blockquote>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>その声が、痛いほど、染みた。</p>
+      <p>あなたは、知っている。<br><em>食べたいものを、我慢する</em> ということが、どれだけ辛いかを。</p>
+      <p>治療中、食べたかったものを、たくさん我慢した。生ものは禁止。脂っこいものも禁止。塩分も控えめに。点滴の隙間に、おかゆをひと匙。</p>
+      <p>『退院したら、好きなだけ食べていい』 ── そう自分に約束していた。</p>
+      <p>けれど、退院後の世界には、新しい <em>禁止令</em> が待っていた。<br>「がんサバイバーは加工肉を控えるように」「赤身肉も週○gまで」「アルコールはほどほどに」「砂糖飲料は控えめに」⋯⋯</p>
+      <p>『また、我慢か』 ── そう思うたび、苛立ちが、胸の奥で小さく爆ぜた。</p>
+      <p>『なぜ、自分は、いつも我慢する側なのか』</p>
+      <p>グラトは、その苛立ちを、知っていた。<br>彼女は、ケーキの皿を、あなたの目の前に、すっ、と差し出した。</p>
+      <blockquote class="boss">
+        「ね？<br>
+        我慢ばかりの人生、もう、いいでしょう？<br>
+        ⋯⋯一口でいいの。<br>
+        一口、食べたら、あとは⋯⋯」
+      </blockquote>
+      <p>あなたの手が、ふら、と伸びた。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>そのとき。</p>
+      <p>後ろから、ふっ、と湯気の香りがした。</p>
+      <p>振り返ると、セラが、両手で湯気の立つお椀を、抱えていた。</p>
+      <p>青魚の味噌煮、豆腐とねぎの汁物、雑穀ごはん。<br>派手ではない。<em>地味で、優しい、本物の食卓</em>。</p>
+      <p>セラは、グラトのケーキの皿に、ちらりと視線をやり、それから、あなたを見た。<br>あなたが目を逸らさなかったので、セラは、ゆっくり、頷いた。</p>
+      <blockquote class="sera-q">
+        「<em>我慢</em> ではなく、<br>
+        <em>選択</em> と呼んでください。<br>
+        <br>
+        あなたは、ケーキを <em>食べないのではない</em>。<br>
+        あなたは、<em>魚を選んでいる</em> のです。<br>
+        <br>
+        ⋯⋯言葉が変わると、行動の意味も、変わります」
+      </blockquote>
+      <p>あなたは、その言葉を、何度か、心の中で反芻した。</p>
+      <p>『我慢している』 ── そう思っているうちは、いつかリバウンドが来る。誰かに与えられた制限を、いやいや守っている、奴隷のような心境のままだ。</p>
+      <p>『選んでいる』 ── そう思えば、それは、あなた自身が決めた、誇りある行為になる。誰にも、奪われていない。<em>あなたが、あなたの食卓を、自分で選んでいる</em>。</p>
+      <p>あなたは、ケーキの皿を、ぐい、と押し戻した。</p>
+      <p>そして、セラの差し出した、青魚の小皿を、両手で、受け取った。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>グラトの甘い香りが、ふっ、と薄れた。</p>
+      <p>彼女の薔薇色の頬から、色が抜けていった。</p>
+      <blockquote class="boss">
+        「⋯⋯どうして、選ばないの？<br>
+        美味しいのに⋯⋯<br>
+        甘いのに⋯⋯」
+      </blockquote>
+      <p>その声は、最初の囁きとはちがって、どこか、悲しげだった。</p>
+      <p>『グラト自身も、本当は <em>選びたかった何か</em> があったのかもしれない』 ── あなたは、ふと、そう思った。</p>
+      <p>『暴食は、満たされなかった心の、別の形なのかもしれない』 ── と。</p>
+      <p>セラが、ふっ、と、グラトに微笑んだ。</p>
+      <blockquote class="sera-q">
+        「あなたも、いつか、自分の食卓を、<br>
+        自分で選べる日が来ますよ」
+      </blockquote>
+      <p>グラトは、目を見開いた。それから、ふわっ、と崩れた。</p>
+      <p>砂糖の粉が、雪のように舞った。<br>雪は、地に落ちて、雨になった。<br>雨は、土に染み込んで、消えた。</p>
+      <p>あとに残ったのは、地に芽吹いた、薄い緑のひとひら。</p>
+      <p>あなたは、青魚をひと口、口に運んだ。<br>味は、温かかった。母が作ってくれたみたいな、優しい温度だった。</p>
+      <p>セラが、ふっ、と笑った。<br>彼女の瞳の奥に、亡き母の顔が、ちらりと、よぎった気がした。</p>
+    </div>
+  </article>
+
+  <!-- 第七章 -->
+  <article class="chapter" id="ch7">
+    <div class="ch-num">— CHAPTER VII — SIN OF WRATH</div>
+    <h2 class="ch-title">黒い炎 ── 憤怒</h2>
+    <div class="ch-pov">語り手：ルナ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">心の試練の最初は、憤怒。</p>
+      <p>イラ、と呼ばれる、黒い炎の獣。</p>
+      <p>炎の毛皮、爛々と燃える瞳、鞭のような尾。獣が一歩近づくたび、地面が焦げ、空気が歪み、世界が <em>怒り色</em> に染まる。</p>
+      <p><span class="vitalia-only">ヴィタリアの第三の大罪、憤怒の獣 <em>イラ</em>。</span></p>
+      <p><span class="villainess-only"><em class="villainess-em">ロザリア</em>を陥れるために王宮に流された、根も葉もない噂。「あの令嬢は、平民の娘を毒で害そうとした」── 冤罪。胸の奥で、黒い炎が燃え上がる。</span></p>
+      <p>イラが、咆哮した。</p>
+      <blockquote class="boss">
+        「ほら、怒れ⋯⋯！<br>
+        周りの全てが、お前から奪っていったではないか！<br>
+        健康を、時間を、青春を、未来を ── ！<br>
+        ⋯⋯怒り狂え、燃え尽きるまで！」
+      </blockquote>
+      <p>転生者さまの胸の奥に、その炎は、古くから巣食っていました。</p>
+      <p><em>「なぜ自分だけ」</em> ── という、名の炎です。</p>
+      <p>なぜ自分だけが、病気を経験しなければならなかったのか。<br>なぜ自分だけが、健常な同世代と同じ景色を、見られないのか。<br>なぜ自分だけが、検査結果を待つ廊下の白いベンチに、何度も、座らなければならなかったのか。</p>
+      <p>その怒りには、正当な理由があります。<br>わたくしは、それを否定しません。<em>怒りは、奪われたものへの、正しい反応</em> だからです。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>けれど、怒りに飲まれてしまうと、自分が燃え尽きてしまう。それも、また、事実です。</p>
+      <p>イラの炎が、転生者さまの足元に、ぐぐ、と巻きついた。</p>
+      <p>転生者さまが、思わず、こぶしを握りしめた。</p>
+      <blockquote class="boss">
+        「そう、握りしめろ⋯⋯！<br>
+        殴れ、叫べ、世界を呪え⋯⋯！」
+      </blockquote>
+      <p>わたくしは、転生者さまの肩に、そっと、片手を置きました。</p>
+      <blockquote class="luna-q">
+        「いま、何に怒っていますか？<br>
+        言葉に、してみていただけますか？<br>
+        <br>
+        言葉にすると、その怒りは、<br>
+        <em>あなたとは別の何か</em> になります。<br>
+        ⋯⋯外に出した怒りは、もう、あなたを内側から、燃やしません」
+      </blockquote>
+      <p>転生者さまは、長いあいだ、黙っていました。<br>炎の獣が、肩で、ふー、ふー、と荒い息を吐いていました。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>そして、ぽつりと、ひとつ、言葉が出ました。</p>
+      <p>「⋯⋯本当は、<em>悲しかった</em>」</p>
+      <p>イラの炎が、ふっ、と一瞬、揺らぎました。</p>
+      <p>「⋯⋯怒っているふりをしていたのは、悲しさを、認めるのが、こわかったから」</p>
+      <p>炎が、もう少し、小さくなりました。</p>
+      <p>「⋯⋯本当は、<em>分かってほしかった</em>」</p>
+      <p>炎が、ぽとり、と地面に落ちました。</p>
+      <p>「⋯⋯誰かに、ただ、聞いていてほしかった。<br>励ましも、アドバイスも、解決策も、いらなかった。<br>ただ、聞いて、欲しかった」</p>
+      <p>イラの炎は、もう、ほとんど消えていました。<br>あとに残ったのは、ひとすじの、灰色の煙。</p>
+      <p>その煙の名を、わたくしは知っています。<br><em>「分かってくれて、ありがとう」</em> という、煙です。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>イラは、最後にひと言だけ、残しました。</p>
+      <blockquote class="boss">
+        「⋯⋯炎が、静まる⋯⋯<br>
+        言葉が、出ると、こうなるのか⋯⋯<br>
+        わたしも、本当は、<br>
+        誰かに、聞いて欲しかったのかもしれない⋯⋯」
+      </blockquote>
+      <p>そして、煙は、夜風にほどけて、空に消えていきました。</p>
+      <p>転生者さまは、まだこぶしを握っていました。<br>けれど、その握り方は、最初とは、違っていました。<br><em>怒りを抑えるための握り方</em> ではなく、<em>覚悟を固めるための握り方</em> でした。</p>
+      <p>わたくしは、それを見届けて、ほっ、と息をつきました。</p>
+      <blockquote class="luna-q">
+        「お疲れさまでした。<br>
+        ⋯⋯あなたの怒りは、<br>
+        <em>奪われたものへの、深い愛</em>でした」
+      </blockquote>
+      <p>湖面に映る月が、ふっ、と笑った気がしました。</p>
+      <p>地に芽吹いた、薄い緑のひとひら。<br>第七章、終わり。</p>
+    </div>
+  </article>
+
+  <!-- 第八章 -->
+  <article class="chapter" id="ch8">
+    <div class="ch-num">— CHAPTER VIII — SIN OF ENVY</div>
+    <h2 class="ch-title">砂時計の影 ── 嫉妬</h2>
+    <div class="ch-pov">語り手：あなた（二人称）／ピクセ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">霧の谷に、ぼろ布の影が、砂時計を持って佇んでいた。</p>
+      <p>姿は、どんな顔にも見える。光を当てる角度を変えるたび、影の表情も変わる。あなたが知っている誰か、SNSで毎日見かける誰か、雑誌の表紙で笑っている誰か ── そのすべてに、一瞬ずつ、見えた。</p>
+      <p><span class="vitalia-only">名は <em>嫉妬のインヴィ</em>。第四の大罪。比較する亡霊。</span></p>
+      <p><span class="villainess-only"><em class="villainess-em">ヒロインのローズマリー</em>。ロザリアの婚約者を奪った、平民出身の少女。<em class="villainess-em">愛されること</em>を生まれながらに知っている娘。彼女の輝きを目にするたび、ロザリアの胸の奥が、きりりと締めつけられる。</span></p>
+      <p>影は、砂時計を、すっ、と差し出した。</p>
+      <blockquote class="boss">
+        「見ろ⋯⋯<br>
+        あの人はもう、健康だ。<br>
+        あの人はもう、結婚した。<br>
+        あの人はもう、夢を叶えた。<br>
+        ⋯⋯お前は、何を、しているんだ？」
+      </blockquote>
+      <p>砂時計の砂が、上から下へ、さらさら、と落ちていった。<br>あなたの胸の奥で、その砂と同じ速さで、何かが落ちていった。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>嫉妬は、惨めな感情だ、と人は言う。<br>けれど、あなたは知っている。</p>
+      <p>嫉妬の奥には、ごく素直な願いがある。<br><em>「自分も、持ちたかった」</em> ── という願いが。</p>
+      <p>同窓会のSNS投稿。同期の昇進報告。学生時代の友人の結婚式の写真。みんな、あなたが治療室で過ごしていた時間に、健康な身体で、ふつうの恋愛をして、ふつうの仕事をして、ふつうの記念日を、積み重ねていた。</p>
+      <p>『ふつう』 ── その二文字を、あなたは、欲しかった。</p>
+      <p>けれど、それは、もう、戻ってこない。<br>戻ってこないと知っていることが、嫉妬を、いっそう、深くした。</p>
+      <p>『戻ってこないなら、最初から欲しくなかったことにすればいい』 ── そう、自分に言い聞かせていた時期もあった。けれど、それは無理だった。<em>欲しかったものは、欲しかったままだった</em>。</p>
+      <p>影が、砂時計を、もう一度、揺らした。</p>
+      <blockquote class="boss">
+        「⋯⋯比べるな、と言うのは、簡単だ。<br>
+        だが、比べないでいられるか？<br>
+        SNSが、雑誌が、世界が、<br>
+        毎日、お前に <em>比較</em> を要求してくるのに？」
+      </blockquote>
+      <p>あなたは、答えに、詰まった。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>そのとき、ぴくっ、と羽の音がした。</p>
+      <p>あなたの肩に、ピクセが、ふわりと舞い降りた。</p>
+      <p>ピクセの手には、小さな手帳。<br>あなたが、ヴィタリアに来てから今日までの、すべての記録。</p>
+      <p>ピクセは、手帳を、ぱらぱら、とめくった。</p>
+      <blockquote class="pixe-q">
+        「比べる相手は、<br>
+        他人じゃないんですよ。<br>
+        <br>
+        <em>1週間前のあなた</em>と、比べてみてください。<br>
+        ピクセの記録によれば、転生者さんは、<br>
+        確実に、進んでいます。<br>
+        <br>
+        ⋯⋯ピクセが、保証します。ぴくっ」
+      </blockquote>
+      <p>あなたは、手帳をのぞき込んだ。</p>
+      <p>最初のページには、<em>霧のなかで、一歩、踏み出した日</em>。<br>次のページには、<em>カイトと一緒に、5分歩いた日</em>。<br>その次のページには、<em>セラの青魚を、口に運んだ日</em>。<br>そして今日 ── あなたは、<em>ルナと話して、自分の悲しみに、名前をつけた</em>。</p>
+      <p>『1週間前の自分は、これらを、ひとつもできていなかった』 ── 気づいた瞬間、胸の奥が、ふっ、と温かくなった。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>影の砂時計が、震えはじめた。</p>
+      <blockquote class="boss">
+        「⋯⋯比べる、相手を、<br>
+        変える、のか⋯⋯？<br>
+        他人ではなく、自分の、過去⋯⋯？」
+      </blockquote>
+      <p>影の輪郭が、ぼやけはじめた。</p>
+      <p>あなたは、影に、こう告げた。</p>
+      <p>「他人と比べることが、悪いんじゃない。<br>
+      ただ、わたしは、<em>わたし自身の物語</em> を生きたいだけ。<br>
+      他人の物語と、競争したいわけじゃないんだ」</p>
+      <p>影が、砂時計を、ぽとり、と落とした。<br>砂時計は、地面に当たって、ぱりん、と割れた。<br>砂は、すべて、地に落ちて、雨に溶けた。</p>
+      <p>影は、最後に、こう囁いた。</p>
+      <blockquote class="boss">
+        「⋯⋯お前の物語は、<br>
+        お前のもの、なのか⋯⋯？」
+      </blockquote>
+      <p>そして、霧散した。</p>
+      <p>あとに残ったのは、地に芽吹いた、薄い緑のひとひら。</p>
+      <p>ピクセが、ぴくっ、と羽を震わせて、こう言った。</p>
+      <blockquote class="pixe-q">
+        「ぴくっ。<br>
+        あなただけの物語、これからも、ピクセが綴じます。<br>
+        ⋯⋯次は、第三幕。世界の試練ですよ」
+      </blockquote>
+    </div>
+  </article>
+
+  <!-- 幕間 — 四人の小さな夜 -->
+  <article class="chapter" id="intermezzo">
+    <div class="ch-num">— INTERMEZZO —</div>
+    <h2 class="ch-title">四人の、小さな夜</h2>
+    <div class="ch-pov">語り手：カイト ／ セラ ／ ルナ ／ ピクセ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">第二幕の終わりと、第三幕のはじまりのあいだ。<br>ヴィタリアの森のはずれに、小さな宿があった。</p>
+      <p>木の壁、藁の屋根、暖炉の火。看板には何も書かれていない。けれど、暦のうえで二日に一度、必ず、四人と一人が集まって、夕餉をともにする。</p>
+      <p>転生者さんは、すでに自室で寝息をたてていた。</p>
+      <p>残された四人は、暖炉の前に、めいめいの椅子を引き寄せて、座った。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <h3 style="font-family:var(--serif);color:#f0a0a0;font-size:1.1rem;margin:1.4em 0 .8em;text-align:center;">— カイトの夜 —</h3>
+
+      <p>俺は、火をいじっていた。</p>
+      <p>木の枝を、火床に押しこむふりをしながら、本当は、燃え方を見ていた。<em class="kaito">炎は、薪の心臓部から燃えるのではなく、隙間から燃える</em>。隙間がなければ、火は息をできない。</p>
+      <p>転生者さんも、そういう存在だ、と俺は思う。</p>
+      <p>あの人は、自分のなかに <em>隙間</em> を作ることが、いちばん下手だった。常に詰めて、常に走って、常に「ちゃんと」していようとした。</p>
+      <p>けれど、ヴィタリアでの12週間で、少しずつ、隙間が広がってきている。<br>1分の散歩のあとに、深呼吸を3回入れる。<br>食事のあと、5分だけ、何もしない時間をとる。<br>夜、スマホを置いてから30分、ぼうっとする。</p>
+      <p>そういう、隙間。</p>
+      <p>俺の剣の師匠が、生前、こんなことを言っていた。</p>
+      <blockquote class="kaito-q">
+        「剣は、握る時間より、握らない時間が、大事だ。<br>
+        握りっぱなしの剣は、すぐに、鈍る」
+      </blockquote>
+      <p>あれは、剣の話ではなかったのだろう、といまは思う。<br>師匠は、自分の人生のことを、剣にたとえて、俺に語っていたのだ。</p>
+      <p>火床に押しこんだ枝が、ぱちん、と音を立てて爆ぜた。<br>俺はその音を、肯定の合図として、受け取った。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <h3 style="font-family:var(--serif);color:#1f8a66;font-size:1.1rem;margin:1.4em 0 .8em;text-align:center;">— セラの夜 —</h3>
+
+      <p>わたしは、夜の薬草園に、ひとり、出ていました。</p>
+      <p>月光のなか、薄荷の葉がふわりと香り、蓬の根元が湿った土の匂いを返していました。母が好きだった香りです。</p>
+      <p>母は、最後の数ヶ月、何を食べても味がしないと言いました。けれど、薄荷の葉だけは、最後まで「いい匂いね」と言ってくれました。</p>
+      <p>『食べることは、生きることだ』 ── そう決意した夜から、わたしは何度、この薬草園に立ったでしょう。</p>
+      <p>転生者さまの食卓に、いま、魔法を宿せる自分になれたこと。<br>それは、母が亡くなった夜のわたしには、想像もつかなかったことです。</p>
+      <blockquote class="sera-q">
+        「お母さま、見てくれていますか？<br>
+        ⋯⋯わたし、いま、誰かの食卓を、温めています」
+      </blockquote>
+      <p>月光が、薄荷の葉を、ひと撫でしました。<br>葉が、ふわっ、と揺れた。<br>それは、母の答えだったのかもしれない、とわたしは、思いました。</p>
+      <p>胸の奥に、温かい湯気が、ひとすじ、立ちのぼりました。<br>その湯気は、わたし自身の身体のなかに、栄養として、染み込んでいきました。</p>
+      <p><em class="sera">人を癒やす料理を作る人は、まず、自分を癒やしている人なのだ</em>。<br>そう、母は、教えてくれていたのかもしれません。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <h3 style="font-family:var(--serif);color:#5b4ea8;font-size:1.1rem;margin:1.4em 0 .8em;text-align:center;">— ルナの夜 —</h3>
+
+      <p>わたくしは、湖のほとりに、立っていました。</p>
+      <p>銀の月が、水面に映り、わたくしの足元に、もう一つの月の輪を作っていました。月は二つ、ひとつは空に、ひとつは水のなかに。</p>
+      <p>『どちらが、本物の月なのでしょう？』 ── そう問うたとき、わたくしは思います。<br>『どちらも、本物です』と。</p>
+      <p>声を失っていた頃、わたくしのなかには、たくさんの「言いたかったこと」が、湖の底のように、沈んでいました。</p>
+      <p>声が戻ったあと、わたくしは、それらを、ひと言ずつ、月光に向かって解放しました。<br>「あの日、悲しかった」<br>「あの時、怖かった」<br>「あの人に、本当は、ありがとうと言いたかった」</p>
+      <p>月は、何も答えませんでした。<br>けれど、月光は、ひとつずつ、わたくしの言葉を、銀色に染めて、空に運んでくれました。</p>
+      <p>転生者さまも、いま、そういう旅の途中におられます。</p>
+      <blockquote class="luna-q">
+        「あなたが言葉にしてくださったとき、<br>
+        わたくしの中の、銀色の何かも、<br>
+        一緒に、解放されているのです。<br>
+        <br>
+        ⋯⋯GROW という対話の形は、<br>
+        相手だけを救うものでは、ありません。<br>
+        <em>同時に、わたくしも、救われています</em>」
+      </blockquote>
+      <p>月光が、湖面に、ふっ、と微笑みました。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <h3 style="font-family:var(--serif);color:#f0d048;font-size:1.1rem;margin:1.4em 0 .8em;text-align:center;">— ピクセの夜 —</h3>
+
+      <p>ぴくっ。</p>
+      <p>ピクセは、暖炉の前で、転生者さんの手帳を、ぱらぱら、とめくっていました。</p>
+      <p>記録の手帳は、もう、ずいぶん厚くなりました。最初のページの、たった1分の散歩から、今日の「<em>嫉妬の砂時計を、自分の手で止めた</em>」まで、ぜんぶ、ピクセが書いた。</p>
+      <p>本当のことを言いますとね。</p>
+      <p>ピクセは、ヴィタリアでの記録係を、これで <em>三度目</em> です。</p>
+      <p>一度目の転生者さんは、第八章まで進んで、霧に戻ってしまいました。<br>二度目の転生者さんは、第十一章で、限界を迎え、ヴィタリアを去りました。</p>
+      <p>ピクセは、自分のせいかもしれないと、ずっと思っていました。<br>記録が足りなかったのではないか。励ましが足りなかったのではないか。羽の震わせ方が、もっと優しいほうがよかったのではないか。</p>
+      <p>けれど、ある日、月光のルナが、こう言ってくれました。</p>
+      <blockquote class="luna-q">
+        「ピクセ、<br>
+        途中で霧に戻られた転生者さまも、<br>
+        ヴィタリアを去られた転生者さまも、<br>
+        ⋯⋯きっと、それぞれの場所で、<br>
+        <em>あなたの記録</em>を、抱えていらっしゃるのです。<br>
+        <br>
+        ピクセ、あなたの仕事は、<br>
+        十二章まで連れていくこと <em>だけ</em> ではないのですよ」
+      </blockquote>
+      <p>その夜、ピクセは、長いあいだ、泣きました。<br>羽が、しんしん、と震えました。</p>
+      <p>そして、いま、三度目の転生者さん ── あなたが、第八章まで来てくださいました。</p>
+      <p>ピクセは、もう、自分を責めません。<br>たとえこの先で、霧に戻ってしまうことがあったとしても、<em>ピクセが綴じた記録</em> は、ちゃんと、あなたの胸のなかに、残るのです。</p>
+      <p>ぴくっ、と羽が震えました。</p>
+      <p>それは、希望の音でした。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>暖炉の火が、ぱちん、と最後の音を立てて、灰になりました。</p>
+      <p>四人 ── カイト、セラ、ルナ、ピクセ ── は、それぞれの椅子から、静かに立ち上がりました。</p>
+      <p>「明日から、第三幕だ」とカイトが言いました。<br>「世界の試練、ですね」とセラが頷きました。<br>「強欲、傲慢、色欲」とルナが、月光を見上げて、つぶやきました。<br>「ぴくっ。きっと、大丈夫」とピクセが、羽を震わせました。</p>
+      <p>四人は、転生者さんの寝室の前を、そっと、通り過ぎました。<br>転生者さんの寝息は、深く、安らかでした。</p>
+      <p>ヴィタリアの夜は、しんしんと、更けていきました。</p>
+    </div>
+  </article>
+
+  <!-- 第九章 -->
+  <article class="chapter" id="ch9">
+    <div class="ch-num">— CHAPTER IX — SIN OF GREED</div>
+    <h2 class="ch-title">黄金のガラクタ ── 強欲</h2>
+    <div class="ch-pov">語り手：あなた（二人称）／カイト／セラ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">第三幕、世界との関係。最初の試練は、強欲。</p>
+      <p>黄金とガラクタを、ピラミッドのように積み上げた、巨大な鬼が、目の前に立っていた。</p>
+      <p>身体は黄金。けれど、近づいてみると、それは安物のメッキで、剥がれた下からは、錆びついた鉄、割れたガラス、賞味期限の切れたサプリの瓶、宣伝チラシの山が、ぐじゃぐじゃに見えた。</p>
+      <p>鬼は、両手にあらゆる商品を抱え、叫んでいた。</p>
+      <blockquote class="boss">
+        「もっと、もっと！<br>
+        最新のサプリを！<br>
+        最強のダイエット法を！<br>
+        <em>これを飲めばがんが治る</em>と謳う民間療法を！<br>
+        ⋯⋯全部、買え。全部、試せ！<br>
+        買わないと、お前は、<em>遅れる</em>ぞ⋯⋯！」
+      </blockquote>
+      <p><span class="vitalia-only">第五の大罪、強欲の鬼。彼の名は、<em>ガラクタ鬼</em>。</span></p>
+      <p><span class="villainess-only">舞踏会のドレス、宝石箱、流行のコスメ、流行のサプリ、占星術、霊媒師、運命の輪 ── <em class="villainess-em">ロザリア</em>を「もっと美しく、もっと完璧に」と煽る、社交界の声、声、声。</span></p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>あなたは、SNSのタイムラインを、思い出した。</p>
+      <p>『これを飲めば、健康になる』<br>
+      『この食事法が、最強』<br>
+      『あれを摂ると、寿命が縮む』<br>
+      『最新研究で判明した、奇跡の○○』</p>
+      <p>毎日、洪水のように流れてくる情報。<br>まじめに読むと、毎日、何かしらを <em>始めなければならない</em> ことが分かる。<br>まじめに読むと、毎日、何かしらを <em>やめなければならない</em> ことも分かる。</p>
+      <p>始めることと、やめることが、矛盾していることも、しょっちゅうある。</p>
+      <p>『何が正しいのか、わからない』 ── そう思ったあなたは、結局、いちばん声の大きいインフルエンサーの言うことを、半信半疑で、試しはじめる。それが上手くいかないと、別のインフルエンサーに乗り換える。</p>
+      <p>気がついたら、サプリの瓶が、戸棚にずらりと並んでいた。<br>気がついたら、何種類ものダイエット法を、試して、挫折していた。<br>気がついたら、貯金が、減っていた。</p>
+      <p>そして ── 体調は、特に、変わっていなかった。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>カイトが、剣を、すっ、と地面に突き立てた。</p>
+      <p>剣は、ガラクタ鬼の足元の砂に、深く刺さった。</p>
+      <blockquote class="kaito-q">
+        「派手なものより、<br>
+        <em>地道な毎日の記録</em> のほうが、ずっと効くんだよ。<br>
+        <br>
+        ⋯⋯俺は、剣を握れなかった頃、<br>
+        何百ものトレーニング法を、試した。<br>
+        効いたのは、<em>続けたものだけ</em> だった」
+      </blockquote>
+      <p>セラが、横で、静かに頷いた。</p>
+      <p>セラの手には、小さな小皿。中には、ご飯ひと匙、味噌汁ひとさじ、青菜のおひたしひとつまみ。<br>派手ではない。<em>地味で、温かい、本物の食卓</em>。</p>
+      <blockquote class="sera-q">
+        「特別な食材は、要りません。<br>
+        魚と、野菜と、大豆と、毎日の味噌汁。<br>
+        <br>
+        当たり前のものを、当たり前に続けること。<br>
+        ⋯⋯それが、最強のレシピです」
+      </blockquote>
+      <p>ガラクタ鬼が、ぐらり、と揺れた。</p>
+      <blockquote class="boss">
+        「⋯⋯地味な、ものでは、<br>
+        わたしは、満たされぬ⋯⋯！<br>
+        もっと、派手な、もっと、新しい⋯⋯！」
+      </blockquote>
+      <p>カイトが、剣を抜いた。<br>セラが、小皿を、地面に置いた。<br>あなたは、ポケットから、<em>いちばん使い慣れた、メモ帳</em> を取り出した。</p>
+      <p>メモ帳には、毎日の、地味な記録が、並んでいた。<br>『朝の散歩、5分。夜の青魚、ひと切れ。寝る前のストレッチ、3分』── そんな、誰にも自慢できない、けれど確かに積み重なった、文字の列。</p>
+      <p>あなたは、メモ帳を、ガラクタ鬼に向かって、ぐい、と差し出した。</p>
+      <p>「これが、わたしの <em>本物</em> です」</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>ガラクタ鬼の黄金が、ぱりぱり、と剥がれた。</p>
+      <p>下から、薄汚れた、けれどどこか懐かしい、<em>古い人形</em> が現れた。</p>
+      <p>『これが、ガラクタ鬼の、本当の姿か』 ── あなたは、思った。</p>
+      <p>派手なメッキを、たくさん身にまとっていたのは、本当の自分が <em>ちっぽけだと、知っていたから</em> なのかもしれない。</p>
+      <p>あなたは、その人形に、手を伸ばした。</p>
+      <p>人形は、ふっ、と微笑んで、砂になった。<br>砂は、地に染みて、雨になった。<br>雨は、土に染み込んで、消えた。</p>
+      <p>あとに残ったのは、地に芽吹いた、薄い緑のひとひら。</p>
+      <p>カイトが、剣を鞘に収めながら、ぽつりと言った。</p>
+      <blockquote class="kaito-q">
+        「派手じゃないものが、<br>
+        いちばん、強いんだ」
+      </blockquote>
+      <p>セラが、小皿を、あなたに、そっと手渡した。<br>味噌汁は、まだ、湯気を立てていた。</p>
+    </div>
+  </article>
+
+  <!-- 第十章 -->
+  <article class="chapter" id="ch10">
+    <div class="ch-num">— CHAPTER X — SIN OF PRIDE</div>
+    <h2 class="ch-title">鏡の鎧 ── 傲慢</h2>
+    <div class="ch-pov">語り手：カイト</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">スペルビア。傲慢の象徴。鏡の甲冑を着た、騎士の姿。</p>
+      <p>奴は、転生者さんに囁いていた。</p>
+      <blockquote class="boss">
+        「お前は、強い⋯⋯<br>
+        お前は、完璧でなければ、ならない⋯⋯<br>
+        弱音を吐くのは、敗者だ⋯⋯<br>
+        休むのは、負けだ⋯⋯」
+      </blockquote>
+      <p><span class="vitalia-only">第六の大罪、傲慢のスペルビア。鏡の鎧を身にまとい、相手の理想像を、自分自身に、押し返してくる。</span></p>
+      <p><span class="villainess-only"><em class="villainess-em">「悪役令嬢ロザリアは、悪役令嬢として完璧でなければ、断罪される」</em>──そういう、内なる呪いの声。失敗を許さない、貴族としての矜持。鏡の貴婦人、スペルビア夫人。</span></p>
+      <p>俺は、それを聞いて、ふっ、と笑いそうになった。</p>
+      <p><em>スペルビアは、俺自身が、かつて陥った罠</em> だったからだ。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>剣を握れなかった頃、俺はそれを、誰にも言わなかった。</p>
+      <p>「俺は剣士だ。剣士は、怪我など、しない」<br>
+      「俺は剣士だ。剣士は、休まない」<br>
+      「俺は剣士だ。剣士は、誰にも頼らない」</p>
+      <p>そう、思い込んでいた。</p>
+      <p>けれど、本当のことを言えば、俺は、怪我をしたのではなかった。<br>心が、剣の重さに、耐えられなかっただけだった。</p>
+      <p>誰かに「休んでもいい」と言ってもらえていたら、回復は、もっと早かったかもしれない。<br>誰かに「弱くてもいい」と言ってもらえていたら、俺は、自分を許せたかもしれない。</p>
+      <p>けれど、俺は、誰にも、言わなかった。<br>完璧主義の鎧が、俺を、冷たく覆っていた。</p>
+      <p>その鎧が、ようやく割れたのは、ある朝、自分のベッドのなかでだった。</p>
+      <p>「もう、頑張れない」</p>
+      <p>声に出して、しまったのだ。</p>
+      <p>声に出した瞬間、世界が、ぐらりと、崩れる気がした。<br>けれど、崩れたのは ── <em>鎧だけ</em> だった。</p>
+      <p>中身の俺は、ちゃんと、生きていた。<br>『弱い俺』 という存在が、確かに、そこにあった。<br>そして、それは、悪くなかった。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>転生者さんに、俺は、そっと、こう言った。</p>
+      <blockquote class="kaito-q">
+        「お前⋯⋯<br>
+        休んでもいいんだぜ。<br>
+        <br>
+        毎日続けることと、<br>
+        <em>毎日100%でいる</em>こととは、違う。<br>
+        50%の日があってもいい。<br>
+        30%の日も、あっていい。<br>
+        ゼロの日も、たまには、ある。<br>
+        <br>
+        ⋯⋯ゼロの日があっても、<br>
+        <em>翌日は1%から始められる</em>。<br>
+        それでいいんだ」
+      </blockquote>
+      <p>転生者さんは、しばらく、黙っていた。</p>
+      <p>そして、ぽつ、と言った。</p>
+      <p>「⋯⋯休んでも、いいの？」</p>
+      <p>「いい」と俺は答えた。</p>
+      <p>「⋯⋯休んでいる自分も、自分でいいの？」</p>
+      <p>「いい」と、もう一度、俺は答えた。</p>
+      <p>「⋯⋯1%でも、いいの？」</p>
+      <p>俺は、剣の柄を、握りしめた。<br>そして、こう言った。</p>
+      <blockquote class="kaito-q">
+        「<em>1%は、ゼロじゃない</em>。<br>
+        ⋯⋯1%が、毎日続けば、<br>
+        ひと月で、3割を超える。<br>
+        100%の日が、たまにあるより、<br>
+        1%の日が、毎日あるほうが、<br>
+        ずっと、強い」
+      </blockquote>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>スペルビアの鏡が、ぴしっ、と割れた。</p>
+      <p>鏡のなかに映っていたのは、転生者さんではなく、転生者さんが <em>こうあるべきだと思い込んでいた像</em> だった。</p>
+      <p>『毎日100%の自分』<br>
+      『失敗しない自分』<br>
+      『常に、誰かに誇れる自分』</p>
+      <p>その像が、ぱりん、と砕け散った。</p>
+      <p>あとに立っていたのは、ありのままの転生者さん。<br>休んだ日もある、サボった日もある、泣いた日もある、ただ、<em>毎日、ここに居続けた</em>、ひとりの人。</p>
+      <p>それは、俺の目には、誇らしく映った。</p>
+      <p>スペルビアの鎧が、ぼろぼろと崩れた。</p>
+      <blockquote class="boss">
+        「⋯⋯弱さを、認める、強さを、<br>
+        わたしは、知らなかった⋯⋯<br>
+        ⋯⋯わたしも、本当は、<br>
+        休みたかった、のだろうか⋯⋯」
+      </blockquote>
+      <p>そして、霧になり、消えた。</p>
+      <p>地に芽吹いた、薄い緑のひとひら。</p>
+      <p>俺は、転生者さんに、ぽん、と肩を叩いた。</p>
+      <blockquote class="kaito-q">
+        「次が、最後の大罪だ。<br>
+        色欲のルクス。<br>
+        ⋯⋯セラが、温かいものを、用意してる」
+      </blockquote>
+    </div>
+  </article>
+
+  <!-- 第十一章 -->
+  <article class="chapter" id="ch11">
+    <div class="ch-num">— CHAPTER XI — SIN OF LUST</div>
+    <h2 class="ch-title">夜想曲 ── 色欲</h2>
+    <div class="ch-pov">語り手：あなた（二人称）／セラ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">ルクスは、夜にだけ現れる精霊だった。</p>
+      <p>ネオンの翼。蜜のように甘い瞳。指先からは、淡い紫の光が、こぼれていた。</p>
+      <p>近づくと、彼女の周りには、スマートフォンの画面の青白い光、SNSの通知音、深夜のテレビ、コンビニの蛍光灯、ファストフードのにおい ── そういった、夜の <em>誘惑のすべて</em> が漂っていた。</p>
+      <p><span class="vitalia-only">第七の大罪、色欲のルクス。けれど、ヴィタリアにおいては「肉欲」というより、<em>夜の聖域に依存しすぎる弱さ</em>を象徴する精霊。</span></p>
+      <p><span class="villainess-only">夜会の誘惑、舞踏会の眩しさ、若い貴公子たちの甘い言葉、<em class="villainess-em">「ロザリア様、もう少しだけ」</em>と引き止める手 ── <em class="villainess-em">夜想曲ルクス</em>。</span></p>
+      <p>ルクスは、やわらかく、囁いた。</p>
+      <blockquote class="boss">
+        「ね、もう少し⋯⋯<br>
+        もう少しだけ、起きていて。<br>
+        スマホを、SNSを、動画を、お菓子を⋯⋯<br>
+        ⋯⋯今夜だけ、もう少し、いいでしょう？」
+      </blockquote>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>あなたは、知っている。</p>
+      <p>夜更かしの、心地よさを。</p>
+      <p>一日の責任が、すべて終わって、誰にも見られない時間に、自分のためだけに過ごす、数時間。<br>誰にも、何にも、求められない。誰にも、何にも、応えなくていい。<br>それは、あなたを支えてきた、数少ない <em>聖域</em> だった。</p>
+      <p>『1日のなかで、唯一、自由な時間』 ── そう思って、夜の聖域を、守ってきた。</p>
+      <p>けれど、ある時から、その聖域が、逆向きに働きはじめた。</p>
+      <p>睡眠が、削れた。<br>朝の身体が、重くなった。<br>日中の集中力が、落ちた。<br>それを取り戻すために、夜にまた、逃げ込む。</p>
+      <p>ループが、できあがっていた。</p>
+      <p>ルクスの蜜の瞳が、あなたの腕に、するりと巻きついた。</p>
+      <blockquote class="boss">
+        「いいの⋯⋯睡眠なんて、減らしても⋯⋯<br>
+        若いんだから、平気よ⋯⋯<br>
+        ⋯⋯1時間、2時間、削っても⋯⋯」
+      </blockquote>
+      <p>あなたの足が、ふら、と、夜の方向に、引き寄せられた。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>そのとき。</p>
+      <p>後ろから、ふっ、と、温かい湯気の香りが、した。</p>
+      <p>振り返ると、セラが、両手でカップを、抱えていた。</p>
+      <p>カップのなかには、温めた豆乳と、ひとつまみのきな粉、そしてほんの少しの蜂蜜。<br>湯気が、ふわっと、立ちのぼり、あなたの頬を撫でた。</p>
+      <p>セラは、ルクスの蜜の瞳に、ちらり、と視線をやって、それから、あなたを見つめた。</p>
+      <blockquote class="sera-q">
+        「夜の聖域を、<br>
+        奪わなくて、いいのです。<br>
+        <br>
+        ただ、<em>30分だけ早く</em>、<br>
+        その聖域を、始めては、いかがですか？<br>
+        <br>
+        ⋯⋯終わりの時間を決めることは、<br>
+        聖域を <em>尊敬する</em> ことなのです」
+      </blockquote>
+      <p>あなたは、その言葉を、何度か、心の中で反芻した。</p>
+      <p>『聖域を、奪うのではない』<br>
+      『早めに、始める』<br>
+      『終わりの時間を、決める』<br>
+      『 ── 聖域を、尊敬する』</p>
+      <p>あなたは、温かい豆乳を、ひと口、口に運んだ。</p>
+      <p>甘さは、控えめだった。けれど、確かに、温かかった。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>その夜、あなたは、眠った。</p>
+      <p>深く、長く、夢のなかで、雨が降っていた。<br>雨の音が、あなたの眠りを、優しく包んだ。<br>砂は、雨に濡れて、地中に染み込んだ。</p>
+      <p>朝、目を覚ましたとき、ルクスは、もう、いなかった。<br><em>朝陽に溶けて、消えた</em> のだ。</p>
+      <p>あなたの身体は、軽かった。<br>心も、軽かった。<br>世界が、少しだけ、クリアに、見えた。</p>
+      <p>体・心・世界の三つの鎖が、ようやく、ひとつに、つながった瞬間だった。</p>
+      <p>ルクスは、最後にひと言だけ、夜風に乗せて、残していった。</p>
+      <blockquote class="boss">
+        「⋯⋯朝陽が、こんなに優しいなんて⋯⋯<br>
+        わたしは、知らなかった⋯⋯」
+      </blockquote>
+      <p>地に芽吹いた、薄い緑のひとひら。<br>これで、七つの大罪が、すべて、揃って、消えた。</p>
+      <p>残っているのは ── 最後の章。<br><em>真の試練</em>。</p>
+      <p>あなたは、ヴィタリアの中心に向かって、歩き出した。<br>カイトと、セラと、ルナと、ピクセが、横を、後ろを、肩のうえを、歩いていた。</p>
+    </div>
+  </article>
+
+  <!-- 第十二章 -->
+  <article class="chapter" id="ch12">
+    <div class="ch-num">— CHAPTER XII — TRUE TRIAL</div>
+    <h2 class="ch-title">真の試練</h2>
+    <div class="ch-pov">語り手：あなた／カイト／セラ／ルナ／ピクセ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">最終章で、あなたの前に立ったのは、巨大な怪物では、なかった。</p>
+      <p>そこに立っていたのは ── <em>もうひとりの、あなた</em> だった。</p>
+      <p><span class="vitalia-only">12週間前の、霧のなかで戸惑っていた、まだ動くことを恐れていた、あの頃のあなた。</span></p>
+      <p><span class="villainess-only">物語の最初に、舞踏会で婚約破棄を告げられ、屋敷に閉じこもって震えていた、<em class="villainess-em">悪役令嬢ロザリア</em>。</span></p>
+      <p>もうひとりのあなたは、こちらを見た。<br>顔は、自分の顔だった。けれど、目は、暗かった。</p>
+      <blockquote class="boss">
+        「お前に、こんなこと、できるはずがない。<br>
+        いつかまた、動けなくなる。<br>
+        いつかまた、霧の中に、戻る。<br>
+        ⋯⋯わたしは、それを、知っている。<br>
+        わたしは、お前の、<em>過去</em>だから」
+      </blockquote>
+      <p>その声には、悪意がなかった。<br>ただ、<em>諦め</em> があった。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>その声は、半分、本当のことだった。</p>
+      <p>あなたは、いつかまた、動けなくなる日が、あるかもしれない。<br>波があるのは、当然のことだ。<br>それは、病気のせいではなく ── <em>人間そのものの、仕様</em> だ。</p>
+      <p>けれど、もうひとつの半分は、ちがった。</p>
+      <p>あなたは、知っていた。<br><em>動けなくなった日があっても、また動き出せる</em> ことを。</p>
+      <p>ヴィタリアでの12週間が、それを、教えてくれた。</p>
+      <p>霧のなかで、一歩、踏み出した。<br>泥のなかから、足を、抜いた。<br>怒りの炎を、言葉に、変えた。<br>嫉妬の砂時計を、自分の手で、止めた。<br>派手な黄金より、地味な毎日を、選んだ。<br>完璧の鎧を、ぱりん、と、砕いた。<br>夜の聖域を、尊敬することを、覚えた。</p>
+      <p>これらは、もう、あなたの一部だった。<br>もう、消えない。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>カイトが、後ろに立った。</p>
+      <p>剣を、構えなかった。<br>ただ、<em>そこにいた</em>。</p>
+      <p>セラが、湯気のたつスープを、差し出した。</p>
+      <p>何も、言わなかった。<br>ただ、<em>湯気が、立ちのぼっていた</em>。</p>
+      <p>ルナが、月を背負って、静かに立った。</p>
+      <p>問いかけなかった。<br>ただ、<em>あなたの言葉になるのを、待っていた</em>。</p>
+      <p>ピクセが、ぴくっ、と羽を震わせた。</p>
+      <p>何も、書かなかった。<br>ただ、<em>あなたの記録の手帳を、両手で、抱いていた</em>。</p>
+      <p>四人 ── いえ、あなたを入れて、五人。</p>
+      <p>その中心に、もうひとりのあなたが、立っていた。</p>
+      <p class="pause">⋯⋯⋯⋯</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>あなたは、もうひとりのあなたに、近づいた。</p>
+      <p>剣を、抜かなかった。<br>言葉も、最初は、出さなかった。</p>
+      <p>ただ、もうひとりのあなたの、手に、自分の手を、重ねた。</p>
+      <p>そして、こう言った。</p>
+      <blockquote>
+        「あなたが、間違っていたわけじゃ、ない。<br>
+        <br>
+        あの霧のなかで、動かないことを選んだあなたは、<br>
+        正しく、<em>あの時のあなた</em> だった。<br>
+        <br>
+        ⋯⋯わたしは、ただ、<br>
+        いまの <em>このわたし</em> に、なっただけ」
+      </blockquote>
+      <p>もうひとりのあなたは、最初は、驚いた顔をした。</p>
+      <p>それから、少しだけ、笑った。</p>
+      <p>あなたが、鏡で何度か見たことのある ── <em>不器用で、温かい、笑み</em> だった。</p>
+      <p>もうひとりのあなたは、こう言った。</p>
+      <blockquote>
+        「⋯⋯あなたの、足は、<br>
+        いま、ちゃんと、地に着いている、ね。<br>
+        <br>
+        ⋯⋯わたしの足は、<br>
+        ずっと、宙ぶらりんで、震えていた。<br>
+        <br>
+        ⋯⋯あなたが、<em>足を着いてくれた</em>から、<br>
+        わたしは、もう、震えなくていい」
+      </blockquote>
+      <p>もうひとりのあなたは、ふわっ、と光の粒になった。</p>
+      <p>光は、あなたの胸のなかに、静かに、溶けた。</p>
+      <p>溶ける瞬間、もうひとりのあなたは、最後に、ひと言だけ、残した。</p>
+      <p style="text-align:center;font-family:var(--italic);font-style:italic;font-size:1.2rem;color:var(--gold2);margin:2em 0;">
+        「あなたは、新しい、<em>わたし</em> ね」
+      </p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>ヴィタリアの空に、雨が、降りはじめた。</p>
+      <p>砂を、濡らし、雨は、地に染み込み、地から、新しい芽が、いくつも、出ていた。</p>
+      <p>カイトが、剣を鞘に収めた。<br>セラが、湯気のたつスープを、地面に、そっと供えた。<br>ルナが、銀の月を、空に返した。<br>ピクセが、ぴくっ、と、羽を震わせた。</p>
+      <p>カイトが、ぼそりと言った。</p>
+      <blockquote class="kaito-q">
+        「⋯⋯お前、強くなったな」
+      </blockquote>
+      <p>セラが、ふっ、と笑った。</p>
+      <blockquote class="sera-q">
+        「あなたの食卓に、<br>
+        魔法が、宿りました」
+      </blockquote>
+      <p>ルナが、月光のなかで、頷いた。</p>
+      <blockquote class="luna-q">
+        「あなたの言葉は、<br>
+        もう、<em>あなた自身を、燃やさない</em>」
+      </blockquote>
+      <p>ピクセが、最後に、にこっ、と笑った。</p>
+      <blockquote class="pixe-q">
+        「ぴくっ。<br>
+        12週間、本当に、おつかれさま、でした」
+      </blockquote>
+      <p>雨が、しっとりと、ヴィタリアの大地を、包んでいった。</p>
+      <p>砂は、雨に溶け、雨は、地に染み込み、地からは、芽吹きが、まっすぐに、空を見上げていた。</p>
+      <p>七つの大罪は、すべて、地面に還っていた。<br>もうひとりのあなたは、いまの、あなたの一部に、なっていた。</p>
+      <p>──そして、あなたの12週間の、最終決戦は、<em>勝利</em> で、終わった。</p>
+    </div>
+  </article>
+
+  <!-- 第十三章 真エンディング -->
+  <article class="chapter" id="ch13">
+    <div class="ch-num">— CHAPTER XIII — TRUE ENDING</div>
+    <h2 class="ch-title vitalia-only">光の継承</h2>
+    <h2 class="ch-title villainess-only" style="color:var(--villainess);">断罪を回避し、新たな物語へ</h2>
+    <div class="ch-pov">語り手：あなた</div>
+    <div class="ch-divider"></div>
+
+    <!-- 王道編・真エンディング -->
+    <div class="ch-body vitalia-only">
+      <p class="lead">十二章で物語は終わったかに見えた。けれど、ヴィタリアには、もう一つの章があった。</p>
+      <p>真の試練を越え、もうひとりのあなたを胸に溶かしたあと、空から舞い降りてきたのは ── <em>白い鳩</em>だった。</p>
+      <p>鳩はあなたの肩に止まり、翼の下から、一通の手紙を落とした。羊皮紙に、見覚えのある字で、こう書かれていた。</p>
+      <blockquote>
+        「<em>あなたへ。<br>
+        12週間、よくぞここまで来た。<br>
+        最後にひとつ、選んでほしいことがある。<br>
+        ⋯⋯ヴィタリアに、残るか。それとも、本当の世界に、戻るか。</em>」
+      </blockquote>
+      <p>差出人の名は、書かれていなかった。けれど、あなたには分かった。<em>これは、未来のあなた自身からの手紙だ</em>と。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>ヴィタリアに残る、という選択肢は、甘美だった。</p>
+      <p>ここには、カイトがいる。セラがいる。ルナがいる。ピクセがいる。あなたを「転生者さま」と呼んでくれる、優しい仲間が、ずっとそばにいる。</p>
+      <p>本当の世界には、何が待っているのか。<br>仕事の締め切り。家族との関係。検査結果を待つ、白いベンチ。SNSの濁流。週末の予定。月末の請求書。── ぜんぶ、ヴィタリアにはなかったものだ。</p>
+      <p>『ここに残ったら、楽だろう』 ── あなたは、ふと、そう思った。</p>
+      <p>けれど、その瞬間、ピクセが羽を震わせた。</p>
+      <blockquote class="pixe-q">
+        「ぴくっ。<br>
+        転生者さん、いまの想い ── <em>怠惰のスロウス</em> に、似ていませんか？」
+      </blockquote>
+      <p>あなたは、はっ、とした。</p>
+      <p>ヴィタリアに残ることは、安全な場所に閉じこもることだ。霧のなかで、動かないでいることだ。<br>それは、あなたが、12週間かけて、超えてきたものだった。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>カイトが、剣を、鞘ごとあなたに差し出した。</p>
+      <blockquote class="kaito-q">
+        「持っていけ。<br>
+        ⋯⋯本当の世界では、<em>これが見えない剣</em>になる。<br>
+        だが、お前の腰に、ちゃんと、ある」
+      </blockquote>
+      <p>セラが、薬草を一束、あなたに渡した。</p>
+      <blockquote class="sera-q">
+        「乾燥薬草です。<br>
+        本当の世界では、<em>『今日も野菜を一品』</em>という、あなたの内なる声に、変わります」
+      </blockquote>
+      <p>ルナが、銀色の小さな鏡を、あなたの掌にのせた。</p>
+      <blockquote class="luna-q">
+        「これは、月の鏡です。<br>
+        本当の世界で、自分の声がわからなくなったとき、覗いてください。<br>
+        ⋯⋯<em>そこに映るのは、答えではなく、問いを持つ自分</em>です」
+      </blockquote>
+      <p>ピクセが、最後に、記録の手帳を差し出した。</p>
+      <blockquote class="pixe-q">
+        「ぴくっ。<br>
+        12週間の、ぜんぶです。<br>
+        ⋯⋯波が来た日に、開いてください。<br>
+        <em>霧が薄まる速さ</em> を、思い出せます」
+      </blockquote>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>あなたは、四つの贈り物を、受け取った。</p>
+      <p>そして、白い鳩の手紙の余白に、ペンで、こう書いた。</p>
+      <p style="text-align:center;font-family:var(--italic);font-style:italic;font-size:1.15rem;color:var(--gold2);margin:1.6em 0;">
+        本当の世界に、戻ります。
+      </p>
+      <p>鳩は、あなたの肩から飛び立ち、空の彼方に消えていった。<br>その瞬間、ヴィタリアの大地が、ふわっ、と光に包まれた。</p>
+      <p>カイトが、最後の言葉を、ぼそりと言った。</p>
+      <blockquote class="kaito-q">
+        「お前は、もう、俺の <em>師匠</em> だ。<br>
+        ⋯⋯ありがとう」
+      </blockquote>
+      <p>セラが、湯気のたつカップを、空に向けて、捧げた。</p>
+      <blockquote class="sera-q">
+        「あなたの食卓に、永遠に、魔法が宿りますように」
+      </blockquote>
+      <p>ルナが、月光のなかで、両手を合わせた。</p>
+      <blockquote class="luna-q">
+        「銀の月は、これからも、あなたを見守っています」
+      </blockquote>
+      <p>ピクセが、ぴくっ、と羽を震わせた。</p>
+      <blockquote class="pixe-q">
+        「ぴくっ。<br>
+        ⋯⋯また、ここに、戻ってきていいですよ」
+      </blockquote>
+      <p>そして、世界が、ふっ、と暗転した。</p>
+      <p>あなたは、目を、開けた。</p>
+      <p>本当の世界の、自分の部屋の、自分のベッドの上に、いた。</p>
+      <p>窓の外には、朝陽。<br>枕元には、12週間ぶんの、地味な記録メモ。<br>胸の奥には、確かに ── <em>ヴィタリアの仲間たちが、住んでいた</em>。</p>
+      <p>真エンド「ヴィタリアの新たな伝説」── 達成。</p>
+    </div>
+
+    <!-- 悪役令嬢編・真エンディング -->
+    <div class="ch-body villainess-only">
+      <p class="lead">十二章で「もうひとりのロザリア」を胸に溶かしたあと、王宮から、最後の招集状が届いた。</p>
+      <p>──<em class="villainess-em">「公爵令嬢ロザリアを、断罪のため、王宮大広間に召喚する」</em></p>
+      <p>大広間には、すでに人が集まっていた。<em class="villainess-em">フリードリヒ第二王子</em>、隣に寄り添う<em class="villainess-em">ヒロインのローズマリー嬢</em>、ライバルの<em class="villainess-em">アデリード公爵令嬢</em>、そして親兄弟、貴族たち、宮廷の使用人たち。</p>
+      <p>すべての視線が、入口から進み出るあなたに、突き刺さった。</p>
+      <p>『さあ、断罪の場面』 ── 物語は、いよいよ、最後の山場に差しかかっていた。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>フリードリヒ第二王子が、立ち上がった。</p>
+      <blockquote class="boss">
+        「<em class="villainess-em">公爵令嬢ロザリア</em>。<br>
+        貴様の罪状を、ここに読み上げる。<br>
+        ⋯⋯ヒロインを毒で害そうとした件。<br>
+        ⋯⋯舞踏会で、平民出身者を侮辱した件。<br>
+        ⋯⋯領地で、農民を搾取した件。<br>
+        ──以上の罪により、貴様の婚約破棄、及び、王都追放を宣告する」
+      </blockquote>
+      <p>大広間が、ざわめいた。<br>かつてのロザリア ── 物語の最初のあなた ── なら、ここで、卒倒したか、声を張り上げて反論し、ますます怒りを買って、王都を追放されていたはずだ。</p>
+      <p>けれど、いまのあなたは、ちがった。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>あなたは、まっすぐに立ち、王子を、静かに、見上げた。</p>
+      <p>そして、こう、言った。</p>
+      <blockquote>
+        「<em class="villainess-em">フリードリヒ第二王子、お言葉ですが</em>。<br>
+        <br>
+        わたくしは、ヒロイン・ローズマリー嬢に、毒を盛ろうとしたことは、ございません。<br>
+        わたくしは、舞踏会で、平民出身者を侮辱したこともございません。<br>
+        わたくしは、領地で、農民を搾取したこともございません。<br>
+        <br>
+        ⋯⋯これらは、すべて、虚偽の証言です。<br>
+        証言者を、お調べいただきたく存じます」
+      </blockquote>
+      <p>あなたの声には、震えが、なかった。</p>
+      <p>12週間の冒険のなかで、ルナと共に磨いた <em class="villainess-em">「言葉を選ぶ力」</em>。<br>セラと共に育てた <em class="villainess-em">「自分の身体を信じる力」</em>。<br>カイトと共に取り戻した <em class="villainess-em">「動ける身体」</em>。<br>ピクセと共に積み上げた <em class="villainess-em">「12週間ぶんの記録」</em>。</p>
+      <p>それらが、いま、ぜんぶ、<em class="villainess-em">あなたの背骨</em> として、立っていた。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>大広間の奥から、若い騎士が一人、進み出た。</p>
+      <p>「失礼ながら、王子。お話に割り込ませていただきます」<br>その声は、聞き覚えがあった ── 領地で、ロザリアを陰ながら守ってきた警備隊長 <em class="villainess-em">カイトの声だった</em>。</p>
+      <p>カイトの後ろから、薬草園の侍女 <em class="villainess-em">セラ</em> が、書類の束を抱えて現れた。<br>そのまた後ろから、月光の女神官 <em class="villainess-em">ルナ</em> が、銀の天秤を持って現れた。<br>そして、肩には ── ぴくっ、と羽の音。</p>
+      <p>カイトが、王子の前に、書類を一束、差し出した。</p>
+      <blockquote class="kaito-q">
+        「<em class="villainess-em">ロザリア様の領地</em>での12週間の記録です。<br>
+        農民への施し、薬草の無償配布、子どもたちへの食事支給。<br>
+        ⋯⋯<em>すべて、ピクセが綴じた、本物の記録</em> です」
+      </blockquote>
+      <p>セラが、薬草の小瓶を、王子の前に並べた。</p>
+      <blockquote class="sera-q">
+        「ヒロイン様に渡されたとされる『毒』は、<br>
+        実は、<em>ロザリア様が育てた、滋養強壮の薬草</em> です。<br>
+        分析結果は、こちらに」
+      </blockquote>
+      <p>ルナが、銀の天秤を、左右、ゆらり、と揺らした。</p>
+      <blockquote class="luna-q">
+        「証言者を、お調べいただければ、<br>
+        ⋯⋯<em>真の発信源</em> が、明らかになりましょう。<br>
+        天秤は、嘘を、量れます」
+      </blockquote>
+      <p>大広間が、しん、と静まり返った。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>フリードリヒ第二王子は、書類を受け取り、しばらく、目を通した。<br>顔色が、ゆっくりと、青ざめていった。</p>
+      <p>背後で、<em class="villainess-em">アデリード公爵令嬢</em> が、つぶやいた。</p>
+      <blockquote class="boss">
+        「⋯⋯ありえない⋯⋯<br>
+        ロザリアは、無能な悪役令嬢のはず⋯⋯<br>
+        わたくしの計画通りに、断罪されるはずだったのに⋯⋯」
+      </blockquote>
+      <p>その言葉が、決定打だった。</p>
+      <p>ヒロイン・ローズマリーが、フリードリヒの腕から、そっと、身を離した。</p>
+      <blockquote>
+        「⋯⋯王子。<br>
+        わたくしは、最初から、ロザリア様に毒を盛られたとは、申し上げておりません。<br>
+        ⋯⋯すべては、アデリード様が、わたくしに <em>そう証言するように、ご指示</em> くださっただけ、です」
+      </blockquote>
+      <p>大広間が、再び、ざわめいた。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>あなたは、ヒロイン・ローズマリーに、ゆっくりと、歩み寄った。<br>そして、彼女の手に、自分の手を、そっと重ねた。</p>
+      <blockquote>
+        「<em class="villainess-em">ローズマリー嬢</em>、<br>
+        本当のことを、勇気をもって、おっしゃってくださり、<br>
+        ⋯⋯ありがとうございました。<br>
+        <br>
+        わたくしも、あなたを、<em>ライバル</em>ではなく、<br>
+        ひとりの、勇気ある女性として、尊敬します」
+      </blockquote>
+      <p>ローズマリーは、目を、潤ませた。</p>
+      <p>そして ── 大広間の貴族たちの拍手が、ぱらぱら、と起こり、それは、やがて、嵐のような喝采になった。</p>
+      <p>フリードリヒ第二王子が、ロザリアに、深く、頭を下げた。</p>
+      <blockquote class="boss">
+        「⋯⋯<em class="villainess-em">公爵令嬢ロザリア</em>。<br>
+        わたしは、思い違いを、しておりました。<br>
+        断罪は、撤回いたします。<br>
+        ⋯⋯どうか、お許しを」
+      </blockquote>
+      <p>あなたは、王子に、優雅に、お辞儀をした。</p>
+      <p>そして、こう、答えた。</p>
+      <blockquote>
+        「<em class="villainess-em">王子、お顔を、お上げくださいませ</em>。<br>
+        ⋯⋯わたくしは、もう、あなたとの婚約には、興味がございません。<br>
+        わたくしには、<em class="villainess-em">わたくし自身の物語</em> があります。<br>
+        <br>
+        ⋯⋯どうぞ、ローズマリー嬢と、お幸せに」
+      </blockquote>
+      <p>大広間が、再び、どよめいた。<br>けれど、その声には、悪意はなかった。<em class="villainess-em">「悪役令嬢ロザリア」</em>が、いま、誰よりも気品ある女性として、立っていたからだ。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>あなたは、大広間を、毅然と、後にした。</p>
+      <p>馬車に乗り込む前、振り返ると、カイト、セラ、ルナ、ピクセが、王宮の階段の上に立っていた。</p>
+      <p>カイトが、剣を、ふっ、と空に掲げた。<br>セラが、薬草を、風に、放った。<br>ルナが、銀の月を、両手で、包んだ。<br>ピクセが、ぴくっ、と羽を震わせた。</p>
+      <p>あなたは、馬車に乗り、領地に向かった。<br>これから、あなたは、自分の領地で、新しい物語を生きる。<br>断罪を回避した先には、誰にも書かれていない、白紙のページが、広がっていた。</p>
+      <p>真エンド「自分自身の物語」── 達成。</p>
+    </div>
+  </article>
+
+  <!-- エピローグ -->
+  <article class="chapter epilogue" id="epilogue">
+    <div class="ch-num">— EPILOGUE —</div>
+    <h2 class="ch-title">雨上がり</h2>
+    <div class="ch-pov">語り手：ピクセ</div>
+    <div class="ch-divider"></div>
+    <div class="ch-body">
+      <p class="lead">12週間の旅が、終わりました。</p>
+      <p>けれど、終わりは、新しい始まりでもあるのです。<br>ピクセは、そう信じています。</p>
+      <p>転生者さんは、いま、ヴィタリアを去ろうとしています。<br>本当の世界に、戻るのです。<br>本当の世界には、本当の食卓があり、本当の運動靴があり、本当の友人があり、本当の主治医がいます。</p>
+      <p>ピクセは、転生者さんに、ひとつだけ、お土産を、用意しました。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>それは、薬では、ありません。サプリでも、ありません。<br>秘伝のレシピでも、奇跡の言葉でも、ありません。</p>
+      <p>それは、こういう一文です。</p>
+      <blockquote class="pixe-q">
+        「<em>動けない日も、<br>
+        続けている日も、<br>
+        全部、あなたの12週間の、一部だった</em>」
+      </blockquote>
+      <p>続けることが、大切なのではありません。<br><em>続けようとし続けたこと</em> が、大切だったのです。</p>
+      <p>それは、結果ではなく ── 姿勢の名前です。</p>
+      <p>転生者さんが、本当の世界に戻ったあと、波は、また、来るでしょう。<br>動けない朝が、また、来るでしょう。<br>霧の濃い日が、また、来るでしょう。</p>
+      <p>それは、12週間の旅が、無駄だったということでは、ありません。</p>
+      <p>波が来るたびに、転生者さんは、思い出すはずです。</p>
+      <p><em>動けない日も、続けている日も、全部、自分の物語の一部だった</em>と。<br>
+      <em>七つの大罪は、敵ではなく、自分の心の動きの、別の名前だった</em>と。<br>
+      <em>仲間は、ヴィタリアを去ったあとも、心のなかに、ちゃんと住んでいる</em>と。</p>
+      <p>そして、霧が薄まる速さも ── もう、知っているのです。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+      <p>ピクセは、最後に、羽を震わせました。</p>
+      <p>ぴくっ、と。</p>
+      <p>それは「さようなら」では、ありませんでした。<br>「<em>また、ここに戻ってきていいですよ</em>」という意味でした。</p>
+      <p>ヴィタリアは、いつでも、扉を開けています。<br>砂は、雨を待ち、雨は、芽吹きを待っています。</p>
+      <p>そして ──</p>
+      <p>あなたが、布団から這い出せない朝にも、<br>検査結果を待つ廊下にも、<br>夜更かしして眠れない深夜にも、<br>ヴィタリアは、いつでも、そこにあります。</p>
+      <p>ぴくっ、と羽の音が、聞こえたら、それは、ピクセです。<br>橙色のランプを、抱えています。<br>カイトも、セラも、ルナも、ちゃんと、いますよ。</p>
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <h3 style="font-family:var(--serif);color:var(--gold2);font-size:1.2rem;margin:1.6em 0 .8em;text-align:center;">— 12週間後の、ある朝 —</h3>
+
+      <p>これは、本当の世界の話です。<br>ヴィタリアではなく、あなたが、いま、いる場所での話。</p>
+      <p>その朝、あなたは、布団のなかで、目を覚ましました。</p>
+      <p>身体は、いつもより、少し、重たい。<br>頭の奥に、疲労の影が、ちらりと、揺れている。<br>『今日は、動けないかもしれない』 ── そう、感じる朝でした。</p>
+      <p>かつてのあなたなら、ここで、自分を責めたかもしれません。<em>「また、サボっている」</em> と。<em>「12週間も頑張ったのに、もう、戻ってしまった」</em> と。</p>
+      <p>けれど、いまのあなたは、ちがいました。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>あなたは、布団のなかで、ピクセの羽の音を、思い出しました。<br>ぴくっ、と。</p>
+      <blockquote class="pixe-q">
+        「動けない日も、続けている日も、<br>
+        全部、あなたの12週間の、一部でしたね」
+      </blockquote>
+      <p>あなたは、ふっ、と、笑いました。<br>胸の奥で、温かい何かが、ゆっくりと、灯りました。</p>
+      <p>『今日は、動けない日にしよう』<br>そう、自分で、決めました。<br>誰にも、責められない。誰にも、許可を求めなくていい。<em>あなたが、あなたの今日を、選んでいる</em>のです。</p>
+      <p>でも、布団から手を伸ばして、枕元のコップに、水を、ひと口、含みました。<br><em>1分の散歩</em> ── ヴィタリアでは、これが、最初の一歩でした。<br>本当の世界では、これが、<em>1口の水</em> なのかもしれません。</p>
+      <p>身体が、ふっ、と、息をしました。</p>
+      <p>動けない日にも、ちゃんと、息は、しています。<br>息をしているだけで、十分なのです、と、ピクセは、教えてくれました。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>枕元の、12週間ぶんの記録メモを、ぱらぱら、とめくってみました。</p>
+      <p>最初のページには、たった1分の散歩の記録。<br>真ん中あたりには、青魚の小皿の記録。<br>後ろの方には、夜の30分早めの就寝の記録。</p>
+      <p>『これらは、ぜんぶ、わたしが、選んできたこと』<br>『ぜんぶ、わたしの、12週間の一部』<br>『動けない朝も、また、その続きの一部』</p>
+      <p>あなたは、メモ帳を、そっと、閉じました。</p>
+      <p>そして、もう一度、目を、つぶりました。<br>夢のなかで、雨の音が、聞こえました。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <h3 style="font-family:var(--serif);color:var(--gold2);font-size:1.2rem;margin:1.6em 0 .8em;text-align:center;">— 半年後の、ある夕方 —</h3>
+
+      <p>あなたは、夕暮れの公園のベンチに、座っていました。</p>
+      <p>桜の葉が、淡い緑から、夏の濃い緑に、変わりつつある頃。<br>遠くから、子どもたちの笑い声が、風に乗って、届いていました。</p>
+      <p>波は、何度か、来ました。<br>動けない日も、何日か、ありました。<br>記録を忘れる週も、何度か、ありました。</p>
+      <p>けれど、あなたは、霧が薄まる速さを、知っていました。<br>動けない日のあとに、また、動き出せることを、身体で、知っていました。</p>
+      <p>『波が来たら、その日は、休む』<br>『そして、翌日、1%から、また始める』<br>『 ── それで、いいのだ』</p>
+      <p>カイトの言葉が、いつも、胸の奥に、住んでいました。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>あなたは、ベンチから立ち上がり、ゆっくりと、家に向かって、歩き始めました。</p>
+      <p>その歩幅は、ヴィタリアの霧のなかで踏み出した、最初の一歩と、同じくらいの幅でした。<br>けれど、その一歩は、もう、震えていませんでした。</p>
+      <p>『あの霧のなかで、動かないことを選んだ、あの頃の自分も、間違っていなかった』<br>『動き出せた、いまの自分も、よく頑張った』<br>『 ── どちらも、わたしだ』</p>
+      <p>あなたは、夕陽に向かって、ふっ、と、笑いました。</p>
+      <p>遠くで、ぴくっ、と、羽の音が、聞こえた気が、しました。</p>
+
+      <div class="scene-break">✦ ✦ ✦</div>
+
+      <p>では、ここで、本書は、いったん、閉じましょう。</p>
+      <p>続きは、<em>あなた自身の、本当の世界</em> で。</p>
+      <p>ヴィタリアは、いつでも、扉を開けて、待っています。<br>そして、ピクセも、カイトも、セラも、ルナも、<br>あなたの胸の、いちばん奥のところに、ちゃんと、住んでいます。</p>
+      <p style="text-align:center;font-family:var(--italic);font-style:italic;font-size:1.15rem;color:var(--gold2);margin-top:3em;">— 完 —</p>
+    </div>
+  </article>
+</main>
+
+<button id="scroll-top" aria-label="トップへ">↑</button>
+
+<footer>
+  <div>ヴィタリア転生録 — 小説版（2026年版・ラノベ完全版・第二改訂）</div>
+  <div>序章 + 12章 + 幕間 + 真エンディング + 終章 ・ 4視点 ・ 2モード ・ 七つの大罪 ・ 真エンディング分岐</div>
+  <div class="care">
+    🛟 つらい気持ちを感じたら、ひとりで抱え込まないでください。<br>
+    <a href="./support.html">相談・サポート窓口</a> ／ <a href="./game.html">ゲームに戻る</a>
+  </div>
+  <div style="margin-top:14px;font-size:.62rem;color:rgba(170,188,216,.4);">
+    関連プロジェクト：<a href="./game.html">ヴィタリア転生録（ゲーム）</a> ／
+    <a href="./adventure-map.html">冒険マップ</a> ／
+    <a href="./journal.html">あなたの思い出ノート</a>
+  </div>
+</footer>
+
+<script>
+const body = document.body;
+document.querySelectorAll('.mode-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.mode-tab').forEach(x=>x.classList.remove('active','villainess-active'));
+    t.classList.add('active');
+    const mode = t.dataset.mode;
+    body.classList.remove('mode-vitalia','mode-villainess');
+    body.classList.add('mode-'+mode);
+    if(mode === 'villainess') t.classList.add('villainess-active');
+    try{ localStorage.setItem('vt_novel_mode', mode); }catch(e){}
+  });
+});
+try{
+  const saved = localStorage.getItem('vt_novel_mode');
+  if(saved === 'villainess') document.querySelector('.mode-tab[data-mode="villainess"]')?.click();
+}catch(e){}
+const stb = document.getElementById('scroll-top');
+window.addEventListener('scroll', ()=>{
+  if(window.scrollY > 600) stb.classList.add('show');
+  else stb.classList.remove('show');
+});
+stb.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.style.animationPlayState = 'running';
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.chapter').forEach(c=>{
+  c.style.animationPlayState = 'paused';
+  observer.observe(c);
+});
+</script>
+
+<style>
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+</style>
+<nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</body>
+</html>
+
+
+
+
+
+

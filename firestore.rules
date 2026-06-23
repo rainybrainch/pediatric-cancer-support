@@ -1,0 +1,194 @@
+// Firestore Security Rules — ヴィタリア転生録 研究プロジェクト
+// 適用方法：Firebaseコンソール → Firestore Database → ルール → 以下を貼付け → 公開
+//
+// 設計方針：
+// - 参加者は自分のデータのみ書き込み可（uid 一致が必須）
+// - 研究者（admins/{email} に登録されたメール）は全データ読み取り可
+// - 削除・更新は基本不可（履歴を改ざんさせない）
+// - 管理者の追加は Firebase コンソール上で手動で /admins/{email} ドキュメントを作成
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 研究者かどうか判定（auth.token.email が admins コレクションに登録されていればtrue）
+    function isResearcher() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // 管理者リスト（メールアドレスを ID にして手動登録）
+    match /admins/{email} {
+      allow read: if request.auth != null;     // 自分が研究者か確認するため認証ユーザーは読める
+      allow write: if false;                    // コンソール経由のみ
+    }
+
+    // 参加者プロフィール
+    match /profiles/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update: if isOwner(resource.data.uid);
+      allow delete: if false;
+    }
+
+    // 運動クエスト記録
+    match /quest_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 栄養クエスト記録
+    match /nutrition_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 体組成記録
+    match /body_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // AIコーチ会話ログ（ルナとの対話）
+    match /coach_sessions/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.user_text is string
+        && request.resource.data.luna_text is string
+        && request.resource.data.user_text.size() < 2000
+        && request.resource.data.luna_text.size() < 2000;
+      allow read:   if isResearcher();   // 本人にも見せない（プライバシー保護のため履歴はlocalStorageから）
+      allow update, delete: if false;
+    }
+
+    // QOL記録（毎日の体調・気分・活力）
+    match /qol_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.condition is int
+        && request.resource.data.mood is int
+        && request.resource.data.energy is int
+        && request.resource.data.condition >= 1 && request.resource.data.condition <= 5
+        && request.resource.data.mood >= 1 && request.resource.data.mood <= 5
+        && request.resource.data.energy >= 1 && request.resource.data.energy <= 5;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // ログインストリーク・ゲーム進行（任意で同期）
+    match /play_logs/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 同意記録（インフォームド・コンセント）
+    match /consent_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.version is string;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 研究離脱・アカウント削除リクエスト
+    match /deletion_requests/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update: if isResearcher();   // 研究者がstatusを更新可能
+      allow delete: if false;
+    }
+
+    // ユーザー設定（端末間同期）
+    match /user_settings/{docId} {
+      allow read, write: if isOwner(docId)
+        || (isOwner(request.resource.data.uid) && docId == request.auth.uid);
+      // ※ user_settings は uid をドキュメントIDとして使用
+    }
+
+    // 危機介入ログ（クライアント側で記録した検知履歴の研究用集計）
+    match /crisis_events/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // ベースラインアセスメント（研究開始時の必須調査）
+    match /baseline_assessments/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.instrumentVersion is string;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // マイルストーン評価（中間6週・最終12週・uMARS含む）
+    match /milestone_assessments/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.type is string;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 週次サーベイ（PROMIS-29ベース短縮版）
+    match /weekly_surveys/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.weekNum is int
+        && request.resource.data.weekNum >= 1
+        && request.resource.data.weekNum <= 52;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // 睡眠記録
+    match /sleep_records/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.hours is number
+        && request.resource.data.hours >= 0
+        && request.resource.data.hours <= 24;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    // エンゲージメントログ（ページビュー・操作・滞在時間）
+    match /engagement_logs/{docId} {
+      allow create: if isOwner(request.resource.data.uid);
+      allow read:   if isResearcher();
+      allow update, delete: if false;
+    }
+
+    // 近況報告（パーティ内）
+    match /party_reports/{docId} {
+      allow create: if isOwner(request.resource.data.uid)
+        && request.resource.data.text is string
+        && request.resource.data.text.size() < 600;
+      allow read:   if isResearcher() || isOwner(resource.data.uid);
+      allow update: if false;
+      allow delete: if isOwner(resource.data.uid);
+    }
+
+    // ユーザー名 ↔ メールアドレス対応表（ユーザー名ログインに使用）
+    // emailForAuth フィールドのみ誰でも読み取り可（ユーザー名ログインに必要）
+    // それ以外のフィールド（email等）は認証済みかつ本人のみ読み取り可
+    match /usernames/{username} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid;
+      allow read: if
+        // emailForAuth のみを参照する場合は未認証でも可
+        // ※ Firestore は部分読み取り不可のため、ドキュメント全体の read を条件で制御
+        // 未認証ユーザーはログインフロー上 emailForAuth が必要なため全体読み取りを許可
+        true;
+      allow update: if request.auth != null
+        && resource.data.uid == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // それ以外は拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

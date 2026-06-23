@@ -1,0 +1,711 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>試練の書 — 研究・プログラム詳細 | ヴィタリア転生録</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1e7fa4">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b14;--bg2:#0d1020;--panel:#111528;--border:#1e2545;
+  --gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;
+  --green:#4ec98a;--red:#d45c5c;--blue:#5c8cd4;--purple:#9c72e0;
+  --text:#d4dcf0;--muted:#6070a0;--white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;overflow-x:hidden;line-height:1.8;}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(1px 1px at 15% 20%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 45% 8%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 75% 18%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 42%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 28% 55%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 68%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 8%  78%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 92% 85%,rgba(255,255,255,.5) 0%,transparent 100%);
+  pointer-events:none;z-index:0;
+}
+
+/* NAV */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,11,20,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:62px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--gold);font-family:'Noto Serif JP',serif;font-weight:900;}
+.logo-text{font-family:'Noto Serif JP',serif;font-weight:900;font-size:1rem;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;}
+.logo-sub{font-size:.62rem;color:var(--muted);font-family:'Zen Kaku Gothic New',sans-serif;display:block;-webkit-text-fill-color:var(--muted);}
+.nav-links{display:flex;align-items:center;gap:4px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:.04em;padding:7px 14px;border-radius:99px;border:1px solid transparent;transition:all .2s;}
+.nav-links a:hover{color:var(--gold);border-color:rgba(201,168,76,.3);}
+.btn-nav{background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.1)) !important;border:1px solid var(--gold) !important;color:var(--gold2) !important;}
+#menu-btn{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--gold);font-size:1.1rem;cursor:pointer;}
+#mobile-menu{display:none;position:fixed;top:62px;left:0;right:0;background:rgba(8,11,20,.97);border-bottom:1px solid var(--border);z-index:99;flex-direction:column;align-items:center;padding:20px;gap:12px;}
+#mobile-menu.open{display:flex;}
+#mobile-menu a{color:var(--text);text-decoration:none;font-weight:700;font-size:.95rem;padding:10px 28px;border-radius:99px;border:1px solid var(--border);width:100%;text-align:center;transition:all .2s;}
+#mobile-menu a:hover{border-color:var(--gold);color:var(--gold);}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:120px 32px 80px;text-align:center;border-bottom:1px solid var(--border);}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:.15em;padding:6px 18px;border-radius:99px;margin-bottom:24px;animation:fadeUp .6s ease both;}
+.hero-chapter{font-family:'Noto Serif JP',serif;font-size:.78rem;color:var(--muted);letter-spacing:.2em;margin-bottom:12px;animation:fadeUp .6s .05s ease both;}
+.hero-title{font-family:'Noto Serif JP',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:900;line-height:1.3;margin-bottom:16px;color:var(--white);animation:fadeUp .7s .1s ease both;}
+.hero-title .accent{background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{font-size:.95rem;color:var(--silver);max-width:560px;margin:0 auto 32px;line-height:2;animation:fadeUp .7s .15s ease both;}
+.hero-chars{display:flex;justify-content:center;gap:0;margin-top:40px;animation:fadeUp .8s .2s ease both;}
+.hero-chars img{width:min(160px,28%);object-fit:contain;filter:drop-shadow(0 12px 30px rgba(140,100,220,.2));animation:float 4s ease-in-out infinite;}
+.hero-chars img:nth-child(2){animation-delay:.5s;}
+.hero-chars img:nth-child(3){animation-delay:1s;}
+
+/* LAYOUT */
+main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 32px 100px;}
+section{scroll-margin-top:80px;padding:80px 0 0;}
+
+/* SECTION HEADER */
+.sec-head{margin-bottom:48px;}
+.chapter-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.chapter-label::before,.chapter-label::after{content:'';display:block;height:1px;width:40px;background:linear-gradient(90deg,transparent,var(--gold));}
+.chapter-label::after{background:linear-gradient(90deg,var(--gold),transparent);}
+.sec-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:var(--white);margin-bottom:12px;}
+.sec-title .accent{background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sec-desc{font-size:.88rem;color:var(--muted);}
+
+/* PANEL */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 32px;margin-bottom:20px;}
+.panel-title{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* PROFILE */
+.profile-grid{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start;}
+.profile-avatar{width:96px;height:96px;border-radius:50%;background:rgba(201,168,76,.1);border:2px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:2.6rem;flex-shrink:0;}
+.profile-name{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:var(--white);margin-bottom:4px;}
+.profile-role{font-size:.78rem;color:var(--gold);font-weight:700;margin-bottom:14px;}
+.profile-text{font-size:.88rem;color:var(--silver);line-height:1.9;}
+.profile-text strong{color:var(--gold2);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:0;}
+.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
+.stat-num{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:900;color:var(--gold2);margin-bottom:4px;}
+.stat-label{font-size:.75rem;color:var(--muted);}
+
+/* PROGRAM CARD */
+.prog-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;}
+.prog-header{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:16px;}
+.prog-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.prog-num{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.prog-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:700;color:var(--white);line-height:1.5;}
+.prog-body{padding:24px 28px;}
+.prog-char{float:right;margin:0 0 16px 20px;width:130px;}
+.prog-char img{width:100%;border-radius:12px;border:1px solid var(--border);}
+
+/* QUOTE */
+.quote-panel{border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:16px 20px;margin:16px 0;font-size:.85rem;line-height:1.9;color:var(--silver);}
+.quote-panel strong{color:var(--gold2);}
+.quote-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.tag{font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:99px;display:inline-block;}
+.tag-blue  {background:rgba(92,140,212,.15);color:var(--blue);border:1px solid rgba(92,140,212,.4);}
+.tag-green {background:rgba(78,201,138,.15);color:var(--green);border:1px solid rgba(78,201,138,.4);}
+.tag-purple{background:rgba(156,114,224,.15);color:var(--purple);border:1px solid rgba(156,114,224,.4);}
+.tag-gold  {background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.4);}
+.tag-red   {background:rgba(212,92,92,.15);color:var(--red);border:1px solid rgba(212,92,92,.4);}
+
+/* CONDITION */
+.condition-box{border-radius:12px;padding:18px 20px;margin:16px 0;font-size:.84rem;}
+.condition-box.blue  {background:rgba(92,140,212,.08);border:1px solid rgba(92,140,212,.25);}
+.condition-box.green {background:rgba(78,201,138,.08);border:1px solid rgba(78,201,138,.25);}
+.condition-box.purple{background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.25);}
+.condition-title{font-weight:700;margin-bottom:8px;}
+.condition-title.blue  {color:var(--blue);}
+.condition-title.green {color:var(--green);}
+.condition-title.purple{color:var(--purple);}
+.condition-list{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.condition-list li::before{content:'— ';color:var(--muted);}
+.condition-list li{font-size:.82rem;color:var(--silver);}
+
+/* REWARD */
+.reward-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.reward-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:.8rem;}
+.reward-card-title{font-weight:700;color:var(--gold);margin-bottom:4px;}
+.reward-card-val{color:var(--silver);}
+
+/* VIDEO SECTION */
+.video-cat{margin-bottom:40px;}
+.video-cat-title{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.video-cat-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.video-cat-label{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;color:var(--white);}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.video-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.video-thumb{aspect-ratio:16/9;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);}
+.video-thumb svg{width:48px;height:48px;}
+.video-info{padding:14px 16px;}
+.video-title{font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:3px;}
+.video-sub{font-size:.75rem;color:var(--muted);}
+
+/* CTA */
+.cta-section{padding:80px 0;text-align:center;border-top:1px solid var(--border);margin-top:80px;}
+.cta-pixe img{width:100px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 8px 20px rgba(78,201,138,.2));}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#c9a84c,#a07830);color:#0a0c14;font-family:inherit;font-size:.95rem;font-weight:900;padding:14px 32px;border-radius:99px;text-decoration:none;box-shadow:0 6px 24px rgba(201,168,76,.35);transition:all .25s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.45);}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--silver);border:1px solid var(--border);font-family:inherit;font-size:.9rem;font-weight:700;padding:13px 28px;border-radius:99px;text-decoration:none;transition:all .25s;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+
+/* FOOTER */
+footer{position:relative;z-index:1;background:var(--bg2);border-top:1px solid var(--border);padding:40px 32px 28px;text-align:center;}
+.footer-logo{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:12px 0;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.78rem;padding:4px 12px;border-radius:99px;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-note{font-size:.72rem;color:var(--muted);line-height:2;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #navbar{padding:0 20px;}.nav-links{display:none;}#menu-btn{display:block;}
+  main{padding:0 20px 80px;}
+  .profile-grid{grid-template-columns:1fr;text-align:center;}
+  .profile-avatar{margin:0 auto;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .reward-grid{grid-template-columns:1fr;}
+  .video-grid{grid-template-columns:1fr;}
+  .hero-chars img{width:min(120px,30%);}
+}
+@media(max-width:540px){
+  .stats-grid{grid-template-columns:1fr;}
+  .hero{padding:100px 20px 60px;}
+}
+</style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{background:radial-gradient(ellipse at 20% 10%,rgba(255,255,255,.7),transparent 55%),radial-gradient(ellipse at 80% 25%,rgba(255,255,255,.5),transparent 60%) !important;opacity:.85 !important;}
+nav,header,#navbar{background:rgba(200,228,244,.97) !important;border-bottom:1px solid #b0cfdf !important;}
+nav a,header a{color:#0a4870 !important;}
+.card,.panel,.section-card,.study-card{background:#ffffff !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+h1,h2,h3,.hero-title,.section-title{color:#1e7fa4 !important;}
+p,.desc,.muted{color:#0a2a40 !important;}
+a{color:#1e7fa4 !important;}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── 薄紫インライン色 → 濃紫に ── */
+[style*="color:rgba(200,180,240"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
+[style*="background:rgba(156,114,224"]{background:rgba(91,78,168,.07) !important;border-color:rgba(91,78,168,.25) !important;}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="./index.html" class="logo">
+    <div class="logo-icon">✦</div>
+    <div>
+      <span class="logo-text">ヴィタリア転生録</span>
+      <span class="logo-sub">小児がん経験者のための健康クエスト</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="./index.html">← トップへ</a>
+    <a href="#about">研究者について</a>
+    <a href="#programs">プログラム詳細</a>
+    <a href="#research">3つの研究</a>
+    <a href="#video">動画コンテンツ</a>
+    <a href="./game.html" class="btn-nav">ギルドに入る →</a>
+  </div>
+  <button id="menu-btn">☰</button>
+</nav>
+
+<div id="mobile-menu">
+  <a href="./index.html"         onclick="closeMobile()">← トップへ</a>
+  <a href="#about"               onclick="closeMobile()">研究者について</a>
+  <a href="#programs"            onclick="closeMobile()">プログラム詳細</a>
+  <a href="#research"            onclick="closeMobile()">3つの研究</a>
+  <a href="#video"               onclick="closeMobile()">動画コンテンツ</a>
+  <a href="./game.html" style="border-color:var(--gold);color:var(--gold);" onclick="closeMobile()">ギルドに入る →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✦ 試練の書 — Research & Program</div>
+  <p class="hero-chapter">— THE GRIMOIRE —</p>
+  <h1 class="hero-title">研究・プログラム<br><span class="accent">詳細資料</span></h1>
+  <p class="hero-desc">
+    ヴィタリアの3つの試練が、科学的エビデンスに基づいて設計された理由。<br>
+    研究者・福井郁子が、すべてを語る。
+  </p>
+  <div class="hero-chars">
+    <img src="./image/kaito-2-Photoroom.png" alt="カイト" style="animation-delay:0s;">
+    <img src="./image/runa-2-Photoroom.png"  alt="ルナ"  style="width:min(200px,35%);animation-delay:.5s;">
+    <img src="./image/sera-2-Photoroom.png"  alt="セラ"  style="animation-delay:1s;">
+  </div>
+</div>
+
+<main>
+
+  <!-- 研究者について -->
+  <section id="about">
+    <div class="sec-head reveal">
+      <div class="chapter-label">Chapter 01 — The Researcher</div>
+      <h2 class="sec-title"><span class="accent">研究者</span>について</h2>
+      <p class="sec-desc">なぜ、この研究を始めたのか。</p>
+    </div>
+
+    <div class="panel reveal">
+      <div class="profile-grid">
+        <div class="profile-avatar">👩‍🏫</div>
+        <div>
+          <div class="profile-name">福井 郁子</div>
+          <div class="profile-role">✦ 看護教員・研究者 ／ 大学看護学部 所属</div>
+          <p class="profile-text">
+            大学院生のとき、<strong>息子が小児がんを経験した</strong>ことが研究を始めたきっかけです。
+            看護師・大学院生・親という三つの立場から、治療後の子どもたちが直面する現実を深く知ることになりました。
+          </p>
+          <p class="profile-text" style="margin-top:12px;">
+            治療が終わったあとも、<strong>就職問題・晩期合併症・精神的サポート</strong>など、多くの課題が続くことに衝撃を受けました。
+            現在は大学の看護教員として、<strong>Webを活用した健康支援プログラムの開発・研究</strong>を続けています。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel reveal" style="transition-delay:.1s">
+      <div class="panel-title">📖 研究を始めたきっかけ</div>
+      <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:12px;">
+        大学院時代、息子が小児がんと診断されました。看護師としての知識と、親としての不安が交錯する日々の中で、「治療後も続く課題がある」という現実を身をもって経験しました。
+      </p>
+      <p style="font-size:.88rem;color:var(--silver);line-height:1.9;">
+        息子は治療から20年以上が経過した今も、就職・健康維持など多くの課題に向き合い続けています。
+        その経験が、<strong style="color:var(--gold2);">成人した小児がん経験者（AYA世代）を支える研究</strong>への原動力となっています。
+      </p>
+    </div>
+
+    <div class="panel reveal" style="transition-delay:.2s; border-color:rgba(156,114,224,.35);">
+      <div class="panel-title" style="color:var(--purple);">📚 なぜ「異世界転生」テーマなのか</div>
+      <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:14px;">
+        実は私、<strong style="color:var(--gold2);">異世界転生漫画が大好き</strong>なんです（笑）。
+        主人公が別の世界に転生し、仲間と出会い、少しずつ強くなっていくあの物語の構造が、
+        小児がんを経験した皆さんの歩みに重なって見えました。
+      </p>
+      <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:14px;">
+        病気を乗り越えた皆さんは、すでに<strong style="color:var(--gold2);">一度「転生」を経験した勇者</strong>です。
+        でもその先の「健康を守り続ける旅」は、まだ始まったばかり。
+        どうせなら、漫画のキャラクターのように、ゲームを楽しむように、
+        <strong style="color:var(--gold2);">ワクワクしながら健康習慣を身につけてほしい。</strong>
+      </p>
+      <p style="font-size:.88rem;color:var(--silver);line-height:1.9;">
+        医学的なエビデンスと、漫画の楽しさを組み合わせる。
+        それが、このサイトを作った理由です。
+        皆さんの声が、このプログラムをもっとよくします。ぜひ一緒に冒険しましょう。
+      </p>
+      <div style="margin-top:16px;padding:12px 16px;background:rgba(156,114,224,.08);border:1px solid rgba(156,114,224,.25);border-radius:10px;font-size:.8rem;color:rgba(200,180,240,.85);line-height:1.7;">
+        「小児がん経験者の皆さんに、まるで漫画の主人公のように、<br>
+        自分らしい物語を歩んでほしい。」<br>
+        <span style="font-size:.72rem;color:rgba(170,188,216,.5);margin-top:4px;display:block;">― 福井 郁子</span>
+      </div>
+    </div>
+
+    <div class="stats-grid reveal" style="transition-delay:.2s;">
+      <div class="stat-card">
+        <div class="stat-num">20<span style="font-size:1rem;">年+</span></div>
+        <div class="stat-label">息子の治療後の経過年数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3<span style="font-size:1rem;">本</span></div>
+        <div class="stat-label">並走する研究プログラム</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:1.4rem;">AYA</div>
+        <div class="stat-label">18〜39歳の経験者を対象</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- プログラム詳細 -->
+  <section id="programs">
+    <div class="sec-head reveal">
+      <div class="chapter-label">Chapter 02 — The Three Trials</div>
+      <h2 class="sec-title">3つの<span class="accent">試練の詳細</span></h2>
+      <p class="sec-desc">各クエストが科学的エビデンスに基づく理由。</p>
+    </div>
+
+    <!-- 運動 -->
+    <div class="prog-card reveal" id="exercise">
+      <div class="prog-header">
+        <div class="prog-icon" style="background:rgba(92,140,212,.15);color:var(--blue);">⚔️</div>
+        <div>
+          <div class="prog-num" style="color:var(--blue);">Trial 01 — Exercise Quest</div>
+          <div class="prog-title">身体強化の試練<br>——運動プログラムについて</div>
+        </div>
+      </div>
+      <div class="prog-body">
+        <div class="prog-char">
+          <img src="./image/kaito-2-Photoroom.png" alt="カイト">
+        </div>
+        <div class="quote-panel" style="border-color:var(--blue);">
+          <div class="quote-label" style="color:var(--blue);">アメリカがん協会 がんサバイバーガイドライン（2020年版）</div>
+          「1週間に<strong>中強度運動を150〜300分間</strong>、あるいは<strong>高強度運動を75〜150分間</strong>行うこと」
+        </div>
+        <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:12px;">
+          運動は、最もコスパの高い健康行動です。道具も特別な場所も不要。
+          隙間時間の細切れ運動でも積み重なれば健康効果が生まれます。
+          小児がん経験者の方は体力が低下していることも多いため、<strong style="color:var(--gold2);">低強度から徐々に始める「ゆるく長く続けられる運動」</strong>を提案します。
+        </p>
+        <div class="tags">
+          <span class="tag tag-blue">晩期合併症予防</span>
+          <span class="tag tag-blue">心肺機能・骨密度</span>
+          <span class="tag tag-blue">細切れ運動OK</span>
+          <span class="tag tag-blue">低強度から段階的に</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 栄養 -->
+    <div class="prog-card reveal" id="nutrition" style="transition-delay:.1s">
+      <div class="prog-header">
+        <div class="prog-icon" style="background:rgba(78,201,138,.15);color:var(--green);">🌿</div>
+        <div>
+          <div class="prog-num" style="color:var(--green);">Trial 02 — Nutrition Quest</div>
+          <div class="prog-title">魔力回復の試練<br>——栄養プログラムについて</div>
+        </div>
+      </div>
+      <div class="prog-body">
+        <div class="prog-char">
+          <img src="./image/sera-2-Photoroom.png" alt="セラ">
+        </div>
+        <div class="quote-panel" style="border-color:var(--green);">
+          <div class="quote-label" style="color:var(--green);">アメリカがん協会 がんサバイバーガイドライン（2020年版）</div>
+          「<strong>カラフルで食物繊維豊富な野菜と果物</strong>を食べ、<strong>赤身肉・加工肉・加工食品</strong>を避けること」
+        </div>
+        <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:12px;">
+          忙しい日々の中で食事は後回しになりがちです。物価高が続く今、現実の生活に寄り添いながら、
+          <strong style="color:var(--gold2);">オメガ3系脂肪酸を含む魚</strong>と<strong style="color:var(--gold2);">抗酸化物質を含むカラフルな野菜</strong>を日常に取り入れるための方法を提案します。
+          「1品増やす・1品置き換える」小さな工夫から始めましょう。
+        </p>
+        <div class="tags">
+          <span class="tag tag-green">カラフル野菜・魚</span>
+          <span class="tag tag-green">加工食品を減らす</span>
+          <span class="tag tag-green">現実の生活に寄り添う</span>
+          <span class="tag tag-green">小さな一歩から</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AIコーチング -->
+    <div class="prog-card reveal" style="transition-delay:.2s">
+      <div class="prog-header">
+        <div class="prog-icon" style="background:rgba(156,114,224,.15);color:var(--purple);">✨</div>
+        <div>
+          <div class="prog-num" style="color:var(--purple);">Trial 03 — Divine Coaching</div>
+          <div class="prog-title">心の試練<br>——AIコーチングについて</div>
+        </div>
+      </div>
+      <div class="prog-body">
+        <div class="prog-char">
+          <img src="./image/runa-2-Photoroom.png" alt="ルナ">
+        </div>
+        <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:12px;">
+          「運動したい」「ちゃんと食べたい」——頭では分かっているのに、なかなか動けない。
+          このギャップを埋めるのがAIコーチング。
+          <strong style="color:var(--gold2);">GROWモデル</strong>という目標設定の方法をベースに、「目標・現状・できること・意思」を一緒に整理しながら次の一歩を探します。
+        </p>
+        <p style="font-size:.88rem;color:var(--silver);line-height:1.9;margin-bottom:12px;">
+          批判もなく、プレッシャーもなく、ただ寄り添いながら。いつでも・何度でも・無料でアクセスできる、AIならではの強みです。
+        </p>
+        <div class="tags">
+          <span class="tag tag-purple">GROWモデル対話</span>
+          <span class="tag tag-purple">批判なし・受容あり</span>
+          <span class="tag tag-purple">行動変容サポート</span>
+          <span class="tag tag-purple">24時間いつでも</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 3つの研究 -->
+  <section id="research">
+    <div class="sec-head reveal">
+      <div class="chapter-label">Chapter 03 — Research Programs</div>
+      <h2 class="sec-title">3つの<span class="accent">研究プログラム</span></h2>
+      <p class="sec-desc">現在並行して進めているWeb研究。参加者を募集しています。</p>
+    </div>
+
+    <!-- 研究① -->
+    <div class="panel reveal" style="margin-bottom:24px;">
+      <div class="panel-title" style="color:var(--blue);">⚔️ 研究① — 運動量を増やすWebプログラム研究</div>
+      <p style="font-size:.85rem;color:var(--silver);line-height:1.9;margin-bottom:16px;">
+        働く世代の小児がん経験者の運動量を増やすWebプログラム研究。12週間のプログラムで、週1回10分程度、すべてWeb上で実施。アメリカがん協会ガイドライン（2020年版）を参考に設計。
+      </p>
+      <div class="condition-box blue">
+        <div class="condition-title blue">📋 参加対象者</div>
+        <ul class="condition-list">
+          <li>現在18〜39歳の小児がん経験者（発症時0〜14歳）</li>
+          <li>治療終了後5年以上経過した方</li>
+          <li>白血病または悪性リンパ腫が対象疾患</li>
+          <li style="color:var(--red);">※運動制限・めまい・バランス障害のある方は参加不可</li>
+        </ul>
+      </div>
+      <div class="reward-grid">
+        <div class="reward-card">
+          <div class="reward-card-title">🎁 参加謝礼</div>
+          <div class="reward-card-val">Amazonギフトカード 5,000円分 + スマートウォッチ</div>
+        </div>
+        <div class="reward-card">
+          <div class="reward-card-title">📑 研究助成</div>
+          <div class="reward-card-val">科学研究費助成事業 基盤研究（C）令和3〜6年度 ／ UMIN臨床試験登録済</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">週150〜300分の中強度運動が目標</span>
+        <span class="tag tag-blue">低強度から段階的に</span>
+        <span class="tag tag-blue">12週間プログラム</span>
+      </div>
+    </div>
+
+    <!-- 研究② -->
+    <div class="panel reveal" style="transition-delay:.1s;margin-bottom:24px;">
+      <div class="panel-title" style="color:var(--green);">🌿 研究② — 栄養Webプログラム研究</div>
+      <p style="font-size:.85rem;color:var(--silver);line-height:1.9;margin-bottom:16px;">
+        働く世代の小児がん経験者とAYA世代がん経験者の栄養Webプログラム研究。オメガ3系脂肪酸を含む魚と抗酸化物質を含むカラフルな野菜を日常に取り入れるための栄養メニューを提案。
+      </p>
+      <div class="condition-box green">
+        <div class="condition-title green">📋 参加対象者</div>
+        <ul class="condition-list">
+          <li>小児がん経験者およびAYA世代のがん経験者</li>
+        </ul>
+        <p style="font-size:.78rem;color:var(--green);font-weight:700;margin-top:10px;">🗓 募集開始：2026年下旬予定</p>
+      </div>
+      <div class="reward-grid">
+        <div class="reward-card">
+          <div class="reward-card-title">📑 研究助成</div>
+          <div class="reward-card-val">科学研究費助成事業 基盤研究（C）令和7〜9年度</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">魚・カラフル野菜</span>
+        <span class="tag tag-green">加工食品を減らす</span>
+        <span class="tag tag-green">2026年下旬開始予定</span>
+      </div>
+    </div>
+
+    <!-- 研究③ -->
+    <div class="panel reveal" style="transition-delay:.2s;">
+      <div class="panel-title" style="color:var(--purple);">✨ 研究③ — 健康行動への自動コーチング研究</div>
+      <p style="font-size:.85rem;color:var(--silver);line-height:1.9;margin-bottom:16px;">
+        働く世代の小児がん経験者の健康行動への自動コーチング研究。GROWモデルによるAIコーチングで「目標・現状・できること・意思」を整理。参加方法はFormsでの質問調査とZoomを使ったチャットボットインタビュー。
+      </p>
+      <div class="condition-box purple">
+        <div class="condition-title purple">📋 参加対象者</div>
+        <ul class="condition-list">
+          <li>0〜18歳時にがんと診断され、現在18〜39歳以下の方</li>
+          <li>治療終了後2年以上経過した方</li>
+        </ul>
+      </div>
+      <div class="reward-grid">
+        <div class="reward-card">
+          <div class="reward-card-title">🎁 参加謝礼</div>
+          <div class="reward-card-val">Amazonギフトカード 3,000円分</div>
+        </div>
+        <div class="reward-card">
+          <div class="reward-card-title">📑 研究助成</div>
+          <div class="reward-card-val">2024年度 がんの子どもを守る会 研究助成金</div>
+        </div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-purple">GROWモデルによる対話</span>
+        <span class="tag tag-purple">批判なし・受容あり</span>
+        <span class="tag tag-purple">Forms＋Zoom参加</span>
+        <span class="tag tag-gold">謝礼3,000円</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 動画 -->
+  <section id="video">
+    <div class="sec-head reveal">
+      <div class="chapter-label">Chapter 04 — Video Library</div>
+      <h2 class="sec-title">日常でできる<span class="accent">ワンポイント動画</span></h2>
+      <p class="sec-desc">隙間時間で取り組める健康習慣のヒントを動画でお届け。</p>
+    </div>
+
+    <div class="video-cat reveal">
+      <div class="video-cat-title">
+        <div class="video-cat-icon" style="background:rgba(92,140,212,.15);">⚔️</div>
+        <div class="video-cat-label">運動のワンポイント</div>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.454A2.75 2.75 0 0 0 2.2 8 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 4 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.454A2.75 2.75 0 0 0 21.8 16a28.86 28.86 0 0 0 .45-4 28.86 28.86 0 0 0-.45-4ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+            <p style="font-size:.75rem;">動画を準備中</p>
+          </div>
+          <div class="video-info">
+            <div class="video-title">運動ワンポイント ①</div>
+            <div class="video-sub">隙間時間でできる運動のヒント</div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.454A2.75 2.75 0 0 0 2.2 8 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 4 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.454A2.75 2.75 0 0 0 21.8 16a28.86 28.86 0 0 0 .45-4 28.86 28.86 0 0 0-.45-4ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+            <p style="font-size:.75rem;">動画を準備中</p>
+          </div>
+          <div class="video-info">
+            <div class="video-title">運動ワンポイント ②</div>
+            <div class="video-sub">低強度から始める運動のすすめ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-cat reveal" style="transition-delay:.1s">
+      <div class="video-cat-title">
+        <div class="video-cat-icon" style="background:rgba(78,201,138,.15);">🌿</div>
+        <div class="video-cat-label">栄養のワンポイント</div>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-thumb" style="color:var(--green);">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.454A2.75 2.75 0 0 0 2.2 8 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 4 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.454A2.75 2.75 0 0 0 21.8 16a28.86 28.86 0 0 0 .45-4 28.86 28.86 0 0 0-.45-4ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+            <p style="font-size:.75rem;">動画を準備中</p>
+          </div>
+          <div class="video-info">
+            <div class="video-title">栄養ワンポイント ①</div>
+            <div class="video-sub">カラフルな野菜を取り入れる方法</div>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb" style="color:var(--green);">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.8 8a2.75 2.75 0 0 0-1.935-1.946C18.12 5.6 12 5.6 12 5.6s-6.12 0-7.865.454A2.75 2.75 0 0 0 2.2 8 28.86 28.86 0 0 0 1.75 12a28.86 28.86 0 0 0 .45 4 2.75 2.75 0 0 0 1.935 1.946C5.88 18.4 12 18.4 12 18.4s6.12 0 7.865-.454A2.75 2.75 0 0 0 21.8 16a28.86 28.86 0 0 0 .45-4 28.86 28.86 0 0 0-.45-4ZM9.75 15V9l5.5 3-5.5 3Z"/></svg>
+            <p style="font-size:.75rem;">動画を準備中</p>
+          </div>
+          <div class="video-info">
+            <div class="video-title">栄養ワンポイント ②</div>
+            <div class="video-sub">魚を使った簡単レシピのすすめ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section reveal">
+    <div class="cta-pixe" style="margin-bottom:12px;">
+      <img src="./image/pikuse-Photoroom.png" alt="ピクセ" style="width:90px;animation:float 3s ease-in-out infinite;">
+    </div>
+    <h2 style="font-family:'Noto Serif JP',serif;font-size:1.8rem;font-weight:900;color:var(--white);margin-bottom:12px;">冒険に<span style="background:linear-gradient(135deg,var(--gold2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">参加する</span></h2>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:28px;">登録無料・いつでも退会OK。ルナがあなたを待っている。</p>
+    <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">
+      <a href="./game.html#register" class="btn-primary">✦ 新規登録（無料）</a>
+      <a href="./index.html" class="btn-ghost">← トップへ戻る</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">✦ ヴィタリア転生録 — 試練の書</div>
+  <div class="footer-links">
+    <a href="./index.html">トップ</a>
+    <a href="#about">研究者について</a>
+    <a href="#research">3つの研究</a>
+    <a href="./game.html">ギルドに入る</a>
+  </div>
+  <p class="footer-note">
+    研究代表者：福井 郁子（看護学・大学教員）<br>
+    ⚠️ このサービスはAIによるコーチングです。医療診断・治療は行いません。<br>
+    © 2025 小児がん経験者サポートAIコーチ研究プロジェクト
+  </p>
+</footer>
+
+<script>
+  document.getElementById('menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+  function closeMobile() { document.getElementById('mobile-menu').classList.remove('open'); }
+  document.addEventListener('click', e => {
+    const m = document.getElementById('mobile-menu'), b = document.getElementById('menu-btn');
+    if (!m.contains(e.target) && e.target !== b) m.classList.remove('open');
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 60); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');</script>
+</body>
+</html>
+
+
+
+

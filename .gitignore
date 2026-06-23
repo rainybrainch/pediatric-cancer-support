@@ -1,0 +1,18 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Cloudflare Wrangler local cache
+.wrangler/
+# Node
+node_modules/
+# Env / secrets
+.env
+.env.local
+# OS
+.DS_Store
+Thumbs.db
+# 一時ファイル
+*.zip
+screenshots/
+uploads/

@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>初回アンケート ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1a2e;--bg2:#112236;--gold:#c9a84c;--gold2:#f0d48a;--silver:#aabcd8;--green:#4ec98a;--red:#e05c5c;--purple:#9c72e0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--silver);min-height:100vh;overflow-x:hidden;}
+
+header{background:rgba(8,18,40,.92);border-bottom:1px solid rgba(41,182,232,.18);backdrop-filter:blur(16px);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+header a.brand{font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;color:var(--gold2);text-decoration:none;}
+.skip-btn{background:none;border:1px solid rgba(170,188,216,.25);color:rgba(170,188,216,.7);font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:inherit;text-decoration:none;}
+
+.page{max-width:680px;margin:0 auto;padding:24px 18px 100px;}
+.intro-card{
+  background:linear-gradient(135deg,rgba(78,201,138,.08),rgba(78,201,138,.02));
+  border:1px solid rgba(78,201,138,.25);border-radius:14px;
+  padding:18px 20px;margin-bottom:20px;
+}
+.intro-card h1{font-family:'Noto Serif JP',serif;font-size:1.25rem;color:#a8e8c0;margin-bottom:6px;}
+.intro-card p{font-size:.78rem;line-height:1.85;color:rgba(220,225,245,.85);}
+.progress-bar{height:5px;background:rgba(255,255,255,.05);border-radius:99px;margin:14px 0;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4ec98a,#a8e8c0);border-radius:99px;transition:width .4s;}
+.progress-meta{font-size:.62rem;color:rgba(168,232,192,.6);text-align:right;}
+
+.section{
+  background:#ffffff;border:1.5px solid #b0d4e8;
+  border-radius:14px;padding:18px 20px;margin-bottom:14px;
+}
+.section.hidden{display:none;}
+.section-title{font-family:'Noto Serif JP',serif;font-size:1rem;color:var(--gold2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-desc{font-size:.7rem;color:rgba(170,188,216,.6);margin-bottom:14px;line-height:1.7;}
+.section-citation{font-size:.55rem;color:rgba(170,188,216,.4);margin-top:10px;border-left:2px solid rgba(170,188,216,.18);padding-left:8px;line-height:1.5;}
+
+.q-block{margin-bottom:18px;}
+.q-block:last-child{margin-bottom:0;}
+.q-text{font-size:.82rem;color:#e8e4d4;font-weight:700;margin-bottom:10px;line-height:1.55;}
+.q-required{color:#f0a0a0;font-size:.7rem;margin-left:4px;}
+
+.opt-list{display:flex;flex-direction:column;gap:6px;}
+.opt-list label{
+  display:flex;align-items:center;gap:9px;padding:10px 13px;
+  background:rgba(255,255,255,.04);border:1.5px solid rgba(170,188,216,.15);
+  border-radius:10px;cursor:pointer;font-size:.82rem;color:#e8e4d4;transition:all .15s;
+}
+.opt-list label:hover{background:rgba(41,182,232,.08);border-color:rgba(41,182,232,.35);}
+.opt-list label:has(input:checked){background:rgba(201,168,76,.15);border-color:#29b6e8;color:var(--gold2);}
+.opt-list input{accent-color:var(--gold);}
+
+.scale-row{display:flex;justify-content:space-between;gap:6px;margin-top:8px;}
+.scale-row label{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;
+  background:rgba(255,255,255,.04);border:1.5px solid rgba(170,188,216,.15);
+  border-radius:9px;padding:9px 4px;transition:all .15s;
+  font-size:.72rem;color:rgba(220,225,245,.7);
+}
+.scale-row label:has(input:checked){background:rgba(78,201,138,.18);border-color:rgba(78,201,138,.5);color:#a8e8c0;}
+.scale-row input{display:none;}
+.scale-row .scale-num{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;}
+.scale-row .scale-lbl{font-size:.55rem;}
+.scale-anchors{display:flex;justify-content:space-between;font-size:.6rem;color:rgba(170,188,216,.45);margin-top:4px;}
+
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.input-row .form-group{display:flex;flex-direction:column;gap:4px;}
+.input-row label{font-size:.7rem;color:rgba(170,188,216,.55);}
+.input-row input,.input-row select{
+  background:rgba(255,255,255,.92);border:1px solid #b0d4e8;
+  border-radius:8px;padding:8px 11px;color:#e8e4d4;font-family:inherit;font-size:.85rem;outline:none;
+}
+.input-row input:focus{border-color:#29b6e8;}
+
+.bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(8,11,20,.92),rgba(0,0,0,.98));
+  backdrop-filter:blur(12px);border-top:1px solid rgba(41,182,232,.18);
+  padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  z-index:100;
+}
+.btn-back{background:none;border:1px solid rgba(170,188,216,.2);color:rgba(170,188,216,.7);
+  font-family:inherit;font-size:.78rem;padding:9px 16px;border-radius:9px;cursor:pointer;}
+.btn-back:disabled{opacity:.3;cursor:not-allowed;}
+.btn-next{background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;color:#fff;
+  font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;padding:10px 22px;border-radius:10px;cursor:pointer;letter-spacing:.05em;}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;}
+
+@media(max-width:480px){
+  .intro-card h1{font-size:1.05rem;}
+  .input-row{grid-template-columns:1fr;}
+}
+</style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;background-attachment:fixed !important;color:#d4e8f8 !important;}
+body::before{opacity:0 !important;}
+body,html{background:#c8e4f4 !important;color:#0a2a40 !important;}
+header{background:rgba(200,228,244,.97) !important;border-bottom:1px solid #b0cfdf !important;}
+header a.brand{color:#1e7fa4 !important;}
+.skip-btn{border-color:#b0cfdf !important;color:#355773 !important;}
+.intro-card{background:#ffffff !important;border-color:#b0cfdf !important;}
+.intro-card h1{color:#1e7fa4 !important;}
+.intro-card p,p{color:#0a2a40 !important;}
+.progress-meta{color:#1e7fa4 !important;}
+.progress-bar{background:rgba(30,127,164,.12) !important;}
+.progress-fill{background:linear-gradient(90deg,#1e7fa4,#4ab0d4) !important;}
+.section{background:#ffffff !important;border-color:#b0cfdf !important;}
+.section-title{color:#1e7fa4 !important;}
+.section-desc{color:#2a4a6a !important;}
+.section-citation{color:#4a7090 !important;border-left-color:#b0cfdf !important;}
+.q-text{color:#0a2a40 !important;}
+.q-required{color:#c0392b !important;}
+.opt-list label{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.opt-list label:hover{background:#dff0f8 !important;border-color:#4ab0d4 !important;}
+.opt-list label:has(input:checked){background:rgba(74,176,212,.18) !important;border-color:#1e7fa4 !important;color:#0a4870 !important;}
+.scale-row label{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.scale-row label:has(input:checked){background:rgba(74,176,212,.25) !important;border-color:#1e7fa4 !important;color:#0a4870 !important;}
+.scale-anchors{color:#4a7090 !important;}
+.input-row label{color:#2a4a6a !important;}
+.input-row input,.input-row select,input,select,textarea{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.input-row input:focus,.input-row select:focus,input:focus,select:focus,textarea:focus{border-color:#1e7fa4 !important;outline:none;}
+select option{background:#fff !important;color:#0a2a40 !important;}
+/* チェックボックス付きインラインラベル */
+label[style]{background:#f0f8fc !important;border-color:#b0cfdf !important;color:#0a2a40 !important;}
+.bottom-bar{background:rgba(200,228,244,.97) !important;border-top:1px solid #b0cfdf !important;}
+.btn-next{background:linear-gradient(135deg,#1e7fa4,#4ab0d4) !important;color:#fff !important;border:none !important;}
+.btn-back{background:#fff !important;border-color:#b0cfdf !important;color:#1e7fa4 !important;}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── baseline.html 固有クラス ── */
+.skip-btn{border-color:rgba(30,127,164,.4) !important;color:#1e7fa4 !important;}
+.intro-card h1{color:#0a4870 !important;}
+.intro-card p{color:rgba(10,42,64,.85) !important;}
+.q-section{background:rgba(255,255,255,.88) !important;border-color:rgba(30,127,164,.2) !important;}
+.section-desc{color:rgba(10,42,64,.65) !important;}
+.section-citation{color:rgba(10,42,64,.4) !important;border-left-color:rgba(30,127,164,.3) !important;}
+.q-option{background:rgba(255,255,255,.75) !important;border-color:rgba(30,127,164,.25) !important;color:#0a2a40 !important;}
+.q-option.selected,.q-option:hover{background:rgba(30,127,164,.12) !important;border-color:#1e7fa4 !important;}
+.scale-anchors{color:rgba(10,42,64,.5) !important;}
+.input-row label{color:rgba(10,42,64,.6) !important;}
+.btn-back{border-color:rgba(30,127,164,.3) !important;color:#1e7fa4 !important;}
+.q-scale-btn{background:rgba(255,255,255,.75) !important;border-color:rgba(30,127,164,.2) !important;color:#0a2a40 !important;}
+.q-scale-btn.selected{background:#1e7fa4 !important;color:#fff !important;}
+[style*="color:#f0c060"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
+[style*="color:#f0c890"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
+[style*="background:rgba(224,160,80"]{background:rgba(138,92,0,.06) !important;border-color:rgba(138,92,0,.22) !important;}
+</style>
+<script src="./app-safety.js"></script>
+<link rel="stylesheet" href="./vitalia-clean-ui.css">
+</head>
+<body>
+<header>
+  <a href="./game.html" class="brand">⟵ ヴィタリア転生録</a>
+  <a href="./game.html" class="skip-btn">あとで答える</a>
+</header>
+
+<main class="page">
+  <div class="intro-card">
+    <h1>📋 はじめてのアンケート</h1>
+    <p>ゲームを始める前に、今のあなたの体調・生活習慣を教えてください。</p>
+    <p style="margin-top:10px;font-size:.74rem;color:#355773;line-height:1.8;">
+      このアンケートは <strong style="color:#1e7fa4;">研究開始時の基準（ベースライン）</strong> として記録されます。<br>
+      12週間後に同じ項目を回答することで、あなたの変化を一緒に確認できます。<br>
+      回答内容は研究目的以外には使用しません。途中保存できるので、焦らず答えてください。
+    </p>
+    <p style="margin-top:8px;font-size:.72rem;color:#4a7090;">全6セクション・所要時間 約5分</p>
+    <div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" id="progress" style="width:16%"></div></div>
+    <div class="progress-meta"><span id="step-num">1</span> / 6 セクション</div>
+  </div>
+
+  <!-- Step 1: 基本情報 -->
+  <div class="section" data-step="1">
+    <div class="section-title">👤 基本情報</div>
+    <div class="section-desc">研究分析のための基本属性です。すべて任意項目です。</div>
+
+    <div class="q-block">
+      <div class="q-text">年齢</div>
+      <div class="input-row">
+        <div class="form-group">
+          <label>年齢（歳）</label>
+          <input type="number" id="age" min="13" max="50" placeholder="例: 25">
+        </div>
+        <div class="form-group">
+          <label>性別</label>
+          <select id="sex">
+            <option value="">選んでください</option>
+            <option value="female">女性</option>
+            <option value="male">男性</option>
+            <option value="nb">どちらでもない/答えない</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">小児がん診断・治療歴（任意）</div>
+      <div class="input-row">
+        <div class="form-group">
+          <label>診断時の年齢</label>
+          <input type="number" id="dx-age" min="0" max="40" placeholder="例: 8">
+        </div>
+        <div class="form-group">
+          <label>治療終了からの年数</label>
+          <input type="number" id="post-tx-yrs" min="0" max="50" placeholder="例: 10">
+        </div>
+      </div>
+      <div class="input-row" style="margin-top:8px;">
+        <div class="form-group" style="grid-column:span 2;">
+          <label>治療内容（複数選択）</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:5px;">
+            <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="chemo">化学療法</label>
+            <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="radio">放射線</label>
+            <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="surg">手術</label>
+            <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="bmt">造血幹細胞移植</label>
+            <label style="font-size:.74rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 10px;cursor:pointer;"><input type="checkbox" name="tx" value="other">その他</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 化学療法詳細（チェックされた場合のみ表示） -->
+      <div id="chemo-detail" style="display:none;margin-top:10px;background:rgba(224,160,80,.06);border:1px solid rgba(224,160,80,.25);border-radius:10px;padding:10px 12px;">
+        <div style="font-size:.7rem;color:#f0c060;font-weight:700;margin-bottom:6px;">💊 化学療法の詳細（覚えている範囲で・任意）</div>
+        <div style="font-size:.62rem;color:rgba(170,188,216,.55);margin-bottom:8px;line-height:1.65;">薬剤の種類によって運動・食事の注意点が変わります。母子手帳・治療歴メモがあればご確認ください。</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="chemo-class" value="anthracycline">アントラサイクリン系（ドキソルビシン・ダウノルビシン等）</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="chemo-class" value="alkylating">アルキル化剤（シクロホスファミド等）</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="chemo-class" value="platinum">プラチナ製剤（シスプラチン等）</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="chemo-class" value="vinca">ビンカアルカロイド（ビンクリスチン等）</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="chemo-class" value="unknown">わからない</label>
+        </div>
+      </div>
+
+      <!-- 服薬・既往 -->
+      <div class="q-block" style="margin-top:14px;">
+        <div class="q-text">現在の服薬・既往（複数選択・該当があれば）</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="warfarin">ワルファリン服用中</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="immunosup">免疫抑制剤</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="anticonv">抗てんかん薬</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="meds" value="hormone">ホルモン補充療法</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="hist" value="cardiac">心機能低下/心筋障害の指摘</label>
+          <label style="font-size:.7rem;background:rgba(255,255,255,.04);border:1px solid rgba(170,188,216,.15);border-radius:6px;padding:5px 9px;cursor:pointer;"><input type="checkbox" name="hist" value="splenectomy">脾臓摘出</label>
+        </div>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.5);margin-top:6px;line-height:1.6;">⚠ 該当する場合、運動・食事に**個別の注意**を表示します。心配なときは主治医に確認してください。</div>
+      </div>
+
+      <!-- Stages of Change -->
+      <div class="q-block" style="margin-top:14px;">
+        <div class="q-text">健康習慣の今の段階は？（Prochaska の変化ステージ理論）</div>
+        <div class="opt-list">
+          <label><input type="radio" name="stage" value="precontemplation">考えていない（健康行動を変える気はあまりない）</label>
+          <label><input type="radio" name="stage" value="contemplation">考え始めた（6ヶ月以内に始めたい）</label>
+          <label><input type="radio" name="stage" value="preparation">準備中（30日以内に始めるつもり）</label>
+          <label><input type="radio" name="stage" value="action">行動中（既に始めて6ヶ月未満）</label>
+          <label><input type="radio" name="stage" value="maintenance">継続中（6ヶ月以上続けている）</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">身長・体重</div>
+      <div class="input-row">
+        <div class="form-group">
+          <label>身長（cm）</label>
+          <input type="number" id="height" min="100" max="220" step="0.1" placeholder="例: 165">
+        </div>
+        <div class="form-group">
+          <label>体重（kg）</label>
+          <input type="number" id="weight" min="20" max="200" step="0.1" placeholder="例: 58">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: 身体活動（IPAQ短縮版・抜粋） -->
+  <div class="section hidden" data-step="2">
+    <div class="section-title">🏃 身体活動</div>
+    <div class="section-desc">過去7日間の身体活動について教えてください。</div>
+
+    <div class="q-block">
+      <div class="q-text">過去7日間で、<strong style="color:var(--gold2);">10分以上</strong> 連続して行った <strong style="color:var(--gold2);">激しい運動</strong>（息切れするほど）は何日ありましたか？<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="ipaq-vig-days">
+        <label><input type="radio" name="ipaq-vig-days" value="0"><span class="scale-num">0</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="5"><span class="scale-num">5</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="6"><span class="scale-num">6</span></label>
+        <label><input type="radio" name="ipaq-vig-days" value="7"><span class="scale-num">7</span></label>
+      </div>
+      <div class="scale-anchors"><span>なし</span><span>毎日</span></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">過去7日間で、<strong style="color:var(--gold2);">中程度の運動</strong>（少し息が弾む・速歩等）は何日ありましたか？<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="ipaq-mod-days">
+        <label><input type="radio" name="ipaq-mod-days" value="0"><span class="scale-num">0</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="5"><span class="scale-num">5</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="6"><span class="scale-num">6</span></label>
+        <label><input type="radio" name="ipaq-mod-days" value="7"><span class="scale-num">7</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">過去7日間で、<strong style="color:var(--gold2);">座っている</strong> 時間（仕事・休憩・移動以外）は1日何時間くらいですか？</div>
+      <div class="opt-list">
+        <label><input type="radio" name="sedentary" value="lt2">2時間未満</label>
+        <label><input type="radio" name="sedentary" value="2-4">2〜4時間</label>
+        <label><input type="radio" name="sedentary" value="4-8">4〜8時間</label>
+        <label><input type="radio" name="sedentary" value="gt8">8時間以上</label>
+      </div>
+    </div>
+
+    <div class="section-citation">参考: IPAQ-SF（International Physical Activity Questionnaire 短縮版）の質問項目を一部簡略化</div>
+  </div>
+
+  <!-- Step 3: 食習慣 -->
+  <div class="section hidden" data-step="3">
+    <div class="section-title">🍽 食習慣</div>
+    <div class="section-desc">普段の食生活について教えてください。</div>
+
+    <div class="q-block">
+      <div class="q-text">野菜（生・煮物・汁物の具を含む）を1日に食べる量は？<span class="q-required">*</span></div>
+      <div class="opt-list">
+        <label><input type="radio" name="veg-freq" value="0">ほとんど食べない</label>
+        <label><input type="radio" name="veg-freq" value="1">1皿（小鉢1つ程度）</label>
+        <label><input type="radio" name="veg-freq" value="2">2皿</label>
+        <label><input type="radio" name="veg-freq" value="3">3皿（推奨量）</label>
+        <label><input type="radio" name="veg-freq" value="4+">4皿以上</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">魚（赤身・青魚を含む）を週に何回食べますか？<span class="q-required">*</span></div>
+      <div class="opt-list">
+        <label><input type="radio" name="fish-freq" value="0">ほとんど食べない</label>
+        <label><input type="radio" name="fish-freq" value="1">週1回</label>
+        <label><input type="radio" name="fish-freq" value="2">週2回</label>
+        <label><input type="radio" name="fish-freq" value="3">週3回以上（推奨）</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">大豆製品（豆腐・納豆・豆乳など）を週に何回食べますか？</div>
+      <div class="opt-list">
+        <label><input type="radio" name="soy-freq" value="0">ほとんど食べない</label>
+        <label><input type="radio" name="soy-freq" value="1-2">週1〜2回</label>
+        <label><input type="radio" name="soy-freq" value="3-4">週3〜4回</label>
+        <label><input type="radio" name="soy-freq" value="daily">ほぼ毎日</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">加工肉・揚げ物・ファストフード・甘い飲み物を週に何回くらい食べますか？</div>
+      <div class="opt-list">
+        <label><input type="radio" name="processed-freq" value="0">ほとんど食べない</label>
+        <label><input type="radio" name="processed-freq" value="1-2">週1〜2回</label>
+        <label><input type="radio" name="processed-freq" value="3-5">週3〜5回</label>
+        <label><input type="radio" name="processed-freq" value="daily">ほぼ毎日</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: QOL（PROMIS-29抜粋） -->
+  <div class="section hidden" data-step="4">
+    <div class="section-title">😊 健康関連QOL</div>
+    <div class="section-desc">過去7日間の体調・気分について教えてください。</div>
+
+    <div class="q-block">
+      <div class="q-text">疲労感の強さ（過去7日間）<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="fatigue">
+        <label><input type="radio" name="fatigue" value="1"><span class="scale-num">1</span><span class="scale-lbl">なし</span></label>
+        <label><input type="radio" name="fatigue" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="fatigue" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="fatigue" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="fatigue" value="5"><span class="scale-num">5</span><span class="scale-lbl">非常</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">睡眠の質（過去7日間）<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="sleep-q">
+        <label><input type="radio" name="sleep-q" value="1"><span class="scale-num">1</span><span class="scale-lbl">悪い</span></label>
+        <label><input type="radio" name="sleep-q" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="sleep-q" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="sleep-q" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="sleep-q" value="5"><span class="scale-num">5</span><span class="scale-lbl">良い</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">不安の強さ（過去7日間）<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="anxiety">
+        <label><input type="radio" name="anxiety" value="1"><span class="scale-num">1</span><span class="scale-lbl">なし</span></label>
+        <label><input type="radio" name="anxiety" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="anxiety" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="anxiety" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="anxiety" value="5"><span class="scale-num">5</span><span class="scale-lbl">強い</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">気分の落ち込み（過去7日間）<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="depression">
+        <label><input type="radio" name="depression" value="1"><span class="scale-num">1</span><span class="scale-lbl">なし</span></label>
+        <label><input type="radio" name="depression" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="depression" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="depression" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="depression" value="5"><span class="scale-num">5</span><span class="scale-lbl">強い</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">日常生活での身体機能（できること）<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="phys-func">
+        <label><input type="radio" name="phys-func" value="1"><span class="scale-num">1</span><span class="scale-lbl">困難</span></label>
+        <label><input type="radio" name="phys-func" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="phys-func" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="phys-func" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="phys-func" value="5"><span class="scale-num">5</span><span class="scale-lbl">問題なし</span></label>
+      </div>
+    </div>
+
+    <div class="section-citation">参考: PROMIS-29（PROMIS Profile-29）疲労・睡眠・不安・抑うつ・身体機能ドメインを5段階に簡略化</div>
+  </div>
+
+  <!-- Step 5: 自己効力感 -->
+  <div class="section hidden" data-step="5">
+    <div class="section-title">💪 自己効力感</div>
+    <div class="section-desc">健康習慣を続けられる自信について教えてください。</div>
+
+    <div class="q-block">
+      <div class="q-text">忙しい時でも、運動習慣を続けられる自信がある<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="se-exercise">
+        <label><input type="radio" name="se-exercise" value="1"><span class="scale-num">1</span><span class="scale-lbl">無</span></label>
+        <label><input type="radio" name="se-exercise" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="se-exercise" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="se-exercise" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="se-exercise" value="5"><span class="scale-num">5</span><span class="scale-lbl">有</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">外食が続いても、健康的な食事を選べる自信がある<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="se-nutrition">
+        <label><input type="radio" name="se-nutrition" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="se-nutrition" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="se-nutrition" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="se-nutrition" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="se-nutrition" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">自分の健康を自分でコントロールできる感覚がある<span class="q-required">*</span></div>
+      <div class="scale-row" data-name="se-control">
+        <label><input type="radio" name="se-control" value="1"><span class="scale-num">1</span></label>
+        <label><input type="radio" name="se-control" value="2"><span class="scale-num">2</span></label>
+        <label><input type="radio" name="se-control" value="3"><span class="scale-num">3</span></label>
+        <label><input type="radio" name="se-control" value="4"><span class="scale-num">4</span></label>
+        <label><input type="radio" name="se-control" value="5"><span class="scale-num">5</span></label>
+      </div>
+    </div>
+
+    <div class="section-citation">参考: 慢性疾患セルフマネジメント自己効力感尺度（Self-Efficacy for Managing Chronic Disease 6-item Scale）の3項目抜粋</div>
+  </div>
+
+  <!-- Step 6: 動機・期待 -->
+  <div class="section hidden" data-step="6">
+    <div class="section-title">🎯 動機と期待</div>
+    <div class="section-desc">最後に、参加への期待を教えてください。</div>
+
+    <div class="q-block">
+      <div class="q-text">本アプリを始めた一番の理由は？（1つ選択）</div>
+      <div class="opt-list">
+        <label><input type="radio" name="motivation" value="health">体調・健康の改善</label>
+        <label><input type="radio" name="motivation" value="prevention">晩期合併症の予防</label>
+        <label><input type="radio" name="motivation" value="weight">体重管理</label>
+        <label><input type="radio" name="motivation" value="energy">体力・気力をつけたい</label>
+        <label><input type="radio" name="motivation" value="connection">同じ経験者と繋がりたい</label>
+        <label><input type="radio" name="motivation" value="research">研究に貢献したい</label>
+        <label><input type="radio" name="motivation" value="other">その他</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text">12週間後、自分にどんな変化を期待しますか？（自由記述・任意）</div>
+      <textarea id="hope" rows="3" maxlength="300" placeholder="例: 朝もう少し元気に起きられるようになりたい" style="width:100%;background:rgba(255,255,255,.92);border:1px solid #b0d4e8;border-radius:8px;padding:9px 12px;color:#e8e4d4;font-family:inherit;font-size:.78rem;outline:none;resize:vertical;line-height:1.7;"></textarea>
+    </div>
+  </div>
+</main>
+
+<div class="bottom-bar">
+  <button class="btn-back" id="btn-back" disabled>← 戻る</button>
+  <button class="btn-next" id="btn-next">次へ →</button>
+</div>
+
+<script>
+let step = 1;
+const totalSteps = 6;
+
+function showStep(n){
+  step = n;
+  document.querySelectorAll('.section').forEach(s=>{
+    s.classList.toggle('hidden', parseInt(s.dataset.step,10) !== n);
+  });
+  document.getElementById('progress').style.width = (n/totalSteps*100)+'%';
+  document.getElementById('step-num').textContent = n;
+  document.getElementById('btn-back').disabled = n === 1;
+  document.getElementById('btn-next').textContent = n === totalSteps ? '完了 ✦' : '次へ →';
+  window.scrollTo(0,0);
+}
+showStep(1);
+
+document.getElementById('btn-back').addEventListener('click', ()=>{
+  if(step > 1) showStep(step-1);
+});
+
+document.getElementById('btn-next').addEventListener('click', async ()=>{
+  if(step < totalSteps){
+    showStep(step+1);
+    return;
+  }
+  // 最終ステップ：保存
+  await saveBaseline();
+});
+
+// 化学療法詳細の表示制御
+document.querySelectorAll('input[name="tx"]').forEach(cb=>{
+  cb.addEventListener('change', ()=>{
+    const chemoChecked = document.querySelector('input[name="tx"][value="chemo"]')?.checked;
+    document.getElementById('chemo-detail').style.display = chemoChecked ? 'block' : 'none';
+  });
+});
+
+async function saveBaseline(){
+  const data = {
+    step1:{
+      age: parseInt(document.getElementById('age').value)||null,
+      sex: document.getElementById('sex').value || null,
+      dxAge: parseInt(document.getElementById('dx-age').value)||null,
+      postTxYrs: parseInt(document.getElementById('post-tx-yrs').value)||null,
+      tx: Array.from(document.querySelectorAll('input[name="tx"]:checked')).map(c=>c.value),
+      chemoClass: Array.from(document.querySelectorAll('input[name="chemo-class"]:checked')).map(c=>c.value),
+      meds: Array.from(document.querySelectorAll('input[name="meds"]:checked')).map(c=>c.value),
+      hist: Array.from(document.querySelectorAll('input[name="hist"]:checked')).map(c=>c.value),
+      stage: document.querySelector('input[name="stage"]:checked')?.value || null,
+      height: parseFloat(document.getElementById('height').value)||null,
+      weight: parseFloat(document.getElementById('weight').value)||null,
+    },
+    step2:{
+      ipaqVigDays: parseInt(getRadio('ipaq-vig-days'))||0,
+      ipaqModDays: parseInt(getRadio('ipaq-mod-days'))||0,
+      sedentary: getRadio('sedentary'),
+    },
+    step3:{
+      vegFreq: getRadio('veg-freq'),
+      fishFreq: getRadio('fish-freq'),
+      soyFreq: getRadio('soy-freq'),
+      processedFreq: getRadio('processed-freq'),
+    },
+    step4:{
+      fatigue: parseInt(getRadio('fatigue'))||null,
+      sleepQ: parseInt(getRadio('sleep-q'))||null,
+      anxiety: parseInt(getRadio('anxiety'))||null,
+      depression: parseInt(getRadio('depression'))||null,
+      physFunc: parseInt(getRadio('phys-func'))||null,
+    },
+    step5:{
+      seExercise: parseInt(getRadio('se-exercise'))||null,
+      seNutrition: parseInt(getRadio('se-nutrition'))||null,
+      seControl: parseInt(getRadio('se-control'))||null,
+    },
+    step6:{
+      motivation: getRadio('motivation'),
+      hope: document.getElementById('hope').value.trim().slice(0,300),
+    },
+    completedAt: new Date().toISOString(),
+    instrumentVersion: '2026-05-baseline-v1',
+  };
+
+  try{
+    const uid = localStorage.getItem('vitalia_uid_hint') || '';
+    localStorage.setItem(`vt_baseline_${uid}`, JSON.stringify(data));
+
+    // BMI計算 → vitalia_settings にも保存（運動カロリー計算で使用）
+    if(data.step1.height && data.step1.weight){
+      const settings = JSON.parse(localStorage.getItem('vitalia_settings')||'{}');
+      settings.height = data.step1.height;
+      settings.weight = data.step1.weight;
+      const bmi = data.step1.weight / ((data.step1.height/100)**2);
+      settings.bmi = +bmi.toFixed(1);
+      settings.updatedAt = new Date().toISOString();
+      localStorage.setItem('vitalia_settings', JSON.stringify(settings));
+    }
+  }catch(e){}
+
+  // Firestore送信
+  try{
+    if(window.AppSafety){
+      window.AppSafety.queueRecord('baseline_assessments', data);
+    }
+  }catch(e){}
+
+  location.href = './game.html';
+}
+
+function getRadio(name){
+  const r = document.querySelector(`input[name="${name}"]:checked`);
+  return r ? r.value : null;
+}
+</script>
+</body>
+</html>
+
+
+

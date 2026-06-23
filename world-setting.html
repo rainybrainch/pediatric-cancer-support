@@ -1,0 +1,1350 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴィタリア転生録 — 世界観・設定資料</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0a0c14;
+    --bg2:      #0f1220;
+    --panel:    #13172a;
+    --border:   #2a3060;
+    --gold:     #c9a84c;
+    --gold2:    #f0d080;
+    --silver:   #9eb8d8;
+    --green:    #4ec994;
+    --red:      #d45c5c;
+    --blue:     #5c8cd4;
+    --purple:   #8c5cd4;
+    --text:     #d8dff0;
+    --muted:    #7888aa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.8;
+  }
+
+  /* 星空背景 */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 25%, rgba(255,255,255,.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 65%, rgba(255,255,255,.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 85%, rgba(255,255,255,.6) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== ヘッダー ===== */
+  header {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 80px 24px 60px;
+    background: linear-gradient(180deg, rgba(10,12,20,0) 0%, rgba(10,12,20,.8) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: rgba(201,168,76,.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    padding: 5px 18px;
+    border-radius: 99px;
+    margin-bottom: 24px;
+  }
+
+  header h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold2), var(--gold), var(--silver));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: .9rem;
+    letter-spacing: .08em;
+  }
+
+  /* ===== ナビ ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,12,20,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 24px;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 1px solid transparent;
+    transition: all .2s;
+  }
+  nav a:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(201,168,76,.08);
+  }
+
+  /* ===== レイアウト ===== */
+  main {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  /* ===== セクション ===== */
+  .section {
+    margin-bottom: 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .section-num {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP', serif;
+    font-size: .85rem;
+    color: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--gold2);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    flex: 1;
+  }
+
+  /* ===== パネル ===== */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+
+  .panel-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== コアコンセプト引用 ===== */
+  .quote-block {
+    background: linear-gradient(135deg, rgba(201,168,76,.08), rgba(158,184,216,.05));
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    margin: 24px 0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    line-height: 2.2;
+    color: var(--gold2);
+  }
+
+  /* ===== メタファーテーブル ===== */
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: .9rem;
+  }
+  .meta-table th {
+    background: rgba(201,168,76,.1);
+    color: var(--gold);
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(42,48,96,.6);
+    vertical-align: middle;
+  }
+  .meta-table tr:last-child td { border-bottom: none; }
+  .meta-table .real { color: var(--muted); }
+  .meta-table .fantasy { color: var(--silver); }
+  .arrow { color: var(--gold); font-size: 1rem; }
+
+  /* ===== キャラカード ===== */
+  .char-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .char-grid { grid-template-columns: 1fr; }
+  }
+
+  .char-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .char-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+  }
+
+  .char-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .char-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .char-role {
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 3px 12px;
+    border-radius: 99px;
+    display: inline-block;
+  }
+
+  .role-luna   { background: rgba(140,92,212,.2); color: #c49cf0; border: 1px solid rgba(140,92,212,.5); }
+  .role-kaito  { background: rgba(212,92,92,.2);  color: #f09c9c; border: 1px solid rgba(212,92,92,.5); }
+  .role-sera   { background: rgba(78,201,148,.2); color: #7ee8bb; border: 1px solid rgba(78,201,148,.5); }
+  .role-pixe   { background: rgba(92,140,212,.2); color: #9cbdf0; border: 1px solid rgba(92,140,212,.5); }
+
+  .char-body {
+    padding: 20px 24px;
+  }
+
+  .char-stat {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: .88rem;
+  }
+  .stat-label {
+    color: var(--muted);
+    font-size: .78rem;
+    min-width: 52px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .stat-val { color: var(--text); }
+
+  .quote-char {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,.04);
+    border-left: 2px solid;
+    border-radius: 0 8px 8px 0;
+    font-size: .85rem;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* キャラカラー */
+  .char-luna  .char-name { color: #c49cf0; }
+  .char-luna  .quote-char { border-color: #8c5cd4; color: #c49cf0; }
+  .char-kaito .char-name { color: #f09c9c; }
+  .char-kaito .quote-char { border-color: #d45c5c; color: #f09c9c; }
+  .char-sera  .char-name { color: #7ee8bb; }
+  .char-sera  .quote-char { border-color: #4ec994; color: #7ee8bb; }
+  .char-pixe  .char-name { color: #9cbdf0; }
+  .char-pixe  .quote-char { border-color: #5c8cd4; color: #9cbdf0; }
+
+  /* ===== ストーリーライン ===== */
+  .story-chapter {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .story-chapter::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 44px;
+    width: 2px; height: calc(100% + 24px);
+    background: var(--border);
+  }
+  .story-chapter:last-child::before { display: none; }
+
+  .chap-num {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 900; font-size: .9rem;
+    color: var(--gold);
+    background: var(--bg2);
+    position: relative; z-index: 1;
+  }
+
+  .chap-body {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+  }
+
+  .chap-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    color: var(--gold2);
+    margin-bottom: 8px;
+  }
+
+  .chap-condition {
+    display: inline-block;
+    font-size: .72rem;
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 99px;
+    padding: 2px 10px;
+    margin-bottom: 10px;
+  }
+
+  .chap-desc {
+    font-size: .88rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  /* ===== ゲーミフィケーション ===== */
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .game-grid { grid-template-columns: 1fr; }
+  }
+
+  .game-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .game-icon { font-size: 2rem; margin-bottom: 10px; }
+  .game-title { font-weight: 700; color: var(--gold); font-size: .9rem; margin-bottom: 8px; }
+  .game-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+
+  /* ===== XPテーブル ===== */
+  .xp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+  }
+  .xp-table th {
+    background: rgba(78,201,148,.1);
+    color: var(--green);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .xp-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(42,48,96,.5);
+    color: var(--text);
+  }
+  .xp-table tr:last-child td { border-bottom: none; }
+  .xp-val { color: var(--green); font-weight: 700; }
+
+  /* ===== レベルテーブル ===== */
+  .level-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(42,48,96,.5);
+    font-size: .88rem;
+  }
+  .level-row:last-child { border-bottom: none; }
+  .lv-num {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: .85rem;
+  }
+  .lv-title { font-weight: 700; color: var(--gold2); min-width: 120px; }
+  .lv-cond  { color: var(--muted); font-size: .82rem; flex: 1; }
+  .lv-reward { color: var(--green); font-size: .82rem; }
+
+  .lv1 { background: rgba(158,184,216,.2); color: var(--silver); }
+  .lv2 { background: rgba(78,201,148,.2);  color: var(--green); }
+  .lv3 { background: rgba(201,168,76,.2);  color: var(--gold); }
+  .lv4 { background: rgba(212,92,92,.2);   color: var(--red); }
+  .lv5 { background: rgba(140,92,212,.25); color: #c49cf0; }
+
+  /* ===== 画像生成プロンプト ===== */
+  .prompt-block {
+    background: #0a0e1a;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 12px 0;
+    font-family: monospace;
+    font-size: .82rem;
+    line-height: 1.7;
+    color: #a0c8a0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    position: relative;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px; right: 12px;
+    background: rgba(201,168,76,.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: .72rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .copy-btn:hover { background: rgba(201,168,76,.3); }
+
+  .prompt-label {
+    font-size: .72rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 700;
+    letter-spacing: .08em;
+  }
+
+  /* ===== ロードマップ ===== */
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .phase {
+    display: flex;
+    gap: 20px;
+    position: relative;
+  }
+  .phase::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 44px;
+    width: 2px; height: calc(100% + 1px);
+    background: var(--border);
+  }
+  .phase:last-child::before { display: none; }
+
+  .phase-dot {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: .85rem;
+    position: relative; z-index: 1;
+  }
+  .phase-dot.done    { background: var(--green); color: #0a0c14; }
+  .phase-dot.current { background: var(--gold); color: #0a0c14; animation: pulse 2s infinite; }
+  .phase-dot.todo    { background: var(--panel); border: 2px solid var(--border); color: var(--muted); }
+
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,.5); }
+    50%      { box-shadow: 0 0 0 10px rgba(201,168,76,0); }
+  }
+
+  .phase-body {
+    flex: 1;
+    padding: 12px 0 32px;
+  }
+
+  .phase-title {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    color: var(--gold2);
+    margin-bottom: 8px;
+  }
+
+  .phase-items {
+    list-style: none;
+    font-size: .88rem;
+    color: var(--muted);
+    padding-left: 4px;
+  }
+  .phase-items li::before { content: '— '; color: var(--border); }
+  .phase-items li { margin-bottom: 4px; }
+
+  /* ===== フッター ===== */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: .8rem;
+  }
+
+  /* ===== ユーティリティ ===== */
+  .tag {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    margin: 2px;
+  }
+  .tag-gold   { background: rgba(201,168,76,.15); color: var(--gold); border: 1px solid rgba(201,168,76,.4); }
+  .tag-green  { background: rgba(78,201,148,.15); color: var(--green); border: 1px solid rgba(78,201,148,.4); }
+  .tag-purple { background: rgba(140,92,212,.15); color: #c49cf0; border: 1px solid rgba(140,92,212,.4); }
+  .tag-red    { background: rgba(212,92,92,.15);  color: var(--red); border: 1px solid rgba(212,92,92,.4); }
+  .tag-blue   { background: rgba(92,140,212,.15); color: var(--blue); border: 1px solid rgba(92,140,212,.4); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+</style>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:#c8e4f4 !important;color:#0a2a40 !important;}
+body::before{opacity:0 !important;}
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── キャラ色インライン（薄色→濃色）── */
+[style*="color:#f09c9c"]{color:#c04040 !important;-webkit-text-fill-color:#c04040 !important;}
+[style*="color:#c49cf0"]{color:#5b4ea8 !important;-webkit-text-fill-color:#5b4ea8 !important;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">WORLD SETTING DOCUMENT v1.0</div>
+  <h1>ヴィタリア転生録</h1>
+  <p>小児がん経験者向け 健康習慣支援プログラム ／ 世界観・設定資料</p>
+</header>
+
+<nav>
+  <a href="#concept">世界観</a>
+  <a href="#characters">キャラクター</a>
+  <a href="#story">ストーリー</a>
+  <a href="#game">ゲーム設計</a>
+  <a href="#prompts">画像生成</a>
+  <a href="#roadmap">ロードマップ</a>
+</nav>
+
+<main>
+
+  <!-- ===== 世界観 ===== -->
+  <section class="section" id="concept">
+    <div class="section-header">
+      <div class="section-num">一</div>
+      <h2 class="section-title">世界観・コアコンセプト</h2>
+    </div>
+
+    <div class="quote-block">
+      前世でがんという名の魔王と戦い抜いた魂は、<br>
+      「ヴィタリア」と呼ばれる異世界へと転生する。<br>
+      <br>
+      しかし——前世の呪い（晩期合併症リスク）は<br>
+      まだその身に残り続けている。<br>
+      <br>
+      健康クエストをこなすことで呪いを解き、<br>
+      <strong>真の勇者へと覚醒せよ。</strong>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">🌍 世界名・基本設定</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; font-size:.9rem;">
+        <div>
+          <p style="color:var(--muted); font-size:.78rem; margin-bottom:4px;">世界名</p>
+          <p style="color:var(--gold2); font-weight:700; margin-bottom:16px;">ヴィタリア（Vitalia）</p>
+          <p style="color:var(--muted); font-size:.78rem; margin-bottom:4px;">語源</p>
+          <p style="margin-bottom:16px;">ラテン語 vita（生命）+ -lia（大陸）</p>
+          <p style="color:var(--muted); font-size:.78rem; margin-bottom:4px;">世界観トーン</p>
+          <p>ダーク×ファンタジー×希望。絶望から出発し、成長で明るくなっていく</p>
+        </div>
+        <div>
+          <p style="color:var(--muted); font-size:.78rem; margin-bottom:4px;">主人公の立場</p>
+          <p style="margin-bottom:16px;">「試練を生き抜いた転生者」＝ユーザー自身</p>
+          <p style="color:var(--muted); font-size:.78rem; margin-bottom:4px;">プレイヤーの使命</p>
+          <p style="margin-bottom:16px;">前世の呪いを解き、ヴィタリアに平和をもたらす</p>
+          <p style="color:var(--muted); font-size:.78rem; margin-bottom:4px;">クリア条件</p>
+          <p>健康習慣の定着（運動・栄養・メンタル）</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">🔄 現実 ↔ 異世界 メタファー対応表</div>
+      <table class="meta-table">
+        <thead>
+          <tr>
+            <th>現実世界</th>
+            <th></th>
+            <th>ヴィタリア異世界</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="real">がん治療の経験</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">前世での魔王討伐</td>
+          </tr>
+          <tr>
+            <td class="real">治療後の社会復帰</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">異世界への転生（再出発）</td>
+          </tr>
+          <tr>
+            <td class="real">晩期合併症リスク</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">前世の呪い（残留ダメージ）</td>
+          </tr>
+          <tr>
+            <td class="real">野菜・魚を食べる</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">魔力回復クエスト</td>
+          </tr>
+          <tr>
+            <td class="real">運動習慣（週150分）</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">剣技・身体能力強化訓練</td>
+          </tr>
+          <tr>
+            <td class="real">AIコーチとの対話</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">女神ルナからの神託</td>
+          </tr>
+          <tr>
+            <td class="real">レベルアップ・達成</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">勇者としての覚醒段階</td>
+          </tr>
+          <tr>
+            <td class="real">研究への参加</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">ギルドへの登録</td>
+          </tr>
+          <tr>
+            <td class="real">アプリの記録</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">冒険の書への書き込み</td>
+          </tr>
+          <tr>
+            <td class="real">GROWコーチング</td>
+            <td class="arrow">→</td>
+            <td class="fantasy">勇者の試練・4つの問い</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ===== キャラクター ===== -->
+  <section class="section" id="characters">
+    <div class="section-header">
+      <div class="section-num">二</div>
+      <h2 class="section-title">キャラクター設定（4体）</h2>
+    </div>
+
+    <div class="char-grid">
+
+      <!-- ルナ -->
+      <div class="char-card char-luna">
+        <div class="char-header">
+          <div class="char-name">ルナ（Luna）</div>
+          <span class="char-role role-luna">転生案内の女神 / AIコーチ</span>
+        </div>
+        <div class="char-body">
+          <div class="char-stat">
+            <span class="stat-label">性格</span>
+            <span class="stat-val">穏やか・包容力・謎めいた</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">担当</span>
+            <span class="stat-val">GROWコーチング・メインナビ</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">外見</span>
+            <span class="stat-val">銀白髪ロング、三日月の紋章（額）、金色の瞳、星が散る半透明ローブ、若干浮遊</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">年齢感</span>
+            <span class="stat-val">20代後半・神秘的</span>
+          </div>
+          <div class="quote-char">
+            「あなたの前世の勇気は、ここでも輝いている。さあ、一緒に次の一歩を見つけましょう」
+          </div>
+          <div style="margin-top:12px;">
+            <span class="tag tag-purple">AIコーチ本体</span>
+            <span class="tag tag-gold">ストーリーナレーター</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- カイト -->
+      <div class="char-card char-kaito">
+        <div class="char-header">
+          <div class="char-name">カイト（Kaito）</div>
+          <span class="char-role role-kaito">剣士 / 運動プログラム担当</span>
+        </div>
+        <div class="char-body">
+          <div class="char-stat">
+            <span class="stat-label">性格</span>
+            <span class="stat-val">熱血・明るい・少し天然</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">担当</span>
+            <span class="stat-val">週150分運動クエスト・体力系</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">外見</span>
+            <span class="stat-val">黒髪ショート（跳ね気味）、赤×白の軽鎧、腰に剣、サムズアップポーズ</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">年齢感</span>
+            <span class="stat-val">20代前半・爽やか系</span>
+          </div>
+          <div class="quote-char">
+            「細切れでもOK！道具なしでも俺と一緒なら絶対強くなれる！」
+          </div>
+          <div style="margin-top:12px;">
+            <span class="tag tag-red">運動クエスト</span>
+            <span class="tag tag-gold">週150分チャレンジ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- セラ -->
+      <div class="char-card char-sera">
+        <div class="char-header">
+          <div class="char-name">セラ（Sera）</div>
+          <span class="char-role role-sera">魔法使い / 栄養プログラム担当</span>
+        </div>
+        <div class="char-body">
+          <div class="char-stat">
+            <span class="stat-label">性格</span>
+            <span class="stat-val">知的・穏やか・料理好き</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">担当</span>
+            <span class="stat-val">野菜・魚クエスト・食事コンテンツ</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">外見</span>
+            <span class="stat-val">茶色髪お団子、緑系魔法使い衣装+エプロン風アレンジ、魔法の料理本、野菜・魚が魔法陣のように浮遊</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">年齢感</span>
+            <span class="stat-val">20代後半・落ち着いた美人</span>
+          </div>
+          <div class="quote-char">
+            「食べることは魔力を補充すること。今日も一緒に最高の魔法食を作りましょう」
+          </div>
+          <div style="margin-top:12px;">
+            <span class="tag tag-green">野菜クエスト</span>
+            <span class="tag tag-green">魚クエスト</span>
+            <span class="tag tag-gold">栄養レシピ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ピクセ -->
+      <div class="char-card char-pixe">
+        <div class="char-header">
+          <div class="char-name">ピクセ（Pixe）</div>
+          <span class="char-role role-pixe">妖精マスコット / メンタルケア</span>
+        </div>
+        <div class="char-body">
+          <div class="char-stat">
+            <span class="stat-label">性格</span>
+            <span class="stat-val">無邪気・元気・ちょっとドジ</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">担当</span>
+            <span class="stat-val">継続ボーナス・励まし・精神的サポート</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">外見</span>
+            <span class="stat-val">体長約15cm、淡い緑の体、透明な羽根、葉っぱ模様の服、常にぴょんぴょん</span>
+          </div>
+          <div class="char-stat">
+            <span class="stat-label">年齢感</span>
+            <span class="stat-val">幼い / 妖精</span>
+          </div>
+          <div class="quote-char">
+            「ぴくっ！今日も一緒だよ！サボっても怒らないよ、また始めよ？」
+          </div>
+          <div style="margin-top:12px;">
+            <span class="tag tag-blue">メンタルケア</span>
+            <span class="tag tag-blue">継続ボーナス</span>
+            <span class="tag tag-gold">マスコット</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- キャラ関係図 -->
+    <div class="panel" style="margin-top:20px;">
+      <div class="panel-title">🔗 キャラクター関係・役割分担</div>
+      <div style="font-size:.88rem; color:var(--muted); line-height:2;">
+        <strong style="color:var(--gold2);">ルナ</strong>　…全体の案内役。ユーザーと最も多く対話する。チャットボット本体。<br>
+        <strong style="color:#f09c9c;">カイト</strong>　…運動クエスト担当。目標設定・記録画面で登場。元気な応援コメント。<br>
+        <strong style="color:#7ee8bb;">セラ</strong>　　…栄養クエスト担当。食事記録画面で登場。レシピアドバイス。<br>
+        <strong style="color:#9cbdf0;">ピクセ</strong>　…常に画面隅にいる。ログイン・連続達成時にコメント。癒し担当。
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== ストーリー ===== -->
+  <section class="section" id="story">
+    <div class="section-header">
+      <div class="section-num">三</div>
+      <h2 class="section-title">ストーリーライン</h2>
+    </div>
+
+    <div class="panel" style="margin-bottom:28px;">
+      <div class="panel-title">📖 プロローグ（初回ログイン時）</div>
+      <div class="quote-block" style="font-size:.92rem;">
+        「あなたは長く続いた試練——前世での死闘——の果てに、<br>
+        ヴィタリアの地へと転生した。<br>
+        <br>
+        空は深い青。風には見知らぬ花の香り。<br>
+        しかし胸の奥に、微かな痛みが残っている。<br>
+        <em>これが前世の呪いか……</em><br>
+        <br>
+        そのとき、銀髪の女が現れた。<br>
+        「あなたの魂の強さは本物。でもその呪いは、<br>
+        自らの手で解かなければならない。<br>
+        　　　　　　一緒に始めましょう」<br>
+        <br>
+        ——ここから、あなたの冒険が始まる。」
+      </div>
+    </div>
+
+    <div class="roadmap">
+
+      <div class="story-chapter">
+        <div class="chap-num">序</div>
+        <div class="chap-body">
+          <div class="chap-title">転生の夜明け</div>
+          <span class="chap-condition">✦ 解放条件：ギルド登録（研究参加・アカウント作成）</span>
+          <p class="chap-desc">ルナとの初対話。GROWモデルで現在の状況を共有する。「今、どんな気持ちですか？」——ありのままの言葉から冒険が始まる。</p>
+        </div>
+      </div>
+
+      <div class="story-chapter">
+        <div class="chap-num">一</div>
+        <div class="chap-body">
+          <div class="chap-title">最初のクエスト——身体を取り戻せ</div>
+          <span class="chap-condition">✦ 解放条件：運動クエスト初回達成</span>
+          <p class="chap-desc">カイトが現れ「一緒に鍛えよう」と声をかける。道具不要・細切れ10分でもOKな最初の運動クエスト。クリアするとカイトが「すごい！さすが前世の勇者だ！」と喜ぶ。</p>
+        </div>
+      </div>
+
+      <div class="story-chapter">
+        <div class="chap-num">二</div>
+        <div class="chap-body">
+          <div class="chap-title">魔力の泉——食の力を知れ</div>
+          <span class="chap-condition">✦ 解放条件：野菜・魚クエスト初回達成</span>
+          <p class="chap-desc">セラが魔法の料理で呪いを和らげる方法を教える。「カラフルな野菜が魔力を補充し、魚が身体の呪縛を解く」——研究のエビデンスを物語として伝える。</p>
+        </div>
+      </div>
+
+      <div class="story-chapter">
+        <div class="chap-num">三</div>
+        <div class="chap-body">
+          <div class="chap-title">呪いの核心——過去の記憶と向き合う</div>
+          <span class="chap-condition">✦ 解放条件：AIコーチ対話3回達成</span>
+          <p class="chap-desc">ルナと深い対話。前世（治療経験）で何を感じ、何を乗り越えてきたかを振り返る。その記憶こそが最大のチートスキルだと気づく。過去の経験・対処を振り返るGROWステップ。</p>
+        </div>
+      </div>
+
+      <div class="story-chapter">
+        <div class="chap-num">四</div>
+        <div class="chap-body">
+          <div class="chap-title">仲間との絆——ピクセが守るもの</div>
+          <span class="chap-condition">✦ 解放条件：7日間連続ログイン</span>
+          <p class="chap-desc">ピクセが「あなたがいてくれるから僕も頑張れる」と話す。継続することの価値。完璧でなくていい、戻ってきてくれるだけでいい——というメッセージ。</p>
+        </div>
+      </div>
+
+      <div class="story-chapter">
+        <div class="chap-num">終</div>
+        <div class="chap-body">
+          <div class="chap-title">勇者の覚醒——呪いが力に変わる日</div>
+          <span class="chap-condition">✦ 解放条件：Lv5到達（研究期間終了）</span>
+          <p class="chap-desc">呪いが完全に解けたとき、それは「経験」という無二の力に変わっていた。ルナ「あなたはもう、誰かの道標になれる」——研究への参加・協力が誰かの役に立つというエンディング。</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===== ゲーミフィケーション ===== -->
+  <section class="section" id="game">
+    <div class="section-header">
+      <div class="section-num">四</div>
+      <h2 class="section-title">ゲーミフィケーション設計</h2>
+    </div>
+
+    <!-- XP表 -->
+    <div class="panel">
+      <div class="panel-title">⚡ 経験値（XP）獲得ルール</div>
+      <table class="xp-table">
+        <thead>
+          <tr><th>アクション</th><th>XP</th><th>異世界の意味</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ログイン（1日1回）</td><td class="xp-val">+5 XP</td><td style="color:var(--muted)">冒険の書を開く</td></tr>
+          <tr><td>野菜350g達成</td><td class="xp-val">+30 XP</td><td style="color:var(--muted)">魔力回復クエスト完了</td></tr>
+          <tr><td>魚1回摂取（週500g目標）</td><td class="xp-val">+25 XP</td><td style="color:var(--muted)">海の恵みクエスト完了</td></tr>
+          <tr><td>運動10分（細切れOK）</td><td class="xp-val">+20 XP</td><td style="color:var(--muted)">身体強化訓練</td></tr>
+          <tr><td>AIコーチと対話</td><td class="xp-val">+40 XP</td><td style="color:var(--muted)">女神ルナの神託を受けた</td></tr>
+          <tr><td>週間目標すべて達成</td><td class="xp-val">+100 XP</td><td style="color:var(--muted)">週間クエスト制覇</td></tr>
+          <tr><td>3日連続達成</td><td class="xp-val">+50 XP</td><td style="color:var(--muted)">連続戦績ボーナス</td></tr>
+          <tr><td>初めてのクエスト達成</td><td class="xp-val">+80 XP</td><td style="color:var(--muted)">初陣ボーナス</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- レベル表 -->
+    <div class="panel">
+      <div class="panel-title">🏆 レベルシステム</div>
+      <div>
+        <div class="level-row">
+          <div class="lv-num lv1">1</div>
+          <div class="lv-title">転生者</div>
+          <div class="lv-cond">開始〜299 XP</div>
+          <div class="lv-reward">ルナの初解説・プロローグ解放</div>
+        </div>
+        <div class="level-row">
+          <div class="lv-num lv2">2</div>
+          <div class="lv-title">見習い勇者</div>
+          <div class="lv-cond">300〜799 XP</div>
+          <div class="lv-reward">カイト衣装Lv2・第一章解放</div>
+        </div>
+        <div class="level-row">
+          <div class="lv-num lv3">3</div>
+          <div class="lv-title">ギルド正式メンバー</div>
+          <div class="lv-cond">800〜1499 XP</div>
+          <div class="lv-reward">セラの特別レシピ・第三章解放</div>
+        </div>
+        <div class="level-row">
+          <div class="lv-num lv4">4</div>
+          <div class="lv-title">呪縛解放者</div>
+          <div class="lv-cond">1500〜2499 XP</div>
+          <div class="lv-reward">ルナ真の姿・特別ストーリー解放</div>
+        </div>
+        <div class="level-row">
+          <div class="lv-num lv5">5</div>
+          <div class="lv-title">覚醒した勇者</div>
+          <div class="lv-cond">2500 XP〜</div>
+          <div class="lv-reward">エンディング・全キャラ特別セリフ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ゲームカード -->
+    <div class="game-grid">
+      <div class="game-card">
+        <div class="game-icon">📜</div>
+        <div class="game-title">デイリークエスト</div>
+        <div class="game-desc">毎日リセット。野菜・運動・ログインの3種類。クリアするとピクセが喜ぶ</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">⚔️</div>
+        <div class="game-title">ウィークリークエスト</div>
+        <div class="game-desc">週500g魚摂取・週150分運動など。達成で大量XPと特別セリフ</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🌟</div>
+        <div class="game-title">実績バッジ</div>
+        <div class="game-desc">初回達成・連続記録・総量など。コレクション要素として保存</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🎭</div>
+        <div class="game-title">キャラ衣装解放</div>
+        <div class="game-desc">レベルアップごとにキャラの衣装が変化。成長が見える</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">📊</div>
+        <div class="game-title">冒険の記録</div>
+        <div class="game-desc">週間・月間グラフ。野菜・魚・運動の推移を「呪いゲージ」で表示</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">💬</div>
+        <div class="game-title">神託（AIコーチ）</div>
+        <div class="game-desc">ルナとのGROW対話。週1〜月1回。テキスト会話形式</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== 画像生成プロンプト ===== -->
+  <section class="section" id="prompts">
+    <div class="section-header">
+      <div class="section-num">五</div>
+      <h2 class="section-title">画像生成プロンプト（Midjourney用）</h2>
+    </div>
+
+    <div class="panel" style="margin-bottom:20px;">
+      <div class="panel-title">⚙️ 共通設定（全プロンプトに末尾追加）</div>
+      <div class="prompt-label">末尾に必ず追加するオプション</div>
+      <div class="prompt-block">--ar 3:4 --niji 6 --style cute</div>
+      <p style="font-size:.82rem; color:var(--muted); margin-top:8px;">niji 6 = アニメ特化モード / ar 3:4 = 縦長（キャラクター表示に最適）</p>
+    </div>
+
+    <!-- ルナ -->
+    <div class="panel" style="border-color: rgba(140,92,212,.4);">
+      <div class="panel-title" style="color:#c49cf0;">✦ ルナ（Luna）— メインビジュアル</div>
+      <div class="prompt-label">Midjourney プロンプト（ウェブ版：そのまま貼り付け）</div>
+      <div class="prompt-block" id="prompt-luna">a beautiful silver-haired goddess with long flowing hair, crescent moon mark on forehead, golden star-like eyes, wearing translucent celestial robes with scattered stars, gentle warm smile, magical glowing aura, floating slightly above ground, soft light emanating from body, fantasy isekai anime style, white background, full body portrait, high quality masterpiece --ar 3:4 --niji 6</div>
+      <button class="copy-btn" onclick="copyText('prompt-luna', this)">コピー</button>
+      <div class="prompt-label" style="margin-top:16px;">追加ポーズ（2枚目以降）</div>
+      <div class="prompt-block">silver-haired goddess Luna, extending hand toward viewer, warm inviting gesture, same celestial design, soft smile, magical particles, white background, full body --ar 3:4 --niji 6</div>
+    </div>
+
+    <!-- カイト -->
+    <div class="panel" style="border-color: rgba(212,92,92,.4);">
+      <div class="panel-title" style="color:#f09c9c;">✦ カイト（Kaito）— メインビジュアル</div>
+      <div class="prompt-label">Midjourney プロンプト（ウェブ版：そのまま貼り付け）</div>
+      <div class="prompt-block" id="prompt-kaito">energetic young male swordsman with short messy black hair, red and white light armor, bright friendly smile, thumbs up pose, sword at waist, athletic build, dynamic energetic stance, isekai anime hero, white background, full body portrait, high quality masterpiece --ar 3:4 --niji 6</div>
+      <button class="copy-btn" onclick="copyText('prompt-kaito', this)">コピー</button>
+      <div class="prompt-label" style="margin-top:16px;">追加ポーズ（運動指導シーン）</div>
+      <div class="prompt-block">Kaito swordsman, punching fist in air, victorious pose, cheerful expression, red white armor, white background, full body --ar 3:4 --niji 6</div>
+    </div>
+
+    <!-- セラ -->
+    <div class="panel" style="border-color: rgba(78,201,148,.4);">
+      <div class="panel-title" style="color:#7ee8bb;">✦ セラ（Sera）— メインビジュアル</div>
+      <div class="prompt-label">Midjourney プロンプト（ウェブ版：そのまま貼り付け）</div>
+      <div class="prompt-block" id="prompt-sera">elegant female mage with brown hair in loose bun, wearing green witch robe with apron detail, holding a magical recipe book, gentle smile, floating colorful vegetables and fish as magical elements around her, cozy magical atmosphere, isekai anime style, white background, full body portrait, high quality masterpiece --ar 3:4 --niji 6</div>
+      <button class="copy-btn" onclick="copyText('prompt-sera', this)">コピー</button>
+      <div class="prompt-label" style="margin-top:16px;">追加ポーズ（料理シーン）</div>
+      <div class="prompt-block">Sera mage, presenting bowl of glowing magical food, happy expression, green robe apron, magical sparkles, white background, full body --ar 3:4 --niji 6</div>
+    </div>
+
+    <!-- ピクセ -->
+    <div class="panel" style="border-color: rgba(92,140,212,.4);">
+      <div class="panel-title" style="color:#9cbdf0;">✦ ピクセ（Pixe）— メインビジュアル</div>
+      <div class="prompt-label">Midjourney プロンプト（ウェブ版：そのまま貼り付け）</div>
+      <div class="prompt-block" id="prompt-pixe">tiny cute fairy mascot character, approximately 15cm tall, light green skin, transparent butterfly wings, leaf-patterned clothing, oversized expressive eyes, cheerful jumping pose, magical sparkles, kawaii chibi style, white background, full body, ultra detailed anime art, high quality masterpiece --ar 3:4 --niji 6</div>
+      <button class="copy-btn" onclick="copyText('prompt-pixe', this)">コピー</button>
+      <div class="prompt-label" style="margin-top:16px;">追加ポーズ（励ましシーン）</div>
+      <div class="prompt-block">Pixe fairy, waving both hands enthusiastically, big smile, leaf outfit, sparkles everywhere, white background, chibi style --ar 3:4 --niji 6</div>
+    </div>
+
+    <!-- グループ -->
+    <div class="panel">
+      <div class="panel-title">✦ グループショット（HP メインビジュアル用）</div>
+      <div class="prompt-label">Midjourney プロンプト（ウェブ版：そのまま貼り付け）</div>
+      <div class="prompt-block" id="prompt-group">group of four fantasy anime characters together: silver-haired goddess (center), energetic black-haired swordsman (left), elegant green-robed mage (right), tiny green fairy floating above, all in dynamic poses, teamwork feel, white background, full body group illustration, high quality masterpiece --ar 16:9 --niji 6</div>
+      <button class="copy-btn" onclick="copyText('prompt-group', this)">コピー</button>
+    </div>
+  </section>
+
+
+  <!-- ===== ロードマップ ===== -->
+  <section class="section" id="roadmap">
+    <div class="section-header">
+      <div class="section-num">六</div>
+      <h2 class="section-title">実装ロードマップ</h2>
+    </div>
+
+    <div class="roadmap">
+
+      <div class="phase">
+        <div class="phase-dot current">1</div>
+        <div class="phase-body">
+          <div class="phase-title">Phase 1：世界観確立・画像生成 ← 今ここ</div>
+          <ul class="phase-items">
+            <li>世界観・キャラ設定の確定（本ドキュメント）</li>
+            <li>Midjourneyで4キャラ × 2ポーズ以上を生成</li>
+            <li>グループショット生成（HPメインビジュアル）</li>
+            <li>背景削除・サイズ統一（Photoroom等）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot todo">2</div>
+        <div class="phase-body">
+          <div class="phase-title">Phase 2：HPリデザイン（index.html）</div>
+          <ul class="phase-items">
+            <li>ダーク×ファンタジーデザインに全面刷新</li>
+            <li>異世界語り口で研究内容を再構成</li>
+            <li>4キャラ紹介セクション</li>
+            <li>「ギルド登録（研究参加）」CTAセクション</li>
+            <li>research.html も同デザインに統一</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot todo">3</div>
+        <div class="phase-body">
+          <div class="phase-title">Phase 3：AIチャットボット改修（ai-coach/）</div>
+          <ul class="phase-items">
+            <li>ルナが語り口でコーチングを行う</li>
+            <li>システムプロンプトを異世界テイストに書き換え</li>
+            <li>GROWモデルを「勇者の試練・4つの問い」として演出</li>
+            <li>ピクセの励ましコメントを画面隅に常設</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot todo">4</div>
+        <div class="phase-body">
+          <div class="phase-title">Phase 4：ゲーミフィケーションアプリ</div>
+          <ul class="phase-items">
+            <li>野菜・魚・運動の入力UI（カイト・セラが登場）</li>
+            <li>XP獲得・レベルアップシステム（localStorage）</li>
+            <li>デイリー／ウィークリークエスト</li>
+            <li>実績バッジ・キャラ衣装解放</li>
+            <li>週間グラフ（冒険の記録）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-dot todo">5</div>
+        <div class="phase-body">
+          <div class="phase-title">Phase 5：統合・公開</div>
+          <ul class="phase-items">
+            <li>全ページのデザイン統一・レスポンシブ確認</li>
+            <li>研究倫理・医療免責表示の確認</li>
+            <li>AI生成画像の明示表示</li>
+            <li>Netlify / Vercel デプロイ</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p style="color:var(--gold); font-family:'Noto Serif JP',serif; margin-bottom:8px;">ヴィタリア転生録 — 設計資料</p>
+  <p>小児がん経験者向け健康習慣支援プログラム ／ 研究代表：福井 郁子</p>
+  <p style="margin-top:8px; font-size:.72rem;">最終更新：2026-05-03 ／ Phase 1 作業中</p>
+</footer>
+
+<script>
+  // コピーボタン
+  function copyText(id, btn) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'コピー完了!';
+      setTimeout(() => btn.textContent = 'コピー', 1800);
+    });
+  }
+
+  // スクロールでナビハイライト
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--gold)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
+
+
+

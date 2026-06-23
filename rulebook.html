@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ルールブック ｜ ヴィタリア転生録</title>
+<meta name="description" content="ヴィタリア転生録の遊び方・各機能の解説。健康行動継続支援研究プロジェクトの取扱説明書。">
+<meta name="theme-color" content="#c8e4f4">
+<link rel="manifest" href="./manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:    #c8e4f4;
+  --bg2:   #b0d6ed;
+  --bg3:   #95c5e5;
+  --ink:   #0a2a40;
+  --ink2:  #1a4860;
+  --muted: #2a5670;
+  --line:  rgba(30,127,164,.35);
+  --accent:#1e7fa4;
+  --accent2:#4ab0d4;
+  --warn:  #b07a1a;
+  --gold:  #c9a84c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  background:var(--bg);color:var(--ink);min-height:100vh;
+  line-height:1.85;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%);
+  opacity:.85;
+}
+
+header{
+  background:rgba(255,255,255,.7);
+  border-bottom:1px solid var(--line);
+  padding:12px 24px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);
+}
+header .logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;color:var(--accent);text-decoration:none;}
+.back-btn{
+  background:rgba(255,255,255,.6);
+  border:1px solid var(--line);color:var(--accent);
+  font-size:.72rem;padding:6px 14px;border-radius:8px;cursor:pointer;
+  font-family:inherit;text-decoration:none;
+}
+.back-btn:hover{background:rgba(255,255,255,.85);}
+
+.page{max-width:760px;margin:0 auto;padding:36px 22px 100px;position:relative;z-index:1;}
+
+.title-block{text-align:center;margin-bottom:34px;}
+.title-rune{font-size:.62rem;letter-spacing:.4em;color:var(--accent);margin-bottom:6px;}
+.page-title{
+  font-family:'Noto Serif JP',serif;font-size:1.8rem;font-weight:900;
+  background:linear-gradient(135deg,#0a4870,#1e7fa4,#155f87);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 1px 2px rgba(255,255,255,.7);
+  margin-bottom:8px;
+}
+.page-sub{font-size:.78rem;color:var(--ink2);}
+
+/* TOC */
+.toc{
+  background:rgba(255,255,255,.78);
+  border:1px solid var(--line);border-radius:14px;
+  padding:18px 22px;margin-bottom:30px;
+  box-shadow:0 2px 8px rgba(30,80,110,.08);
+}
+.toc-title{
+  font-family:'Noto Serif JP',serif;font-weight:700;color:var(--accent);
+  margin-bottom:12px;font-size:.82rem;letter-spacing:.06em;
+}
+.toc ol{list-style:none;counter-reset:tc;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;}
+.toc li{counter-increment:tc;font-size:.78rem;}
+.toc li::before{
+  content:counter(tc,decimal-leading-zero) ' ';
+  color:var(--accent2);font-weight:700;font-family:'Noto Serif JP',serif;
+  margin-right:6px;
+}
+.toc a{color:var(--ink2);text-decoration:none;border-bottom:1px dotted transparent;}
+.toc a:hover{color:var(--accent);border-bottom-color:var(--accent2);}
+@media(max-width:520px){.toc ol{grid-template-columns:1fr;}}
+
+/* section */
+.sec{
+  background:rgba(255,255,255,.7);
+  border:1px solid var(--line);border-radius:14px;
+  padding:24px 24px 22px;margin-bottom:18px;
+  box-shadow:0 2px 8px rgba(30,80,110,.08);
+}
+.sec h2{
+  font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;
+  color:var(--accent);margin-bottom:14px;padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:8px;
+}
+.sec h2 .num{
+  display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;
+  background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;border-radius:50%;
+  font-size:.78rem;font-family:'Noto Serif JP',serif;flex-shrink:0;
+}
+.sec p{font-size:.82rem;color:var(--ink);margin-bottom:10px;}
+.sec p.note{font-size:.74rem;color:var(--muted);}
+.sec strong{color:var(--accent);font-weight:700;}
+
+/* キャラ紹介 */
+.char-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0 6px;}
+.char-card{
+  background:rgba(255,255,255,.6);border:1px solid var(--line);
+  border-radius:12px;padding:14px 12px;text-align:center;
+}
+.char-icon{font-size:1.6rem;margin-bottom:4px;}
+.char-name{font-family:'Noto Serif JP',serif;font-weight:900;color:var(--accent);font-size:.92rem;}
+.char-role{font-size:.66rem;color:var(--muted);margin-top:2px;letter-spacing:.04em;}
+.char-desc{font-size:.7rem;color:var(--ink2);margin-top:8px;line-height:1.7;text-align:left;}
+@media(max-width:520px){.char-grid{grid-template-columns:1fr;}}
+
+/* 画面リスト */
+.screen-list{display:grid;gap:10px;margin:14px 0 6px;}
+.screen-row{
+  display:grid;grid-template-columns:90px 1fr;gap:14px;
+  background:rgba(255,255,255,.55);border-radius:10px;
+  border:1px solid var(--line);padding:12px 14px;align-items:center;
+}
+.screen-row .lbl{
+  font-family:'Noto Serif JP',serif;font-weight:900;color:var(--accent);
+  font-size:.82rem;
+}
+.screen-row .desc{font-size:.74rem;color:var(--ink2);line-height:1.7;}
+.screen-row a{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent2);}
+@media(max-width:520px){.screen-row{grid-template-columns:1fr;gap:4px;}}
+
+/* チェックリスト */
+.check{padding-left:0;list-style:none;margin:10px 0;}
+.check li{
+  font-size:.78rem;color:var(--ink);padding:6px 0 6px 28px;position:relative;
+  line-height:1.75;
+}
+.check li::before{
+  content:'✓';position:absolute;left:6px;color:var(--accent);font-weight:900;
+}
+
+/* 注意ボックス */
+.callout{
+  background:rgba(176,122,26,.08);
+  border-left:3px solid var(--warn);
+  border-radius:0 8px 8px 0;
+  padding:12px 14px;margin:14px 0;
+}
+.callout strong{color:var(--warn);}
+.callout p{font-size:.74rem;line-height:1.8;margin:0;color:var(--ink2);}
+
+/* テーブル */
+.kv{width:100%;border-collapse:collapse;margin:10px 0;font-size:.74rem;}
+.kv th,.kv td{
+  padding:8px 10px;text-align:left;vertical-align:top;
+  border-bottom:1px dashed var(--line);
+}
+.kv th{color:var(--accent);font-weight:700;width:34%;}
+.kv td{color:var(--ink2);}
+
+/* footer-link */
+.foot-link{
+  display:flex;justify-content:space-between;gap:14px;
+  margin-top:26px;padding-top:18px;border-top:1px dashed var(--line);
+  font-size:.74rem;
+}
+.foot-link a{
+  color:var(--accent);text-decoration:none;
+  background:rgba(255,255,255,.6);border:1px solid var(--line);
+  border-radius:8px;padding:8px 14px;
+}
+.foot-link a:hover{background:rgba(255,255,255,.85);}
+</style>
+
+<!-- ✦ Vitalia RPG Lite (bottom-nav redesign) ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg-lite.css">
+<script>document.documentElement.setAttribute('data-vrpg-theme','dawn');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('vrpg-on');});</script>
+</head>
+<body>
+
+<header>
+  <a href="./game.html" class="logo">✦ ヴィタリア転生録</a>
+  <a href="./settings.html" class="back-btn">← 設定に戻る</a>
+</header>
+
+<main class="page">
+
+  <div class="title-block">
+    <div class="title-rune">— RULE BOOK · 取扱説明書 —</div>
+    <h1 class="page-title">ヴィタリア転生録 ルールブック</h1>
+    <p class="page-sub">初めての方も、もう一度確認したい方も。このページが冒険の手引きです。</p>
+  </div>
+
+  <!-- 目次 -->
+  <div class="toc">
+    <div class="toc-title">📖 目次</div>
+    <ol>
+      <li><a href="#about">このゲームについて</a></li>
+      <li><a href="#chars">登場キャラクター</a></li>
+      <li><a href="#flow">遊び方の流れ</a></li>
+      <li><a href="#screens">画面の役割</a></li>
+      <li><a href="#xp">XP・レベル・クエスト</a></li>
+      <li><a href="#nutrition">栄養と運動の連携</a></li>
+      <li><a href="#luna">AIコーチング（ルナ）</a></li>
+      <li><a href="#data">データとプライバシー</a></li>
+      <li><a href="#safety">安全に使うために</a></li>
+      <li><a href="#help">困ったとき</a></li>
+    </ol>
+  </div>
+
+  <!-- 1 -->
+  <section class="sec" id="about">
+    <h2><span class="num">1</span> このゲームについて</h2>
+    <p><strong>ヴィタリア転生録</strong>は、小児がん経験者・AYA世代の皆さんが、運動と栄養の習慣を「無理なく・楽しく・続けられる」ように設計された<strong>研究参加型のウェルネスRPG</strong>です。</p>
+    <p>異世界「ヴィタリア」に転生したあなたは、女神<strong>ルナ</strong>と仲間とともに12週間の冒険を進めながら、自分の健康行動を記録し、晩期合併症の予防につながる習慣を身につけていきます。</p>
+    <p class="note">「我慢しないからリバウンドしない、苦しくないからやってみたい、やればやるほど楽しい」── この信条のもとで作られています。</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="chars">
+    <h2><span class="num">2</span> 登場キャラクター</h2>
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="char-icon">🌙</div>
+        <div class="char-name">ルナ</div>
+        <div class="char-role">AIコーチ・女神</div>
+        <div class="char-desc">あなたの伴走者。GROWモデル（Goal/Reality/Options/Will）で対話しながら、今週の小さな一歩を一緒に決めます。</div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon">⚔</div>
+        <div class="char-name">カイト</div>
+        <div class="char-role">運動の師</div>
+        <div class="char-desc">健康クエスト（運動）のガイド。週150〜300分の中強度運動を、無理なく楽しく続けるコツを教えてくれます。</div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon">🌿</div>
+        <div class="char-name">セラ</div>
+        <div class="char-role">栄養の巫女</div>
+        <div class="char-desc">栄養クエストのガイド。野菜・魚・大豆など、抗酸化・抗炎症に役立つ食材を集める旅を導いてくれます。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="flow">
+    <h2><span class="num">3</span> 遊び方の流れ</h2>
+    <ul class="check">
+      <li><strong>① 転生（参加登録）</strong> ── 名前・年齢・体重などの基本情報を入力し、冒険クラスを選びます。</li>
+      <li><strong>② 毎日の冒険</strong> ── 運動した時間、食べたものを記録。1タップ＝10分の簡単入力です。</li>
+      <li><strong>③ 週次レビュー</strong> ── ルナと対話して、今週できたこと・来週の目標を整理します。</li>
+      <li><strong>④ 12週間の到達</strong> ── 12週間の冒険を終えると、合併症予防に役立つ習慣の基礎が身についています。</li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="screens">
+    <h2><span class="num">4</span> 画面の役割</h2>
+    <div class="screen-list">
+      <div class="screen-row"><div class="lbl">ホーム</div><div class="desc"><a href="./game.html">game.html</a> ── ステータス・週間進捗・お知らせの中心。ここから各機能へ移動します。</div></div>
+      <div class="screen-row"><div class="lbl">クエスト</div><div class="desc"><a href="./quest.html">quest.html</a> ── 運動の記録。METs計算機で消費kcalもチェックできます。</div></div>
+      <div class="screen-row"><div class="lbl">栄養</div><div class="desc"><a href="./nutrition.html">nutrition.html</a> ── 食事の記録。運動量に応じた食事目安も表示。</div></div>
+      <div class="screen-row"><div class="lbl">冒険記録</div><div class="desc"><a href="./journal.html">journal.html</a> ── 日々の出来事・気持ちのメモ。後で読み返せます。</div></div>
+      <div class="screen-row"><div class="lbl">パーティ</div><div class="desc"><a href="./party.html">party.html</a> ── キャラクターたちの絆を深める画面。</div></div>
+      <div class="screen-row"><div class="lbl">図鑑</div><div class="desc"><a href="./collection.html">collection.html</a> ── 集めた食材・達成した実績を確認。</div></div>
+      <div class="screen-row"><div class="lbl">スキル</div><div class="desc"><a href="./skills.html">skills.html</a> ── 習得したスキル（健康行動の知識）の一覧。</div></div>
+      <div class="screen-row"><div class="lbl">商店</div><div class="desc"><a href="./shop.html">shop.html</a> ── XPで装飾アイテムなどを入手。</div></div>
+      <div class="screen-row"><div class="lbl">設定</div><div class="desc"><a href="./settings.html">settings.html</a> ── 体重・通知・データ管理。このルールブックもここから来られます。</div></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="xp">
+    <h2><span class="num">5</span> XP・レベル・クエスト</h2>
+    <table class="kv">
+      <tr><th>XP（経験値）</th><td>運動・栄養・冒険記録の入力で獲得。続けるほど積み上がります。</td></tr>
+      <tr><th>レベル</th><td>XPが一定値に達すると上がります。Lv1「転生者」からスタート。</td></tr>
+      <tr><th>クエスト</th><td>低・中・高 強度の3レベル。1タップ＝10分。週150〜300分（中強度換算）が推奨目標です。</td></tr>
+      <tr><th>連続記録</th><td>毎日少しでも入力すれば「連続記録」が伸びます。1日休んでも翌日からまた積めばOK。</td></tr>
+      <tr><th>実績</th><td>図鑑の「実績」タブに保存。後から見返せます。</td></tr>
+    </table>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="nutrition">
+    <h2><span class="num">6</span> 栄養と運動の連携</h2>
+    <p>このゲームでは、運動量に応じた食事量の目安が自動表示されます。<strong>「動いた分は食べていい」</strong>が基本姿勢。我慢ではなく、エネルギーバランスで考えます。</p>
+    <p class="note">消費kcalの計算式： <strong>1.05 × METs × 時間(h) × 体重(kg)</strong>（厚労省「身体活動のメッツ表」改訂版に準拠）</p>
+    <p class="note">1日の目安エネルギー： 軽い日 ≒ 体重×22×1.4 kcal、動いた日 ≒ 体重×22×1.7 kcal</p>
+    <div class="callout">
+      <p><strong>免疫・炎症・抗酸化</strong> に役立つ食材を意識：魚（オメガ3）、ベリー類、緑黄色野菜、緑茶、ナッツ、発酵食品。栄養クエストで集めると XP も入ります。</p>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="luna">
+    <h2><span class="num">7</span> AIコーチング（ルナ）</h2>
+    <p>ルナはあなたの伴走者です。批判せず、比較せず、いまのあなたに寄り添います。会話は <strong>GROW モデル</strong> で進みます：</p>
+    <table class="kv">
+      <tr><th>Goal（目標）</th><td>今週どんな健康習慣を続けたいか？</td></tr>
+      <tr><th>Reality（現状）</th><td>いまどんな状況か。できていること・難しいこと。</td></tr>
+      <tr><th>Options（選択肢）</th><td>2〜3個の工夫案を考える。</td></tr>
+      <tr><th>Will（意志）</th><td>どれを実際にやるか。いつ・どれくらい。</td></tr>
+    </table>
+    <p class="note">休んだ日があっても大丈夫。「無理しないこと自体が、健康行動の一部」とルナは伝えます。</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="data">
+    <h2><span class="num">8</span> データとプライバシー</h2>
+    <ul class="check">
+      <li>あなたの記録は基本的に<strong>あなたの端末内（localStorage）</strong>に保存されます。</li>
+      <li>研究データとして共有される範囲は、参加同意書・<a href="./privacy.html" style="color:var(--accent);">プライバシーポリシー</a>に明記されています。</li>
+      <li>AIコーチング（ルナ）の会話は、サーバー（Cloudflare）を経由してGemini API（Google）に送信されます。送信前に氏名等の個人識別情報は含めない設計です。</li>
+      <li>いつでも参加を撤回できます。データの削除も<a href="./settings.html" style="color:var(--accent);">設定</a>から行えます。</li>
+    </ul>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="safety">
+    <h2><span class="num">9</span> 安全に使うために</h2>
+    <div class="callout">
+      <p><strong>このゲームは医療行為ではありません。</strong>ルナは医師ではなく、診断・処方・薬の判断には踏み込みません。体調や検査値の判断は必ず主治医にご相談ください。</p>
+    </div>
+    <p>緊急時・つらいとき：</p>
+    <ul class="check">
+      <li>身体の緊急 ── <strong>119</strong>（救急）／<strong>#7119</strong>（救急安心センター）</li>
+      <li>こころのつらさ ── <strong>よりそいホットライン 0120-279-338</strong>（無料・24時間）</li>
+      <li>いのちの電話 ── <strong>0570-783-556</strong></li>
+    </ul>
+    <p class="note">「動けない日」「気分が落ちる日」もあって当然です。波があることを、ルナも研究チームも理解しています。</p>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="help">
+    <h2><span class="num">10</span> 困ったとき</h2>
+    <ul class="check">
+      <li>使い方がわからない ── <a href="./faq.html" style="color:var(--accent);">FAQページ</a>を確認</li>
+      <li>不具合・要望 ── <a href="./support.html" style="color:var(--accent);">サポートページ</a>から連絡</li>
+      <li>参加に関する質問 ── 研究事務局（参加登録時の連絡先）</li>
+      <li>データを消したい ── <a href="./settings.html" style="color:var(--accent);">設定 → データ管理</a></li>
+    </ul>
+  </section>
+
+  <div class="foot-link">
+    <a href="./settings.html">← 設定に戻る</a>
+    <a href="./game.html">ホームへ →</a>
+  </div>
+
+</main>
+
+<style>
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+</style>
+<nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab active"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</body>
+</html>
+
+
+
+

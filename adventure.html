@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冒険 ｜ ヴィタリア転生録</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#1e7fa4">
+<meta name="apple-mobile-web-app-title" content="ヴィタリア">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1a2e; --bg2:#112236; --bg3:#162840;
+  --gold:#f0d48a; --gold2:#7fd8f4;
+  --silver:#aabcd8; --text:#d4dcf0; --muted:#7080a8;
+  --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;padding-bottom:80px;}
+
+/* 星空背景 */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 30% 20%,rgba(120,60,180,.18) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 70%,rgba(60,30,100,.14) 0%,transparent 60%),
+    radial-gradient(1px 1px at 8% 15%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 5%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 47% 28%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 10%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 85% 40%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 18% 55%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 70%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 90%,rgba(255,255,255,.4) 0%,transparent 100%);
+}
+
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.05);}}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
+@keyframes flash{0%,100%{filter:none;}50%{filter:drop-shadow(0 0 20px rgba(255,200,100,.8));}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ヘッダー */
+.adv-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,6,18,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(41,182,232,.18);
+  padding:12px 18px;display:flex;align-items:center;gap:10px;
+}
+.adv-back{
+  background:none;border:1px solid rgba(41,182,232,.25);
+  border-radius:8px;color:rgba(200,180,255,.7);
+  font-size:.72rem;padding:5px 10px;text-decoration:none;font-weight:700;
+}
+.adv-title{
+  flex:1;text-align:center;
+  font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
+  background:linear-gradient(135deg,#7fd8f4,#29b6e8,#7fd8f4);
+  background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 4s linear infinite;
+}
+.adv-progress-mini{
+  font-size:.6rem;color:rgba(200,180,255,.6);font-weight:700;letter-spacing:.05em;
+}
+
+/* メインコンテナ */
+.adv-main{
+  max-width:680px;margin:0 auto;padding:18px 14px;
+  position:relative;z-index:1;
+}
+
+/* 章タイトルカード */
+.chapter-card{
+  background:#ffffff;
+  border:1.5px solid #b0cfdf;border-radius:18px;
+  padding:18px 20px;margin-bottom:14px;
+  position:relative;overflow:hidden;
+  animation:fadeIn .4s ease both;
+  box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 14px rgba(20,60,100,.08);
+  color:#0a2a40;
+}
+.chapter-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 100% 0%,rgba(41,182,232,.05) 0%,transparent 60%);
+}
+.chapter-num{
+  font-size:.6rem;letter-spacing:.18em;color:#1e7fa4;
+  font-weight:700;margin-bottom:5px;text-transform:uppercase;position:relative;z-index:1;
+}
+.chapter-theme-tag{
+  display:inline-block;font-size:.55rem;letter-spacing:.12em;
+  padding:2px 9px;border-radius:99px;font-weight:700;
+  margin-left:8px;
+}
+.chapter-theme-body{background:rgba(224,138,60,.18);color:#f0c890;border:1px solid rgba(224,138,60,.4);}
+.chapter-theme-mind{background:rgba(41,182,232,.18);color:#7fd8f4;border:1px solid rgba(41,182,232,.4);}
+.chapter-theme-social{background:rgba(78,201,138,.18);color:#a8e8c0;border:1px solid rgba(78,201,138,.4);}
+.chapter-theme-tutorial{background:rgba(160,170,200,.18);color:#c0c8e0;border:1px solid rgba(160,170,200,.4);}
+.chapter-theme-growth{background:rgba(92,180,240,.18);color:#a8d8ff;border:1px solid rgba(92,180,240,.4);}
+.chapter-theme-final{background:linear-gradient(90deg,rgba(41,182,232,.2),rgba(200,180,255,.2));color:#f0e0a8;border:1px solid rgba(41,182,232,.5);}
+.chapter-title{
+  font-family:'Noto Serif JP',serif;font-size:1.15rem;font-weight:900;
+  color:#f0e8ff;margin-bottom:8px;letter-spacing:.04em;position:relative;z-index:1;
+}
+.chapter-narration{
+  font-size:.7rem;line-height:1.7;color:rgba(180,170,210,.55);
+  margin-bottom:12px;position:relative;z-index:1;
+  font-family:'Noto Serif JP',serif;font-style:italic;
+  padding-left:10px;border-left:2px solid rgba(41,182,232,.2);
+}
+.chapter-narration em{color:rgba(216,192,255,.8);font-style:normal;font-weight:700;}
+
+/* ピクセのセリフ（メイン解説） */
+.pixe-bubble{
+  display:flex;align-items:flex-start;gap:12px;
+  background:linear-gradient(135deg,rgba(78,201,138,.13),rgba(78,201,138,.05));
+  border:1.5px solid rgba(78,201,138,.35);
+  border-radius:16px;padding:14px 16px;margin-top:14px;
+  position:relative;z-index:1;
+  box-shadow:0 4px 16px rgba(78,201,138,.08);
+}
+.pixe-bubble::before{
+  content:'';position:absolute;left:38px;top:-7px;
+  width:14px;height:14px;
+  background:rgba(78,201,138,.2);
+  border-left:1.5px solid rgba(78,201,138,.35);
+  border-top:1.5px solid rgba(78,201,138,.35);
+  transform:rotate(45deg);
+}
+.pixe-face{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;overflow:hidden;
+  border:2px solid rgba(78,201,138,.55);
+  box-shadow:0 0 18px rgba(78,201,138,.25),0 0 32px rgba(78,201,138,.1);
+  animation:float 3s ease-in-out infinite;
+}
+.pixe-face img{width:100%;height:100%;object-fit:cover;}
+.pixe-text{flex:1;min-width:0;}
+.pixe-name{
+  font-size:.6rem;color:rgba(160,240,190,.85);font-weight:700;letter-spacing:.08em;
+  margin-bottom:4px;display:flex;align-items:center;gap:5px;
+}
+.pixe-name::after{
+  content:'記録係';font-size:.5rem;background:rgba(78,201,138,.18);color:#a8e8c0;
+  padding:1px 7px;border-radius:99px;font-weight:700;letter-spacing:.04em;
+}
+.pixe-msg{
+  font-size:.85rem;color:rgba(230,245,235,.92);line-height:1.85;
+  white-space:pre-line;
+}
+.pixe-msg em{color:#a8e8c0;font-style:normal;font-weight:700;}
+
+/* 敵バトルカード */
+.battle-card{
+  background:linear-gradient(180deg,rgba(40,15,40,.6),rgba(15,8,25,.95));
+  border:1px solid rgba(180,80,160,.3);border-radius:20px;
+  margin-bottom:14px;overflow:hidden;
+  position:relative;
+  animation:fadeIn .4s ease .1s both;
+}
+.battle-enemy-stage{
+  position:relative;height:280px;
+  background:radial-gradient(ellipse at 50% 80%,rgba(120,60,160,.4) 0%,transparent 70%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.battle-enemy-stage::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent 0px,transparent 4px,rgba(120,60,160,.04) 4px,rgba(120,60,160,.04) 5px);
+  pointer-events:none;
+}
+.battle-enemy-img{
+  max-height:260px;max-width:80%;height:auto;width:auto;
+  filter:drop-shadow(0 12px 40px rgba(180,80,160,.5));
+  transition:transform .3s,filter .3s;
+  object-fit:contain;
+}
+.battle-enemy-img.attacking{animation:shake .35s ease;filter:drop-shadow(0 0 24px rgba(255,200,100,.8));}
+/* 白背景JPEGはmix-blend-mode: multiply で背景の白を透明化 */
+.battle-enemy-img.whitebg{
+  mix-blend-mode:multiply;
+  filter:drop-shadow(0 12px 40px rgba(180,80,160,.3));
+}
+.battle-enemy-img.whitebg.attacking{filter:drop-shadow(0 0 24px rgba(255,200,100,.8));}
+/* 白背景JPEGの時はステージ自体を白で覆って馴染ませる */
+.battle-enemy-stage.whitebg-mode{
+  background:radial-gradient(ellipse at 50% 60%,#fff 0%,#fff 60%,rgba(245,240,255,.95) 100%);
+}
+.battle-enemy-video{
+  max-height:260px;max-width:80%;height:auto;width:auto;
+  filter:drop-shadow(0 12px 40px rgba(180,80,160,.5));
+  object-fit:contain;
+  background:transparent;
+}
+.battle-enemy-video.attacking{filter:drop-shadow(0 0 24px rgba(255,200,100,.8)) saturate(1.3);}
+/* 雑魚敵：絵文字+カラーハロー */
+.battle-enemy-zako{
+  width:200px;height:200px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle, var(--zako-color) 0%, transparent 70%);
+  filter:drop-shadow(0 0 20px var(--zako-color));
+  animation:zakoFloat 2.5s ease-in-out infinite;
+}
+@keyframes zakoFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-8px) scale(1.05);}}
+.zako-emoji{font-size:6rem;line-height:1;animation:pulse 1.8s ease-in-out infinite;}
+
+.battle-attack-flash{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 60%,rgba(255,220,140,.5) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.battle-attack-flash.show{opacity:1;animation:flashOut .9s ease both;}
+@keyframes flashOut{0%{opacity:0;}20%{opacity:1;}100%{opacity:0;}}
+.battle-enemy-name-tag{
+  position:absolute;top:12px;left:14px;
+  background:rgba(8,6,18,.9);border:1px solid rgba(180,80,160,.45);
+  border-radius:6px;padding:3px 10px;
+  font-size:.6rem;letter-spacing:.16em;color:rgba(240,180,220,.75);
+  font-weight:700;text-transform:uppercase;
+}
+
+/* HPバー */
+.battle-hp-row{padding:14px 18px 8px;}
+.battle-name{
+  font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;
+  color:#f0d0e8;margin-bottom:8px;
+}
+.battle-hp-bar{
+  height:14px;background:rgba(0,0,0,.5);border:1px solid rgba(180,80,160,.4);
+  border-radius:99px;overflow:hidden;position:relative;
+}
+.battle-hp-fill{
+  height:100%;background:linear-gradient(90deg,#e05c5c,#e08a3c,#e05c5c);
+  background-size:200% auto;
+  border-radius:99px;
+  transition:width .8s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(224,92,92,.4);
+  animation:shimmer 3s linear infinite;
+}
+.battle-hp-text{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:900;color:#fff;
+  text-shadow:0 0 4px rgba(0,0,0,.8);
+}
+.battle-weakness{
+  font-size:.62rem;color:rgba(240,180,220,.6);
+  margin-top:6px;
+}
+.battle-weakness strong{color:#a0f0c0;font-weight:700;}
+
+/* 攻撃手段グリッド */
+.attack-grid{
+  padding:8px 14px 16px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;
+}
+.attack-card{
+  background:rgba(20,18,40,.9);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;padding:10px 8px;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  text-align:center;
+  transition:all .2s;
+}
+.attack-card:hover{transform:translateY(-2px);}
+.attack-card-ex{border-color:rgba(224,92,92,.25);}
+.attack-card-ex:hover{border-color:rgba(224,92,92,.5);box-shadow:0 6px 16px rgba(224,92,92,.12);}
+.attack-card-nu{border-color:rgba(78,201,138,.22);}
+.attack-card-nu:hover{border-color:rgba(78,201,138,.5);box-shadow:0 6px 16px rgba(78,201,138,.1);}
+.attack-card-co{border-color:rgba(41,182,232,.22);}
+.attack-card-co:hover{border-color:rgba(41,182,232,.5);box-shadow:0 6px 16px rgba(41,182,232,.12);}
+.attack-icon{font-size:1.3rem;line-height:1;}
+.attack-label{font-size:.6rem;color:var(--muted);font-weight:700;letter-spacing:.04em;}
+.attack-card-ex .attack-label{color:rgba(240,160,160,.65);}
+.attack-card-nu .attack-label{color:rgba(160,240,190,.65);}
+.attack-card-co .attack-label{color:rgba(200,180,255,.65);}
+.attack-dmg{
+  font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;
+  line-height:1;
+}
+.attack-card-ex .attack-dmg{color:#f0a0a0;}
+.attack-card-nu .attack-dmg{color:#a0f0c0;}
+.attack-card-co .attack-dmg{color:#7fd8f4;}
+.attack-sub{font-size:.5rem;color:rgba(170,188,216,.4);}
+
+/* 戦歴 */
+.history-card{
+  background:rgba(15,12,30,.85);
+  border:1px solid rgba(41,182,232,.15);
+  border-radius:16px;padding:16px 18px;
+  margin-bottom:14px;
+  animation:fadeIn .4s ease .2s both;
+}
+.history-head{
+  font-size:.65rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;
+  font-weight:700;margin-bottom:11px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.history-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.history-cell{
+  aspect-ratio:1;border-radius:8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  position:relative;overflow:hidden;
+}
+.history-cell-defeated{
+  background:linear-gradient(135deg,rgba(78,201,138,.15),rgba(78,201,138,.05));
+  border:1px solid rgba(78,201,138,.4);
+}
+.history-cell-current{
+  background:linear-gradient(135deg,rgba(224,92,92,.18),rgba(224,92,92,.05));
+  border:1px solid rgba(224,92,92,.5);
+  animation:pulse 1.8s ease-in-out infinite;
+}
+.history-cell-locked{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  opacity:.45;
+}
+.history-cell img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
+.history-cell-defeated img{filter:drop-shadow(0 0 6px rgba(78,201,138,.4)) saturate(.8);}
+.history-cell-locked img{filter:grayscale(1) brightness(.4);}
+.history-cell-name{font-size:.5rem;color:rgba(220,210,240,.65);font-weight:700;text-align:center;}
+.history-cell-defeated .history-cell-name{color:#a0f0c0;}
+.history-cell-locked .history-cell-name{color:rgba(170,188,216,.3);}
+.history-cell-defeated::after{
+  content:'✓';position:absolute;top:3px;right:5px;
+  font-size:.7rem;color:#7ee8b0;font-weight:900;
+  text-shadow:0 0 4px rgba(78,201,138,.6);
+}
+
+/* 進捗ゲージ */
+.global-progress{
+  background:#ffffff;
+  border:1.5px solid #b0cfdf;
+  border-radius:14px;padding:13px 16px;margin-bottom:14px;
+  animation:fadeIn .4s ease both;
+  box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 12px rgba(20,60,100,.08);
+  color:#0a2a40;
+}
+.gp-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.62rem;color:#1e7fa4;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.gp-bar{height:8px;background:rgba(30,80,110,.10);border-radius:99px;overflow:hidden;}
+.gp-fill{
+  height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4,#4ec98a);
+  background-size:200% auto;
+  border-radius:99px;
+  transition:width 1s cubic-bezier(.4,0,.2,1);
+  animation:shimmer 4s linear infinite;
+  box-shadow:0 0 8px rgba(41,182,232,.3);
+}
+.gp-stats{display:flex;justify-content:space-between;font-size:.58rem;color:var(--muted);margin-top:5px;}
+
+/* 勝利演出 */
+#victory-modal{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;padding:18px;
+}
+#victory-modal.open{display:flex;}
+.victory-box{
+  background:linear-gradient(160deg,rgba(40,30,80,.96),rgba(20,15,40,.96));
+  border:2px solid rgba(41,182,232,.5);border-radius:22px;
+  max-width:420px;width:100%;padding:28px 22px;text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 80px rgba(41,182,232,.15);
+  animation:fadeIn .4s ease both;
+}
+.victory-flash{font-size:3rem;animation:flash 1s ease-in-out infinite;}
+.victory-title{
+  font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;
+  background:linear-gradient(135deg,#7fd8f4,#e8f8ff,#29b6e8);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 2.5s linear infinite;
+  margin:8px 0 4px;letter-spacing:.06em;
+}
+.victory-defeated{font-size:.85rem;color:rgba(41,182,232,.85);margin-bottom:14px;}
+.victory-rewards{
+  background:rgba(0,0,0,.3);border:1px solid rgba(41,182,232,.25);
+  border-radius:12px;padding:12px;margin-bottom:14px;
+  display:flex;flex-direction:column;gap:6px;font-size:.78rem;color:rgba(220,210,240,.85);
+}
+.victory-rewards strong{color:#8a5c00;}
+.victory-narration{
+  font-family:'Noto Serif JP',serif;font-size:.82rem;line-height:1.85;
+  color:rgba(200,190,235,.75);margin-bottom:18px;font-style:italic;
+}
+.victory-btn{
+  background:linear-gradient(135deg,rgba(41,182,232,.4),rgba(41,182,232,.3));
+  border:1px solid rgba(41,182,232,.6);border-radius:11px;
+  padding:11px 22px;color:#1a1200;font-family:'Noto Serif JP',serif;
+  font-size:.88rem;font-weight:900;cursor:pointer;
+  background-color:#7fd8f4;
+}
+
+/* ボトムナビ */
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+
+/* 認証画面 */
+#auth-screen{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);z-index:200;text-align:center;padding:20px;
+}
+#auth-screen-content{
+  background:rgba(15,12,30,.95);border:1px solid rgba(41,182,232,.3);
+  border-radius:18px;padding:32px 28px;max-width:340px;width:100%;
+}
+.auth-icon{font-size:2.2rem;margin-bottom:10px;}
+.auth-title{font-family:'Noto Serif JP',serif;font-size:1.05rem;font-weight:900;color:#7fd8f4;margin-bottom:8px;}
+.auth-msg{font-size:.78rem;line-height:1.75;color:rgba(200,180,235,.7);margin-bottom:18px;}
+.auth-btn{
+  display:inline-block;background:linear-gradient(135deg,rgba(41,182,232,.4),rgba(41,182,232,.2));
+  border:1px solid rgba(41,182,232,.5);border-radius:10px;
+  padding:10px 20px;color:#5b4ea8;font-family:inherit;font-size:.85rem;font-weight:700;
+  text-decoration:none;cursor:pointer;
+}
+
+@media(max-width:600px){
+  .adv-main{padding:14px 12px;}
+  .chapter-card, .battle-card, .history-card, .global-progress{padding-left:14px;padding-right:14px;}
+  .battle-enemy-stage{height:240px;}
+  .battle-enemy-img{max-height:200px;}
+  .battle-enemy-video{max-height:200px;}
+  .battle-enemy-zako{width:160px;height:160px;}
+  .zako-emoji{font-size:5rem;}
+  .pixe-msg{font-size:.78rem;}
+  .chapter-title{font-size:1rem;}
+  .gp-stats{font-size:.55rem;flex-wrap:wrap;gap:4px;}
+}
+@media(max-width:480px){
+  .adv-header{padding:10px 12px;}
+  .adv-title{font-size:.85rem;}
+  .battle-enemy-stage{height:200px;}
+  .battle-enemy-img{max-height:170px;}
+  .battle-enemy-video{max-height:170px;}
+  .attack-grid{grid-template-columns:1fr 1fr 1fr;gap:6px;}
+  .attack-card{padding:8px 5px;}
+  .attack-icon{font-size:1.1rem;}
+  .attack-label{font-size:.55rem;}
+  .attack-dmg{font-size:.85rem;}
+  .attack-sub{font-size:.45rem;}
+  .history-grid{grid-template-columns:repeat(4,1fr);gap:5px;}
+  .history-cell img{width:32px;height:32px;}
+  .history-cell-name{font-size:.45rem;}
+  .pixe-bubble{padding:11px 12px;gap:9px;}
+  .pixe-face{width:42px;height:42px;}
+  .pixe-msg{font-size:.74rem;line-height:1.7;}
+}
+@media(max-width:380px){
+  .history-grid{grid-template-columns:repeat(3,1fr);}
+  .attack-grid{gap:5px;}
+}
+</style>
+<script src="./app-safety.js"></script>
+<script src="./gamification.js"></script>
+<script src="./quest-enhance.js" defer></script>
+<style id="watercolor-skin">
+:root{
+  --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
+  --gold:#1e7fa4;--gold2:#0a4870;
+  --silver:#3a6f8a;--text:#0a2a40;--muted:#5a7a90;
+  --green:#1f8a66;--purple:#5b4ea8;--red:#b53a3a;--orange:#c46a1e;
+}
+html,body{background:linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important;background-attachment:fixed !important;color:#d4e8f8 !important;}
+body::before{opacity:0 !important;}
+/* ============================================
+   水色スキン v1 ── 2026-05-11
+   創造主指示「ゲームのデザインを水色に。文字見やすく」
+   既存の dark-fantasy CSS を上書きする最後尾レイヤー
+   ============================================ */
+:root{
+  --bg:    #e8f4fb;
+  --bg2:   #d6ebf6;
+  --bg3:   #c2dff0;
+  --gold:  #1e7fa4;
+  --gold2: #4ab0d4;
+  --silver:#3a6f8a;
+  --text:  #0f2a3a;
+  --muted: #5a7a90;
+  --green: #1f8a66;
+  --purple:#5b4ea8;
+  --red:   #b53a3a;
+  --orange:#c46a1e;
+  --rose:  #c26092;
+}
+html, body{ background: var(--bg) !important; color: var(--text) !important; }
+body::before{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.7), transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(ellipse at 50% 70%, rgba(255,255,255,.55), transparent 60%) !important;
+  opacity: .85 !important;
+}
+#loading-screen, #login-screen{ background: var(--bg) !important; }
+#loading-screen::before{ opacity:.6 !important; }
+.gold-text, .ls-title, [class*="title-gold"]{
+  background: linear-gradient(135deg, #1e7fa4, #2a96bf, #4ab0d4) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+.ls-bar-fill{ background: linear-gradient(90deg, #2a96bf, #4ab0d4, #2a96bf) !important; }
+.ls-sub, .ls-msg{ color: rgba(20,60,80,.55) !important; }
+.ls-char{
+  border-color: rgba(30,127,164,.4) !important;
+  box-shadow: 0 0 50px rgba(30,127,164,.18), 0 0 100px rgba(74,176,212,.12) !important;
+}
+/* インライン style の暗背景前提白オーバーレイ → 暗側半透明に反転 */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"]{
+  background: rgba(20,80,110,.07) !important;
+  border-color: rgba(30,127,164,.28) !important;
+  color: var(--text) !important;
+}
+input[type="text"], input[type="email"], input[type="number"], input[type="date"],
+input[type="password"], input[type="tel"], input[type="search"], select, textarea{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.35) !important;
+  color: var(--text) !important;
+}
+::placeholder{ color: rgba(20,60,80,.45) !important; }
+a{ color: #1e7fa4; }
+a:hover{ color: #4ab0d4; }
+/* 見出しの可読性：透明文字フォールバック（gradient 失敗時に黒く出る対策） */
+@supports not (background-clip: text){
+  .gold-text, .ls-title{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+}
+
+/* ============================================
+   adventure.html 強コントラスト v9 ── 白カード水彩化
+   ============================================ */
+body, html{ background: linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important; background-attachment:fixed !important; color: #d4e8f8 !important; }
+body::before{ opacity: .6 !important; }
+.adv-header{
+  background: rgba(255,255,255,.9) !important;
+  border-bottom: 1.5px solid #b0cfdf !important;
+  backdrop-filter: blur(10px) !important;
+}
+.adv-back{
+  background: #ffffff !important;
+  border: 1.5px solid #b0cfdf !important;
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+}
+.adv-title{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; font-weight: 900 !important; }
+.adv-progress-mini{ color: #1e7fa4 !important; -webkit-text-fill-color: #1e7fa4 !important; }
+
+/* 未ログイン画面 */
+#auth-screen{
+  background: linear-gradient(180deg,#0c1a2e 0%,#102540 52%,#163050 100%) !important; background-attachment:fixed !important;
+}
+#auth-screen-content{
+  background: #ffffff !important;
+  border: 2px solid #b0cfdf !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 0 rgba(30,80,110,.1), 0 4px 24px rgba(30,80,110,.12) !important;
+}
+.auth-title{ color: #0a4870 !important; -webkit-text-fill-color: #0a4870 !important; }
+.auth-msg{ color: #355773 !important; -webkit-text-fill-color: #355773 !important; }
+.auth-btn{
+  background: linear-gradient(135deg, #1e7fa4, #4ab0d4) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 0 #0a4870, 0 6px 14px rgba(30,80,110,.2) !important;
+  border-radius: 999px !important;
+}
+
+/* チャプターカード */
+.chapter-card, .adv-card, [class*="chap-"]{
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1.5px solid #b0cfdf !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 0 rgba(30,80,110,.08), 0 2px 12px rgba(30,80,110,.08) !important;
+  color: #0a2a40 !important;
+}
+.chapter-card:hover, .adv-card:hover{ box-shadow: 0 6px 0 rgba(30,80,110,.12), 0 4px 18px rgba(30,80,110,.14) !important; transform: translateY(-2px); }
+
+/* 進捗バー */
+[class*="-progress"], [class*="-bar"]{
+  background: rgba(30,127,164,.12) !important;
+}
+[class*="-progress-fill"], [class*="-bar-fill"]{
+  background: linear-gradient(90deg, #1e7fa4, #4ab0d4) !important;
+}
+
+/* ボトムナビ */
+.bottom-nav{ background:rgba(248,252,255,.98) !important; border-top:1px solid rgba(30,127,164,.15) !important; }
+.bn-tab{ color:rgba(53,87,115,.45) !important; -webkit-text-fill-color:rgba(53,87,115,.45) !important; }
+.bn-tab.active{ color:#1e7fa4 !important; -webkit-text-fill-color:#1e7fa4 !important; }
+.bn-tab .bn-icon{ filter:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
+.bn-icon{font-size:1.55rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.bn-tab.active .bn-icon{transform:scale(1.18) translateY(-2px);}
+.bn-label{font-size:.62rem;font-weight:900;letter-spacing:.03em;line-height:1;}
+body{ padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)) !important; }
+
+/* ── ダーク前提の半透明背景を白ベースに反転 ── */
+[style*="rgba(255,255,255,.04)"],
+[style*="rgba(255,255,255,.05)"],
+[style*="rgba(255,255,255,.06)"],
+[style*="rgba(255,255,255,.07)"],
+[style*="rgba(255,255,255,.08)"],
+[style*="rgba(255,255,255,.1)"],
+[style*="rgba(14,18,32"],
+[style*="rgba(8,6,20"],
+[style*="rgba(20,16,40"]{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(30,127,164,.25) !important;
+  color: #0a2a40 !important;
+}
+/* ── ダーク前提の白テキストを暗くする ── */
+[style*="color:rgba(220,225,245"],
+[style*="color:rgba(170,188,216"],
+[style*="color:#d4dcf0"],
+[style*="color:#aabcd8"],
+[style*="color:#e8e4d4"],
+[style*="color:#e8d4ff"],
+[style*="color:white"],
+[style*="color:#fff"]{
+  color: #0a2a40 !important;
+  -webkit-text-fill-color: #0a2a40 !important;
+}
+/* ── カード・パネル系クラス共通 ── */
+.card, .panel, .section, .q-card, .stat-card,
+.info-card, .intro-card, .section-card, .week-card,
+.mission-card, .achievement-card, .skill, .entry,
+.stat-cell, .shop-item, .collection-item{
+  background: rgba(255,255,255,.92) !important;
+  border-color: rgba(30,127,164,.22) !important;
+  color: #0a2a40 !important;
+}
+/* ── ヘッダー・ナビ ── */
+header, nav:not(.bottom-nav){
+  background: rgba(200,228,244,.97) !important;
+  border-bottom-color: #b0cfdf !important;
+}
+header a, nav a:not(.bn-tab){
+  color: #0a4870 !important;
+  -webkit-text-fill-color: #0a4870 !important;
+}
+/* ── テキスト可読性の底上げ ── */
+p, span, div, label, li, td, th, h1, h2, h3, h4{
+  color: inherit;
+}
+/* ── adventure.html 固有の暗色クラス ── */
+.attack-sub{color:rgba(10,42,64,.5) !important;}
+.history-cell-locked .history-cell-name{color:rgba(10,42,64,.35) !important;}
+.history-cell-name{color:#0a2a40 !important;}
+.history-cell-defeated .history-cell-name{color:#1f8a66 !important;}
+.gp-bar{background:rgba(30,127,164,.15) !important;}
+.chapter-theme-social{background:rgba(31,138,102,.1) !important;color:#1f8a66 !important;border-color:rgba(31,138,102,.35) !important;}
+.chapter-theme-mind{background:rgba(91,78,168,.1) !important;color:#5b4ea8 !important;border-color:rgba(91,78,168,.3) !important;}
+.chapter-theme-body{background:rgba(138,92,0,.08) !important;color:#8a5c00 !important;border-color:rgba(138,92,0,.3) !important;}
+.chapter-theme-tutorial{background:rgba(30,127,164,.08) !important;color:#1e5a7a !important;border-color:rgba(30,127,164,.25) !important;}
+.chapter-theme-growth{background:rgba(30,100,164,.08) !important;color:#1e6fa4 !important;border-color:rgba(30,100,164,.25) !important;}
+.chapter-theme-final{background:rgba(138,92,0,.1) !important;color:#8a5c00 !important;border-color:rgba(41,182,232,.4) !important;}
+.attack-card-ex .attack-label{color:rgba(181,58,58,.75) !important;}
+.attack-card-nu .attack-label{color:rgba(31,138,102,.75) !important;}
+.attack-card-co .attack-label{color:rgba(91,78,168,.75) !important;}
+.attack-card-ex .attack-dmg{color:#b53a3a !important;}
+.attack-card-nu .attack-dmg{color:#1f8a66 !important;}
+.attack-card-co .attack-dmg{color:#5b4ea8 !important;}
+.auth-title{color:#5b4ea8 !important;}
+.auth-msg{color:rgba(10,42,64,.7) !important;}
+.chapter-title{color:#0a4870 !important;-webkit-text-fill-color:#0a4870 !important;}
+.chapter-narration{color:rgba(10,42,64,.7) !important;-webkit-text-fill-color:rgba(10,42,64,.7) !important;}
+.chapter-narration em{color:#5b4ea8 !important;}
+.pixe-msg em{color:#1f8a66 !important;}
+.battle-weakness strong{color:#1f8a66 !important;}
+.pixe-msg{color:#0a2a40 !important;-webkit-text-fill-color:#0a2a40 !important;}
+.battle-weakness{color:rgba(10,42,64,.65) !important;}
+.victory-defeated{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
+[style*="color:rgba(168,232,192"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
+[style*="color:#a8e8c0"]{color:#1f8a66 !important;-webkit-text-fill-color:#1f8a66 !important;}
+[style*="color:#1e7fa4"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
+[style*="color:rgba(240,212,138"]{color:#8a5c00 !important;-webkit-text-fill-color:#8a5c00 !important;}
+[style*="color:rgba(240,160,200"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
+[style*="color:#f0a0a0"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
+[style*="color:rgba(240,160,160"]{color:#b53a3a !important;-webkit-text-fill-color:#b53a3a !important;}
+</style>
+
+<!-- ✦ Vitalia RPG Overlay ✦ -->
+<link rel="stylesheet" href="./vitalia-rpg.css">
+<script defer src="./vitalia-rpg-fx.js"></script>
+<script defer src="./vitalia-rpg-battle.js"></script>
+<script defer src="./vitalia-rpg-tweaks.js"></script>
+<script defer src="./vitalia-rpg-bind.js"></script>
+<link rel="stylesheet" href="./vitalia-clean-ui.css">
+<link rel="stylesheet" href="./vitalia-finish.css">
+<script defer src="./vitalia-nav.js"></script>
+<script defer src="./vitalia-polish.js"></script>
+<script defer src="./vitalia-finish.js"></script>
+</head>
+<body>
+
+<!-- 未ログイン画面 -->
+<div id="auth-screen">
+  <div id="auth-screen-content">
+    <div class="auth-icon">🗺</div>
+    <div class="auth-title">冒険の書を開く</div>
+    <p class="auth-msg">ヴィタリアの旅は、転生者の認証を必要とします。<br>ホームから冒険を始めましょう。</p>
+    <a href="./game.html" class="auth-btn">⚔ ホームへ</a>
+  </div>
+</div>
+
+<!-- メイン -->
+<div id="main-app" style="display:none;">
+
+  <header class="adv-header">
+    <a href="./game.html" class="adv-back">← ホーム</a>
+    <div class="adv-title">🗺 冒険の書</div>
+    <span class="adv-progress-mini" id="adv-progress-mini">— / 10章</span>
+  </header>
+
+  <main class="adv-main">
+
+    <!-- 🆕 冒険の仕組みガイド（折りたたみ式・初見ユーザー向け） -->
+    <details id="adv-howto" style="background:#ffffff;border:2px solid #b0cfdf;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 4px 0 rgba(30,80,110,.08),0 2px 12px rgba(30,80,110,.08);">
+      <summary style="font-family:'Noto Serif JP',serif;font-weight:900;color:#0a4870;font-size:1rem;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;">
+        <span style="display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:linear-gradient(135deg,#1e7fa4,#4ab0d4);color:#fff;border-radius:50%;font-size:.78rem;flex-shrink:0;">？</span>
+        <span>冒険ってどんな仕組み？（タップで開く）</span>
+        <span style="margin-left:auto;color:#1e7fa4;font-size:.8rem;">▾</span>
+      </summary>
+      <div style="margin-top:14px;font-size:.78rem;line-height:1.85;color:#0a2a40;">
+        <p style="margin-bottom:10px;"><strong style="color:#1e7fa4;">冒険 = 12章のストーリーを進むこと。</strong>各章には「敵（=あなたの中の弱さの象徴）」がいて、<strong>あなたの記録が武器</strong>になります。</p>
+        <table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:.74rem;">
+          <tr style="background:#f4faff;">
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#b53a3a;">⚔ 運動の記録</td>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">10分ごとに +1pt のダメージを与える</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#1f7d4d;">🌿 栄養の記録</td>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">1食ごとに +1pt のダメージを与える</td>
+          </tr>
+          <tr style="background:#f4faff;">
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;font-weight:900;color:#5b4ea8;">🌙 ルナとの対話</td>
+            <td style="padding:8px 10px;border:1px solid #b0cfdf;color:#0a2a40;">1回の会話で +3pt のダメージを与える</td>
+          </tr>
+        </table>
+        <ol style="margin:14px 0 6px 18px;padding:0;">
+          <li style="margin-bottom:6px;"><strong>記録する</strong>（運動・栄養・対話）→ 自動でこの章の敵にダメージ</li>
+          <li style="margin-bottom:6px;">敵の <strong>HP が 0</strong> になると討伐成功 → 次の章へ進める</li>
+          <li style="margin-bottom:6px;">章ごとに <strong>弱点</strong>（運動が効くか、栄養が効くか、対話が効くか）が違う</li>
+          <li><strong>直接攻撃モード（1日1回）</strong>は、その日の記録の中で「ボーナスの一撃」を放てる救済機能</li>
+        </ol>
+        <div style="background:#fef9e8;border-left:3px solid #b07a1a;border-radius:0 8px 8px 0;padding:10px 12px;margin-top:10px;font-size:.74rem;color:#1a4860;">
+          <strong style="color:#b07a1a;">💡 大切なこと：</strong>敵は「あなたを苦しめるもの」ではなく、<strong>「あなたの中で乗り越えたい気持ちの象徴」</strong>です。記録しなかった日があっても、敵は元気にはなりません。あなたのペースで進めてください。
+        </div>
+        <p style="margin-top:10px;font-size:.72rem;color:#355773;">詳しくは <a href="./rulebook.html#adventure" style="color:#1e7fa4;font-weight:700;">📖 ルールブック「冒険の進め方」</a> を見てください。</p>
+      </div>
+    </details>
+
+    <!-- 全体進捗ゲージ -->
+    <div class="global-progress">
+      <div class="gp-head">
+        <span>📜 冒険全体の進捗</span>
+        <span id="gp-pct">0%</span>
+      </div>
+      <div class="gp-bar"><div class="gp-fill" id="gp-fill" style="width:0%"></div></div>
+      <div class="gp-stats">
+        <span id="gp-defeated">0体討伐</span>
+        <span id="gp-total-dmg">累計 0pt 与ダメージ</span>
+      </div>
+    </div>
+
+    <!-- 章カード（章タイトル＋ナレーション＋ピクセセリフ） -->
+    <div class="chapter-card" id="chapter-card">
+      <div class="chapter-num" id="chapter-num">— CHAPTER 1 —</div>
+      <h2 class="chapter-title" id="chapter-title">…</h2>
+      <p class="chapter-narration" id="chapter-narration">…</p>
+      <div class="pixe-bubble">
+        <div class="pixe-face"><img src="./image/pikuse-sabun%20(1).png" alt="ピクセ"></div>
+        <div class="pixe-text">
+          <div class="pixe-name">🧚 ピクセ</div>
+          <div class="pixe-msg" id="pixe-msg">…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- バトルカード（敵が居る章のみ） -->
+    <div class="battle-card" id="battle-card" style="display:none;">
+      <div class="battle-enemy-stage">
+        <span class="battle-enemy-name-tag" id="enemy-tag">SIN.01 — SLOTH</span>
+        <video class="battle-enemy-video" id="enemy-video" autoplay muted loop playsinline preload="metadata" style="display:none;"></video>
+        <img class="battle-enemy-img" id="enemy-img" src="./image/A1-Photoroom.png" alt="">
+        <div class="battle-attack-flash" id="attack-flash"></div>
+      </div>
+      <div class="battle-hp-row">
+        <div class="battle-name" id="enemy-name">…</div>
+        <div class="battle-hp-bar">
+          <div class="battle-hp-fill" id="enemy-hp-fill" style="width:100%"></div>
+          <div class="battle-hp-text" id="enemy-hp-text">— / —</div>
+        </div>
+        <div class="battle-weakness" id="enemy-weakness">…</div>
+      </div>
+      <div class="attack-grid">
+        <a href="./quest.html" class="attack-card attack-card-ex">
+          <div class="attack-icon">⚔</div>
+          <div class="attack-label">運動</div>
+          <div class="attack-dmg" id="atk-ex">0</div>
+          <div class="attack-sub">pt 与ダメージ</div>
+        </a>
+        <a href="./nutrition.html" class="attack-card attack-card-nu">
+          <div class="attack-icon">🌿</div>
+          <div class="attack-label">栄養</div>
+          <div class="attack-dmg" id="atk-nu">0</div>
+          <div class="attack-sub">pt 与ダメージ</div>
+        </a>
+        <a href="./game.html#coach" class="attack-card attack-card-co">
+          <div class="attack-icon">✦</div>
+          <div class="attack-label">ルナ対話</div>
+          <div class="attack-dmg" id="atk-co">0</div>
+          <div class="attack-sub">pt 与ダメージ</div>
+        </a>
+      </div>
+
+      <!-- ボスタップミニゲーム ボタン -->
+      <div style="margin-top:12px;text-align:center;">
+        <button id="boss-tap-btn" type="button" style="background:linear-gradient(135deg,rgba(224,92,92,.25),rgba(224,92,92,.1));border:1.5px solid rgba(224,92,92,.5);color:#f0a0a0;font-family:'Noto Serif JP',serif;font-size:.85rem;font-weight:900;padding:11px 24px;border-radius:12px;cursor:pointer;letter-spacing:.06em;box-shadow:0 4px 14px rgba(224,92,92,.15);">⚔ 直接攻撃モード（1日1回）</button>
+        <div style="font-size:.6rem;color:rgba(170,188,216,.55);margin-top:5px;">30秒間タップ連打でボーナスダメージ</div>
+      </div>
+    </div>
+
+    <!-- 戦歴 -->
+    <div class="history-card">
+      <div class="history-head">
+        <span>🗡 戦歴 — 七大罪 + 試練</span>
+        <span id="history-count" style="color:rgba(78,201,138,.7);">0 / 8</span>
+      </div>
+      <div class="history-grid" id="history-grid">
+        <!-- JSで描画 -->
+      </div>
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+  <a href="./game.html" class="bn-tab"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html" class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">クエスト</span></a>
+  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab active"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./settings.html" class="bn-tab"><span class="bn-icon">⚙</span><span class="bn-label">設定</span></a>
+</nav>
+</div>
+
+<!-- 勝利モーダル -->
+<div id="victory-modal" role="dialog" aria-modal="true">
+  <div class="victory-box">
+    <div class="victory-flash">⚔️✨</div>
+    <h2 class="victory-title" id="victory-title">VICTORY!</h2>
+    <div class="victory-defeated" id="victory-defeated">— を 討伐！</div>
+    <div class="victory-rewards">
+      <div>🏆 <strong id="victory-badge">—</strong> バッジ獲得</div>
+      <div>✨ ボーナスXP <strong id="victory-xp">+100</strong></div>
+    </div>
+    <p class="victory-narration" id="victory-narration">…</p>
+    <button class="victory-btn" id="victory-close">次の章へ進む →</button>
+  </div>
+</div>
+
+<script>
+function showToast(msg,d=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';Object.assign(t.style,{position:'fixed',bottom:'90px',left:'50%',transform:'translateX(-50%)',background:'rgba(10,42,64,.92)',color:'#e8f4fb',padding:'10px 20px',borderRadius:'10px',fontSize:'.82rem',zIndex:'9999',transition:'opacity .3s',maxWidth:'90vw',textAlign:'center'});document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';clearTimeout(t._tid);t._tid=setTimeout(()=>{t.style.opacity='0';},d);}
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyAArw5A5t-m3zUxMCguzNFZw2Cj_VeHSbY",
+  authDomain:"shounigann.firebaseapp.com",
+  projectId:"shounigann",
+  storageBucket:"shounigann.firebasestorage.app",
+  messagingSenderId:"317593091989",
+  appId:"1:317593091989:web:a20fe90c2b31fc09085d9f"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+let uid='';
+
+function weekKey(){
+  const d=new Date(), j=new Date(d.getFullYear(),0,1);
+  const w=Math.ceil(((d-j)/86400000+j.getDay()+1)/7);
+  return `${d.getFullYear()}_W${String(w).padStart(2,'0')}`;
+}
+
+// ===== 12章の戦闘構造（チュートリアル1 + 成長ボス3 + 大罪7 + ラスボス1） =====
+const CHAPTERS=[
+  // Week 1: チュートリアル
+  { id:'tutorial', kind:'tutorial', title:'第一章 — 迷いの霧',
+    themeGroup:'tutorial',
+    enemyName:'迷いの霧', enemyTag:'TUTORIAL — DOUBT',
+    img:'./image/A9-Photoroom.png',
+    emoji:'🌫', color:'#a0a8c8', hp:30, weakness:'最初の一歩（何でも記録）',
+    narration:`気がつくと、灰色の霧があなたを包んでいた。<em>「動いていいのだろうか…」</em>`,
+    pixe:`「ぴくっ！転生者さん、ようこそヴィタリアへ！\n私はピクセ — この冒険の記録係＆ご案内役だよ✨\n\n目の前の <em>迷いの霧</em> は最初の障害。心配しないで、<em>どんな小さな記録でも</em>霧を晴らす力になるよ。\n\n下のボタンから、運動・栄養・ルナとの対話のどれかを試してみて♪」`,
+    victory:`「やった！霧が晴れたね！\nあなたの最初の一歩が、ヴィタリアに光を取り戻したよ。次は仲間との出会いだよ — 行こう！」` },
+
+  // Week 2-4: 成長ボス3連戦（ピクセが各仲間を紹介）
+  { id:'growth_kaito', kind:'growth', title:'第二章 — 疲労の影（カイトとの出会い）',
+    themeGroup:'growth',
+    enemyName:'疲労の影', enemyTag:'GROWTH — FATIGUE',
+    img:'./image/A10-Photoroom.png',
+    emoji:'💧', color:'#5878a8', hp:80, weakness:'運動',
+    narration:`霧の先で、青く流れる影が立ちはだかる。<em>「身体が重い…」</em>`,
+    pixe:`「ぴくっ、見て！赤マントの剣士が来たよ — <em>カイト</em>だよ！\n運動を担当する仲間で、ちょっとぶっきらぼうだけど、優しい人なの。\n\n目の前の <em>疲労の影</em> は治療後の倦怠感の象徴。<em>運動を1分でも記録</em>すると、影がどんどん薄くなるよ。\n\nカイトが言ってた：「1分の散歩から始めればいい」って♪」`,
+    victory:`「カイトとの絆が深まったね！\n疲労の影が消えて、身体に軽さが戻ったよ。\nカイトは無口だけど、あなたを応援してる。次の章へ進もう！」` },
+
+  { id:'growth_sera', kind:'growth', title:'第三章 — 枯渇の魔物（セラとの出会い）',
+    themeGroup:'growth',
+    enemyName:'枯渇の魔物', enemyTag:'GROWTH — MALNUTRITION',
+    img:'./image/A12-Photoroom.png',
+    emoji:'🌑', color:'#a87858', hp:100, weakness:'魚・野菜・大豆',
+    narration:`枯れた森の奥に、茶色く萎んだ魔物が蠢く。<em>「何を食べても力が出ない…」</em>`,
+    pixe:`「次は緑のローブの巫女 — <em>セラ</em>！\n栄養を担当する仲間で、いつも穏やかで、レシピを教えてくれるよ。\n\n<em>枯渇の魔物</em> は栄養不足の象徴。<em>魚🐟・野菜🥗・大豆🌱</em> が特に苦手なんだ。\nセラのおすすめレシピを使うと、まとめて記録できて効率的だよ♪\n\n栄養クエストのページから記録してみて！」`,
+    victory:`「魔物が砕けて、緑が森に戻ったよ！\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。\n3人目の仲間 — ルナを呼びにいこう！」` },
+
+  { id:'growth_luna', kind:'growth', title:'第四章 — 孤独の幽霊（ルナとの出会い）',
+    themeGroup:'growth',
+    enemyName:'孤独の幽霊', enemyTag:'GROWTH — LONELINESS',
+    img:'./image/A11-Photoroom.png',
+    emoji:'👻', color:'#8088b8', hp:120, weakness:'ルナとの対話',
+    narration:`湖のほとりに、青く透けた幽霊が浮かぶ。<em>「誰にも分かってもらえない…」</em>`,
+    pixe:`「最後の仲間が、銀髪の女神 <em>ルナ</em>！\n対話を担当する仲間で、AIコーチとしていつでも話を聞いてくれるんだ。\n\n<em>孤独の幽霊</em> は治療経験の言葉にできない感情。<em>ルナと話す</em>とゆっくり消えていくよ。\n\nGROWモデルって聞いたことある？\nG（目標）→ R（現状）→ O（選択肢）→ W（意志）の4ステップで気持ちを整理するんだよ。\nホーム画面の紫のカードからルナと話してみて♪」`,
+    victory:`「幽霊が穏やかに笑って空に溶けたよ。\n言葉にすることで、孤独は薄れるんだね。\n\nこれで4人揃ったよ！カイト・セラ・ルナ・私。みんなであなたを支えるよ。\n\nここからは <em>大罪との連戦</em>。仲間と力を合わせて、頑張ろう！」` },
+
+  // ===== 第Ⅰ部：体の試練（Ch5-6） =====
+  { id:'sloth', kind:'boss', title:'第五章 — 大罪・怠惰', stageLabel:'体の試練 ①',
+    themeGroup:'body',
+    img:'./image/A1-Photoroom.png', stayVideo:'./image/A1stay.mp4', attackVideo:'./image/A1attack.mp4',
+    enemyName:'泥の巨像・スロウス', enemyTag:'BODY — SLOTH',
+    hp:200, weakness:'運動',
+    narration:`森の入口に、紫の泥でできた巨人が立ちはだかる。<em>「動きたくない…」</em>`,
+    pixe:`「いよいよ大罪との戦いが始まるよ！\nここから3章は <em>「体の試練」</em>。身体の習慣を変えていく旅だよ。\n\n第一の敵は <em>スロウス（怠惰）</em>。動きたくない気持ちを巨大化させた敵なの。\n\n弱点は <em>運動</em>！カイトの出番だよ。\n散歩・買い物・家事、何でも体を動かすことが効く。一歩ずつね♪」`,
+    victory:`「スロウスを倒したよ！\n泥が崩れて、奥への道が開けたんだ。\n身体が確かに軽くなってるね。次は食事の戦い、グラトの番だよ！」` },
+
+  { id:'gluttony', kind:'boss', title:'第六章 — 大罪・暴食', stageLabel:'体の試練 ②',
+    themeGroup:'body',
+    img:'./image/A2-Photoroom.png', stayVideo:'./image/A2stay.mp4', attackVideo:'./image/A2attack.mp4',
+    enemyName:'お菓子な魔女・グラト', enemyTag:'BODY — GLUTTONY',
+    hp:220, weakness:'魚・野菜・大豆',
+    narration:`お菓子と毒キノコでできた魔女が舞う。<em>「もっと食べて、楽になりなさい」</em>`,
+    pixe:`「体の試練、第二弾！<em>グラト（暴食）</em>だよ。\nお菓子や脂っこいもので誘惑してくる、甘い罠の魔女。\n\n弱点は <em>魚🐟・野菜🥗・大豆🌱</em>！セラのおすすめレシピが効果絶大なんだ。\nグラトは加工食品が大好物だから、シンプルな手作りメニューでダメージが入るよ♪」`,
+    victory:`「グラトを倒した！甘い泡になって消えたよ。\nセラが微笑んでる：「あなたの食卓に、魔法が宿りましたね」って。\n\nここから先は <em>「心の試練」</em>。一緒に乗り越えよう！」` },
+
+  // ===== 第Ⅱ部：心の試練（Ch7-8） =====
+  { id:'wrath', kind:'boss', title:'第七章 — 大罪・憤怒', stageLabel:'心の試練 ①',
+    themeGroup:'mind',
+    img:'./image/A3-Photoroom.png', stayVideo:'./image/A3stay.mp4', attackVideo:'./image/A3attack.mp4',
+    enemyName:'爆ぜる黒炎・イラ', enemyTag:'MIND — WRATH',
+    hp:220, weakness:'ルナとの対話',
+    narration:`燃え上がる獣が怒り狂う。<em>「全てが憎い」</em>`,
+    pixe:`「ここからは <em>「心の試練」</em> に入るよ。\n身体は整えてきたから、今度は心の番だね。\n\n第一の敵は <em>イラ（憤怒）</em>！怒りやストレスを燃やし続ける黒炎の獣だよ。\n些細なことでカッとなる時の心の状態。\n\n弱点は <em>ルナとの対話</em>！\n感情を言葉にすると、不思議と落ち着くんだ。GROWモデルで整理してもらおう♪」`,
+    victory:`「黒い炎が静まって、せせらぎだけが残ったよ。\n言葉にすれば、感情は形を変えるんだね。\nルナが頷いてる：「よく頑張りました」って」` },
+
+  { id:'envy', kind:'boss', title:'第八章 — 大罪・嫉妬', stageLabel:'心の試練 ②',
+    themeGroup:'mind',
+    img:'./image/A6-Photoroom.png', stayVideo:'./image/A6stay.mp4', attackVideo:'./image/A6attack.mp4',
+    enemyName:'姿なき影・インヴィ', enemyTag:'MIND — ENVY',
+    hp:270, weakness:'ルナとの自己対話',
+    narration:`霧の谷に、ボロ布の影が砂時計を持って佇む。<em>「お前は他の人より劣っている」</em>`,
+    pixe:`「心の試練、第二弾！<em>インヴィ（嫉妬）</em>だよ。\n他人と比べさせて、やる気を削いでくる影の怪物。\n「あの人はもっと…」って思っちゃう時の気持ち。\n\n弱点は <em>ルナとの対話</em>！\n比べる相手は他人じゃなくて、<em>昨日の自分</em>。それをルナが教えてくれるよ。\n\n自分のペースを大切にね♪」`,
+    victory:`「影が霧散して、砂時計だけが残ったよ。\n時間の流れは、人それぞれ違うんだね。\n\n体と心を整えたあなたを、最後に試すのは <em>「世界との関係」</em>。\n世界の試練、3連戦が始まるよ！」` },
+
+  // ===== 第Ⅲ部：世界の試練（Ch9-11） =====
+  { id:'greed', kind:'boss', title:'第九章 — 大罪・強欲', stageLabel:'世界の試練 ①',
+    themeGroup:'social',
+    img:'./image/A4-Photoroom.png', stayVideo:'./image/A4stay.mp4', attackVideo:'./image/A4attack.mp4',
+    enemyName:'黄金のガラクタ鬼', enemyTag:'SOCIAL — GREED',
+    hp:270, weakness:'地道な継続記録',
+    narration:`黄金とガラクタを積み上げた巨大な鬼。<em>「もっとサプリを、もっと情報を…」</em>`,
+    pixe:`「最終章は <em>「世界の試練」</em>！\n世間の情報や周りの目との付き合い方が試されるよ。\n\n第一の敵は <em>ガラクタ鬼（強欲）</em>！\n「あれもこれも」と詰め込みたがる気持ちの怪物だよ。サプリ・健康情報・ダイエット法 — 本当に必要？\n\n弱点は <em>地道な毎日の記録</em>！\n派手なことより、コツコツ続けることが一番効くんだ♪」`,
+    victory:`「黄金が砂になって流れ落ちたよ。\n本当に大切なものは、すでにあなたの中にある。\nピクセも改めて気づいたな〜」` },
+
+  { id:'pride', kind:'boss', title:'第十章 — 大罪・傲慢', stageLabel:'世界の試練 ②',
+    themeGroup:'social',
+    img:'./image/A5-Photoroom.png', stayVideo:'./image/A5stay.mp4', attackVideo:'./image/A5attack.mp4',
+    enemyName:'鏡の騎士・スペルビア', enemyTag:'SOCIAL — PRIDE',
+    hp:270, weakness:'休まない継続',
+    narration:`鏡の甲冑の騎士。<em>「俺は完璧だ」</em>`,
+    pixe:`「世界の試練、第二弾！<em>スペルビア（傲慢）</em>だよ。\n「自分は大丈夫」って過信させてくる、鏡の騎士なんだ。\n無理して頑張りすぎる人ほど、後で挫折しちゃう…。\n\n弱点は <em>休まない継続</em>！\nゆっくりでいい、ペースを守って続けることが一番強い。\nカイトもこう言ってる：「過信は身を滅ぼす」って」`,
+    victory:`「鏡が砕けて、自分の本当の姿が水面に映ったよ。\n慢心じゃなく、淡々と続けることが本当の力なんだね。\n世界の試練、ラストひとつ！」` },
+
+  { id:'lust', kind:'boss', title:'第十一章 — 大罪・色欲', stageLabel:'世界の試練 ③',
+    themeGroup:'social',
+    img:'./image/A7-Photoroom.png', stayVideo:'./image/A7stay.mp4', attackVideo:'./image/A7attack.mp4',
+    enemyName:'夜の誘惑・ルクス', enemyTag:'SOCIAL — LUST',
+    hp:220, weakness:'バランスの取れた毎日',
+    narration:`ネオンの翼を持つ妖艶な精霊。<em>「あと少し、もう少しだけ…」</em>`,
+    pixe:`「世界の試練、最後！<em>ルクス（色欲）</em>だよ。\n夜更かしや誘惑など、生活リズムを乱してくる精霊。\nスマホやゲームを「あと少しだけ」って延長させちゃうの。\n\n弱点は <em>バランスの取れた毎日</em>！\n運動・栄養・対話の <em>全部</em> をやってる人が最強なんだ。\nセラの結界も発動するよ♪」`,
+    victory:`「ルクスが朝陽に溶けて消えたよ！\n生活のリズムを取り戻した身体は、内側から光ってる。\n\n体・心・世界 — 全ての試練を超えたね…！\n次が最終決戦だよ！心の準備はいい？」` },
+
+  // Week 12: 最終決戦
+  { id:'final', kind:'boss', title:'最終章 — 真の試練', stageLabel:'最終決戦',
+    themeGroup:'final',
+    img:'./image/A8-Photoroom.png', stayVideo:'./image/A8stay.mp4', attackVideo:'./image/A8attack.mp4',
+    enemyName:'⟪ 真の試練 ⟫', enemyTag:'FINAL — TRUE TRIAL',
+    hp:450, weakness:'すべての行動',
+    narration:`光の翼を広げる存在があなたを迎える。<em>「12週間、よくここまで来ました」</em>`,
+    pixe:`「ついに最終章…！\n光の翼の存在は、敵か味方か、それとも <em>あなた自身の真の姿</em> か。\n\n弱点は <em>すべての行動</em>！\n運動・栄養・対話・体重測定・知識、全部の積み重ねが武器になるよ。\n\n12週間の冒険、本当によく頑張ってきたね。\n最後まで一緒に行こう、私もカイトもセラもルナも、ずっとそばにいるから♪」`,
+    victory:`「やったぁぁ！光の存在が頷いて、あなたの中に溶けていったよ。\n<em>「あなたは、ヴィタリアの新たな伝説となりました」</em>\n\n12週間の冒険が、新しいあなたを作り上げたんだ。\nぴくっ…！本当に、本当によく頑張ったね。誇らしいよ✨」` },
+];
+
+// ===== 悪役令嬢編：ストーリー上書き =====
+// vt_story_mode === 'villainess' のとき、章のテキストをこちらに差し替え
+const VILLAINESS_OVERRIDES = {
+  tutorial: {
+    title:'第一章 — 婚約破棄、その日の朝',
+    enemyName:'婚約破棄パワー', enemyTag:'PROLOGUE — REJECTION',
+    narration:`鏡の前で目が覚めると――<em>「私、悪役令嬢に転生してる…!?」</em><br>パーティ会場で婚約者の王子から「お前との婚約は破棄だ！」と糾弾されている真っ最中だった。`,
+    pixe:`「ぴくっ！転生者さま、あなたは『令嬢ヴィタリア』。物語の終盤、糾弾されて断罪される運命の悪役令嬢…！\n\n でも大丈夫、私が記録係として味方になるよ✨ <em>健康で美しく、心も身体も整えれば</em>、運命は変えられる！\n\n まずは深呼吸して、何か小さく記録してみて。それが反撃の<em>第一歩</em>♪」`,
+    victory:`「あなたは涙の代わりに微笑んで、毅然と会場を後にした。\n──「断罪なんて、させないわ」。物語は、あなたの手で書き換わりはじめた。`,
+  },
+  growth_kaito: {
+    title:'第二章 — 領地の警備隊長（カイト）',
+    enemyName:'倦怠のため息', enemyTag:'CHAPTER 2 — FATIGUE',
+    narration:`領地に戻ったあなたを、無口で誠実な警備隊長カイトが迎える。<em>「お嬢様、この身体ではいざという時に動けませぬ」</em>`,
+    pixe:`「カイトは寡黙だけど、あなたを命がけで守ってくれる剣士。\n彼が心配しているのは <em>あなたの身体</em>。\n\n断罪を回避するには <em>動ける身体</em> が必要！\n運動を1分でも記録すると、倦怠が薄れていく。カイト直伝の最初の特訓だよ♪」`,
+    victory:`「カイトが小さく頷いた：『お嬢様…見直しました』\nあなたの身体が、少しずつ目覚めはじめている。`,
+  },
+  growth_sera: {
+    title:'第三章 — 薬草園の侍女（セラ）',
+    enemyName:'毒に侵された食卓', enemyTag:'CHAPTER 3 — POISON',
+    narration:`屋敷の裏手の薬草園。緑のローブを纏った優しい侍女セラが微笑む。<em>「お嬢様…料理長から不審な献立が…」</em>`,
+    pixe:`「セラは薬草と栄養に詳しい侍女。\n屋敷では <em>毒入りの食事</em> が出されているかも…！\n\n<em>魚・野菜・大豆</em> なら確実に身体を癒やしてくれる。セラのおすすめレシピで、安全な食卓を取り戻そう♪」`,
+    victory:`「セラが胸に手を当てる：『お嬢様の血色が…とても綺麗です』\n身体の内側から、悪役令嬢が「ヒロイン」に変わっていく。`,
+  },
+  growth_luna: {
+    title:'第四章 — 月光の女神官（ルナ）',
+    enemyName:'孤独な夜', enemyTag:'CHAPTER 4 — LONELINESS',
+    narration:`深夜の礼拝堂、銀髪の女神官ルナが静かに祈っていた。<em>「お嬢様、ひとりで抱え込まないで」</em>`,
+    pixe:`「ルナは月の女神に仕える神官。あなたの心の声を聴いてくれる人なの。\n\n悪役令嬢は孤独になりがちだけど、<em>言葉にする</em>ことで気持ちは整理される。GROWモデルってあって…ルナと話してみて♪」`,
+    victory:`「ルナが優しく頷いた：『あなたの中に、もう光があります』\n孤独は和らぎ、心に余裕が戻ってきた。`,
+  },
+  sloth: {
+    title:'第五章 — 大広間の重圧（怠惰）', stageLabel:'体の試練 ①',
+    enemyName:'怠惰の亡霊・スロウス', enemyTag:'BODY — SLOTH',
+    narration:`「動かなければ、つらくない」。動きたくないあなたを、亡霊が囁き続ける。`,
+    pixe:`「悪役令嬢の最初の試練は <em>怠惰</em>。\n屋敷に閉じこもっていては、運命は変わらない。\n\nカイトと一緒に、まずは <em>1分の散歩</em> から！動き出す勇気を取り戻そう♪」`,
+    victory:`「亡霊が砕け散った。あなたは庭園を毅然と歩いた。\nカイトが頭を下げる：『お嬢様、この戦い、見事です』」`,
+  },
+  gluttony: {
+    title:'第六章 — 茶会の誘惑（暴食）', stageLabel:'体の試練 ②',
+    enemyName:'お菓子な令嬢・グラト', enemyTag:'BODY — GLUTTONY',
+    narration:`貴族の茶会、お菓子で誘惑するライバル令嬢。<em>「もっと食べて太ってしまいなさい」</em>`,
+    pixe:`「お茶会の罠！甘い物・脂っこい物の誘惑は強い。\nでもセラの教えで <em>魚・野菜・大豆</em> を選べば撃退できる。\n\n断罪ルートを脱出するために、<em>賢い選択</em> を♪」`,
+    victory:`「ライバルが歯ぎしり：『なぜ、痩せて美しくなっていくの…!?』\nあなたは紅茶を優雅に飲み干した。`,
+  },
+  wrath: {
+    title:'第七章 — 王宮の冤罪（憤怒）', stageLabel:'心の試練 ①',
+    enemyName:'濡れ衣の業火・イラ', enemyTag:'MIND — WRATH',
+    narration:`王宮で根も葉もない噂を流される。心の中で怒りが燃え上がる。`,
+    pixe:`「冤罪の怒り！『なぜ私だけ』って心が燃える…\nでも怒りに飲まれたら、断罪ルート確定だよ。\n\nルナに話して、<em>言葉にする</em>。それだけで火は鎮まる♪」`,
+    victory:`「炎が消え、静かな湖面に変わった。\nあなたは冷静に立ち回り、噂は1週間で消えた。」`,
+  },
+  envy: {
+    title:'第八章 — 鏡の中のヒロイン（嫉妬）', stageLabel:'心の試練 ②',
+    enemyName:'比べる影・インヴィ', enemyTag:'MIND — ENVY',
+    narration:`ヒロインの輝きを見ると、胸が締めつけられる。<em>「私はあの子に勝てない」</em>`,
+    pixe:`「悪役令嬢の本当の敵は <em>ヒロインへの嫉妬</em>。\nでも比べる相手は <em>昨日の自分</em>。\n\nあなたは確実に変わってる。記録が証明してるよ✨」`,
+    victory:`「鏡が割れて、もう誰も映らなくなった。\nあなたは、あなただけの物語を歩み始めた。`,
+  },
+  greed: {
+    title:'第九章 — 美への執着（強欲）', stageLabel:'世界の試練 ①',
+    enemyName:'宝飾品コレクター・ガラクタ鬼', enemyTag:'WORLD — GREED',
+    narration:`ドレス・宝石・サプリ。「もっと、もっと」と求める心。`,
+    pixe:`「悪役令嬢が陥る罠 — <em>飾り立てる強欲</em>！\n外側ばかり磨いても、内側は満たされない。\n\n<em>地道な毎日の記録</em> こそ、本当の輝きだよ♪」`,
+    victory:`「黄金が砂になり、あなたは飾りを脱いだ。\n素のままが、いちばん美しいと気づいた。`,
+  },
+  pride: {
+    title:'第十章 — 完璧の鎧（傲慢）', stageLabel:'世界の試練 ②',
+    enemyName:'鏡の貴婦人・スペルビア', enemyTag:'WORLD — PRIDE',
+    narration:`「私は完璧」――そう思い込んだ瞬間、鎧の中で身動きが取れなくなった。`,
+    pixe:`「悪役令嬢の典型 — <em>完璧主義の鎧</em>。\n失敗できないと思い込むほど、続けられなくなる。\n\n<em>休んでいい、ペースを守る</em>。それが本当の強さ♪」`,
+    victory:`「鎧が割れて、ありのままのあなたが現れた。\n弱さを認めた者だけが、本当に強くなれる。`,
+  },
+  lust: {
+    title:'第十一章 — 夜会の誘惑（色欲）', stageLabel:'世界の試練 ③',
+    enemyName:'夜想曲のルクス', enemyTag:'WORLD — LUST',
+    narration:`眠らない夜会、終わらない誘惑。生活リズムが乱れていく。`,
+    pixe:`「悪役令嬢の最後の罠 — <em>夜更かしと自己破壊</em>。\nスマホ・SNS・夜更けの暴食、全部断罪フラグ。\n\n<em>運動・栄養・対話・睡眠</em> の四角形が完成すれば、撃退できる♪」`,
+    victory:`「朝陽が差し、あなたは清々しい朝を迎えた。\n断罪エンドの未来は、もう存在しない。`,
+  },
+  final: {
+    title:'最終章 — 断罪を回避し、新たな物語へ', stageLabel:'最終決戦',
+    enemyName:'⟪ もう一人のあなた ⟫', enemyTag:'FINAL — SHADOW SELF',
+    narration:`目の前に立つのは、<em>過去の悪役令嬢のあなた</em>。「お前にこんなこと、できるはずない」と冷笑する。`,
+    pixe:`「最後の敵は <em>過去の自分</em>！\n12週間で身体も心も変わったあなたを、過去の自分は認めたくない。\n\nでも記録が、あなたの<em>変化の証拠</em>！\nカイト・セラ・ルナと私、みんなで最後の戦いに行こう♪」`,
+    victory:`「過去のあなたが微笑み、光に溶けていった：『あなたが、新しい私ね』\nあなたは断罪を回避し、自分自身の物語を生きはじめた。\n\nぴくっ…！転生してから12週間、本当に本当によく頑張ったね。これからの<em>あなたの物語</em>を、楽しんで✨」`,
+  },
+};
+
+// ===== ユーザー状態に応じた動的ピクセコメント =====
+function buildDynamicPixeComment(){
+  if(!uid || uid==='guest') return '';
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
+  const hour = now.getHours();
+
+  // 1) 直近QOLを集計（過去3日）
+  let qolDays = 0, qolSum = 0, qolLow = 0;
+  for(let i=0;i<3;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const r = localStorage.getItem(`vt_qol_${uid}_${d}`);
+      if(r){
+        const v = JSON.parse(r);
+        const avg = ((v.condition||0)+(v.mood||0)+(v.energy||0))/3;
+        qolSum += avg; qolDays++;
+        if(avg <= 2.5) qolLow++;
+      }
+    }catch(e){}
+  }
+  // 2) 直近活動量（過去7日）
+  let activeDays = 0, exMin = 0;
+  for(let i=0;i<7;i++){
+    const d = new Date(Date.now()-i*86400000).toISOString().slice(0,10);
+    try{
+      const s = JSON.parse(localStorage.getItem(`qe_daily_count_${uid}_${d}`)||'{}');
+      if(s.exMinToday || s.vegToday || s.proToday) activeDays++;
+      exMin += (s.exMinToday||0);
+    }catch(e){}
+  }
+  // 3) ストリーク
+  let streak = 0;
+  try{ streak = parseInt(localStorage.getItem(`vt_login_streak_${uid}`)||'0',10); }catch(e){}
+  // 4) 最終ログインから何日空いたか
+  const lastLogin = localStorage.getItem(`vt_last_login_${uid}`)||'';
+  let gapDays = 0;
+  if(lastLogin){
+    gapDays = Math.floor((Date.now() - new Date(lastLogin).getTime())/86400000);
+  }
+  // 5) 直近の実績解放
+  let recentAch = false;
+  try{
+    const ach = JSON.parse(localStorage.getItem(`vq_ach_${uid}`)||'{}');
+    Object.values(ach).forEach(t=>{ if(typeof t==='number' && Date.now()-t<2*86400000) recentAch = true; });
+  }catch(e){}
+
+  // 優先度の高いトリガーから順に判定
+  // ① 帰還（3日以上ぶり）
+  if(gapDays >= 3 && gapDays <= 30){
+    return `🌙 <strong>${gapDays}日ぶりだね、お帰り…！</strong> 治療の影響で疲れてた？それともただ休んでた？どちらでも、また来てくれて嬉しいよ。`;
+  }
+  // ② QOL連続低下
+  if(qolDays >= 2 && qolLow >= 2){
+    return `🌫 体調や気分、しんどい日が続いてるみたい…。<strong>無理しなくていい</strong>。「水を1杯飲む」だけでも、今日のクエスト達成だよ。`;
+  }
+  // ③ ストリーク好調
+  if(streak >= 7){
+    return `✨ <strong>${streak}日連続記録中</strong>！習慣の灯がもう消えにくい段階に入ってるよ。すごい…！`;
+  }
+  // ④ 朝（5時〜10時）
+  if(hour >= 5 && hour <= 10){
+    return `🌅 おはよう！朝の光は<strong>体内時計を整える</strong>働きがあるんだ。今日のクエスト、何から始める？`;
+  }
+  // ⑤ 夜（21時以降）
+  if(hour >= 21){
+    return `🌙 今日もお疲れさま。<strong>寝る前のスマホは少なめに</strong>、深い睡眠が免疫修復を助けてくれるよ。`;
+  }
+  // ⑥ 週末で活動量少なめ
+  if((now.getDay()===0 || now.getDay()===6) && activeDays <= 2){
+    return `☕ 週末だね。リラックスも大事だけど、<strong>5分の散歩</strong>でも体が喜ぶよ。気分転換にどう？`;
+  }
+  // ⑦ 直近活動が活発
+  if(exMin >= 90){
+    return `⚔ <strong>1週間で${exMin}分</strong>動けてる！カイトも誇らしげだよ。回復の時間も忘れずにね。`;
+  }
+  // ⑧ 直近で実績解放
+  if(recentAch){
+    return `🏆 最近、新しい実績を解放したね！その勢いで次の章へ進もう♪`;
+  }
+  // ⑨ 戻ってきた人へ（活動少なめ・ギャップ短い）
+  if(activeDays <= 2 && gapDays >= 1){
+    return `🌱 久しぶり、というほどじゃないかな？<strong>「今日の最小ミッション」</strong>でホームに戻ると、すぐ復帰できるよ。`;
+  }
+  return ''; // デフォルト時は固定ピクセメッセージのみ
+}
+
+function applyStoryMode(ch){
+  const mode = localStorage.getItem('vt_story_mode');
+  if(mode !== 'villainess') return ch;
+  const ov = VILLAINESS_OVERRIDES[ch.id];
+  if(!ov) return ch;
+  return { ...ch, ...ov };
+}
+
+// ===== ボスのHP連動セリフ =====
+const BOSS_DIALOGUES = {
+  // 各章ID: { entry: 100%-71%, struggle: 70%-31%, breakdown: 30%-1%, defeat: 0% }
+  tutorial: {
+    entry:`霧：「動かなくていい…眠っていなさい…」`,
+    struggle:`霧：「なぜ動こうとする…？」`,
+    breakdown:`霧：「光が…刺さる……」`,
+  },
+  growth_kaito: {
+    entry:`疲労の影：「お前の身体は重い、動けまい」`,
+    struggle:`疲労の影：「これしき…まだ立っているのか」`,
+    breakdown:`疲労の影：「カイト…懐かしい名だな…」`,
+  },
+  growth_sera: {
+    entry:`枯渇の魔物：「貴様に栄養を渡すものか」`,
+    struggle:`枯渇の魔物：「魚…大豆…呪わしい食材め」`,
+    breakdown:`枯渇の魔物：「セラの結界…破れぬ…」`,
+  },
+  growth_luna: {
+    entry:`孤独の幽霊：「誰もお前を理解しない…」`,
+    struggle:`孤独の幽霊：「言葉にしても…無駄だ…」`,
+    breakdown:`孤独の幽霊：「私の…声が…薄れていく…」`,
+  },
+  sloth: {
+    entry:`スロウス：「動けば疲れるだけだ…泥に沈め…」`,
+    struggle:`スロウス：「なぜ毎日…続けられるのだ…」`,
+    breakdown:`スロウス：「ぐ…泥が、剥がれていく…」`,
+  },
+  gluttony: {
+    entry:`グラト：「もっと食べて、楽になりなさい♡」`,
+    struggle:`グラト：「魚…野菜…そんなものより甘い物よ！」`,
+    breakdown:`グラト：「美味しいものなのに…なぜ選ばないの…」`,
+  },
+  wrath: {
+    entry:`イラ：「ほら、怒れ！周りの全てが憎い！」`,
+    struggle:`イラ：「なぜ…言葉にして整理できる…」`,
+    breakdown:`イラ：「炎が…静まる…なぜだ…」`,
+  },
+  envy: {
+    entry:`インヴィ：「あの人は楽そうだな…お前は不幸だ」`,
+    struggle:`インヴィ：「比べるな…比べないで……」`,
+    breakdown:`インヴィ：「お前の物語は、お前のものか…」`,
+  },
+  greed: {
+    entry:`ガラクタ鬼：「もっと、もっと、サプリも情報も全部！」`,
+    struggle:`ガラクタ鬼：「地味な記録に何の価値が…」`,
+    breakdown:`ガラクタ鬼：「黄金が…砂に…」`,
+  },
+  pride: {
+    entry:`スペルビア：「お前は完璧であれ。失敗は許されぬ」`,
+    struggle:`スペルビア：「休むだと…？それは敗北だ…」`,
+    breakdown:`スペルビア：「鏡が…割れる……」`,
+  },
+  lust: {
+    entry:`ルクス：「夜は終わらない…眠るな、楽しめ」`,
+    struggle:`ルクス：「規則正しい生活…つまらないわ…」`,
+    breakdown:`ルクス：「朝陽が…やめてくれ…」`,
+  },
+  final: {
+    entry:`真の試練：「12週間、よくぞここまで」`,
+    struggle:`真の試練：「あなたの中の、まだ見ぬ力を解き放て」`,
+    breakdown:`真の試練：「あなたは、もう大丈夫」`,
+  },
+};
+
+// 悪役令嬢編のボスセリフ（章IDごとに上書き）
+const VILLAINESS_BOSS_DIALOGUES = {
+  tutorial: {
+    entry:`婚約者：「お前との婚約は破棄だ！」`,
+    struggle:`婚約者：「な…なぜ毅然としていられる…？」`,
+    breakdown:`婚約者：「…お前は変わったのか…？」`,
+  },
+  sloth: {
+    entry:`亡霊：「屋敷に閉じこもっていれば、傷つかないわ」`,
+    struggle:`亡霊：「なぜ庭園を歩く…？それは反逆よ…」`,
+    breakdown:`亡霊：「…貴女は、もう泥の中の令嬢ではない」`,
+  },
+  gluttony: {
+    entry:`ライバル令嬢：「ほほほ、もっと召し上がって♡」`,
+    struggle:`ライバル令嬢：「なぜ甘いケーキを断れるのよ…！」`,
+    breakdown:`ライバル令嬢：「く…貴女、痩せて美しくなって…！」`,
+  },
+  envy: {
+    entry:`影：「ヒロインの方が愛されるわ」`,
+    struggle:`影：「比べないで…って言うけど、できるの…？」`,
+    breakdown:`影：「…貴女自身の物語、見つけたのね」`,
+  },
+  pride: {
+    entry:`鏡の貴婦人：「悪役令嬢は完璧でなければ断罪よ」`,
+    struggle:`鏡の貴婦人：「休むですって…弱さの証明よ…」`,
+    breakdown:`鏡の貴婦人：「…弱さを認める強さ、私は知らなかった」`,
+  },
+  final: {
+    entry:`過去のあなた：「お前にこんなこと、できるはずない」`,
+    struggle:`過去のあなた：「私の物語を…奪うな…」`,
+    breakdown:`過去のあなた：「あなたが…新しい私ね」`,
+  },
+};
+
+function getBossDialogue(ch){
+  const mode = localStorage.getItem('vt_story_mode');
+  if(mode === 'villainess' && VILLAINESS_BOSS_DIALOGUES[ch.id]){
+    return VILLAINESS_BOSS_DIALOGUES[ch.id];
+  }
+  return BOSS_DIALOGUES[ch.id] || null;
+}
+
+function updateBossDialogue(ch, pct){
+  let el = document.getElementById('boss-dialogue');
+  if(!el){
+    // 動的に挿入
+    const battleCard = document.getElementById('battle-card');
+    if(!battleCard) return;
+    el = document.createElement('div');
+    el.id = 'boss-dialogue';
+    el.style.cssText = `
+      background:linear-gradient(135deg,rgba(40,20,40,.85),rgba(20,10,30,.95));
+      border-left:3px solid rgba(220,160,210,.55);
+      border-radius:8px;padding:10px 14px;margin:10px 0;
+      font-family:'Noto Serif JP',serif;font-size:.82rem;line-height:1.7;
+      color:rgba(240,200,220,.9);font-style:italic;
+      position:relative;z-index:2;
+    `;
+    battleCard.appendChild(el);
+  }
+  const dlg = getBossDialogue(ch);
+  if(!dlg){ el.style.display='none'; return; }
+  el.style.display = 'block';
+  let line;
+  if(pct < 30) line = dlg.entry;
+  else if(pct < 70) line = dlg.struggle;
+  else line = dlg.breakdown;
+  el.innerHTML = `💬 ${line}`;
+}
+
+// ===== 多段階ナレーション =====
+const STAGE_NARRATIONS = {
+  // 章のID毎に追加ナレーションを定義（必要なものだけ）
+  tutorial: {
+    mid:'霧の中で、あなたの足元に小さな光が灯る。<em>「動けるかも」</em>と感じはじめる。',
+    near:'霧が薄れ、向こうに4人のシルエットが見える。仲間が呼んでいる…！',
+  },
+  sloth: {
+    mid:'泥が剥がれて、あなたの足が地面を捉えた。<em>身体は応えてくれる</em>と気づく。',
+    near:'スロウスが膝をつく。あなたは、もう「動けない」自分ではない。',
+  },
+  gluttony: {
+    mid:'魚と野菜の力が、グラトの甘い泡を吹き飛ばす。あなたの舌が <em>本物の美味しさ</em> を思い出す。',
+    near:'グラトが砕けはじめる。「我慢じゃなく、選んでる」あなたが、ここにいる。',
+  },
+  wrath: {
+    mid:'ルナとの対話で、怒りに名前がつく。<em>名前のついた感情は、暴走しない</em>。',
+    near:'黒炎が小さくなる。あなたは怒りに支配されない、新しい自分を見つけた。',
+  },
+  envy: {
+    mid:'比べる相手は他人ではなく、<em>1週間前のあなた</em>。記録が確かな成長を示している。',
+    near:'影が霧散しはじめる。あなただけの物語が、形を取り戻す。',
+  },
+  pride: {
+    mid:'鏡にヒビが入る。完璧でない自分を、あなたは赦している。',
+    near:'鎧が砕け、ありのままの姿が露わになる。それが、いちばん強い。',
+  },
+  final: {
+    mid:'光の存在が微笑む。<em>「あなたは、自分の中に答えを持っていた」</em>',
+    near:'12週間の記録が、光の翼となってあなたを包む。最後の一撃を…！',
+  },
+};
+function updateStageNarration(ch, pct){
+  const stages = STAGE_NARRATIONS[ch.id];
+  if(!stages) return;
+  const narrEl = document.getElementById('chapter-narration');
+  if(!narrEl) return;
+  // 元のナレーションを保持しつつ、進行に応じて追加表示
+  const baseHtml = (ch.narration || '').replace(/\n/g,'<br>');
+  let extra = '';
+  if(pct >= 70 && stages.near){
+    extra = `<br><br><span style="color:rgba(41,182,232,.85);">${stages.near}</span>`;
+  } else if(pct >= 30 && stages.mid){
+    extra = `<br><br><span style="color:rgba(168,232,192,.85);">${stages.mid}</span>`;
+  }
+  narrEl.innerHTML = baseHtml + extra;
+}
+
+// 旧 STAGES（buildChapters用）— 互換性のため空配列に
+
+// ===== 累積データの計算 =====
+function loadCumulativeStats(){
+  let exMin=0, vegSara=0, fruitSara=0, proteinShoku=0, coachTurns=0, growGoals=0;
+  // 過去全週の運動・栄養記録
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k) continue;
+      if(k.startsWith(`vq_${uid}_`) && !k.includes('hist') && !k.includes('streak') && !k.includes('ach')){
+        try{ const d=JSON.parse(localStorage.getItem(k)||'{}'); exMin+=(d.score||0); }catch(e){}
+      }
+      if(k.startsWith(`vn_${uid}_`) && !k.includes('hist') && !k.includes('counts') && !k.includes('ach')){
+        try{
+          const d=JSON.parse(localStorage.getItem(k)||'{}');
+          if(d.counts){
+            vegSara+=(d.counts.veg||0);
+            fruitSara+=(d.counts.fruit||0);
+            proteinShoku+=(d.counts.protein||0);
+          }
+        }catch(e){}
+      }
+    }
+    // 過去履歴も含める
+    const qHist=JSON.parse(localStorage.getItem(`vq_hist_${uid}`)||'[]');
+    qHist.forEach(h=>{ exMin+=(h.score||0); });
+    const nHist=JSON.parse(localStorage.getItem(`vn_hist_${uid}`)||'[]');
+    nHist.forEach(h=>{
+      if(h.counts){
+        vegSara+=(h.counts.veg||0);
+        fruitSara+=(h.counts.fruit||0);
+        proteinShoku+=(h.counts.protein||0);
+      }
+    });
+  }catch(e){}
+  // ルナ対話の総ターン数（履歴の長さ÷2）
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k===`vc_hist_${uid}`){
+        const arr=JSON.parse(localStorage.getItem(k)||'[]');
+        coachTurns+=arr.filter(m=>m.role==='user').length;
+      }
+    }
+  }catch(e){}
+  // 体重測定回数（vb_${uid}_W*** を週ごとに数える）
+  let weightCount=0;
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith(`vb_${uid}_`)) weightCount++;
+    }
+  }catch(e){}
+  // 設定済み目標数（vc_goal_${uid}_W*** をスキャン）
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.startsWith(`vc_goal_${uid}_`)) growGoals++;
+    }
+  }catch(e){}
+  return { exMin, vegSara, fruitSara, proteinShoku, coachTurns, growGoals, weightCount };
+}
+
+// ダメージ換算
+function statsToDamage(s){
+  const wt = (s.weightCount||0) * 10;  // 体重測定 1回 = 10ダメージ
+  return {
+    ex: s.exMin * 1,
+    nu: s.vegSara*5 + s.fruitSara*4 + s.proteinShoku*3,
+    co: s.coachTurns*8 + s.growGoals*30,
+    wt,
+    total: s.exMin + s.vegSara*5 + s.fruitSara*4 + s.proteinShoku*3 + s.coachTurns*8 + s.growGoals*30 + wt
+  };
+}
+
+// ===== 進行状態の管理 =====
+function stateKey(){ return `va_state_${uid}`; }
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem(stateKey())||'null')||defaultState(); }
+  catch(e){ return defaultState(); }
+}
+function saveState(s){ try{ localStorage.setItem(stateKey(), JSON.stringify(s)); }catch(e){} }
+function defaultState(){
+  return {
+    chapterIdx:0,         // 現在の章（0始まり）
+    defeated:[],          // 倒した敵のid
+    chapterStartDmg:0     // 現在の章開始時の累計ダメージ
+  };
+}
+
+// ===== 敵表示の切り替え（動画⇔画像） =====
+let _currentEnemyId=null;
+let _attackTimer=null;
+
+function setEnemyDisplay(ch){
+  const video=document.getElementById('enemy-video');
+  const img=document.getElementById('enemy-img');
+  const stage=document.querySelector('.battle-enemy-stage');
+  // 章が変わったときだけソースを更新
+  if(_currentEnemyId!==ch.id){
+    _currentEnemyId=ch.id;
+    // 既存の絵文字雑魚要素を削除
+    const oldZako=document.getElementById('enemy-zako');
+    if(oldZako) oldZako.remove();
+    // ステージとimgのwhitebg modeをリセット
+    stage.classList.remove('whitebg-mode');
+    img.classList.remove('whitebg');
+    if(ch.kind==='zako'){
+      // 雑魚：絵文字＋カラー円
+      video.style.display='none';
+      video.removeAttribute('src');
+      video.load();
+      img.style.display='none';
+      const z=document.createElement('div');
+      z.id='enemy-zako';
+      z.className='battle-enemy-zako';
+      z.innerHTML=`<span class="zako-emoji">${ch.emoji||'👻'}</span>`;
+      z.style.setProperty('--zako-color', ch.color||'#9090c0');
+      stage.appendChild(z);
+    } else if(ch.stayVideo){
+      video.src=ch.stayVideo;
+      video.loop=true;
+      video.style.display='';
+      img.style.display='none';
+      video.play().catch(()=>{});
+    }else if(ch.img){
+      video.style.display='none';
+      video.removeAttribute('src');
+      video.load();
+      img.src=ch.img;
+      img.style.display='';
+      // 白背景JPEGなら blend-mode で馴染ませる
+      if(ch.whiteBg){
+        img.classList.add('whitebg');
+        stage.classList.add('whitebg-mode');
+      }
+    }
+  }
+}
+
+function playAttackAnimation(ch){
+  // フラッシュ演出
+  const flash=document.getElementById('attack-flash');
+  flash.classList.remove('show');
+  void flash.offsetWidth;
+  flash.classList.add('show');
+
+  if(!ch.attackVideo) return;
+  const video=document.getElementById('enemy-video');
+  const img=document.getElementById('enemy-img');
+
+  // 攻撃ビデオを再生
+  video.style.display='';
+  img.style.display='none';
+  video.classList.add('attacking');
+  video.loop=false;
+  video.src=ch.attackVideo;
+  video.play().catch(()=>{});
+
+  if(_attackTimer){clearTimeout(_attackTimer);}
+  // 5秒後または ended で stay に戻す
+  const back=()=>{
+    video.classList.remove('attacking');
+    if(ch.stayVideo){
+      video.loop=true;
+      video.src=ch.stayVideo;
+      video.play().catch(()=>{});
+    }else{
+      // stay 動画がない場合は静止画に戻す
+      video.style.display='none';
+      video.removeAttribute('src');
+      video.load();
+      img.style.display='';
+    }
+  };
+  video.onended=back;
+  _attackTimer=setTimeout(back, 5500);
+}
+
+// ===== UI レンダリング =====
+function render(){
+  const state=loadState();
+  const totalStats=loadCumulativeStats();
+  const totalDmg=statsToDamage(totalStats);
+
+  // 12章すべてバトルあり、自動進行は不要（討伐で次章へ）
+
+  const ch=applyStoryMode(CHAPTERS[state.chapterIdx]);
+  if(!ch) return; // クリア後
+
+  // 章カード
+  // テーマグループ表示
+  const themeLabels={tutorial:'入門',growth:'成長',body:'体の試練',mind:'心の試練',social:'世界の試練',final:'最終決戦'};
+  const themeTag=ch.themeGroup?` <span class="chapter-theme-tag chapter-theme-${ch.themeGroup}">${themeLabels[ch.themeGroup]||''}</span>`:'';
+  document.getElementById('chapter-num').innerHTML=`— CHAPTER ${state.chapterIdx+1} —${themeTag}`;
+  document.getElementById('chapter-title').textContent=ch.title;
+  document.getElementById('chapter-narration').innerHTML=ch.narration.replace(/\n/g,'<br>');
+  // ピクセのメッセージは「章の説明」+「ユーザー状態に応じた動的コメント」
+  const dynamicComment = buildDynamicPixeComment();
+  const pixeBase = ch.pixe.replace(/\n/g,'<br>');
+  const pixeFinal = dynamicComment ? `<div style="margin-bottom:10px;padding:8px 11px;background:rgba(41,182,232,.08);border-left:3px solid rgba(41,182,232,.6);border-radius:6px;font-size:.85em;line-height:1.7;">${dynamicComment}</div>${pixeBase}` : pixeBase;
+  document.getElementById('pixe-msg').innerHTML=pixeFinal;
+  document.getElementById('adv-progress-mini').textContent=`${state.chapterIdx+1} / ${CHAPTERS.length}章`;
+
+  // バトルカード（story章は非表示、zako/boss は表示）
+  const battleCard=document.getElementById('battle-card');
+  if(ch.kind==='story' || ch.enemy===null){
+    battleCard.style.display='none';
+  } else {
+    battleCard.style.display='';
+    setEnemyDisplay(ch);
+    document.getElementById('enemy-name').textContent=ch.enemyName;
+    document.getElementById('enemy-tag').textContent=ch.enemyTag;
+    document.getElementById('enemy-weakness').innerHTML=`弱点：<strong>${ch.weakness}</strong>`;
+
+    // 現在のダメージ計算（章開始時からの差分）+ ボスタップミニのボーナス
+    let bossMiniDmg = 0;
+    try{ bossMiniDmg = parseInt(localStorage.getItem(`va_boss_mini_dmg_${uid}_${ch.id}`)||'0',10); }catch(e){}
+    const dmgDealt=Math.max(0, totalDmg.total - state.chapterStartDmg) + bossMiniDmg;
+
+    // 攻撃検出：前回見たダメージより増えていたら攻撃アニメ発動
+    const lastSeenKey=`va_lastseen_${uid}_${ch.id}`;
+    let lastSeen=0;
+    try{ lastSeen=parseInt(localStorage.getItem(lastSeenKey)||'0',10); }catch(e){}
+    if(dmgDealt>lastSeen && lastSeen>0){
+      // 新しいダメージが入った → 攻撃演出
+      setTimeout(()=>playAttackAnimation(ch), 600);
+    }
+    try{ localStorage.setItem(lastSeenKey, String(dmgDealt)); }catch(e){}
+    const exDmg=Math.max(0, totalDmg.ex - (state.chapterStartDmg ? Math.round(state.chapterStartDmg*0.4) : 0));
+    const nuDmg=Math.max(0, totalDmg.nu - (state.chapterStartDmg ? Math.round(state.chapterStartDmg*0.4) : 0));
+    const coDmg=Math.max(0, totalDmg.co - (state.chapterStartDmg ? Math.round(state.chapterStartDmg*0.2) : 0));
+
+    const remaining=Math.max(0, ch.hp - dmgDealt);
+    const pct=Math.min(100, Math.round(dmgDealt/ch.hp*100));
+    document.getElementById('enemy-hp-fill').style.width=(100-pct)+'%';
+    document.getElementById('enemy-hp-text').textContent=`HP ${remaining} / ${ch.hp}`;
+    document.getElementById('atk-ex').textContent=exDmg;
+    document.getElementById('atk-nu').textContent=nuDmg;
+    document.getElementById('atk-co').textContent=coDmg;
+
+    // ===== 多段階ナレーション（HP%で切り替え） =====
+    updateStageNarration(ch, pct);
+    // ボスのHP連動セリフ
+    updateBossDialogue(ch, pct);
+
+    // 討伐判定
+    if(remaining<=0 && !state.defeated.includes(ch.id)){
+      state.defeated.push(ch.id);
+      saveState(state);
+      setTimeout(()=>showVictory(ch, state), 800);
+    }
+  }
+
+  // 戦歴グリッド
+  renderHistory(state);
+
+  // 全体進捗（全12戦）
+  const totalChapters=CHAPTERS.length;
+  const enemiesDefeated=state.defeated.length;
+  const progressPct=Math.round(enemiesDefeated/totalChapters*100);
+  document.getElementById('gp-pct').textContent=progressPct+'%';
+  document.getElementById('gp-fill').style.width=progressPct+'%';
+  document.getElementById('gp-defeated').textContent=`${enemiesDefeated} / ${totalChapters} 戦 制覇`;
+  document.getElementById('gp-total-dmg').textContent=`累計 ${totalDmg.total.toLocaleString()}pt 与ダメージ`;
+}
+
+function renderHistory(state){
+  const grid=document.getElementById('history-grid');
+  // 全12戦を戦歴に並べる
+  const allChapters=CHAPTERS;
+  let count=allChapters.filter(c=>state.defeated.includes(c.id)).length;
+  document.getElementById('history-count').textContent=`${count} / ${allChapters.length}`;
+
+  grid.innerHTML=allChapters.map((c,i)=>{
+    const defeated=state.defeated.includes(c.id);
+    const current=CHAPTERS[state.chapterIdx]?.id===c.id;
+    const cls=defeated?'history-cell-defeated':current?'history-cell-current':'history-cell-locked';
+    const label=defeated?((c.enemyName||'').split('・')[1]||(c.enemyName||'').split('・')[0]||'討伐'):current?'戦闘中':`Ch.${String(i+1).padStart(2,'0')}`;
+    // 画像とemoji両対応
+    const visual=c.img
+      ? `<img src="${c.img}" alt="">`
+      : `<div style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:radial-gradient(circle, ${c.color||'#9090c0'} 0%, transparent 70%);border-radius:50%;">${c.emoji||'?'}</div>`;
+    return `<div class="history-cell ${cls}">
+      ${visual}
+      <div class="history-cell-name">${label}</div>
+    </div>`;
+  }).join('');
+}
+
+function showVictory(ch, state){
+  document.getElementById('victory-title').textContent=ch.id==='final'?'完全勝利！':'VICTORY!';
+  document.getElementById('victory-defeated').textContent=`${ch.enemyName} を討伐！`;
+  document.getElementById('victory-badge').textContent=`${ch.enemyName.split('・')[0]}討伐`;
+  document.getElementById('victory-xp').textContent=`+${ch.id==='final'?500:100}`;
+  document.getElementById('victory-narration').innerHTML=ch.victory.replace(/\n/g,'<br>');
+
+  // ボーナスXPを記録
+  try{
+    const wk=weekKey();
+    const xpKey=`vc_xp_${uid}_${wk}`;
+    const cur=parseInt(localStorage.getItem(xpKey)||'0',10);
+    localStorage.setItem(xpKey, String(cur + (ch.id==='final'?500:100)));
+  }catch(e){}
+
+  // 実績バッジ
+  try{
+    const achKey=`va_ach_${uid}`;
+    const ach=JSON.parse(localStorage.getItem(achKey)||'{}');
+    ach['def_'+ch.id]=true;
+    localStorage.setItem(achKey, JSON.stringify(ach));
+  }catch(e){}
+
+  document.getElementById('victory-modal').classList.add('open');
+}
+
+// ボスタップミニゲーム起動
+document.getElementById('boss-tap-btn')?.addEventListener('click', ()=>{
+  if(!window.Gamification){ showToast('ゲーム機能の読み込みに失敗しました'); return; }
+  const state = loadState();
+  const ch = applyStoryMode(CHAPTERS[state.chapterIdx]);
+  if(!ch || ch.kind === 'tutorial'){ showToast('チュートリアル章ではミニゲームは使えません'); return; }
+  if(!window.Gamification.canPlayBossMini()){
+    showToast('今日のミニゲームはプレイ済みです。明日また！');
+    return;
+  }
+  window.Gamification.showBossMiniGame(ch);
+  // モーダル閉じた後の再描画（ボスのHPに反映）
+  setTimeout(()=>{ try{ render(); }catch(e){} }, 1500);
+});
+
+document.getElementById('victory-close').addEventListener('click',()=>{
+  document.getElementById('victory-modal').classList.remove('open');
+  // 次の章へ
+  const state=loadState();
+  if(state.chapterIdx < CHAPTERS.length-1){
+    state.chapterIdx++;
+    const totalDmg=statsToDamage(loadCumulativeStats());
+    state.chapterStartDmg=totalDmg.total;
+    saveState(state);
+    render();
+  } else {
+    // 全章クリア → 真エンディング
+    showTrueEnding();
+  }
+});
+
+// ===== 真エンディング =====
+function showTrueEnding(){
+  if(localStorage.getItem(`vt_true_ending_${uid}`)) {
+    showGraduateMode();
+    return;
+  }
+  localStorage.setItem(`vt_true_ending_${uid}`, '1');
+  const mode = localStorage.getItem('vt_story_mode') || 'vitalia';
+  const txt = mode === 'villainess'
+    ? `<p>断罪を回避し、悪役令嬢の運命を書き換えた12週間。</p>
+       <p>鏡の中のあなたは、もう <em>誰かに決められたヒロイン像</em> ではない。<br>
+       自分の食卓を選び、自分の身体を動かし、自分の言葉で語る、<strong>あなた自身</strong>。</p>
+       <p>カイト・セラ・ルナ・ピクセが微笑む。<br>
+       <em>「お嬢様…いいえ、あなたは、もう新しい物語の主人公です」</em></p>
+       <p style="color:#c26092;font-weight:900;">真エンド「自分自身の物語」を達成！</p>`
+    : `<p>七つの試練を超え、最終章を制した12週間。</p>
+       <p>光の翼の存在は、実は <em>あなた自身の中にあった可能性</em> の象徴だった。<br>
+       身体は応え、心は安らぎ、世界との関係も整った。</p>
+       <p>カイト：「お前は、俺の弟子じゃない。俺の <em>師匠</em> だ」<br>
+       セラ：「あなたの食卓には、もう魔法が宿っています」<br>
+       ルナ：「銀の月は、これからもあなたを照らします」<br>
+       ピクセ：「ぴく…！本当に、本当によく頑張ったね✨」</p>
+       <p style="color:#8a5c00;font-weight:900;">真エンド「ヴィタリアの新たな伝説」を達成！</p>`;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'true-ending-modal';
+  overlay.style.cssText = `position:fixed;inset:0;z-index:9000;background:radial-gradient(ellipse at center,rgba(40,30,80,.96),rgba(0,0,0,.99));backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 1s ease both;`;
+  overlay.innerHTML = `
+    <div style="background:linear-gradient(160deg,#1a1230,#0d0a20);border:3px solid rgba(41,182,232,.6);border-radius:24px;max-width:520px;width:100%;padding:32px 26px;text-align:center;box-shadow:0 0 80px rgba(41,182,232,.3),0 24px 64px rgba(0,0,0,.7);">
+      <div style="font-size:3rem;line-height:1;margin-bottom:12px;animation:floatStar 3s ease-in-out infinite;">✦</div>
+      <div style="font-size:.65rem;letter-spacing:.3em;color:rgba(41,182,232,.7);font-weight:900;margin-bottom:8px;">— TRUE ENDING —</div>
+      <h1 style="font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;color:#0a4870;margin-bottom:20px;line-height:1.4;">12週間の冒険、完走！</h1>
+      <div style="background:rgba(0,0,0,.35);border-left:3px solid rgba(41,182,232,.6);border-radius:10px;padding:18px 18px;text-align:left;font-size:.85rem;line-height:1.95;color:#e8e4d4;">
+        ${txt}
+      </div>
+      <p style="font-size:.78rem;color:rgba(220,225,245,.7);margin-top:18px;line-height:1.85;">
+        ここからは <strong style="color:#1f8a66;">卒業生モード</strong>。<br>
+        習慣を「維持する」フェーズです。記録は続けられますが、<br>
+        通知やリマインダーは <strong>あなたのペース</strong> に合わせて減らせます。
+      </p>
+      <button id="te-close" style="margin-top:22px;background:linear-gradient(135deg,#1e7fa4,#29b6e8);border:none;color:#fff;font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:900;padding:13px 36px;border-radius:12px;cursor:pointer;letter-spacing:.06em;width:100%;">ヴィタリアを旅し続ける ✦</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  document.getElementById('te-close').onclick = ()=>{
+    overlay.remove();
+    // 卒業生フラグ
+    localStorage.setItem(`vt_graduate_${uid}`, new Date().toISOString());
+    showGraduateMode();
+  };
+  // 大量コンフェッティ
+  try{ if(window.AppEnhance?.confetti) window.AppEnhance.confetti({count:200, duration:5000, colors:['#7fd8f4','#a8e8c0','#7fd8f4','#fff8d8']}); }catch(e){}
+}
+
+function showGraduateMode(){
+  // 章リストの代わりに「卒業生モード」表示
+  const el = document.getElementById('chapter-card');
+  if(!el) return;
+  el.innerHTML = `
+    <div style="text-align:center;padding:14px 4px;">
+      <div style="font-size:.6rem;letter-spacing:.18em;color:rgba(41,182,232,.7);font-weight:900;margin-bottom:6px;">— GRADUATE MODE —</div>
+      <h2 style="font-family:'Noto Serif JP',serif;font-size:1.25rem;color:#1e7fa4;margin-bottom:8px;">🎓 卒業生・ヴィタリア</h2>
+      <p style="font-size:.78rem;color:rgba(220,225,245,.85);line-height:1.85;">12週間の冒険を完走したあなた。<br>これからは、<strong style="color:#1f8a66;">習慣を「維持する」</strong> フェーズです。<br><br>記録は引き続きできますが、<strong>通知・リマインダーは控えめ</strong>に。<br>たまにルナと話したり、新しい仲間（次世代の転生者）を応援したりできます。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px;">
+        <a href="./game.html" style="background:rgba(41,182,232,.12);border:1px solid rgba(41,182,232,.4);color:#1e7fa4;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">🏠 ホームへ</a>
+        <a href="./party.html" style="background:rgba(168,232,192,.12);border:1px solid rgba(168,232,192,.4);color:#1f8a66;text-decoration:none;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;">👥 仲間と繋がる</a>
+      </div>
+    </div>
+  `;
+  // バトルカード非表示
+  const battle = document.getElementById('battle-card');
+  if(battle) battle.style.display='none';
+  // 卒業生は通知頻度を抑える
+  localStorage.setItem('vt_graduate_quiet', '1');
+}
+
+// 既に卒業した人は最初から卒業生モードを表示
+function checkGraduateOnLoad(){
+  if(localStorage.getItem(`vt_graduate_${uid}`)){
+    setTimeout(showGraduateMode, 200);
+  }
+}
+
+// 認証
+onAuthStateChanged(auth, user=>{
+  if(user){
+    uid=user.uid;
+    document.getElementById('auth-screen').style.display='none';
+    document.getElementById('main-app').style.display='';
+    render();
+    checkGraduateOnLoad();
+  } else {
+    // ゲストとしても遊べるようにする
+    uid='guest';
+    document.getElementById('auth-screen').style.display='none';
+    document.getElementById('main-app').style.display='';
+    render();
+  }
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
