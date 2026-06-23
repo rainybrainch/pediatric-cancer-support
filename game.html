@@ -5772,6 +5772,10 @@ document.getElementById('coach-input').addEventListener('keydown',e=>{
     e.preventDefault();
     sendCoachMessage();
   }
+  if(e.key==='Escape'){
+    e.preventDefault();
+    document.getElementById('coach-modal').classList.remove('open');
+  }
 });
 document.getElementById('coach-input').addEventListener('input',e=>{
   e.target.style.height='auto';
