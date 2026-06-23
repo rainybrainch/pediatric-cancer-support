@@ -1852,14 +1852,21 @@ body.detail-mode #compact-home{display:none !important;}
   position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(14px);
   background:linear-gradient(135deg,#1a2e4a,#0d1f38);
   color:#d4e8f8;font-weight:700;font-size:.82rem;
-  padding:10px 22px;border-radius:99px;
+  padding:10px 16px;border-radius:99px;
   border:1px solid rgba(41,182,232,.35);
   box-shadow:0 8px 28px rgba(0,0,0,.45);
   opacity:0;pointer-events:none;
   transition:opacity .25s,transform .25s;
   z-index:9999;white-space:nowrap;
+  display:flex;align-items:center;gap:8px;
 }
 #game-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#game-toast.success{background:linear-gradient(135deg,#1a3a2a,#0d2218);border-color:rgba(78,201,138,.4);}
+#game-toast.success::before{content:'✓';color:#4ec98a;font-weight:900;}
+#game-toast.warning{background:linear-gradient(135deg,#3a2a1a,#2a1a0d);border-color:rgba(240,212,72,.4);}
+#game-toast.warning::before{content:'!';color:#f0d448;font-weight:900;}
+#game-toast.error{background:linear-gradient(135deg,#3a1a2a,#2a0d18);border-color:rgba(220,100,120,.4);}
+#game-toast.error::before{content:'✕';color:#dc6478;font-weight:900;}
 
 /* ========== チュートリアル ========== */
 #tutorial-overlay{position:fixed;inset:0;background:rgba(10,42,64,.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px);}
@@ -5503,10 +5510,12 @@ function awardCoachAchievements(){
   }
 }
 
-function showGameToast(text,ms=3000){
+function showGameToast(text,ms=3000,variant='info'){
   let t=document.getElementById('game-toast');
   if(!t){t=document.createElement('div');t.id='game-toast';document.body.appendChild(t);}
-  t.textContent=text;t.classList.add('show');
+  t.textContent=text;
+  t.className='';
+  t.classList.add('show',variant);
   clearTimeout(showGameToast._tid);
   showGameToast._tid=setTimeout(()=>t.classList.remove('show'),ms);
 }
