@@ -53,13 +53,29 @@
    DESIGN TOKENS & VARIABLES
    ============================================================ */
 :root{
-  /* 色系 */
+  /* 色系 - ベースカラー */
   --bg:#0c1a2e; --bg2:#112236; --bg3:#162840;
   --gold:#c9a84c; --gold2:#f0d48a;
   --cyan:#29b6e8; --cyan2:#7fd8f4;
   --silver:#aabcd8; --text:#e5f0f8; --muted:#7a9eb8;
   --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
   --accent:#1e7fa4; --success:#42d89f; --warning:#f5d547; --error:#ef5350;
+
+  /* 色系 - 拡張トーン（明度・彩度変動） */
+  --cyan-dark: #1a7ba8;
+  --cyan-light: #a8d5f0;
+  --cyan-pale: rgba(41, 182, 232, 0.15);
+  --gold-dark: #8a6a2e;
+  --gold-light: #f5e4a8;
+  --gold-pale: rgba(240, 212, 138, 0.15);
+  --green-dark: #2d8a5a;
+  --green-light: #a8e8d0;
+  --green-pale: rgba(78, 201, 138, 0.15);
+  --red-dark: #a83a3a;
+  --red-light: #f0a8a8;
+  --red-pale: rgba(224, 92, 92, 0.15);
+  --bg-light: #1a2a42;
+  --text-dim: rgba(229, 240, 248, 0.6);
 
   /* スペーシング */
   --spacing-xs: 4px;
@@ -855,6 +871,58 @@ section {
   background-color: transparent;
 }
 
+.bg-cyan-dark {
+  background-color: var(--cyan-dark);
+}
+
+.bg-cyan-light {
+  background-color: var(--cyan-light);
+}
+
+.bg-cyan-pale {
+  background-color: var(--cyan-pale);
+}
+
+.bg-gold-dark {
+  background-color: var(--gold-dark);
+}
+
+.bg-gold-light {
+  background-color: var(--gold-light);
+}
+
+.bg-gold-pale {
+  background-color: var(--gold-pale);
+}
+
+.bg-green-dark {
+  background-color: var(--green-dark);
+}
+
+.bg-green-light {
+  background-color: var(--green-light);
+}
+
+.bg-green-pale {
+  background-color: var(--green-pale);
+}
+
+.bg-red-dark {
+  background-color: var(--red-dark);
+}
+
+.bg-red-light {
+  background-color: var(--red-light);
+}
+
+.bg-red-pale {
+  background-color: var(--red-pale);
+}
+
+.bg-light {
+  background-color: var(--bg-light);
+}
+
 /* テキスト色ユーティリティ */
 .text-primary {
   color: var(--text);
@@ -886,6 +954,42 @@ section {
 
 .text-white {
   color: #fff;
+}
+
+.text-cyan-dark {
+  color: var(--cyan-dark);
+}
+
+.text-cyan-light {
+  color: var(--cyan-light);
+}
+
+.text-gold-dark {
+  color: var(--gold-dark);
+}
+
+.text-gold-light {
+  color: var(--gold-light);
+}
+
+.text-green-dark {
+  color: var(--green-dark);
+}
+
+.text-green-light {
+  color: var(--green-light);
+}
+
+.text-red-dark {
+  color: var(--red-dark);
+}
+
+.text-red-light {
+  color: var(--red-light);
+}
+
+.text-dim {
+  color: var(--text-dim);
 }
 
 /* 不透明度ユーティリティ */
