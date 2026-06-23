@@ -46,7 +46,12 @@
   --border-radius-md: 8px;
   --border-radius-lg: 12px;
   --border-radius-full: 99px;
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 4px;
   --border-color: rgba(41, 182, 232, 0.25);
+  --border-color-light: rgba(41, 182, 232, 0.15);
+  --border-color-dark: rgba(41, 182, 232, 0.55);
 
   /* シャドウ */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -455,6 +460,93 @@ section {
     grid-template-columns: 3fr 1fr;
   }
 }
+
+/* Visibility / Display ユーティリティ */
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-xs {
+  gap: var(--spacing-xs);
+}
+
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.gap-md {
+  gap: var(--spacing-md);
+}
+
+.gap-lg {
+  gap: var(--spacing-lg);
+}
+
+/* スクリーン幅別表示制御 */
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .hidden-desktop {
+    display: none !important;
+  }
+
+  .show-desktop {
+    display: block;
+  }
+}
+
+/* Margin / Padding ユーティリティ */
+.m-0 { margin: 0; }
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+
+.p-0 { padding: 0; }
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
 
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
