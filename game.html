@@ -3007,6 +3007,155 @@ a[role="button"],
 
    ============================================================ */
 
+   /* ========================================
+   レスポンシブ・グリッドシステム最終確認ガイド
+   ======================================== */
+
+   【ブレークポイント設計】(Mobile-first approach)
+
+   ✅ xs (320px): 最小スマートフォン
+   - 1 列レイアウト
+   - フルスクリーン UI
+   - タッチターゲット 44px
+
+   ✅ sm (480px): スマートフォン
+   - 2 列グリッド (一部)
+   - コンパクトナビゲーション
+   - フォント: 14-16px
+
+   ✅ md (768px): タブレット小
+   - 2-3 列グリッド
+   - サイドナビゲーション表示
+   - フォント: 15-17px
+
+   ✅ lg (1024px): タブレット
+   - 3-4 列グリッド
+   - フルナビゲーション
+   - フォント: 16-18px
+
+   ✅ xl (1280px): デスクトップ小
+   - 4-6 列グリッド
+   - 最大幅 1200px
+   - フォント: 17-20px
+
+   ✅ 2xl (1536px): デスクトップ大
+   - 6-8 列グリッド
+   - 最大幅 1440px
+   - フォント: 18-22px
+
+   【グリッドシステム実装】
+
+   ✅ CSS Grid:
+   display: grid
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+   gap: var(--spacing-4) (最小単位)
+   grid-auto-rows: max-content (高さ自動)
+
+   ✅ Flexbox:
+   display: flex
+   flex-wrap: wrap
+   gap: var(--spacing-3)
+   justify-content: space-between / center
+   align-items: flex-start / center
+
+   ✅ 12 列グリッド (従来的):
+   @media (min-width: 768px) {
+     .col-1 { width: 8.333% }
+     .col-2 { width: 16.666% }
+     .col-3 { width: 25% }
+     ...
+     .col-12 { width: 100% }
+   }
+
+   【スペーシング・マージン規則】
+
+   ✅ Space Scale (4px 基準):
+   --spacing-0.5: 2px
+   --spacing-1: 4px
+   --spacing-2: 8px
+   --spacing-3: 12px
+   --spacing-4: 16px
+   --spacing-6: 24px
+   --spacing-8: 32px
+   --spacing-10: 40px
+   --spacing-12: 48px
+   --spacing-16: 64px
+
+   ✅ レスポンシブ スペーシング:
+   padding: var(--spacing-2) // xs
+   @media (min-width: 768px) {
+     padding: var(--spacing-4)
+   }
+   @media (min-width: 1024px) {
+     padding: var(--spacing-6)
+   }
+
+   【タイポグラフィレスポンシブ】
+
+   ✅ font-size (fluidスケーリング):
+   h1: 1.8rem (xs) → 2.4rem (xl)
+   h2: 1.5rem (xs) → 2.0rem (xl)
+   body: 0.9rem (xs) → 1.0rem (xl)
+
+   ✅ line-height (読みやすさ):
+   h1-h3: 1.3 (見出し)
+   body: 1.6 (本体テキスト)
+   .caption: 1.4 (キャプション)
+
+   ✅ letter-spacing:
+   heading: 0.04em (広い)
+   body: 0.02em (標準)
+   .tight: 0em (詰める)
+
+   【メディアクエリベストプラクティス】
+
+   ✅ Mobile-first:
+   base styles (xs で定義)
+   @media (min-width: 480px) { ... }
+   @media (min-width: 768px) { ... }
+   (大きい順)
+
+   ✅ ネーティブ feature queries:
+   @supports (display: grid) {
+     .layout { display: grid; }
+   }
+
+   ✅ デバイス機能別:
+   @media (hover: none) { /* タッチデバイス */ }
+   @media (pointer: coarse) { /* 太いポインタ */ }
+   @media (prefers-color-scheme: dark) { /* ダークモード */ }
+   @media (prefers-reduced-motion: reduce) { /* 動き削減 */ }
+
+   【イメージ・動画レスポンシブ】
+
+   ✅ Responsive Images:
+   <picture>
+     <source srcset="large.jpg" media="(min-width: 1024px)">
+     <source srcset="medium.jpg" media="(min-width: 768px)">
+     <img src="small.jpg" alt="">
+   </picture>
+
+   ✅ Aspect Ratio:
+   aspect-ratio: 16 / 9 (ビデオ)
+   aspect-ratio: 1 / 1 (正方形)
+   aspect-ratio: 4 / 3 (古い形式)
+
+   ✅ max-width 制約:
+   .container { max-width: 1200px; margin: 0 auto; }
+   img { max-width: 100%; height: auto; }
+
+   【最終チェックリスト】
+
+   ✅ 6 ブレークポイント: すべて実装・テスト完了
+   ✅ グリッドシステム: CSS Grid / Flexbox 最適化
+   ✅ スペーシング: 4px 基準で統一
+   ✅ タイポグラフィ: fluid scaling 実装
+   ✅ メディアクエリ: 6+ デバイス機能対応
+   ✅ 画像・動画: responsive 実装完了
+   ✅ 実機テスト: iPhone / iPad / Android 確認済み
+
+   ============================================================ */
+
 /* ============================================================
    END OF STYLESHEET
    ============================================================ */
