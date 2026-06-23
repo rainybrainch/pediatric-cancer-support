@@ -1188,6 +1188,205 @@ section {
   object-position: right;
 }
 
+/* アニメーションユーティリティ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s var(--ease-out);
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s var(--ease-out);
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.5s var(--ease-out);
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s var(--ease-out);
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s var(--ease-out);
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.5s var(--ease-out);
+}
+
+/* 遅延アニメーション */
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* 状態管理クラス */
+.is-loading {
+  position: relative;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.is-error {
+  border-color: var(--error);
+  background-color: rgba(239, 83, 80, 0.08);
+}
+
+.is-success {
+  border-color: var(--success);
+  background-color: rgba(66, 216, 159, 0.08);
+}
+
+.is-warning {
+  border-color: var(--warning);
+  background-color: rgba(245, 213, 71, 0.08);
+}
+
+.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.is-active {
+  font-weight: var(--font-weight-bold);
+  color: var(--accent);
+}
+
+.is-selected {
+  background-color: rgba(41, 182, 232, 0.15);
+  border-color: var(--cyan);
+}
+
+/* ローディングスピナー */
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(41, 182, 232, 0.2);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* レスポンシブブレークポイントヘルパー */
+@media (max-width: 480px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .hide-on-tablet {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-on-desktop {
+    display: none !important;
+  }
+
+  .show-on-desktop {
+    display: block !important;
+  }
+}
+
+/* 印刷用クラス */
+.no-print {
+  print-color-adjust: exact;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
+
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
 input:disabled,
