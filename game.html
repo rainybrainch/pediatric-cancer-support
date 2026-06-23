@@ -1717,13 +1717,14 @@ body.detail-mode #compact-home{display:none !important;}
 /* タイピング表示 */
 .coach-typing{display:flex;align-items:center;gap:4px;padding:4px 0;}
 .coach-typing-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:rgba(41,182,232,.55);
-  animation:typingBounce 1.2s ease-in-out infinite;
+  width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,#29b6e8,#7fd8f4);
+  animation:typingBounce 1.4s cubic-bezier(.4,0,.6,1) infinite;
+  box-shadow:0 0 8px rgba(41,182,232,.4);
 }
-.coach-typing-dot:nth-child(2){animation-delay:.15s;}
-.coach-typing-dot:nth-child(3){animation-delay:.3s;}
-@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-4px);opacity:1;}}
+.coach-typing-dot:nth-child(2){animation-delay:.2s;}
+.coach-typing-dot:nth-child(3){animation-delay:.4s;}
+@keyframes typingBounce{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(-6px);opacity:1;}}
 
 /* 入力バー */
 .coach-input-wrap{
