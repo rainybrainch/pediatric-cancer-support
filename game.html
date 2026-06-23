@@ -4335,6 +4335,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
       <!-- 🆕 3キャラ立ち絵バナー（ビジュアル + 各機能への入口・統合版） -->
       <div class="home-char-trio" id="home-char-trio">
+        <div style="display:none;">
         <a href="./quest.html" class="hc-card hc-kaito" aria-label="運動の師 カイトと修練">
           <div class="hc-portrait">
             <img src="./image/kaito-sabun%20(1).png" alt="カイト">
@@ -4355,6 +4356,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="hc-bar"><div class="hc-bar-fill hc-bar-nu" id="hc-bar-nu" style="width:0%"></div></div>
           <div class="hc-cta">🌿 食事を記録 →</div>
         </a>
+        </div>
         <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="openCoach();return false;">
           <div class="hc-portrait">
             <img src="./image/runa-sabun%20(2).png" alt="ルナ">
@@ -4373,7 +4375,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
       <div class="sh-perfect-streak" id="sh-perfect-streak"></div>
 
       <!-- 3大記録ボタン（最優先） -->
-      <div class="sh-record">
+      <div class="sh-record" style="display:none;">
         <a href="./quest.html" class="sh-rec-btn rec-ex">
           <div class="sh-rec-icon">⚔</div>
           <div class="sh-rec-body">
