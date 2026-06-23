@@ -5835,8 +5835,16 @@ async function sendCoachMessage(){
     if(typeof updateUI==='function') updateUI();
   }catch(err){
     removeTyping();
-    const errMsg=navigator.onLine?'通信エラーが発生しました。少し時間をおいてからお試しください。':'インターネットに接続していません。接続をご確認ください。';
+    let errMsg='通信エラーが発生しました。';
+    if(!navigator.onLine){
+      errMsg='インターネットに接続していません。接続をご確認ください。（オフライン時は応答が遅れる場合があります）';
+    }else if(err.message?.includes('timeout')){
+      errMsg='応答がタイムアウトしました。ネットワークが安定したら再度お試しください。';
+    }else{
+      errMsg='通信エラーが発生しました。少し時間をおいてからお試しください。';
+    }
     appendBubble('luna',errMsg);
+    console.error('Coach error:', err.message || err);
   }finally{
     _coachState.busy=false;
     const sendBtn=document.getElementById('coach-send');
@@ -9334,6 +9342,16 @@ window.addEventListener('load', ()=>{
       try { showTutorial(true); } catch(e) { console.warn('tutorial force start failed', e); }
     }, 800);
   }
+});
+
+// ネットワーク状態監視
+window.addEventListener('online', ()=>{
+  console.log('🟢 Online restored');
+  if(document.getElementById('coach-send')) document.getElementById('coach-send').style.opacity='1';
+});
+window.addEventListener('offline', ()=>{
+  console.log('🔴 Offline detected');
+  if(document.getElementById('coach-send')) document.getElementById('coach-send').style.opacity='0.6';
 });
 </script>
 <nav class="bottom-nav" id="bottom-nav">
