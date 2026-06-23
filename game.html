@@ -582,8 +582,9 @@ body::before{
   background:rgba(41,182,232,.08);border:1px solid rgba(41,182,232,.25);color:rgba(200,225,240,.8);
   font-size:1.3rem;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;
   display:flex;align-items:center;justify-content:center;font-family:inherit;
+  transition:all .2s ease;
 }
-.ch-menu-close:hover{background:rgba(41,182,232,.18);color:#7fd8f4;}
+.ch-menu-close:hover,.ch-menu-close:focus-visible{background:rgba(41,182,232,.18);color:#7fd8f4;outline:2px solid #29b6e8;outline-offset:2px;}
 
 /* メニュー内のカード入場アニメーション */
 .ch-menu-overlay[aria-hidden="false"] .ch-card{animation:cardIn .4s cubic-bezier(.22,1,.36,1) both;}
@@ -7920,11 +7921,36 @@ function closeMainMenu(){
 document.getElementById('ch-main-btn')?.addEventListener('click', openMainMenu);
 document.getElementById('ch-menu-close')?.addEventListener('click', closeMainMenu);
 document.querySelector('#ch-menu-overlay .ch-menu-backdrop')?.addEventListener('click', closeMainMenu);
-// ESCキーで閉じる
+// キーボード操作：Escape で閉じる、ArrowKeys でメニューアイテム間を移動
 document.addEventListener('keydown', (e)=>{
+  const ov = document.getElementById('ch-menu-overlay');
+  if(!ov) return;
+
   if(e.key === 'Escape'){
-    const ov = document.getElementById('ch-menu-overlay');
-    if(ov && ov.getAttribute('aria-hidden') === 'false') closeMainMenu();
+    if(ov.getAttribute('aria-hidden') === 'false'){
+      e.preventDefault();
+      closeMainMenu();
+    }
+  }
+
+  // ArrowUp/Down でメニューアイテム間を移動
+  if(ov.getAttribute('aria-hidden') === 'false' && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){
+    const items = Array.from(document.querySelectorAll('#ch-menu-overlay .ch-card, #ch-menu-overlay .ch-menu-close'));
+    if(items.length === 0) return;
+
+    const focused = document.activeElement;
+    let idx = items.indexOf(focused);
+    if(idx === -1) idx = 0;
+
+    if(e.key === 'ArrowUp' || e.key === 'ArrowLeft'){
+      e.preventDefault();
+      idx = (idx - 1 + items.length) % items.length;
+    } else if(e.key === 'ArrowDown' || e.key === 'ArrowRight'){
+      e.preventDefault();
+      idx = (idx + 1) % items.length;
+    }
+
+    items[idx]?.focus();
   }
 });
 // メニュー内ボタンタップで閉じる（外部リンクも遷移前に閉じる演出）
