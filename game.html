@@ -78,6 +78,27 @@ input[aria-invalid="true"]:focus {
   from { opacity:0; transform:translateY(-8px); }
   to { opacity:1; transform:translateY(0); }
 }
+
+/* Skip to Main Content Link（a11y） */
+.skip-link {
+  position:absolute;
+  top:-40px;
+  left:0;
+  background:#29b6e8;
+  color:#fff;
+  padding:8px 16px;
+  text-decoration:none;
+  border-radius:0 0 8px 0;
+  z-index:9999;
+  font-weight:700;
+  font-size:.9rem;
+}
+
+.skip-link:focus {
+  top:0;
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
 html{
   scroll-behavior:smooth;
   -webkit-user-select:none;
@@ -4226,6 +4247,9 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 <script defer src="./vitalia-finish.js"></script>
 </head>
 <body>
+
+<!-- Skip to Main Content Link（スクリーンリーダー・キーボード操作） -->
+<a href="#main-screen" class="skip-link">コンテンツへスキップ</a>
 
 <!-- オーロラ背景レイヤー＋エフェクト（ファンタジー演出） -->
 <div class="aurora-stage" aria-hidden="true">
