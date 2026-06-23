@@ -5884,6 +5884,35 @@ function awardCoachXp(){
   return gained;
 }
 
+// ユーザー行動分析・イベントトラッキング
+function trackEvent(eventName, eventData={}){
+  if(!uid || uid === 'guest') return; // ゲストは追跡しない
+
+  const event = {
+    name: eventName,
+    timestamp: Date.now(),
+    data: eventData,
+    session: typeof _sessionId !== 'undefined' ? _sessionId : null
+  };
+
+  try{
+    const key = `vt_event_log_${uid}`;
+    let events = [];
+    try{
+      events = JSON.parse(localStorage.getItem(key) || '[]');
+    }catch(e){}
+
+    // 最新1000件を保持
+    events.push(event);
+    if(events.length > 1000) events = events.slice(-1000);
+
+    localStorage.setItem(key, JSON.stringify(events));
+    console.log(`📊 Event tracked: ${eventName}`, eventData);
+  }catch(e){
+    console.error('Event tracking error:', e);
+  }
+}
+
 // セキュリティ・入力検証
 function escapeHtml(text){
   const div = document.createElement('div');
@@ -6139,6 +6168,8 @@ function openCoach(){
     const used=Math.round(performance.memory.usedJSHeapSize/1048576);
     if(used>50) console.warn(`Memory usage: ${used}MB`);
   }
+  // イベント追跡
+  trackEvent('coach_opened', {step: _coachState.step});
 }
 function closeCoach(){
   const modal=document.getElementById('coach-modal');
@@ -9758,6 +9789,7 @@ function shareToTwitter(){
   const url = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(location.href)}`;
   window.open(url, 'twitter', 'width=600,height=400');
   showGameToast('ツイート準備完了！', 2000, 'success');
+  trackEvent('share_twitter', {coachXp: _coachState ? Object.keys(_coachState).length : 0});
 }
 
 function shareToLine(){
@@ -9765,12 +9797,14 @@ function shareToLine(){
   const url = `https://line.me/R/msg/text/${text}`;
   window.open(url, 'line');
   showGameToast('LINE共有準備完了！', 2000, 'success');
+  trackEvent('share_line', {coachXp: _coachState ? Object.keys(_coachState).length : 0});
 }
 
 function shareToClipboard(){
   const text = generateShareText();
   navigator.clipboard.writeText(text).then(()=>{
     showGameToast('✅ コピーしました！', 2000, 'success');
+    trackEvent('share_clipboard', {coachXp: _coachState ? Object.keys(_coachState).length : 0});
   }).catch(()=>{
     showGameToast('❌ コピー失敗', 2000, 'error');
   });
