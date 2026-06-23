@@ -9496,6 +9496,50 @@ window.addEventListener('offline', ()=>{
   if(document.getElementById('coach-send')) document.getElementById('coach-send').style.opacity='0.6';
 });
 
+// スマートリマインダー管理
+const _reminderState = {
+  lastShown: null,
+  cooldownMs: 3600000, // 1時間
+};
+
+function shouldShowReminder(){
+  const now = Date.now();
+  if(_reminderState.lastShown && (now - _reminderState.lastShown) < _reminderState.cooldownMs){
+    return false; // クールダウン中
+  }
+  return true;
+}
+
+function scheduleSmartReminder(){
+  if(!uid || uid === 'guest') return;
+
+  // ユーザーのアクティブ時間を推定（朝7時～21時）
+  const hour = new Date().getHours();
+  if(hour < 7 || hour > 21) return; // 夜間は表示しない
+
+  const today = new Date().toISOString().slice(0, 10);
+  const reminderKey = `vt_reminder_shown_${uid}_${today}`;
+
+  if(localStorage.getItem(reminderKey)) return; // 今日はもう表示済み
+  if(!shouldShowReminder()) return;
+
+  // 25%, 50%, 75% 進捗時にリマインダー表示
+  const d = loadData();
+  const qPct = Math.round(d.qScore / d.qGoal * 100);
+  const nPct = Math.round(d.nScore / d.nGoal * 100);
+
+  let reminderText = '';
+  if(qPct >= 75) reminderText = '🔥 運動目標あと少し！頑張れ！';
+  else if(qPct >= 50) reminderText = '⚡ 運動目標の半分達成！このペース続けよう！';
+  else if(qPct >= 25) reminderText = '🌟 運動を始めて4分の1！調子いいね！';
+
+  if(reminderText){
+    showGameToast(reminderText, 4000, 'success');
+    _reminderState.lastShown = Date.now();
+    try{ localStorage.setItem(reminderKey, '1'); }catch(e){}
+  }
+}
+
 // Web Vitals 計測
 if('PerformanceObserver' in window){
   try{
@@ -9524,7 +9568,7 @@ if('PerformanceObserver' in window){
   }catch(e){ console.log('Web Vitals unavailable'); }
 }
 
-// Bottom nav active state management + Storage optimization
+// Bottom nav active state management + Storage optimization + Smart Reminder
 window.addEventListener('load', ()=>{
   const currentPath = location.pathname.split('/').pop() || 'game.html';
   document.querySelectorAll('.bn-tab').forEach(tab=>{
@@ -9539,6 +9583,10 @@ window.addEventListener('load', ()=>{
 
   // 初回ロード時にストレージを最適化
   try{ optimizeLocalStorage(); }catch(e){}
+
+  // スマートリマインダーを起動（30分ごとにチェック）
+  scheduleSmartReminder();
+  setInterval(scheduleSmartReminder, 1800000); // 30分間隔
 });
 
 // Navigation link animation
