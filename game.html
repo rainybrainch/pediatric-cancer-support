@@ -11698,19 +11698,7 @@ async function callCoachProxy(userText){
   }
 
   const promise = (async ()=>{
-    // ✨ Gemini API を優先的に試す
-    const geminiKey = localStorage.getItem('GEMINI_API_KEY');
-    if(geminiKey){
-      try{
-        const response = await callGeminiAPI(userText, geminiKey);
-        _coachProxyCache.set(cacheKey, {text: response, timestamp: Date.now()});
-        return response;
-      }catch(err){
-        console.warn('Gemini API error, falling back to local response:', err.message);
-      }
-    }
-
-    // フォールバック: 既存プロキシを試す
+    // ✨ Vercel バックエンド経由で Gemini API を呼び出し
     const payload={
       history:_coachState.history,
       userText,
@@ -11760,54 +11748,6 @@ async function callCoachProxy(userText){
   }finally{
     _coachProxyPending.delete(cacheKey);
   }
-}
-
-async function callGeminiAPI(userText, apiKey){
-  const systemPrompt = `あなたは Luna（ルナ）、小児がん経験者向けのAIコーチです。
-
-【役割】ユーザーの健康習慣形成を励ましと共感で支援
-
-【トーン】温かく、励ましで、専門的（1-3段落、モバイル最適化）
-
-【禁止事項】医学的診断、治療助言。必要時は医師相談を勧める
-
-【GROW モデルで対話】
-- Goal (目標): 今週の目標確認
-- Reality (現状): 現状認識・記録確認
-- Options (選択肢): 選択肢提示
-- Will (決意): 約束・決意確認
-
-【応答形式】最後に [STEP:G/R/O/W] を付ける`;
-
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      system_instruction: { parts: [{ text: systemPrompt }] },
-      contents: [
-        ..._coachState.history.map(m => ({
-          role: m.role === 'user' ? 'user' : 'model',
-          parts: [{ text: m.text }]
-        })),
-        { role: 'user', parts: [{ text: userText }] }
-      ],
-      generation_config: {
-        max_output_tokens: 300,
-        temperature: 0.7
-      }
-    })
-  });
-
-  if(!response.ok){
-    const err = await response.json();
-    throw new Error(err.error?.message || `Gemini API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if(!text) throw new Error('Empty response from Gemini');
-
-  return text;
 }
 
 function localLunaGrowReply(userText){
@@ -12284,24 +12224,9 @@ function resetCoachConversation(){
 }
 
 function checkGeminiAPIKey(){
-  const hasKey = !!localStorage.getItem('GEMINI_API_KEY');
-  if(!hasKey){
-    const key = prompt(
-      '✨ Luna AIを使用するには Gemini API キーが必要です。\n\n' +
-      '【取得手順】\n' +
-      '1. https://makersuite.google.com/app/apikey にアクセス\n' +
-      '2. 「Create API Key」をクリック\n' +
-      '3. キーをコピーしてここに貼り付けてください\n\n' +
-      'キー:',
-      ''
-    );
-    if(key && key.trim()){
-      localStorage.setItem('GEMINI_API_KEY', key.trim());
-      showGameToast('✅ Gemini API キーを設定しました！ルナがAIで応答します。');
-    }else{
-      showGameToast('⚠️ APIキーが設定されていません。ローカルAIを使用します。');
-    }
-  }
+  // ✅ Vercel バックエンドで API キーを管理
+  // ユーザー側での設定は不要
+  showGameToast('✨ Luna AI サーバーに接続しています...');
 }
 
 function openCoach(){
