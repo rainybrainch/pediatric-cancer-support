@@ -5787,8 +5787,15 @@ async function sendCoachMessage(){
 function updatePresetVisibility(){
   // 履歴が0または1件（初回ルナ挨拶のみ）のときだけプリセット表示
   const presets=document.getElementById('coach-presets');
-  if(_coachState.history.length===0){
+  const isInitial=_coachState.history.length<=1;
+  if(isInitial){
     presets.classList.add('show');
+    // GROW ステップに応じてプリセットをフィルタリング（今後の拡張用）
+    const step=_coachState.step||'G';
+    // Step G: Goal 設定用プリセット
+    // Step R: Reality 認識用プリセット
+    // Step O: Options 検討用プリセット
+    // Step W: Will 決意用プリセット
   }else{
     presets.classList.remove('show');
   }
