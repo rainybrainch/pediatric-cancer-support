@@ -5701,40 +5701,77 @@ function buildCoachContext(){
   return ctx;
 }
 
-async function callCoachProxy(userText){
-  const payload={
-    history:_coachState.history,
-    userText,
-    context: buildCoachContext()
-  };
-  const urls=[];
-  if(!/github\.io$/i.test(location.hostname)) urls.push(COACH_PROXY_URL);
-  COACH_PROXY_FALLBACK_URLS.forEach(url=>urls.push(url));
+const _coachProxyCache = new Map();
+const _coachProxyPending = new Map();
 
-  const failures=[];
-  for(const url of urls){
-    try{
-      const res=await fetch(url,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(payload)
-      });
-      if(!res.ok){
-        const err=await res.json().catch(()=>({}));
-        const msg=err.error||`HTTP ${res.status}`;
-        const detail=err.detail?` (${String(err.detail).slice(0,120)})`:'';
-        failures.push(`${url}: ${msg}${detail}`);
-        continue;
-      }
-      const data=await res.json();
-      if(data.text) return data.text;
-      failures.push(`${url}: empty response`);
-    }catch(e){
-      failures.push(`${url}: ${e.message}`);
+async function callCoachProxy(userText){
+  // キャッシュ確認（同じテキストなら返す）
+  const cacheKey = userText.slice(0, 50);
+  if(_coachProxyCache.has(cacheKey)){
+    const cached = _coachProxyCache.get(cacheKey);
+    if(Date.now() - cached.timestamp < 300000){ // 5分以内
+      console.log('📦 Cache hit for coach response');
+      return cached.text;
     }
+    _coachProxyCache.delete(cacheKey);
   }
-  console.warn('Luna proxy unavailable; using local GROW fallback', failures);
-  return localLunaGrowReply(userText);
+
+  // 同時リクエストの重複排除
+  if(_coachProxyPending.has(cacheKey)){
+    return await _coachProxyPending.get(cacheKey);
+  }
+
+  const promise = (async ()=>{
+    const payload={
+      history:_coachState.history,
+      userText,
+      context: buildCoachContext()
+    };
+    const urls=[];
+    if(!/github\.io$/i.test(location.hostname)) urls.push(COACH_PROXY_URL);
+    COACH_PROXY_FALLBACK_URLS.forEach(url=>urls.push(url));
+
+    const failures=[];
+    for(const url of urls){
+      try{
+        const controller = new AbortController();
+        const timeout = setTimeout(()=>controller.abort(), 8000); // 8秒タイムアウト
+        const res=await fetch(url,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+        if(!res.ok){
+          const err=await res.json().catch(()=>({}));
+          const msg=err.error||`HTTP ${res.status}`;
+          const detail=err.detail?` (${String(err.detail).slice(0,120)})`:'';
+          failures.push(`${url}: ${msg}${detail}`);
+          continue;
+        }
+        const data=await res.json();
+        if(data.text){
+          // キャッシュに保存
+          _coachProxyCache.set(cacheKey, {text: data.text, timestamp: Date.now()});
+          return data.text;
+        }
+        failures.push(`${url}: empty response`);
+      }catch(e){
+        failures.push(`${url}: ${e.message}`);
+      }
+    }
+    console.warn('Luna proxy unavailable; using local GROW fallback', failures);
+    return localLunaGrowReply(userText);
+  })();
+
+  _coachProxyPending.set(cacheKey, promise);
+  try{
+    const result = await promise;
+    return result;
+  }finally{
+    _coachProxyPending.delete(cacheKey);
+  }
 }
 
 function localLunaGrowReply(userText){
