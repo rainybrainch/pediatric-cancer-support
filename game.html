@@ -4318,27 +4318,29 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
       <!-- ログインモード: メール or ユーザー名 -->
       <div class="login-field" id="email-or-username-field">
-        <label id="email-or-username-label">メールアドレス または ユーザー名</label>
-        <input type="text" id="email" placeholder="your@email.com / username" autocomplete="username" inputmode="email" aria-required="true">
+        <label id="email-or-username-label" for="email">メールアドレス または ユーザー名</label>
+        <input type="text" id="email" placeholder="your@email.com / username" autocomplete="username" inputmode="email" aria-required="true" aria-describedby="email-hint">
+        <div id="email-hint" class="login-hint" style="font-size:.65rem; color:#7fa4c8; margin-top:4px;">登録時に使ったメールアドレスまたはユーザー名を入力</div>
       </div>
 
       <!-- 新規登録モード: ユーザー名（必須） -->
       <div class="login-field" id="username-field" style="display:none;">
-        <label>ユーザー名 <span class="lbl-req">必須</span></label>
-        <input type="text" id="username" placeholder="username（半角英数3〜20文字）" autocomplete="username" maxlength="20" aria-required="true">
-        <div class="login-hint">ログインに使えるニックネーム。後から変更できません。</div>
+        <label for="username">ユーザー名 <span class="lbl-req">必須</span></label>
+        <input type="text" id="username" placeholder="username（半角英数3〜20文字）" autocomplete="username" maxlength="20" aria-required="true" aria-describedby="username-hint">
+        <div id="username-hint" class="login-hint">ログインに使えるニックネーム。後から変更できません。</div>
       </div>
 
       <!-- 新規登録モード: メールアドレス（任意） -->
       <div class="login-field" id="email-optional-field" style="display:none;">
-        <label>メールアドレス <span class="lbl-opt">任意</span></label>
-        <input type="email" id="email-optional" placeholder="your@email.com（後から設定でも追加可）" autocomplete="email" inputmode="email">
-        <div class="login-hint">パスワードを忘れた時のリセットに使います。後から設定画面で追加もできます。</div>
+        <label for="email-optional">メールアドレス <span class="lbl-opt">任意</span></label>
+        <input type="email" id="email-optional" placeholder="your@email.com（後から設定でも追加可）" autocomplete="email" inputmode="email" aria-describedby="email-optional-hint">
+        <div id="email-optional-hint" class="login-hint">パスワードを忘れた時のリセットに使います。後から設定画面で追加もできます。</div>
       </div>
 
       <div class="login-field">
-        <label>パスワード</label>
-        <input type="password" id="password" placeholder="パスワード（6文字以上）" autocomplete="current-password" aria-required="true">
+        <label for="password">パスワード</label>
+        <input type="password" id="password" placeholder="パスワード（6文字以上）" autocomplete="current-password" aria-required="true" aria-describedby="password-hint">
+        <div id="password-hint" class="login-hint" style="font-size:.65rem; color:#7fa4c8; margin-top:4px;">セキュアなパスワード（6文字以上）を入力</div>
       </div>
       <div id="auth-error" class="login-err" role="alert" aria-live="assertive" aria-hidden="true"></div>
       <button class="btn-login" id="login-btn">⚔ ログインして冒険を続ける</button>
