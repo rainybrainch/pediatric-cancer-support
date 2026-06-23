@@ -5381,7 +5381,10 @@ function appendBubble(role,text){
   b.innerHTML=`<div class="coach-bubble-lbl">${role==='user'?'あなた':'ルナ'}</div>`;
   b.appendChild(txtDiv);
   body.appendChild(b);
-  body.scrollTop=body.scrollHeight;
+  // スクロール最適化：requestAnimationFrame で遅延
+  requestAnimationFrame(()=>{
+    body.scrollTop=body.scrollHeight;
+  });
   return b;
 }
 
