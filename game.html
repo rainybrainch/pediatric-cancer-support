@@ -1762,7 +1762,12 @@ body.detail-mode #compact-home{display:none !important;}
   -webkit-tap-highlight-color:transparent;
 }
 #coach-send:hover:not(:disabled){opacity:.9;transform:translateY(-1px);box-shadow:0 5px 14px rgba(41,182,232,.4);}
-#coach-send:disabled{opacity:.4;cursor:not-allowed;}
+#coach-send:disabled{opacity:.5;cursor:not-allowed;animation:coachSendBusy .8s linear infinite;}
+@keyframes coachSendBusy{
+  0%   { filter: brightness(1) hue-rotate(0deg); }
+  50%  { filter: brightness(1.2) hue-rotate(15deg); }
+  100% { filter: brightness(1) hue-rotate(0deg); }
+}
 @media(max-width:480px){
   #coach-send{width:48px;height:48px;font-size:1.2rem;}
 }
@@ -5757,7 +5762,9 @@ async function sendCoachMessage(){
   const text=input.value.trim();
   if(!text) return;
   _coachState.busy=true;
-  document.getElementById('coach-send').disabled=true;
+  const sendBtn=document.getElementById('coach-send');
+  sendBtn.disabled=true;
+  sendBtn.setAttribute('aria-busy','true');
   input.value='';
   input.style.height='auto';
 
@@ -5794,7 +5801,9 @@ async function sendCoachMessage(){
     appendBubble('luna',errMsg);
   }finally{
     _coachState.busy=false;
-    document.getElementById('coach-send').disabled=false;
+    const sendBtn=document.getElementById('coach-send');
+    sendBtn.disabled=false;
+    sendBtn.setAttribute('aria-busy','false');
   }
 }
 
