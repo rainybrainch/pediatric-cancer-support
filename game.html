@@ -4888,7 +4888,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
     </div>
 
     <!-- チャット本体 -->
-    <div class="coach-body" id="coach-body">
+    <div class="coach-body" id="coach-body" role="log" aria-live="polite" aria-label="ルナとの会話履歴">
       <!-- JSで生成 -->
     </div>
 
@@ -4912,7 +4912,8 @@ body:not(.app-active) .jump-fab{ display: none !important; }
         <span>体調・心の不調は <a href="tel:7119">#7119</a> ／ 緊急時は <a href="tel:119">119</a> ／ 心の相談 <a href="tel:0570-783-556">0570-783-556</a></span>
       </div>
       <div class="coach-input-row">
-        <textarea id="coach-input" placeholder="あなたの今週の目標は？ ルナに相談してみてください…" rows="1" aria-label="ルナへのメッセージ入力欄"></textarea>
+        <textarea id="coach-input" placeholder="あなたの今週の目標は？ ルナに相談してみてください…" rows="1" aria-label="ルナへのメッセージ入力欄" aria-describedby="coach-input-help"></textarea>
+        <div id="coach-input-help" style="display:none;">Enter で送信、Shift+Enter で改行、Escape で閉じる</div>
         <button id="coach-send" aria-label="送信">▶</button>
       </div>
       <div class="coach-disclaimer">
