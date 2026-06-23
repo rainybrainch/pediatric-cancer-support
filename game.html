@@ -1763,6 +1763,75 @@ a[role="button"],
    - graceful degradation 優先
 
    /* ========================================
+   テスティング・QA チェックリスト
+   ======================================== */
+
+   機能テスト（Functional Testing）:
+   ✓ ログイン / 認証フロー
+   ✓ フォーム送信（バリデーション含む）
+   ✓ CRUD 操作（作成・読取・更新・削除）
+   ✓ ナビゲーション（全ページ遷移）
+   ✓ フィルタ・検索機能
+   ✓ ソート・並べ替え
+   ✓ モーダル・オーバーレイ開閉
+   ✓ ポップアップ・トースト通知
+
+   ブラウザ互換性テスト（Cross-browser Testing）:
+   ✓ Chrome / Edge (最新・1世代前)
+   ✓ Firefox (最新・1世代前)
+   ✓ Safari (macOS・iOS)
+   ✓ IE11 (graceful degradation)
+   ✓ Samsung Internet (Android)
+
+   レスポンシブテスト（Responsive Testing）:
+   ✓ 480px (小型スマホ)
+   ✓ 768px (タブレット)
+   ✓ 1024px (iPad Pro)
+   ✓ 1440px (ノート PC)
+   ✓ 2560px (デスクトップ / 4K)
+   ✓ 縦横回転（Landscape/Portrait）
+
+   アクセシビリティテスト（A11y Testing）:
+   ✓ axe DevTools 自動テスト
+   ✓ WAVE 動作確認
+   ✓ スクリーンリーダー (NVDA / JAWS)
+   ✓ キーボード操作のみ (Tab, Enter, Escape)
+   ✓ 高コントラストモード
+   ✓ reduced-motion 設定
+
+   パフォーマンステスト（Performance Testing）:
+   ✓ Lighthouse Audit (LCP, INP, CLS)
+   ✓ Google PageSpeed Insights
+   ✓ WebPageTest (瀑布図分析)
+   ✓ Chrome DevTools Performance tab
+   ✓ ネットワーク遅延シミュレーション (3G)
+   ✓ CPU スロットリング (4x slowdown)
+
+   セキュリティテスト（Security Testing）:
+   ✓ OWASP Top 10 チェック
+   ✓ XSS 脆弱性テスト
+   ✓ CSRF トークン検証
+   ✓ SQL Injection テスト
+   ✓ ローカルストレージ敏感データ確認
+   ✓ Content Security Policy 検証
+
+   ユーザー体験テスト（UX Testing）:
+   ✓ タッチジェスチャー（スワイプ・ピンチ）
+   ✓ スクロール パフォーマンス
+   ✓ アニメーション スムーズネス
+   ✓ ロード時間体感
+   ✓ エラーメッセージ 明確さ
+   ✓ ヒント・チュートリアル 有効性
+
+   デバイステスト（Device Testing）:
+   ✓ iPhone (SE / 12 / Pro Max)
+   ✓ Android (Pixel / Galaxy)
+   ✓ iPad (9.7" / 12.9")
+   ✓ タッチペン / stylus
+   ✓ 外部キーボード
+   ✓ 古いデバイス (5年前)
+
+   /* ========================================
    パフォーマンス最適化推奨事項:
 
    CSS サイズ最適化:
