@@ -5715,7 +5715,8 @@ async function sendCoachMessage(){
     if(typeof updateUI==='function') updateUI();
   }catch(err){
     removeTyping();
-    appendBubble('luna',`（呼び出しに失敗しました：${err.message}）\n\n少し時間をおいて、もう一度お試しください。継続する場合は研究事務局までご連絡を。`);
+    const errMsg=navigator.onLine?'通信エラーが発生しました。少し時間をおいてからお試しください。':'インターネットに接続していません。接続をご確認ください。';
+    appendBubble('luna',errMsg);
   }finally{
     _coachState.busy=false;
     document.getElementById('coach-send').disabled=false;
