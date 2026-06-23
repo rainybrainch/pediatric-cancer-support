@@ -9411,6 +9411,35 @@ if('PerformanceObserver' in window){
     }).observe({entryTypes:['event']});
   }catch(e){ console.log('Web Vitals unavailable'); }
 }
+
+// Bottom nav active state management
+window.addEventListener('load', ()=>{
+  const currentPath = location.pathname.split('/').pop() || 'game.html';
+  document.querySelectorAll('.bn-tab').forEach(tab=>{
+    const href = tab.getAttribute('href');
+    const tabPath = href.split('/').pop();
+    if(tabPath === currentPath || (currentPath === '' && tabPath === 'game.html')){
+      tab.classList.add('active');
+    } else {
+      tab.classList.remove('active');
+    }
+  });
+});
+
+// Navigation link animation
+document.querySelectorAll('.bn-tab').forEach(link=>{
+  link.addEventListener('click', (e)=>{
+    const href = link.getAttribute('href');
+    const currentPath = location.pathname.split('/').pop() || 'game.html';
+    const targetPath = href.split('/').pop();
+
+    if(currentPath !== targetPath){
+      e.preventDefault();
+      document.body.style.opacity = '0.95';
+      setTimeout(()=>{ location.href = href; }, 120);
+    }
+  });
+});
 </script>
 <nav class="bottom-nav" id="bottom-nav">
   <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
