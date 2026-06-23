@@ -21,6 +21,11 @@
   --green:#4ec98a; --purple:#29b6e8; --red:#e05c5c; --orange:#e08a3c;
   --accent:#1e7fa4; --success:#42d89f; --warning:#f5d547; --error:#ef5350;
 }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 *{
   box-sizing:border-box;margin:0;padding:0;
   -webkit-user-select:text;
@@ -126,6 +131,19 @@ a[role="button"],
   justify-content: center;
 }
 
+/* number input のスピナーボタン最適化 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  height: 24px;
+  width: 24px;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
 input:disabled,
@@ -137,6 +155,9 @@ select:disabled {
 
 /* アニメーション削減（OS 設定） */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
   *,
   *::before,
   *::after {
