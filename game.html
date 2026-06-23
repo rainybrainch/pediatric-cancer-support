@@ -1687,7 +1687,7 @@ body.detail-mode #compact-home{display:none !important;}
 .coach-body::-webkit-scrollbar-thumb{background:rgba(41,182,232,.22);border-radius:99px;}
 .coach-bubble{
   border-radius:14px;padding:10px 13px;max-width:88%;
-  animation:fadeIn .25s ease both;
+  animation:coachBubbleIn .35s cubic-bezier(.22,1,.36,1) both;
 }
 .coach-bubble-luna{
   align-self:flex-start;
@@ -3946,6 +3946,10 @@ body.app-active .psm-badge{
 @keyframes vg-count-up{
   0%   { transform: translateY(8px); opacity: 0; }
   100% { transform: translateY(0);   opacity: 1; }
+}
+@keyframes coachBubbleIn{
+  0%   { transform: translateY(12px) scale(.95); opacity: 0; }
+  100% { transform: translateY(0) scale(1);      opacity: 1; }
 }
 
 /* ====================================================================
