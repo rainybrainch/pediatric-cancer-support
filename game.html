@@ -11,8 +11,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ヴィタリア">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   DESIGN TOKENS & VARIABLES
+   ============================================================ */
 :root{
   /* 色系 */
   --bg:#0c1a2e; --bg2:#112236; --bg3:#162840;
@@ -1386,6 +1391,42 @@ section {
     display: block !important;
   }
 }
+
+/* ============================================================
+   パフォーマンス計測・デバッグユーティリティ
+   ============================================================ */
+
+/* Core Web Vitals 計測用マーカー */
+.lcp-marker {
+  /* Largest Contentful Paint - メインコンテンツ開始地点 */
+  content-visibility: auto;
+}
+
+.inp-marker {
+  /* Interaction to Next Paint - インタラクティブ要素 */
+  contain: layout style;
+}
+
+.cls-marker {
+  /* Cumulative Layout Shift 監視 */
+  contain: layout;
+}
+
+/* デバッグ用アウトライン */
+.debug-outline {
+  outline: 1px dashed rgba(255, 0, 0, 0.5);
+}
+
+/* パフォーマンス最適化コメント
+   - CSS は ~9000 行の単一ファイル
+   - 本番環境では CSS ミニファイ推奨
+   - critical CSS の抽出を検討
+   - 未使用 CSS の削除を検討
+*/
+
+/* ============================================================
+   END OF STYLESHEET
+   ============================================================ */
 
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
