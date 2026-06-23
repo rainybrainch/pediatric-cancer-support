@@ -1728,6 +1728,8 @@ body.detail-mode #compact-home{display:none !important;}
 .coach-bubble-txt{
   font-size:.82rem;line-height:1.8;
   color:#0a2a40;white-space:pre-wrap;word-wrap:break-word;
+  will-change:opacity;
+  contain:layout style paint;
 }
 .coach-bubble-luna .coach-bubble-txt{color:#0a2a40;}
 .coach-bubble-user .coach-bubble-txt{color:#fff;}
@@ -1740,6 +1742,8 @@ body.detail-mode #compact-home{display:none !important;}
   background:linear-gradient(135deg,#29b6e8,#7fd8f4);
   animation:typingBounce 1.4s cubic-bezier(.4,0,.6,1) infinite;
   box-shadow:0 0 8px rgba(41,182,232,.4);
+  will-change:transform;
+  contain:layout style;
 }
 .coach-typing-dot:nth-child(2){animation-delay:.2s;}
 .coach-typing-dot:nth-child(3){animation-delay:.4s;}
@@ -9549,6 +9553,12 @@ window.addEventListener('online', ()=>{
 window.addEventListener('offline', ()=>{
   console.log('🔴 Offline detected');
   if(document.getElementById('coach-send')) document.getElementById('coach-send').style.opacity='0.6';
+});
+
+// パフォーマンス最適化・タイマークリーンアップ
+window.addEventListener('beforeunload', ()=>{
+  console.log('🧹 Cleanup on page exit');
+  if(typeof cleanupPerformance==='function') cleanupPerformance();
 });
 
 // スマートリマインダー管理
