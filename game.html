@@ -1427,6 +1427,78 @@ section {
 }
 
 /* ============================================================
+   クロスブラウザ互換性・ベンダープレフィックス
+   ============================================================ */
+
+/* Backdrop filter compatibility */
+.backdrop-blur,
+.ch-menu-backdrop {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* Appearance standardization */
+button,
+input,
+textarea,
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Tap highlight (mobile Safari) */
+input,
+textarea,
+select,
+button {
+  -webkit-tap-highlight-color: rgba(41, 182, 232, 0.2);
+  tap-highlight-color: rgba(41, 182, 232, 0.2);
+}
+
+/* User select standardization */
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Text fill color (Safari) */
+.gold-text {
+  -webkit-text-fill-color: currentColor;
+}
+
+/* Smoothing & antialiasing */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Touch action optimization */
+button,
+a[role="button"],
+[tabindex] {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+/* Flexbox alignment polyfill */
+.flex,
+.flex-col,
+.flex-row {
+  -ms-flex-align: center;
+  -ms-flex-pack: justify;
+}
+
+/* Grid support */
+@supports (display: grid) {
+  .grid {
+    display: grid;
+  }
+}
+
+/* ============================================================
    パフォーマンス計測・デバッグユーティリティ
    ============================================================ */
 
@@ -1602,15 +1674,27 @@ select:disabled {
   }
 }
 
+/* ダークモード（デフォルト - このアプリはダーク優先） */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
 /* ライトモード対応（OS 設定に基づく自動適用） */
 @media (prefers-color-scheme: light) {
   :root {
+    color-scheme: light;
     --bg-primary: #f5f7fa;
     --text-primary: #0c1a2e;
   }
   body {
     background-color: var(--bg-primary, #f5f7fa);
     color: var(--text-primary, #0c1a2e);
+  }
+  /* ライトモード時のコントラスト調整 */
+  a {
+    color: #0066cc;
   }
 }
 html{
