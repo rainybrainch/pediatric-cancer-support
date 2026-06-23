@@ -5914,6 +5914,34 @@ function awardCoachXp(){
   return gained;
 }
 
+// デバッグ・開発者ツール
+let _debugMode = localStorage.getItem('vt_debug') === '1';
+const _perfMetrics = {};
+
+function toggleDebugMode(){
+  _debugMode = !_debugMode;
+  try{ localStorage.setItem('vt_debug', _debugMode ? '1' : '0'); }catch(e){}
+  console.log(`🐛 Debug mode: ${_debugMode ? 'ON' : 'OFF'}`);
+  return _debugMode;
+}
+
+function markPerf(label){
+  _perfMetrics[label] = performance.now();
+}
+
+function measurePerf(label, startLabel){
+  if(!_perfMetrics[startLabel]) return null;
+  const duration = performance.now() - _perfMetrics[startLabel];
+  if(_debugMode){
+    console.log(`⏱️ ${label}: ${duration.toFixed(2)}ms`);
+  }
+  return duration;
+}
+
+function logDebug(...args){
+  if(_debugMode) console.log('🔍', ...args);
+}
+
 // 多言語対応（i18n）
 let _currentLocale = localStorage.getItem('vt_locale') || 'ja';
 
@@ -9828,6 +9856,15 @@ window.addEventListener('load', ()=>{
       showGameToast(`🎉 今月のイベント開始！${getSeasonLabel()}`, 5000, 'success');
     }, 1000);
   }
+
+  // 開発者向けデバッグショートカット（Ctrl+Shift+D）
+  document.addEventListener('keydown', (e)=>{
+    if(e.ctrlKey && e.shiftKey && e.key === 'D'){
+      e.preventDefault();
+      const newMode = toggleDebugMode();
+      showGameToast(`🐛 Debug ${newMode ? 'ON' : 'OFF'}`, 2000, newMode ? 'success' : 'info');
+    }
+  });
 });
 
 // Navigation link animation
