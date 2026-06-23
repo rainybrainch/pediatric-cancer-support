@@ -113,6 +113,15 @@ input[aria-invalid="true"]:focus {
   border-width:0;
 }
 
+/* 汎用 disabled 状態（すべてのボタン） */
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* ライトモード対応（OS 設定に基づく自動適用） */
 @media (prefers-color-scheme: light) {
   :root {
@@ -350,12 +359,14 @@ body::before{
   box-shadow:0 4px 16px rgba(41,182,232,.35);
 }
 #login-screen .btn-login:hover{opacity:.9;transform:translateY(-1px);}
+#login-screen .btn-login:disabled {opacity:.5;cursor:not-allowed;pointer-events:none;}
 .btn-register{
   width:100%;background:none;border:1px solid rgba(41,182,232,.28);border-radius:10px;
   color:rgba(127,216,244,.75);font-family:inherit;font-size:.85rem;font-weight:700;
   padding:10px;cursor:pointer;margin-top:6px;transition:border-color .2s;
 }
 #login-screen .btn-register:hover{border-color:rgba(41,182,232,.55);}
+#login-screen .btn-register:disabled {opacity:.5;cursor:not-allowed;pointer-events:none;border-color:rgba(41,182,232,.1);}
 .login-err{font-size:.76rem;color:#f08080;margin-top:10px;display:none;line-height:1.6;}
 .login-guest{
   text-align:center;margin-top:14px;
