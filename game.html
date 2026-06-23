@@ -323,6 +323,33 @@ ins {
   color: #4ec98a;
 }
 
+/* スクロール snap コンテナ */
+.coach-body,
+.ch-grid,
+main {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+/* スクロール snap アイテム */
+.coach-bubble,
+.ch-card,
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: auto;
+}
+
+/* 水平スクロール snap（モーダル内など） */
+.horizontal-scroll {
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 16px;
+}
+
+.horizontal-scroll > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
 input:disabled,
@@ -343,6 +370,26 @@ select:disabled {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* タッチデバイス最適化 */
+@media (hover: none) and (pointer: coarse) {
+  /* タッチデバイスではホバー効果を簡略化 */
+  button:hover,
+  a:hover {
+    opacity: 0.8;
+  }
+
+  /* タッチ用フォーカス */
+  button:focus,
+  a:focus {
+    transform: scale(0.98);
+  }
+
+  /* スクロール性能向上 */
+  * {
+    -webkit-tap-highlight-color: rgba(41, 182, 232, 0.2);
   }
 }
 
@@ -482,6 +529,8 @@ body{
   -webkit-text-size-adjust:100%;
   -ms-text-size-adjust:100%;
   line-height:1.6;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* 星空＋水色オーロラ */
