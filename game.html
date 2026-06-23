@@ -5746,12 +5746,15 @@ function resetCoachConversation(){
 }
 
 function openCoach(){
-  document.getElementById('coach-modal').classList.add('open');
+  const modal=document.getElementById('coach-modal');
+  modal.classList.add('open');
   loadCoachHistory();
-  renderAllHistory();
-  renderCoachStep();
-  updatePresetVisibility();
-  setTimeout(()=>document.getElementById('coach-input').focus(),250);
+  requestAnimationFrame(()=>{
+    renderAllHistory();
+    renderCoachStep();
+    updatePresetVisibility();
+    setTimeout(()=>document.getElementById('coach-input').focus(),150);
+  });
 }
 window.VitaliaLunaOpen = openCoach;
 window.openCoach = openCoach;
