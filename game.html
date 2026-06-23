@@ -24,6 +24,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+  /* Responsive base font size */
+  font-size: clamp(14px, 2vw, 18px);
 }
 
 *{
@@ -226,6 +228,26 @@ img {
   object-fit: cover;
 }
 
+/* リスト要素スタイル（アクセシビリティ向上） */
+ol,
+ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+ol li {
+  list-style-type: decimal;
+}
+
+ul li {
+  list-style-type: disc;
+}
+
 /* 汎用 disabled 状態（すべてのボタン） */
 button:disabled,
 input:disabled,
@@ -246,6 +268,27 @@ select:disabled {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* モバイル向け最適化（画面幅 360px 以下） */
+@media (max-width: 360px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* タブレット向け最適化（画面幅 768px 以上） */
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* デスクトップ向け最適化（画面幅 1024px 以上） */
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
   }
 }
 
