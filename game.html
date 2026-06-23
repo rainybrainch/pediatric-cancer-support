@@ -749,8 +749,9 @@ body.detail-mode #compact-home{display:none !important;}
 
 /* ========== メインコンテンツ ========== */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(8,11,20,.97);border-top:1px solid rgba(41,182,232,.15);display:flex;align-items:stretch;z-index:90;backdrop-filter:blur(12px);}
-.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;}
+.bn-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:rgba(170,188,216,.35);gap:3px;transition:color .2s;border-radius:4px 4px 0 0;}
 .bn-tab:hover,.bn-tab.active{color:#1e7fa4;}
+.bn-tab:focus-visible{outline:2px solid #29b6e8;outline-offset:-2px;}
 .bn-tab.active .bn-icon{filter:drop-shadow(0 0 6px rgba(41,182,232,.6));}
 .bn-icon{font-size:1.15rem;line-height:1;}
 .bn-label{font-size:.52rem;font-weight:700;letter-spacing:.04em;}
@@ -10047,13 +10048,13 @@ function shareToClipboard(){
   });
 }
 </script>
-<nav class="bottom-nav" id="bottom-nav">
-  <a href="./game.html"      class="bn-tab active"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
-  <a href="./quest.html"     class="bn-tab"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
-  <a href="./nutrition.html" class="bn-tab"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
-  <a href="./adventure.html" class="bn-tab"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
-  <a href="./party.html"     class="bn-tab"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
-  <a href="./account.html"   class="bn-tab"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
+<nav class="bottom-nav" id="bottom-nav" role="navigation" aria-label="メインナビゲーション">
+  <a href="./game.html"      class="bn-tab active" role="tab" aria-current="page" aria-label="ホーム画面"><span class="bn-icon">🏠</span><span class="bn-label">ホーム</span></a>
+  <a href="./quest.html"     class="bn-tab" role="tab" aria-label="運動クエスト記録"><span class="bn-icon">⚔</span><span class="bn-label">運動</span></a>
+  <a href="./nutrition.html" class="bn-tab" role="tab" aria-label="栄養・食事記録"><span class="bn-icon">🌿</span><span class="bn-label">栄養</span></a>
+  <a href="./adventure.html" class="bn-tab" role="tab" aria-label="冒険・ストーリー"><span class="bn-icon">🗺</span><span class="bn-label">冒険</span></a>
+  <a href="./party.html"     class="bn-tab" role="tab" aria-label="パーティーメンバー"><span class="bn-icon">👥</span><span class="bn-label">仲間</span></a>
+  <a href="./account.html"   class="bn-tab" role="tab" aria-label="アカウント設定"><span class="bn-icon">👤</span><span class="bn-label">マイ</span></a>
 </nav>
 
 <!-- QOL（今日の調子）トラッカーモーダル -->
