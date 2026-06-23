@@ -3970,6 +3970,205 @@ a[role="button"],
 
    ============================================================ */
 
+   /* ========================================
+   最終品質チェック・エラーハンドリング・堅牢性
+   ======================================== */
+
+   【エラーハンドリング実装ガイド】
+
+   ✅ JavaScript Error Handling:
+   try {
+     // リスク処理
+   } catch (error) {
+     console.error('Error occurred:', error);
+     showUserMessage('申し訳ございません。エラーが発生しました。');
+     logToAnalytics('error', error.message, error.stack);
+   } finally {
+     // クリーンアップ処理
+   }
+
+   ✅ Network Error Handling:
+   - fetch() リクエスト失敗
+     → リトライ (exponential backoff)
+     → ユーザー通知: "接続できません。お手数ですが再度お試しください。"
+     → オフライン状態検出・ローカルデータ使用
+
+   - タイムアウト処理
+     → デフォルト: 10秒
+     → 重要API: 5秒
+     → バックアップ: 30秒
+     → ユーザー通知: "読み込みに時間がかかっています..."
+
+   ✅ Data Validation:
+   - Client-side (即座フィードバック)
+     ✓ 必須フィールド確認
+     ✓ 型チェック (string / number / date)
+     ✓ 形式チェック (email / phone)
+     ✓ 長さチェック (min / max)
+     ✓ 範囲チェック (0-100)
+
+   - Server-side (セキュリティ・整合性)
+     ✓ 再度バリデーション (never trust client)
+     ✓ SQL injection 防止 (parameterized queries)
+     ✓ XSS 防止 (input sanitization)
+
+   ✅ State Management Error:
+   - localStorage 読み書き失敗
+     → try/catch で例外処理
+     → fallback: memory state
+     → ユーザー通知は不要 (自動復旧)
+
+   - データ整合性チェック
+     → checksum / hash で検証
+     → 破損検出時: データリセット提案
+     → バックアップから復元
+
+   【堅牢性テストチェックリスト】
+
+   ✅ Edge Cases:
+   - [ ] ネットワーク遮断状態での操作
+   - [ ] ブラウザタブ最小化・復帰時
+   - [ ] メモリ不足状態 (低端デバイス)
+   - [ ] 画面向き変更時 (portrait ↔ landscape)
+   - [ ] キャッシュクリア・Cookie削除時
+   - [ ] 複数タブ同時アクセス
+   - [ ] ブラウザ拡張機能競合確認
+
+   ✅ Boundary Conditions:
+   - [ ] 最初のロード (cold start)
+   - [ ] 大量データ表示 (1000+ 行)
+   - [ ] 長時間使用 (8+ 時間)
+   - [ ] 複数ファイルアップロード (100MB+)
+   - [ ] 高速インタラクション (連続クリック)
+
+   ✅ Browser Compatibility:
+   - [ ] Chrome (最新 / -1)
+   - [ ] Firefox (最新 / -1)
+   - [ ] Safari (最新 / -1)
+   - [ ] Edge Chromium (最新 / -1)
+   - [ ] IE11 (graceful degrade)
+   - [ ] Mobile Browsers (Safari / Chrome)
+
+   ✅ Device Compatibility:
+   - [ ] iPhone 12 / 13 / 14 / 15
+   - [ ] Samsung Galaxy S / A series
+   - [ ] iPad (全サイズ)
+   - [ ] Android タブレット (7-12 inch)
+   - [ ] Retina / 高DPI ディスプレイ
+
+   ✅ Performance Under Load:
+   - [ ] 1000 concurrent users (stress test)
+   - [ ] メモリリーク検出 (DevTools)
+   - [ ] フレームドロップ確認 (60fps 維持)
+   - [ ] バッテリー消費テスト
+   - [ ] データ同期遅延テスト
+
+   【ロギング・監視設定】
+
+   ✅ Client-side Logging:
+   // Error レベル
+   console.error('Critical: Payment failed', {
+     userId, orderId, errorCode, timestamp
+   });
+
+   // Warning レベル
+   console.warn('High memory usage detected', {
+     usedMemory, threshold, timestamp
+   });
+
+   // Info レベル (本番: disabled)
+   console.info('User action: quest completed', {
+     userId, questId, reward, timestamp
+   });
+
+   ✅ Remote Logging (Sentry / Rollbar):
+   - エラー自動キャプチャ
+   - スタックトレース送信
+   - ユーザーコンテキスト記録
+   - セッション再生 (optional)
+   - ソースマップ対応
+
+   ✅ Performance Monitoring (New Relic / Datadog):
+   - Core Web Vitals トラッキング
+   - カスタムメトリクス (habit creation duration)
+   - ユーザーフロー分析
+   - エラーレート監視
+   - アラート設定 (threshold超過時)
+
+   【本番デプロイ前最終チェック】
+
+   🔍 コード品質:
+   - [ ] ESLint: 0 errors / warnings
+   - [ ] CSS Validator: 0 errors
+   - [ ] HTML Validator: 0 errors
+   - [ ] TypeScript (実装時): 0 errors
+   - [ ] Dead Code: 削除完了
+   - [ ] console.log: 削除完了
+   - [ ] TODO / FIXME コメント: 解決完了
+
+   🔍 セキュリティ:
+   - [ ] HTTPS: 強制リダイレクト確認
+   - [ ] CSP: 設定完全・テスト完了
+   - [ ] CORS: 必要最小限設定
+   - [ ] SQL Injection: parameterized queries
+   - [ ] XSS: input sanitization
+   - [ ] CSRF: CSRF token / SameSite cookie
+   - [ ] Secrets: API キー環境変数化
+
+   🔍 データ・プライバシー:
+   - [ ] PII (個人識別情報): 暗号化確認
+   - [ ] データ保持ポリシー: 実装確認
+   - [ ] ユーザー削除: 完全削除機能
+   - [ ] GDPR: コンプライアンス確認
+   - [ ] ログレベル: DEBUG → WARN に変更
+
+   🔍 パフォーマンス・アクセシビリティ:
+   - [ ] Lighthouse: Performance 85+ / Accessibility 95+
+   - [ ] Web Vitals: LCP < 2.5s / INP < 200ms / CLS < 0.1
+   - [ ] キーボードナビゲーション: 全ページ完走
+   - [ ] スクリーンリーダー: NVDA テスト完了
+   - [ ] モバイル: 実機テスト (iPhone / Android)
+
+   🔍 運用・ドキュメント:
+   - [ ] README.md: 最新・完全
+   - [ ] Runbook: トラブルシューティング記載
+   - [ ] ロールバック計画: 文書化
+   - [ ] 監視ダッシュボード: セットアップ完了
+   - [ ] アラート設定: 通知先確認
+
+   【デプロイ当日チェックリスト】
+
+   ✅ 1時間前:
+   - [ ] 本番環境へのアクセス確認
+   - [ ] バックアップ実施
+   - [ ] ロールバック計画レビュー
+
+   ✅ デプロイ実行中:
+   - [ ] デプロイログ監視
+   - [ ] ステータスダッシュボード確認
+   - [ ] エラー監視 (Sentry)
+
+   ✅ デプロイ直後 (Smoke Test):
+   - [ ] ホームページ表示確認
+   - [ ] ログイン機能確認
+   - [ ] クエスト作成・完了確認
+   - [ ] データベース接続確認
+   - [ ] API レスポンス確認
+
+   ✅ デプロイ後1時間:
+   - [ ] Core Web Vitals 確認
+   - [ ] エラーレート監視
+   - [ ] ユーザーアクティビティ確認
+   - [ ] 報告窓口開設
+
+   ✅ デプロイ後24時間:
+   - [ ] KPI 達成確認
+   - [ ] ユーザーフィードバック確認
+   - [ ] 問題報告0件 → 正常稼働
+   - [ ] 報告窓口: email / Discord
+
+   ============================================================ */
+
 /* ============================================================
    END OF STYLESHEET
    ============================================================ */
