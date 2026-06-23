@@ -5416,6 +5416,36 @@ function clearOldCoachCache(){
   }catch(e){ console.error('Cache clear error:',e); }
 }
 
+function optimizeLocalStorage(){
+  try{
+    const keys=Object.keys(localStorage);
+    const now=Date.now();
+    const sevenDaysAgo=now-7*86400000;
+    let cleaned=0;
+
+    keys.forEach(k=>{
+      // 古いQOLデータを削除（1週間以上前）
+      if(k.startsWith('vt_qol_') && k.length>10){
+        try{
+          const dateStr=k.split('_').pop();
+          const date=new Date(dateStr).getTime();
+          if(date<sevenDaysAgo){ localStorage.removeItem(k); cleaned++; }
+        }catch(e){}
+      }
+      // 古いクエスト履歴削除
+      if((k.startsWith('vq_hist_')||k.startsWith('vn_hist_'))&&localStorage.getItem(k)?.length>20000){
+        try{
+          let hist=JSON.parse(localStorage.getItem(k)||'[]');
+          if(hist.length>100) hist=hist.slice(-100);
+          localStorage.setItem(k, JSON.stringify(hist));
+          cleaned++;
+        }catch(e){}
+      }
+    });
+    if(cleaned>0) console.log(`📦 Optimized: ${cleaned} items cleaned`);
+  }catch(e){ console.error('Storage optimization error:',e); }
+}
+
 function renderCoachStep(){
   document.querySelectorAll('.coach-grow-step').forEach(el=>{
     el.classList.toggle('active', el.dataset.step===_coachState.step);
@@ -9412,7 +9442,7 @@ if('PerformanceObserver' in window){
   }catch(e){ console.log('Web Vitals unavailable'); }
 }
 
-// Bottom nav active state management
+// Bottom nav active state management + Storage optimization
 window.addEventListener('load', ()=>{
   const currentPath = location.pathname.split('/').pop() || 'game.html';
   document.querySelectorAll('.bn-tab').forEach(tab=>{
@@ -9424,6 +9454,9 @@ window.addEventListener('load', ()=>{
       tab.classList.remove('active');
     }
   });
+
+  // 初回ロード時にストレージを最適化
+  try{ optimizeLocalStorage(); }catch(e){}
 });
 
 // Navigation link animation
