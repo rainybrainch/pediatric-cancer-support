@@ -45,6 +45,39 @@ button:focus-visible, a:focus-visible {
 .muted-text, [class*="muted"] {
   color:#8aaccc !important; /* 0.55 → 0.7+ */
 }
+
+/* フォーム入力エラー状態 */
+input[aria-invalid="true"] {
+  border-color:#ef5350 !important;
+  background:rgba(239,83,80,.08) !important;
+}
+
+input[aria-invalid="true"]:focus {
+  border-color:#dc6478 !important;
+  box-shadow:0 0 8px rgba(239,83,80,.2) !important;
+}
+
+.login-err {
+  display:none;
+  padding:12px 14px;
+  margin-bottom:12px;
+  background:rgba(239,83,80,.1);
+  border:1px solid rgba(239,83,80,.3);
+  border-radius:8px;
+  color:#dc6478;
+  font-size:.78rem;
+  line-height:1.5;
+}
+
+.login-err.show {
+  display:block;
+  animation:slideIn .3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(-8px); }
+  to { opacity:1; transform:translateY(0); }
+}
 html{
   scroll-behavior:smooth;
   -webkit-user-select:none;
@@ -6358,8 +6391,27 @@ function authErr(code){
   const m={'auth/user-not-found':'このメールは登録されていません。','auth/wrong-password':'パスワードが正しくありません。','auth/invalid-credential':'メールまたはパスワードが正しくありません。','auth/invalid-email':'メールの形式が正しくありません。','auth/too-many-requests':'試行回数が多すぎます。','auth/email-already-in-use':'このメールはすでに登録されています。','auth/weak-password':'パスワードは6文字以上で。'};
   return m[code]||'エラーが発生しました。';
 }
-function showErr(msg){ const e=document.getElementById('auth-error'); e.textContent=msg; e.style.display='block'; e.setAttribute('aria-hidden','false'); }
-function clearErr(){ const e=document.getElementById('auth-error'); e.style.display='none'; e.setAttribute('aria-hidden','true'); }
+function showErr(msg){
+  const e=document.getElementById('auth-error');
+  e.textContent=msg;
+  e.classList.add('show');
+  e.setAttribute('aria-hidden','false');
+  // すべての入力フィールドをエラー状態に
+  document.getElementById('email').setAttribute('aria-invalid','true');
+  document.getElementById('password').setAttribute('aria-invalid','true');
+  document.getElementById('username').setAttribute('aria-invalid','true');
+  document.getElementById('email-optional').setAttribute('aria-invalid','true');
+}
+function clearErr(){
+  const e=document.getElementById('auth-error');
+  e.classList.remove('show');
+  e.setAttribute('aria-hidden','true');
+  // すべての入力フィールドをクリア
+  document.getElementById('email').setAttribute('aria-invalid','false');
+  document.getElementById('password').setAttribute('aria-invalid','false');
+  document.getElementById('username').setAttribute('aria-invalid','false');
+  document.getElementById('email-optional').setAttribute('aria-invalid','false');
+}
 
 // メール or ユーザー名 → 認証用メール解決
 async function resolveLoginEmail(identifier){
