@@ -137,6 +137,48 @@ a:active {
   color: #29b6e8;
 }
 
+/* フォーム label 標準化 */
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #7fa4c8;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+
+/* Placeholder テキスト（コントラスト比向上） */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #5fa0c0;
+  opacity: 0.8;
+}
+
+/* 汎用フォーム入力要素スタイル */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #29b6e8;
+  box-shadow: 0 0 8px rgba(41, 182, 232, 0.2);
+}
+
 /* タッチターゲット最適化（WCAG 2.5.5 — min 44×44px） */
 button,
 a[role="button"],
