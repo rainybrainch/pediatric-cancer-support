@@ -5836,6 +5836,46 @@ function awardCoachXp(){
   return gained;
 }
 
+// シーズン・イベント管理
+function getCurrentSeason(){
+  const month = new Date().getMonth() + 1;
+  if(month >= 3 && month <= 5) return 'spring';    // 春
+  if(month >= 6 && month <= 8) return 'summer';    // 夏
+  if(month >= 9 && month <= 11) return 'autumn';   // 秋
+  return 'winter';                                  // 冬
+}
+
+function getSeasonLabel(){
+  const season = getCurrentSeason();
+  const labels = {
+    spring: '🌸 春のチャレンジ',
+    summer: '☀️ 夏の健康チャレンジ',
+    autumn: '🍁 秋の継続キャンペーン',
+    winter: '❄️ 冬の体力強化'
+  };
+  return labels[season] || 'チャレンジ';
+}
+
+function getMonthBonusMultiplier(){
+  const month = new Date().getMonth() + 1;
+  // 特定月にボーナス倍率
+  const bonuses = {
+    1: 1.1,  // 1月：新年チャレンジ +10%
+    4: 1.15, // 4月：新生活応援 +15%
+    10: 1.05 // 10月：体育の日 +5%
+  };
+  return bonuses[month] || 1.0;
+}
+
+function isSeasonalEventActive(){
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const date = now.getDate();
+
+  // 例：毎月1日は「新月チャレンジ」
+  return date === 1;
+}
+
 function showRewardPop(amount){
   const pop=document.createElement('div');
   pop.style.cssText=`
@@ -9602,6 +9642,13 @@ window.addEventListener('load', ()=>{
   // スマートリマインダーを起動（30分ごとにチェック）
   scheduleSmartReminder();
   setInterval(scheduleSmartReminder, 1800000); // 30分間隔
+
+  // シーズナルイベント確認
+  if(isSeasonalEventActive()){
+    setTimeout(()=>{
+      showGameToast(`🎉 今月のイベント開始！${getSeasonLabel()}`, 5000, 'success');
+    }, 1000);
+  }
 });
 
 // Navigation link animation
