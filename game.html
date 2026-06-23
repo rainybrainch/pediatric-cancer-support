@@ -4270,54 +4270,14 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 
   <main class="g-main">
 
-    <!-- プレイヤーステータス -->
-    <div class="player-card" id="player-card">
-      <div class="player-card-bar"><div class="player-card-bar-fill" id="pc-bar-fill" style="width:0%"></div></div>
-      <div class="player-card-inner">
-        <div class="player-avatar">
-          <img id="avatar-img" src="./image/runa-sabun%20(1).png" alt="アバター">
-        </div>
-        <div class="player-info">
-          <div class="player-name" id="week-label-txt">読み込み中...</div>
-          <div class="player-lv">
-            <div class="lv-badge"><span>Lv</span><span class="lv-n" id="lv-n">1</span><span id="lv-name">転生者</span></div>
-            <span class="lv-title" id="lv-title"></span>
-            <a href="./class-select.html" class="class-badge" id="class-badge" style="display:none;text-decoration:none;background:linear-gradient(135deg,rgba(192,160,240,.2),rgba(192,160,240,.08));border:1px solid rgba(192,160,240,.4);color:#7fd8f4;font-size:.55rem;font-weight:900;letter-spacing:.1em;padding:2px 9px;border-radius:99px;margin-left:6px;">
-              <span id="class-icon">⚔</span> <span id="class-name">勇者</span>
-            </a>
-          </div>
-          <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
-          <div class="xp-note">
-            <span>総合XP: <strong id="xp-now">0</strong></span>
-            <span>次Lv: <strong id="xp-next">500</strong></span>
-          </div>
-          <div class="player-stats-mobile">
-            <span class="psm-badge" id="stat-streak-m">0 連続週</span>
-            <span class="psm-badge" id="stat-achv-m">0 実績</span>
-            <span class="psm-badge" id="stat-weeks-m">0 記録週</span>
-          </div>
-        </div>
-        <div class="player-stats">
-          <div class="pstat">
-            <div class="pstat-num" id="stat-streak">0</div>
-            <div class="pstat-label">連続週</div>
-          </div>
-          <div class="pstat-div"></div>
-          <div class="pstat">
-            <div class="pstat-num" id="stat-achv">0</div>
-            <div class="pstat-label">実績</div>
-          </div>
-          <div class="pstat-div"></div>
-          <div class="pstat">
-            <div class="pstat-num" id="stat-weeks">0</div>
-            <div class="pstat-label">記録週</div>
-          </div>
-        </div>
-      </div>
+    <!-- プレイヤーステータス（簡潔版） -->
+    <div class="player-card" id="player-card" style="padding: 20px; text-align: center; background: rgba(8,18,38,.6); border: 1px solid rgba(41,182,232,.2); border-radius: 12px; margin-bottom: 24px;">
+      <div style="font-size: 0.8rem; color: rgba(127,216,244,.7); margin-bottom: 8px;">ようこそ、冒険者</div>
+      <div class="player-name" id="week-label-txt" style="font-size: 1.2rem; font-weight: 700; color: #7fd8f4;">ルナとの対話モード</div>
     </div>
 
     <!-- 今週のQOLトレンド -->
-    <div class="qol-trend-card">
+    <div class="qol-trend-card" style="display:none;">
       <div class="qol-trend-head">
         <span>📊 今週の調子</span>
         <div style="display:flex;gap:6px;">
@@ -4333,8 +4293,8 @@ body:not(.app-active) .jump-fab{ display: none !important; }
     <!-- 🎯 シンプルホーム — 記録優先 -->
     <div class="simple-home" id="compact-home">
 
-      <!-- 🆕 3キャラ立ち絵バナー（ビジュアル + 各機能への入口・統合版） -->
-      <div class="home-char-trio" id="home-char-trio">
+      <!-- 🆕 ルナ専用カード -->
+      <div class="home-char-trio" id="home-char-trio" style="display: flex; justify-content: center;">
         <div style="display:none;">
         <a href="./quest.html" class="hc-card hc-kaito" aria-label="運動の師 カイトと修練">
           <div class="hc-portrait">
@@ -4357,7 +4317,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
           <div class="hc-cta">🌿 食事を記録 →</div>
         </a>
         </div>
-        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="openCoach();return false;">
+        <button type="button" class="hc-card hc-luna" id="hc-luna-card" aria-label="ルナと話す" onclick="openCoach();return false;" style="flex: 0 0 auto; max-width: 420px;">
           <div class="hc-portrait">
             <img src="./image/runa-sabun%20(2).png" alt="ルナ">
           </div>
