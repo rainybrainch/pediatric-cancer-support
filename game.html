@@ -58,6 +58,18 @@
   --transition-normal: 0.2s ease;
   --transition-slow: 0.3s ease;
 
+  /* アニメーション easing 関数 */
+  --ease-linear: linear;
+  --ease-ease: ease;
+  --ease-in: ease-in;
+  --ease-out: ease-out;
+  --ease-in-out: ease-in-out;
+  --ease-cubic-in: cubic-bezier(0.32, 0, 0.67, 0);
+  --ease-cubic-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-cubic-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-back-in: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --ease-back-out: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
   /* Z-index */
   --z-dropdown: 10;
   --z-sticky: 20;
@@ -392,6 +404,56 @@ section {
 .horizontal-scroll > * {
   scroll-snap-align: start;
   scroll-snap-stop: always;
+}
+
+/* レスポンシブグリッドユーティリティ */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.grid-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.grid-2-col {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-3-col {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.grid-4-col {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+/* グリッド子要素 */
+.grid-item {
+  min-width: 0;
+}
+
+/* コンテンツグリッド */
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .content-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 3fr 1fr;
+  }
 }
 
 /* 汎用 disabled 状態（すべてのボタン） */
