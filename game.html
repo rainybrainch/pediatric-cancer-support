@@ -5331,6 +5331,11 @@ function loadCoachHistory(){
     if(raw) _coachState.history=JSON.parse(raw)||[];
     const s=localStorage.getItem(COACH_STEP_KEY());
     if(s && ['G','R','O','W'].includes(s)) _coachState.step=s;
+    // ゲスト時は初期メッセージを追加
+    if(uid==='guest' && _coachState.history.length===0){
+      const welcome='こんにちは！🌙 私はルナ、あなたの健康コーチです。\n\nGROWモデル（Goal・Reality・Options・Will）を使って、あなたの健康目標をサポートします。今日は何についてお話しされたいですか？';
+      _coachState.history.push({role:'model',text:welcome});
+    }
   }catch(e){ _coachState.history=[]; }
 }
 function saveCoachHistory(){
