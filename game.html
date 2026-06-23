@@ -4879,7 +4879,7 @@ body:not(.app-active) .jump-fab{ display: none !important; }
 </div>
 
 <!-- AIコーチモーダル（Gemini API直結 RPGチャット） -->
-<div id="coach-modal" role="dialog" aria-modal="true" aria-label="ルナのコーチング">
+<div id="coach-modal" role="dialog" aria-modal="true" aria-label="ルナのコーチング" aria-hidden="true">
   <div class="coach-panel">
     <!-- ヘッダー -->
     <div class="coach-hdr">
@@ -5831,6 +5831,7 @@ function resetCoachConversation(){
 function openCoach(){
   const modal=document.getElementById('coach-modal');
   modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
   loadCoachHistory();
   requestAnimationFrame(()=>{
     renderAllHistory();
@@ -5847,6 +5848,7 @@ function openCoach(){
 function closeCoach(){
   const modal=document.getElementById('coach-modal');
   modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
   // ガベージコレクション hint
   if(globalThis.gc) globalThis.gc();
 }
