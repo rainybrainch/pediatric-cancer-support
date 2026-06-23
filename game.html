@@ -5804,11 +5804,13 @@ document.getElementById('coach-input').addEventListener('input',e=>{
   e.target.style.height=Math.min(e.target.scrollHeight,120)+'px';
 });
 
-// プリセット候補のクリック → 自動送信
-document.querySelectorAll('.coach-preset').forEach(btn=>{
-  btn.addEventListener('click',()=>{
+// プリセット候補のクリック → 自動送信（イベントデリゲーション）
+const presetsContainer=document.getElementById('coach-presets');
+if(presetsContainer){
+  presetsContainer.addEventListener('click',(e)=>{
+    if(!e.target.classList.contains('coach-preset')) return;
     if(_coachState.busy) return;
-    const txt=btn.dataset.preset;
+    const txt=e.target.dataset.preset;
     document.getElementById('coach-input').value=txt;
     sendCoachMessage();
   });
