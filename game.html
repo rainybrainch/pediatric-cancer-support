@@ -1714,6 +1714,8 @@ body.detail-mode #compact-home{display:none !important;}
   display:flex;flex-direction:column;gap:8px;
   position:relative;z-index:1;
   scroll-behavior:smooth;
+  scroll-snap-type:y proximity;
+  contain:layout style paint;
 }
 .coach-body::-webkit-scrollbar{width:5px;}
 .coach-body::-webkit-scrollbar-track{background:transparent;}
@@ -1721,6 +1723,8 @@ body.detail-mode #compact-home{display:none !important;}
 .coach-bubble{
   border-radius:14px;padding:10px 13px;max-width:88%;
   animation:coachBubbleIn .35s cubic-bezier(.22,1,.36,1) both;
+  scroll-snap-align:end;
+  scroll-snap-stop:always;
 }
 .coach-bubble-luna{
   align-self:flex-start;
