@@ -5377,12 +5377,25 @@ function saveCoachHistory(){
     localStorage.setItem(COACH_HIST_KEY(),hist);
     localStorage.setItem(COACH_STEP_KEY(),_coachState.step);
     localStorage.setItem(`vc_last_${uid||'guest'}`,new Date().toISOString().slice(0,10));
-    // ストレージサイズチェック
+    // ストレージサイズチェック + 自動クリア
     const totalSize=Object.keys(localStorage).reduce((sum,key)=>sum+(localStorage[key]?.length||0),0);
-    if(totalSize>5242880) console.warn('LocalStorage near limit:',Math.round(totalSize/1024)+'KB');
+    if(totalSize>5242880){
+      console.warn('LocalStorage near limit:',Math.round(totalSize/1024)+'KB');
+      clearOldCoachCache();
+    }
   }catch(e){
-    if(e.name==='QuotaExceededError') console.error('LocalStorage quota exceeded');
+    if(e.name==='QuotaExceededError'){ console.error('LocalStorage quota exceeded'); clearOldCoachCache(); }
   }
+}
+
+function clearOldCoachCache(){
+  try{
+    const keys=Object.keys(localStorage);
+    const coachKeys=keys.filter(k=>k.startsWith('vc_'));
+    coachKeys.forEach(k=>{
+      if(!k.includes(uid||'guest')) localStorage.removeItem(k);
+    });
+  }catch(e){ console.error('Cache clear error:',e); }
 }
 
 function renderCoachStep(){
