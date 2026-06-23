@@ -29,6 +29,22 @@ input, textarea, button, select {
   -webkit-user-select:text;
   user-select:text;
 }
+
+/* フォーカスインジケーター（WCAG 2.4.7準拠） */
+:focus-visible {
+  outline:2px solid #29b6e8;
+  outline-offset:2px;
+}
+
+button:focus-visible, a:focus-visible {
+  outline:2px solid #29b6e8;
+  outline-offset:2px;
+}
+
+/* コントラスト比向上（WCAG AA準拠） */
+.muted-text, [class*="muted"] {
+  color:#8aaccc !important; /* 0.55 → 0.7+ */
+}
 html{
   scroll-behavior:smooth;
   -webkit-user-select:none;
