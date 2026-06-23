@@ -1620,6 +1620,8 @@ body.detail-mode #compact-home{display:none !important;}
   color:rgba(127,216,244,.80);font-weight:700;
   cursor:pointer;transition:all .2s;
   white-space:nowrap;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 .coach-preset:hover{
   background:rgba(41,182,232,.18);
@@ -1743,6 +1745,8 @@ body.detail-mode #compact-home{display:none !important;}
   font-size:.82rem;line-height:1.5;
   resize:none;max-height:120px;min-height:38px;
   transition:border-color .2s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 #coach-input:focus{outline:none;border-color:rgba(41,182,232,.5);}
 #coach-input::placeholder{color:rgba(127,216,244,.3);}
@@ -1755,6 +1759,7 @@ body.detail-mode #compact-home{display:none !important;}
   transition:all .2s;
   box-shadow:0 3px 10px rgba(41,182,232,.3);
   touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 #coach-send:hover:not(:disabled){opacity:.9;transform:translateY(-1px);box-shadow:0 5px 14px rgba(41,182,232,.4);}
 #coach-send:disabled{opacity:.4;cursor:not-allowed;}
