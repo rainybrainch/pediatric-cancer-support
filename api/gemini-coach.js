@@ -119,6 +119,9 @@ export default async function handler(req, res) {
     }
 
     // ✅ 成功応答
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.status(200).json({
       text: responseText,
       timestamp: new Date().toISOString()

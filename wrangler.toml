@@ -1,4 +1,4 @@
-# Cloudflare Workers + Static Assets 設定
+# Cloudflare Workers 設定
 name = "aya-health-quest"
 main = "_worker.js"
 compatibility_date = "2024-09-23"
@@ -8,8 +8,8 @@ compatibility_flags = ["nodejs_compat"]
 [assets]
 directory = "./"
 binding = "ASSETS"
-# /api/* は静的アセットより先に Worker が処理する（重要！）
-run_worker_first = ["/api/*"]
-# .html を勝手に除去するリダイレクトを無効化（モバイルでERR_FAILEDになる原因）
+run_worker_first = ["/*"]
 html_handling = "none"
-not_found_handling = "404-page"
+
+[build]
+command = "echo 'Build complete'"

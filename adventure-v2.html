@@ -896,7 +896,6 @@ body { background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%
 </style>
 </head>
 <body style="background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%) !important;">
-<!-- DEPLOYMENT_TEST_20260624_v3 -->
 <noscript>
   <div style="background:#e05c5c;color:#fff;padding:20px;text-align:center;font-family:sans-serif;font-size:1.1rem;">
     ⚠️ このアプリケーションは JavaScript が有効になっている必要があります。<br>
@@ -904,10 +903,6 @@ body { background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%
   </div>
 </noscript>
 <script>
-// 背景色を JavaScript で直接設定（キャッシング回避）
-document.documentElement.style.background = 'linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%)';
-document.body.style.background = 'linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%)';
-
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').then(reg=>{
     console.log('📱 Service Worker registered:', reg);
