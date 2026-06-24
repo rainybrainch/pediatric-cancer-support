@@ -941,6 +941,9 @@ body{ padding-bottom:calc(80px + env(safe-area-inset-bottom,0)) !important; }
 <script src="./app-safety.js"></script>
 <script src="./gamification.js"></script>
 <script src="./quest-enhance.js" defer></script>
+<script src="./mets-master.js"></script>
+<script src="./mets-moderate-quests.js"></script>
+<script src="./mets-high-intensity-quests.js"></script>
 <style id="watercolor-skin">
 :root{
   --bg:#c8e4f4;--bg2:#d6ebf6;--bg3:#b8d8ef;
@@ -3418,8 +3421,8 @@ document.getElementById('reset-btn').addEventListener('click',()=>{
   showConfirm('今週のタップ入力をすべてリセットしますか？\n（保存済みデータは残ります）', ()=>{
     sessions=[]; modMin=0; highMin=0;
     localStorage.removeItem(storeKey());
-    buildBoard('mod-board',EXERCISES.moderate,'moderate');
-    buildBoard('high-board',EXERCISES.high,'high');
+    renderModQuestBoard();
+    renderHighQuestBoard();
     document.getElementById('bmi-val').value='';
     document.getElementById('steps-val').value='';
     updateUI();
@@ -3435,8 +3438,8 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('main-screen').style.display='flex';
   document.getElementById('user-display').textContent='ゲスト（デモ）';
   document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
-  buildBoard('mod-board',EXERCISES.moderate,'moderate');
-  buildBoard('high-board',EXERCISES.high,'high');
+  renderModQuestBoard();
+  renderHighQuestBoard();
   renderRecentExercises();
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
   renderBoss(0);
@@ -3543,8 +3546,8 @@ try{
       document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
       if(window.AppEnhance) window.AppEnhance.init(uid);
       buildBoard('daily-board',EXERCISES.daily,'moderate');
-      buildBoard('mod-board',EXERCISES.moderate,'moderate');
-      buildBoard('high-board',EXERCISES.high,'high');
+      renderModQuestBoard();
+      renderHighQuestBoard();
       renderRecentExercises();
       loadWeek();
       renderHistory();
@@ -3616,6 +3619,46 @@ try{
     if(bar.classList.contains('visible')) updateSPB();
   };
 })();
+
+// ===== 中強度・高強度クエストボタングリッド生成（METs・時システム） =====
+function renderModQuestBoard(){
+  const board=document.getElementById('mod-board');
+  if(!board||typeof MODERATE_QUESTS==='undefined') return;
+  const grid=document.createElement('div');
+  grid.className='card-grid';
+  MODERATE_QUESTS.forEach(quest=>{
+    const card=document.createElement('button');
+    card.className='ex-card';
+    card.type='button';
+    card.dataset.name=quest.label;
+    card.dataset.mets=quest.mets;
+    card.dataset.type='mod';
+    card.innerHTML=`<div class="e-icon">${quest.icon}</div><div class="e-name">${quest.label}</div><div class="e-min">${quest.mets} METs</div><span class="ex-count"></span>`;
+    card.addEventListener('click',(e)=>addSession(quest.label,quest.icon,quest.mets,'mod',quest.defaultMinutes,e));
+    grid.appendChild(card);
+  });
+  board.innerHTML='';
+  board.appendChild(grid);
+}
+function renderHighQuestBoard(){
+  const board=document.getElementById('high-board');
+  if(!board||typeof HIGH_INTENSITY_QUESTS==='undefined') return;
+  const grid=document.createElement('div');
+  grid.className='card-grid';
+  HIGH_INTENSITY_QUESTS.forEach(quest=>{
+    const card=document.createElement('button');
+    card.className='ex-card high';
+    card.type='button';
+    card.dataset.name=quest.label;
+    card.dataset.mets=quest.mets;
+    card.dataset.type='high';
+    card.innerHTML=`<div class="e-icon">${quest.icon}</div><div class="e-name">${quest.label}</div><div class="e-min">${quest.mets} METs</div><span class="ex-count"></span>`;
+    card.addEventListener('click',(e)=>addSession(quest.label,quest.icon,quest.mets,'high',quest.defaultMinutes,e));
+    grid.appendChild(card);
+  });
+  board.innerHTML='';
+  board.appendChild(grid);
+}
 
 // ===== 保存FAB（セーブボタンが画面外に出たら表示） =====
 (()=>{
