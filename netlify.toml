@@ -1,18 +1,9 @@
 [build]
+  command = "echo 'Static site'"
   publish = "."
-  functions = "netlify/functions"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
-[functions]
-  node_bundler = "esbuild"
 
 [[redirects]]
-  from = "/api/claude-chat"
-  to = "/.netlify/functions/claude-chat"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200
+
