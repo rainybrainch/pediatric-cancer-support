@@ -1,557 +1,94 @@
-<!DOCTYPE html>
-<html lang="ja">
+﻿<!DOCTYPE html>
+<html lang='ja'>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ヴィタリア転生録</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%);
-  color: #0a2a40;
-  overflow-x: hidden;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  padding-bottom: 100px;
-}
-
-/* ヘッダー */
-.header {
-  text-align: center;
-  margin-bottom: 32px;
-  padding-top: 16px;
-}
-
-.header h1 {
-  font-size: 2rem;
-  font-weight: 900;
-  color: #1e7fa4;
-  margin-bottom: 8px;
-  letter-spacing: 2px;
-}
-
-.header p {
-  font-size: 0.9rem;
-  color: #5a7a95;
-}
-
-/* プレイヤーステータス */
-.status-card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.1);
-  border-left: 4px solid #1e7fa4;
-}
-
-.status-card h2 {
-  font-size: 1rem;
-  color: #1e7fa4;
-  margin-bottom: 12px;
-}
-
-.status-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-}
-
-.status-label {
-  color: #5a7a95;
-  font-weight: 600;
-}
-
-.status-value {
-  color: #0a2a40;
-  font-weight: 900;
-  font-size: 1.1rem;
-}
-
-/* ボタン */
-.action-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.btn {
-  padding: 16px;
-  border-radius: 12px;
-  border: none;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 8px;
-  color: white;
-}
-
-.btn-quest {
-  background: linear-gradient(135deg, #1e7fa4, #29b6e8);
-  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.2);
-}
-
-.btn-quest:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(30, 127, 164, 0.3);
-}
-
-.btn-coach {
-  background: linear-gradient(135deg, #4ec98a, #2d8f6a);
-  box-shadow: 0 4px 12px rgba(78, 201, 138, 0.2);
-}
-
-.btn-coach:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(78, 201, 138, 0.3);
-}
-
-.btn-nutrition {
-  background: linear-gradient(135deg, #d4a85a, #b8925a);
-  color: white;
-  box-shadow: 0 4px 12px rgba(212, 168, 90, 0.2);
-}
-
-.btn-nutrition:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(212, 168, 90, 0.3);
-}
-
-.btn icon {
-  font-size: 1.8rem;
-}
-
-.btn label {
-  font-size: 0.85rem;
-}
-
-/* クエスト進行 */
-.quest-progress {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.1);
-}
-
-.quest-progress h3 {
-  color: #1e7fa4;
-  margin-bottom: 16px;
-  font-size: 1rem;
-}
-
-.quest-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  background: #f0f8ff;
-  border-radius: 10px;
-  border-left: 3px solid #1e7fa4;
-}
-
-.quest-icon {
-  font-size: 1.5rem;
-  min-width: 30px;
-}
-
-.quest-text {
-  flex: 1;
-}
-
-.quest-name {
-  font-weight: 700;
-  color: #0a2a40;
-  margin-bottom: 4px;
-}
-
-.quest-desc {
-  font-size: 0.85rem;
-  color: #5a7a95;
-}
-
-/* ボトムナビゲーション */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-around;
-  background: white;
-  border-top: 2px solid #d4e8f7;
-  padding: 12px 0;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: #5a7a95;
-  font-size: 0.75rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  padding: 8px 12px;
-}
-
-.nav-item.active {
-  color: #1e7fa4;
-}
-
-.nav-icon {
-  font-size: 1.5rem;
-}
-
-/* Luna AI パネル */
-#luna-panel {
-  position: fixed;
-  bottom: 100px;
-  right: 16px;
-  width: 280px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  display: none;
-  flex-direction: column;
-  z-index: 999;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-#luna-panel.open {
-  display: flex;
-}
-
-.luna-header {
-  padding: 16px;
-  background: linear-gradient(135deg, #1e7fa4, #29b6e8);
-  color: white;
-  border-radius: 16px 16px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.luna-messages {
-  flex: 1;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-.luna-message {
-  margin-bottom: 12px;
-  padding: 10px;
-  background: #f0f8ff;
-  border-radius: 10px;
-  border-left: 3px solid #1e7fa4;
-  font-size: 0.9rem;
-  color: #0a2a40;
-}
-
-.luna-input {
-  padding: 12px;
-  border-top: 1px solid #d4e8f7;
-  display: flex;
-  gap: 8px;
-}
-
-.luna-input input {
-  flex: 1;
-  border: 1px solid #d4e8f7;
-  border-radius: 8px;
-  padding: 8px;
-  font-size: 0.9rem;
-}
-
-.luna-input button {
-  background: #1e7fa4;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.luna-toggle {
-  position: fixed;
-  bottom: 100px;
-  right: 16px;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #4ec98a, #2d8f6a);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(78, 201, 138, 0.3);
-  z-index: 998;
-  transition: all 0.3s ease;
-}
-
-.luna-toggle:hover {
-  transform: scale(1.1);
-}
-
-.luna-toggle.hidden {
-  display: none;
-}
-
-/* アニメーション */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.btn {
-  animation: slideUp 0.6s cubic-bezier(0.23,1,0.32,1);
-}
-
-.quest-progress {
-  animation: slideUp 0.6s cubic-bezier(0.23,1,0.32,1) 0.2s both;
-}
-
-</style>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>ヴィタリア転生録 | ホーム</title>
+  <link href='https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap' rel='stylesheet'>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Zen Kaku Gothic New',sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:100px}
+    .header{background:white;padding:16px 20px;border-bottom:2px solid #29b6e8;position:sticky;top:0;z-index:100}
+    .header h1{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#1e7fa4}
+    .container{max-width:800px;margin:0 auto;padding:16px}
+    .card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(30,127,164,0.1)}
+    .section-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:#1e7fa4;margin-bottom:12px;border-bottom:2px solid #29b6e8;padding-bottom:8px}
+    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .stat{background:rgba(30,127,164,0.08);border-left:4px solid #1e7fa4;padding:12px;border-radius:8px}
+    .stat-value{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;color:#1e7fa4}
+    .task-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .task{background:linear-gradient(135deg,#E8F4FB,#D4E8F7);border:2px solid #1e7fa4;border-radius:12px;padding:12px;text-align:center;cursor:pointer}
+    .task:hover{transform:translateY(-2px)}
+    .task-icon{font-size:1.8rem;margin-bottom:6px}
+    .streak{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(30,127,164,0.05);border-radius:10px;margin-bottom:8px}
+    .msg{background:linear-gradient(135deg,rgba(78,201,138,0.1),rgba(41,182,232,0.08));border-left:4px solid #4ec98a;border-radius:10px;padding:14px;line-height:1.7;color:#0a2a40;margin:12px 0}
+    .btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:12px}
+    .btn-primary{background:linear-gradient(135deg,#29b6e8,#7fd8f4);color:white}
+    .btn-secondary{background:linear-gradient(135deg,#4ec98a,#2d8f6a);color:white}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #29b6e8;display:flex;justify-content:space-around;padding:8px 0;z-index:50}
+    .nav-item{flex:1;text-align:center;text-decoration:none;color:#5a7a95;padding:8px;font-size:0.7rem}
+    .nav-item.active{color:#1e7fa4;background:rgba(30,127,164,0.08)}
+  </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>🌍 ヴィタリア転生録</h1>
-  <p>冒険を通じて、新しい自分を取り戻す</p>
-</div>
-
-<!-- プレイヤーステータス -->
-<div class="status-card">
-  <h2>📊 プレイヤー</h2>
-  <div class="status-row">
-    <span class="status-label">レベル</span>
-    <span class="status-value">✦ Lv. 1</span>
-  </div>
-  <div class="status-row">
-    <span class="status-label">経験値</span>
-    <span class="status-value">45 / 100 ⬆</span>
-  </div>
-  <div class="status-row">
-    <span class="status-label">体力</span>
-    <span class="status-value">100 / 100 ❤️</span>
-  </div>
-</div>
-
-<!-- アクションボタン -->
-<div class="action-buttons">
-  <a href="./quest.html" class="btn btn-quest">
-    <span class="btn-icon">⚔️</span>
-    <span>クエスト</span>
-  </a>
-  <a href="#" class="btn btn-coach" id="luna-btn">
-    <span class="btn-icon">🌙</span>
-    <span>ルナと話す</span>
-  </a>
-  <a href="./nutrition.html" class="btn btn-nutrition">
-    <span class="btn-icon">🌿</span>
-    <span>栄養記録</span>
-  </a>
-  <a href="./settings.html" class="btn">
-    <span class="btn-icon">⚙️</span>
-    <span>設定</span>
-  </a>
-</div>
-
-<!-- クエスト進行 -->
-<div class="quest-progress">
-  <h3>🗺️ 現在の冒険</h3>
-  <div class="quest-item">
-    <span class="quest-icon">⚡</span>
-    <div class="quest-text">
-      <div class="quest-name">第1章 — 目覚めの時 [進行度: 45%]</div>
-      <div class="quest-desc">✦ 最初の試練を乗り越えよう • 報酬: 100 XP</div>
+<div class='header'><h1>🌍 ヴィタリア転生録</h1></div>
+<div class='container'>
+  <div class='card'>
+    <div class='stat-grid'>
+      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>レベル</div><div class='stat-value' id='lv'>Lv. 1</div></div>
+      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>経験値</div><div class='stat-value'><span id='xp'>0</span> / 100</div></div>
+      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>生命力</div><div class='stat-value'><span id='hp'>100</span> / 100</div></div>
+      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>ゴールド</div><div class='stat-value'><span id='gd'>0</span> G</div></div>
     </div>
   </div>
-  <div class="quest-item">
-    <span class="quest-icon">🏃</span>
-    <div class="quest-text">
-      <div class="quest-name">運動を記録する</div>
-      <div class="quest-desc">⏱️ 今日あと 15分で達成 • 報酬: +10 XP</div>
+  <div class='card'>
+    <div class='section-title'>📋 今日のタスク</div>
+    <div class='task-grid'>
+      <div class='task' onclick='location.href="./quest.html"'><div class='task-icon'>🏃</div><div style='font-size:0.75rem'>運動クエスト</div></div>
+      <div class='task' onclick='location.href="./nutrition.html"'><div class='task-icon'>🥗</div><div style='font-size:0.75rem'>栄養クエスト</div></div>
+      <div class='task' onclick='location.href="./adventure.html"'><div class='task-icon'>🗺️</div><div style='font-size:0.75rem'>冒険を進める</div></div>
+      <div class='task' onclick='alert("🌙 準備中")'><div class='task-icon'>🌙</div><div style='font-size:0.75rem'>ルナに相談</div></div>
     </div>
   </div>
-  <div class="quest-item">
-    <span class="quest-icon">🥗</span>
-    <div class="quest-text">
-      <div class="quest-name">栄養を意識する</div>
-      <div class="quest-desc">🎯 完了！ • 本日クリア済み</div>
-    </div>
+  <div class='card'>
+    <div class='section-title'>🔥 継続記録</div>
+    <div class='streak'><span>🏃</span><span style='flex:1'>運動</span><span style='font-weight:900;color:#1e7fa4' id='s1'>0日</span></div>
+    <div class='streak'><span>🥗</span><span style='flex:1'>栄養</span><span style='font-weight:900;color:#1e7fa4' id='s2'>0日</span></div>
+    <div class='streak'><span>💧</span><span style='flex:1'>水分補給</span><span style='font-weight:900;color:#1e7fa4' id='s3'>0日</span></div>
+    <div class='streak'><span>😴</span><span style='flex:1'>睡眠</span><span style='font-weight:900;color:#1e7fa4' id='s4'>0日</span></div>
   </div>
+  <div class='card'>
+    <div class='section-title'>🌙 ルナからのアドバイス</div>
+    <div class='msg' id='msg'>こんにちは。私はルナ。今日も一緒に頑張りましょう。</div>
+    <button class='btn btn-secondary' onclick='alert("🌙 準備中")'>ルナに相談する</button>
+  </div>
+  <button class='btn btn-primary' onclick='location.href="./quest.html"'>⚔️ クエストを記録</button>
+  <button class='btn btn-secondary' onclick='location.href="./adventure.html"'>🗺️ 冒険を進める</button>
 </div>
-
-<!-- Luna AI パネル -->
-<button class="luna-toggle" id="luna-toggle">🌙</button>
-<div id="luna-panel">
-  <div class="luna-header">
-    <span>🌙 ルナ</span>
-    <button onclick="closeLunaPanel()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✕</button>
-  </div>
-  <div class="luna-messages" id="luna-messages">
-    <div class="luna-message">
-      🌙 こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？
-    </div>
-  </div>
-  <div class="luna-input">
-    <input type="text" id="luna-input" placeholder="メッセージを入力...">
-    <button onclick="sendLunaMessage()">送信</button>
-  </div>
+<div class='bottom-nav'>
+  <a href='./game.html' class='nav-item active'><span style='font-size:1.5rem'>🏠</span>ホーム</a>
+  <a href='./quest.html' class='nav-item'><span style='font-size:1.5rem'>⚔️</span>運動</a>
+  <a href='./nutrition.html' class='nav-item'><span style='font-size:1.5rem'>🥗</span>栄養</a>
+  <a href='./adventure.html' class='nav-item'><span style='font-size:1.5rem'>🗺️</span>冒険</a>
+  <a href='#' class='nav-item'><span style='font-size:1.5rem'>⚙️</span>設定</a>
 </div>
-
-<!-- ボトムナビゲーション -->
-<nav class="bottom-nav">
-  <a href="./game.html" class="nav-item active">
-    <span class="nav-icon">🏠</span>
-    <span>ホーム</span>
-  </a>
-  <a href="./quest.html" class="nav-item">
-    <span class="nav-icon">⚔️</span>
-    <span>クエスト</span>
-  </a>
-  <a href="./nutrition.html" class="nav-item">
-    <span class="nav-icon">🌿</span>
-    <span>栄養</span>
-  </a>
-  <a href="./adventure.html" class="nav-item">
-    <span class="nav-icon">🗺️</span>
-    <span>冒険</span>
-  </a>
-  <a href="./settings.html" class="nav-item">
-    <span class="nav-icon">⚙️</span>
-    <span>設定</span>
-  </a>
-</nav>
-
 <script>
-// ページロード時の初期化
-document.addEventListener('DOMContentLoaded', () => {
-  // ステータスアニメーション
-  const stats = document.querySelectorAll('.status-row');
-  stats.forEach((stat, index) => {
-    stat.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${index * 0.1}s both`;
-  });
-
-  // クエストアイテムのアニメーション
-  const questItems = document.querySelectorAll('.quest-item');
-  questItems.forEach((item, index) => {
-    item.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${0.3 + index * 0.1}s both`;
-  });
-
-  // スクロール位置の復元
-  const scrollPos = localStorage.getItem('gameScrollPos');
-  if (scrollPos) setTimeout(() => window.scrollTo(0, parseInt(scrollPos)), 100);
-});
-
-// スクロール位置の保存
-window.addEventListener('scroll', () => {
-  localStorage.setItem('gameScrollPos', window.scrollY);
-});
-
-// Luna AI パネルの表示/非表示
-const lunaToggle = document.getElementById('luna-toggle');
-const lunaPanel = document.getElementById('luna-panel');
-const lunaBtn = document.getElementById('luna-btn');
-
-lunaToggle.addEventListener('click', () => {
-  lunaPanel.classList.toggle('open');
-  lunaToggle.classList.toggle('hidden');
-});
-
-lunaBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  lunaPanel.classList.add('open');
-  lunaToggle.classList.add('hidden');
-});
-
-function closeLunaPanel() {
-  lunaPanel.classList.remove('open');
-  lunaToggle.classList.remove('hidden');
+let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+function wk() { const d = new Date(), j = new Date(d.getFullYear(), 0, 1); return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0'); }
+function upd() {
+  let xp = 0, ex = 0, nu = 0;
+  try { const q = JSON.parse(localStorage.getItem('vq_' + uid + '_' + wk())||'{}'); ex = q.score||0; xp += q.xp||0; } catch(e){}
+  try { const n = JSON.parse(localStorage.getItem('vn_' + uid + '_' + wk())||'{}'); nu = n.score||0; xp += n.xp||0; } catch(e){}
+  const lv = 1 + Math.floor(xp / 100);
+  const hp = Math.min(100, 50 + ex + nu);
+  const gd = ex * 10 + nu * 5;
+  document.getElementById('lv').textContent = 'Lv. ' + lv;
+  document.getElementById('xp').textContent = xp % 100;
+  document.getElementById('hp').textContent = Math.round(hp);
+  document.getElementById('gd').textContent = gd;
+  document.getElementById('msg').innerHTML = hp < 50 ? '<strong>お疲れですね。</strong>無理なく休息を。' : gd < 20 ? '<strong>行動を記録しましょう。</strong>小さな一歩が大きな力に。' : '<strong>素晴らしい調子です！</strong>その調子で続けましょう。';
 }
-
-function sendLunaMessage() {
-  const input = document.getElementById('luna-input');
-  const messages = document.getElementById('luna-messages');
-
-  if (!input.value.trim()) return;
-
-  // ユーザーメッセージを表示
-  const userMsg = document.createElement('div');
-  userMsg.className = 'luna-message';
-  userMsg.style.background = '#E8F4FB';
-  userMsg.style.borderLeftColor = '#29b6e8';
-  userMsg.textContent = '👤 ' + input.value;
-  messages.appendChild(userMsg);
-
-  // ルナの応答（複数パターン）
-  const responses = [
-    '素晴らしい質問ですね。あなたの気付きが成長につながります。 ✨',
-    '一緒に考えてみましょう。あなたなら絶対にできます。💪',
-    'その通り。毎日の小さな一歩が大きな変化を生み出します。 🚀',
-    'あなたの頑張りをいつも応援しています。今日も一緒に進みましょう。 🌟',
-    'いい視点をお持ちですね。そういう前向きさが力になります。 🎯'
-  ];
-
-  const response = responses[Math.floor(Math.random() * responses.length)];
-
-  setTimeout(() => {
-    const lunaMsg = document.createElement('div');
-    lunaMsg.className = 'luna-message';
-    lunaMsg.textContent = '🌙 ' + response;
-    messages.appendChild(lunaMsg);
-    messages.scrollTop = messages.scrollHeight;
-  }, 800);
-
-  input.value = '';
-  messages.scrollTop = messages.scrollHeight;
-}
+addEventListener('DOMContentLoaded', () => { upd(); setInterval(upd, 3000); });
 </script>
-
 </body>
 </html>
