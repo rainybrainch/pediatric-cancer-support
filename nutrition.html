@@ -1291,6 +1291,7 @@ p, span, div, label, li, td, th, h1, h2, h3, h4{
 <script defer src="./vitalia-nav.js"></script>
 <script defer src="./vitalia-polish.js"></script>
 <script defer src="./vitalia-finish.js"></script>
+<script src="./nutrition-points.js"></script>
 </head>
 <body>
 
@@ -1919,6 +1920,120 @@ setTimeout(function(){
 <!-- 目標達成バナー -->
 <div id="goal-banner">🌿 今週の栄養スコア目標達成！魔力が満ちた ✦ おめでとう！</div>
 
+<!-- 栄養ポイント（NP）ボード生成 -->
+<script>
+// 8カテゴリー × 1-4ポイントのボタングリッドを生成
+function renderNutritionPointsBoards() {
+  if (typeof NUTRITION_QUESTS === 'undefined') return;
+
+  // 8カテゴリーを順番に処理
+  const categories = getAllNutritionCategories();
+
+  categories.forEach(category => {
+    const quests = getNutritionQuestsByCategory(category);
+    const { icon, label } = getCategoryLabel(category);
+
+    // カテゴリーごとのボードセクションを作成
+    const board = createNutritionBoard(category, label, icon, quests);
+
+    // 既存の同じカテゴリー名のセクションを探して置き換え
+    const existingSections = document.querySelectorAll('.board-section');
+    let inserted = false;
+
+    existingSections.forEach(section => {
+      const label_el = section.querySelector('.section-label');
+      if (label_el && label_el.textContent.includes(label) && !inserted) {
+        section.replaceWith(board);
+        inserted = true;
+      }
+    });
+  });
+}
+
+/**
+ * カテゴリーごとのボードHTML要素を生成
+ */
+function createNutritionBoard(category, label, icon, quests) {
+  const section = document.createElement('div');
+  section.className = 'board-section';
+  section.setAttribute('data-category', category);
+
+  const head = document.createElement('div');
+  head.className = 'section-head';
+  head.innerHTML = `
+    <div class="section-icon" style="background:rgba(78,201,138,.15);border:1px solid rgba(78,201,138,.35);">${icon}</div>
+    <div>
+      <div class="section-label">${label}（栄養ポイント）</div>
+      <div class="section-note">ボタンをタップ ｜ シンプルに記録 ｜ 目標達成で Vitality 獲得</div>
+    </div>
+  `;
+
+  const grid = document.createElement('div');
+  grid.className = 'card-grid';
+
+  quests.forEach(quest => {
+    const card = document.createElement('button');
+    card.className = 'ex-card';
+    card.type = 'button';
+    card.dataset.category = category;
+    card.dataset.questId = quest.id;
+    card.dataset.points = quest.points;
+    card.innerHTML = `
+      <div class="e-icon">${quest.label.split('\n')[0] || quest.label}</div>
+      <div class="e-name" style="font-size:.6rem;font-weight:700;">${quest.points}pt</div>
+      <div class="e-min"style="font-size:.5rem;color:rgba(78,201,138,.7);">${quest.description}</div>
+    `;
+
+    card.addEventListener('click', (e) => {
+      recordNutritionPoint(category, quest.points, quest.label, e);
+    });
+
+    grid.appendChild(card);
+  });
+
+  section.appendChild(head);
+  section.appendChild(grid);
+
+  return section;
+}
+
+/**
+ * 栄養ポイント記録
+ */
+function recordNutritionPoint(category, points, label, event) {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const key = `vn_np_${uid}_${today}`;
+
+    let data = {};
+    try {
+      const existing = localStorage.getItem(key);
+      data = existing ? JSON.parse(existing) : {};
+    } catch (e) {}
+
+    // このカテゴリーのポイントを加算
+    data[category] = (data[category] || 0) + points;
+
+    // 保存
+    saveNutritionPoints(uid, data);
+
+    // UI更新（後のスクリプトで実装）
+    updateNutritionUI(data);
+
+    // セラのコメント更新
+    const comment = generateSaraAdvice(data);
+    const seraComment = document.getElementById('sera-comment');
+    if (seraComment) seraComment.textContent = comment;
+
+  } catch (e) {
+    console.warn('Failed to record nutrition point:', e);
+  }
+}
+
+function updateNutritionUI(npData) {
+  // 総NP表示、Vitality表示などはこれから実装
+}
+</script>
 
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -3795,6 +3910,7 @@ document.getElementById('guest-btn').addEventListener('click',()=>{
   document.getElementById('main-screen').style.display='flex';
   document.getElementById('user-display').textContent='ゲスト（デモ）';
   document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
+  renderNutritionPointsBoards();
   loadWeek(); renderHistory(); renderAch(); renderStreak(getStreak()); checkLoginBonus();
   autoSelectMealTime();
   document.getElementById('coach-fab').classList.add('visible');
@@ -3820,6 +3936,7 @@ onAuthStateChanged(auth,user=>{
     document.getElementById('user-display').textContent=user.email;
     document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の魔力記録';
     if(window.AppEnhance) window.AppEnhance.init(uid);
+    renderNutritionPointsBoards();
     buildQuickBoard();
     buildRestaurantBoard();
     buildBoard('veg-grid',    FOODS.veg,    'veg',    'fc-veg');
