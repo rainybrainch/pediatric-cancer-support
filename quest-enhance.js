@@ -522,16 +522,17 @@
     if(document.getElementById('qe-boss-banner')) return;
     // 一番先頭に挿入
     const wrap=document.createElement('div');
+    wrap.id='qe-banners-container';
     wrap.innerHTML=`
-      <div class="qe-time-tip" id="qe-time-tip"></div>
-      <div class="qe-daily" id="qe-daily">
+      <div class="qe-time-tip" id="qe-time-tip" style="display:block;"></div>
+      <div class="qe-daily" id="qe-daily" style="display:block;">
         <div class="qe-daily-head"><span>🎯</span><span>今日のミッション</span></div>
         <div class="qe-daily-text" id="qe-daily-text">…</div>
         <div class="qe-daily-progress"><div class="qe-daily-progress-fill" id="qe-daily-progress-fill"></div></div>
         <div class="qe-daily-status" id="qe-daily-status">…</div>
       </div>
       <div class="qe-boss-banner" id="qe-boss-banner" style="display:none;">
-        <div class="qe-boss-img"><img id="qe-boss-img-el" src="" alt=""></div>
+        <div class="qe-boss-img"><img id="qe-boss-img-el" src="" alt="boss" onerror="this.style.display='none'"></div>
         <div class="qe-boss-info">
           <div class="qe-boss-lbl">⚔ 戦闘中</div>
           <div class="qe-boss-name" id="qe-boss-name">—</div>
@@ -540,10 +541,10 @@
         </div>
       </div>
     `;
-    // 入れる場所：main-content の最初の子の前
     if(target.firstElementChild){
-      target.insertBefore(wrap.firstElementChild, target.firstElementChild);
-      while(wrap.firstElementChild){ target.insertBefore(wrap.firstElementChild, target.firstElementChild.nextSibling); }
+      target.insertBefore(wrap, target.firstElementChild);
+    } else {
+      target.appendChild(wrap);
     }
   }
 

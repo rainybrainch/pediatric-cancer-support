@@ -3480,59 +3480,71 @@ document.getElementById('coach-modal')?.addEventListener('click',e=>{
 const _authDelay=900;
 const _authTO=setTimeout(()=>{
   document.getElementById('loading-screen').classList.add('hidden');
-  document.getElementById('login-screen').classList.remove('hidden');
-  document.getElementById('login-screen').style.display='flex';
-},_authDelay);
-onAuthStateChanged(auth,user=>{
-  clearTimeout(_authTO);
-  document.getElementById('loading-screen').classList.add('hidden');
-  if(user){
-    uid=user.uid;
-    localStorage.setItem('vitalia_uid_hint',uid);
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('login-screen').style.display='';
-    document.getElementById('main-screen').classList.remove('hidden');
-    document.getElementById('main-screen').style.display='flex';
-    document.getElementById('user-display').textContent=user.email;
-    document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
-    if(window.AppEnhance) window.AppEnhance.init(uid);
-    buildBoard('daily-board',EXERCISES.daily,'moderate');
-    buildBoard('mod-board',EXERCISES.moderate,'moderate');
-    buildBoard('high-board',EXERCISES.high,'high');
-    renderRecentExercises();
-    loadWeek();
-    renderHistory();
-    renderAch();
-    renderStreak(getStreak());
-    // tapMinutes を前回設定から復元
-    try{
-      const savedMin = parseInt(localStorage.getItem('vq_tap_min')||'10',10);
-      if([10,20,30,45,60].includes(savedMin)){
-        tapMinutes = savedMin;
-        document.querySelectorAll('.tt-btn').forEach(b=>{
-          b.classList.toggle('active',parseInt(b.dataset.min,10)===tapMinutes);
-        });
-        document.querySelectorAll('.ex-card .e-min').forEach(el=>{ el.textContent=tapMinutes+'分'; });
-      }
-    }catch(e){}
-    checkLoginBonus();
-    document.getElementById('coach-fab').classList.add('visible');
-    document.getElementById('bottom-nav').style.display='flex';
-    checkStreakWarning();
-    showQolGuidance();
+  // Firebase 未初期化時は自動的にゲストモードに切り替え
+  if(typeof firebase === 'undefined' || !auth){
+    console.warn('Firebase initialization failed. Switching to guest mode.');
+    document.getElementById('guest-btn').click();
   } else {
-    uid=''; sessions=[]; modMin=0; highMin=0; prevLv=1;
-    localStorage.removeItem('vitalia_uid_hint');
-    document.getElementById('main-screen').classList.add('hidden');
-    document.getElementById('main-screen').style.display='';
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('login-screen').style.display='flex';
-    document.getElementById('email').value='';
-    document.getElementById('password').value='';
-    document.getElementById('coach-fab').classList.remove('visible');
-    document.getElementById('bottom-nav').style.display='none';
   }
-});
+},_authDelay);
+
+try{
+  onAuthStateChanged(auth,user=>{
+    clearTimeout(_authTO);
+    document.getElementById('loading-screen').classList.add('hidden');
+    if(user){
+      uid=user.uid;
+      localStorage.setItem('vitalia_uid_hint',uid);
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('login-screen').style.display='';
+      document.getElementById('main-screen').classList.remove('hidden');
+      document.getElementById('main-screen').style.display='flex';
+      document.getElementById('user-display').textContent=user.email;
+      document.getElementById('week-lbl').textContent='📅 '+weekLabel()+'の冒険記録';
+      if(window.AppEnhance) window.AppEnhance.init(uid);
+      buildBoard('daily-board',EXERCISES.daily,'moderate');
+      buildBoard('mod-board',EXERCISES.moderate,'moderate');
+      buildBoard('high-board',EXERCISES.high,'high');
+      renderRecentExercises();
+      loadWeek();
+      renderHistory();
+      renderAch();
+      renderStreak(getStreak());
+      try{
+        const savedMin = parseInt(localStorage.getItem('vq_tap_min')||'10',10);
+        if([10,20,30,45,60].includes(savedMin)){
+          tapMinutes = savedMin;
+          document.querySelectorAll('.tt-btn').forEach(b=>{
+            b.classList.toggle('active',parseInt(b.dataset.min,10)===tapMinutes);
+          });
+          document.querySelectorAll('.ex-card .e-min').forEach(el=>{ el.textContent=tapMinutes+'分'; });
+        }
+      }catch(e){}
+      checkLoginBonus();
+      document.getElementById('coach-fab').classList.add('visible');
+      document.getElementById('bottom-nav').style.display='flex';
+      checkStreakWarning();
+      showQolGuidance();
+    } else {
+      uid=''; sessions=[]; modMin=0; highMin=0; prevLv=1;
+      localStorage.removeItem('vitalia_uid_hint');
+      document.getElementById('main-screen').classList.add('hidden');
+      document.getElementById('main-screen').style.display='';
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('login-screen').style.display='flex';
+      document.getElementById('email').value='';
+      document.getElementById('password').value='';
+      document.getElementById('coach-fab').classList.remove('visible');
+      document.getElementById('bottom-nav').style.display='none';
+    }
+  });
+} catch(e){
+  console.error('Auth state change error:', e.message);
+  document.getElementById('loading-screen').classList.add('hidden');
+  document.getElementById('guest-btn').click();
+}
 
 // ===== スクロール進捗バー =====
 (()=>{
