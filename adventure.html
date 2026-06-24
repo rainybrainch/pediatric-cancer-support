@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ヴィタリア冒険 | 物語</title>
+  <title>ヴィタリア冒険 | 七つの試練</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
@@ -13,13 +13,20 @@
     .container{max-width:900px;margin:0 auto;padding:16px}
     .card{background:linear-gradient(135deg,rgba(20,8,8,.5),rgba(15,12,30,.7));border:1px solid rgba(41,182,232,.2);border-radius:14px;padding:18px;margin-bottom:14px}
     .section-title{font-family:"Noto Serif JP",serif;font-size:1rem;font-weight:900;color:#7fd8f4;margin-bottom:10px}
-    .chapter-list{}
-    .chapter-item{background:linear-gradient(135deg,rgba(41,182,232,.12),rgba(95,208,232,.05));border:1px solid rgba(41,182,232,.2);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all 0.2s}
-    .chapter-item:hover{border-color:rgba(41,182,232,.6);box-shadow:0 0 16px rgba(41,182,232,.15)}
-    .chapter-item.locked{opacity:0.5;cursor:not-allowed}
-    .chapter-num{font-size:0.7rem;color:rgba(127,216,244,.5);font-weight:700;margin-bottom:2px}
-    .chapter-title{font-weight:900;color:#7fd8f4;margin-bottom:4px}
-    .chapter-status{font-size:0.75rem;color:rgba(127,216,244,.5)}
+    .trial-list{}
+    .trial-item{background:linear-gradient(135deg,rgba(41,182,232,.12),rgba(95,208,232,.05));border:1px solid rgba(41,182,232,.2);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all 0.2s}
+    .trial-item:hover{border-color:rgba(41,182,232,.6);box-shadow:0 0 16px rgba(41,182,232,.15)}
+    .trial-item.cleared{background:linear-gradient(135deg,rgba(78,201,138,.15),rgba(78,201,138,.05));border-color:rgba(78,201,138,.3)}
+    .trial-num{font-size:0.7rem;color:rgba(127,216,244,.5);font-weight:700;margin-bottom:2px}
+    .trial-title{font-weight:900;color:#7fd8f4;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+    .trial-icon{font-size:1.3rem}
+    .trial-desc{font-size:.75rem;color:rgba(127,216,244,.6);margin-bottom:6px}
+    .trial-habit{font-size:.7rem;color:rgba(78,201,138,.8);margin-bottom:4px}
+    .trial-progress{background:rgba(255,255,255,.08);border-radius:6px;height:4px;overflow:hidden;margin-bottom:4px}
+    .trial-bar{height:100%;background:linear-gradient(90deg,#29b6e8,#7fd8f4);transition:width 0.3s ease}
+    .trial-status{font-size:.65rem;color:rgba(127,216,244,.5);display:flex;justify-content:space-between}
+    .trial-check{color:#4ec98a;font-weight:900}
+    
     .story-box{background:rgba(41,182,232,.08);border-left:3px solid #29b6e8;border-radius:10px;padding:12px;line-height:1.6;font-size:0.9rem;margin:10px 0}
     .party{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .member{background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(78,201,138,.05));border:1px solid rgba(78,201,138,.3);border-radius:10px;padding:10px;text-align:center}
@@ -36,42 +43,29 @@
 <body>
 
 <div class="header">
-  <h1>🗺️ ヴィタリア冒険 — 物語</h1>
+  <h1>⚔️ 七つの試練</h1>
 </div>
 
 <div class="container">
 
   <div class="card">
-    <div class="section-title">📖 ストーリー進行</div>
-    <div class="chapter-list">
-      <div class="chapter-item" onclick="playChapter(1)">
-        <div class="chapter-num">第 1 章</div>
-        <div class="chapter-title">始まりの村</div>
-        <div class="chapter-status">✔ クリア</div>
-      </div>
-      <div class="chapter-item" onclick="playChapter(2)">
-        <div class="chapter-num">第 2 章</div>
-        <div class="chapter-title">癒しの森</div>
-        <div class="chapter-status">進行中</div>
-      </div>
-      <div class="chapter-item locked" onclick="alert('第2章クリアで解放')">
-        <div class="chapter-num">第 3 章</div>
-        <div class="chapter-title">生命の洞窟</div>
-        <div class="chapter-status">🔒 ロック中</div>
-      </div>
-      <div class="chapter-item locked" onclick="alert('第3章クリアで解放')">
-        <div class="chapter-num">第 4 章</div>
-        <div class="chapter-title">希望の塔</div>
-        <div class="chapter-status">🔒 ロック中</div>
-      </div>
+    <div class="section-title">🎯 あなたの課題は、七つの試練を克服すること</div>
+    <div class="story-box">
+      ヴィタリア世界の七大試練は、現実のあなたが直面する課題そのもの。<br><br>
+      運動をすれば「怠惰の試練」は克服される。<br>
+      栄養を意識すれば「暴食の試練」は克服される。<br><br>
+      ここに表示される敵は、あなたが毎日克服するべき課題だ。
     </div>
   </div>
 
-  <div class="card" id="storySection" style="display:none">
-    <div class="section-title" id="storyTitle">第1章 — 始まりの村</div>
-    <div class="story-box" id="storyContent">
-      あなたは異世界ヴィタリアで目覚めた。
-    </div>
+  <div class="card">
+    <div class="section-title">🗡️ 七つの試練進行状況</div>
+    <div class="trial-list" id="trial-list"></div>
+  </div>
+
+  <div class="card" id="detail-section" style="display:none">
+    <div class="section-title" id="detail-title">試練の詳細</div>
+    <div class="story-box" id="detail-story"></div>
     <div class="party">
       <div class="member">
         <div class="member-icon">🌙</div>
@@ -90,8 +84,8 @@
         <div class="member-name">ピクセ</div>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="attackBoss()">⚔️ ボスに挑む</button>
-    <button class="btn btn-secondary" onclick="closeStory()">戻る</button>
+    <button class="btn btn-primary" onclick="goToTask()">習慣を記録する</button>
+    <button class="btn btn-secondary" onclick="closeDetail()">戻る</button>
   </div>
 
 </div>
@@ -104,58 +98,171 @@
 </div>
 
 <script>
-const CHAPTERS = {
-  1: {
-    title: "始まりの村",
-    story: "あなたは異世界ヴィタリアで目覚めた。\n\n『いらっしゃいませ。私はルナ。あなたの旅をサポートします。』\n\n目の前には、4人の仲間が立っている。\nこれからの長い冒険が始まる。"
+const TRIALS = [
+  {
+    id: 'sloth',
+    num: 1,
+    title: '怠惰の試練',
+    icon: '👾',
+    desc: 'ナマケ・グリム',
+    habit: '運動習慣',
+    story: 'あなたの中にある怠け心。それを克服するには、毎日の運動が必要だ。'
   },
-  2: {
-    title: "癒しの森",
-    story: "ルナたちと共に、癒しの森へ。\n\nここは運動と栄養が満ちる場所。\n\nカイトが言う：『毎日の歩みが、ここでの力になるんだ。』\n\nサラが続ける：『栄養も大切。一緒に取ろうね。』"
+  {
+    id: 'gluttony',
+    num: 2,
+    title: '暴食の試練',
+    icon: '🐌',
+    desc: 'スロース・ワーム',
+    habit: '栄養習慣',
+    story: '食べ物への執着が、あなたの体を蝕む。正しい栄養を意識することで克服できる。'
+  },
+  {
+    id: 'sleepless',
+    num: 3,
+    title: '不眠の試練',
+    icon: '💤',
+    desc: 'ドロウジー卿',
+    habit: '睡眠習慣',
+    story: '眠りを失うと、心も体も弱くなる。質の良い睡眠がこの試練を砕く。'
+  },
+  {
+    id: 'avoidance',
+    num: 4,
+    title: '回避の試練',
+    icon: '🦥',
+    desc: 'ズボラ大公',
+    habit: '高強度運動',
+    story: '困難から逃げ続けると、試練はより大きくなる。真正面から向き合おう。'
+  },
+  {
+    id: 'confusion',
+    num: 5,
+    title: '迷いの試練',
+    icon: '🌫️',
+    desc: 'モヤ・フォグ',
+    habit: 'ルナとの対話',
+    story: '迷いと不安に包まれた心。ルナとの会話を通じて、光を見つけよう。'
+  },
+  {
+    id: 'loneliness',
+    num: 6,
+    title: '孤独の試練',
+    icon: '🕸️',
+    desc: 'クモノス・クイーン',
+    habit: '習慣の継続',
+    story: '一人だと思った時、カイト・サラ・ピクセが傍にいることに気づく。'
+  },
+  {
+    id: 'despair',
+    num: 7,
+    title: '絶望の試練',
+    icon: '🪨',
+    desc: 'ロック・ゴーレム',
+    habit: '人生ログ回顧',
+    story: '過去の自分を思い出す。あなたはすでに、これ以上の試練を乗り越えてきた。'
   }
-};
+];
 
-function playChapter(num) {
-  if (num > 2) {
-    alert("この章はまだロック中です。");
-    return;
-  }
-  const ch = CHAPTERS[num];
-  document.getElementById("storyTitle").textContent = "第" + num + "章 — " + ch.title;
-  document.getElementById("storyContent").textContent = ch.story;
-  document.getElementById("storySection").style.display = "block";
+let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+let currentTrial = null;
+
+function wk() {
+  const d = new Date(), j = new Date(d.getFullYear(), 0, 1);
+  return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
 }
 
-function closeStory() {
-  document.getElementById("storySection").style.display = "none";
+function getTrialProgress(trialId) {
+  let progress = 0;
+  try {
+    if(trialId === 'sloth') {
+      const q = JSON.parse(localStorage.getItem(`vq_${uid}_${wk()}`) || '{}');
+      progress = Math.min(100, (q.modMin || 0) / 1.5);
+    } else if(trialId === 'gluttony') {
+      const n = JSON.parse(localStorage.getItem(`vn_${uid}_${wk()}`) || '{}');
+      progress = Math.min(100, (n.score || 0) / 0.2);
+    } else if(trialId === 'sleepless') {
+      const s = JSON.parse(localStorage.getItem(`vs_${uid}_${wk()}`) || '{}');
+      progress = Math.min(100, (s.hours || 0) / 8 * 100);
+    } else if(trialId === 'avoidance') {
+      const q = JSON.parse(localStorage.getItem(`vq_${uid}_${wk()}`) || '{}');
+      progress = Math.min(100, (q.highMin || 0) / 1.5);
+    } else if(trialId === 'confusion') {
+      const chats = JSON.parse(localStorage.getItem(`vc_${uid}_${wk()}`) || '[]');
+      progress = Math.min(100, chats.length * 20);
+    } else if(trialId === 'loneliness') {
+      const hist = JSON.parse(localStorage.getItem(`vq_hist_${uid}`) || '[]');
+      progress = Math.min(100, hist.length / 0.52);
+    } else if(trialId === 'despair') {
+      const logs = JSON.parse(localStorage.getItem(`vitalia_logs_${uid}`) || '[]');
+      progress = Math.min(100, logs.length * 5);
+    }
+  } catch(e) {}
+  return Math.round(progress);
 }
 
-function attackBoss() {
-  const xpNeeded = 200 + 200; // Need exercise + nutrition XP
-  let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+function renderTrials() {
+  const list = document.getElementById('trial-list');
+  list.innerHTML = '';
   
-  function wk() {
-    const d = new Date(), j = new Date(d.getFullYear(), 0, 1);
-    return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
-  }
+  TRIALS.forEach(trial => {
+    const progress = getTrialProgress(trial.id);
+    const cleared = progress >= 100;
+    
+    const el = document.createElement('div');
+    el.className = 'trial-item' + (cleared ? ' cleared' : '');
+    el.onclick = () => showDetail(trial);
+    
+    el.innerHTML = `
+      <div class="trial-num">第${trial.num}試練</div>
+      <div class="trial-title">
+        <span class="trial-icon">${trial.icon}</span>
+        ${trial.title}
+      </div>
+      <div class="trial-desc">${trial.desc}</div>
+      <div class="trial-habit">🎯 ${trial.habit}で克服</div>
+      <div class="trial-progress">
+        <div class="trial-bar" style="width:${progress}%"></div>
+      </div>
+      <div class="trial-status">
+        <span>${progress}%</span>
+        <span class="trial-check">${cleared ? '✅ 克服済み' : '進行中...'}</span>
+      </div>
+    `;
+    list.appendChild(el);
+  });
+}
 
-  let exXp = 0, nuXp = 0;
-  try {
-    const q = JSON.parse(localStorage.getItem('vq_' + uid + '_' + wk())||'{}');
-    exXp = q.xp || 0;
-  } catch(e){}
-  try {
-    const n = JSON.parse(localStorage.getItem('vn_' + uid + '_' + wk())||'{}');
-    nuXp = n.xp || 0;
-  } catch(e){}
+function showDetail(trial) {
+  currentTrial = trial;
+  document.getElementById('detail-title').textContent = `${trial.icon} ${trial.title}`;
+  document.getElementById('detail-story').textContent = trial.story;
+  document.getElementById('detail-section').style.display = 'block';
+  window.scrollTo(0, 0);
+}
 
-  const totalXp = exXp + nuXp;
-  if (totalXp < xpNeeded) {
-    alert("❌ まだボスに挑む準備ができていません。\n\n必要XP: " + xpNeeded + "\n現在XP: " + totalXp + "\n\n運動と栄養をもっと記録しましょう。");
+function closeDetail() {
+  document.getElementById('detail-section').style.display = 'none';
+}
+
+function goToTask() {
+  if(!currentTrial) return;
+  if(currentTrial.id === 'sloth' || currentTrial.id === 'avoidance') {
+    location.href = './quest.html';
+  } else if(currentTrial.id === 'gluttony') {
+    location.href = './nutrition.html';
+  } else if(currentTrial.id === 'sleepless') {
+    alert('睡眠記録はまだ準備中です。');
+  } else if(currentTrial.id === 'confusion') {
+    alert('ルナとの対話はホーム画面から');
   } else {
-    alert("⚔️ ボスを倒しました！\n\n次の章が解放されます。\n\nルナ：『あなたの成長が、私たちの力になります。』");
+    alert('この習慣の記録画面はまだ準備中です。');
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderTrials();
+});
 </script>
 
 </body>
