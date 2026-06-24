@@ -1,10 +1,8 @@
-# Cloudflare Workers 設定
 name = "aya-health-quest"
 main = "_worker.js"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-# 静的アセット配信
 [assets]
 directory = "./"
 binding = "ASSETS"

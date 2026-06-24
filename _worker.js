@@ -785,28 +785,27 @@ export default {
       // HTML に背景スタイルを注入
       if (pathname.endsWith('.html') || pathname === '/adventure' || pathname === '/game' || pathname === '/') {
         try {
-          const clone = response.clone();
-          let text = await clone.text();
+          let text = await response.clone().text();
           const bgStyle = 'background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%) !important;';
 
           // <body> タグに style 属性を追加
-          text = text.replace(/<body([^>]*)>/i, (match, attrs) => {
-            return `<body style="${bgStyle}" ${attrs}>`;
-          });
+          text = text.replace(/<body([^>]*)>/i, `<body style="${bgStyle}" $1>`);
 
           // <head> 内に <style> タグも注入
           const styleInject = `<style>html,body{${bgStyle} margin:0;padding:0;width:100%;height:100%;}</style>`;
           text = text.replace(/<\/head>/i, `${styleInject}</head>`);
 
-          headers.set('X-Worker-Processed', 'true-20260624-v4');
+          headers.set('X-Worker-Processed', 'true-20260624');
           return new Response(text, {
             status: response.status,
             statusText: response.statusText,
-            headers: new Headers(headers)
+            headers
           });
         } catch (e) {
-          // Error 時は元のレスポンスをそのまま返す
-          return response;
+          console.error('Injection error:', e.message);
+          // Fallback: response を新しく fetch するか、error を返す
+          headers.set('X-Error', e.message.slice(0, 50));
+          return new Response(response.body, {status: response.status, statusText: response.statusText, headers});
         }
       }
 

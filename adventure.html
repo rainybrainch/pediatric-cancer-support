@@ -904,21 +904,12 @@ body { background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%
   </div>
 </noscript>
 <script>
-// 背景色を JavaScript で直接設定（キャッシング回避）
-document.documentElement.style.background = 'linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%)';
-document.body.style.background = 'linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%)';
+// 背景はデフォルトのまま（CSS で管理）
 
-if('serviceWorker' in navigator){
+// Service Worker 一時無効化（古いキャッシュが原因の可能性）
+if('serviceWorker' in navigator && false){
   navigator.serviceWorker.register('./sw.js').then(reg=>{
     console.log('📱 Service Worker registered:', reg);
-    reg.addEventListener('updatefound',()=>{
-      const newWorker=reg.installing;
-      newWorker.addEventListener('statechange',()=>{
-        if(newWorker.state==='installed' && navigator.serviceWorker.controller){
-          console.log('⚡ SW update available');
-        }
-      });
-    });
   }).catch(e=>console.error('SW registration failed:', e));
 }
 </script>
