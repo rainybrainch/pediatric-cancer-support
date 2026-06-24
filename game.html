@@ -235,21 +235,15 @@ function sendMessage() {
   const input = document.getElementById('chat-input');
   const msg = input.value.trim();
   if(!msg) return;
-  
+
   const msgEl = document.createElement('div');
   msgEl.className = 'msg-user';
   msgEl.textContent = msg;
   document.getElementById('chat-messages').appendChild(msgEl);
-  
-  // ルナの返答
-  const responses = [
-    'そうなんですね。大切なことを教えてくれてありがとう。',
-    'そういう時もありますよね。でも、あなたは頑張ってる。',
-    '今のあなたの気持ちが大事です。無理なくいきましょう。',
-    'ありがとう。あなたの話を聞きたいです。',
-    'そうですね。一緒に考えてみましょう。'
-  ];
-  
+
+  // ルナの返答（データ分析に基づいた伴走型）
+  const responses = analyzeSituation(msg);
+
   setTimeout(() => {
     const lunaMsg = document.createElement('div');
     lunaMsg.className = 'msg-luna';
@@ -257,9 +251,65 @@ function sendMessage() {
     document.getElementById('chat-messages').appendChild(lunaMsg);
     document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
   }, 500);
-  
+
   input.value = '';
   document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+}
+
+function analyzeSituation(userMsg) {
+  try {
+    const hist = JSON.parse(localStorage.getItem(`vq_hist_${uid}`) || '[]');
+    const nuHist = JSON.parse(localStorage.getItem(`vn_hist_${uid}`) || '[]');
+    const weeks = hist.length;
+    const nutWeeks = nuHist.length;
+
+    // 状況判定
+    const conditions = {
+      exerciseGood: weeks >= 4,
+      exerciseNew: weeks === 1,
+      exerciseWeak: weeks === 0 || (weeks > 0 && weeks < 3),
+      nutritionGood: nutWeeks >= 4,
+      continuity: weeks >= 7
+    };
+
+    // 状況に応じた複数のメッセージパターン
+    let responses = [
+      'そのお気持ち、よく分かります。',
+      'あなたの話を聞いて、少し見えてきました。'
+    ];
+
+    if(conditions.exerciseNew) {
+      responses = [
+        '運動を始めたばかり。その勇気が一番大事です。',
+        '最初の一歩は難しい。でも、あなたは始めた。',
+        'まず続けることを目指しましょう。無理なく。'
+      ];
+    } else if(conditions.exerciseGood) {
+      responses = [
+        '4週間続いてますね。習慣になってきてると思います。',
+        'その調子です。体は確実に変わってます。',
+        '継続できてるあなた、素敵ですよ。'
+      ];
+    } else if(conditions.exerciseWeak) {
+      responses = [
+        '最近少しお休みが続いていますね。大丈夫ですよ。',
+        'ストレッチだけでもいい。無理なく再開しましょう。',
+        'あなたのペースが一番です。焦らずいきましょう。'
+      ];
+    }
+
+    if(conditions.continuity) {
+      responses.push('7週間継続達成！習慣が根付いてきました。');
+    }
+
+    return responses.length > 0 ? responses : ['ありがとう。あなたの話を聞いて、応援したくなります。'];
+  } catch(e) {
+    return [
+      'そうなんですね。一緒に考えてみましょう。',
+      'あなたのペースが一番です。',
+      'その気持ち、大事にしてください。'
+    ];
+  }
 }
 
 document.getElementById('chat-input').addEventListener('keypress', (e) => {
