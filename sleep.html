@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>睡眠記録 | ヴィタリア転生録</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+  <script src="./sleep-points.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:"Zen Kaku Gothic New",sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:120px}
@@ -75,6 +76,15 @@
     <button class="btn btn-primary" onclick="saveSleep()">💤 記録する</button>
   </div>
 
+  <div class="card" id="luna-card" style="display:none">
+    <div class="section-title">🌙 ルナからのメッセージ</div>
+    <div id="luna-message" style="background:#f0f8ff;border-left:4px solid #29b6e8;border-radius:8px;padding:12px;margin-bottom:12px;line-height:1.5;font-size:.85rem"></div>
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;color:#5a7a95">
+      <div>睡眠スコア: <strong id="sleep-score">0</strong>/10</div>
+      <div>Vitality: <strong id="sleep-vitality">0</strong> pt</div>
+    </div>
+  </div>
+
   <div class="card" id="history-card" style="display:none">
     <div class="section-title">📊 過去の睡眠記録</div>
     <div id="history-list"></div>
@@ -109,35 +119,63 @@ function saveSleep() {
   const hours = parseFloat(document.getElementById('sleep-hours').value);
   const quality = selectedQuality;
   const memo = document.getElementById('sleep-memo').value.trim();
-  
-  const today = new Date().toISOString().slice(0, 10);
-  const record = {
-    date: today,
-    hours: hours,
-    quality: quality,
+
+  // sleep-points.js システムを使用
+  let durationPoints = 0;
+  if (hours <= 5) durationPoints = 1;
+  else if (hours <= 6) durationPoints = 2;
+  else if (hours <= 9) durationPoints = 3;
+  else if (hours <= 10) durationPoints = 2;
+  else durationPoints = 2;
+
+  const qualityPoints = quality;
+
+  const spData = {
+    durationHours: hours,
+    durationPoints: durationPoints,
+    qualityValue: quality,
+    qualityPoints: qualityPoints,
+    totalSP: durationPoints + qualityPoints,
     memo: memo,
     savedAt: new Date().toLocaleString('ja-JP')
   };
-  
-  const key = `vs_${uid}_${today}`;
-  localStorage.setItem(key, JSON.stringify(record));
-  
-  // 記録一覧に追加
+
+  saveSleepPoints(uid, spData);
+
+  // 過去の記録用（互換性維持）
+  const today = new Date().toISOString().slice(0, 10);
   let history = [];
   try {
     const raw = localStorage.getItem(`vs_history_${uid}`);
     history = raw ? JSON.parse(raw) : [];
   } catch(e) {}
-  
+
+  const record = { date: today, hours, quality, memo, savedAt: spData.savedAt };
   const idx = history.findIndex(h => h.date === today);
   if(idx >= 0) history[idx] = record;
   else history.unshift(record);
-  
+
   localStorage.setItem(`vs_history_${uid}`, JSON.stringify(history.slice(0, 30)));
-  
-  alert('✅ 睡眠を記録しました！');
+
+  // ルナのメッセージを表示
+  const lunaMsg = generateLunaAdvice(spData);
+  const sleepScore = calculateSleepScore(spData);
+  const sleepVitality = calculateVitalityFromSleep(spData);
+
+  const lunaCard = document.getElementById('luna-card');
+  document.getElementById('luna-message').textContent = lunaMsg;
+  document.getElementById('sleep-score').textContent = sleepScore;
+  document.getElementById('sleep-vitality').textContent = sleepVitality;
+  lunaCard.style.display = 'block';
+
   document.getElementById('sleep-memo').value = '';
   loadHistory();
+
+  setTimeout(() => {
+    document.querySelectorAll('input, textarea, button').forEach(el => {
+      if (el !== document.querySelector('button.btn-primary')) el.disabled = false;
+    });
+  }, 500);
 }
 
 function loadHistory() {
