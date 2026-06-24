@@ -87,9 +87,9 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 <span class="card-icon">⚔️</span>
 <h2 class="card-title">プレイヤー</h2>
 </div>
-<div class="stat"><span class="stat-label">レベル</span><span class="stat-value">Lv. 1</span></div>
-<div class="stat"><span class="stat-label">経験値</span><span class="stat-value">0 / 100</span></div>
-<div class="stat"><span class="stat-label">体力</span><span class="stat-value">100 / 100</span></div>
+<div class="stat"><span class="stat-label">レベル</span><span class="stat-value">✦ Lv. 1</span></div>
+<div class="stat"><span class="stat-label">経験値</span><span class="stat-value">45 / 100 ⬆</span></div>
+<div class="stat"><span class="stat-label">体力</span><span class="stat-value">100 / 100 ❤️</span></div>
 </div>
 
 <div class="card">
@@ -97,9 +97,9 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 <span class="card-icon">📊</span>
 <h2 class="card-title">今週の実績</h2>
 </div>
-<div class="stat"><span class="stat-label">運動時間</span><span class="stat-value">0 分</span></div>
-<div class="stat"><span class="stat-label">栄養記録</span><span class="stat-value">0 回</span></div>
-<div class="stat"><span class="stat-label">達成度</span><span class="stat-value">0 %</span></div>
+<div class="stat"><span class="stat-label">運動時間</span><span class="stat-value">25 分 🏃</span></div>
+<div class="stat"><span class="stat-label">栄養記録</span><span class="stat-value">3 回 🥗</span></div>
+<div class="stat"><span class="stat-label">達成度</span><span class="stat-value">45 % ⭐</span></div>
 </div>
 </div>
 
@@ -116,9 +116,9 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 <div class="card">
 <div class="card-header"><span class="card-icon">🗺️</span><h2 class="card-title">現在の冒険</h2></div>
 <ul class="list">
-<li class="list-item"><span class="list-icon">⚡</span><div><div class="list-title">第1章 — 目覚めの時</div><div class="list-desc">最初の試練を乗り越えよう</div></div></li>
-<li class="list-item"><span class="list-icon">🏃</span><div><div class="list-title">運動を記録する</div><div class="list-desc">10分以上の活動で +10 XP</div></div></li>
-<li class="list-item"><span class="list-icon">🥗</span><div><div class="list-title">栄養を意識する</div><div class="list-desc">野菜・たんぱく質で +5 XP</div></div></li>
+<li class="list-item"><span class="list-icon">⚡</span><div><div class="list-title">第1章 — 目覚めの時 [進行度: 45%]</div><div class="list-desc">✦ 最初の試練を乗り越えよう • 報酬: 100 XP</div></div></li>
+<li class="list-item"><span class="list-icon">🏃</span><div><div class="list-title">運動を記録する</div><div class="list-desc">⏱️ 今日あと 15分で達成 • 報酬: +10 XP</div></div></li>
+<li class="list-item"><span class="list-icon">🥗</span><div><div class="list-title">栄養を意識する</div><div class="list-desc">🎯 完了！ • 本日クリア済み</div></div></li>
 </ul>
 </div>
 </div>
@@ -130,7 +130,7 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 <button class="luna-close" onclick="closeLunaPanel()">✕</button>
 </div>
 <div class="luna-messages" id="luna-messages">
-<div class="luna-message">こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。</div>
+<div class="luna-message">🌙 こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？</div>
 </div>
 <div class="luna-input">
 <input type="text" id="luna-input" placeholder="メッセージを入力...">
@@ -147,6 +147,24 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 </nav>
 
 <script>
+// ページロード時の初期化
+document.addEventListener('DOMContentLoaded', () => {
+  // ステータスアニメーション
+  const stats = document.querySelectorAll('.stat');
+  stats.forEach((stat, index) => {
+    stat.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${index * 0.1}s both`;
+  });
+
+  // カード位置の復元（スクロール）
+  const scrollPos = localStorage.getItem('scrollPos');
+  if (scrollPos) setTimeout(() => window.scrollTo(0, parseInt(scrollPos)), 100);
+});
+
+// スクロール位置の保存
+window.addEventListener('scroll', () => {
+  localStorage.setItem('scrollPos', window.scrollY);
+});
+
 const lunaToggle = document.getElementById('luna-toggle');
 const lunaPanel = document.getElementById('luna-panel');
 const lunaBtn = document.getElementById('luna-btn');
@@ -170,15 +188,24 @@ function sendLunaMessage() {
   const userMsg = document.createElement('div');
   userMsg.className = 'luna-message';
   userMsg.style.background = '#E8F4FB';
-  userMsg.textContent = input.value;
+  userMsg.style.borderLeftColor = '#29b6e8';
+  userMsg.textContent = '👤 ' + input.value;
   messages.appendChild(userMsg);
+  const responses = [
+    '素晴らしい質問ですね。あなたの気付きが成長につながります。 ✨',
+    '一緒に考えてみましょう。あなたなら絶対にできます。💪',
+    'その通り。毎日の小さな一歩が大きな変化を生み出します。 🚀',
+    'あなたの頑張りをいつも応援しています。今日も一緒に進みましょう。 🌟',
+    'いい視点をお持ちですね。そういう前向きさが力になります。 🎯'
+  ];
+  const response = responses[Math.floor(Math.random() * responses.length)];
   setTimeout(() => {
     const lunaMsg = document.createElement('div');
     lunaMsg.className = 'luna-message';
-    lunaMsg.textContent = 'ありがとうございます。一緒に進みましょう。';
+    lunaMsg.textContent = '🌙 ' + response;
     messages.appendChild(lunaMsg);
     messages.scrollTop = messages.scrollHeight;
-  }, 500);
+  }, 800);
   input.value = '';
   messages.scrollTop = messages.scrollHeight;
 }

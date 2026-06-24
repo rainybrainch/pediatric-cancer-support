@@ -319,6 +319,42 @@ body {
   display: none;
 }
 
+/* アニメーション */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.btn {
+  animation: slideUp 0.6s cubic-bezier(0.23,1,0.32,1);
+}
+
+.quest-progress {
+  animation: slideUp 0.6s cubic-bezier(0.23,1,0.32,1) 0.2s both;
+}
+
 </style>
 </head>
 <body>
@@ -333,15 +369,15 @@ body {
   <h2>📊 プレイヤー</h2>
   <div class="status-row">
     <span class="status-label">レベル</span>
-    <span class="status-value">Lv. 1</span>
+    <span class="status-value">✦ Lv. 1</span>
   </div>
   <div class="status-row">
     <span class="status-label">経験値</span>
-    <span class="status-value">0 / 100</span>
+    <span class="status-value">45 / 100 ⬆</span>
   </div>
   <div class="status-row">
     <span class="status-label">体力</span>
-    <span class="status-value">100 / 100</span>
+    <span class="status-value">100 / 100 ❤️</span>
   </div>
 </div>
 
@@ -371,22 +407,22 @@ body {
   <div class="quest-item">
     <span class="quest-icon">⚡</span>
     <div class="quest-text">
-      <div class="quest-name">第1章 — 目覚めの時</div>
-      <div class="quest-desc">最初の試練を乗り越えよう</div>
+      <div class="quest-name">第1章 — 目覚めの時 [進行度: 45%]</div>
+      <div class="quest-desc">✦ 最初の試練を乗り越えよう • 報酬: 100 XP</div>
     </div>
   </div>
   <div class="quest-item">
     <span class="quest-icon">🏃</span>
     <div class="quest-text">
       <div class="quest-name">運動を記録する</div>
-      <div class="quest-desc">10分以上の活動で +10 XP</div>
+      <div class="quest-desc">⏱️ 今日あと 15分で達成 • 報酬: +10 XP</div>
     </div>
   </div>
   <div class="quest-item">
     <span class="quest-icon">🥗</span>
     <div class="quest-text">
       <div class="quest-name">栄養を意識する</div>
-      <div class="quest-desc">野菜・たんぱく質で +5 XP</div>
+      <div class="quest-desc">🎯 完了！ • 本日クリア済み</div>
     </div>
   </div>
 </div>
@@ -400,7 +436,7 @@ body {
   </div>
   <div class="luna-messages" id="luna-messages">
     <div class="luna-message">
-      こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？
+      🌙 こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？
     </div>
   </div>
   <div class="luna-input">
@@ -434,6 +470,30 @@ body {
 </nav>
 
 <script>
+// ページロード時の初期化
+document.addEventListener('DOMContentLoaded', () => {
+  // ステータスアニメーション
+  const stats = document.querySelectorAll('.status-row');
+  stats.forEach((stat, index) => {
+    stat.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${index * 0.1}s both`;
+  });
+
+  // クエストアイテムのアニメーション
+  const questItems = document.querySelectorAll('.quest-item');
+  questItems.forEach((item, index) => {
+    item.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${0.3 + index * 0.1}s both`;
+  });
+
+  // スクロール位置の復元
+  const scrollPos = localStorage.getItem('gameScrollPos');
+  if (scrollPos) setTimeout(() => window.scrollTo(0, parseInt(scrollPos)), 100);
+});
+
+// スクロール位置の保存
+window.addEventListener('scroll', () => {
+  localStorage.setItem('gameScrollPos', window.scrollY);
+});
+
 // Luna AI パネルの表示/非表示
 const lunaToggle = document.getElementById('luna-toggle');
 const lunaPanel = document.getElementById('luna-panel');
@@ -464,20 +524,29 @@ function sendLunaMessage() {
   // ユーザーメッセージを表示
   const userMsg = document.createElement('div');
   userMsg.className = 'luna-message';
-  userMsg.style.background = '#e8f4fb';
-  userMsg.style.borderLeft = '3px solid #29b6e8';
-  userMsg.style.textAlign = 'right';
-  userMsg.textContent = input.value;
+  userMsg.style.background = '#E8F4FB';
+  userMsg.style.borderLeftColor = '#29b6e8';
+  userMsg.textContent = '👤 ' + input.value;
   messages.appendChild(userMsg);
 
-  // ルナの応答（簡易）
+  // ルナの応答（複数パターン）
+  const responses = [
+    '素晴らしい質問ですね。あなたの気付きが成長につながります。 ✨',
+    '一緒に考えてみましょう。あなたなら絶対にできます。💪',
+    'その通り。毎日の小さな一歩が大きな変化を生み出します。 🚀',
+    'あなたの頑張りをいつも応援しています。今日も一緒に進みましょう。 🌟',
+    'いい視点をお持ちですね。そういう前向きさが力になります。 🎯'
+  ];
+
+  const response = responses[Math.floor(Math.random() * responses.length)];
+
   setTimeout(() => {
     const lunaMsg = document.createElement('div');
     lunaMsg.className = 'luna-message';
-    lunaMsg.textContent = 'ありがとうございます。あなたの頑張りが大事です。今日も一緒に進みましょう。';
+    lunaMsg.textContent = '🌙 ' + response;
     messages.appendChild(lunaMsg);
     messages.scrollTop = messages.scrollHeight;
-  }, 500);
+  }, 800);
 
   input.value = '';
   messages.scrollTop = messages.scrollHeight;
