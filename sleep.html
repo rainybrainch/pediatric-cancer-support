@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>睡眠記録 | ヴィタリア転生録</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:"Zen Kaku Gothic New",sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:120px}
+    .header{background:white;padding:12px 20px;border-bottom:2px solid #29b6e8;position:sticky;top:0;z-index:100}
+    .header h1{font-family:"Noto Serif JP",serif;font-size:1.1rem;font-weight:900;color:#1e7fa4}
+    .container{max-width:800px;margin:0 auto;padding:16px}
+    .card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(30,127,164,0.1)}
+    .section-title{font-family:"Noto Serif JP",serif;font-size:1rem;font-weight:900;color:#1e7fa4;margin-bottom:12px;border-bottom:2px solid #29b6e8;padding-bottom:8px}
+    .form-group{margin-bottom:14px}
+    .form-label{font-size:.8rem;font-weight:700;color:#1e7fa4;margin-bottom:6px;display:block}
+    .form-input{width:100%;border:1.5px solid #29b6e8;border-radius:8px;padding:10px;font-size:.9rem;font-family:inherit;outline:none}
+    .form-input:focus{border-color:#1e7fa4;box-shadow:0 0 8px rgba(41,182,232,.2)}
+    .slider-group{display:flex;gap:8px;align-items:center}
+    .slider-group input[type=range]{flex:1}
+    .slider-val{font-weight:700;color:#1e7fa4;min-width:40px;text-align:right}
+    .quality-scale{display:flex;gap:6px}
+    .quality-btn{flex:1;padding:10px;border:1.5px solid #ddd;border-radius:8px;background:white;cursor:pointer;font-weight:700;font-size:.8rem;transition:all 0.2s}
+    .quality-btn:hover{border-color:#29b6e8}
+    .quality-btn.active{background:#29b6e8;color:white;border-color:#29b6e8}
+    .btn{width:100%;padding:12px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.9rem;margin-top:12px}
+    .btn-primary{background:linear-gradient(135deg,#29b6e8,#7fd8f4);color:white}
+    .btn-secondary{background:linear-gradient(135deg,#4ec98a,#2d8f6a);color:white}
+    .history{margin-top:14px;padding-top:14px;border-top:1px solid #ddd}
+    .hist-item{background:#f9f9f9;border-left:3px solid #29b6e8;border-radius:6px;padding:10px;margin-bottom:8px;font-size:.8rem}
+    .hist-date{font-weight:700;color:#1e7fa4}
+    .hist-detail{color:#5a7a95;margin-top:2px}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #29b6e8;display:flex;justify-content:space-around;padding:8px 0;z-index:50}
+    .nav-item{flex:1;text-align:center;text-decoration:none;color:#5a7a95;padding:8px;font-size:.65rem;font-weight:700}
+    .nav-item.active{color:#1e7fa4}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>😴 睡眠記録</h1>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="section-title">🛏️ 今夜の睡眠</div>
+    
+    <div class="form-group">
+      <label class="form-label">睡眠時間</label>
+      <div class="slider-group">
+        <input type="range" id="sleep-hours" min="0" max="12" step="0.5" value="7" style="flex:1" />
+        <span class="slider-val" id="sleep-hours-val">7時間</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">睡眠の質</label>
+      <div class="quality-scale">
+        <button class="quality-btn" onclick="setQuality(1)">1</button>
+        <button class="quality-btn" onclick="setQuality(2)">2</button>
+        <button class="quality-btn" onclick="setQuality(3)">3</button>
+        <button class="quality-btn" onclick="setQuality(4)">4</button>
+        <button class="quality-btn" onclick="setQuality(5)">5</button>
+      </div>
+      <div style="font-size:.7rem;color:#5a7a95;margin-top:6px;text-align:center;">悪い ← → 最高</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">メモ（就寝前の活動など）</label>
+      <textarea id="sleep-memo" class="form-input" style="resize:vertical;height:80px;"></textarea>
+    </div>
+
+    <button class="btn btn-primary" onclick="saveSleep()">💤 記録する</button>
+  </div>
+
+  <div class="card" id="history-card" style="display:none">
+    <div class="section-title">📊 過去の睡眠記録</div>
+    <div id="history-list"></div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <a href="./game.html" class="nav-item"><span style="font-size:1.3rem">🏠</span>ホーム</a>
+  <a href="./quest.html" class="nav-item"><span style="font-size:1.3rem">⚔️</span>運動</a>
+  <a href="./nutrition.html" class="nav-item"><span style="font-size:1.3rem">🥗</span>栄養</a>
+  <a href="./adventure.html" class="nav-item"><span style="font-size:1.3rem">🗺️</span>冒険</a>
+</div>
+
+<script>
+let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+let selectedQuality = 3;
+
+document.getElementById('sleep-hours').addEventListener('change', (e) => {
+  const val = parseFloat(e.target.value);
+  document.getElementById('sleep-hours-val').textContent = val + '時間';
+});
+
+function setQuality(q) {
+  selectedQuality = q;
+  document.querySelectorAll('.quality-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i + 1 === q);
+  });
+}
+
+function saveSleep() {
+  const hours = parseFloat(document.getElementById('sleep-hours').value);
+  const quality = selectedQuality;
+  const memo = document.getElementById('sleep-memo').value.trim();
+  
+  const today = new Date().toISOString().slice(0, 10);
+  const record = {
+    date: today,
+    hours: hours,
+    quality: quality,
+    memo: memo,
+    savedAt: new Date().toLocaleString('ja-JP')
+  };
+  
+  const key = `vs_${uid}_${today}`;
+  localStorage.setItem(key, JSON.stringify(record));
+  
+  // 記録一覧に追加
+  let history = [];
+  try {
+    const raw = localStorage.getItem(`vs_history_${uid}`);
+    history = raw ? JSON.parse(raw) : [];
+  } catch(e) {}
+  
+  const idx = history.findIndex(h => h.date === today);
+  if(idx >= 0) history[idx] = record;
+  else history.unshift(record);
+  
+  localStorage.setItem(`vs_history_${uid}`, JSON.stringify(history.slice(0, 30)));
+  
+  alert('✅ 睡眠を記録しました！');
+  document.getElementById('sleep-memo').value = '';
+  loadHistory();
+}
+
+function loadHistory() {
+  try {
+    const history = JSON.parse(localStorage.getItem(`vs_history_${uid}`) || '[]');
+    if(history.length === 0) return;
+    
+    const card = document.getElementById('history-card');
+    const list = document.getElementById('history-list');
+    card.style.display = 'block';
+    
+    list.innerHTML = history.map(h => `
+      <div class="hist-item">
+        <div class="hist-date">${h.date}</div>
+        <div class="hist-detail">
+          ${h.hours}時間 | 質: ${'⭐'.repeat(h.quality)}
+          ${h.memo ? `<br>備考: ${h.memo}` : ''}
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setQuality(3);
+  loadHistory();
+});
+</script>
+
+</body>
+</html>
