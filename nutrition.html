@@ -3543,6 +3543,9 @@ async function _saveWeekCore(){
   clearNuDraft();
   document.getElementById('save-msg').textContent='';
   showSaveToast('✅','記録を保存しました');
+  if(c.veg+c.fruit+c.protein+c.grain>0){
+    setTimeout(()=>showCharacterMessage('sara'), 1200);
+  }
   const nutritionScore=Math.round(((sessions.filter(s=>s.cat==='veg').length/21)+(sessions.filter(s=>s.cat==='fruit').length/10)+(sessions.filter(s=>s.cat==='protein').length/14)+(sessions.filter(s=>s.cat==='grain').length/14))*25);
   if(nutritionScore>=20) setTimeout(showGoalCelebration,400);
   if(isFirst){
@@ -3572,6 +3575,33 @@ function showGoalCelebration(){
   const b=document.getElementById('goal-banner');
   b.classList.add('show'); clearTimeout(_goalBannerTO);
   _goalBannerTO=setTimeout(()=>b.classList.remove('show'),5000);
+}
+function showCharacterMessage(char){
+  const msgs={
+    sara:[
+      '栄養を記録してくれてありがとう。体が喜んでいます。',
+      'いい食事の選択だ。その通り、栄養が大事だ。',
+      '毎日の積み重ねが、あなたの体を作ります。素晴らしい。',
+      'バランスの取れた記録ですね。さすがです。',
+      '栄養を意識するって、自分を大事にすることなんですよ。'
+    ]
+  };
+  const charMsgs=msgs[char]||msgs.sara;
+  const msg=charMsgs[Math.floor(Math.random()*charMsgs.length)];
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s ease;';
+  modal.innerHTML=`
+    <div style="background:white;border-radius:20px;padding:30px;max-width:320px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3);animation:modalIn 0.35s cubic-bezier(.22,1,.36,1);">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🍀</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:0.9rem;font-weight:700;color:#1e7fa4;margin-bottom:14px;">サラ</div>
+      <div style="font-size:0.85rem;line-height:1.6;color:#0a2a40;margin-bottom:20px;">"${msg}"</div>
+      <button style="background:linear-gradient(135deg,#4ec98a,#2d8f6a);color:white;border:none;border-radius:10px;padding:10px 24px;font-weight:700;cursor:pointer;font-size:0.8rem;" onclick="this.closest('div').parentElement.remove()">ありがとう</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  setTimeout(()=>{
+    if(modal.parentElement) modal.remove();
+  }, 5000);
 }
 function saveNuDraft(){
   try{ localStorage.setItem(`vn_draft_${uid}`,JSON.stringify({sessions,date:new Date().toISOString()})); }catch(e){}
