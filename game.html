@@ -1,94 +1,168 @@
 ﻿<!DOCTYPE html>
-<html lang='ja'>
+<html lang="ja">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ヴィタリア転生録 | ホーム</title>
-  <link href='https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Zen Kaku Gothic New',sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:100px}
-    .header{background:white;padding:16px 20px;border-bottom:2px solid #29b6e8;position:sticky;top:0;z-index:100}
-    .header h1{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:900;color:#1e7fa4}
+    body{font-family:"Zen Kaku Gothic New",sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:120px}
+    .header{background:white;padding:12px 20px;border-bottom:2px solid #29b6e8;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+    .header h1{font-family:"Noto Serif JP",serif;font-size:1.2rem;font-weight:900;color:#1e7fa4}
+    .header-menu{display:flex;gap:8px}
+    .menu-btn{background:none;border:1px solid #1e7fa4;color:#1e7fa4;padding:4px 10px;border-radius:6px;font-size:0.65rem;font-weight:700;cursor:pointer}
     .container{max-width:800px;margin:0 auto;padding:16px}
     .card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(30,127,164,0.1)}
-    .section-title{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;color:#1e7fa4;margin-bottom:12px;border-bottom:2px solid #29b6e8;padding-bottom:8px}
+    .section-title{font-family:"Noto Serif JP",serif;font-size:1rem;font-weight:900;color:#1e7fa4;margin-bottom:12px;border-bottom:2px solid #29b6e8;padding-bottom:8px}
     .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .stat{background:rgba(30,127,164,0.08);border-left:4px solid #1e7fa4;padding:12px;border-radius:8px}
-    .stat-value{font-family:'Noto Serif JP',serif;font-size:1.2rem;font-weight:900;color:#1e7fa4}
+    .stat-value{font-family:"Noto Serif JP",serif;font-size:1.2rem;font-weight:900;color:#1e7fa4}
     .task-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .task{background:linear-gradient(135deg,#E8F4FB,#D4E8F7);border:2px solid #1e7fa4;border-radius:12px;padding:12px;text-align:center;cursor:pointer}
+    .task{background:linear-gradient(135deg,#E8F4FB,#D4E8F7);border:2px solid #1e7fa4;border-radius:12px;padding:12px;text-align:center;cursor:pointer;transition:all 0.2s}
     .task:hover{transform:translateY(-2px)}
     .task-icon{font-size:1.8rem;margin-bottom:6px}
     .streak{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(30,127,164,0.05);border-radius:10px;margin-bottom:8px}
-    .msg{background:linear-gradient(135deg,rgba(78,201,138,0.1),rgba(41,182,232,0.08));border-left:4px solid #4ec98a;border-radius:10px;padding:14px;line-height:1.7;color:#0a2a40;margin:12px 0}
-    .btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:12px}
+    .log-item{background:linear-gradient(135deg,rgba(41,182,232,.08),rgba(78,201,138,.08));border-left:3px solid #29b6e8;border-radius:8px;padding:10px;margin-bottom:8px;font-size:0.8rem;line-height:1.5}
+    .log-date{font-weight:700;color:#1e7fa4;margin-bottom:2px}
+    .log-text{color:#0a2a40}
+    .msg{background:linear-gradient(135deg,rgba(78,201,138,.1),rgba(41,182,232,.08));border-left:4px solid #4ec98a;border-radius:10px;padding:14px;line-height:1.7;color:#0a2a40;margin:12px 0}
+    .btn{width:100%;padding:12px;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:12px;font-size:0.9rem}
     .btn-primary{background:linear-gradient(135deg,#29b6e8,#7fd8f4);color:white}
     .btn-secondary{background:linear-gradient(135deg,#4ec98a,#2d8f6a);color:white}
     .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #29b6e8;display:flex;justify-content:space-around;padding:8px 0;z-index:50}
-    .nav-item{flex:1;text-align:center;text-decoration:none;color:#5a7a95;padding:8px;font-size:0.7rem}
+    .nav-item{flex:1;text-align:center;text-decoration:none;color:#5a7a95;padding:8px;font-size:0.65rem;font-weight:700}
     .nav-item.active{color:#1e7fa4;background:rgba(30,127,164,0.08)}
   </style>
 </head>
 <body>
-<div class='header'><h1>🌍 ヴィタリア転生録</h1></div>
-<div class='container'>
-  <div class='card'>
-    <div class='stat-grid'>
-      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>レベル</div><div class='stat-value' id='lv'>Lv. 1</div></div>
-      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>経験値</div><div class='stat-value'><span id='xp'>0</span> / 100</div></div>
-      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>生命力</div><div class='stat-value'><span id='hp'>100</span> / 100</div></div>
-      <div class='stat'><div style='font-size:0.7rem;color:#5a7a95'>ゴールド</div><div class='stat-value'><span id='gd'>0</span> G</div></div>
+
+<div class="header">
+  <h1>🌍 ヴィタリア転生録</h1>
+  <div class="header-menu">
+    <button class="menu-btn" onclick="showLog()">📖 人生ログ</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="stat-grid">
+      <div class="stat"><div style="font-size:0.7rem;color:#5a7a95">レベル</div><div class="stat-value" id="lv">Lv. 1</div></div>
+      <div class="stat"><div style="font-size:0.7rem;color:#5a7a95">経験値</div><div class="stat-value"><span id="xp">0</span> / 100</div></div>
+      <div class="stat"><div style="font-size:0.7rem;color:#5a7a95">生命力</div><div class="stat-value"><span id="hp">100</span> / 100</div></div>
+      <div class="stat"><div style="font-size:0.7rem;color:#5a7a95">ゴールド</div><div class="stat-value"><span id="gd">0</span> G</div></div>
     </div>
   </div>
-  <div class='card'>
-    <div class='section-title'>📋 今日のタスク</div>
-    <div class='task-grid'>
-      <div class='task' onclick='location.href="./quest.html"'><div class='task-icon'>🏃</div><div style='font-size:0.75rem'>運動クエスト</div></div>
-      <div class='task' onclick='location.href="./nutrition.html"'><div class='task-icon'>🥗</div><div style='font-size:0.75rem'>栄養クエスト</div></div>
-      <div class='task' onclick='location.href="./adventure.html"'><div class='task-icon'>🗺️</div><div style='font-size:0.75rem'>冒険を進める</div></div>
-      <div class='task' onclick='alert("🌙 準備中")'><div class='task-icon'>🌙</div><div style='font-size:0.75rem'>ルナに相談</div></div>
+
+  <div class="card">
+    <div class="section-title">🌙 ルナからのメッセージ</div>
+    <div class="msg" id="lunaMsg">こんにちは。あなたのヴィタリアの旅をサポートします。</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">📋 今日のタスク</div>
+    <div class="task-grid">
+      <div class="task" onclick="location.href='./quest.html'"><div class="task-icon">🏃</div><div style="font-size:0.75rem">運動クエスト</div></div>
+      <div class="task" onclick="location.href='./nutrition.html'"><div class="task-icon">🥗</div><div style="font-size:0.75rem">栄養クエスト</div></div>
+      <div class="task" onclick="location.href='./adventure.html'"><div class="task-icon">🗺️</div><div style="font-size:0.75rem">冒険を進める</div></div>
+      <div class="task" onclick="alert('🌙 ルナとのチャット（準備中）')"><div class="task-icon">🌙</div><div style="font-size:0.75rem">ルナに相談</div></div>
     </div>
   </div>
-  <div class='card'>
-    <div class='section-title'>🔥 継続記録</div>
-    <div class='streak'><span>🏃</span><span style='flex:1'>運動</span><span style='font-weight:900;color:#1e7fa4' id='s1'>0日</span></div>
-    <div class='streak'><span>🥗</span><span style='flex:1'>栄養</span><span style='font-weight:900;color:#1e7fa4' id='s2'>0日</span></div>
-    <div class='streak'><span>💧</span><span style='flex:1'>水分補給</span><span style='font-weight:900;color:#1e7fa4' id='s3'>0日</span></div>
-    <div class='streak'><span>😴</span><span style='flex:1'>睡眠</span><span style='font-weight:900;color:#1e7fa4' id='s4'>0日</span></div>
+
+  <div class="card">
+    <div class="section-title">🔥 継続記録</div>
+    <div class="streak"><span>🏃</span><span style="flex:1">運動</span><span style="font-weight:900;color:#1e7fa4" id="s1">0日</span></div>
+    <div class="streak"><span>🥗</span><span style="flex:1">栄養</span><span style="font-weight:900;color:#1e7fa4" id="s2">0日</span></div>
+    <div class="streak"><span>💧</span><span style="flex:1">水分補給</span><span style="font-weight:900;color:#1e7fa4" id="s3">0日</span></div>
+    <div class="streak"><span>😴</span><span style="flex:1">睡眠</span><span style="font-weight:900;color:#1e7fa4" id="s4">0日</span></div>
   </div>
-  <div class='card'>
-    <div class='section-title'>🌙 ルナからのアドバイス</div>
-    <div class='msg' id='msg'>こんにちは。私はルナ。今日も一緒に頑張りましょう。</div>
-    <button class='btn btn-secondary' onclick='alert("🌙 準備中")'>ルナに相談する</button>
+
+  <div class="card" id="logSection" style="display:none">
+    <div class="section-title">📖 人生ログ</div>
+    <div id="logContent">
+      <div class="log-item"><div class="log-date">本日</div><div class="log-text">ヴィタリアの冒険が始まります。</div></div>
+    </div>
+    <button class="btn btn-secondary" onclick="hideLog()">戻る</button>
   </div>
-  <button class='btn btn-primary' onclick='location.href="./quest.html"'>⚔️ クエストを記録</button>
-  <button class='btn btn-secondary' onclick='location.href="./adventure.html"'>🗺️ 冒険を進める</button>
+
+  <button class="btn btn-primary" onclick="location.href='./quest.html'">⚔️ クエストを記録</button>
+  <button class="btn btn-secondary" onclick="location.href='./adventure.html'">🗺️ 冒険を進める</button>
+
 </div>
-<div class='bottom-nav'>
-  <a href='./game.html' class='nav-item active'><span style='font-size:1.5rem'>🏠</span>ホーム</a>
-  <a href='./quest.html' class='nav-item'><span style='font-size:1.5rem'>⚔️</span>運動</a>
-  <a href='./nutrition.html' class='nav-item'><span style='font-size:1.5rem'>🥗</span>栄養</a>
-  <a href='./adventure.html' class='nav-item'><span style='font-size:1.5rem'>🗺️</span>冒険</a>
-  <a href='#' class='nav-item'><span style='font-size:1.5rem'>⚙️</span>設定</a>
+
+<div class="bottom-nav">
+  <a href="./game.html" class="nav-item active"><span style="font-size:1.5rem">🏠</span>ホーム</a>
+  <a href="./quest.html" class="nav-item"><span style="font-size:1.5rem">⚔️</span>運動</a>
+  <a href="./nutrition.html" class="nav-item"><span style="font-size:1.5rem">🥗</span>栄養</a>
+  <a href="./adventure.html" class="nav-item"><span style="font-size:1.5rem">🗺️</span>冒険</a>
 </div>
+
 <script>
 let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
-function wk() { const d = new Date(), j = new Date(d.getFullYear(), 0, 1); return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0'); }
+
+function wk() {
+  const d = new Date(), j = new Date(d.getFullYear(), 0, 1);
+  return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
+}
+
+function addLifeLog(text) {
+  try {
+    const logs = JSON.parse(localStorage.getItem('vitalia_logs_' + uid) || '[]');
+    logs.unshift({ date: new Date().toLocaleDateString('ja-JP'), text: text });
+    localStorage.setItem('vitalia_logs_' + uid, JSON.stringify(logs.slice(0, 50)));
+  } catch (e) {}
+}
+
 function upd() {
   let xp = 0, ex = 0, nu = 0;
-  try { const q = JSON.parse(localStorage.getItem('vq_' + uid + '_' + wk())||'{}'); ex = q.score||0; xp += q.xp||0; } catch(e){}
-  try { const n = JSON.parse(localStorage.getItem('vn_' + uid + '_' + wk())||'{}'); nu = n.score||0; xp += n.xp||0; } catch(e){}
+  try {
+    const q = JSON.parse(localStorage.getItem('vq_' + uid + '_' + wk()) || '{}');
+    ex = q.score || 0;
+    xp += q.xp || 0;
+  } catch (e) {}
+  try {
+    const n = JSON.parse(localStorage.getItem('vn_' + uid + '_' + wk()) || '{}');
+    nu = n.score || 0;
+    xp += n.xp || 0;
+  } catch (e) {}
+
   const lv = 1 + Math.floor(xp / 100);
   const hp = Math.min(100, 50 + ex + nu);
   const gd = ex * 10 + nu * 5;
+
   document.getElementById('lv').textContent = 'Lv. ' + lv;
   document.getElementById('xp').textContent = xp % 100;
   document.getElementById('hp').textContent = Math.round(hp);
   document.getElementById('gd').textContent = gd;
-  document.getElementById('msg').innerHTML = hp < 50 ? '<strong>お疲れですね。</strong>無理なく休息を。' : gd < 20 ? '<strong>行動を記録しましょう。</strong>小さな一歩が大きな力に。' : '<strong>素晴らしい調子です！</strong>その調子で続けましょう。';
+
+  let msg = hp < 50 ? '<strong>お疲れのようですね。</strong><br>無理なく休息を取りながら、できることから始めましょう。'
+          : gd < 20 ? '<strong>行動を記録しましょう。</strong><br>小さな一歩が大きな力になります。'
+          : '<strong>素晴らしい調子です！</strong><br>その調子で健康習慣を続けていきましょう。';
+  document.getElementById('lunaMsg').innerHTML = msg;
+
+  if (gd > 0 && !localStorage.getItem('vitalia_log_milestone_' + gd)) {
+    addLifeLog('初めての記録達成！ゴールド ' + gd + ' G を獲得しました。');
+    localStorage.setItem('vitalia_log_milestone_' + gd, '1');
+  }
 }
-addEventListener('DOMContentLoaded', () => { upd(); setInterval(upd, 3000); });
+
+function showLog() {
+  document.getElementById('logSection').style.display = 'block';
+  const logs = JSON.parse(localStorage.getItem('vitalia_logs_' + uid) || '[]');
+  let html = logs.map(l => '<div class="log-item"><div class="log-date">' + l.date + '</div><div class="log-text">' + l.text + '</div></div>').join('');
+  document.getElementById('logContent').innerHTML = html || '<div class="log-item"><div class="log-text">記録がまだありません。</div></div>';
+}
+
+function hideLog() {
+  document.getElementById('logSection').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  upd();
+  setInterval(upd, 3000);
+});
 </script>
+
 </body>
 </html>
