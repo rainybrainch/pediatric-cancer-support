@@ -48,19 +48,22 @@
 
 <div class="container">
 
+  <!-- ピクセのメッセージ -->
   <div class="card">
-    <div class="section-title">🎯 あなたの課題は、七つの試練を克服すること</div>
-    <div class="story-box">
-      ヴィタリア世界の七大試練は、現実のあなたが直面する課題そのもの。<br><br>
-      運動をすれば「怠惰の試練」は克服される。<br>
-      栄養を意識すれば「暴食の試練」は克服される。<br><br>
-      ここに表示される敵は、あなたが毎日克服するべき課題だ。
+    <div class="section-title">✨ ピクセからのメッセージ</div>
+    <div class="story-box" id="pixie-message">
+      ここはヴィタリア。<br>
+      現実で積み重ねた生命力が、世界を少しずつ照らしていく場所。<br>
+      君が今日歩いた10分は、ここでは小さな灯火になるんだ。
+    </div>
+    <div style="text-align:center;margin-top:12px;font-size:1.2rem;color:#7fd8f4;font-weight:900">
+      本日の生命力：<span id="current-vitality">0</span>
     </div>
   </div>
 
   <div class="card">
-    <div class="section-title">🗡️ 七つの試練進行状況</div>
-    <div class="trial-list" id="trial-list"></div>
+    <div class="section-title">📖 あなたの物語</div>
+    <div class="trial-list" id="chapter-list"></div>
   </div>
 
   <div class="card" id="detail-section" style="display:none">
@@ -98,145 +101,126 @@
 </div>
 
 <script>
-const TRIALS = [
+// ヴィタリアの7つの章
+const CHAPTERS = [
   {
-    id: 'sloth',
-    num: 1,
-    title: '怠惰の試練',
+    id: 0,
+    title: '目覚め',
+    icon: '🌅',
+    required: 0,
+    story: 'ここはヴィタリア。君が目覚めた場所。',
+    pixieMsg: 'ようこそ。ここはヴィタリア。君の生命力が光に変わる世界だ。'
+  },
+  {
+    id: 1,
+    title: 'ルナとの出会い',
+    icon: '🌙',
+    required: 50,
+    story: 'ルナが君に優しく語りかけてくる。「あなたを支えたいんです」',
+    pixieMsg: 'ルナと出会った。あなたを支えるために、彼女は夜空から降りてきたんだ。'
+  },
+  {
+    id: 2,
+    title: 'カイトの試練',
+    icon: '⚔️',
+    required: 150,
+    story: 'カイトが君を見つめる。「もっと動こう。君の体は、想像以上に強い」',
+    pixieMsg: 'カイトが現れた。運動の喜びを君に教えるために。'
+  },
+  {
+    id: 3,
+    title: 'サラの食卓',
+    icon: '🍀',
+    required: 300,
+    story: 'サラが食卓に並べる。「一緒に食べましょう。栄養は愛情だから」',
+    pixieMsg: 'サラが温かい食卓を用意した。栄養は、君への思いやりなんだ。'
+  },
+  {
+    id: 4,
+    title: '癒しの森',
+    icon: '🌲',
+    required: 500,
+    story: 'ルナ・カイト・サラが揃う。「ここからが本当の旅だ」',
+    pixieMsg: '4人が揃った。ここから先、君は一人じゃない。'
+  },
+  {
+    id: 5,
+    title: '怠惰の影',
     icon: '👾',
-    desc: 'ナマケ・グリム',
-    habit: '運動習慣',
-    story: 'あなたの中にある怠け心。それを克服するには、毎日の運動が必要だ。'
+    required: 700,
+    story: '心の中にある怠けの声。それを乗り越えるのは君しかいない。',
+    pixieMsg: '怠けとの戦い。毎日の選択の積み重ねが、この敵を砕く。'
   },
   {
-    id: 'gluttony',
-    num: 2,
-    title: '暴食の試練',
-    icon: '🐌',
-    desc: 'スロース・ワーム',
-    habit: '栄養習慣',
-    story: '食べ物への執着が、あなたの体を蝕む。正しい栄養を意識することで克服できる。'
-  },
-  {
-    id: 'sleepless',
-    num: 3,
-    title: '不眠の試練',
-    icon: '💤',
-    desc: 'ドロウジー卿',
-    habit: '睡眠習慣',
-    story: '眠りを失うと、心も体も弱くなる。質の良い睡眠がこの試練を砕く。'
-  },
-  {
-    id: 'avoidance',
-    num: 4,
-    title: '回避の試練',
-    icon: '🦥',
-    desc: 'ズボラ大公',
-    habit: '高強度運動',
-    story: '困難から逃げ続けると、試練はより大きくなる。真正面から向き合おう。'
-  },
-  {
-    id: 'confusion',
-    num: 5,
-    title: '迷いの試練',
-    icon: '🌫️',
-    desc: 'モヤ・フォグ',
-    habit: 'ルナとの対話',
-    story: '迷いと不安に包まれた心。ルナとの会話を通じて、光を見つけよう。'
-  },
-  {
-    id: 'loneliness',
-    num: 6,
-    title: '孤独の試練',
-    icon: '🕸️',
-    desc: 'クモノス・クイーン',
-    habit: '習慣の継続',
-    story: '一人だと思った時、カイト・サラ・ピクセが傍にいることに気づく。'
-  },
-  {
-    id: 'despair',
-    num: 7,
-    title: '絶望の試練',
-    icon: '🪨',
-    desc: 'ロック・ゴーレム',
-    habit: '人生ログ回顧',
-    story: '過去の自分を思い出す。あなたはすでに、これ以上の試練を乗り越えてきた。'
+    id: 6,
+    title: '生命の洞窟',
+    icon: '🌀',
+    required: 1000,
+    story: 'すべてが光に満ちている。君はもう、弱い自分ではない。',
+    pixieMsg: '生命の泉にたどり着いた。ここが君の力の源だ。'
   }
 ];
 
 let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
-let currentTrial = null;
+let currentChapter = null;
 
-function wk() {
-  const d = new Date(), j = new Date(d.getFullYear(), 0, 1);
-  return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
+// 本日の総Vitality を取得
+function getTotalVitality() {
+  return Number(localStorage.getItem('totalVitality') || 0);
 }
 
-function getTrialProgress(trialId) {
-  let progress = 0;
-  try {
-    if(trialId === 'sloth') {
-      const q = JSON.parse(localStorage.getItem(`vq_${uid}_${wk()}`) || '{}');
-      progress = Math.min(100, (q.modMin || 0) / 1.5);
-    } else if(trialId === 'gluttony') {
-      const n = JSON.parse(localStorage.getItem(`vn_${uid}_${wk()}`) || '{}');
-      progress = Math.min(100, (n.score || 0) / 0.2);
-    } else if(trialId === 'sleepless') {
-      const s = JSON.parse(localStorage.getItem(`vs_${uid}_${wk()}`) || '{}');
-      progress = Math.min(100, (s.hours || 0) / 8 * 100);
-    } else if(trialId === 'avoidance') {
-      const q = JSON.parse(localStorage.getItem(`vq_${uid}_${wk()}`) || '{}');
-      progress = Math.min(100, (q.highMin || 0) / 1.5);
-    } else if(trialId === 'confusion') {
-      const chats = JSON.parse(localStorage.getItem(`vc_${uid}_${wk()}`) || '[]');
-      progress = Math.min(100, chats.length * 20);
-    } else if(trialId === 'loneliness') {
-      const hist = JSON.parse(localStorage.getItem(`vq_hist_${uid}`) || '[]');
-      progress = Math.min(100, hist.length / 0.52);
-    } else if(trialId === 'despair') {
-      const logs = JSON.parse(localStorage.getItem(`vitalia_logs_${uid}`) || '[]');
-      progress = Math.min(100, logs.length * 5);
-    }
-  } catch(e) {}
-  return Math.round(progress);
-}
+function renderChapters() {
+  const list = document.getElementById('chapter-list');
+  const totalVitality = getTotalVitality();
 
-function renderTrials() {
-  const list = document.getElementById('trial-list');
+  // ピクセのメッセージ更新
+  document.getElementById('current-vitality').textContent = totalVitality;
+
   list.innerHTML = '';
-  
-  TRIALS.forEach(trial => {
-    const progress = getTrialProgress(trial.id);
-    const cleared = progress >= 100;
-    
+
+  CHAPTERS.forEach(chapter => {
+    const unlocked = totalVitality >= chapter.required;
+    const nextChapter = CHAPTERS.find(c => c.required > totalVitality);
+    const remaining = nextChapter ? Math.max(0, nextChapter.required - totalVitality) : 0;
+
     const el = document.createElement('div');
-    el.className = 'trial-item' + (cleared ? ' cleared' : '');
-    el.onclick = () => showDetail(trial);
-    
+    el.className = 'trial-item' + (unlocked ? ' cleared' : '');
+    if(unlocked) el.onclick = () => showDetail(chapter);
+
     el.innerHTML = `
-      <div class="trial-num">第${trial.num}試練</div>
+      <div class="trial-num">第${chapter.id}章</div>
       <div class="trial-title">
-        <span class="trial-icon">${trial.icon}</span>
-        ${trial.title}
+        <span class="trial-icon">${chapter.icon}</span>
+        ${chapter.title}
       </div>
-      <div class="trial-desc">${trial.desc}</div>
-      <div class="trial-habit">🎯 ${trial.habit}で克服</div>
-      <div class="trial-progress">
-        <div class="trial-bar" style="width:${progress}%"></div>
-      </div>
-      <div class="trial-status">
-        <span>${progress}%</span>
-        <span class="trial-check">${cleared ? '✅ 克服済み' : '進行中...'}</span>
-      </div>
+      ${unlocked ? `
+        <div class="trial-desc">${chapter.story}</div>
+        <div class="trial-progress">
+          <div class="trial-bar" style="width:100%"></div>
+        </div>
+        <div class="trial-status">
+          <span>✅ 解放済み</span>
+          <span class="trial-check">Vitality ${chapter.required}</span>
+        </div>
+      ` : `
+        <div class="trial-desc">解放条件を満たして、この章を開く</div>
+        <div class="trial-progress">
+          <div class="trial-bar" style="width:${Math.min(100, (totalVitality / chapter.required) * 100)}%"></div>
+        </div>
+        <div class="trial-status">
+          <span>🔒 必要 ${chapter.required} Vitality</span>
+          <span class="trial-check">あと ${remaining}</span>
+        </div>
+      `}
     `;
     list.appendChild(el);
   });
 }
 
-function showDetail(trial) {
-  currentTrial = trial;
-  document.getElementById('detail-title').textContent = `${trial.icon} ${trial.title}`;
-  document.getElementById('detail-story').textContent = trial.story;
+function showDetail(chapter) {
+  currentChapter = chapter;
+  document.getElementById('detail-title').textContent = `${chapter.icon} 第${chapter.id}章 ${chapter.title}`;
+  document.getElementById('detail-story').textContent = chapter.pixieMsg;
   document.getElementById('detail-section').style.display = 'block';
   window.scrollTo(0, 0);
 }
@@ -246,22 +230,13 @@ function closeDetail() {
 }
 
 function goToTask() {
-  if(!currentTrial) return;
-  if(currentTrial.id === 'sloth' || currentTrial.id === 'avoidance') {
-    location.href = './quest.html';
-  } else if(currentTrial.id === 'gluttony') {
-    location.href = './nutrition.html';
-  } else if(currentTrial.id === 'sleepless') {
-    alert('睡眠記録はまだ準備中です。');
-  } else if(currentTrial.id === 'confusion') {
-    alert('ルナとの対話はホーム画面から');
-  } else {
-    alert('この習慣の記録画面はまだ準備中です。');
-  }
+  location.href = './game.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderTrials();
+  renderChapters();
+  // 30秒ごと更新（game.html から Vitality が変わった時に反映）
+  setInterval(renderChapters, 30000);
 });
 </script>
 

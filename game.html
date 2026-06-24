@@ -434,6 +434,10 @@ function updatePillars() {
 
     const totalVitality = metsVitality + npVitality + spVitality;
     document.getElementById('total-vitality').textContent = totalVitality;
+
+    // Vitality を localStorage に保存（adventure.html で使用）
+    localStorage.setItem(`totalVitality_${uid}`, totalVitality);
+    localStorage.setItem('totalVitality', totalVitality); // グローバル用
   } catch(e) {
     console.warn('Failed to update pillars:', e);
   }
@@ -451,3 +455,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+---cache-bust: 1782279093
