@@ -3,200 +3,533 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1e7fa4">
 <title>ヴィタリア転生録</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(180deg,#E8F4FB 0%,#D0E8F8 50%,#C0DFF3 100%);color:#0a2a40;line-height:1.6;padding:20px;padding-bottom:120px;scroll-behavior:smooth}
-.container{max-width:1000px;margin:0 auto}
-.header{text-align:center;margin-bottom:50px;padding:30px 0;animation:fadeIn 0.8s ease-out}
-.header h1{font-size:2.8rem;font-weight:900;color:#1e7fa4;margin-bottom:12px;letter-spacing:2px;font-family:'Noto Serif JP',serif;text-shadow:0 2px 8px rgba(30,127,164,0.1)}
-.header p{font-size:1.05rem;color:#5a7a95;font-weight:500;letter-spacing:0.5px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-bottom:36px}
-.card{background:rgba(255,255,255,0.97);border-radius:24px;padding:32px;box-shadow:0 6px 24px rgba(30,127,164,0.14);border:1px solid rgba(30,127,164,0.1);transition:all 0.3s cubic-bezier(0.23,1,0.32,1);position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.2) 0%,transparent 70%);opacity:0;transition:opacity 0.3s ease}
-.card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(30,127,164,0.2)}
-.card:hover::before{opacity:1}
-.card-header{display:flex;align-items:center;gap:16px;border-bottom:3px solid #E8F4FB;padding-bottom:18px;margin-bottom:20px}
-.card-icon{font-size:2.4rem;filter:drop-shadow(0 2px 4px rgba(30,127,164,0.1))}
-.card-title{font-size:1.4rem;font-weight:900;color:#1e7fa4;letter-spacing:0.3px}
-.stat{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:linear-gradient(135deg,#F0F8FF 0%,#E8F6FF 100%);border-radius:14px;border-left:5px solid #1e7fa4;margin-bottom:10px;transition:all 0.2s ease}
-.stat:hover{background:linear-gradient(135deg,#E8F4FF 0%,#E0F2FF 100%);transform:translateX(2px)}
-.stat-label{font-weight:600;color:#5a7a95;font-size:0.92rem;letter-spacing:0.3px}
-.stat-value{font-weight:900;color:#0a2a40;font-size:1.2rem;font-family:'Courier New',monospace}
-.button-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px}
-.btn{padding:18px 22px;border:none;border-radius:16px;font-size:0.98rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.3s cubic-bezier(0.23,1,0.32,1);color:white;position:relative;overflow:hidden;letter-spacing:0.5px}
-.btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.2);opacity:0;transition:opacity 0.3s}
-.btn:hover::before{opacity:1}
-.btn:active{transform:scale(0.96);filter:brightness(0.95)}
-.btn-primary{background:linear-gradient(135deg,#1e7fa4 0%,#29b6e8 100%);box-shadow:0 4px 16px rgba(30,127,164,0.3)}
-.btn-primary:hover{box-shadow:0 8px 28px rgba(30,127,164,0.4);transform:translateY(-3px)}
-.btn-success{background:linear-gradient(135deg,#2d8f6a 0%,#4ec98a 100%);box-shadow:0 4px 16px rgba(45,143,106,0.3)}
-.btn-success:hover{box-shadow:0 8px 28px rgba(45,143,106,0.4);transform:translateY(-3px)}
-.btn-warning{background:linear-gradient(135deg,#d4a85a 0%,#f0d48a 100%);color:#0a2a40;box-shadow:0 4px 16px rgba(212,168,90,0.3);font-weight:800}
-.btn-warning:hover{box-shadow:0 8px 28px rgba(212,168,90,0.4);transform:translateY(-3px)}
-.list{list-style:none}
-.list-item{padding:16px 18px;margin-bottom:10px;background:linear-gradient(135deg,#F0F8FF 0%,#E8F6FF 100%);border-radius:14px;border-left:5px solid #1e7fa4;display:flex;gap:14px;transition:all 0.2s ease}
-.list-item:hover{background:linear-gradient(135deg,#E8F4FF 0%,#E0F2FF 100%);transform:translateX(4px);box-shadow:0 2px 8px rgba(30,127,164,0.1)}
-.list-icon{font-size:1.5rem;min-width:36px;filter:drop-shadow(0 1px 2px rgba(30,127,164,0.1))}
-.list-title{font-weight:800;color:#0a2a40;margin-bottom:5px;letter-spacing:0.3px}
-.list-desc{font-size:0.87rem;color:#5a7a95;font-weight:500}
-#luna-panel{position:fixed;bottom:100px;right:20px;width:360px;background:white;border-radius:24px;box-shadow:0 12px 48px rgba(0,0,0,0.22);display:none;flex-direction:column;z-index:1000;max-height:72vh;overflow:hidden;animation:slideIn 0.4s cubic-bezier(0.23,1,0.32,1)}
-#luna-panel.open{display:flex}
-.luna-header{padding:24px;background:linear-gradient(135deg,#1e7fa4 0%,#29b6e8 100%);color:white;border-radius:24px 24px 0 0;display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:1.05rem;letter-spacing:0.5px;box-shadow:0 4px 12px rgba(30,127,164,0.2)}
-.luna-close{background:none;border:none;color:white;font-size:1.6rem;cursor:pointer;padding:0;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all 0.2s ease}
-.luna-close:hover{background:rgba(255,255,255,0.2)}
-.luna-messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;scrollbar-color:#D0E8F8 rgba(0,0,0,0.05)}
-.luna-messages::-webkit-scrollbar{width:6px}
-.luna-messages::-webkit-scrollbar-track{background:rgba(0,0,0,0.05);border-radius:10px}
-.luna-messages::-webkit-scrollbar-thumb{background:#D0E8F8;border-radius:10px}
-.luna-message{padding:14px 16px;background:linear-gradient(135deg,#F0F8FF 0%,#E8F6FF 100%);border-radius:12px;border-left:4px solid #1e7fa4;font-size:0.96rem;color:#0a2a40;line-height:1.5;animation:fadeIn 0.3s ease-out}
-.luna-input{padding:18px;border-top:2px solid #E8F4FB;display:flex;gap:10px;background:#fafbfc}
-.luna-input input{flex:1;border:2px solid #E8F4FB;border-radius:12px;padding:12px 14px;font-size:0.94rem;color:#0a2a40;font-weight:500;transition:all 0.2s ease}
-.luna-input input:focus{outline:none;border-color:#1e7fa4;box-shadow:0 0 12px rgba(30,127,164,0.25);background:#white}
-.luna-input input::placeholder{color:#5a7a95}
-.luna-input button{padding:12px 18px;background:linear-gradient(135deg,#1e7fa4,#29b6e8);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:700;transition:all 0.2s ease;font-size:0.95rem}
-.luna-input button:hover{box-shadow:0 4px 12px rgba(30,127,164,0.3);transform:translateY(-1px);background:linear-gradient(135deg,#1a6a8f,#2196d3)}
-#luna-toggle{position:fixed;bottom:100px;right:20px;width:68px;height:68px;background:linear-gradient(135deg,#4ec98a 0%,#2d8f6a 100%);border:none;border-radius:50%;color:white;font-size:2.1rem;cursor:pointer;box-shadow:0 6px 24px rgba(78,201,138,0.35);z-index:999;transition:all 0.3s cubic-bezier(0.23,1,0.32,1);display:flex;align-items:center;justify-content:center}
-#luna-toggle:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(78,201,138,0.45)}
-#luna-toggle:active{transform:scale(0.95)}
-#luna-toggle.hidden{display:none}
-.nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:3px solid #E8F4FB;display:flex;justify-content:space-around;padding:14px 0;box-shadow:0 -6px 16px rgba(0,0,0,0.08);z-index:500}
-.nav a{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:#5a7a95;font-size:0.75rem;font-weight:700;padding:10px 16px;transition:all 0.3s ease;flex:1;letter-spacing:0.3px}
-.nav a:hover{color:#1e7fa4;transform:translateY(-2px)}
-.nav a.active{color:#1e7fa4;border-bottom:3px solid #1e7fa4;padding-bottom:11px}
-.nav-icon{font-size:1.7rem;filter:drop-shadow(0 1px 2px rgba(30,127,164,0.1))}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes shimmer{from{background-position:-1000px 0}to{background-position:1000px 0}}
-@keyframes glow{0%,100%{filter:drop-shadow(0 0 8px rgba(30,127,164,0.3))}50%{filter:drop-shadow(0 0 16px rgba(30,127,164,0.5))}}
-.card{animation:slideUp 0.6s cubic-bezier(0.23,1,0.32,1)}
-.card-icon{animation:glow 2s ease-in-out infinite}
-.list-item{animation:slideUp 0.6s cubic-bezier(0.23,1,0.32,1)}
-.list-item:nth-child(2){animation-delay:0.1s}
-.list-item:nth-child(3){animation-delay:0.2s}
-@media(max-width:768px){body{padding:16px;padding-bottom:100px}.grid{grid-template-columns:1fr;gap:20px}.button-grid{grid-template-columns:1fr}#luna-panel{width:calc(100%-32px);right:16px;left:16px;max-height:75vh}#luna-toggle{width:60px;height:60px;font-size:1.8rem;bottom:90px;right:16px}}
-@media(max-width:480px){.header h1{font-size:2rem}.card{padding:20px}.button-grid{gap:12px}.btn{padding:14px 16px;font-size:0.9rem}}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%);
+  color: #0a2a40;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* ヘッダー */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-top: 16px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1e7fa4;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.header p {
+  font-size: 0.9rem;
+  color: #5a7a95;
+}
+
+/* プレイヤーステータス */
+.status-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.1);
+  border-left: 4px solid #1e7fa4;
+}
+
+.status-card h2 {
+  font-size: 1rem;
+  color: #1e7fa4;
+  margin-bottom: 12px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.status-label {
+  color: #5a7a95;
+  font-weight: 600;
+}
+
+.status-value {
+  color: #0a2a40;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+/* ボタン */
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: white;
+}
+
+.btn-quest {
+  background: linear-gradient(135deg, #1e7fa4, #29b6e8);
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.2);
+}
+
+.btn-quest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(30, 127, 164, 0.3);
+}
+
+.btn-coach {
+  background: linear-gradient(135deg, #4ec98a, #2d8f6a);
+  box-shadow: 0 4px 12px rgba(78, 201, 138, 0.2);
+}
+
+.btn-coach:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(78, 201, 138, 0.3);
+}
+
+.btn-nutrition {
+  background: linear-gradient(135deg, #d4a85a, #b8925a);
+  color: white;
+  box-shadow: 0 4px 12px rgba(212, 168, 90, 0.2);
+}
+
+.btn-nutrition:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 168, 90, 0.3);
+}
+
+.btn icon {
+  font-size: 1.8rem;
+}
+
+.btn label {
+  font-size: 0.85rem;
+}
+
+/* クエスト進行 */
+.quest-progress {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.1);
+}
+
+.quest-progress h3 {
+  color: #1e7fa4;
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #f0f8ff;
+  border-radius: 10px;
+  border-left: 3px solid #1e7fa4;
+}
+
+.quest-icon {
+  font-size: 1.5rem;
+  min-width: 30px;
+}
+
+.quest-text {
+  flex: 1;
+}
+
+.quest-name {
+  font-weight: 700;
+  color: #0a2a40;
+  margin-bottom: 4px;
+}
+
+.quest-desc {
+  font-size: 0.85rem;
+  color: #5a7a95;
+}
+
+/* ボトムナビゲーション */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  border-top: 2px solid #d4e8f7;
+  padding: 12px 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #5a7a95;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+}
+
+.nav-item.active {
+  color: #1e7fa4;
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+}
+
+/* Luna AI パネル */
+#luna-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 16px;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#luna-panel.open {
+  display: flex;
+}
+
+.luna-header {
+  padding: 16px;
+  background: linear-gradient(135deg, #1e7fa4, #29b6e8);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.luna-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.luna-message {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #f0f8ff;
+  border-radius: 10px;
+  border-left: 3px solid #1e7fa4;
+  font-size: 0.9rem;
+  color: #0a2a40;
+}
+
+.luna-input {
+  padding: 12px;
+  border-top: 1px solid #d4e8f7;
+  display: flex;
+  gap: 8px;
+}
+
+.luna-input input {
+  flex: 1;
+  border: 1px solid #d4e8f7;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.luna-input button {
+  background: #1e7fa4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.luna-toggle {
+  position: fixed;
+  bottom: 100px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #4ec98a, #2d8f6a);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(78, 201, 138, 0.3);
+  z-index: 998;
+  transition: all 0.3s ease;
+}
+
+.luna-toggle:hover {
+  transform: scale(1.1);
+}
+
+.luna-toggle.hidden {
+  display: none;
+}
+
+/* アニメーション */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.btn {
+  animation: slideUp 0.6s cubic-bezier(0.23,1,0.32,1);
+}
+
+.quest-progress {
+  animation: slideUp 0.6s cubic-bezier(0.23,1,0.32,1) 0.2s both;
+}
+
 </style>
 </head>
 <body>
-<div class="container">
+
 <div class="header">
-<h1>🌍 ヴィタリア転生録</h1>
-<p>冒険を通じて、新しい自分を取り戻す</p>
+  <h1>🌍 ヴィタリア転生録</h1>
+  <p>冒険を通じて、新しい自分を取り戻す</p>
 </div>
 
-<div class="grid">
-<div class="card">
-<div class="card-header">
-<span class="card-icon">⚔️</span>
-<h2 class="card-title">プレイヤー</h2>
-</div>
-<div class="stat"><span class="stat-label">レベル</span><span class="stat-value">✦ Lv. 1</span></div>
-<div class="stat"><span class="stat-label">経験値</span><span class="stat-value">45 / 100 ⬆</span></div>
-<div class="stat"><span class="stat-label">体力</span><span class="stat-value">100 / 100 ❤️</span></div>
-</div>
-
-<div class="card">
-<div class="card-header">
-<span class="card-icon">📊</span>
-<h2 class="card-title">今週の実績</h2>
-</div>
-<div class="stat"><span class="stat-label">運動時間</span><span class="stat-value">25 分 🏃</span></div>
-<div class="stat"><span class="stat-label">栄養記録</span><span class="stat-value">3 回 🥗</span></div>
-<div class="stat"><span class="stat-label">達成度</span><span class="stat-value">45 % ⭐</span></div>
-</div>
+<!-- プレイヤーステータス -->
+<div class="status-card">
+  <h2>📊 プレイヤー</h2>
+  <div class="status-row">
+    <span class="status-label">レベル</span>
+    <span class="status-value">✦ Lv. 1</span>
+  </div>
+  <div class="status-row">
+    <span class="status-label">経験値</span>
+    <span class="status-value">45 / 100 ⬆</span>
+  </div>
+  <div class="status-row">
+    <span class="status-label">体力</span>
+    <span class="status-value">100 / 100 ❤️</span>
+  </div>
 </div>
 
-<div class="card">
-<div class="card-header"><span class="card-icon">⚡</span><h2 class="card-title">クイックアクション</h2></div>
-<div class="button-grid">
-<a href="./quest.html" class="btn btn-primary"><span>⚔️</span><span>クエスト</span></a>
-<button class="btn btn-success" id="luna-btn"><span>🌙</span><span>ルナと話す</span></button>
-<a href="./nutrition.html" class="btn btn-warning"><span>🌿</span><span>栄養記録</span></a>
-<a href="./adventure.html" class="btn btn-primary"><span>🗺️</span><span>冒険</span></a>
-</div>
+<!-- アクションボタン -->
+<div class="action-buttons">
+  <a href="./quest.html" class="btn btn-quest">
+    <span class="btn-icon">⚔️</span>
+    <span>クエスト</span>
+  </a>
+  <a href="#" class="btn btn-coach" id="luna-btn">
+    <span class="btn-icon">🌙</span>
+    <span>ルナと話す</span>
+  </a>
+  <a href="./nutrition.html" class="btn btn-nutrition">
+    <span class="btn-icon">🌿</span>
+    <span>栄養記録</span>
+  </a>
+  <a href="./settings.html" class="btn">
+    <span class="btn-icon">⚙️</span>
+    <span>設定</span>
+  </a>
 </div>
 
-<div class="card">
-<div class="card-header"><span class="card-icon">🗺️</span><h2 class="card-title">現在の冒険</h2></div>
-<ul class="list">
-<li class="list-item"><span class="list-icon">⚡</span><div><div class="list-title">第1章 — 目覚めの時 [進行度: 45%]</div><div class="list-desc">✦ 最初の試練を乗り越えよう • 報酬: 100 XP</div></div></li>
-<li class="list-item"><span class="list-icon">🏃</span><div><div class="list-title">運動を記録する</div><div class="list-desc">⏱️ 今日あと 15分で達成 • 報酬: +10 XP</div></div></li>
-<li class="list-item"><span class="list-icon">🥗</span><div><div class="list-title">栄養を意識する</div><div class="list-desc">🎯 完了！ • 本日クリア済み</div></div></li>
-</ul>
-</div>
+<!-- クエスト進行 -->
+<div class="quest-progress">
+  <h3>🗺️ 現在の冒険</h3>
+  <div class="quest-item">
+    <span class="quest-icon">⚡</span>
+    <div class="quest-text">
+      <div class="quest-name">第1章 — 目覚めの時 [進行度: 45%]</div>
+      <div class="quest-desc">✦ 最初の試練を乗り越えよう • 報酬: 100 XP</div>
+    </div>
+  </div>
+  <div class="quest-item">
+    <span class="quest-icon">🏃</span>
+    <div class="quest-text">
+      <div class="quest-name">運動を記録する</div>
+      <div class="quest-desc">⏱️ 今日あと 15分で達成 • 報酬: +10 XP</div>
+    </div>
+  </div>
+  <div class="quest-item">
+    <span class="quest-icon">🥗</span>
+    <div class="quest-text">
+      <div class="quest-name">栄養を意識する</div>
+      <div class="quest-desc">🎯 完了！ • 本日クリア済み</div>
+    </div>
+  </div>
 </div>
 
-<button class="btn" id="luna-toggle">🌙</button>
+<!-- Luna AI パネル -->
+<button class="luna-toggle" id="luna-toggle">🌙</button>
 <div id="luna-panel">
-<div class="luna-header">
-<span>🌙 ルナ</span>
-<button class="luna-close" onclick="closeLunaPanel()">✕</button>
-</div>
-<div class="luna-messages" id="luna-messages">
-<div class="luna-message">🌙 こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？</div>
-</div>
-<div class="luna-input">
-<input type="text" id="luna-input" placeholder="メッセージを入力...">
-<button onclick="sendLunaMessage()">送信</button>
-</div>
+  <div class="luna-header">
+    <span>🌙 ルナ</span>
+    <button onclick="closeLunaPanel()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✕</button>
+  </div>
+  <div class="luna-messages" id="luna-messages">
+    <div class="luna-message">
+      🌙 こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？
+    </div>
+  </div>
+  <div class="luna-input">
+    <input type="text" id="luna-input" placeholder="メッセージを入力...">
+    <button onclick="sendLunaMessage()">送信</button>
+  </div>
 </div>
 
-<nav class="nav">
-<a href="./game.html" class="active"><span class="nav-icon">🏠</span><span>ホーム</span></a>
-<a href="./quest.html"><span class="nav-icon">⚔️</span><span>クエスト</span></a>
-<a href="./nutrition.html"><span class="nav-icon">🌿</span><span>栄養</span></a>
-<a href="./adventure.html"><span class="nav-icon">🗺️</span><span>冒険</span></a>
-<a href="./settings.html"><span class="nav-icon">⚙️</span><span>設定</span></a>
+<!-- ボトムナビゲーション -->
+<nav class="bottom-nav">
+  <a href="./game.html" class="nav-item active">
+    <span class="nav-icon">🏠</span>
+    <span>ホーム</span>
+  </a>
+  <a href="./quest.html" class="nav-item">
+    <span class="nav-icon">⚔️</span>
+    <span>クエスト</span>
+  </a>
+  <a href="./nutrition.html" class="nav-item">
+    <span class="nav-icon">🌿</span>
+    <span>栄養</span>
+  </a>
+  <a href="./adventure.html" class="nav-item">
+    <span class="nav-icon">🗺️</span>
+    <span>冒険</span>
+  </a>
+  <a href="./settings.html" class="nav-item">
+    <span class="nav-icon">⚙️</span>
+    <span>設定</span>
+  </a>
 </nav>
 
 <script>
 // ページロード時の初期化
 document.addEventListener('DOMContentLoaded', () => {
   // ステータスアニメーション
-  const stats = document.querySelectorAll('.stat');
+  const stats = document.querySelectorAll('.status-row');
   stats.forEach((stat, index) => {
     stat.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${index * 0.1}s both`;
   });
 
-  // カード位置の復元（スクロール）
-  const scrollPos = localStorage.getItem('scrollPos');
+  // クエストアイテムのアニメーション
+  const questItems = document.querySelectorAll('.quest-item');
+  questItems.forEach((item, index) => {
+    item.style.animation = `slideUp 0.6s cubic-bezier(0.23,1,0.32,1) ${0.3 + index * 0.1}s both`;
+  });
+
+  // スクロール位置の復元
+  const scrollPos = localStorage.getItem('gameScrollPos');
   if (scrollPos) setTimeout(() => window.scrollTo(0, parseInt(scrollPos)), 100);
 });
 
 // スクロール位置の保存
 window.addEventListener('scroll', () => {
-  localStorage.setItem('scrollPos', window.scrollY);
+  localStorage.setItem('gameScrollPos', window.scrollY);
 });
 
+// Luna AI パネルの表示/非表示
 const lunaToggle = document.getElementById('luna-toggle');
 const lunaPanel = document.getElementById('luna-panel');
 const lunaBtn = document.getElementById('luna-btn');
+
 lunaToggle.addEventListener('click', () => {
   lunaPanel.classList.toggle('open');
   lunaToggle.classList.toggle('hidden');
 });
+
 lunaBtn.addEventListener('click', (e) => {
   e.preventDefault();
   lunaPanel.classList.add('open');
   lunaToggle.classList.add('hidden');
 });
+
 function closeLunaPanel() {
   lunaPanel.classList.remove('open');
   lunaToggle.classList.remove('hidden');
 }
+
 function sendLunaMessage() {
   const input = document.getElementById('luna-input');
   const messages = document.getElementById('luna-messages');
+
   if (!input.value.trim()) return;
+
+  // ユーザーメッセージを表示
   const userMsg = document.createElement('div');
   userMsg.className = 'luna-message';
   userMsg.style.background = '#E8F4FB';
   userMsg.style.borderLeftColor = '#29b6e8';
   userMsg.textContent = '👤 ' + input.value;
   messages.appendChild(userMsg);
+
+  // ルナの応答（複数パターン）
   const responses = [
     '素晴らしい質問ですね。あなたの気付きが成長につながります。 ✨',
     '一緒に考えてみましょう。あなたなら絶対にできます。💪',
@@ -204,7 +537,9 @@ function sendLunaMessage() {
     'あなたの頑張りをいつも応援しています。今日も一緒に進みましょう。 🌟',
     'いい視点をお持ちですね。そういう前向きさが力になります。 🎯'
   ];
+
   const response = responses[Math.floor(Math.random() * responses.length)];
+
   setTimeout(() => {
     const lunaMsg = document.createElement('div');
     lunaMsg.className = 'luna-message';
@@ -212,10 +547,11 @@ function sendLunaMessage() {
     messages.appendChild(lunaMsg);
     messages.scrollTop = messages.scrollHeight;
   }, 800);
+
   input.value = '';
-  input.focus();
   messages.scrollTop = messages.scrollHeight;
 }
 </script>
+
 </body>
 </html>
