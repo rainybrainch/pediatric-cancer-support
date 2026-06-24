@@ -20501,6 +20501,114 @@ button:hover, .btn:hover {
 
 /* アクセシビリティ：コントラスト向上 */
 .sr-only { display: none; }
+
+/* ===== レイアウト改善 ===== */
+body {
+  padding: 16px !important;
+  padding-bottom: 100px !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0DFF3 100%) !important;
+}
+
+main, .main-content, [role="main"] {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+/* カード要素の統一 */
+[class*="card"], [class*="panel"], [class*="section"], .content-box {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  margin-bottom: 16px !important;
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.08) !important;
+  border: 1px solid rgba(30, 127, 164, 0.1) !important;
+}
+
+/* ヘッダー・タイトルのスタイル */
+h1, h2, h3, .title, .heading {
+  color: #1e7fa4 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 12px !important;
+}
+
+/* テキストの可読性 */
+p, span, div, li {
+  color: #0a2a40 !important;
+  line-height: 1.6 !important;
+}
+
+.muted, .text-muted, [class*="muted"] {
+  color: #5a7a95 !important;
+}
+
+/* ボタンのスタイル */
+button, .btn, a[class*="btn"] {
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  padding: 12px 20px !important;
+  transition: all 0.3s ease !important;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* グリッド要素の間隔 */
+.grid, .row, [class*="grid"], [class*="row"] {
+  gap: 16px !important;
+  margin-bottom: 16px !important;
+}
+
+/* リスト要素 */
+ul, ol, [class*="list"] {
+  margin: 12px 0 !important;
+  padding-left: 20px !important;
+}
+
+li {
+  margin-bottom: 8px !important;
+}
+
+/* フォーム要素 */
+input, textarea, select {
+  border-radius: 8px !important;
+  border: 1px solid rgba(30, 127, 164, 0.2) !important;
+  padding: 10px 12px !important;
+  font-size: 0.95rem !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #1e7fa4 !important;
+  box-shadow: 0 0 8px rgba(30, 127, 164, 0.2) !important;
+}
+
+/* アイコン・イメージ */
+img, svg {
+  border-radius: 12px !important;
+  max-width: 100% !important;
+}
+
+/* ナビゲーション */
+nav, [role="navigation"] {
+  padding: 12px 0 !important;
+}
+
+/* スペーシング統一 */
+.space-sm { margin: 8px !important; }
+.space-md { margin: 12px !important; }
+.space-lg { margin: 16px !important; }
+.space-xl { margin: 20px !important; }
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  body { padding: 12px !important; }
+  [class*="card"], [class*="panel"] { padding: 16px !important; }
+  h1, h2 { font-size: 1.5rem !important; }
+}
 </style>
 
 </body>
