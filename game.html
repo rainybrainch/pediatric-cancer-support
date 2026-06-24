@@ -28,7 +28,7 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 .btn{padding:18px 22px;border:none;border-radius:16px;font-size:0.98rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.3s cubic-bezier(0.23,1,0.32,1);color:white;position:relative;overflow:hidden;letter-spacing:0.5px}
 .btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.2);opacity:0;transition:opacity 0.3s}
 .btn:hover::before{opacity:1}
-.btn:active{transform:scale(0.98)}
+.btn:active{transform:scale(0.96);filter:brightness(0.95)}
 .btn-primary{background:linear-gradient(135deg,#1e7fa4 0%,#29b6e8 100%);box-shadow:0 4px 16px rgba(30,127,164,0.3)}
 .btn-primary:hover{box-shadow:0 8px 28px rgba(30,127,164,0.4);transform:translateY(-3px)}
 .btn-success{background:linear-gradient(135deg,#2d8f6a 0%,#4ec98a 100%);box-shadow:0 4px 16px rgba(45,143,106,0.3)}
@@ -64,12 +64,18 @@ html,body{width:100%;height:100%;font-family:'Noto Sans JP',-apple-system,BlinkM
 .nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:3px solid #E8F4FB;display:flex;justify-content:space-around;padding:14px 0;box-shadow:0 -6px 16px rgba(0,0,0,0.08);z-index:500}
 .nav a{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;color:#5a7a95;font-size:0.75rem;font-weight:700;padding:10px 16px;transition:all 0.3s ease;flex:1;letter-spacing:0.3px}
 .nav a:hover{color:#1e7fa4;transform:translateY(-2px)}
-.nav a.active{color:#1e7fa4}
+.nav a.active{color:#1e7fa4;border-bottom:3px solid #1e7fa4;padding-bottom:11px}
 .nav-icon{font-size:1.7rem;filter:drop-shadow(0 1px 2px rgba(30,127,164,0.1))}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes shimmer{from{background-position:-1000px 0}to{background-position:1000px 0}}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 8px rgba(30,127,164,0.3))}50%{filter:drop-shadow(0 0 16px rgba(30,127,164,0.5))}}
 .card{animation:slideUp 0.6s cubic-bezier(0.23,1,0.32,1)}
+.card-icon{animation:glow 2s ease-in-out infinite}
+.list-item{animation:slideUp 0.6s cubic-bezier(0.23,1,0.32,1)}
+.list-item:nth-child(2){animation-delay:0.1s}
+.list-item:nth-child(3){animation-delay:0.2s}
 @media(max-width:768px){body{padding:16px;padding-bottom:100px}.grid{grid-template-columns:1fr;gap:20px}.button-grid{grid-template-columns:1fr}#luna-panel{width:calc(100%-32px);right:16px;left:16px;max-height:75vh}#luna-toggle{width:60px;height:60px;font-size:1.8rem;bottom:90px;right:16px}}
 @media(max-width:480px){.header h1{font-size:2rem}.card{padding:20px}.button-grid{gap:12px}.btn{padding:14px 16px;font-size:0.9rem}}
 </style>
@@ -207,6 +213,7 @@ function sendLunaMessage() {
     messages.scrollTop = messages.scrollHeight;
   }, 800);
   input.value = '';
+  input.focus();
   messages.scrollTop = messages.scrollHeight;
 }
 </script>
