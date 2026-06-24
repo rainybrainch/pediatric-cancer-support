@@ -3076,6 +3076,9 @@ async function _saveWeekCore(){
   clearDraft();
   document.getElementById('save-msg').textContent='';
   showSaveToast('✅', '記録を保存しました');
+  if(modMin+highMin*2>0){
+    setTimeout(()=>showCharacterMessage('kaito'), 1200);
+  }
   const achieved = data.score >= getWeeklyGoal();
   if(achieved) setTimeout(showGoalCelebration, 400);
   if(isFirst){
@@ -3110,6 +3113,39 @@ function showGoalCelebration(){
   b.classList.add('show');
   clearTimeout(_goalBannerTO);
   _goalBannerTO=setTimeout(()=>b.classList.remove('show'),5000);
+}
+function showCharacterMessage(char){
+  const msgs={
+    kaito:[
+      '運動を記録してくれてありがとう。その一歩が大事なんだ。',
+      'よし、いい動きだ。このペースで続けていこう。',
+      'お疲れさん。毎日の積み重ねが、力になるんだ。',
+      'いい調子だ。次のボスも一緒に倒そう。',
+      '記録してくれて感謝。お前の成長を見守ってるぞ。'
+    ],
+    sara:[
+      '栄養も記録してくれてありがとう。体が喜んでます。',
+      '食事と運動、どちらも大切ね。素晴らしい！',
+      'いい食事の選択肢だ。続けよう。',
+      'バランスの取れた記録ですね。さすがです。'
+    ]
+  };
+  const charMsgs=msgs[char]||msgs.kaito;
+  const msg=charMsgs[Math.floor(Math.random()*charMsgs.length)];
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.3s ease;';
+  modal.innerHTML=`
+    <div style="background:white;border-radius:20px;padding:30px;max-width:320px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3);animation:modalIn 0.35s cubic-bezier(.22,1,.36,1);">
+      <div style="font-size:2.5rem;margin-bottom:12px;">${char==='kaito'?'⚔️':'🍀'}</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:0.9rem;font-weight:700;color:#1e7fa4;margin-bottom:14px;">${char==='kaito'?'カイト':'サラ'}</div>
+      <div style="font-size:0.85rem;line-height:1.6;color:#0a2a40;margin-bottom:20px;">"${msg}"</div>
+      <button style="background:linear-gradient(135deg,#29b6e8,#7fd8f4);color:white;border:none;border-radius:10px;padding:10px 24px;font-weight:700;cursor:pointer;font-size:0.8rem;" onclick="this.closest('div').parentElement.remove()">閉じる</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  setTimeout(()=>{
+    if(modal.parentElement) modal.remove();
+  }, 5000);
 }
 function loadWeek(){
   const raw=localStorage.getItem(storeKey());

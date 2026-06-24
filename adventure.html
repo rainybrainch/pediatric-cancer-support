@@ -3,209 +3,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ヴィタリア冒険 | 異世界</title>
+  <title>ヴィタリア冒険 | 物語</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:"Zen Kaku Gothic New",sans-serif;background:linear-gradient(180deg,#0c1a2e,#102540,#163050);color:#e4f0fc;min-height:100vh;padding-bottom:100px;overflow-x:hidden}
-    .header{background:rgba(8,6,18,.95);padding:16px 20px;border-bottom:1px solid rgba(41,182,232,.2);position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
-    .header h1{font-family:"Noto Serif JP",serif;font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,#7fd8f4,#29b6e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .header-menu{display:flex;gap:8px}
-    .menu-btn{background:none;border:1px solid rgba(41,182,232,.3);color:rgba(127,216,244,.8);padding:6px 12px;border-radius:6px;font-size:0.75rem;cursor:pointer}
+    .header{background:rgba(8,6,18,.95);padding:14px 20px;border-bottom:1px solid rgba(41,182,232,.2);position:sticky;top:0;z-index:100}
+    .header h1{font-family:"Noto Serif JP",serif;font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,#7fd8f4,#29b6e8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
     .container{max-width:900px;margin:0 auto;padding:16px}
-    .card{background:linear-gradient(135deg,rgba(20,8,8,.6),rgba(15,12,30,.8));border:1px solid rgba(41,182,232,.25);border-radius:16px;padding:20px;margin-bottom:16px}
-    .section-title{font-family:"Noto Serif JP",serif;font-size:1.1rem;font-weight:900;color:#7fd8f4;margin-bottom:12px}
-    .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .field-card{background:linear-gradient(135deg,rgba(41,182,232,.15),rgba(95,208,232,.08));border:1px solid rgba(41,182,232,.3);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.3s;text-align:center}
-    .field-card:hover{border-color:rgba(41,182,232,.8);box-shadow:0 0 20px rgba(41,182,232,.2);transform:translateY(-2px)}
-    .field-icon{font-size:2rem;margin-bottom:8px}
-    .field-name{font-weight:700;color:#7fd8f4;margin-bottom:4px}
-    .field-desc{font-size:0.7rem;color:rgba(127,216,244,.6)}
-    .boss-list{display:flex;flex-direction:column;gap:10px}
-    .boss-item{background:linear-gradient(135deg,rgba(200,100,80,.1),rgba(224,92,92,.08));border-left:3px solid rgba(224,92,92,.5);border-radius:8px;padding:12px;cursor:pointer;transition:all 0.2s}
-    .boss-item:hover{border-left-color:#e05c5c;background:rgba(224,92,92,.12)}
-    .boss-name{font-weight:700;color:#f0a0a0;margin-bottom:2px}
-    .boss-hp{font-size:0.75rem;color:rgba(127,216,244,.6)}
-    .team-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    .member-card{background:linear-gradient(135deg,rgba(78,201,138,.1),rgba(78,201,138,.05));border:1px solid rgba(78,201,138,.3);border-radius:10px;padding:12px;text-align:center}
-    .member-icon{font-size:2rem;margin-bottom:6px}
-    .member-name{font-size:0.75rem;font-weight:700;color:#a8e8c0}
-    .member-role{font-size:0.65rem;color:rgba(127,216,244,.5)}
-    .story-box{background:rgba(41,182,232,.08);border-left:3px solid #29b6e8;border-radius:8px;padding:14px;line-height:1.7;color:rgba(196,220,244,.9)}
-    .story-title{font-weight:700;color:#7fd8f4;margin-bottom:6px}
-    .btn{width:100%;padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin-top:12px}
+    .card{background:linear-gradient(135deg,rgba(20,8,8,.5),rgba(15,12,30,.7));border:1px solid rgba(41,182,232,.2);border-radius:14px;padding:18px;margin-bottom:14px}
+    .section-title{font-family:"Noto Serif JP",serif;font-size:1rem;font-weight:900;color:#7fd8f4;margin-bottom:10px}
+    .chapter-list{}
+    .chapter-item{background:linear-gradient(135deg,rgba(41,182,232,.12),rgba(95,208,232,.05));border:1px solid rgba(41,182,232,.2);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all 0.2s}
+    .chapter-item:hover{border-color:rgba(41,182,232,.6);box-shadow:0 0 16px rgba(41,182,232,.15)}
+    .chapter-item.locked{opacity:0.5;cursor:not-allowed}
+    .chapter-num{font-size:0.7rem;color:rgba(127,216,244,.5);font-weight:700;margin-bottom:2px}
+    .chapter-title{font-weight:900;color:#7fd8f4;margin-bottom:4px}
+    .chapter-status{font-size:0.75rem;color:rgba(127,216,244,.5)}
+    .story-box{background:rgba(41,182,232,.08);border-left:3px solid #29b6e8;border-radius:10px;padding:12px;line-height:1.6;font-size:0.9rem;margin:10px 0}
+    .party{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .member{background:linear-gradient(135deg,rgba(78,201,138,.12),rgba(78,201,138,.05));border:1px solid rgba(78,201,138,.3);border-radius:10px;padding:10px;text-align:center}
+    .member-icon{font-size:1.8rem;margin-bottom:4px}
+    .member-name{font-size:0.8rem;font-weight:700;color:#a8e8c0}
+    .btn{width:100%;padding:11px;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin-top:10px;font-size:0.85rem}
     .btn-primary{background:linear-gradient(135deg,#29b6e8,#7fd8f4);color:white}
     .btn-secondary{background:linear-gradient(135deg,#4ec98a,#2d8f6a);color:white}
     .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,6,18,.98);border-top:1px solid rgba(41,182,232,.2);display:flex;justify-content:space-around;padding:8px 0;z-index:50}
-    .nav-item{flex:1;text-align:center;text-decoration:none;color:rgba(127,216,244,.6);padding:8px;font-size:0.7rem}
+    .nav-item{flex:1;text-align:center;text-decoration:none;color:rgba(127,216,244,.5);padding:8px;font-size:0.65rem}
     .nav-item.active{color:#7fd8f4}
   </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🗺️ ヴィタリア冒険</h1>
-  <div class="header-menu">
-    <button class="menu-btn" onclick="showTeam()">👥 仲間</button>
-    <button class="menu-btn" onclick="showBoss()">⚔️ ボス</button>
-  </div>
+  <h1>🗺️ ヴィタリア冒険 — 物語</h1>
 </div>
 
 <div class="container">
 
-  <!-- 現在地 -->
-  <div class="card">
-    <div class="section-title">📍 現在地</div>
-    <div style="font-size:1.2rem;color:#7fd8f4;font-weight:900;margin:12px 0" id="currentLocation">始まりの村</div>
-    <div style="font-size:0.85rem;color:rgba(127,216,244,.6);line-height:1.6" id="locationDesc">
-      全ての冒険はここから始まる。ルナと共に、新しい世界へ。
-    </div>
-  </div>
-
-  <!-- フィールド選択 -->
-  <div class="card">
-    <div class="section-title">🌍 探索可能なフィールド</div>
-    <div class="field-grid" id="fieldGrid">
-      <div class="field-card" onclick="enterField('forest')">
-        <div class="field-icon">🌲</div>
-        <div class="field-name">癒しの森</div>
-        <div class="field-desc">仲間：運動の騎士</div>
-      </div>
-      <div class="field-card" onclick="enterField('cave')">
-        <div class="field-icon">🏔️</div>
-        <div class="field-name">生命の洞窟</div>
-        <div class="field-desc">仲間：森の料理人</div>
-      </div>
-      <div class="field-card" onclick="enterField('tower')">
-        <div class="field-icon">🏯</div>
-        <div class="field-name">希望の塔</div>
-        <div class="field-desc">仲間：月の羊飼い</div>
-      </div>
-      <div class="field-card" onclick="enterField('dream')">
-        <div class="field-icon">🌙</div>
-        <div class="field-name">夢見の地</div>
-        <div class="field-desc">仲間：夢見るフクロウ</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ストーリー進行 -->
   <div class="card">
     <div class="section-title">📖 ストーリー進行</div>
-    <div class="story-box">
-      <div class="story-title">第1章 — 目覚めの時</div>
-      <div id="storyText">
-        異世界ヴィタリアへようこそ。<br>
-        あなたは「転生者」として目覚めた。<br>
-        <br>
-        現実世界での運動・栄養の記録が、ここでの力となる。<br>
-        小さな一歩が、やがて大きな冒険へ。<br>
-        <br>
-        ルナと共に、七つの試練を乗り越え、<br>
-        自分自身の「本当の力」を取り戻そう。
+    <div class="chapter-list">
+      <div class="chapter-item" onclick="playChapter(1)">
+        <div class="chapter-num">第 1 章</div>
+        <div class="chapter-title">始まりの村</div>
+        <div class="chapter-status">✔ クリア</div>
+      </div>
+      <div class="chapter-item" onclick="playChapter(2)">
+        <div class="chapter-num">第 2 章</div>
+        <div class="chapter-title">癒しの森</div>
+        <div class="chapter-status">進行中</div>
+      </div>
+      <div class="chapter-item locked" onclick="alert('第2章クリアで解放')">
+        <div class="chapter-num">第 3 章</div>
+        <div class="chapter-title">生命の洞窟</div>
+        <div class="chapter-status">🔒 ロック中</div>
+      </div>
+      <div class="chapter-item locked" onclick="alert('第3章クリアで解放')">
+        <div class="chapter-num">第 4 章</div>
+        <div class="chapter-title">希望の塔</div>
+        <div class="chapter-status">🔒 ロック中</div>
       </div>
     </div>
   </div>
 
-  <!-- 仲間 -->
-  <div class="card" id="teamSection" style="display:none">
-    <div class="section-title">👥 仲間たち</div>
-    <div class="team-grid">
-      <div class="member-card">
-        <div class="member-icon">🏃</div>
-        <div class="member-name">運動の騎士</div>
-        <div class="member-role">体力担当</div>
-      </div>
-      <div class="member-card">
-        <div class="member-icon">🥗</div>
-        <div class="member-name">森の料理人</div>
-        <div class="member-role">栄養担当</div>
-      </div>
-      <div class="member-card">
-        <div class="member-icon">🌙</div>
-        <div class="member-name">月の羊飼い</div>
-        <div class="member-role">睡眠担当</div>
-      </div>
-      <div class="member-card">
-        <div class="member-icon">🦉</div>
-        <div class="member-name">夢見るフクロウ</div>
-        <div class="member-role">知恵担当</div>
-      </div>
-      <div class="member-card">
+  <div class="card" id="storySection" style="display:none">
+    <div class="section-title" id="storyTitle">第1章 — 始まりの村</div>
+    <div class="story-box" id="storyContent">
+      あなたは異世界ヴィタリアで目覚めた。
+    </div>
+    <div class="party">
+      <div class="member">
         <div class="member-icon">🌙</div>
         <div class="member-name">ルナ</div>
-        <div class="member-role">AI相談役</div>
+      </div>
+      <div class="member">
+        <div class="member-icon">⚔️</div>
+        <div class="member-name">カイト</div>
+      </div>
+      <div class="member">
+        <div class="member-icon">🍀</div>
+        <div class="member-name">サラ</div>
+      </div>
+      <div class="member">
+        <div class="member-icon">✨</div>
+        <div class="member-name">ピクセ</div>
       </div>
     </div>
-    <button class="btn btn-secondary" onclick="hideTeam()">戻る</button>
+    <button class="btn btn-primary" onclick="attackBoss()">⚔️ ボスに挑む</button>
+    <button class="btn btn-secondary" onclick="closeStory()">戻る</button>
   </div>
-
-  <!-- ボス -->
-  <div class="card" id="bossSection" style="display:none">
-    <div class="section-title">⚔️ 七つの試練</div>
-    <div class="boss-list">
-      <div class="boss-item" onclick="showBossDetail('sloth')">
-        <div class="boss-name">怠惰の魔王 — スロウス</div>
-        <div class="boss-hp">HP: 200 | 運動で与ダメージ</div>
-      </div>
-      <div class="boss-item" onclick="showBossDetail('gluttony')">
-        <div class="boss-name">暴食の魔物 — グラト</div>
-        <div class="boss-hp">HP: 220 | 栄養習慣でダメージ</div>
-      </div>
-      <div class="boss-item" onclick="showBossDetail('wrath')">
-        <div class="boss-name">憤怒の獣 — イラ</div>
-        <div class="boss-hp">HP: 220 | ストレス管理で対抗</div>
-      </div>
-      <div class="boss-item" onclick="showBossDetail('sleep')">
-        <div class="boss-name">不眠の幽霊</div>
-        <div class="boss-hp">HP: 180 | 睡眠習慣で弱体化</div>
-      </div>
-      <div class="boss-item" onclick="showBossDetail('final')">
-        <div class="boss-name">真の試練 — 自分自身</div>
-        <div class="boss-hp">HP: 450 | 全ての習慣で戦う</div>
-      </div>
-    </div>
-    <button class="btn btn-secondary" onclick="hideBoss()">戻る</button>
-  </div>
-
-  <button class="btn btn-primary" onclick="location.href='./game.html'">🏠 ホームに戻る</button>
 
 </div>
 
 <div class="bottom-nav">
-  <a href="./game.html" class="nav-item"><span style="font-size:1.5rem">🏠</span>ホーム</a>
-  <a href="./quest.html" class="nav-item"><span style="font-size:1.5rem">⚔️</span>運動</a>
-  <a href="./nutrition.html" class="nav-item"><span style="font-size:1.5rem">🥗</span>栄養</a>
-  <a href="./adventure.html" class="nav-item active"><span style="font-size:1.5rem">🗺️</span>冒険</a>
+  <a href="./game.html" class="nav-item"><span style="font-size:1.3rem">🏠</span>ホーム</a>
+  <a href="./quest.html" class="nav-item"><span style="font-size:1.3rem">⚔️</span>運動</a>
+  <a href="./nutrition.html" class="nav-item"><span style="font-size:1.3rem">🥗</span>栄養</a>
+  <a href="./adventure.html" class="nav-item active"><span style="font-size:1.3rem">🗺️</span>冒険</a>
 </div>
 
 <script>
-function enterField(field) {
-  const fields = {
-    forest: { name: "癒しの森", desc: "運動の騎士が暮らす。ここでの修行で体力が高まる。" },
-    cave: { name: "生命の洞窟", desc: "森の料理人がいる。栄養の秘密を学べる。" },
-    tower: { name: "希望の塔", desc: "月の羊飼いが守る。睡眠の大切さを知る。" },
-    dream: { name: "夢見の地", desc: "夢見るフクロウの住まい。メンタルケアを学ぶ。" }
-  };
-  if (fields[field]) {
-    document.getElementById("currentLocation").textContent = fields[field].name;
-    document.getElementById("locationDesc").textContent = fields[field].desc;
+const CHAPTERS = {
+  1: {
+    title: "始まりの村",
+    story: "あなたは異世界ヴィタリアで目覚めた。\n\n『いらっしゃいませ。私はルナ。あなたの旅をサポートします。』\n\n目の前には、4人の仲間が立っている。\nこれからの長い冒険が始まる。"
+  },
+  2: {
+    title: "癒しの森",
+    story: "ルナたちと共に、癒しの森へ。\n\nここは運動と栄養が満ちる場所。\n\nカイトが言う：『毎日の歩みが、ここでの力になるんだ。』\n\nサラが続ける：『栄養も大切。一緒に取ろうね。』"
   }
+};
+
+function playChapter(num) {
+  if (num > 2) {
+    alert("この章はまだロック中です。");
+    return;
+  }
+  const ch = CHAPTERS[num];
+  document.getElementById("storyTitle").textContent = "第" + num + "章 — " + ch.title;
+  document.getElementById("storyContent").textContent = ch.story;
+  document.getElementById("storySection").style.display = "block";
 }
-function showTeam() {
-  document.getElementById("teamSection").style.display = "block";
+
+function closeStory() {
+  document.getElementById("storySection").style.display = "none";
 }
-function hideTeam() {
-  document.getElementById("teamSection").style.display = "none";
-}
-function showBoss() {
-  document.getElementById("bossSection").style.display = "block";
-}
-function hideBoss() {
-  document.getElementById("bossSection").style.display = "none";
-}
-function showBossDetail(boss) {
-  alert("⚔️ " + boss + " との戦いが始まります...\n\n運動・栄養・睡眠の記録で、ダメージを与えることができます。");
+
+function attackBoss() {
+  const xpNeeded = 200 + 200; // Need exercise + nutrition XP
+  let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+  
+  function wk() {
+    const d = new Date(), j = new Date(d.getFullYear(), 0, 1);
+    return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
+  }
+
+  let exXp = 0, nuXp = 0;
+  try {
+    const q = JSON.parse(localStorage.getItem('vq_' + uid + '_' + wk())||'{}');
+    exXp = q.xp || 0;
+  } catch(e){}
+  try {
+    const n = JSON.parse(localStorage.getItem('vn_' + uid + '_' + wk())||'{}');
+    nuXp = n.xp || 0;
+  } catch(e){}
+
+  const totalXp = exXp + nuXp;
+  if (totalXp < xpNeeded) {
+    alert("❌ まだボスに挑む準備ができていません。\n\n必要XP: " + xpNeeded + "\n現在XP: " + totalXp + "\n\n運動と栄養をもっと記録しましょう。");
+  } else {
+    alert("⚔️ ボスを倒しました！\n\n次の章が解放されます。\n\nルナ：『あなたの成長が、私たちの力になります。』");
+  }
 }
 </script>
 
