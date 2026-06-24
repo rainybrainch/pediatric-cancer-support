@@ -76,8 +76,9 @@
 </head>
 <body>
 
-<div class="header">
+<div class="header" style="display:flex;justify-content:space-between;align-items:center">
   <h1>🌍 ヴィタリア転生録</h1>
+  <a href="./profile.html" style="text-decoration:none;color:#1e7fa4;font-size:0.8rem;font-weight:700;padding:6px 12px;border:1px solid #1e7fa4;border-radius:6px;transition:all 0.2s" onmouseover="this.style.background='#E8F4FB'" onmouseout="this.style.background='transparent'">⚙️ 設定</a>
 </div>
 
 <div class="container">
@@ -163,21 +164,40 @@ function wk() {
   return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
 }
 
-// ルナメッセージの時間帯別設定
+// ルナメッセージの時間帯別設定（プロフィール対応）
 function updateLunaMessage() {
   const hour = new Date().getHours();
   let msg = '';
-  
-  if(hour >= 5 && hour < 12) {
-    msg = 'おはようございます。<br>今日もあなたと一緒に歩んでいきたいです。';
-  } else if(hour >= 12 && hour < 18) {
-    msg = 'お疲れさまです。<br>午後も一緒に頑張りましょう。';
-  } else if(hour >= 18 && hour < 21) {
-    msg = '今日の振り返りをしてみませんか？<br>どんな一日でしたか？';
-  } else {
-    msg = '今日も来てくれてありがとう。<br>ゆっくり休んでね。明日も一緒です。';
+
+  try {
+    const profile = JSON.parse(localStorage.getItem(`vitalia_profile_${uid}`) || '{}');
+    const activity = profile.activity || 'moderate';
+
+    if(hour >= 5 && hour < 12) {
+      if(activity === 'low') {
+        msg = 'おはようございます。<br>今日は無理なく散歩から始めてみましょうか。';
+      } else {
+        msg = 'おはようございます。<br>今日もあなたと一緒に歩んでいきたいです。';
+      }
+    } else if(hour >= 12 && hour < 18) {
+      msg = 'お疲れさまです。<br>午後も一緒に頑張りましょう。';
+    } else if(hour >= 18 && hour < 21) {
+      msg = '今日の振り返りをしてみませんか？<br>どんな一日でしたか？';
+    } else {
+      msg = '今日も来てくれてありがとう。<br>ゆっくり休んでね。明日も一緒です。';
+    }
+  } catch(e) {
+    if(hour >= 5 && hour < 12) {
+      msg = 'おはようございます。<br>今日もあなたと一緒に歩んでいきたいです。';
+    } else if(hour >= 12 && hour < 18) {
+      msg = 'お疲れさまです。<br>午後も一緒に頑張りましょう。';
+    } else if(hour >= 18 && hour < 21) {
+      msg = '今日の振り返りをしてみませんか？<br>どんな一日でしたか？';
+    } else {
+      msg = '今日も来てくれてありがとう。<br>ゆっくり休んでね。明日も一緒です。';
+    }
   }
-  
+
   document.getElementById('luna-message').innerHTML = msg;
 }
 

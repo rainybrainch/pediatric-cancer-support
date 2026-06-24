@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロフィール設定 | ヴィタリア転生録</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:"Zen Kaku Gothic New",sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:80px}
+    .header{background:white;padding:12px 20px;border-bottom:2px solid #29b6e8;position:sticky;top:0;z-index:100}
+    .header h1{font-family:"Noto Serif JP",serif;font-size:1.1rem;font-weight:900;color:#1e7fa4}
+    .container{max-width:600px;margin:0 auto;padding:16px}
+    .card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(30,127,164,0.1)}
+    .section-title{font-family:"Noto Serif JP",serif;font-size:1rem;font-weight:900;color:#1e7fa4;margin-bottom:14px;border-bottom:2px solid #29b6e8;padding-bottom:8px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .form-row.full{grid-template-columns:1fr}
+    .form-group{display:flex;flex-direction:column}
+    .form-label{font-size:.8rem;font-weight:700;color:#1e7fa4;margin-bottom:6px}
+    .form-input{border:1.5px solid #29b6e8;border-radius:8px;padding:10px;font-size:.9rem;font-family:inherit;outline:none}
+    .form-input:focus{border-color:#1e7fa4;box-shadow:0 0 8px rgba(41,182,232,.2)}
+    .select-group{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .select-btn{flex:1;min-width:80px;padding:10px;border:1.5px solid #ddd;border-radius:8px;background:white;cursor:pointer;font-weight:700;font-size:.8rem;transition:all 0.2s}
+    .select-btn:hover{border-color:#29b6e8}
+    .select-btn.active{background:#29b6e8;color:white;border-color:#29b6e8}
+    
+    /* BMI表示 */
+    .bmi-box{background:#f0f8ff;border:2px solid #29b6e8;border-radius:12px;padding:14px;margin:12px 0;text-align:center}
+    .bmi-label{font-size:.75rem;color:#5a7a95;font-weight:700}
+    .bmi-value{font-family:"Noto Serif JP",serif;font-size:1.8rem;font-weight:900;color:#1e7fa4;margin:4px 0}
+    .bmi-status{font-size:.75rem;color:#5a7a95}
+    
+    /* ルナの提案 */
+    .luna-suggest{background:linear-gradient(135deg,rgba(127,216,244,.15),rgba(41,182,232,.1));border-left:4px solid #29b6e8;border-radius:10px;padding:14px;margin:12px 0;line-height:1.6;font-size:.85rem}
+    .luna-icon{font-size:1.2rem;margin-right:6px}
+    
+    .btn{width:100%;padding:12px;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.9rem;margin-top:12px}
+    .btn-primary{background:linear-gradient(135deg,#29b6e8,#7fd8f4);color:white}
+    .btn-secondary{background:linear-gradient(135deg,#4ec98a,#2d8f6a);color:white}
+    .btn-cancel{background:#ddd;color:#0a2a40}
+    
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #29b6e8;display:flex;justify-content:space-around;padding:8px 0;z-index:50}
+    .nav-item{flex:1;text-align:center;text-decoration:none;color:#5a7a95;padding:8px;font-size:.65rem;font-weight:700}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚙️ プロフィール設定</h1>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="section-title">📏 身体情報</div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">年齢</label>
+        <input type="number" id="age" class="form-input" min="5" max="100" placeholder="例：18" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">性別</label>
+        <select id="sex" class="form-input">
+          <option value="">選択</option>
+          <option value="male">男性</option>
+          <option value="female">女性</option>
+          <option value="other">その他</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">身長（cm）</label>
+        <input type="number" id="height" class="form-input" min="100" max="220" step="0.1" placeholder="例：165" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">体重（kg）</label>
+        <input type="number" id="weight" class="form-input" min="20" max="200" step="0.1" placeholder="例：60" />
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div class="form-group">
+        <label class="form-label">体脂肪率（%）※ わからなければ空欄OK</label>
+        <input type="number" id="bodyfat" class="form-input" min="5" max="60" step="0.1" placeholder="例：25" />
+      </div>
+    </div>
+
+    <!-- BMI表示 -->
+    <div class="bmi-box">
+      <div class="bmi-label">BMI</div>
+      <div class="bmi-value" id="bmi-display">未計算</div>
+      <div class="bmi-status" id="bmi-status"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">🎯 ライフスタイル</div>
+    
+    <div class="form-group">
+      <label class="form-label">現在の活動量は？</label>
+      <div class="select-group" id="activity-group">
+        <button class="select-btn" onclick="setActivity('low')">ほぼ座りっぱなし</button>
+        <button class="select-btn" onclick="setActivity('moderate')">軽い運動</button>
+        <button class="select-btn" onclick="setActivity('active')">中程度</button>
+        <button class="select-btn" onclick="setActivity('very')">かなり活動的</button>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:12px">
+      <label class="form-label">健康の目標は？（複数選択可）</label>
+      <div class="select-group" id="goal-group">
+        <button class="select-btn" onclick="toggleGoal('fitness')">体力UP</button>
+        <button class="select-btn" onclick="toggleGoal('maintain')">健康維持</button>
+        <button class="select-btn" onclick="toggleGoal('weight')">体重管理</button>
+        <button class="select-btn" onclick="toggleGoal('nutrition')">栄養改善</button>
+        <button class="select-btn" onclick="toggleGoal('recovery')">回復支援</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">💡 ルナからのおすすめ</div>
+    <div class="luna-suggest" id="luna-suggest">
+      身体情報を入力すると、あなたに合ったクエストを提案します。
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="saveProfile()">✅ 保存する</button>
+  <button class="btn btn-cancel" onclick="location.href='./game.html'">キャンセル</button>
+
+</div>
+
+<div class="bottom-nav">
+  <a href="./game.html" class="nav-item"><span style="font-size:1.3rem">🏠</span>ホーム</a>
+  <a href="./quest.html" class="nav-item"><span style="font-size:1.3rem">⚔️</span>運動</a>
+  <a href="./nutrition.html" class="nav-item"><span style="font-size:1.3rem">🥗</span>栄養</a>
+  <a href="./adventure.html" class="nav-item"><span style="font-size:1.3rem">🗺️</span>冒険</a>
+</div>
+
+<script>
+let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
+let selectedActivity = 'moderate';
+let selectedGoals = new Set();
+
+// BMI計算
+function calculateBMI() {
+  const height = parseFloat(document.getElementById('height').value) / 100;
+  const weight = parseFloat(document.getElementById('weight').value);
+  
+  if(!height || !weight || height <= 0 || weight <= 0) {
+    document.getElementById('bmi-display').textContent = '未計算';
+    document.getElementById('bmi-status').textContent = '';
+    return;
+  }
+  
+  const bmi = (weight / (height * height)).toFixed(1);
+  document.getElementById('bmi-display').textContent = bmi;
+  
+  let status = '';
+  if(bmi < 18.5) status = '痩せ気味';
+  else if(bmi < 25) status = '標準';
+  else if(bmi < 30) status = '肥満(I度)';
+  else status = '肥満(II度以上)';
+  
+  document.getElementById('bmi-status').textContent = status;
+  generateSuggest();
+}
+
+function setActivity(level) {
+  selectedActivity = level;
+  document.querySelectorAll('#activity-group .select-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', 
+      (level === 'low' && i === 0) ||
+      (level === 'moderate' && i === 1) ||
+      (level === 'active' && i === 2) ||
+      (level === 'very' && i === 3)
+    );
+  });
+  generateSuggest();
+}
+
+function toggleGoal(goal) {
+  if(selectedGoals.has(goal)) {
+    selectedGoals.delete(goal);
+  } else {
+    selectedGoals.add(goal);
+  }
+  
+  const btns = {
+    'fitness': 0,
+    'maintain': 1,
+    'weight': 2,
+    'nutrition': 3,
+    'recovery': 4
+  };
+  
+  document.querySelectorAll('#goal-group .select-btn').forEach((btn, i) => {
+    for(const [g, idx] of Object.entries(btns)) {
+      if(idx === i) {
+        btn.classList.toggle('active', selectedGoals.has(g));
+      }
+    }
+  });
+  generateSuggest();
+}
+
+function generateSuggest() {
+  const height = parseFloat(document.getElementById('height').value) / 100;
+  const weight = parseFloat(document.getElementById('weight').value);
+  const bmi = height && weight ? (weight / (height * height)).toFixed(1) : null;
+  const bodyfat = parseFloat(document.getElementById('bodyfat').value);
+  
+  let exerciseSuggest = '';
+  let nutritionSuggest = '';
+  
+  // 活動量による提案
+  if(selectedActivity === 'low') {
+    exerciseSuggest = '今は無理なく5分の散歩から。毎日の小さな動きが積み重なります。';
+  } else if(selectedActivity === 'moderate') {
+    exerciseSuggest = '現在のペースを維持しながら、週3日は少し強度を上げてみましょう。';
+  } else if(selectedActivity === 'active') {
+    exerciseSuggest = '継続できてますね。高強度のトレーニングにも挑戦してみましょう。';
+  } else {
+    exerciseSuggest = 'すごい！体が動いてますね。バランスの取れた運動を心がけましょう。';
+  }
+  
+  // BMIと目標による提案
+  if(bmi) {
+    if(bmi < 18.5) {
+      nutritionSuggest = 'タンパク質と栄養をしっかり摂取。体を作る時期です。';
+    } else if(bmi < 25) {
+      nutritionSuggest = '標準体重ですね。栄養バランスを整えることを意識しましょう。';
+    } else {
+      if(selectedGoals.has('weight')) {
+        nutritionSuggest = '体重管理を目指すなら、夜食と砂糖飲料を意識的に減らしましょう。';
+      } else {
+        nutritionSuggest = '栄養バランス重視で。痩せるより、体力と健康を優先します。';
+      }
+    }
+  } else {
+    nutritionSuggest = '毎日の栄養を記録して、体がどう変わるか見てみましょう。';
+  }
+  
+  const suggest = `🌙 <strong>ルナからのおすすめ</strong><br><br>
+    <strong>運動：</strong> ${exerciseSuggest}<br><br>
+    <strong>栄養：</strong> ${nutritionSuggest}`;
+  
+  document.getElementById('luna-suggest').innerHTML = suggest;
+}
+
+function saveProfile() {
+  const profile = {
+    age: document.getElementById('age').value,
+    sex: document.getElementById('sex').value,
+    height: document.getElementById('height').value,
+    weight: document.getElementById('weight').value,
+    bodyfat: document.getElementById('bodyfat').value,
+    activity: selectedActivity,
+    goals: Array.from(selectedGoals),
+    savedAt: new Date().toISOString()
+  };
+  
+  if(!profile.height || !profile.weight) {
+    alert('身長と体重は必須です。');
+    return;
+  }
+  
+  localStorage.setItem(`vitalia_profile_${uid}`, JSON.stringify(profile));
+  alert('✅ プロフィールを保存しました！');
+  location.href = './game.html';
+}
+
+function loadProfile() {
+  try {
+    const profile = JSON.parse(localStorage.getItem(`vitalia_profile_${uid}`) || '{}');
+    if(profile.age) document.getElementById('age').value = profile.age;
+    if(profile.sex) document.getElementById('sex').value = profile.sex;
+    if(profile.height) document.getElementById('height').value = profile.height;
+    if(profile.weight) document.getElementById('weight').value = profile.weight;
+    if(profile.bodyfat) document.getElementById('bodyfat').value = profile.bodyfat;
+    if(profile.activity) setActivity(profile.activity);
+    if(profile.goals) {
+      profile.goals.forEach(g => {
+        selectedGoals.add(g);
+        toggleGoal(g);
+      });
+    }
+  } catch(e) {}
+}
+
+document.getElementById('height').addEventListener('change', calculateBMI);
+document.getElementById('weight').addEventListener('change', calculateBMI);
+document.getElementById('bodyfat').addEventListener('change', generateSuggest);
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadProfile();
+  calculateBMI();
+});
+</script>
+
+</body>
+</html>
