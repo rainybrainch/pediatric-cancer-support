@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴィタリア転生録</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #E8F4FB 0%, #D0E8F8 50%, #C0E0F4 100%);
+  color: #0a2a40;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* ヘッダー */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-top: 16px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1e7fa4;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.header p {
+  font-size: 0.9rem;
+  color: #5a7a95;
+}
+
+/* プレイヤーステータス */
+.status-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.1);
+  border-left: 4px solid #1e7fa4;
+}
+
+.status-card h2 {
+  font-size: 1rem;
+  color: #1e7fa4;
+  margin-bottom: 12px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+.status-label {
+  color: #5a7a95;
+  font-weight: 600;
+}
+
+.status-value {
+  color: #0a2a40;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+/* ボタン */
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: white;
+}
+
+.btn-quest {
+  background: linear-gradient(135deg, #1e7fa4, #29b6e8);
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.2);
+}
+
+.btn-quest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(30, 127, 164, 0.3);
+}
+
+.btn-coach {
+  background: linear-gradient(135deg, #4ec98a, #2d8f6a);
+  box-shadow: 0 4px 12px rgba(78, 201, 138, 0.2);
+}
+
+.btn-coach:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(78, 201, 138, 0.3);
+}
+
+.btn-nutrition {
+  background: linear-gradient(135deg, #d4a85a, #b8925a);
+  color: white;
+  box-shadow: 0 4px 12px rgba(212, 168, 90, 0.2);
+}
+
+.btn-nutrition:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 168, 90, 0.3);
+}
+
+.btn icon {
+  font-size: 1.8rem;
+}
+
+.btn label {
+  font-size: 0.85rem;
+}
+
+/* クエスト進行 */
+.quest-progress {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(30, 127, 164, 0.1);
+}
+
+.quest-progress h3 {
+  color: #1e7fa4;
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #f0f8ff;
+  border-radius: 10px;
+  border-left: 3px solid #1e7fa4;
+}
+
+.quest-icon {
+  font-size: 1.5rem;
+  min-width: 30px;
+}
+
+.quest-text {
+  flex: 1;
+}
+
+.quest-name {
+  font-weight: 700;
+  color: #0a2a40;
+  margin-bottom: 4px;
+}
+
+.quest-desc {
+  font-size: 0.85rem;
+  color: #5a7a95;
+}
+
+/* ボトムナビゲーション */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  border-top: 2px solid #d4e8f7;
+  padding: 12px 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #5a7a95;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+}
+
+.nav-item.active {
+  color: #1e7fa4;
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+}
+
+/* Luna AI パネル */
+#luna-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 16px;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#luna-panel.open {
+  display: flex;
+}
+
+.luna-header {
+  padding: 16px;
+  background: linear-gradient(135deg, #1e7fa4, #29b6e8);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.luna-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.luna-message {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #f0f8ff;
+  border-radius: 10px;
+  border-left: 3px solid #1e7fa4;
+  font-size: 0.9rem;
+  color: #0a2a40;
+}
+
+.luna-input {
+  padding: 12px;
+  border-top: 1px solid #d4e8f7;
+  display: flex;
+  gap: 8px;
+}
+
+.luna-input input {
+  flex: 1;
+  border: 1px solid #d4e8f7;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.luna-input button {
+  background: #1e7fa4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.luna-toggle {
+  position: fixed;
+  bottom: 100px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #4ec98a, #2d8f6a);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(78, 201, 138, 0.3);
+  z-index: 998;
+  transition: all 0.3s ease;
+}
+
+.luna-toggle:hover {
+  transform: scale(1.1);
+}
+
+.luna-toggle.hidden {
+  display: none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌍 ヴィタリア転生録</h1>
+  <p>冒険を通じて、新しい自分を取り戻す</p>
+</div>
+
+<!-- プレイヤーステータス -->
+<div class="status-card">
+  <h2>📊 プレイヤー</h2>
+  <div class="status-row">
+    <span class="status-label">レベル</span>
+    <span class="status-value">Lv. 1</span>
+  </div>
+  <div class="status-row">
+    <span class="status-label">経験値</span>
+    <span class="status-value">0 / 100</span>
+  </div>
+  <div class="status-row">
+    <span class="status-label">体力</span>
+    <span class="status-value">100 / 100</span>
+  </div>
+</div>
+
+<!-- アクションボタン -->
+<div class="action-buttons">
+  <a href="./quest.html" class="btn btn-quest">
+    <span class="btn-icon">⚔️</span>
+    <span>クエスト</span>
+  </a>
+  <a href="#" class="btn btn-coach" id="luna-btn">
+    <span class="btn-icon">🌙</span>
+    <span>ルナと話す</span>
+  </a>
+  <a href="./nutrition.html" class="btn btn-nutrition">
+    <span class="btn-icon">🌿</span>
+    <span>栄養記録</span>
+  </a>
+  <a href="./settings.html" class="btn">
+    <span class="btn-icon">⚙️</span>
+    <span>設定</span>
+  </a>
+</div>
+
+<!-- クエスト進行 -->
+<div class="quest-progress">
+  <h3>🗺️ 現在の冒険</h3>
+  <div class="quest-item">
+    <span class="quest-icon">⚡</span>
+    <div class="quest-text">
+      <div class="quest-name">第1章 — 目覚めの時</div>
+      <div class="quest-desc">最初の試練を乗り越えよう</div>
+    </div>
+  </div>
+  <div class="quest-item">
+    <span class="quest-icon">🏃</span>
+    <div class="quest-text">
+      <div class="quest-name">運動を記録する</div>
+      <div class="quest-desc">10分以上の活動で +10 XP</div>
+    </div>
+  </div>
+  <div class="quest-item">
+    <span class="quest-icon">🥗</span>
+    <div class="quest-text">
+      <div class="quest-name">栄養を意識する</div>
+      <div class="quest-desc">野菜・たんぱく質で +5 XP</div>
+    </div>
+  </div>
+</div>
+
+<!-- Luna AI パネル -->
+<button class="luna-toggle" id="luna-toggle">🌙</button>
+<div id="luna-panel">
+  <div class="luna-header">
+    <span>🌙 ルナ</span>
+    <button onclick="closeLunaPanel()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✕</button>
+  </div>
+  <div class="luna-messages" id="luna-messages">
+    <div class="luna-message">
+      こんにちは。私はルナ。あなたのヴィタリアの旅をサポートします。何か悩んでいることはありますか？
+    </div>
+  </div>
+  <div class="luna-input">
+    <input type="text" id="luna-input" placeholder="メッセージを入力...">
+    <button onclick="sendLunaMessage()">送信</button>
+  </div>
+</div>
+
+<!-- ボトムナビゲーション -->
+<nav class="bottom-nav">
+  <a href="./game.html" class="nav-item active">
+    <span class="nav-icon">🏠</span>
+    <span>ホーム</span>
+  </a>
+  <a href="./quest.html" class="nav-item">
+    <span class="nav-icon">⚔️</span>
+    <span>クエスト</span>
+  </a>
+  <a href="./nutrition.html" class="nav-item">
+    <span class="nav-icon">🌿</span>
+    <span>栄養</span>
+  </a>
+  <a href="./adventure.html" class="nav-item">
+    <span class="nav-icon">🗺️</span>
+    <span>冒険</span>
+  </a>
+  <a href="./settings.html" class="nav-item">
+    <span class="nav-icon">⚙️</span>
+    <span>設定</span>
+  </a>
+</nav>
+
+<script>
+// Luna AI パネルの表示/非表示
+const lunaToggle = document.getElementById('luna-toggle');
+const lunaPanel = document.getElementById('luna-panel');
+const lunaBtn = document.getElementById('luna-btn');
+
+lunaToggle.addEventListener('click', () => {
+  lunaPanel.classList.toggle('open');
+  lunaToggle.classList.toggle('hidden');
+});
+
+lunaBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  lunaPanel.classList.add('open');
+  lunaToggle.classList.add('hidden');
+});
+
+function closeLunaPanel() {
+  lunaPanel.classList.remove('open');
+  lunaToggle.classList.remove('hidden');
+}
+
+function sendLunaMessage() {
+  const input = document.getElementById('luna-input');
+  const messages = document.getElementById('luna-messages');
+
+  if (!input.value.trim()) return;
+
+  // ユーザーメッセージを表示
+  const userMsg = document.createElement('div');
+  userMsg.className = 'luna-message';
+  userMsg.style.background = '#e8f4fb';
+  userMsg.style.borderLeft = '3px solid #29b6e8';
+  userMsg.style.textAlign = 'right';
+  userMsg.textContent = input.value;
+  messages.appendChild(userMsg);
+
+  // ルナの応答（簡易）
+  setTimeout(() => {
+    const lunaMsg = document.createElement('div');
+    lunaMsg.className = 'luna-message';
+    lunaMsg.textContent = 'ありがとうございます。あなたの頑張りが大事です。今日も一緒に進みましょう。';
+    messages.appendChild(lunaMsg);
+    messages.scrollTop = messages.scrollHeight;
+  }, 500);
+
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+}
+</script>
+
+</body>
+</html>
