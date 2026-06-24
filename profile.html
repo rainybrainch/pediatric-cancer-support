@@ -119,6 +119,24 @@
         <button class="select-btn" onclick="toggleGoal('recovery')">回復支援</button>
       </div>
     </div>
+
+    <div class="form-group" style="margin-top:12px">
+      <label class="form-label">運動制限はありますか？</label>
+      <select id="exercise-limit" class="form-input" onchange="generateSuggest()">
+        <option value="none">制限なし</option>
+        <option value="mild">軽度の制限あり</option>
+        <option value="moderate">中程度の制限あり</option>
+        <option value="severe">重度の制限あり</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">運動は医師に確認済みですか？</label>
+      <div style="display:flex;gap:8px;">
+        <label style="font-size:.8rem"><input type="radio" name="doctor-ok" value="yes" onchange="generateSuggest()"> 確認済み</label>
+        <label style="font-size:.8rem"><input type="radio" name="doctor-ok" value="no" onchange="generateSuggest()"> 未確認</label>
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -210,23 +228,51 @@ function toggleGoal(goal) {
 function generateSuggest() {
   const height = parseFloat(document.getElementById('height').value) / 100;
   const weight = parseFloat(document.getElementById('weight').value);
+  const age = parseInt(document.getElementById('age').value);
   const bmi = height && weight ? (weight / (height * height)).toFixed(1) : null;
-  const bodyfat = parseFloat(document.getElementById('bodyfat').value);
-  
+  const exerciseLimit = document.getElementById('exercise-limit').value;
+  const doctorOk = document.querySelector('input[name="doctor-ok"]:checked');
+
+  let weeklyMETsTarget = 8; // 初期値：初心者向け
   let exerciseSuggest = '';
   let nutritionSuggest = '';
-  
+
+  // METs・時週目標の計算（厚労省ガイドライン2023参考）
+  if(selectedActivity === 'low') {
+    weeklyMETsTarget = 5;
+  } else if(selectedActivity === 'moderate') {
+    weeklyMETsTarget = 8;
+  } else if(selectedActivity === 'active') {
+    weeklyMETsTarget = 12;
+  } else {
+    weeklyMETsTarget = 23; // WHO推奨
+  }
+
+  // 運動制限による調整
+  if(exerciseLimit === 'mild') {
+    weeklyMETsTarget = Math.max(3, weeklyMETsTarget * 0.8);
+  } else if(exerciseLimit === 'moderate') {
+    weeklyMETsTarget = Math.max(2, weeklyMETsTarget * 0.6);
+  } else if(exerciseLimit === 'severe') {
+    weeklyMETsTarget = 2; // ストレッチのみ
+  }
+
   // 活動量による提案
   if(selectedActivity === 'low') {
-    exerciseSuggest = '今は無理なく5分の散歩から。毎日の小さな動きが積み重なります。';
+    exerciseSuggest = `週${weeklyMETsTarget.toFixed(1)} METs・時が目安。まずは5分散歩から始めましょう。`;
   } else if(selectedActivity === 'moderate') {
-    exerciseSuggest = '現在のペースを維持しながら、週3日は少し強度を上げてみましょう。';
+    exerciseSuggest = `週${weeklyMETsTarget.toFixed(1)} METs・時が目安。毎日10～15分の運動を心がけます。`;
   } else if(selectedActivity === 'active') {
-    exerciseSuggest = '継続できてますね。高強度のトレーニングにも挑戦してみましょう。';
+    exerciseSuggest = `週${weeklyMETsTarget.toFixed(1)} METs・時が目安。継続できてますね。`;
   } else {
-    exerciseSuggest = 'すごい！体が動いてますね。バランスの取れた運動を心がけましょう。';
+    exerciseSuggest = `週${weeklyMETsTarget.toFixed(1)} METs・時が目安。WHO推奨に近づいています。`;
   }
-  
+
+  // 医師確認の警告
+  if(!doctorOk || doctorOk.value === 'no') {
+    exerciseSuggest += '<br><br>⚠️ 運動を始める前に、医師に相談して確認を取ってください。';
+  }
+
   // BMIと目標による提案
   if(bmi) {
     if(bmi < 18.5) {
@@ -243,15 +289,17 @@ function generateSuggest() {
   } else {
     nutritionSuggest = '毎日の栄養を記録して、体がどう変わるか見てみましょう。';
   }
-  
+
   const suggest = `🌙 <strong>ルナからのおすすめ</strong><br><br>
-    <strong>運動：</strong> ${exerciseSuggest}<br><br>
+    <strong>運動目標：</strong> ${exerciseSuggest}<br><br>
     <strong>栄養：</strong> ${nutritionSuggest}`;
-  
+
   document.getElementById('luna-suggest').innerHTML = suggest;
 }
 
 function saveProfile() {
+  const doctorOk = document.querySelector('input[name="doctor-ok"]:checked');
+
   const profile = {
     age: document.getElementById('age').value,
     sex: document.getElementById('sex').value,
@@ -260,14 +308,37 @@ function saveProfile() {
     bodyfat: document.getElementById('bodyfat').value,
     activity: selectedActivity,
     goals: Array.from(selectedGoals),
+    exerciseLimit: document.getElementById('exercise-limit').value,
+    doctorOk: doctorOk ? doctorOk.value : 'no',
     savedAt: new Date().toISOString()
   };
-  
+
   if(!profile.height || !profile.weight) {
     alert('身長と体重は必須です。');
     return;
   }
-  
+
+  if(profile.doctorOk === 'no') {
+    alert('⚠️ 運動を始める際は、必ず医師に相談してください。');
+  }
+
+  // METs・時週目標の計算
+  let weeklyMETsTarget = 8;
+  if(profile.activity === 'low') weeklyMETsTarget = 5;
+  else if(profile.activity === 'moderate') weeklyMETsTarget = 8;
+  else if(profile.activity === 'active') weeklyMETsTarget = 12;
+  else weeklyMETsTarget = 23;
+
+  if(profile.exerciseLimit === 'mild') {
+    weeklyMETsTarget = Math.max(3, weeklyMETsTarget * 0.8);
+  } else if(profile.exerciseLimit === 'moderate') {
+    weeklyMETsTarget = Math.max(2, weeklyMETsTarget * 0.6);
+  } else if(profile.exerciseLimit === 'severe') {
+    weeklyMETsTarget = 2;
+  }
+
+  profile.weeklyMETsTarget = weeklyMETsTarget;
+
   localStorage.setItem(`vitalia_profile_${uid}`, JSON.stringify(profile));
   alert('✅ プロフィールを保存しました！');
   location.href = './game.html';
