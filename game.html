@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ヴィタリア転生録 | ホーム</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+  <script src="./mets-master.js"></script>
+  <script src="./nutrition-points.js"></script>
+  <script src="./sleep-points.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:"Zen Kaku Gothic New",sans-serif;background:linear-gradient(180deg,#E8F4FB,#D4E8F7,#C0DFF3);color:#0a2a40;min-height:100vh;padding-bottom:120px}
@@ -67,7 +70,20 @@
     .chat-input{padding:12px;border-top:1px solid #ddd;display:flex;gap:8px}
     .chat-input input{flex:1;border:1px solid #ccc;border-radius:8px;padding:10px;font-family:inherit}
     .chat-input button{background:#29b6e8;color:white;border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}
-    
+
+    /* 3本柱ダッシュボード */
+    .pillars-section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(30,127,164,0.1)}
+    .pillars-title{font-family:"Noto Serif JP",serif;font-size:.9rem;font-weight:900;color:#1e7fa4;margin-bottom:14px;border-bottom:2px solid #29b6e8;padding-bottom:8px}
+    .pillars-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .pillar-card{background:linear-gradient(135deg,#E8F4FB,#D4E8F7);border:2px solid #1e7fa4;border-radius:12px;padding:14px;text-align:center}
+    .pillar-icon{font-size:2rem;margin-bottom:8px}
+    .pillar-name{font-size:.7rem;font-weight:700;color:#5a7a95;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+    .pillar-value{font-family:"Noto Serif JP",serif;font-size:1.3rem;font-weight:900;color:#1e7fa4;margin-bottom:4px}
+    .pillar-unit{font-size:.65rem;color:#5a7a95;margin-bottom:8px}
+    .pillar-bar{background:#e0f0f8;border-radius:6px;height:6px;margin-bottom:6px;overflow:hidden}
+    .pillar-bar-fill{height:100%;background:linear-gradient(90deg,#4ec98a,#29b6e8);transition:width 0.5s ease}
+    .pillar-target{font-size:.6rem;color:#5a7a95}
+
     /* ボトムナビ */
     .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #29b6e8;display:flex;justify-content:space-around;padding:8px 0;z-index:50}
     .nav-item{flex:1;text-align:center;text-decoration:none;color:#5a7a95;padding:8px;font-size:.65rem;font-weight:700}
@@ -107,6 +123,52 @@
     <div class="tree-meta">
       <span id="tree-week">0週</span>
       <span id="tree-next">次: 若木（4週）</span>
+    </div>
+  </div>
+
+  <!-- 3本柱ダッシュボード -->
+  <div class="pillars-section">
+    <div class="pillars-title">⚔️ 健康3本柱</div>
+    <div class="pillars-grid">
+      <!-- 運動（METs） -->
+      <div class="pillar-card">
+        <div class="pillar-icon">🏃</div>
+        <div class="pillar-name">運動</div>
+        <div class="pillar-value" id="mets-vitality">0</div>
+        <div class="pillar-unit">Vitality</div>
+        <div class="pillar-bar">
+          <div class="pillar-bar-fill" id="mets-bar" style="width:0%"></div>
+        </div>
+        <div class="pillar-target" id="mets-info">0/1000 pt</div>
+      </div>
+
+      <!-- 栄養（NP） -->
+      <div class="pillar-card">
+        <div class="pillar-icon">🥗</div>
+        <div class="pillar-name">栄養</div>
+        <div class="pillar-value" id="np-vitality">0</div>
+        <div class="pillar-unit">Vitality</div>
+        <div class="pillar-bar">
+          <div class="pillar-bar-fill" id="np-bar" style="width:0%"></div>
+        </div>
+        <div class="pillar-target" id="np-info">0/26 pt</div>
+      </div>
+
+      <!-- 睡眠（SP） -->
+      <div class="pillar-card">
+        <div class="pillar-icon">😴</div>
+        <div class="pillar-name">睡眠</div>
+        <div class="pillar-value" id="sp-vitality">0</div>
+        <div class="pillar-unit">Vitality</div>
+        <div class="pillar-bar">
+          <div class="pillar-bar-fill" id="sp-bar" style="width:0%"></div>
+        </div>
+        <div class="pillar-target" id="sp-info">0/10 pt</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:12px;padding-top:12px;border-top:1px solid #ddd">
+      <div style="font-size:.75rem;color:#5a7a95">本日の総Vitality</div>
+      <div style="font-family:'Noto Serif JP',serif;font-size:1.5rem;font-weight:900;color:#1e7fa4" id="total-vitality">0</div>
     </div>
   </div>
 
@@ -316,11 +378,74 @@ document.getElementById('chat-input').addEventListener('keypress', (e) => {
   if(e.key === 'Enter') sendMessage();
 });
 
+// 3本柱ダッシュボード更新
+function updatePillars() {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+
+    // METs（運動）
+    const metsKey = `vq_${uid}_${today}`;
+    const metsRaw = localStorage.getItem(metsKey);
+    let metsVitality = 0;
+    if (metsRaw) {
+      try {
+        const metsData = JSON.parse(metsRaw);
+        const totalMetsTime = metsData.totalMetsTime || 0;
+        metsVitality = Math.round(totalMetsTime * 100);
+      } catch(e) {}
+    }
+    const metsMaxGoal = 1000;
+    const metsPct = Math.min(100, (metsVitality / metsMaxGoal) * 100);
+
+    // NP（栄養）
+    const npData = getTodayNutritionPoints(uid);
+    const npVitality = calculateVitalityFromNutrition(npData);
+    const totalNP = getTotalNP(npData);
+    const maxNP = 26;
+    const npPct = Math.min(100, (totalNP / maxNP) * 100);
+
+    // SP（睡眠）
+    const spKey = `vn_sp_${uid}_${today}`;
+    const spRaw = localStorage.getItem(spKey);
+    let spVitality = 0;
+    let totalSP = 0;
+    if (spRaw) {
+      try {
+        const spData = JSON.parse(spRaw);
+        spVitality = calculateVitalityFromSleep(spData);
+        totalSP = (spData.durationPoints || 0) + (spData.qualityPoints || 0);
+      } catch(e) {}
+    }
+    const maxSP = 8;
+    const spPct = Math.min(100, (totalSP / maxSP) * 100);
+
+    // UI更新
+    document.getElementById('mets-vitality').textContent = metsVitality;
+    document.getElementById('mets-bar').style.width = metsPct + '%';
+    document.getElementById('mets-info').textContent = `${metsVitality}/1000 pt`;
+
+    document.getElementById('np-vitality').textContent = npVitality;
+    document.getElementById('np-bar').style.width = npPct + '%';
+    document.getElementById('np-info').textContent = `${totalNP}/26 pt`;
+
+    document.getElementById('sp-vitality').textContent = spVitality;
+    document.getElementById('sp-bar').style.width = spPct + '%';
+    document.getElementById('sp-info').textContent = `${totalSP}/8 pt`;
+
+    const totalVitality = metsVitality + npVitality + spVitality;
+    document.getElementById('total-vitality').textContent = totalVitality;
+  } catch(e) {
+    console.warn('Failed to update pillars:', e);
+  }
+}
+
 // 初期化
 document.addEventListener('DOMContentLoaded', () => {
   updateLunaMessage();
   updateTree();
+  updatePillars();
   setInterval(updateLunaMessage, 60000);
+  setInterval(updatePillars, 30000);
 });
 </script>
 
