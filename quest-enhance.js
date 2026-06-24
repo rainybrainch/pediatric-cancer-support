@@ -85,10 +85,10 @@
         animation:qeDmgPop 1.4s ease-out forwards;
       }
       @keyframes qeDmgPop{
-        0%{opacity:0;transform:translate(-50%,-30%) scale(.6);}
+        0%{opacity:0;transform:translate(-50%,-30%) scale(.6);will-change:transform,opacity;}
         20%{opacity:1;transform:translate(-50%,-50%) scale(1.15);}
         80%{opacity:1;transform:translate(-50%,-80%) scale(1);}
-        100%{opacity:0;transform:translate(-50%,-110%) scale(.95);}
+        100%{opacity:0;transform:translate(-50%,-110%) scale(.95);will-change:auto;}
       }
       .qe-combo-pop{
         position:fixed;left:50%;top:30%;transform:translate(-50%,0);
