@@ -1,0 +1,8 @@
+{
+  "name": "pediatric-cancer-support",
+  "version": "1.0.0",
+  "description": "Vitalia - Health RPG for pediatric cancer survivors",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  }
+}
