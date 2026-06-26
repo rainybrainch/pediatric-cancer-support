@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <title>ヴィタリア転生録</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Kaku Gothic New', sans-serif; background: #f4f7ff; color: #1a2448; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .chat-box { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 16px rgba(40,69,200,.1); }
+    .messages { height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid #d4ddf4; border-radius: 8px; padding: 15px; }
+    .msg-luna { background: #f0f4ff; padding: 12px; border-radius: 8px; margin-bottom: 10px; line-height: 1.6; }
+    .msg-user { background: #2845c8; color: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; text-align: right; }
+    .input-group { display: flex; gap: 10px; }
+    input { flex: 1; padding: 12px; border: 1px solid #d4ddf4; border-radius: 8px; font-family: inherit; }
+    button { padding: 12px 24px; background: #2845c8; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #1830a0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="margin-bottom: 20px; text-align: center;">🌙 ルナとの対話</h1>
+    <div class="chat-box">
+      <div class="messages" id="messages">
+        <div class="msg-luna">こんにちは。今日はどんなことがあった？</div>
+      </div>
+      <div class="input-group">
+        <input type="text" id="input" placeholder="ルナに話す..." />
+        <button onclick="send()">送信</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const responses = [
+      'そのお気持ち、よく分かります。',
+      'あなたのペースが一番です。',
+      'その気持ち、大事にしてください。',
+      '一緒に考えてみましょう。',
+      'あなたの話を聞いていてよかった。',
+      '無理しないでください。'
+    ];
+
+    function send() {
+      const input = document.getElementById('input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const messages = document.getElementById('messages');
+      
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg-user';
+      userMsg.textContent = msg;
+      messages.appendChild(userMsg);
+      input.value = '';
+
+      setTimeout(() => {
+        const lunaMsg = document.createElement('div');
+        lunaMsg.className = 'msg-luna';
+        lunaMsg.textContent = responses[Math.floor(Math.random() * responses.length)];
+        messages.appendChild(lunaMsg);
+        messages.scrollTop = messages.scrollHeight;
+      }, 4000);
+
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    document.getElementById('input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') send();
+    });
+  </script>
+</body>
+</html>
