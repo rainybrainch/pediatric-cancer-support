@@ -3,6 +3,9 @@
   publish = "."
   functions = "netlify/functions"
 
+[context.production.environment]
+GEMINI_API_KEY = "AQ.Ab8RN6JgvYyBLPmaHkEOHe_9K0XHb_5DJb3hWkrBotzVr70SWw"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
