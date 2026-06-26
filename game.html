@@ -549,37 +549,19 @@ async function sendMessage() {
   document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
 
   try {
-    // Gemini API を呼び出し
-    const response = await fetch('/api/gemini-coach', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: msg,
-        uid: uid,
-        context: {
-          userActivity: localStorage.getItem(`vq_hist_${uid}`) ? JSON.parse(localStorage.getItem(`vq_hist_${uid}`)).length : 0,
-          totalVitality: localStorage.getItem('totalVitality') || '0'
-        }
-      })
-    });
-
-    // API からの応答を待つ + 追加の思考時間
+    // 4秒の思考時間
     await new Promise(resolve => setTimeout(resolve, 4000));
-
-    if (!response.ok) throw new Error('API response error');
-    const data = await response.json();
 
     // ローディング削除
     clearInterval(dotInterval);
     loadingEl.remove();
 
-    // ルナの返答
+    // ルナの返答（ローカルレスポンス）
     const lunaMsg = document.createElement('div');
     lunaMsg.className = 'msg-luna';
-    lunaMsg.textContent = data.response || analyzeSituation(msg)[0];
+    lunaMsg.textContent = analyzeSituation(msg)[0];
     document.getElementById('chat-messages').appendChild(lunaMsg);
   } catch (error) {
-    console.error('Gemini API error:', error);
     clearInterval(dotInterval);
     loadingEl.remove();
 
