@@ -603,24 +603,6 @@ document.getElementById('chat-input').addEventListener('keypress', (e) => {
   if(e.key === 'Enter') sendMessage();
 });
 
-// Service Worker キャッシュクリア
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    registrations.forEach(async (reg) => {
-      await reg.unregister();
-      const cacheNames = await caches.keys();
-      cacheNames.forEach(cacheName => caches.delete(cacheName));
-    });
-  });
-}
-
-// IndexedDB / localStorage キャッシュもクリア
-if ('caches' in window) {
-  caches.keys().then((names) => {
-    names.forEach((name) => caches.delete(name));
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   updateLunaMessage();
   updateTree();
