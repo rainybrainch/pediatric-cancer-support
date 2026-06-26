@@ -4,613 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="pragma" content="no-cache">
-  <meta http-equiv="expires" content="0">
-  <title>ヴィタリア転生録 | ホーム</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
-  <script src="./mets-master.js"></script>
-  <script src="./nutrition-points.js"></script>
-  <script src="./sleep-points.js"></script>
+  <title>ヴィタリア転生録</title>
   <style>
-    :root {
-      --bg:        #f4f7ff;
-      --bg2:       #eaeff8;
-      --panel:     #ffffff;
-      --border:    #d4ddf4;
-      --gold:      #8a6510;
-      --gold2:     #a07818;
-      --silver:    #3a4870;
-      --green:     #1a7c48;
-      --red:       #a83030;
-      --purple:    #5838a8;
-      --text:      #1a2448;
-      --muted:     #5868a0;
-      --white:     #0d1430;
-      --game-bg:   #080b14;
-      --game-panel: #111528;
-      --game-text: #d4dcf0;
-    }
-
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Zen Kaku Gothic New',sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      padding-bottom:120px;
-    }
-
-    /* ドットグリッド背景 */
-    body::before{
-      content:'';position:fixed;inset:0;
-      background-image:radial-gradient(circle,rgba(100,120,200,.08) 1px,transparent 1px);
-      background-size:28px 28px;pointer-events:none;z-index:0
-    }
-
-    /* ヘッダー */
-    .header{
-      background:linear-gradient(135deg,rgba(13,20,53,.95),rgba(20,30,70,.95));
-      border-bottom:1px solid rgba(100,120,220,.2);
-      padding:16px 20px;
-      position:sticky;top:0;z-index:100;
-      display:flex;justify-content:space-between;align-items:center
-    }
-    .header h1{
-      font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:900;
-      background:linear-gradient(135deg,#a07818,#8a6510);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      background-clip:text
-    }
-    .header-btn{
-      background:rgba(160,120,24,.15);border:1px solid var(--gold);
-      color:var(--gold2);padding:6px 12px;border-radius:6px;
-      font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;
-      text-decoration:none;display:inline-block
-    }
-    .header-btn:hover{background:rgba(160,120,24,.25)}
-
-    .container{max-width:800px;margin:0 auto;padding:16px;position:relative;z-index:1}
-
-    /* ルナカード */
-    .luna-card{
-      background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(160,120,24,.05));
-      border:1.5px solid rgba(201,168,76,.2);
-      border-radius:16px;padding:24px;margin-bottom:16px;
-      text-align:center;box-shadow:0 8px 24px rgba(20,40,120,.08)
-    }
-    .luna-image{
-      width:140px;height:auto;margin:0 auto 16px;display:block;
-      border-radius:12px;border:1px solid rgba(160,120,24,.2);
-      animation:float 3s ease-in-out infinite
-    }
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    .luna-name{
-      font-family:'Noto Serif JP',serif;font-size:.9rem;
-      font-weight:900;color:var(--gold);
-      margin-bottom:8px;letter-spacing:.1em
-    }
-    .luna-msg{
-      font-size:1rem;line-height:1.8;color:var(--text);
-      margin-bottom:16px;font-weight:600
-    }
-    .btn-primary{
-      background:linear-gradient(135deg,#2845c8,#1830a0);
-      color:#fff;border:none;padding:12px 28px;
-      border-radius:12px;font-weight:700;cursor:pointer;
-      font-size:.95rem;transition:all .25s;
-      box-shadow:0 6px 20px rgba(40,69,200,.25)
-    }
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(40,69,200,.35)}
-
-    /* セクション */
-    .card{
-      background:var(--panel);border-radius:16px;padding:20px;
-      margin-bottom:16px;box-shadow:0 4px 16px rgba(40,69,200,.1);
-      border:1px solid var(--border)
-    }
-    .section-title{
-      font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:900;
-      color:var(--white);margin-bottom:12px;
-      border-bottom:2px solid var(--gold);padding-bottom:8px
-    }
-
-    /* 生命樹 */
-    .tree-visual{text-align:center;margin:20px 0}
-    .tree-stage{font-size:2.5rem;margin-bottom:8px}
-    .tree-label{
-      font-family:'Noto Serif JP',serif;font-size:1rem;
-      font-weight:900;color:var(--white);margin-bottom:4px
-    }
-    .tree-progress{
-      background:rgba(40,69,200,.1);border-radius:10px;height:8px;
-      overflow:hidden;margin:12px 0
-    }
-    .tree-bar{
-      height:100%;background:linear-gradient(90deg,#1a7c48,#2845c8);
-      transition:width .5s ease
-    }
-    .tree-meta{
-      font-size:.7rem;color:var(--muted);
-      display:flex;justify-content:space-between
-    }
-
-    /* 3本柱ダッシュボード */
-    .pillars-section{
-      background:linear-gradient(135deg,rgba(40,69,200,.06),rgba(201,168,76,.04));
-      border:1.5px solid rgba(40,69,200,.15);
-      border-radius:16px;padding:20px;margin-bottom:16px;
-      box-shadow:0 8px 24px rgba(20,40,120,.08)
-    }
-    .pillars-title{
-      font-family:'Noto Serif JP',serif;font-size:.9rem;font-weight:900;
-      color:var(--white);margin-bottom:14px;
-      border-bottom:2px solid var(--gold);padding-bottom:8px
-    }
-    .pillars-grid{
-      display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px
-    }
-    .pillar-card{
-      background:var(--panel);border:1.5px solid var(--border);
-      border-radius:12px;padding:14px;text-align:center;
-      transition:all .2s;box-shadow:0 4px 12px rgba(40,69,200,.08)
-    }
-    .pillar-card:hover{
-      border-color:var(--gold);box-shadow:0 8px 20px rgba(40,69,200,.12);
-      transform:translateY(-2px)
-    }
-    .pillar-image{width:70px;height:auto;border-radius:8px;margin:0 auto 8px;display:block}
-    .pillar-name{
-      font-size:.7rem;font-weight:700;color:var(--muted);
-      margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em
-    }
-    .pillar-value{
-      font-family:'Noto Serif JP',serif;font-size:1.4rem;font-weight:900;
-      color:var(--white);margin-bottom:4px
-    }
-    .pillar-unit{font-size:.65rem;color:var(--muted);margin-bottom:8px}
-    .pillar-bar{
-      background:rgba(40,69,200,.1);border-radius:6px;height:6px;
-      margin-bottom:6px;overflow:hidden
-    }
-    .pillar-bar-fill{
-      height:100%;background:linear-gradient(90deg,#1a7c48,#2845c8);
-      transition:width .5s ease
-    }
-    .pillar-target{font-size:.6rem;color:var(--muted)}
-    .total-vitality-display{
-      text-align:center;padding-top:12px;border-top:1px solid var(--border)
-    }
-    .total-vitality-label{font-size:.75rem;color:var(--muted);margin-bottom:4px}
-    .total-vitality-value{
-      font-family:'Noto Serif JP',serif;font-size:1.6rem;font-weight:900;
-      background:linear-gradient(135deg,#2845c8,#1a7c48);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      background-clip:text
-    }
-
-    /* タスクグリッド */
-    .task-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .task{
-      background:linear-gradient(135deg,rgba(40,69,200,.08),rgba(40,69,200,.04));
-      border:1.5px solid var(--border);border-radius:12px;padding:14px;
-      text-align:center;cursor:pointer;transition:all .2s
-    }
-    .task:hover{
-      border-color:var(--gold);background:linear-gradient(135deg,rgba(160,120,24,.08),rgba(160,120,24,.04));
-      transform:translateY(-2px);box-shadow:0 6px 16px rgba(40,69,200,.12)
-    }
-    .task-icon{font-size:2rem;margin-bottom:8px}
-    .task-label{font-size:.85rem;font-weight:700;color:var(--white)}
-
-    /* ストリーク */
-    .streak{
-      display:flex;align-items:center;gap:12px;padding:12px;
-      background:rgba(40,69,200,.05);border-radius:10px;margin-bottom:8px;
-      border-left:3px solid var(--gold)
-    }
-    .streak-icon{font-size:1.5rem}
-    .streak-info{flex:1}
-    .streak-label{font-size:.75rem;color:var(--muted)}
-    .streak-num{
-      font-family:'Noto Serif JP',serif;font-size:1.2rem;
-      font-weight:900;color:var(--white)
-    }
-
-    /* チャットモーダル */
-    #chat-modal{
-      position:fixed;inset:0;background:rgba(0,0,0,.7);
-      z-index:500;display:none;align-items:flex-end
-    }
-    #chat-modal.open{display:flex}
-    .chat-panel{
-      width:100%;max-width:500px;height:80vh;background:var(--panel);
-      border-radius:20px 20px 0 0;display:flex;flex-direction:column;
-      animation:slideUp .3s ease
-    }
-    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-    .chat-header{
-      background:linear-gradient(135deg,#2845c8,#1830a0);
-      color:#fff;padding:16px;border-radius:20px 20px 0 0;
-      display:flex;justify-content:space-between;align-items:center
-    }
-    .chat-close{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
-    .chat-messages{
-      flex:1;overflow-y:auto;padding:16px;
-      display:flex;flex-direction:column;gap:12px
-    }
-    .msg-luna{
-      background:rgba(40,69,200,.08);color:var(--text);
-      border-radius:12px;padding:12px 14px;max-width:85%;
-      align-self:flex-start;border-left:3px solid var(--gold)
-    }
-    .msg-user{
-      background:#2845c8;color:#fff;border-radius:12px;
-      padding:12px 14px;max-width:85%;align-self:flex-end
-    }
-    .chat-input{
-      padding:12px;border-top:1px solid var(--border);
-      display:flex;gap:8px
-    }
-    .chat-input input{
-      flex:1;border:1.5px solid var(--border);
-      border-radius:8px;padding:10px;font-family:inherit;
-      transition:all .2s
-    }
-    .chat-input input:focus{
-      outline:none;border-color:var(--gold);
-      box-shadow:0 0 8px rgba(160,120,24,.2)
-    }
-    .chat-input button{
-      background:linear-gradient(135deg,#2845c8,#1830a0);
-      color:#fff;border:none;border-radius:8px;
-      padding:10px 16px;font-weight:700;cursor:pointer;
-      transition:all .2s
-    }
-    .chat-input button:hover{transform:translateY(-2px)}
-
-    /* ボトムナビ */
-    .bottom-nav{
-      position:fixed;bottom:0;left:0;right:0;
-      background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,.95));
-      border-top:1.5px solid var(--border);
-      display:flex;justify-content:space-around;padding:8px 0;z-index:50;
-      box-shadow:0 -4px 12px rgba(40,69,200,.08)
-    }
-    .nav-item{
-      flex:1;text-align:center;text-decoration:none;color:var(--muted);
-      padding:8px;font-size:.65rem;font-weight:700;
-      transition:all .2s;border:none;background:none;cursor:pointer
-    }
-    .nav-item:hover,.nav-item.active{color:var(--white)}
-    .nav-item.active{border-bottom:3px solid var(--gold)}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Kaku Gothic New', sans-serif; background: #f4f7ff; color: #1a2448; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .chat-box { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 16px rgba(40,69,200,.1); }
+    .messages { height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid #d4ddf4; border-radius: 8px; padding: 15px; }
+    .msg-luna { background: #f0f4ff; padding: 12px; border-radius: 8px; margin-bottom: 10px; line-height: 1.6; }
+    .msg-user { background: #2845c8; color: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; text-align: right; }
+    .input-group { display: flex; gap: 10px; }
+    input { flex: 1; padding: 12px; border: 1px solid #d4ddf4; border-radius: 8px; font-family: inherit; }
+    button { padding: 12px 24px; background: #2845c8; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #1830a0; }
   </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>🌍 ヴィタリア転生録</h1>
-  <a href="./profile.html" class="header-btn">⚙️ 設定</a>
-</div>
-
-<div class="container">
-
-  <!-- ルナメッセージ -->
-  <div class="luna-card">
-    <img src="./image/runa-2-Photoroom.png" alt="ルナ" class="luna-image">
-    <div class="luna-name">ルナ</div>
-    <div class="luna-msg" id="luna-message">
-      おはようございます。<br>今日もあなたと一緒に歩んでいきたいです。
-    </div>
-    <button class="btn-primary" onclick="openChat()">💬 ルナに相談する</button>
-  </div>
-
-  <!-- 生命樹 -->
-  <div class="card">
-    <div class="section-title">🌱 生命樹の成長</div>
-    <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px">継続の力があなたを強くしていく</div>
-    <div class="tree-visual">
-      <div class="tree-stage" id="tree-icon">🌱</div>
-      <div class="tree-label" id="tree-label">芽 — 始まりの季節</div>
-    </div>
-    <div class="tree-progress">
-      <div class="tree-bar" id="tree-bar" style="width:0%"></div>
-    </div>
-    <div class="tree-meta">
-      <span id="tree-week">0週</span>
-      <span id="tree-next">次: 若木（4週）</span>
-    </div>
-  </div>
-
-  <!-- 3本柱ダッシュボード -->
-  <div class="pillars-section">
-    <div class="pillars-title">⚔️ 健康3本柱</div>
-    <div class="pillars-grid">
-      <div class="pillar-card">
-        <img src="./image/kaito-2-Photoroom.png" alt="カイト" class="pillar-image">
-        <div class="pillar-name">運動</div>
-        <div class="pillar-value" id="mets-vitality">0</div>
-        <div class="pillar-unit">Vitality</div>
-        <div class="pillar-bar">
-          <div class="pillar-bar-fill" id="mets-bar" style="width:0%"></div>
-        </div>
-        <div class="pillar-target" id="mets-info">0/1000 pt</div>
+  <div class="container">
+    <h1 style="margin-bottom: 20px; text-align: center;">🌙 ルナとの対話</h1>
+    <div class="chat-box">
+      <div class="messages" id="messages">
+        <div class="msg-luna">こんにちは。今日はどんなことがあった？</div>
       </div>
-
-      <div class="pillar-card">
-        <img src="./image/sera-2-Photoroom.png" alt="サラ" class="pillar-image">
-        <div class="pillar-name">栄養</div>
-        <div class="pillar-value" id="np-vitality">0</div>
-        <div class="pillar-unit">Vitality</div>
-        <div class="pillar-bar">
-          <div class="pillar-bar-fill" id="np-bar" style="width:0%"></div>
-        </div>
-        <div class="pillar-target" id="np-info">0/26 pt</div>
-      </div>
-
-      <div class="pillar-card">
-        <img src="./image/runa-2-Photoroom.png" alt="ルナ" class="pillar-image">
-        <div class="pillar-name">睡眠</div>
-        <div class="pillar-value" id="sp-vitality">0</div>
-        <div class="pillar-unit">Vitality</div>
-        <div class="pillar-bar">
-          <div class="pillar-bar-fill" id="sp-bar" style="width:0%"></div>
-        </div>
-        <div class="pillar-target" id="sp-info">0/10 pt</div>
+      <div class="input-group">
+        <input type="text" id="input" placeholder="ルナに話す..." />
+        <button onclick="send()">送信</button>
       </div>
     </div>
-    <div class="total-vitality-display">
-      <div class="total-vitality-label">本日の総Vitality</div>
-      <div class="total-vitality-value" id="total-vitality">0</div>
-    </div>
   </div>
 
-  <!-- タスク -->
-  <div class="card">
-    <div class="section-title">📋 今日のタスク</div>
-    <div class="task-grid">
-      <div class="task" onclick="location.href='./quest.html'"><div class="task-icon">🏃</div><div class="task-label">運動</div></div>
-      <div class="task" onclick="location.href='./nutrition.html'"><div class="task-icon">🥗</div><div class="task-label">栄養</div></div>
-      <div class="task" onclick="location.href='./sleep.html'"><div class="task-icon">😴</div><div class="task-label">睡眠</div></div>
-      <div class="task" onclick="openChat()"><div class="task-icon">💬</div><div class="task-label">相談</div></div>
-    </div>
-  </div>
+  <script>
+    const responses = [
+      'そのお気持ち、よく分かります。',
+      'あなたのペースが一番です。',
+      'その気持ち、大事にしてください。',
+      '一緒に考えてみましょう。',
+      'あなたの話を聞いていてよかった。',
+      '無理しないでください。'
+    ];
 
-  <!-- 継続記録 -->
-  <div class="card">
-    <div class="section-title">🔥 継続の記録</div>
-    <div class="streak"><span class="streak-icon">🏃</span><div class="streak-info"><div class="streak-label">運動継続</div><div class="streak-num" id="s1">0日</div></div></div>
-    <div class="streak"><span class="streak-icon">🥗</span><div class="streak-info"><div class="streak-label">栄養継続</div><div class="streak-num" id="s2">0日</div></div></div>
-    <div class="streak"><span class="streak-icon">💧</span><div class="streak-info"><div class="streak-label">水分継続</div><div class="streak-num" id="s3">0日</div></div></div>
-    <div class="streak"><span class="streak-icon">😴</span><div class="streak-info"><div class="streak-label">睡眠継続</div><div class="streak-num" id="s4">0日</div></div></div>
-  </div>
+    function send() {
+      const input = document.getElementById('input');
+      const msg = input.value.trim();
+      if (!msg) return;
 
-</div>
+      const messages = document.getElementById('messages');
+      
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg-user';
+      userMsg.textContent = msg;
+      messages.appendChild(userMsg);
+      input.value = '';
 
-<!-- チャットモーダル -->
-<div id="chat-modal">
-  <div class="chat-panel">
-    <div class="chat-header">
-      <span>🌙 ルナとの対話</span>
-      <button class="chat-close" onclick="closeChat()">✕</button>
-    </div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="msg-luna">こんにちは。今日はどんなことがあった？</div>
-    </div>
-    <div class="chat-input">
-      <input type="text" id="chat-input" placeholder="ルナに話す..." />
-      <button onclick="sendMessage()">送信</button>
-    </div>
-  </div>
-</div>
+      setTimeout(() => {
+        const lunaMsg = document.createElement('div');
+        lunaMsg.className = 'msg-luna';
+        lunaMsg.textContent = responses[Math.floor(Math.random() * responses.length)];
+        messages.appendChild(lunaMsg);
+        messages.scrollTop = messages.scrollHeight;
+      }, 4000);
 
-<div class="bottom-nav">
-  <a href="./game.html" class="nav-item active"><span style="font-size:1.3rem">🏠</span>ホーム</a>
-  <a href="./quest.html" class="nav-item"><span style="font-size:1.3rem">⚔️</span>運動</a>
-  <a href="./nutrition.html" class="nav-item"><span style="font-size:1.3rem">🥗</span>栄養</a>
-  <a href="./adventure.html" class="nav-item"><span style="font-size:1.3rem">🗺️</span>冒険</a>
-</div>
-
-<script>
-let uid = localStorage.getItem('vitalia_uid_hint') || 'guest';
-
-function wk() {
-  const d = new Date(), j = new Date(d.getFullYear(), 0, 1);
-  return d.getFullYear() + '_W' + String(Math.ceil(((d-j)/86400000+j.getDay()+1)/7)).padStart(2, '0');
-}
-
-function updateLunaMessage() {
-  const hour = new Date().getHours();
-  let msg = '';
-  try {
-    const profile = JSON.parse(localStorage.getItem(`vitalia_profile_${uid}`) || '{}');
-    const activity = profile.activity || 'moderate';
-    if(hour >= 5 && hour < 12) {
-      msg = 'おはようございます。<br>今日もあなたと一緒に歩んでいきたいです。';
-    } else if(hour >= 12 && hour < 18) {
-      msg = 'お疲れさまです。<br>午後も一緒に頑張りましょう。';
-    } else if(hour >= 18 && hour < 21) {
-      msg = '今日の振り返りをしてみませんか？<br>どんな一日でしたか？';
-    } else {
-      msg = '今日も来てくれてありがとう。<br>ゆっくり休んでね。明日も一緒です。';
+      messages.scrollTop = messages.scrollHeight;
     }
-  } catch(e) {
-    msg = 'おはようございます。今日もあなたと一緒に歩んでいきたいです。';
-  }
-  document.getElementById('luna-message').innerHTML = msg;
-}
 
-function updateTree() {
-  try {
-    const hist = JSON.parse(localStorage.getItem(`vq_hist_${uid}`) || '[]');
-    const weeks = hist.length;
-    let stage = '🌱', label = '芽 — 始まりの季節', next = '若木（4週）';
-    if(weeks >= 52) { stage = '🌲'; label = '世界樹 — 希望の象徴'; next = '完成'; }
-    else if(weeks >= 12) { stage = '🌳'; label = '大樹 — 成長の証'; next = '世界樹（52週）'; }
-    else if(weeks >= 4) { stage = '🌿'; label = '若木 — 着実な成長'; next = '大樹（12週）'; }
-    document.getElementById('tree-icon').textContent = stage;
-    document.getElementById('tree-label').textContent = label;
-    document.getElementById('tree-week').textContent = `${weeks}週`;
-    document.getElementById('tree-next').textContent = `次: ${next}`;
-    const progress = Math.min(100, weeks * 10);
-    document.getElementById('tree-bar').style.width = progress + '%';
-  } catch(e) {}
-}
-
-function updatePillars() {
-  try {
-    const today = new Date().toISOString().slice(0, 10);
-    const metsKey = `vq_${uid}_${today}`;
-    const metsRaw = localStorage.getItem(metsKey);
-    let metsVitality = 0;
-    if (metsRaw) {
-      try {
-        const metsData = JSON.parse(metsRaw);
-        const totalMetsTime = metsData.totalMetsTime || 0;
-        metsVitality = Math.round(totalMetsTime * 100);
-      } catch(e) {}
-    }
-    const metsMaxGoal = 1000;
-    const metsPct = Math.min(100, (metsVitality / metsMaxGoal) * 100);
-
-    const npData = getTodayNutritionPoints(uid);
-    const npVitality = calculateVitalityFromNutrition(npData);
-    const totalNP = getTotalNP(npData);
-    const maxNP = 26;
-    const npPct = Math.min(100, (totalNP / maxNP) * 100);
-
-    const spKey = `vn_sp_${uid}_${today}`;
-    const spRaw = localStorage.getItem(spKey);
-    let spVitality = 0;
-    let totalSP = 0;
-    if (spRaw) {
-      try {
-        const spData = JSON.parse(spRaw);
-        spVitality = calculateVitalityFromSleep(spData);
-        totalSP = (spData.durationPoints || 0) + (spData.qualityPoints || 0);
-      } catch(e) {}
-    }
-    const maxSP = 8;
-    const spPct = Math.min(100, (totalSP / maxSP) * 100);
-
-    document.getElementById('mets-vitality').textContent = metsVitality;
-    document.getElementById('mets-bar').style.width = metsPct + '%';
-    document.getElementById('mets-info').textContent = `${metsVitality}/1000 pt`;
-
-    document.getElementById('np-vitality').textContent = npVitality;
-    document.getElementById('np-bar').style.width = npPct + '%';
-    document.getElementById('np-info').textContent = `${totalNP}/26 pt`;
-
-    document.getElementById('sp-vitality').textContent = spVitality;
-    document.getElementById('sp-bar').style.width = spPct + '%';
-    document.getElementById('sp-info').textContent = `${totalSP}/8 pt`;
-
-    const totalVitality = metsVitality + npVitality + spVitality;
-    document.getElementById('total-vitality').textContent = totalVitality;
-    localStorage.setItem(`totalVitality_${uid}`, totalVitality);
-    localStorage.setItem('totalVitality', totalVitality);
-  } catch(e) {
-    console.warn('Failed to update pillars:', e);
-  }
-}
-
-function openChat() {
-  document.getElementById('chat-modal').classList.add('open');
-}
-
-function closeChat() {
-  document.getElementById('chat-modal').classList.remove('open');
-}
-
-async function sendMessage() {
-  const input = document.getElementById('chat-input');
-  const msg = input.value.trim();
-  if(!msg) return;
-
-  const msgEl = document.createElement('div');
-  msgEl.className = 'msg-user';
-  msgEl.textContent = msg;
-  document.getElementById('chat-messages').appendChild(msgEl);
-  input.value = '';
-  input.disabled = true;
-  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-
-  // ローディング表示
-  const loadingEl = document.createElement('div');
-  loadingEl.className = 'msg-luna';
-  loadingEl.style.fontStyle = 'italic';
-  loadingEl.style.opacity = '0.7';
-
-  const dots = ['🌙', '🌙 ．', '🌙 ．．', '🌙 ．．．'];
-  let dotIndex = 0;
-  const dotInterval = setInterval(() => {
-    loadingEl.textContent = dots[dotIndex % dots.length] + ' 考え中';
-    dotIndex++;
-  }, 600);
-
-  document.getElementById('chat-messages').appendChild(loadingEl);
-  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-
-  try {
-    // 4秒の思考時間
-    await new Promise(resolve => setTimeout(resolve, 4000));
-
-    // ローディング削除
-    clearInterval(dotInterval);
-    loadingEl.remove();
-
-    // ルナの返答（ローカルレスポンス）
-    const lunaMsg = document.createElement('div');
-    lunaMsg.className = 'msg-luna';
-    lunaMsg.textContent = analyzeSituation(msg)[0];
-    document.getElementById('chat-messages').appendChild(lunaMsg);
-  } catch (error) {
-    clearInterval(dotInterval);
-    loadingEl.remove();
-
-    // フォールバック（ローカルレスポンス）
-    const lunaMsg = document.createElement('div');
-    lunaMsg.className = 'msg-luna';
-    lunaMsg.textContent = analyzeSituation(msg)[0];
-    document.getElementById('chat-messages').appendChild(lunaMsg);
-  }
-
-  input.disabled = false;
-  input.focus();
-  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-}
-
-function analyzeSituation(userMsg) {
-  try {
-    const hist = JSON.parse(localStorage.getItem(`vq_hist_${uid}`) || '[]');
-    const weeks = hist.length;
-    let responses = ['そのお気持ち、よく分かります。', 'あなたの話を聞いて、少し見えてきました。'];
-    if(weeks === 1) {
-      responses = ['運動を始めたばかり。その勇気が一番大事です。', '最初の一歩は難しい。でも、あなたは始めた。'];
-    } else if(weeks >= 4) {
-      responses = ['4週間続いてますね。習慣になってきてると思います。', 'その調子です。体は確実に変わってます。'];
-    } else if(weeks > 0 && weeks < 3) {
-      responses = ['最近少しお休みが続いていますね。大丈夫ですよ。', 'あなたのペースが一番です。焦らずいきましょう。'];
-    }
-    if(weeks >= 7) responses.push('7週間継続達成！習慣が根付いてきました。');
-    return responses;
-  } catch(e) {
-    return ['そうなんですね。一緒に考えてみましょう。', 'あなたのペースが一番です。', 'その気持ち、大事にしてください。'];
-  }
-}
-
-document.getElementById('chat-input').addEventListener('keypress', (e) => {
-  if(e.key === 'Enter') sendMessage();
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  updateLunaMessage();
-  updateTree();
-  updatePillars();
-  setInterval(updateLunaMessage, 60000);
-  setInterval(updatePillars, 30000);
-});
-</script>
-
+    document.getElementById('input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') send();
+    });
+  </script>
 </body>
 </html>
