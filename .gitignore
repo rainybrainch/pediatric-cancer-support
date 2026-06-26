@@ -16,3 +16,6 @@ Thumbs.db
 *.zip
 screenshots/
 uploads/
+
+# Local Netlify folder
+.netlify
